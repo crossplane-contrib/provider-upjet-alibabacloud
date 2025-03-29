@@ -20,6 +20,30 @@ import (
 	networkrule "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/networkrule"
 	policy "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/policy"
 	secret "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/secret"
+	accesspoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/accesspoint"
+	accountpublicaccessblock "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/accountpublicaccessblock"
+	bucket "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucket"
+	bucketaccessmonitor "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketaccessmonitor"
+	bucketacl "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketacl"
+	bucketcname "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketcname"
+	bucketcnametoken "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketcnametoken"
+	bucketcors "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketcors"
+	bucketdataredundancytransition "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketdataredundancytransition"
+	buckethttpsconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/buckethttpsconfig"
+	bucketlogging "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketlogging"
+	bucketmetaquery "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketmetaquery"
+	bucketobject "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketobject"
+	bucketpolicy "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketpolicy"
+	bucketpublicaccessblock "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketpublicaccessblock"
+	bucketreferer "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketreferer"
+	bucketreplication "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketreplication"
+	bucketrequestpayment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketrequestpayment"
+	bucketserversideencryption "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketserversideencryption"
+	buckettransferacceleration "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/buckettransferacceleration"
+	bucketuserdefinedlogfields "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketuserdefinedlogfields"
+	bucketversioning "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketversioning"
+	bucketwebsite "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketwebsite"
+	bucketworm "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/oss/bucketworm"
 	providerconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/providerconfig"
 	quotaalarm "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/quotas/quotaalarm"
 	quotaapplication "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/quotas/quotaapplication"
@@ -58,6 +82,30 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		networkrule.Setup,
 		policy.Setup,
 		secret.Setup,
+		accesspoint.Setup,
+		accountpublicaccessblock.Setup,
+		bucket.Setup,
+		bucketaccessmonitor.Setup,
+		bucketacl.Setup,
+		bucketcname.Setup,
+		bucketcnametoken.Setup,
+		bucketcors.Setup,
+		bucketdataredundancytransition.Setup,
+		buckethttpsconfig.Setup,
+		bucketlogging.Setup,
+		bucketmetaquery.Setup,
+		bucketobject.Setup,
+		bucketpolicy.Setup,
+		bucketpublicaccessblock.Setup,
+		bucketreferer.Setup,
+		bucketreplication.Setup,
+		bucketrequestpayment.Setup,
+		bucketserversideencryption.Setup,
+		buckettransferacceleration.Setup,
+		bucketuserdefinedlogfields.Setup,
+		bucketversioning.Setup,
+		bucketwebsite.Setup,
+		bucketworm.Setup,
 		providerconfig.Setup,
 		quotaalarm.Setup,
 		quotaapplication.Setup,

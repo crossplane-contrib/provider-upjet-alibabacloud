@@ -26,6 +26,32 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_kms_policy":                   config.IdentifierFromProvider,
 	"alicloud_kms_secret":                   config.IdentifierFromProvider,
 
+	// OSS
+	"alicloud_oss_access_point":                      config.IdentifierFromProvider,
+	"alicloud_oss_account_public_access_block":       config.IdentifierFromProvider,
+	"alicloud_oss_bucket":                            config.IdentifierFromProvider,
+	"alicloud_oss_bucket_access_monitor":             config.IdentifierFromProvider,
+	"alicloud_oss_bucket_acl":                        config.IdentifierFromProvider,
+	"alicloud_oss_bucket_cname":                      config.IdentifierFromProvider,
+	"alicloud_oss_bucket_cname_token":                config.IdentifierFromProvider,
+	"alicloud_oss_bucket_cors":                       config.IdentifierFromProvider,
+	"alicloud_oss_bucket_data_redundancy_transition": config.IdentifierFromProvider,
+	"alicloud_oss_bucket_https_config":               config.IdentifierFromProvider,
+	"alicloud_oss_bucket_logging":                    config.IdentifierFromProvider,
+	"alicloud_oss_bucket_meta_query":                 config.IdentifierFromProvider,
+	"alicloud_oss_bucket_object":                     config.IdentifierFromProvider,
+	"alicloud_oss_bucket_policy":                     config.IdentifierFromProvider,
+	"alicloud_oss_bucket_public_access_block":        config.IdentifierFromProvider,
+	"alicloud_oss_bucket_referer":                    config.IdentifierFromProvider,
+	"alicloud_oss_bucket_replication":                config.IdentifierFromProvider,
+	"alicloud_oss_bucket_request_payment":            config.IdentifierFromProvider,
+	"alicloud_oss_bucket_server_side_encryption":     config.IdentifierFromProvider,
+	"alicloud_oss_bucket_transfer_acceleration":      config.IdentifierFromProvider,
+	"alicloud_oss_bucket_user_defined_log_fields":    config.IdentifierFromProvider,
+	"alicloud_oss_bucket_versioning":                 config.IdentifierFromProvider,
+	"alicloud_oss_bucket_website":                    config.IdentifierFromProvider,
+	"alicloud_oss_bucket_worm":                       config.IdentifierFromProvider,
+
 	// Quotas
 	"alicloud_quotas_quota_alarm":           config.IdentifierFromProvider,
 	"alicloud_quotas_quota_application":     config.IdentifierFromProvider,
@@ -50,7 +76,8 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_ram_user_policy_attachment":  config.IdentifierFromProvider,
 
 	// VPC
-	"alicloud_vpc": config.IdentifierFromProvider,
+	"alicloud_vpc":     config.IdentifierFromProvider,
+	"alicloud_vswitch": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

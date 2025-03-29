@@ -1,0 +1,26 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketTransferAcceleration
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-buckettransferacceleration-1
+  labels:
+    testing.crossplane.io/example-name: test-buckettransferacceleration-1
+  name: test-buckettransferacceleration-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-buckettransferacceleration-1
+    enabled: true
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-buckettransferacceleration-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-buckettransferacceleration-1
+  name: test-bucket-for-buckettransferacceleration-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-buckettransferacceleration-1
+    storageClass: Standard

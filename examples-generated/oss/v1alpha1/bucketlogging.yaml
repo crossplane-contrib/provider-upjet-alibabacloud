@@ -1,0 +1,28 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketLogging
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketlogging
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucket: example-value-${random_integer.default.result}
+    targetBucket: example-value-${random_integer.default.result}
+    targetPrefix: log/
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketlogging
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+spec:
+  forProvider:
+    bucket: ${var.name}-${random_integer.default.result}
+    storageClass: Standard

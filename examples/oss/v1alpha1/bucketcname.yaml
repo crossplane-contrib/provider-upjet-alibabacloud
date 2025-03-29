@@ -1,0 +1,39 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketCname
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketcname-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketcname-1
+  name: test-bucketcname-1
+spec:
+  forProvider:
+    bucket: test-nucket-for-bucketcname-1
+    domain: crossplane.io # ${alicloud_alidns_record.defaultnHqm5p.domain_name}
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketcname-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketcname-1
+  name: test-bucket-for-bucketcname-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketcname-1
+    storageClass: Standard
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketCnameToken
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketcnametoken-for-bucketcname-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketcnametoken-for-bucketcname-1
+  name: test-bucketcnametoken-for-bucketcname-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketcname-1
+    domain: crossplane.io

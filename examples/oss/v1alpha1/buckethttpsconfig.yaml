@@ -1,0 +1,28 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketHTTPSConfig
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-buckethttpsconfig-1
+  labels:
+    testing.crossplane.io/example-name: test-buckethttpsconfig-1
+  name: test-buckethttpsconfig-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-buckethttpsconfig-1
+    enable: true
+    tlsVersions:
+      - TLSv1.2
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-bucket-for-buckethttpsconfig-1
+  labels:
+    testing.crossplane.io/example-name: bucket-for-buckethttpsconfig-1
+  name: bucket-for-buckethttpsconfig-1
+spec:
+  forProvider:
+    bucket: bucket-for-buckethttpsconfig-1
+    storageClass: Standard

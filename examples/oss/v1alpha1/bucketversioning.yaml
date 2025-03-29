@@ -1,0 +1,26 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketVersioning
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketversioning-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketversioning-1
+  name: test-bucketversioning-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketversioning-1
+    status: Enabled
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketversioning-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketversioning-1
+  name: test-bucket-for-bucketversioning-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketversioning-1
+    storageClass: Standard

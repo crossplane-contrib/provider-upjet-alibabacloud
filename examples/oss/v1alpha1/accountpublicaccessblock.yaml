@@ -1,0 +1,11 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: AccountPublicAccessBlock
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-accountpublicaccessblock-1
+  labels:
+    testing.crossplane.io/example-name: test-accountpublicaccessblock-1
+  name: test-accountpublicaccessblock-1
+spec:
+  forProvider:
+    blockPublicAccess: true

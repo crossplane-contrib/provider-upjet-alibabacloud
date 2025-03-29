@@ -1,0 +1,30 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: AccessPoint
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-accesspoint-1
+  labels:
+    testing.crossplane.io/example-name: test-accesspoint-1
+  name: test-accesspoint-1
+spec:
+  forProvider:
+    accessPointName: test-accesspoint-1
+    bucket: test-bucket-for-accesspoint-1
+    networkOrigin: vpc
+    publicAccessBlockConfiguration:
+    - blockPublicAccess: true
+    vpcConfiguration:
+    - vpcId: vpc-abcexample
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-accesspoint-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-accesspoint-1
+  name: test-bucket-for-accesspoint-1
+spec:
+  forProvider:
+    storageClass: Standard

@@ -1,0 +1,32 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketUserDefinedLogFields
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketuserdefinedlogfields-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketuserdefinedlogfields-1
+  name: test-bucketuserdefinedlogfields-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketuserdefinedlogfields-1
+    headerSet:
+      - def
+      - example-header
+    paramSet:
+      - oss-example
+      - example-para
+      - abc
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketuserdefinedlogfields-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketuserdefinedlogfields-1
+  name: test-bucket-for-bucketuserdefinedlogfields-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketuserdefinedlogfields-1
+    storageClass: Standard

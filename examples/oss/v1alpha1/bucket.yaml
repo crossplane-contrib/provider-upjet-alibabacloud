@@ -1,0 +1,25 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-unique-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-unique-1
+  name: test-bucket-unqiue-1
+spec:
+  forProvider:
+    bucket: test-bucketacl-for-bucket-unique-1
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketACL
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketacl-for-unique-bucket-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketacl-for-unique-bucket-1
+  name: test-bucketacl-for-unique-bucket-1
+spec:
+  forProvider:
+    acl: private
+    bucket: test-bucket-unique-1

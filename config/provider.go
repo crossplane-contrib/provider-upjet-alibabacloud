@@ -10,6 +10,7 @@ import (
 
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ecs"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/kms"
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/oss"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/quotas"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ram"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/vpc"
@@ -42,6 +43,7 @@ func GetProvider() *ujconfig.Provider {
 		// add custom config functions
 		ecs.Configure,
 		kms.Configure,
+		oss.Configure,
 		quotas.Configure,
 		ram.Configure,
 		vpc.Configure,
