@@ -110,24 +110,10 @@ spec:
                     description: 'Specifies whether to create the default VPC in the
                       specified region. Valid values:'
                     type: boolean
-                  name:
-                    description: (Deprecated since v1.119.0). Field 'name' has been
-                      deprecated from provider version 1.119.0. New field 'vpc_name'
-                      instead.
-                    type: string
                   resourceGroupId:
                     description: The ID of the resource group to which you want to
                       move the resource.
                     type: string
-                  secondaryCidrBlocks:
-                    description: Field 'secondary_cidr_blocks' has been deprecated
-                      from provider version 1.185.0 and it will be removed in the
-                      future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'.
-                      secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block
-                      resource cannot be used at the same time.
-                    items:
-                      type: string
-                    type: array
                   secondaryCidrMask:
                     description: Add an additional CIDR block from the IPAM address
                       pool to the VPC by entering a mask.
@@ -203,24 +189,10 @@ spec:
                     description: 'Specifies whether to create the default VPC in the
                       specified region. Valid values:'
                     type: boolean
-                  name:
-                    description: (Deprecated since v1.119.0). Field 'name' has been
-                      deprecated from provider version 1.119.0. New field 'vpc_name'
-                      instead.
-                    type: string
                   resourceGroupId:
                     description: The ID of the resource group to which you want to
                       move the resource.
                     type: string
-                  secondaryCidrBlocks:
-                    description: Field 'secondary_cidr_blocks' has been deprecated
-                      from provider version 1.185.0 and it will be removed in the
-                      future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'.
-                      secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block
-                      resource cannot be used at the same time.
-                    items:
-                      type: string
-                    type: array
                   secondaryCidrMask:
                     description: Add an additional CIDR block from the IPAM address
                       pool to the VPC by entering a mask.
@@ -474,11 +446,6 @@ spec:
                     description: 'Specifies whether to create the default VPC in the
                       specified region. Valid values:'
                     type: boolean
-                  name:
-                    description: (Deprecated since v1.119.0). Field 'name' has been
-                      deprecated from provider version 1.119.0. New field 'vpc_name'
-                      instead.
-                    type: string
                   regionId:
                     description: (Available since v1.240.0) The region ID of the VPC
                       to which the route table belongs.
@@ -493,20 +460,6 @@ spec:
                   routerId:
                     description: The router ID of the VPC.
                     type: string
-                  routerTableId:
-                    description: (Deprecated since v1.227.1). Field 'router_table_id'
-                      has been deprecated from provider version 1.227.1. New field
-                      'route_table_id' instead.
-                    type: string
-                  secondaryCidrBlocks:
-                    description: Field 'secondary_cidr_blocks' has been deprecated
-                      from provider version 1.185.0 and it will be removed in the
-                      future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'.
-                      secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block
-                      resource cannot be used at the same time.
-                    items:
-                      type: string
-                    type: array
                   secondaryCidrMask:
                     description: Add an additional CIDR block from the IPAM address
                       pool to the VPC by entering a mask.

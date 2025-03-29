@@ -1,0 +1,21 @@
+---
+apiVersion: quotas.alibabacloud.crossplane.io/v1alpha1
+kind: QuotaApplication
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: quotas-v1alpha1-test-quotaapplication-1
+  labels:
+    testing.crossplane.io/example-name: test-quotaapplication-1
+  name: test-quotaapplication-1
+spec:
+  forProvider:
+    desireValue: 1001
+    dimensions:
+    - key: regionId
+      value: us-silicon-valley
+    envLanguage: en
+    noticeType: 3
+    productCode: gws
+    quotaActionCode: q_desktop-count
+    quotaCategory: CommonQuota
+    reason: test-quotaapplication-1 created by provider-upjet-alibabacloud

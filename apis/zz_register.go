@@ -11,6 +11,10 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 
 	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
+	v1alpha1kms "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1"
+	v1alpha1oss "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1"
+	v1alpha1quotas "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/quotas/v1alpha1"
+	v1alpha1ram "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1"
 	v1alpha1apis "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/v1alpha1"
 	v1beta1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/v1beta1"
 	v1alpha1vpc "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1"
@@ -20,6 +24,10 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1kms.SchemeBuilder.AddToScheme,
+		v1alpha1oss.SchemeBuilder.AddToScheme,
+		v1alpha1quotas.SchemeBuilder.AddToScheme,
+		v1alpha1ram.SchemeBuilder.AddToScheme,
 		v1alpha1apis.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,
 		v1alpha1vpc.SchemeBuilder.AddToScheme,

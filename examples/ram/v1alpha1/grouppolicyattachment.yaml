@@ -1,0 +1,57 @@
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: GroupPolicyAttachment
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-grouppolicyattachment-1
+  labels:
+    testing.crossplane.io/example-name: test-grouppolicyattachment-1
+  name: test-grouppolicyattachment-1
+spec:
+  forProvider:
+    groupName: test-group-for-grouppolicyattachment-1
+    policyName: test-policy-for-grouppolicyattachment-1
+    policyType: Custom
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-group-for-grouppolicyattachment-1
+  labels:
+    testing.crossplane.io/example-name: test-group-for-grouppolicyattachment-1
+  name: test-group-for-grouppolicyattachment-1
+spec:
+  forProvider:
+    comments: This is a test group for grouppolicyattachment created by provider-upjet-alibabacloud
+    name: test-group-for-grouppolicyattachment-1
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-policy-for-grouppolicyattachment-1
+  labels:
+    testing.crossplane.io/example-name: test-policy-for-grouppolicyattachment-1
+  name: test-policy-for-grouppolicyattachment-1
+spec:
+  forProvider:
+    description: This is a test policy for grouppolicyattachment created by provider-upjet-alibabacloud
+    policyDocument: |
+          {
+            "Statement": [
+              {
+                "Action": [
+                  "oss:ListObjects",
+                  "oss:GetObject"
+                ],
+                "Effect": "Allow",
+                "Resource": [
+                  "acs:oss:*:*:mybucket",
+                  "acs:oss:*:*:mybucket/*"
+                ]
+              }
+            ],
+              "Version": "1"
+          }
+    policyName: test-policy-for-grouppolicyattachment-1

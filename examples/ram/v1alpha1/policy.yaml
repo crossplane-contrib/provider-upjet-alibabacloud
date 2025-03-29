@@ -1,0 +1,30 @@
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-policy-1
+  labels:
+    testing.crossplane.io/example-name: test-policy-1
+  name: test-policy-1
+spec:
+  forProvider:
+    description: This is a policy test created by provider-upjet-alibabacloud.
+    policyDocument: |
+        {
+          "Statement": [
+            {
+              "Action": [
+                "oss:ListObjects",
+                "oss:GetObject"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                "acs:oss:*:*:mybucket",
+                "acs:oss:*:*:mybucket/*"
+              ]
+            }
+          ],
+          "Version": "1"
+        }
+    policyName: test-policy-1

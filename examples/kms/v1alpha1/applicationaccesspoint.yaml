@@ -1,0 +1,17 @@
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: ApplicationAccessPoint
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-applicationaccesspoint-1
+  labels:
+    testing.crossplane.io/example-name: kms-v1alpha1-test-applicationaccesspoint-1
+  name: kms-v1alpha1-test-applicationaccesspoint-1
+spec:
+  forProvider:
+    applicationAccessPointName: kms-v1alpha1-test-applicationaccesspoint-1
+    description: kms-v1alpha1-test-applicationaccesspoint-1 created by provider-upjet-alibabacloud
+    policies:
+      - abc
+      - efg
+      - hfc

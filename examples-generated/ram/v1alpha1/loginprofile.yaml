@@ -1,0 +1,34 @@
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: LoginProfile
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/loginprofile
+  labels:
+    testing.upbound.io/example-name: profile
+  name: profile
+spec:
+  forProvider:
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    userName: terraform-example-${random_integer.default.result}
+
+---
+
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/loginprofile
+  labels:
+    testing.upbound.io/example-name: user
+  name: user
+spec:
+  forProvider:
+    comments: terraform_example
+    displayName: terraform_example
+    email: hello.uuu@aaa.com
+    force: true
+    mobile: 86-18688888888
+    name: terraform_example
