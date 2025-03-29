@@ -1,0 +1,16 @@
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: ApplicationAccessPoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/applicationaccesspoint
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    applicationAccessPointName: ${var.name}
+    description: example aap
+    policies:
+    - abc
+    - efg
+    - hfc

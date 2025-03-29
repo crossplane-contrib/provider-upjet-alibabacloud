@@ -1,0 +1,63 @@
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-instance-1
+  labels:
+    testing.crossplane.io/example-name: test-instance-1
+  name: test-instance-1
+spec:
+  forProvider:
+    bindVpcs:
+    - regionId: us-west-1
+      vpcId: vpc-rj9ubuznf0vyflwzhudh8 # ${alicloud_vswitch.shareVswitch.vpc_id}
+      vpcOwnerId: "5370540760826378" # ${data.alicloud_account.current.id}
+      vswitchId: vsw-rj9hfm7giym5hpyvtp49c # ${alicloud_vswitch.shareVswitch.id}
+    keyNum: 1000
+    log: "0"
+    logStorage: 0
+    paymentType: Subscription
+    period: 1
+    productVersion: "3"
+    renewPeriod: 3
+    renewStatus: ManualRenewal
+    secretNum: 0
+    spec: 1000
+    vpcId: vpc-replaceme # ${alicloud_vswitch.vswitch.vpc_id}
+    vpcNum: 7
+    vswitchIds:
+      - vswitch-replaceme # ${alicloud_vswitch.vswitch-j.id}
+    zoneIds:
+      - us-west-1a
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alicloud-v1alpha1-test-vswitch-for-kms-instance-1
+  labels:
+    testing.upbound.io/example-name: test-vswitch-for-kms-instance-1
+  name: test-vswitch-for-kms-instance-1
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/21
+    # Note, that the vpcId has to be obtained from an existing VPC.
+    # In a Crossplane composition this can be obtained from the
+    # status.atProvider.id field of the VPC.
+    vpcId: vpc-rj9ubuznf0vyflwzhudh8
+    vswitchName: test-vswitch-for-kms-instance-1
+    zoneId: us-west-1a
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alicloud-v1alpha1-test-vpc-for-kms-instance-1
+  labels:
+    testing.upbound.io/example-name: test-vpc-for-kms-instance-1
+  name: test-vpc-for-kms-instance-1
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    vpcName: test-vpc-for-kms-instance-1

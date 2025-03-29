@@ -14,6 +14,18 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	// ECS
 	"alicloud_security_group": config.IdentifierFromProvider,
 
+	// KMS
+	"alicloud_kms_alias":                    config.IdentifierFromProvider,
+	"alicloud_kms_application_access_point": config.IdentifierFromProvider,
+	"alicloud_kms_ciphertext":               config.IdentifierFromProvider,
+	"alicloud_kms_client_key":               config.IdentifierFromProvider,
+	"alicloud_kms_instance":                 config.IdentifierFromProvider,
+	"alicloud_kms_key":                      config.IdentifierFromProvider,
+	"alicloud_kms_key_version":              config.IdentifierFromProvider,
+	"alicloud_kms_network_rule":             config.IdentifierFromProvider,
+	"alicloud_kms_policy":                   config.IdentifierFromProvider,
+	"alicloud_kms_secret":                   config.IdentifierFromProvider,
+
 	// RAM
 	"alicloud_ram_access_key":              config.IdentifierFromProvider,
 	"alicloud_ram_account_alias":           config.IdentifierFromProvider,

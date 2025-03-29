@@ -1,0 +1,30 @@
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Ciphertext
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-ciphertext-1
+  labels:
+    testing.crossplane.io/example-name: test-ciphertext-1
+  name: test-ciphertext-1
+spec:
+  forProvider:
+    keyId: test-key-for-ciphertext-1
+    plaintextSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-key-for-ciphertext-1
+  labels:
+    testing.crossplane.io/example-name: test-key-for-ciphertext-1
+  name: test-key-for-ciphertext-1
+spec:
+  forProvider:
+    description: test-key-for-ciphertext-1 created by provider-upjet-alibabacloud
+    pendingWindowInDays: 7
+    status: Enabled

@@ -9,6 +9,7 @@ import (
 	_ "embed"
 
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ecs"
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/kms"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ram"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/vpc"
 
@@ -39,6 +40,7 @@ func GetProvider() *ujconfig.Provider {
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
 		ecs.Configure,
+		kms.Configure,
 		ram.Configure,
 		vpc.Configure,
 	} {
