@@ -1,0 +1,40 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketLogging
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketlogging-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketlogging-1
+  name: test-bucketlogging-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketlogging-1
+    targetBucket: test-target-bucket-for-bucketlogging-1
+    targetPrefix: log/
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketlogging-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketlogging-1
+  name: test-bucket-for-bucketlogging-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketlogging-1
+    storageClass: Standard
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-target-bucket-for-bucketlogging-1
+  labels:
+    testing.crossplane.io/example-name: test-target-bucket-for-bucketlogging-1
+  name: test-target-bucket-for-bucketlogging-1
+spec:
+  forProvider:
+    bucket: test-target-bucket-for-bucketlogging-1
+    storageClass: Standard

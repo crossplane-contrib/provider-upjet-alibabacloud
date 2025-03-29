@@ -1,0 +1,42 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketCname
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcname
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucket: example-value-${random_integer.default.result}
+    domain: ${alicloud_alidns_record.defaultnHqm5p.domain_name}
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcname
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+spec:
+  forProvider:
+    bucket: ${var.name}
+    storageClass: Standard
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketCnameToken
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcname
+  labels:
+    testing.upbound.io/example-name: defaultZaWJfG
+  name: defaultzawjfg
+spec:
+  forProvider:
+    bucket: ${var.name}
+    domain: tftestacc.com

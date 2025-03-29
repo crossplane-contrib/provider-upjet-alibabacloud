@@ -1,0 +1,44 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: DHCPOptionsSetAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/dhcpoptionssetattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    dhcpOptionsSetId: ${alicloud_vpc_dhcp_options_set.example.id}
+    vpcId: ${alicloud_vpc.example.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/dhcpoptionssetattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: DHCPOptionsSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/dhcpoptionssetattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    dhcpOptionsSetDescription: ${var.name}
+    dhcpOptionsSetName: ${var.name}
+    domainName: example.com
+    domainNameServers: 100.100.2.136

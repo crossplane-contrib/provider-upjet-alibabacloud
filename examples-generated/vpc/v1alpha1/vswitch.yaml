@@ -1,0 +1,31 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vswitch
+  labels:
+    testing.upbound.io/example-name: foo
+  name: foo
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/21
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: foo
+    vswitchName: terraform-example
+    zoneId: ${data.alicloud_zones.foo.zones.0.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vswitch
+  labels:
+    testing.upbound.io/example-name: foo
+  name: foo
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    vpcName: terraform-example

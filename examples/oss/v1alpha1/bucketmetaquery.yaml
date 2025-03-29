@@ -1,0 +1,25 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketMetaQuery
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketmetaquery-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketmetaquery-1
+  name: test-bucketmetaquery-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketmetaquery-1
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketmetaquery-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketmetaquery-1
+  name: test-bucket-for-bucketmetaquery-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketmetaquery-1
+    storageClass: Standard

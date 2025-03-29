@@ -1,0 +1,76 @@
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/policy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    accessControlRules: |2
+        {
+            "NetworkRules":[
+                "alicloud_kms_network_rule.networkRule1.network_rule_name"
+            ]
+        }
+    description: terraformpolicy
+    kmsInstanceId: shared
+    permissions:
+    - RbacPermission/Template/CryptoServiceKeyUser
+    - RbacPermission/Template/CryptoServiceSecretUser
+    policyName: ${var.name}
+    resources:
+    - secret/*
+    - key/*
+
+---
+
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/policy
+  labels:
+    testing.upbound.io/example-name: networkRule1
+  name: networkrule1
+spec:
+  forProvider:
+    description: dummy
+    networkRuleName: ${format("%s1", var.name)}
+    sourcePrivateIp:
+    - 10.10.10.10
+
+---
+
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/policy
+  labels:
+    testing.upbound.io/example-name: networkRule2
+  name: networkrule2
+spec:
+  forProvider:
+    description: dummy
+    networkRuleName: ${format("%s2", var.name)}
+    sourcePrivateIp:
+    - 10.10.10.10
+
+---
+
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/policy
+  labels:
+    testing.upbound.io/example-name: networkRule3
+  name: networkrule3
+spec:
+  forProvider:
+    description: dummy
+    networkRuleName: ${format("%s3", var.name)}
+    sourcePrivateIp:
+    - 10.10.10.10

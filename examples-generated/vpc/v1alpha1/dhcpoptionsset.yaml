@@ -1,0 +1,14 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: DHCPOptionsSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/dhcpoptionsset
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    dhcpOptionsSetDescription: ${var.name}
+    dhcpOptionsSetName: ${var.name}
+    domainName: ${var.domain}
+    domainNameServers: 100.100.2.136

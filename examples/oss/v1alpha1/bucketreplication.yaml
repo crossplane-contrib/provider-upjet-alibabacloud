@@ -1,0 +1,114 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketReplication
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketreplication-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketreplication-1
+  name: test-bucketreplication-1
+spec:
+  forProvider:
+    action: PUT,DELETE
+    bucket: test-bucket-for-bucketreplication-2 # ${alicloud_oss_bucket.bucket_src.id}
+    destination:
+    - bucket: test-bucket-for-bucketreplication-1 # ${alicloud_oss_bucket.bucket_dest.id}
+      location: us-west-1 # ${alicloud_oss_bucket.bucket_dest.location}
+    encryptionConfiguration:
+    - replicaKmsKeyId: test-key-for-bucketreplication-1 # ${alicloud_kms_key.key.id}
+    historicalObjectReplication: enabled
+    prefixSet:
+    - prefixes:
+      - prefix1/
+      - prefix2/
+    sourceSelectionCriteria:
+    - sseKmsEncryptedObjects:
+      - status: Enabled
+    syncRole: terraform-example
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-key-for-bucketreplication-1
+  labels:
+    testing.crossplane.io/example-name: test-key-for-bucketreplication-1
+  name: test-key-for-bucketreplication-1
+spec:
+  forProvider:
+    description: Hello KMS
+    pendingWindowInDays: "7"
+    status: Enabled
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketreplication-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketreplication-1
+  name: test-bucket-for-bucketreplication-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketreplication-1
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketreplication-2
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketreplication-2
+  name: test-bucket-for-bucketreplication-2
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketreplication-2
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-policy-for-bucketreplication-1
+  labels:
+    testing.crossplane.io/example-name: test-policy-for-bucketreplication-1
+  name: test-policy-for-bucketreplication-1
+spec:
+  forProvider:
+    description: this is a policy test
+    force: true
+    policyDocument: "\t\t{\n\t\t  \"Statement\": [\n\t\t\t{\n\t\t\t  \"Action\": [\n\t\t\t\t\"*\"\n\t\t\t
+      \ ],\n\t\t\t  \"Effect\": \"Allow\",\n\t\t\t  \"Resource\": [\n\t\t\t\t\"*\"\n\t\t\t
+      \ ]\n\t\t\t}\n\t\t  ],\n\t\t\t\"Version\": \"1\"\n\t\t}\n"
+    policyName: test-policy-for-bucketreplication-1
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-role-for-bucketreplication-1
+  labels:
+    testing.crossplane.io/example-name: test-role-for-bucketreplication-1
+  name: test-role-for-bucketreplication-1
+spec:
+  forProvider:
+    description: this is a test
+    document: "\t\t{\n\t\t  \"Statement\": [\n\t\t\t{\n\t\t\t  \"Action\": \"sts:AssumeRole\",\n\t\t\t
+      \ \"Effect\": \"Allow\",\n\t\t\t  \"Principal\": {\n\t\t\t\t\"Service\": [\n\t\t\t\t
+      \ \"oss.aliyuncs.com\"\n\t\t\t\t]\n\t\t\t  }\n\t\t\t}\n\t\t  ],\n\t\t  \"Version\":
+      \"1\"\n\t\t}\n"
+    force: true
+    name: test-role-for-bucketreplication-1
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: RolePolicyAttachment
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-rolepolicyattachment-for-bucketreplication-1
+  labels:
+    testing.crossplane.io/example-name: test-rolepolicyattachment-for-bucketreplication-1
+  name: test-rolepolicyattachment-for-bucketreplication-1
+spec:
+  forProvider:
+    policyName: test-rolepolicyattachment-for-bucketreplication-1
+    policyType: Custom # ${alicloud_ram_policy.policy.type}
+    roleName: test-role-for-bucketreplication-1

@@ -1,0 +1,26 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketRequestPayment
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketrequestpayment-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketrequestpayment-1
+  name: test-bucketrequestpayment-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketrequestpayment-1
+    payer: Requester
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketrequestpayment-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketrequestpayment-1
+  name: test-bucket-for-bucketrequestpayment-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketrequestpayment-1
+    storageClass: Standard

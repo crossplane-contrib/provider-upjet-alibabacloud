@@ -1,0 +1,15 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Activation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/activation
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    description: terraform-example
+    instanceCount: 10
+    instanceName: terraform-example
+    ipAddressRange: 0.0.0.0/0
+    timeToLiveInHours: 4

@@ -1,0 +1,105 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: IPv6InternetBandwidth
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv6internetbandwidth
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    bandwidth: "20"
+    internetChargeType: PayByBandwidth
+    ipv6AddressId: ${data.alicloud_vpc_ipv6_addresses.default.addresses.0.id}
+    ipv6GatewayId: ${alicloud_vpc_ipv6_gateway.example.ipv6_gateway_id}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv6internetbandwidth
+  labels:
+    testing.upbound.io/example-name: vpc_instance
+  name: vpc-instance
+spec:
+  forProvider:
+    availabilityZone: ${data.alicloud_zones.default.zones.0.id}
+    imageId: ${data.alicloud_images.default.images.0.id}
+    instanceName: ${var.name}
+    instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
+    internetMaxBandwidthOut: 10
+    ipv6AddressCount: 1
+    securityGroups: ${alicloud_security_group.group.*.id}
+    systemDiskCategory: cloud_efficiency
+    vswitchId: ${alicloud_vswitch.vsw.id}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv6internetbandwidth
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+spec:
+  forProvider:
+    description: foo
+    name: ${var.name}
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv6internetbandwidth
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    enableIpv6: "true"
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: IPv6Gateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv6internetbandwidth
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    ipv6GatewayName: example_value
+    vpcId: ${alicloud_vpc.default.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv6internetbandwidth
+  labels:
+    testing.upbound.io/example-name: vsw
+  name: vsw
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/21
+    ipv6CidrBlockMask: "22"
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

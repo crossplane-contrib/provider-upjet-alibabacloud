@@ -1,0 +1,35 @@
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: ClientKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/clientkey
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    aapName: ${alicloud_kms_application_access_point.AAP0.application_access_point_name}
+    notAfter: "2028-09-01T14:11:22Z"
+    notBefore: "2023-09-01T14:11:22Z"
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    privateKeyDataFile: ./private_key_data_file.txt
+
+---
+
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: ApplicationAccessPoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/clientkey
+  labels:
+    testing.upbound.io/example-name: AAP0
+  name: aap0
+spec:
+  forProvider:
+    applicationAccessPointName: ${var.name}
+    description: aa
+    policies:
+    - aa

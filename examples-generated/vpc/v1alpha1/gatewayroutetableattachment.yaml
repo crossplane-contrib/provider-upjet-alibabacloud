@@ -1,0 +1,43 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: GatewayRouteTableAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/gatewayroutetableattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    ipv4GatewayId: ${alicloud_vpc_ipv4_gateway.example.id}
+    routeTableId: ${alicloud_route_table.example.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/gatewayroutetableattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    vpcName: terraform-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: IPv4Gateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/gatewayroutetableattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    enabled: "true"
+    ipv4GatewayName: terraform-example
+    vpcId: ${alicloud_vpc.example.id}

@@ -1,0 +1,28 @@
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram/v1alpha1/test-role-1
+  labels:
+    testing.crossplane.io/example-name: test-role-1
+  name: test-role-1
+spec:
+  forProvider:
+    description: This is a role test, created by provider-upjet-alibabacloud.
+    document: |
+      {
+          "Statement": [
+              {
+                  "Action": "sts:AssumeRole",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "Service": [
+                          "ecs.aliyuncs.com"
+                      ]
+                  }
+              }
+          ],
+          "Version": "1"
+      }
+    name: test-role-1

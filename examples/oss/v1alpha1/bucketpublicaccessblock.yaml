@@ -1,0 +1,26 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketPublicAccessBlock
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketpublicaccessblock-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketpublicaccessblock-1
+  name: test-bucketpublicaccessblock-1
+spec:
+  forProvider:
+    blockPublicAccess: true
+    bucket: test-bucket-for-bucketpublicaccessblock-1
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketpublicaccessblock-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketpublicaccessblock-1
+  name: test-bucket-for-bucketpublicaccessblock-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketpublicaccessblock-1
+    storageClass: Standard

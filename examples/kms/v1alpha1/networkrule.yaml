@@ -1,0 +1,17 @@
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkRule
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-networkrule-1
+  labels:
+    testing.crossplane.io/example-name: test-networkrule-1
+  name: test-networkrule-1
+spec:
+  forProvider:
+    description: test-networkrule-1 created by provider-upjet-alibabacloud
+    networkRuleName: test-networkrule-1
+    sourcePrivateIp:
+      - 10.10.10.10/24
+      - 192.168.17.13
+      - 100.177.24.254

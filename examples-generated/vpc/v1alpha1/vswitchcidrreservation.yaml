@@ -1,0 +1,50 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VswitchCidrReservation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vswitchcidrreservation
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrReservationCidr: 10.0.10.0/24
+    cidrReservationDescription: ${var.name}
+    cidrReservationType: Prefix
+    ipVersion: IPv4
+    vswitchCidrReservationName: ${var.name}
+    vswitchId: ${alicloud_vswitch.defaultVSwitch.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vswitchcidrreservation
+  labels:
+    testing.upbound.io/example-name: defaultVpc
+  name: defaultvpc
+spec:
+  forProvider:
+    cidrBlock: 10.0.0.0/8
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vswitchcidrreservation
+  labels:
+    testing.upbound.io/example-name: defaultVSwitch
+  name: defaultvswitch
+spec:
+  forProvider:
+    cidrBlock: 10.0.0.0/20
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: defaultVpc
+    vswitchName: ${var.name}1
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

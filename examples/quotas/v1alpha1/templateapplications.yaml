@@ -1,0 +1,20 @@
+---
+apiVersion: quotas.alibabacloud.crossplane.io/v1alpha1
+kind: TemplateApplications
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: quotas-v1alpha1-test-templateapplications-1
+  labels:
+    testing.crossplane.io/example-name: test-templateapplications-1
+  name: test-templateapplications-1
+spec:
+  forProvider:
+    aliyunUids:
+      - 211391840762536626
+    desireValue: "1"
+    envLanguage: en
+    noticeType: "0"
+    productCode: quotas
+    quotaActionCode: quotas.label_multi/A
+    quotaCategory: WhiteListLabel
+    reason: test-templateapplications-1 created by provider-upjet-alibabacloud

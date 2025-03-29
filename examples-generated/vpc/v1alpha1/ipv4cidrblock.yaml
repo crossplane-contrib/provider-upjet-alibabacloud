@@ -1,0 +1,26 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: IPv4CidrBlock
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv4cidrblock
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    secondaryCidrBlock: 192.168.0.0/16
+    vpcId: ${alicloud_vpc.defaultvpc.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv4cidrblock
+  labels:
+    testing.upbound.io/example-name: defaultvpc
+  name: defaultvpc
+spec:
+  forProvider:
+    description: ${var.name}

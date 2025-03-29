@@ -1,0 +1,15 @@
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: user
+  name: user
+spec:
+  forProvider:
+    comments: yoyoyo
+    displayName: user_display_name
+    email: hello.uuu@aaa.com
+    mobile: 86-18688888888
+    name: terraform-example-${random_integer.default.result}

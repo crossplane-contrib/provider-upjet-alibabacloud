@@ -1,0 +1,36 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: FlowLog
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/flowlog
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    aggregationInterval: "1"
+    description: ${var.name}
+    flowLogName: ${var.name}
+    logStoreName: ${alicloud_log_store.example.logstore_name}
+    projectName: ${alicloud_log_project.example.project_name}
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    resourceId: ${alicloud_vpc.example.id}
+    resourceType: VPC
+    trafficPath:
+    - all
+    trafficType: All
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/flowlog
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: ${var.name}

@@ -1,0 +1,14 @@
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityPreference
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram-v1alpha1-test-securitypreference-1
+  labels:
+    testing.upbound.io/example-name: test-securitypreference-1
+  name: test-securitypreference-1
+spec:
+  forProvider:
+    allowUserToChangePassword: true
+    enableSaveMfaTicket: false
+    loginSessionDuration: 24

@@ -1,0 +1,16 @@
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/networkrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: example-description
+    networkRuleName: ${var.name}
+    sourcePrivateIp:
+    - 10.10.10.10/24
+    - 192.168.17.13
+    - 100.177.24.254

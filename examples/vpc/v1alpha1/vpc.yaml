@@ -1,6 +1,8 @@
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: VPC
 metadata:
+  annotations:
+    crossplane.io/external-name: hello-crossplane-alibabacloud
   name: hello-crossplane-alibabacloud
 spec:
   forProvider:

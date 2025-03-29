@@ -1,0 +1,29 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: IPv6Gateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv6gateway
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: test
+    ipv6GatewayName: ${var.name}
+    resourceGroupId: ${alicloud_resource_manager_resource_group.defaultRg.id}
+    vpcId: ${alicloud_vpc.defaultVpc.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv6gateway
+  labels:
+    testing.upbound.io/example-name: defaultVpc
+  name: defaultvpc
+spec:
+  forProvider:
+    description: tf-testacc
+    enableIpv6: true

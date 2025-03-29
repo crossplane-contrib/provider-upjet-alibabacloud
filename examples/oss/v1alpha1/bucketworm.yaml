@@ -1,0 +1,26 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketWorm
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketworm-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketworm-1
+  name: test-bucketworm-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketworm-1
+    retentionPeriodInDays: "1"
+    status: InProgress
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-bucket-for-bucketworm-1
+  labels:
+    testing.crossplane.io/example-name: bucket-for-bucketworm-1
+  name: bucket-for-bucketworm-1
+spec:
+  forProvider:
+    storageClass: Standard

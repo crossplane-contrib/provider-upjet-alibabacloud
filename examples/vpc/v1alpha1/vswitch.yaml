@@ -1,0 +1,33 @@
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alicloud-v1alpha1-test-vswitch-1
+  labels:
+    testing.upbound.io/example-name: test-vswitch-1
+  name: test-vswitch-1
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/21
+    # Note, that the vpcId has to be obtained from an existing VPC.
+    # In a Crossplane composition this can be obtained from the
+    # status.atProvider.id field of the VPC.
+    vpcId: vpc-2ze5o9li3zwwqpl5tmedf
+    vswitchName: test-vswitch-1
+    zoneId: us-west-1a
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alicloud-v1alpha1-test-vpc-for-vswitch-1
+  labels:
+    testing.upbound.io/example-name: test-vpc-for-vswitch-1
+  name: test-vpc-for-vswitch-1
+spec:
+  forProvider:
+    # Create this VPC in us-west-1.
+    # There does not seem to be a region or zone field.
+    cidrBlock: 172.16.0.0/12
+    vpcName: test-vpc-for-vswitch-1

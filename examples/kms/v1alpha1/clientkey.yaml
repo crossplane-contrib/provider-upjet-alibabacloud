@@ -1,0 +1,34 @@
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: ClientKey
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-clientkey-1
+  labels:
+    testing.crossplane.io/example-name: test-clientkey-1
+  name: test-clientkey-1
+spec:
+  forProvider:
+    aapName: test-applicationaccesspoint-for-clientkey-1
+    notAfter: "2028-09-01T14:11:22Z"
+    notBefore: "2023-09-01T14:11:22Z"
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    privateKeyDataFile: ./private_key_data_file.txt
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: ApplicationAccessPoint
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-applicationaccesspoint-for-clientkey-1
+  labels:
+    testing.crossplane.io/example-name: AAP0
+  name: aap0
+spec:
+  forProvider:
+    applicationAccessPointName: test-applicationaccesspoint-for-clientkey-1
+    description: test-applicationaccesspoint-for-clientkey-1 created by provider-upjet-alibabacloud
+    policies:
+      - aa

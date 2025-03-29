@@ -1,0 +1,20 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SnapshotPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/snapshotpolicy
+  labels:
+    testing.upbound.io/example-name: sp
+  name: sp
+spec:
+  forProvider:
+    name: tf-testAcc-sp
+    repeatWeekdays:
+    - "1"
+    - "2"
+    - "3"
+    retentionDays: -1
+    timePoints:
+    - "1"
+    - "22"
+    - "23"

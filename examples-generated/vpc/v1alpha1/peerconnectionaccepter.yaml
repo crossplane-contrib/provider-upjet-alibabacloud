@@ -1,0 +1,64 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: PeerConnectionAccepter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/peerconnectionaccepter
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    instanceId: ${alicloud_vpc_peer_connection.default.id}
+    provider: ${alicloud.accepting}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/peerconnectionaccepter
+  labels:
+    testing.upbound.io/example-name: accepting
+  name: accepting
+spec:
+  forProvider:
+    cidrBlock: 192.168.0.0/16
+    provider: ${alicloud.accepting}
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/peerconnectionaccepter
+  labels:
+    testing.upbound.io/example-name: local
+  name: local
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    provider: ${alicloud.local}
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: PeerConnection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/peerconnectionaccepter
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    acceptingAliUid: ${data.alicloud_account.accepting.id}
+    acceptingRegionId: ${var.accepting_region}
+    acceptingVpcId: ${alicloud_vpc.accepting.id}
+    description: ${var.name}
+    peerConnectionName: ${var.name}
+    provider: ${alicloud.local}
+    vpcId: ${alicloud_vpc.local.id}
