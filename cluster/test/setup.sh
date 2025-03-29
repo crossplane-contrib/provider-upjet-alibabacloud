@@ -26,5 +26,8 @@ spec:
       key: credentials
 EOF
 
+echo "Creating a login profile secret"
+${KUBECTL} -n upbound-system create secret generic login-profile-secret --from-literal=password="***********" --dry-run=client -o yaml | ${KUBECTL} apply -f -
+
 ${KUBECTL} wait provider.pkg --all --for condition=Healthy --timeout 5m
 ${KUBECTL} -n upbound-system wait --for=condition=Available deployment --all --timeout=5m

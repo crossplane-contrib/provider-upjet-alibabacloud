@@ -1,0 +1,60 @@
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: GroupMembership
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-groupmembership-1
+  labels:
+    testing.crossplane.io/example-name: test-groupmembership-1
+  name: test-groupmembership-1
+spec:
+  forProvider:
+    groupName: test-group-for-groupmembership-1
+    userNames:
+    - test-user-for-groupmembership-1
+    - test-user-for-groupmembership-2
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-group-for-groupmembership-1
+  labels:
+    testing.crossplane.io/example-name: test-group-for-groupmembership-1
+  name: test-group-for-groupmembership-1
+spec:
+  forProvider:
+    comments: This is a test group for groupmembership created by provider-upjet-alibabacloud
+    name: test-group-for-groupmembership-1
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-user-for-groupmembership-1
+  labels:
+    testing.crossplane.io/example-name: test-user-for-groupmembership-1
+  name: test-user-for-groupmembership-1
+spec:
+  forProvider:
+    comments: Test user for groupmembership created by provider-upjet-alibabacloud
+    displayName: test_user_for_groupmembership_1
+    email: test-user-for-groupmembership-1@crossplane.io
+    mobile: 86-18688888888
+    name: test-user-for-groupmembership-1
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-user-for-groupmembership-2
+  labels:
+    testing.crossplane.io/example-name: test-user-for-groupmembership-2
+  name: test-user-for-groupmembership-2
+spec:
+  forProvider:
+    comments: Test user for groupmembership created by provider-upjet-alibabacloud
+    displayName: test_user_for_groupmembership_2
+    email: test-user-for-groupmembership-2@crossplane.io
+    mobile: 86-18688888889
+    name: test-user-for-groupmembership-2
