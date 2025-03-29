@@ -65,6 +65,7 @@ import (
 	user "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ram/user"
 	userpolicyattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ram/userpolicyattachment"
 	vpc "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/vpc"
+	vswitch "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/vswitch"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -127,6 +128,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		user.Setup,
 		userpolicyattachment.Setup,
 		vpc.Setup,
+		vswitch.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

@@ -99,3 +99,93 @@ spec:
   forProvider:
     cidrBlock: 172.16.0.0/12
     vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: share-vsw3
+  name: share-vsw3
+spec:
+  forProvider:
+    cidrBlock: 172.16.1.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: share-VPC3
+    zoneId: cn-hangzhou-k
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: share-vswitch2
+  name: share-vswitch2
+spec:
+  forProvider:
+    cidrBlock: 172.16.1.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: share-VPC2
+    zoneId: cn-hangzhou-k
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: shareVswitch
+  name: sharevswitch
+spec:
+  forProvider:
+    cidrBlock: 172.16.1.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: shareVPC
+    zoneId: cn-hangzhou-k
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: vswitch
+  name: vswitch
+spec:
+  forProvider:
+    cidrBlock: 172.16.1.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc-amp-instance-example
+    zoneId: cn-hangzhou-k
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: vswitch-j
+  name: vswitch-j
+spec:
+  forProvider:
+    cidrBlock: 172.16.2.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc-amp-instance-example
+    zoneId: cn-hangzhou-j

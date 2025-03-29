@@ -4,7 +4,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.14.0
-  name: vpcs.vpc.alibabacloud.crossplane.io
+  name: vswitches.vpc.alibabacloud.crossplane.io
 spec:
   group: vpc.alibabacloud.crossplane.io
   names:
@@ -12,10 +12,10 @@ spec:
     - crossplane
     - managed
     - alicloud
-    kind: VPC
-    listKind: VPCList
-    plural: vpcs
-    singular: vpc
+    kind: Vswitch
+    listKind: VswitchList
+    plural: vswitches
+    singular: vswitch
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,8 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: VPC is the Schema for the VPCs API. Provides a Alicloud VPC VPC
-          resource.
+        description: Vswitch is the Schema for the Vswitchs API. Provides a Alicloud
+          VPC Vswitch resource.
         properties:
           apiVersion:
             description: |-
@@ -55,7 +55,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: VPCSpec defines the desired state of VPC
+            description: VswitchSpec defines the desired state of Vswitch
             properties:
               deletionPolicy:
                 default: Delete
@@ -74,69 +74,114 @@ spec:
               forProvider:
                 properties:
                   cidrBlock:
-                    description: The CIDR block of the VPC.
+                    description: 'The IPv4 CIDR block of the VSwitch. NOTE: From version
+                      1.233.0, if you do not set is_default, or set is_default to
+                      false, cidr_block is required.'
                     type: string
-                  classicLinkEnabled:
-                    description: The status of ClassicLink function.
-                    type: boolean
                   description:
-                    description: The new description of the VPC.
+                    description: The description of VSwitch.
                     type: string
-                  dnsHostnameStatus:
-                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
-                      DISABLED.'
-                    type: string
-                  dryRun:
-                    description: 'Specifies whether to perform a dry run. Valid values:'
-                    type: boolean
                   enableIpv6:
-                    description: 'Specifies whether to enable IPv6. Valid values:'
+                    description: 'Whether the IPv6 function is enabled in the switch.
+                      Value:'
                     type: boolean
-                  ipv4CidrMask:
-                    description: Allocate VPC from The IPAM address pool by entering
-                      a mask.
+                  ipv6CidrBlockMask:
+                    description: The IPv6 CIDR block of the VSwitch.
                     type: number
-                  ipv4IpamPoolId:
-                    description: The ID of the IP Address Manager (IPAM) pool that
-                      contains IPv4 addresses.
-                    type: string
-                  ipv6CidrBlock:
-                    description: The IPv6 CIDR block of the default VPC.
-                    type: string
-                  ipv6Isp:
-                    description: 'The IPv6 address segment type of the VPC. Value:'
-                    type: string
                   isDefault:
-                    description: 'Specifies whether to create the default VPC in the
-                      specified region. Valid values:'
+                    description: 'Specifies whether to create the default VSwitch.
+                      Default value: false. Valid values:'
                     type: boolean
-                  resourceGroupId:
-                    description: The ID of the resource group to which you want to
-                      move the resource.
-                    type: string
-                  secondaryCidrMask:
-                    description: Add an additional CIDR block from the IPAM address
-                      pool to the VPC by entering a mask.
-                    type: number
-                  systemRouteTableDescription:
-                    description: The description of the route table.
-                    type: string
-                  systemRouteTableName:
-                    description: The name of the route table.
-                    type: string
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tags of Vpc.
+                    description: The tags of VSwitch.
                     type: object
                     x-kubernetes-map-type: granular
-                  userCidrs:
-                    description: A list of user CIDRs.
-                    items:
-                      type: string
-                    type: array
-                  vpcName:
-                    description: The new name of the VPC.
+                  vpcId:
+                    description: 'The VPC ID. NOTE: From version 1.233.0, if you do
+                      not set is_default, or set is_default to false, vpc_id is required.'
+                    type: string
+                  vpcIdRef:
+                    description: Reference to a VPC in vpc to populate vpcId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vpcIdSelector:
+                    description: Selector for a VPC in vpc to populate vpcId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  vswitchName:
+                    description: The name of the VSwitch.
+                    type: string
+                  zoneId:
+                    description: 'The AZ for the VSwitch. Note: Required for a VPC
+                      VSwitch.'
                     type: string
                 type: object
               initProvider:
@@ -153,69 +198,114 @@ spec:
                   autoscaler.
                 properties:
                   cidrBlock:
-                    description: The CIDR block of the VPC.
+                    description: 'The IPv4 CIDR block of the VSwitch. NOTE: From version
+                      1.233.0, if you do not set is_default, or set is_default to
+                      false, cidr_block is required.'
                     type: string
-                  classicLinkEnabled:
-                    description: The status of ClassicLink function.
-                    type: boolean
                   description:
-                    description: The new description of the VPC.
+                    description: The description of VSwitch.
                     type: string
-                  dnsHostnameStatus:
-                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
-                      DISABLED.'
-                    type: string
-                  dryRun:
-                    description: 'Specifies whether to perform a dry run. Valid values:'
-                    type: boolean
                   enableIpv6:
-                    description: 'Specifies whether to enable IPv6. Valid values:'
+                    description: 'Whether the IPv6 function is enabled in the switch.
+                      Value:'
                     type: boolean
-                  ipv4CidrMask:
-                    description: Allocate VPC from The IPAM address pool by entering
-                      a mask.
+                  ipv6CidrBlockMask:
+                    description: The IPv6 CIDR block of the VSwitch.
                     type: number
-                  ipv4IpamPoolId:
-                    description: The ID of the IP Address Manager (IPAM) pool that
-                      contains IPv4 addresses.
-                    type: string
-                  ipv6CidrBlock:
-                    description: The IPv6 CIDR block of the default VPC.
-                    type: string
-                  ipv6Isp:
-                    description: 'The IPv6 address segment type of the VPC. Value:'
-                    type: string
                   isDefault:
-                    description: 'Specifies whether to create the default VPC in the
-                      specified region. Valid values:'
+                    description: 'Specifies whether to create the default VSwitch.
+                      Default value: false. Valid values:'
                     type: boolean
-                  resourceGroupId:
-                    description: The ID of the resource group to which you want to
-                      move the resource.
-                    type: string
-                  secondaryCidrMask:
-                    description: Add an additional CIDR block from the IPAM address
-                      pool to the VPC by entering a mask.
-                    type: number
-                  systemRouteTableDescription:
-                    description: The description of the route table.
-                    type: string
-                  systemRouteTableName:
-                    description: The name of the route table.
-                    type: string
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tags of Vpc.
+                    description: The tags of VSwitch.
                     type: object
                     x-kubernetes-map-type: granular
-                  userCidrs:
-                    description: A list of user CIDRs.
-                    items:
-                      type: string
-                    type: array
-                  vpcName:
-                    description: The new name of the VPC.
+                  vpcId:
+                    description: 'The VPC ID. NOTE: From version 1.233.0, if you do
+                      not set is_default, or set is_default to false, vpc_id is required.'
+                    type: string
+                  vpcIdRef:
+                    description: Reference to a VPC in vpc to populate vpcId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vpcIdSelector:
+                    description: Selector for a VPC in vpc to populate vpcId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  vswitchName:
+                    description: The name of the VSwitch.
+                    type: string
+                  zoneId:
+                    description: 'The AZ for the VSwitch. Note: Required for a VPC
+                      VSwitch.'
                     type: string
                 type: object
               managementPolicies:
@@ -386,106 +476,57 @@ spec:
             - forProvider
             type: object
           status:
-            description: VPCStatus defines the observed state of VPC.
+            description: VswitchStatus defines the observed state of Vswitch.
             properties:
               atProvider:
                 properties:
                   cidrBlock:
-                    description: The CIDR block of the VPC.
+                    description: 'The IPv4 CIDR block of the VSwitch. NOTE: From version
+                      1.233.0, if you do not set is_default, or set is_default to
+                      false, cidr_block is required.'
                     type: string
-                  classicLinkEnabled:
-                    description: The status of ClassicLink function.
-                    type: boolean
                   createTime:
-                    description: The creation time of the VPC.
+                    description: The creation time of the VSwitch.
                     type: string
                   description:
-                    description: The new description of the VPC.
+                    description: The description of VSwitch.
                     type: string
-                  dnsHostnameStatus:
-                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
-                      DISABLED.'
-                    type: string
-                  dryRun:
-                    description: 'Specifies whether to perform a dry run. Valid values:'
-                    type: boolean
                   enableIpv6:
-                    description: 'Specifies whether to enable IPv6. Valid values:'
+                    description: 'Whether the IPv6 function is enabled in the switch.
+                      Value:'
                     type: boolean
                   id:
                     description: The ID of the resource supplied above.
                     type: string
-                  ipv4CidrMask:
-                    description: Allocate VPC from The IPAM address pool by entering
-                      a mask.
-                    type: number
-                  ipv4IpamPoolId:
-                    description: The ID of the IP Address Manager (IPAM) pool that
-                      contains IPv4 addresses.
-                    type: string
                   ipv6CidrBlock:
-                    description: The IPv6 CIDR block of the default VPC.
+                    description: The IPv6 CIDR block of the VSwitch.
                     type: string
-                  ipv6CidrBlocks:
-                    description: The IPv6 CIDR block information of the VPC.
-                    items:
-                      properties:
-                        ipv6CidrBlock:
-                          description: The IPv6 CIDR block of the default VPC.
-                          type: string
-                        ipv6Isp:
-                          description: 'The IPv6 address segment type of the VPC.
-                            Value:'
-                          type: string
-                      type: object
-                    type: array
-                  ipv6Isp:
-                    description: 'The IPv6 address segment type of the VPC. Value:'
-                    type: string
-                  isDefault:
-                    description: 'Specifies whether to create the default VPC in the
-                      specified region. Valid values:'
-                    type: boolean
-                  regionId:
-                    description: (Available since v1.240.0) The region ID of the VPC
-                      to which the route table belongs.
-                    type: string
-                  resourceGroupId:
-                    description: The ID of the resource group to which you want to
-                      move the resource.
-                    type: string
-                  routeTableId:
-                    description: The ID of the route table that you want to query.
-                    type: string
-                  routerId:
-                    description: The router ID of the VPC.
-                    type: string
-                  secondaryCidrMask:
-                    description: Add an additional CIDR block from the IPAM address
-                      pool to the VPC by entering a mask.
+                  ipv6CidrBlockMask:
+                    description: The IPv6 CIDR block of the VSwitch.
                     type: number
+                  isDefault:
+                    description: 'Specifies whether to create the default VSwitch.
+                      Default value: false. Valid values:'
+                    type: boolean
                   status:
-                    description: The status of the VPC.
-                    type: string
-                  systemRouteTableDescription:
-                    description: The description of the route table.
-                    type: string
-                  systemRouteTableName:
-                    description: The name of the route table.
+                    description: The status of the resource.
                     type: string
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tags of Vpc.
+                    description: The tags of VSwitch.
                     type: object
                     x-kubernetes-map-type: granular
-                  userCidrs:
-                    description: A list of user CIDRs.
-                    items:
-                      type: string
-                    type: array
-                  vpcName:
-                    description: The new name of the VPC.
+                  vpcId:
+                    description: 'The VPC ID. NOTE: From version 1.233.0, if you do
+                      not set is_default, or set is_default to false, vpc_id is required.'
+                    type: string
+                  vswitchName:
+                    description: The name of the VSwitch.
+                    type: string
+                  zoneId:
+                    description: 'The AZ for the VSwitch. Note: Required for a VPC
+                      VSwitch.'
                     type: string
                 type: object
               conditions:

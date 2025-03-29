@@ -208,7 +208,7 @@ UPTEST_EXAMPLE_LIST_OSS=$(OSS)/bucket.yaml
 UPTEST_EXAMPLE_LIST_QUOTAS=$(QUOTAS)/templatequota.yaml
 UPTEST_EXAMPLE_LIST_RAM=$(RAM)/accesskey.yaml,$(RAM)/accountalias.yaml,$(RAM)/accountpasswordpolicy.yaml,$(RAM)/group.yaml,$(RAM)/groupmembership.yaml,$(RAM)/grouppolicyattachment.yaml,$(RAM)/loginprofile.yaml,$(RAM)/policy.yaml,$(RAM)/role.yaml,$(RAM)/rolepolicyattachment.yaml,$(RAM)/samlprovider.yaml,$(RAM)/user.yaml,$(RAM)/userpolicyattachment.yaml
 UPTEST_EXAMPLE_LIST_VPC=$(VPC)/vpc.yaml
-UPTEST_EXAMPLE_LIST=$(UPTEST_EXAMPLE_LIST_OSS)
+UPTEST_EXAMPLE_LIST=$(UPTEST_EXAMPLE_LIST_VPC)
 uptest: $(UPTEST) $(KUBECTL) $(KUTTL)
 	@$(INFO) running automated tests
 	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) CROSSPLANE_NAMESPACE=$(CROSSPLANE_NAMESPACE) $(UPTEST) e2e "${UPTEST_EXAMPLE_LIST}" --data-source="${UPTEST_DATASOURCE_PATH}" --setup-script=cluster/test/setup.sh --default-conditions="Test" || $(FAIL)
