@@ -26,6 +26,13 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_kms_policy":                   config.IdentifierFromProvider,
 	"alicloud_kms_secret":                   config.IdentifierFromProvider,
 
+	// Quotas
+	"alicloud_quotas_quota_alarm":           config.IdentifierFromProvider,
+	"alicloud_quotas_quota_application":     config.IdentifierFromProvider,
+	"alicloud_quotas_template_applications": config.IdentifierFromProvider,
+	"alicloud_quotas_template_quota":        config.IdentifierFromProvider,
+	"alicloud_quotas_template_service":      config.IdentifierFromProvider,
+
 	// RAM
 	"alicloud_ram_access_key":              config.IdentifierFromProvider,
 	"alicloud_ram_account_alias":           config.IdentifierFromProvider,

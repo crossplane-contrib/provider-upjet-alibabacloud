@@ -12,6 +12,7 @@ import (
 
 	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
 	v1alpha1kms "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1"
+	v1alpha1quotas "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/quotas/v1alpha1"
 	v1alpha1ram "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1"
 	v1alpha1apis "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/v1alpha1"
 	v1beta1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/v1beta1"
@@ -23,6 +24,7 @@ func init() {
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1alpha1kms.SchemeBuilder.AddToScheme,
+		v1alpha1quotas.SchemeBuilder.AddToScheme,
 		v1alpha1ram.SchemeBuilder.AddToScheme,
 		v1alpha1apis.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,

@@ -1,0 +1,19 @@
+---
+apiVersion: quotas.alibabacloud.crossplane.io/v1alpha1
+kind: QuotaAlarm
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: quotas-v1alpha1-test-quotaalarm-1
+  labels:
+    testing.crossplane.io/example-name: test-quotaalarm-1
+  name: test-quotaalarm-1
+spec:
+  forProvider:
+    productCode: gws
+    quotaActionCode: q_desktop-count
+    quotaAlarmName: test-quotaalarm-1
+    quotaDimensions:
+    - key: regionId
+      value: us-silicon-valley
+    thresholdPercent: 80
+    thresholdType: used

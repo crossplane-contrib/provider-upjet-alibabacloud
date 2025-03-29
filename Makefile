@@ -198,10 +198,12 @@ CROSSPLANE_NAMESPACE = upbound-system
 # - UPTEST_DATASOURCE_PATH (optional), please see https://github.com/crossplane/uptest#injecting-dynamic-values-and-datasource
 ECS=./examples/ecs/v1alpha1
 KMS=./examples/kms/v1alpha1
+QUOTAS=./examples/quotas/v1alpha1
 RAM=./examples/ram/v1alpha1
 VPC=./examples/vpc/v1alpha1
 UPTEST_EXAMPLE_LIST_ECS=$(ECS)/group.yaml
 UPTEST_EXAMPLE_LIST_KMS=$(KMS)/applicationaccesspoint.yaml,$(KMS)/networkrule.yaml,$(KMS)/policy.yaml
+UPTEST_EXAMPLE_LIST_QUOTAS=$(QUOTAS)/templatequota.yaml
 UPTEST_EXAMPLE_LIST_RAM=$(RAM)/accesskey.yaml,$(RAM)/accountalias.yaml,$(RAM)/accountpasswordpolicy.yaml,$(RAM)/group.yaml,$(RAM)/groupmembership.yaml,$(RAM)/grouppolicyattachment.yaml,$(RAM)/loginprofile.yaml,$(RAM)/policy.yaml,$(RAM)/role.yaml,$(RAM)/rolepolicyattachment.yaml,$(RAM)/samlprovider.yaml,$(RAM)/user.yaml,$(RAM)/userpolicyattachment.yaml
 UPTEST_EXAMPLE_LIST_VPC=$(VPC)/vpc.yaml
 UPTEST_EXAMPLE_LIST=$(UPTEST_EXAMPLE_LIST_KMS)

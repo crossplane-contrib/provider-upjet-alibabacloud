@@ -21,6 +21,11 @@ import (
 	policy "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/policy"
 	secret "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/secret"
 	providerconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/providerconfig"
+	quotaalarm "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/quotas/quotaalarm"
+	quotaapplication "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/quotas/quotaapplication"
+	templateapplications "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/quotas/templateapplications"
+	templatequota "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/quotas/templatequota"
+	templateservice "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/quotas/templateservice"
 	accesskey "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ram/accesskey"
 	accountalias "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ram/accountalias"
 	accountpasswordpolicy "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ram/accountpasswordpolicy"
@@ -54,6 +59,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		policy.Setup,
 		secret.Setup,
 		providerconfig.Setup,
+		quotaalarm.Setup,
+		quotaapplication.Setup,
+		templateapplications.Setup,
+		templatequota.Setup,
+		templateservice.Setup,
 		accesskey.Setup,
 		accountalias.Setup,
 		accountpasswordpolicy.Setup,
