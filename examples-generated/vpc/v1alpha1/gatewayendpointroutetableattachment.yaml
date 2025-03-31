@@ -1,0 +1,53 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: GatewayEndpointRouteTableAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/gatewayendpointroutetableattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    gatewayEndpointId: ${alicloud_vpc_gateway_endpoint.defaultGE.id}
+    routeTableId: ${alicloud_route_table.defaultRT.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/gatewayendpointroutetableattachment
+  labels:
+    testing.upbound.io/example-name: defaulteVpc
+  name: defaultevpc
+spec:
+  forProvider:
+    description: test
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: GatewayEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/gatewayendpointroutetableattachment
+  labels:
+    testing.upbound.io/example-name: defaultGE
+  name: defaultge
+spec:
+  forProvider:
+    gatewayEndpointDescrption: test-gateway-endpoint
+    gatewayEndpointName: ${var.name}1
+    policyDocument: |2
+              {
+                "Version": "1",
+                "Statement": [{
+                  "Effect": "Allow",
+                  "Resource": ["*"],
+                  "Action": ["*"],
+                  "Principal": ["*"]
+                }]
+              }
+    serviceName: com.aliyun.cn-hangzhou.oss
+    vpcId: ${alicloud_vpc.defaulteVpc.id}

@@ -1,0 +1,100 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: ImageSharePermission
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagesharepermission
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    accountId: ${var.another_uid}
+    imageId: ${alicloud_image.default.id}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Image
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagesharepermission
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: terraform-example
+    imageName: terraform-example-${random_integer.default.result}
+    instanceId: ${alicloud_instance.default.id}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagesharepermission
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    availabilityZone: ${data.alicloud_zones.default.zones.0.id}
+    imageId: ${data.alicloud_images.default.ids[0]}
+    instanceName: terraform-example
+    instanceType: ${data.alicloud_instance_types.default.ids[0]}
+    internetMaxBandwidthOut: 10
+    securityGroups:
+    - ${alicloud_security_group.default.id}
+    vswitchId: ${alicloud_vswitch.default.id}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagesharepermission
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    name: terraform-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagesharepermission
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcName: terraform-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagesharepermission
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: terraform-example
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

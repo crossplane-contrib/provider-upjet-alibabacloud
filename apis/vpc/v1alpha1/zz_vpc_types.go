@@ -63,14 +63,8 @@ type VPCInitParameters struct {
 	// Specifies whether to create the default VPC in the specified region. Valid values:
 	IsDefault *bool `json:"isDefault,omitempty" tf:"is_default,omitempty"`
 
-	// (Deprecated since v1.119.0). Field 'name' has been deprecated from provider version 1.119.0. New field 'vpc_name' instead.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
 	// The ID of the resource group to which you want to move the resource.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
-
-	// Field 'secondary_cidr_blocks' has been deprecated from provider version 1.185.0 and it will be removed in the future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'. secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block resource cannot be used at the same time.
-	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
 	// Add an additional CIDR block from the IPAM address pool to the VPC by entering a mask.
 	SecondaryCidrMask *float64 `json:"secondaryCidrMask,omitempty" tf:"secondary_cidr_mask,omitempty"`
@@ -136,9 +130,6 @@ type VPCObservation struct {
 	// Specifies whether to create the default VPC in the specified region. Valid values:
 	IsDefault *bool `json:"isDefault,omitempty" tf:"is_default,omitempty"`
 
-	// (Deprecated since v1.119.0). Field 'name' has been deprecated from provider version 1.119.0. New field 'vpc_name' instead.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
 	// (Available since v1.240.0) The region ID of the VPC to which the route table belongs.
 	RegionID *string `json:"regionId,omitempty" tf:"region_id,omitempty"`
 
@@ -150,12 +141,6 @@ type VPCObservation struct {
 
 	// The router ID of the VPC.
 	RouterID *string `json:"routerId,omitempty" tf:"router_id,omitempty"`
-
-	// (Deprecated since v1.227.1). Field 'router_table_id' has been deprecated from provider version 1.227.1. New field 'route_table_id' instead.
-	RouterTableID *string `json:"routerTableId,omitempty" tf:"router_table_id,omitempty"`
-
-	// Field 'secondary_cidr_blocks' has been deprecated from provider version 1.185.0 and it will be removed in the future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'. secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block resource cannot be used at the same time.
-	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
 	// Add an additional CIDR block from the IPAM address pool to the VPC by entering a mask.
 	SecondaryCidrMask *float64 `json:"secondaryCidrMask,omitempty" tf:"secondary_cidr_mask,omitempty"`
@@ -226,17 +211,9 @@ type VPCParameters struct {
 	// +kubebuilder:validation:Optional
 	IsDefault *bool `json:"isDefault,omitempty" tf:"is_default,omitempty"`
 
-	// (Deprecated since v1.119.0). Field 'name' has been deprecated from provider version 1.119.0. New field 'vpc_name' instead.
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
 	// The ID of the resource group to which you want to move the resource.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
-
-	// Field 'secondary_cidr_blocks' has been deprecated from provider version 1.185.0 and it will be removed in the future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'. secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block resource cannot be used at the same time.
-	// +kubebuilder:validation:Optional
-	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
 	// Add an additional CIDR block from the IPAM address pool to the VPC by entering a mask.
 	// +kubebuilder:validation:Optional

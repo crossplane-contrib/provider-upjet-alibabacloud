@@ -1,0 +1,72 @@
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-policy-1
+  labels:
+    testing.crossplane.io/example-name: test-policy-1
+  name: test-policy-1
+spec:
+  forProvider:
+    # Validate Access Control Rules
+    accessControlRules: |
+        {
+            "NetworkRules":[
+                "alicloud_kms_network_rule.networkRule1.network_rule_name"
+            ]
+        }
+    description: test-policy-1 created by provider-upjet-alibabacloud
+    kmsInstanceId: shared
+    permissions:
+      - RbacPermission/Template/CryptoServiceKeyUser
+      - RbacPermission/Template/CryptoServiceSecretUser
+    policyName: test-policy-1
+    resources:
+      - secret/*
+      - key/*
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkRule
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-networkrule-for-policy-1
+  labels:
+    testing.crossplane.io/example-name: test-networkrule-for-policy-1
+  name: test-networkrule-for-policy-1
+spec:
+  forProvider:
+    description: test-networkrule-for-policy-1 created by provider-upjet-alibabacloud
+    networkRuleName: test-networkrule-for-policy-1
+    sourcePrivateIp:
+      - 10.10.10.10
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkRule
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-networkrule-for-policy-2
+  labels:
+    testing.crossplane.io/example-name: test-networkrule-for-policy-2
+  name: test-networkrule-for-policy-2
+spec:
+  forProvider:
+    description: test-networkrule-for-policy-2 created by provider-upjet-alibabacloud
+    networkRuleName: test-networkrule-for-policy-2
+    sourcePrivateIp:
+      - 10.10.10.10
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkRule
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-networkrule-for-policy-3
+  labels:
+    testing.crossplane.io/example-name: test-networkrule-for-policy-3
+  name: test-networkrule-for-policy-3
+spec:
+  forProvider:
+    description: test-networkrule-for-policy-3 created by provider-upjet-alibabacloud-3
+    networkRuleName: test-networkrule-for-policy-3
+    sourcePrivateIp:
+      - 10.10.10.10

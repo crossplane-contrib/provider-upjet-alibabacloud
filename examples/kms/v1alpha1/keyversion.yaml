@@ -1,0 +1,23 @@
+---
+apiVersion: kms.alibabaxloud.crossplane.io/v1alpha1
+kind: KeyVersion
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-keyversion-1
+  labels:
+    testing.crossplane.io/example-name: test-keyversion-1
+  name: test-keyversion-1
+spec:
+  forProvider:
+    keyId: key-for-keyversion-1
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-key-for-keyversion-1
+  labels:
+    testing.crossplane.io/example-name: key-for-keyversion-1
+  name: key-for-keyversion-1
+spec:
+  forProvider: {}

@@ -1,0 +1,49 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketServerSideEncryption
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketserversideencryption
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucket: example-value-${random_integer.default.result}
+    kmsDataEncryption: SM4
+    kmsMasterKeyId: ${alicloud_kms_key.GetKMS.id}
+    sseAlgorithm: KMS
+
+---
+
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketserversideencryption
+  labels:
+    testing.upbound.io/example-name: GetKMS
+  name: getkms
+spec:
+  forProvider:
+    automaticRotation: Disabled
+    description: ${var.name}
+    keySpec: Aliyun_AES_256
+    keyUsage: ENCRYPT/DECRYPT
+    origin: Aliyun_KMS
+    pendingWindowInDays: 7
+    protectionLevel: SOFTWARE
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketserversideencryption
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+spec:
+  forProvider:
+    bucket: ${var.name}-${random_integer.default.result}
+    storageClass: Standard

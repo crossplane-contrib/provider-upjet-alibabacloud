@@ -1,0 +1,51 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: HaVip
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/havip
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: test
+    haVipName: ${var.name}
+    ipAddress: 192.168.1.101
+    resourceGroupId: ${alicloud_resource_manager_resource_group.defaultRg.id}
+    vswitchId: ${alicloud_vswitch.defaultVswitch.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/havip
+  labels:
+    testing.upbound.io/example-name: defaultVpc
+  name: defaultvpc
+spec:
+  forProvider:
+    cidrBlock: 192.168.0.0/16
+    description: tf-test-acc-vpc
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/havip
+  labels:
+    testing.upbound.io/example-name: defaultVswitch
+  name: defaultvswitch
+spec:
+  forProvider:
+    cidrBlock: 192.168.0.0/21
+    description: tf-testacc-vswitch
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: defaultVpc
+    vswitchName: ${var.name}1
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

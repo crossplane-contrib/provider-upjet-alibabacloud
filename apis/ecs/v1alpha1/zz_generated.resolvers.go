@@ -14,8 +14,8 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-// ResolveReferences of this Group.
-func (mg *Group) ResolveReferences(ctx context.Context, c client.Reader) error {
+// ResolveReferences of this SecurityGroup.
+func (mg *SecurityGroup) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse

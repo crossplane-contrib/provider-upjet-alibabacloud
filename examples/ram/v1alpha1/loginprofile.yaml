@@ -1,0 +1,34 @@
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: LoginProfile
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-loginprofile-1
+  labels:
+    testing.crossplane.io/example-name: test-loginprofile-1
+  name: test-loginprofile-1
+spec:
+  forProvider:
+    # TODO: Create profile-secret as part of test setup.sh
+    passwordSecretRef:
+      key: password
+      name: login-profile-secret
+      namespace: upbound-system
+    userName: test-user-for-loginprofile-1
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-user-for-loginprofile-1
+  labels:
+    testing.crossplane.io/example-name: test-user-for-loginprofile-1
+  name: test-user-for-loginprofile-1
+spec:
+  forProvider:
+    comments: Test user for loginprofile created by provider-upjet-alibabacloud
+    displayName: test_user_for_loginprofile_1
+    email: test-user-for-loginprofile-1@crossplane.io
+    force: true
+    mobile: 86-18688888888
+    name: test-user-for-loginprofile-1

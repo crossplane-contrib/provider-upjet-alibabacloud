@@ -1,0 +1,44 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketWebsite
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketwebsite-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketwebsite-1
+  name: test-bucketwebsite-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketwebsite-1
+    errorDocument:
+    - httpStatus: "404"
+      key: error.html
+    indexDocument:
+    - suffix: index.html
+      supportSubDir: "true"
+      type: "0"
+    routingRules:
+    - routingRule:
+      - condition:
+        - httpErrorCodeReturnedEquals: "404"
+        luaConfig:
+        - script: example.lua
+        redirect:
+        - hostName: www.alicdn-master.com
+          httpRedirectCode: "305"
+          protocol: https
+          redirectType: AliCDN
+        ruleNumber: "1"
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketwebsite-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketwebsite-1
+  name: test-bucket-for-bucketwebsite-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketwebsite-1
+    storageClass: Standard

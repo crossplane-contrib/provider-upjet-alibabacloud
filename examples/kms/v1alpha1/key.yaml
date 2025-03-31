@@ -1,0 +1,13 @@
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-key-1
+  labels:
+    testing.crossplane.io/example-name: test-key-1
+  name: test-key-1
+spec:
+  forProvider:
+    description: test_key_1 created by provider-upjet-alibabacloud
+    pendingWindowInDays: 7
+    status: Enabled

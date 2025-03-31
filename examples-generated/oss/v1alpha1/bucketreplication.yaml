@@ -1,0 +1,125 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketReplication
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: cross-region-replication
+  name: cross-region-replication
+spec:
+  forProvider:
+    action: PUT,DELETE
+    bucket: ${alicloud_oss_bucket.bucket_src.id}
+    destination:
+    - bucket: ${alicloud_oss_bucket.bucket_dest.id}
+      location: ${alicloud_oss_bucket.bucket_dest.location}
+    encryptionConfiguration:
+    - replicaKmsKeyId: ${alicloud_kms_key.key.id}
+    historicalObjectReplication: enabled
+    prefixSet:
+    - prefixes:
+      - prefix1/
+      - prefix2/
+    sourceSelectionCriteria:
+    - sseKmsEncryptedObjects:
+      - status: Enabled
+    syncRole: terraform-example
+
+---
+
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+spec:
+  forProvider:
+    description: Hello KMS
+    pendingWindowInDays: "7"
+    status: Enabled
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: bucket_dest
+  name: bucket-dest
+spec:
+  forProvider:
+    bucket: example-dest-${random_integer.default.result}
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: bucket_src
+  name: bucket-src
+spec:
+  forProvider:
+    bucket: example-src-${random_integer.default.result}
+
+---
+
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    description: this is a policy test
+    force: true
+    policyDocument: "\t\t{\n\t\t  \"Statement\": [\n\t\t\t{\n\t\t\t  \"Action\": [\n\t\t\t\t\"*\"\n\t\t\t
+      \ ],\n\t\t\t  \"Effect\": \"Allow\",\n\t\t\t  \"Resource\": [\n\t\t\t\t\"*\"\n\t\t\t
+      \ ]\n\t\t\t}\n\t\t  ],\n\t\t\t\"Version\": \"1\"\n\t\t}\n"
+    policyName: example-policy-${random_integer.default.result}
+
+---
+
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: role
+  name: role
+spec:
+  forProvider:
+    description: this is a test
+    document: "\t\t{\n\t\t  \"Statement\": [\n\t\t\t{\n\t\t\t  \"Action\": \"sts:AssumeRole\",\n\t\t\t
+      \ \"Effect\": \"Allow\",\n\t\t\t  \"Principal\": {\n\t\t\t\t\"Service\": [\n\t\t\t\t
+      \ \"oss.aliyuncs.com\"\n\t\t\t\t]\n\t\t\t  }\n\t\t\t}\n\t\t  ],\n\t\t  \"Version\":
+      \"1\"\n\t\t}\n"
+    force: true
+    name: example-role-${random_integer.default.result}
+
+---
+
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: RolePolicyAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: attach
+  name: attach
+spec:
+  forProvider:
+    policyName: example-policy-${random_integer.default.result}
+    policyType: ${alicloud_ram_policy.policy.type}
+    roleName: example-role-${random_integer.default.result}

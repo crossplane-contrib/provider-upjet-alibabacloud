@@ -1,0 +1,31 @@
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Ciphertext
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/ciphertext
+  labels:
+    testing.upbound.io/example-name: encrypted
+  name: encrypted
+spec:
+  forProvider:
+    keyId: ${alicloud_kms_key.key.id}
+    plaintextSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+
+---
+
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/ciphertext
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+spec:
+  forProvider:
+    description: example key
+    pendingWindowInDays: 7
+    status: Enabled

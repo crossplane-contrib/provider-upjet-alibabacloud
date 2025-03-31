@@ -1,0 +1,60 @@
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: UserPolicyAttachment
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-userpolicyattachment-1
+  labels:
+    testing.crossplane.io/example-name: test-userpolicyattachment-1
+  name: test-userpolicyattachment-1
+spec:
+  forProvider:
+    policyName: test-policy-for-userpolicyattachment-1
+    policyType: Custom
+    userName: test-user-for-userpolicyattachment-1
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-policy-for-userpolicyattachment-1
+  labels:
+    testing.crossplane.io/example-name: test-policy-for-userpolicyattachment-1
+  name: test-policy-for-userpolicyattachment-1
+spec:
+  forProvider:
+    description: This is a test policy for userpolicyattachment created by provider-upjet-alibaba
+    policyDocument: |
+        {
+          "Statement": [
+            {
+              "Action": [
+                "oss:ListObjects",
+                "oss:GetObject"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                "acs:oss:*:*:mybucket",
+                "acs:oss:*:*:mybucket/*"
+              ]
+            }
+          ],
+            "Version": "1"
+        }
+    policyName: test-policy-for-userpolicyattachment-1
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-user-for-userpolicyattachment-1
+  labels:
+    testing.crossplane.io/example-name: test-user-for-userpolicyattachment-1
+  name: test-user-for-userpolicyattachment-1
+spec:
+  forProvider:
+    comments: Test user for userpolicyattachment created by provider-upjet-alibabacloud
+    displayName: test_user_for_userpolicyattachment_1
+    email: test-user-for-userpolicyattachment-1@crossplame.io
+    mobile: 86-18688888888
+    name: test-user-for-userpolicyattachment-1

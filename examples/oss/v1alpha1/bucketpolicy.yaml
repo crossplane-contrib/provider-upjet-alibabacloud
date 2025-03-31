@@ -1,0 +1,28 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketPolicy
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketpolicy-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketpolicy-1
+  name: test-bucketpolicy-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketpolicy-1
+    policy: '${jsonencode({ "Version" : "1", "Statement" : [{ "Action" : ["oss:PutObject",
+      "oss:GetObject"], "Effect" : "Deny", "Principal" : ["1234567890"], "Resource"
+      : ["acs:oss:*:1234567890:*/*"] }] })}'
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketpolicy-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketpolicy-1
+  name: test-bucket-for-bucketpolicy-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketpolicy-1
+    storageClass: Standard

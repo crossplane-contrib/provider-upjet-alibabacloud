@@ -1,0 +1,29 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: TrafficMirrorFilter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/trafficmirrorfilter
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    egressRules:
+    - action: accept
+      destinationCidrBlock: 32.0.0.0/4
+      destinationPortRange: 80/80
+      priority: 1
+      protocol: TCP
+      sourceCidrBlock: 16.0.0.0/4
+      sourcePortRange: 80/80
+    ingressRules:
+    - action: accept
+      destinationCidrBlock: 10.64.0.0/10
+      destinationPortRange: 80/80
+      priority: 1
+      protocol: TCP
+      sourceCidrBlock: 10.0.0.0/8
+      sourcePortRange: 80/80
+    resourceGroupId: ${alicloud_resource_manager_resource_group.default3iXhoa.id}
+    trafficMirrorFilterDescription: test
+    trafficMirrorFilterName: ${var.name}

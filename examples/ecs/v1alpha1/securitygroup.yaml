@@ -1,0 +1,10 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  name: hello-upjet-group
+spec:
+  forProvider:
+    securityGroupName: hello-upjet-group
+    description: test
+    vpcIdRef:
+      name: hello-crossplane-alibabacloud

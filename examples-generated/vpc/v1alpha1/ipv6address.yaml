@@ -1,0 +1,51 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: IPv6Address
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv6address
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    ipv6AddressDescription: create_description
+    ipv6AddressName: ${var.name}
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    vswitchId: ${alicloud_vswitch.vswich.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv6address
+  labels:
+    testing.upbound.io/example-name: vpc
+  name: vpc
+spec:
+  forProvider:
+    cidrBlock: 172.168.0.0/16
+    enableIpv6: true
+    ipv6Isp: BGP
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/ipv6address
+  labels:
+    testing.upbound.io/example-name: vswich
+  name: vswich
+spec:
+  forProvider:
+    cidrBlock: 172.168.0.0/24
+    ipv6CidrBlockMask: "1"
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

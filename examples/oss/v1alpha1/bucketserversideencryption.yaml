@@ -1,0 +1,46 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketServerSideEncryption
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketserversideencryption-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketserversideencryption-1
+  name: test-bucketserversideencryption-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketserversideencryption-1
+    kmsDataEncryption: SM4
+    kmsMasterKeyId: ${alicloud_kms_key.GetKMS.id}
+    sseAlgorithm: KMS
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-key-for-bucketserversideencryption-1
+  labels:
+    testing.crossplane.io/example-name: test-key-for-bucketserversideencryption-1
+  name: test-key-for-bucketserversideencryption-1
+spec:
+  forProvider:
+    automaticRotation: Disabled
+    description: test-key-for-bucketserversideencryption-1 created by provider-upjet-alibabacloud
+    keySpec: Aliyun_AES_256
+    keyUsage: ENCRYPT/DECRYPT
+    origin: Aliyun_KMS
+    pendingWindowInDays: 7
+    protectionLevel: SOFTWARE
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketserversideencryption-1
+  labels:
+    testing.crossplane.io/example-name: test-key-for-bucketserversideencryption-1
+  name: test-key-for-bucketserversideencryption-1
+spec:
+  forProvider:
+    bucket: test-key-for-bucketserversideencryption-1
+    storageClass: Standard

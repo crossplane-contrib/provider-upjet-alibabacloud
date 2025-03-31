@@ -1,0 +1,30 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: TrafficMirrorFilterEgressRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/trafficmirrorfilteregressrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    action: drop
+    destinationCidrBlock: 10.0.0.0/12
+    priority: "2"
+    protocol: ALL
+    sourceCidrBlock: 10.0.0.0/11
+    trafficMirrorFilterId: ${alicloud_vpc_traffic_mirror_filter.example.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: TrafficMirrorFilter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/trafficmirrorfilteregressrule
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    trafficMirrorFilterName: example_value

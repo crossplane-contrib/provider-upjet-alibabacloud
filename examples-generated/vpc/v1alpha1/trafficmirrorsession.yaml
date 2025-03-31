@@ -1,0 +1,143 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: TrafficMirrorSession
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/trafficmirrorsession
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    priority: 1
+    trafficMirrorFilterId: ${alicloud_vpc_traffic_mirror_filter.default.id}
+    trafficMirrorSessionDescription: ${var.name}
+    trafficMirrorSessionName: ${var.name}
+    trafficMirrorSourceIds:
+    - ${alicloud_ecs_network_interface_attachment.default[1].network_interface_id}
+    trafficMirrorTargetId: ${alicloud_ecs_network_interface_attachment.default[0].network_interface_id}
+    trafficMirrorTargetType: NetworkInterface
+    virtualNetworkId: 10
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/trafficmirrorsession
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    count: 2
+    networkInterfaceName: ${var.name}
+    securityGroupIds:
+    - ${alicloud_security_group.default.id}
+    vswitchId: ${alicloud_vswitch.default.id}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkInterfaceAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/trafficmirrorsession
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    count: 2
+    instanceId: ${alicloud_instance.default[count.index].id}
+    networkInterfaceId: ${alicloud_ecs_network_interface.default[count.index].id}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/trafficmirrorsession
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    availabilityZone: ${data.alicloud_zones.default.zones.0.id}
+    count: 2
+    hostName: ${var.name}
+    imageId: ${data.alicloud_images.default.images.0.id}
+    instanceName: ${var.name}
+    instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
+    securityGroups:
+    - ${alicloud_security_group.default.id}
+    systemDiskCategory: cloud_essd
+    vswitchId: ${alicloud_vswitch.default.id}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/trafficmirrorsession
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: ${var.name}
+    name: ${var.name}
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/trafficmirrorsession
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: TrafficMirrorFilter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/trafficmirrorsession
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    trafficMirrorFilterDescription: ${var.name}
+    trafficMirrorFilterName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/trafficmirrorsession
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

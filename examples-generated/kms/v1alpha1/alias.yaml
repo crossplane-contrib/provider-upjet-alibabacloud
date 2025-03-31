@@ -1,0 +1,26 @@
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Alias
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/alias
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+spec:
+  forProvider:
+    aliasName: alias/example_kms_alias
+    keyId: ${alicloud_kms_key.this.id}
+
+---
+
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/alias
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+spec:
+  forProvider:
+    pendingWindowInDays: 7

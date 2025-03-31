@@ -1,0 +1,18 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: PrefixList
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/prefixlist
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    entrys:
+    - cidr: 192.168.0.0/16
+      description: test
+    ipVersion: IPV4
+    maxEntries: 50
+    prefixListDescription: test
+    prefixListName: ${var.name}
+    resourceGroupId: ${alicloud_resource_manager_resource_group.defaultRg.id}

@@ -1,0 +1,30 @@
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: AccessKey
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-accesskey-1
+  labels:
+    testing.crossplane.io/example-name: test-accesskey-1
+  name: test-accesskey-1
+spec:
+  forProvider:
+    secretFile: /test-user-for-accesskey-1-secret-file.txt
+    userName: test-user-for-accesskey-1
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: ram/v1alpha1/accesskey
+  labels:
+    testing.crossplane.io/example-name: test-user-for-accesskey-1
+  name: test-user-for-accesskey-1
+spec:
+  forProvider:
+    comments: Test user for accesskey created bu provider-upjet-alibabacloud
+    displayName: test_user_for_accesskey_1
+    email: test-user-for-accesskey-1@crossplane.io
+    force: true
+    mobile: 86-18688888888
+    name: test-user-for-accesskey-1

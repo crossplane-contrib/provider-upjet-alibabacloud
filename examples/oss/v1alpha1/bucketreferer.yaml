@@ -1,0 +1,33 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketReferer
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketreferer-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketreferer-1
+  name: test-bucketreferer-1
+spec:
+  forProvider:
+    allowEmptyReferer: "true"
+    allowTruncateQueryString: "true"
+    bucket: test-bucket-for-bucketreferer-1
+    refererBlacklist:
+      - '*.forbidden.com'
+    refererList:
+      - '*.aliyun.com'
+      - '*.example.com'
+    truncatePath: "false"
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketreferer-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketreferer-1
+  name: test-bucket-for-bucketreferer-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketreferer-1
+    storageClass: Standard

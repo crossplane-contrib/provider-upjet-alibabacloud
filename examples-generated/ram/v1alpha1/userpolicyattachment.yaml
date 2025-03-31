@@ -1,0 +1,63 @@
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: UserPolicyAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/userpolicyattachment
+  labels:
+    testing.upbound.io/example-name: attach
+  name: attach
+spec:
+  forProvider:
+    policyName: ${alicloud_ram_policy.policy.policy_name}
+    policyType: ${alicloud_ram_policy.policy.type}
+    userName: terraform-example-${random_integer.default.result}
+
+---
+
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/userpolicyattachment
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+spec:
+  forProvider:
+    description: this is a policy test
+    policyDocument: |2
+        {
+          "Statement": [
+            {
+              "Action": [
+                "oss:ListObjects",
+                "oss:GetObject"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                "acs:oss:*:*:mybucket",
+                "acs:oss:*:*:mybucket/*"
+              ]
+            }
+          ],
+            "Version": "1"
+        }
+    policyName: tf-example-${random_integer.default.result}
+
+---
+
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/userpolicyattachment
+  labels:
+    testing.upbound.io/example-name: user
+  name: user
+spec:
+  forProvider:
+    comments: yoyoyo
+    displayName: user_display_name
+    email: hello.uuu@aaa.com
+    mobile: 86-18688888888
+    name: userName

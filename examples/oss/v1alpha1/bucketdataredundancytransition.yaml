@@ -1,0 +1,25 @@
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketDataRedundancyTransition
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucketdataredundancytransition-1
+  labels:
+    testing.crossplane.io/example-name: test-bucketdataredundancytransition-1
+  name: test-bucketdataredundancytransition-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketdataredundancytransition-1
+---
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: oss-v1alpha1-test-bucket-for-bucketdataredundancytransition-1
+  labels:
+    testing.crossplane.io/example-name: test-bucket-for-bucketdataredundancytransition-1
+  name: test-bucket-for-bucketdataredundancytransition-1
+spec:
+  forProvider:
+    bucket: test-bucket-for-bucketdataredundancytransition-1
+    storageClass: Standard

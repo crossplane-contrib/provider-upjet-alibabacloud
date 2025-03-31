@@ -1,0 +1,19 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Disk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/disk
+  labels:
+    testing.upbound.io/example-name: ecs_disk
+  name: ecs-disk
+spec:
+  forProvider:
+    availabilityZone: cn-beijing-b
+    category: cloud_efficiency
+    description: Hello ecs disk.
+    encrypted: true
+    kmsKeyId: 2a6767f0-a16c-4679-a60f-13bf*****
+    name: New-disk
+    size: "30"
+    tags:
+      Name: TerraformTest

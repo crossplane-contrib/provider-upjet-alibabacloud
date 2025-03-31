@@ -1,0 +1,138 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: RamRoleAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/ramroleattachment
+  labels:
+    testing.upbound.io/example-name: attach
+  name: attach
+spec:
+  forProvider:
+    instanceIds: ${alicloud_instance.foo.*.id}
+    roleName: terraform-example
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/ramroleattachment
+  labels:
+    testing.upbound.io/example-name: foo
+  name: foo
+spec:
+  forProvider:
+    imageId: ${data.alicloud_images.default.images[0].id}
+    instanceName: ${var.name}
+    instanceType: ${data.alicloud_instance_types.default.instance_types[0].id}
+    internetChargeType: PayByTraffic
+    internetMaxBandwidthOut: 5
+    securityGroups:
+    - ${alicloud_security_group.default.id}
+    systemDiskCategory: cloud_efficiency
+    vswitchId: ${alicloud_vswitch.default.id}
+
+---
+
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/ramroleattachment
+  labels:
+    testing.upbound.io/example-name: role
+  name: role
+spec:
+  forProvider:
+    description: this is a test
+    document: |2+
+        {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "ecs.aliyuncs.com"
+                ]
+              }
+            }
+          ],
+          "Version": "1"
+        }
+
+    force: true
+    name: terraform-example
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/ramroleattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    name: ${var.name}
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroupRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/ramroleattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrIp: 172.16.0.0/24
+    ipProtocol: tcp
+    nicType: intranet
+    policy: accept
+    portRange: 22/22
+    priority: 1
+    securityGroupId: ${alicloud_security_group.default.id}
+    type: ingress
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/ramroleattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/16
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/ramroleattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones[0].id}

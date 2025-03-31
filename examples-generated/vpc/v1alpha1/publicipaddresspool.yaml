@@ -1,0 +1,14 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: PublicIPAddressPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/publicipaddresspool
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: ${var.name}
+    isp: BGP
+    publicIpAddressPoolName: ${var.name}
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}

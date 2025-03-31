@@ -1,0 +1,26 @@
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Alias
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: kms-v1alpha1-test-alias-1
+  labels:
+    testing.crossplane.io/example-name: test-alias-1
+  name: test-alias-1
+spec:
+  forProvider:
+    aliasName: test-alias-1
+    keyId: kms-v1alpha1-test-key-for-alias-1
+---
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    crossplane.io/external-name: kms-v1alpha1-test-key-for-alias-1
+    meta.crossplane.io/example-id: kms-v1alpha1-test-key-for-alias-1
+  labels:
+    testing.crossplane.io/example-name: test-key-for-alias-1
+  name: test-key-for-alias-1
+spec:
+  forProvider:
+    pendingWindowInDays: 7

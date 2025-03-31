@@ -1,0 +1,16 @@
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/test-user-1
+  labels:
+    testing.crossplane.io/example-name: test-user-1
+  name: test-user-1
+spec:
+  forProvider:
+    comments: created by provider-upjet-alibabacloud
+    displayName: test_user_1
+    email: test_user@crossplane.io
+    # mobile: 1-425-555-1212
+    name: test-user-1

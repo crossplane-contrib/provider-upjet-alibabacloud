@@ -7,4 +7,79 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
+func (tr *DHCPOptionsSet) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DHCPOptionsSetAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FlowLog) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GatewayEndpoint) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GatewayEndpointRouteTableAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GatewayRouteTableAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *HaVip) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IPv4CidrBlock) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IPv4Gateway) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IPv6Address) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IPv6EgressRule) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IPv6Gateway) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IPv6InternetBandwidth) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *NetworkACLAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *PeerConnection) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *PeerConnectionAccepter) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *PrefixList) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *PublicIPAddressPool) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *PublicIPAddressPoolCidrBlock) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TrafficMirrorFilter) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TrafficMirrorFilterEgressRule) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TrafficMirrorFilterIngressRule) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TrafficMirrorSession) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *VPC) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Vswitch) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *VswitchCidrReservation) Hub() {}
