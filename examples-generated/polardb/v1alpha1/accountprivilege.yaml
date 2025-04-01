@@ -1,0 +1,113 @@
+apiVersion: polardb.alibabacloud.crossplane.io/v1alpha1
+kind: AccountPrivilege
+metadata:
+  annotations:
+    meta.upbound.io/example-id: polardb/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    accountNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    accountPrivilege: ReadOnly
+    dbClusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    dbNames:
+    - ${alicloud_polardb_database.default.db_name}
+
+---
+
+apiVersion: polardb.alibabacloud.crossplane.io/v1alpha1
+kind: Account
+metadata:
+  annotations:
+    meta.upbound.io/example-id: polardb/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    accountDescription: terraform-example
+    accountName: terraform_example
+    accountPasswordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    dbClusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: polardb.alibabacloud.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: polardb/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    dbNodeClass: ${data.alicloud_polardb_node_classes.default.classes.0.supported_engines.0.available_resources.0.db_node_class}
+    dbType: MySQL
+    dbVersion: "8.0"
+    description: terraform-example
+    payType: PostPaid
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: polardb.alibabacloud.crossplane.io/v1alpha1
+kind: Database
+metadata:
+  annotations:
+    meta.upbound.io/example-id: polardb/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    dbClusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    dbName: terraform-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: polardb/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/16
+    vpcName: terraform-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: polardb/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: terraform-example
+    zoneId: ${data.alicloud_polardb_node_classes.default.classes[0].zone_id}

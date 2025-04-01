@@ -10,8 +10,23 @@ import "github.com/crossplane/upjet/pkg/config"
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"alicloud_vpc":            config.IdentifierFromProvider,
+	// ECS
 	"alicloud_security_group": config.IdentifierFromProvider,
+	// PolarDB
+	"alicloud_polardb_account":                 config.IdentifierFromProvider,
+	"alicloud_polardb_account_privilege":       config.IdentifierFromProvider,
+	"alicloud_polardb_backup_policy":           config.IdentifierFromProvider,
+	"alicloud_polardb_cluster":                 config.IdentifierFromProvider,
+	"alicloud_polardb_cluster_endpoint":        config.IdentifierFromProvider,
+	"alicloud_polardb_database":                config.IdentifierFromProvider,
+	"alicloud_polardb_endpoint":                config.IdentifierFromProvider,
+	"alicloud_polardb_endpoint_address":        config.IdentifierFromProvider,
+	"alicloud_polardb_global_database_network": config.IdentifierFromProvider,
+	"alicloud_polardb_parameter_group":         config.IdentifierFromProvider,
+	"alicloud_polardb_primary_endpoint":        config.IdentifierFromProvider,
+	// VPC
+	"alicloud_vpc":     config.IdentifierFromProvider,
+	"alicloud_vswitch": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

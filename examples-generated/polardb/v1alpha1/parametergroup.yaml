@@ -1,0 +1,17 @@
+apiVersion: polardb.alibabacloud.crossplane.io/v1alpha1
+kind: ParameterGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: polardb/v1alpha1/parametergroup
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    dbType: MySQL
+    dbVersion: "8.0"
+    description: example_value
+    name: example_value
+    parameters:
+    - paramName: wait_timeout
+      paramValue: "86400"

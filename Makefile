@@ -197,8 +197,10 @@ CROSSPLANE_NAMESPACE = upbound-system
 #   The associated `ProviderConfig`s will be named as `default` and `peer`.
 # - UPTEST_DATASOURCE_PATH (optional), please see https://github.com/crossplane/uptest#injecting-dynamic-values-and-datasource
 ECS=./examples/ecs/v1alpha1
+POLARDB=./examples/polardb/v1alpha1
 VPC=./examples/vpc/v1alpha1
 UPTEST_EXAMPLE_LIST_ECS=$(ECS)/group.yaml
+UPTEST_EXAMPLE_LIST_POLARDB=$(POLARDB)/account.yaml,$(POLARDB)/accountprivilege.yaml,$(POLARDB)/backuppolicy.yaml,$(POLARDB)/cluster.yaml,$(POLARDB)/clusterendpoint.yaml,$(POLARDB)/database.yaml,$(POLARDB)/endpoint.yaml,$(POLARDB)/endpointaddress.yaml,$(POLARDB)/globaldatabasenetwork.yaml,$(POLARDB)/parametergroup.yaml,$(POLARDB)/primaryendpoint.yaml
 UPTEST_EXAMPLE_LIST_VPC=$(VPC)/vpc.yaml
 UPTEST_EXAMPLE_LIST=$(UPTEST_EXAMPLE_LIST_VPC)
 uptest: $(UPTEST) $(KUBECTL) $(KUTTL)

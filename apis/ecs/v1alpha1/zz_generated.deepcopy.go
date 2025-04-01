@@ -48,18 +48,8 @@ func (in *GroupInitParameters) DeepCopyInto(out *GroupInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.InnerAccess != nil {
-		in, out := &in.InnerAccess, &out.InnerAccess
-		*out = new(bool)
-		**out = **in
-	}
 	if in.InnerAccessPolicy != nil {
 		in, out := &in.InnerAccessPolicy, &out.InnerAccessPolicy
-		*out = new(string)
-		**out = **in
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
 	}
@@ -171,18 +161,8 @@ func (in *GroupObservation) DeepCopyInto(out *GroupObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.InnerAccess != nil {
-		in, out := &in.InnerAccess, &out.InnerAccess
-		*out = new(bool)
-		**out = **in
-	}
 	if in.InnerAccessPolicy != nil {
 		in, out := &in.InnerAccessPolicy, &out.InnerAccessPolicy
-		*out = new(string)
-		**out = **in
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
 	}
@@ -242,18 +222,8 @@ func (in *GroupParameters) DeepCopyInto(out *GroupParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.InnerAccess != nil {
-		in, out := &in.InnerAccess, &out.InnerAccess
-		*out = new(bool)
-		**out = **in
-	}
 	if in.InnerAccessPolicy != nil {
 		in, out := &in.InnerAccessPolicy, &out.InnerAccessPolicy
-		*out = new(string)
-		**out = **in
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
 	}

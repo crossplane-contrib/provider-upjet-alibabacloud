@@ -18,14 +18,8 @@ type GroupInitParameters struct {
 	// The description of the security group. The description must be 2 to 256 characters in length. It cannot start with http:// or https://.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Field inner_access has been deprecated from provider version 1.55.3. New field inner_access_policy instead.
-	InnerAccess *bool `json:"innerAccess,omitempty" tf:"inner_access,omitempty"`
-
 	// The internal access control policy of the security group. Valid values:
 	InnerAccessPolicy *string `json:"innerAccessPolicy,omitempty" tf:"inner_access_policy,omitempty"`
-
-	// Field name has been deprecated from provider version 1.239.0. New field security_group_name instead.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the resource group to which the security group belongs. NOTE: From version 1.115.0, resource_group_id can be modified.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -63,14 +57,8 @@ type GroupObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Field inner_access has been deprecated from provider version 1.55.3. New field inner_access_policy instead.
-	InnerAccess *bool `json:"innerAccess,omitempty" tf:"inner_access,omitempty"`
-
 	// The internal access control policy of the security group. Valid values:
 	InnerAccessPolicy *string `json:"innerAccessPolicy,omitempty" tf:"inner_access_policy,omitempty"`
-
-	// Field name has been deprecated from provider version 1.239.0. New field security_group_name instead.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the resource group to which the security group belongs. NOTE: From version 1.115.0, resource_group_id can be modified.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -95,17 +83,9 @@ type GroupParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Field inner_access has been deprecated from provider version 1.55.3. New field inner_access_policy instead.
-	// +kubebuilder:validation:Optional
-	InnerAccess *bool `json:"innerAccess,omitempty" tf:"inner_access,omitempty"`
-
 	// The internal access control policy of the security group. Valid values:
 	// +kubebuilder:validation:Optional
 	InnerAccessPolicy *string `json:"innerAccessPolicy,omitempty" tf:"inner_access_policy,omitempty"`
-
-	// Field name has been deprecated from provider version 1.239.0. New field security_group_name instead.
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the resource group to which the security group belongs. NOTE: From version 1.115.0, resource_group_id can be modified.
 	// +kubebuilder:validation:Optional

@@ -1,0 +1,60 @@
+apiVersion: polardb.alibabacloud.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: polardb/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    dbClusterIpArray:
+    - dbClusterIpArrayName: default
+      securityIps:
+      - 1.2.3.4
+      - 1.2.3.5
+    - dbClusterIpArrayName: default2
+      securityIps:
+      - 1.2.3.6
+    dbNodeClass: polar.mysql.x4.medium
+    dbType: MySQL
+    dbVersion: "8.0"
+    description: crossplane-example
+    payType: PostPaid
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: polardb/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/16
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: polardb/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: crossplane-example
+    zoneId: cn-hangzhou-i

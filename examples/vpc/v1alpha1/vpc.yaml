@@ -1,11 +1,15 @@
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: VPC
 metadata:
-  name: hello-crossplane-alibabacloud
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vpc
+  labels:
+    testing.upbound.io/example-name: default
+  name: crossplane-example
 spec:
   forProvider:
     cidrBlock: 10.0.0.0/8
     description: test
     enableIpv6: true
     ipv6Isp: BGP
-    vpcName: hello-crossplane-alibabacloud
+    vpcName: crossplane-example

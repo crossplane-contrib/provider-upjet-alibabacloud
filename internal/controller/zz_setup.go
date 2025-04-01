@@ -10,8 +10,20 @@ import (
 	"github.com/crossplane/upjet/pkg/controller"
 
 	group "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/group"
+	account "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/account"
+	accountprivilege "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/accountprivilege"
+	backuppolicy "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/backuppolicy"
+	cluster "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/cluster"
+	clusterendpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/clusterendpoint"
+	database "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/database"
+	endpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/endpoint"
+	endpointaddress "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/endpointaddress"
+	globaldatabasenetwork "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/globaldatabasenetwork"
+	parametergroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/parametergroup"
+	primaryendpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/primaryendpoint"
 	providerconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/providerconfig"
 	vpc "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/vpc"
+	vswitch "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/vswitch"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -19,8 +31,20 @@ import (
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		group.Setup,
+		account.Setup,
+		accountprivilege.Setup,
+		backuppolicy.Setup,
+		cluster.Setup,
+		clusterendpoint.Setup,
+		database.Setup,
+		endpoint.Setup,
+		endpointaddress.Setup,
+		globaldatabasenetwork.Setup,
+		parametergroup.Setup,
+		primaryendpoint.Setup,
 		providerconfig.Setup,
 		vpc.Setup,
+		vswitch.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
