@@ -1,0 +1,30 @@
+apiVersion: messageservice.alibabacloud.crossplane.io/v1alpha1
+kind: EndpointAcl
+metadata:
+  annotations:
+    meta.upbound.io/example-id: messageservice/v1alpha1/endpointacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    aclStrategy: allow
+    cidr: 192.168.1.1/23
+    endpointTypeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: messageservice.alibabacloud.crossplane.io/v1alpha1
+kind: Endpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: messageservice/v1alpha1/endpointacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    endpointEnabled: true
+    endpointType: public

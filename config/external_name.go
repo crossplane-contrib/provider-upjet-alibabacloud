@@ -12,6 +12,12 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
 	// ECS
 	"alicloud_security_group": config.IdentifierFromProvider,
+	// MessageService
+	"alicloud_message_service_endpoint":     config.IdentifierFromProvider,
+	"alicloud_message_service_endpoint_acl": config.IdentifierFromProvider,
+	"alicloud_message_service_queue":        config.IdentifierFromProvider,
+	"alicloud_message_service_subscription": config.IdentifierFromProvider,
+	"alicloud_message_service_topic":        config.IdentifierFromProvider,
 	// PolarDB
 	"alicloud_polardb_account":                 config.IdentifierFromProvider,
 	"alicloud_polardb_account_privilege":       config.IdentifierFromProvider,

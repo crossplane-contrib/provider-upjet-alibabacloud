@@ -1,0 +1,13 @@
+apiVersion: messageservice.alibabacloud.crossplane.io/v1alpha1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: messageservice/v1alpha1/topic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    enableLogging: true
+    maxMessageSize: 16888
+    topicName: crossplane-example

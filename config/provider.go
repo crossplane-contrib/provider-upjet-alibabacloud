@@ -8,6 +8,7 @@ import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ecs"
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/messageservice"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/polardb"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/vpc"
 
@@ -38,6 +39,7 @@ func GetProvider() *ujconfig.Provider {
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
 		ecs.Configure,
+		messageservice.Configure,
 		polardb.Configure,
 		vpc.Configure,
 	} {

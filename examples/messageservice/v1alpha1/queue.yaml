@@ -1,0 +1,16 @@
+apiVersion: messageservice.alibabacloud.crossplane.io/v1alpha1
+kind: Queue
+metadata:
+  annotations:
+    meta.upbound.io/example-id: messageservice/v1alpha1/queue
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    delaySeconds: 2
+    maximumMessageSize: 1126
+    messageRetentionPeriod: 566
+    pollingWaitSeconds: 2
+    queueName: crossplane-example
+    visibilityTimeout: 30
