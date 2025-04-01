@@ -1524,6 +1524,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DBMinorVersion != nil {
+		in, out := &in.DBMinorVersion, &out.DBMinorVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.DBNodeClass != nil {
 		in, out := &in.DBNodeClass, &out.DBNodeClass
 		*out = new(string)
@@ -1953,6 +1958,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DBMinorVersion != nil {
+		in, out := &in.DBMinorVersion, &out.DBMinorVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.DBNodeClass != nil {
 		in, out := &in.DBNodeClass, &out.DBNodeClass
 		*out = new(string)
@@ -2356,6 +2366,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.DBMinorVersion != nil {
+		in, out := &in.DBMinorVersion, &out.DBMinorVersion
+		*out = new(string)
+		**out = **in
 	}
 	if in.DBNodeClass != nil {
 		in, out := &in.DBNodeClass, &out.DBNodeClass

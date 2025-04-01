@@ -45,6 +45,9 @@ type ClusterInitParameters struct {
 	// db_cluster_ip_array defines how users can send requests to your API. See db_cluster_ip_array below.
 	DBClusterIPArray []DBClusterIPArrayInitParameters `json:"dbClusterIpArray,omitempty" tf:"db_cluster_ip_array,omitempty"`
 
+	// Database minor version. Value options can refer to the latest docs CreateDBCluster DBMinorVersion. This parameter takes effect only when db_type is MySQL and db_version is 8.0.
+	DBMinorVersion *string `json:"dbMinorVersion,omitempty" tf:"db_minor_version,omitempty"`
+
 	// The db_node_class of cluster node.
 	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
 	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small.
@@ -174,16 +177,16 @@ type ClusterInitParameters struct {
 	// Number of Read-only Columnar Nodes. Valid values: 0 to 7. This parameter is valid only for serverless clusters. This parameter is required when there are column nodes that support steady-state serverless.
 	ScaleApRoNumMin *float64 `json:"scaleApRoNumMin,omitempty" tf:"scale_ap_ro_num_min,omitempty"`
 
-	// The maximum number of PCUs per node for scaling. Valid values: 1 PCU to 32 PCUs. It is valid when serverless_type is AgileServerless. Valid values: 1 PCU to 8 PCUs.It is valid when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
+	// The maximum number of PCUs per node for scaling. Valid values: 1 PCU to 32 PCUs when serverless_type is AgileServerless and 0 PCU to 8 PCUs when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	ScaleMax *float64 `json:"scaleMax,omitempty" tf:"scale_max,omitempty"`
 
-	// The minimum number of PCUs per node for scaling. Valid values: 1 PCU to 31 PCUs. It is valid when serverless_type is AgileServerless. Valid values: 1 PCU to 8 PCUs.It is valid when serverless_type is SteadyServerless.· This parameter is valid only for serverless clusters.
+	// The minimum number of PCUs per node for scaling. Valid values: 1 PCU to 31 PCUs when serverless_type is AgileServerless and 0 PCU to 8 PCUs when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	ScaleMin *float64 `json:"scaleMin,omitempty" tf:"scale_min,omitempty"`
 
-	// The maximum number of read-only nodes for scaling. Valid values: 0 to 15. It is valid when serverless_type is AgileServerless. Valid values: 0 to 7. It is valid when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
+	// The maximum number of read-only nodes for scaling. Valid values: 0 to 15 when serverless_type is AgileServerless and 0 to 7 when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	ScaleRoNumMax *float64 `json:"scaleRoNumMax,omitempty" tf:"scale_ro_num_max,omitempty"`
 
-	// The minimum number of read-only nodes for scaling. Valid values: 0 to 15 . It is valid when serverless_type is AgileServerless. Valid values: 0 to 7 .It is valid when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
+	// The minimum number of read-only nodes for scaling. Valid values: 0 to 15 when serverless_type is AgileServerless and 0 to 7 when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	ScaleRoNumMin *float64 `json:"scaleRoNumMin,omitempty" tf:"scale_ro_num_min,omitempty"`
 
 	// The detection period for No-activity Suspension. Valid values: 300 to 86,4005. Unit: seconds. The detection duration must be a multiple of 300 seconds. This parameter is valid only for serverless clusters.
@@ -298,6 +301,9 @@ type ClusterObservation struct {
 
 	// db_cluster_ip_array defines how users can send requests to your API. See db_cluster_ip_array below.
 	DBClusterIPArray []DBClusterIPArrayObservation `json:"dbClusterIpArray,omitempty" tf:"db_cluster_ip_array,omitempty"`
+
+	// Database minor version. Value options can refer to the latest docs CreateDBCluster DBMinorVersion. This parameter takes effect only when db_type is MySQL and db_version is 8.0.
+	DBMinorVersion *string `json:"dbMinorVersion,omitempty" tf:"db_minor_version,omitempty"`
 
 	// The db_node_class of cluster node.
 	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
@@ -437,16 +443,16 @@ type ClusterObservation struct {
 	// Number of Read-only Columnar Nodes. Valid values: 0 to 7. This parameter is valid only for serverless clusters. This parameter is required when there are column nodes that support steady-state serverless.
 	ScaleApRoNumMin *float64 `json:"scaleApRoNumMin,omitempty" tf:"scale_ap_ro_num_min,omitempty"`
 
-	// The maximum number of PCUs per node for scaling. Valid values: 1 PCU to 32 PCUs. It is valid when serverless_type is AgileServerless. Valid values: 1 PCU to 8 PCUs.It is valid when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
+	// The maximum number of PCUs per node for scaling. Valid values: 1 PCU to 32 PCUs when serverless_type is AgileServerless and 0 PCU to 8 PCUs when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	ScaleMax *float64 `json:"scaleMax,omitempty" tf:"scale_max,omitempty"`
 
-	// The minimum number of PCUs per node for scaling. Valid values: 1 PCU to 31 PCUs. It is valid when serverless_type is AgileServerless. Valid values: 1 PCU to 8 PCUs.It is valid when serverless_type is SteadyServerless.· This parameter is valid only for serverless clusters.
+	// The minimum number of PCUs per node for scaling. Valid values: 1 PCU to 31 PCUs when serverless_type is AgileServerless and 0 PCU to 8 PCUs when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	ScaleMin *float64 `json:"scaleMin,omitempty" tf:"scale_min,omitempty"`
 
-	// The maximum number of read-only nodes for scaling. Valid values: 0 to 15. It is valid when serverless_type is AgileServerless. Valid values: 0 to 7. It is valid when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
+	// The maximum number of read-only nodes for scaling. Valid values: 0 to 15 when serverless_type is AgileServerless and 0 to 7 when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	ScaleRoNumMax *float64 `json:"scaleRoNumMax,omitempty" tf:"scale_ro_num_max,omitempty"`
 
-	// The minimum number of read-only nodes for scaling. Valid values: 0 to 15 . It is valid when serverless_type is AgileServerless. Valid values: 0 to 7 .It is valid when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
+	// The minimum number of read-only nodes for scaling. Valid values: 0 to 15 when serverless_type is AgileServerless and 0 to 7 when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	ScaleRoNumMin *float64 `json:"scaleRoNumMin,omitempty" tf:"scale_ro_num_min,omitempty"`
 
 	// The detection period for No-activity Suspension. Valid values: 300 to 86,4005. Unit: seconds. The detection duration must be a multiple of 300 seconds. This parameter is valid only for serverless clusters.
@@ -562,6 +568,10 @@ type ClusterParameters struct {
 	// db_cluster_ip_array defines how users can send requests to your API. See db_cluster_ip_array below.
 	// +kubebuilder:validation:Optional
 	DBClusterIPArray []DBClusterIPArrayParameters `json:"dbClusterIpArray,omitempty" tf:"db_cluster_ip_array,omitempty"`
+
+	// Database minor version. Value options can refer to the latest docs CreateDBCluster DBMinorVersion. This parameter takes effect only when db_type is MySQL and db_version is 8.0.
+	// +kubebuilder:validation:Optional
+	DBMinorVersion *string `json:"dbMinorVersion,omitempty" tf:"db_minor_version,omitempty"`
 
 	// The db_node_class of cluster node.
 	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
@@ -728,19 +738,19 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ScaleApRoNumMin *float64 `json:"scaleApRoNumMin,omitempty" tf:"scale_ap_ro_num_min,omitempty"`
 
-	// The maximum number of PCUs per node for scaling. Valid values: 1 PCU to 32 PCUs. It is valid when serverless_type is AgileServerless. Valid values: 1 PCU to 8 PCUs.It is valid when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
+	// The maximum number of PCUs per node for scaling. Valid values: 1 PCU to 32 PCUs when serverless_type is AgileServerless and 0 PCU to 8 PCUs when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	// +kubebuilder:validation:Optional
 	ScaleMax *float64 `json:"scaleMax,omitempty" tf:"scale_max,omitempty"`
 
-	// The minimum number of PCUs per node for scaling. Valid values: 1 PCU to 31 PCUs. It is valid when serverless_type is AgileServerless. Valid values: 1 PCU to 8 PCUs.It is valid when serverless_type is SteadyServerless.· This parameter is valid only for serverless clusters.
+	// The minimum number of PCUs per node for scaling. Valid values: 1 PCU to 31 PCUs when serverless_type is AgileServerless and 0 PCU to 8 PCUs when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	// +kubebuilder:validation:Optional
 	ScaleMin *float64 `json:"scaleMin,omitempty" tf:"scale_min,omitempty"`
 
-	// The maximum number of read-only nodes for scaling. Valid values: 0 to 15. It is valid when serverless_type is AgileServerless. Valid values: 0 to 7. It is valid when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
+	// The maximum number of read-only nodes for scaling. Valid values: 0 to 15 when serverless_type is AgileServerless and 0 to 7 when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	// +kubebuilder:validation:Optional
 	ScaleRoNumMax *float64 `json:"scaleRoNumMax,omitempty" tf:"scale_ro_num_max,omitempty"`
 
-	// The minimum number of read-only nodes for scaling. Valid values: 0 to 15 . It is valid when serverless_type is AgileServerless. Valid values: 0 to 7 .It is valid when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
+	// The minimum number of read-only nodes for scaling. Valid values: 0 to 15 when serverless_type is AgileServerless and 0 to 7 when serverless_type is SteadyServerless. This parameter is valid only for serverless clusters.
 	// +kubebuilder:validation:Optional
 	ScaleRoNumMin *float64 `json:"scaleRoNumMin,omitempty" tf:"scale_ro_num_min,omitempty"`
 

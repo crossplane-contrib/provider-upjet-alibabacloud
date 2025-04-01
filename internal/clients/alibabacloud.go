@@ -25,6 +25,8 @@ const (
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
 	errUnmarshalCredentials = "cannot unmarshal alicloud credentials as JSON"
+	// user agent formats as "crossplane/<CROSSPLANE_VERSION> <PROJECT_NAME>/<PROJECT_VERSION>"
+	userAgent = "crossplane/1.19.0 provider-upjet-alibabacloud/1.0.0"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -72,6 +74,10 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		if v, ok := creds["secret_key"]; ok {
 			ps.Configuration["secret_key"] = v
 		}
+		if v, ok := creds["security_token"]; ok {
+			ps.Configuration["security_token"] = v
+		}
+		ps.Configuration["configuration_source"] = userAgent
 		return ps, nil
 	}
 }
