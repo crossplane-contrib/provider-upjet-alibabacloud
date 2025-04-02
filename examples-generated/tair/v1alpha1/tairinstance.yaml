@@ -1,0 +1,23 @@
+apiVersion: tair.alibabacloud.crossplane.io/v1alpha1
+kind: TairInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/tairinstance
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    instanceClass: tair.rdb.2g
+    instanceType: tair_rdb
+    paymentType: Subscription
+    period: "1"
+    shardCount: "2"
+    tairInstanceName: ${var.name}
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alicloud_vpcs
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    zoneId: ${local.zone_id}

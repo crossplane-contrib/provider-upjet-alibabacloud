@@ -1,0 +1,1469 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: instances.tair.alibabacloud.crossplane.io
+spec:
+  group: tair.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alicloud
+    kind: Instance
+    listKind: InstanceList
+    plural: instances
+    singular: instance
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Instance is the Schema for the Instances API. Provides a Tair
+          (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InstanceSpec defines the desired state of Instance
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  autoRenew:
+                    description: 'Whether to renewal a KVStore DBInstance automatically
+                      or not. It is valid when payment_type is PrePaid. Default value:
+                      false.'
+                    type: boolean
+                  autoRenewPeriod:
+                    description: 'Auto-renewal period of an KVStore DBInstance, in
+                      the unit of the month. It is valid when payment_type is PrePaid.
+                      Valid values: [1~12]. Default value: 1.'
+                    type: number
+                  autoUseCoupon:
+                    description: 'Specifies whether to use a coupon. Default value:
+                      false.'
+                    type: boolean
+                  backupId:
+                    description: The ID of the backup file of the source instance.
+                    type: string
+                  backupPeriod:
+                    description: Backup period.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  backupTime:
+                    description: Backup time, the format is HH:mmZ-HH:mmZ (UTC time).
+                    type: string
+                  bandwidth:
+                    description: 'The total bandwidth of the instance. NOTE: From
+                      version 1.232.0, bandwidth can be set. If the instance is a
+                      cluster instance, bandwidth must be divisible by the number
+                      of shard_count in the instance, and if the instance is a read/write
+                      splitting instance, bandwidth cannot be set.'
+                    type: number
+                  businessInfo:
+                    description: The ID of the event or the business information.
+                    type: string
+                  capacity:
+                    description: 'The storage capacity of the KVStore DBInstance.
+                      Unit: MB.'
+                    type: number
+                  config:
+                    additionalProperties:
+                      type: string
+                    description: The configuration of the KVStore DBInstance. Available
+                      parameters can refer to the latest docs Instance configurations
+                      table.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  couponNo:
+                    description: 'The coupon code. NOTE: The default value youhuiquan_promotion_option_id_for_blank
+                      removed since v1.216.0, this can cause your status file to change
+                      even if it has not been modified, so please review your change
+                      plan before apply change plan.'
+                    type: string
+                  dbInstanceName:
+                    description: The name of KVStore DBInstance. It is a string of
+                      2 to 256 characters.
+                    type: string
+                  dedicatedHostGroupId:
+                    description: The ID of the dedicated cluster. This parameter is
+                      required when you create a Tair (Redis OSS-Compatible) And Memcache
+                      (KVStore) Classic Instance in a dedicated cluster.
+                    type: string
+                  dryRun:
+                    description: 'Specifies whether to precheck the request. Valid
+                      values:'
+                    type: boolean
+                  effectiveTime:
+                    description: 'The time when the database is switched after the
+                      instance is migrated, or when the major version is upgraded,
+                      or when the instance class is upgraded. Valid values:'
+                    type: string
+                  enableBackupLog:
+                    description: 'Turn on or off incremental backup. Valid values:
+                      1, 0. Default value: 0'
+                    type: number
+                  encryptionKey:
+                    description: The Custom key ID, which you can get by calling DescribeEncryptionKeyList.If
+                      this parameter is not passed, the key is automatically generated
+                      by the key management service. To create a custom key, you can
+                      call the CreateKey interface of the key management service.
+                    type: string
+                  encryptionName:
+                    description: The Encryption algorithm, default AES-CTR-256.Note
+                      that this parameter is only available when the TDEStatus parameter
+                      is Enabled.
+                    type: string
+                  engineVersion:
+                    description: |-
+                      The engine version of the KVStore DBInstance. Valid values: ["2.8", "4.0", "5.0", "6.0", "7.0"]. Default value: 5.0.
+                      NOTE: When instance_type = Memcache, the engine_version only supports "4.0".
+                    type: string
+                  forceUpgrade:
+                    description: 'Specifies whether to forcibly change the type. Default
+                      value: true.'
+                    type: boolean
+                  globalInstance:
+                    description: 'Whether to create a distributed cache. Default value:
+                      false.'
+                    type: boolean
+                  globalInstanceId:
+                    description: The ID of distributed cache.
+                    type: string
+                  instanceClass:
+                    description: |-
+                      Type of the applied Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance. It can be retrieved by data source alicloud_kvstore_instance_classes
+                      or referring to help-docs Instance type table.
+                    type: string
+                  instanceReleaseProtection:
+                    description: Whether to open the release protection.
+                    type: boolean
+                  instanceType:
+                    description: 'The engine type of the KVStore DBInstance. Valid
+                      values: Redis or Memcache. Default value: Redis.'
+                    type: string
+                  isAutoUpgradeOpen:
+                    description: 'Specifies whether to enable automatic minor version
+                      update. Valid values:'
+                    type: string
+                  kmsEncryptedPassword:
+                    description: An KMS encrypts password used to an instance. If
+                      the password is filled in, this field will be ignored.
+                    type: string
+                  kmsEncryptionContext:
+                    additionalProperties:
+                      type: string
+                    description: An KMS encryption context used to decrypt kms_encrypted_password
+                      before creating or updating instance with kms_encrypted_password.
+                      See Encryption Context. It is valid when kms_encrypted_password
+                      is set.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  maintainEndTime:
+                    description: The end time of the operation and maintenance time
+                      period of the KVStore DBInstance, in the format of HH:mmZ (UTC
+                      time).
+                    type: string
+                  maintainStartTime:
+                    description: The start time of the operation and maintenance time
+                      period of the KVStore DBInstance, in the format of HH:mmZ (UTC
+                      time).
+                    type: string
+                  modifyMode:
+                    description: '(Removed since v1.216.0) The method of modifying
+                      the whitelist. NOTE: Field modify_mode has been removed from
+                      provider version 1.216.0.'
+                    type: number
+                  orderType:
+                    description: 'Specifies a change type when you change the configuration
+                      of a subscription instance. Valid values: UPGRADE, DOWNGRADE.
+                      Default value: UPGRADE. UPGRADE means upgrades the configuration
+                      of a subscription instance. DOWNGRADE means downgrades the configuration
+                      of a subscription instance.'
+                    type: string
+                  passwordSecretRef:
+                    description: 'The password of the KVStore DBInstance. The password
+                      that is used to connect to the instance. The password must be
+                      8 to 32 characters in length and must contain at least three
+                      of the following character types: uppercase letters, lowercase
+                      letters, special characters, and digits. Special characters
+                      include: ! @ # $ % ^ & * ( ) _ + - ='
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  paymentType:
+                    description: 'The billing method of the KVStore DBInstance. Valid
+                      values: PrePaid, PostPaid. Default value: PostPaid.'
+                    type: string
+                  period:
+                    description: 'The duration that you will buy KVStore DBInstance
+                      (in month). It is valid when payment_type is PrePaid. Valid
+                      values: [1~9], 12, 24, 36.'
+                    type: string
+                  port:
+                    description: It has been deprecated from provider version 1.101.0
+                      and resource alicloud_kvstore_connection instead.
+                    type: number
+                  privateConnectionPort:
+                    description: Private network connection port, used to modify the
+                      private network connection port.
+                    type: string
+                  privateConnectionPrefix:
+                    description: Private network connection prefix, used to modify
+                      the private network connection address. Only supports updating
+                      private network connections for existing instance.
+                    type: string
+                  privateIp:
+                    description: The internal IP address of the instance.
+                    type: string
+                  readOnlyCount:
+                    description: 'The number of read replicas in the primary zone.
+                      Valid values: 1 to 9.'
+                    type: number
+                  resourceGroupId:
+                    description: The ID of resource group which the resource belongs.
+                    type: string
+                  restoreTime:
+                    description: The point in time of a backup file.
+                    type: string
+                  roleArn:
+                    description: 'The Specify the global resource descriptor ARN (Alibaba
+                      Cloud Resource Name) information of the role to be authorized,
+                      and use the related key management services after the authorization
+                      is completed, in the format: acs:ram::$accountID:role/$roleName.'
+                    type: string
+                  secondaryZoneId:
+                    description: |-
+                      The ID of the secondary zone to which you want to migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance.
+                      -> NOTE: If you specify this parameter, the master node and replica node of the instance can be deployed in different zones and disaster recovery is implemented across zones. The instance can withstand failures in data centers.
+                    type: string
+                  securityGroupId:
+                    description: The ID of security groups. Separate multiple security
+                      group IDs with commas (,), such as sg-***,sg-***,sg-***.
+                    type: string
+                  securityGroupIdRef:
+                    description: Reference to a Group in ecs to populate securityGroupId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  securityGroupIdSelector:
+                    description: Selector for a Group in ecs to populate securityGroupId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  securityIpGroupAttribute:
+                    description: The value of this parameter is empty by default.
+                      The attribute of the whitelist group. The console does not display
+                      the whitelist group whose value of this parameter is hidden.
+                    type: string
+                  securityIpGroupName:
+                    description: The name of the whitelist group.
+                    type: string
+                  securityIps:
+                    description: The IP addresses in the whitelist group. The maximum
+                      number of IP addresses in the whitelist group is 1000.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  shardCount:
+                    description: 'The number of data shards. This parameter is available
+                      only if you create a cluster instance that uses cloud disks.
+                      You can use this parameter to specify a custom number of data
+                      shards. NOTE: From version 1.216.0, shard_count can be modified.'
+                    type: number
+                  slaveReadOnlyCount:
+                    description: |-
+                      The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
+                      -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
+                    type: number
+                  srcdbInstanceId:
+                    description: The ID of the source instance.
+                    type: string
+                  sslEnable:
+                    description: |-
+                      Modifies the SSL status. Valid values: Disable, Enable and Update.
+                      NOTE: This functionality is supported by Cluster mode (Redis 2.8, 4.0, 5.0) and Standard mode( Redis 2.8 only).
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  tdeStatus:
+                    description: |-
+                      Specifies whether to enable TDE. Valid values: Enabled.
+                      NOTE:: TDE cannot be disabled after it is enabled. Before you enable it, evaluate whether this feature affects.
+                      your business. For more information, see Enable TDE.
+                    type: string
+                  vpcAuthMode:
+                    description: 'Only meaningful if instance_type is Redis and network
+                      type is VPC. Valid values: Close, Open. Default value: Open.
+                      Close means the redis instance can be accessed without authentication.
+                      Open means authentication is required.'
+                    type: string
+                  vswitchId:
+                    description: The ID of VSwitch.
+                    type: string
+                  vswitchIdRef:
+                    description: Reference to a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vswitchIdSelector:
+                    description: Selector for a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  zoneId:
+                    description: The ID of the zone.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  autoRenew:
+                    description: 'Whether to renewal a KVStore DBInstance automatically
+                      or not. It is valid when payment_type is PrePaid. Default value:
+                      false.'
+                    type: boolean
+                  autoRenewPeriod:
+                    description: 'Auto-renewal period of an KVStore DBInstance, in
+                      the unit of the month. It is valid when payment_type is PrePaid.
+                      Valid values: [1~12]. Default value: 1.'
+                    type: number
+                  autoUseCoupon:
+                    description: 'Specifies whether to use a coupon. Default value:
+                      false.'
+                    type: boolean
+                  backupId:
+                    description: The ID of the backup file of the source instance.
+                    type: string
+                  backupPeriod:
+                    description: Backup period.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  backupTime:
+                    description: Backup time, the format is HH:mmZ-HH:mmZ (UTC time).
+                    type: string
+                  bandwidth:
+                    description: 'The total bandwidth of the instance. NOTE: From
+                      version 1.232.0, bandwidth can be set. If the instance is a
+                      cluster instance, bandwidth must be divisible by the number
+                      of shard_count in the instance, and if the instance is a read/write
+                      splitting instance, bandwidth cannot be set.'
+                    type: number
+                  businessInfo:
+                    description: The ID of the event or the business information.
+                    type: string
+                  capacity:
+                    description: 'The storage capacity of the KVStore DBInstance.
+                      Unit: MB.'
+                    type: number
+                  config:
+                    additionalProperties:
+                      type: string
+                    description: The configuration of the KVStore DBInstance. Available
+                      parameters can refer to the latest docs Instance configurations
+                      table.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  couponNo:
+                    description: 'The coupon code. NOTE: The default value youhuiquan_promotion_option_id_for_blank
+                      removed since v1.216.0, this can cause your status file to change
+                      even if it has not been modified, so please review your change
+                      plan before apply change plan.'
+                    type: string
+                  dbInstanceName:
+                    description: The name of KVStore DBInstance. It is a string of
+                      2 to 256 characters.
+                    type: string
+                  dedicatedHostGroupId:
+                    description: The ID of the dedicated cluster. This parameter is
+                      required when you create a Tair (Redis OSS-Compatible) And Memcache
+                      (KVStore) Classic Instance in a dedicated cluster.
+                    type: string
+                  dryRun:
+                    description: 'Specifies whether to precheck the request. Valid
+                      values:'
+                    type: boolean
+                  effectiveTime:
+                    description: 'The time when the database is switched after the
+                      instance is migrated, or when the major version is upgraded,
+                      or when the instance class is upgraded. Valid values:'
+                    type: string
+                  enableBackupLog:
+                    description: 'Turn on or off incremental backup. Valid values:
+                      1, 0. Default value: 0'
+                    type: number
+                  encryptionKey:
+                    description: The Custom key ID, which you can get by calling DescribeEncryptionKeyList.If
+                      this parameter is not passed, the key is automatically generated
+                      by the key management service. To create a custom key, you can
+                      call the CreateKey interface of the key management service.
+                    type: string
+                  encryptionName:
+                    description: The Encryption algorithm, default AES-CTR-256.Note
+                      that this parameter is only available when the TDEStatus parameter
+                      is Enabled.
+                    type: string
+                  engineVersion:
+                    description: |-
+                      The engine version of the KVStore DBInstance. Valid values: ["2.8", "4.0", "5.0", "6.0", "7.0"]. Default value: 5.0.
+                      NOTE: When instance_type = Memcache, the engine_version only supports "4.0".
+                    type: string
+                  forceUpgrade:
+                    description: 'Specifies whether to forcibly change the type. Default
+                      value: true.'
+                    type: boolean
+                  globalInstance:
+                    description: 'Whether to create a distributed cache. Default value:
+                      false.'
+                    type: boolean
+                  globalInstanceId:
+                    description: The ID of distributed cache.
+                    type: string
+                  instanceClass:
+                    description: |-
+                      Type of the applied Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance. It can be retrieved by data source alicloud_kvstore_instance_classes
+                      or referring to help-docs Instance type table.
+                    type: string
+                  instanceReleaseProtection:
+                    description: Whether to open the release protection.
+                    type: boolean
+                  instanceType:
+                    description: 'The engine type of the KVStore DBInstance. Valid
+                      values: Redis or Memcache. Default value: Redis.'
+                    type: string
+                  isAutoUpgradeOpen:
+                    description: 'Specifies whether to enable automatic minor version
+                      update. Valid values:'
+                    type: string
+                  kmsEncryptedPassword:
+                    description: An KMS encrypts password used to an instance. If
+                      the password is filled in, this field will be ignored.
+                    type: string
+                  kmsEncryptionContext:
+                    additionalProperties:
+                      type: string
+                    description: An KMS encryption context used to decrypt kms_encrypted_password
+                      before creating or updating instance with kms_encrypted_password.
+                      See Encryption Context. It is valid when kms_encrypted_password
+                      is set.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  maintainEndTime:
+                    description: The end time of the operation and maintenance time
+                      period of the KVStore DBInstance, in the format of HH:mmZ (UTC
+                      time).
+                    type: string
+                  maintainStartTime:
+                    description: The start time of the operation and maintenance time
+                      period of the KVStore DBInstance, in the format of HH:mmZ (UTC
+                      time).
+                    type: string
+                  modifyMode:
+                    description: '(Removed since v1.216.0) The method of modifying
+                      the whitelist. NOTE: Field modify_mode has been removed from
+                      provider version 1.216.0.'
+                    type: number
+                  orderType:
+                    description: 'Specifies a change type when you change the configuration
+                      of a subscription instance. Valid values: UPGRADE, DOWNGRADE.
+                      Default value: UPGRADE. UPGRADE means upgrades the configuration
+                      of a subscription instance. DOWNGRADE means downgrades the configuration
+                      of a subscription instance.'
+                    type: string
+                  passwordSecretRef:
+                    description: 'The password of the KVStore DBInstance. The password
+                      that is used to connect to the instance. The password must be
+                      8 to 32 characters in length and must contain at least three
+                      of the following character types: uppercase letters, lowercase
+                      letters, special characters, and digits. Special characters
+                      include: ! @ # $ % ^ & * ( ) _ + - ='
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  paymentType:
+                    description: 'The billing method of the KVStore DBInstance. Valid
+                      values: PrePaid, PostPaid. Default value: PostPaid.'
+                    type: string
+                  period:
+                    description: 'The duration that you will buy KVStore DBInstance
+                      (in month). It is valid when payment_type is PrePaid. Valid
+                      values: [1~9], 12, 24, 36.'
+                    type: string
+                  port:
+                    description: It has been deprecated from provider version 1.101.0
+                      and resource alicloud_kvstore_connection instead.
+                    type: number
+                  privateConnectionPort:
+                    description: Private network connection port, used to modify the
+                      private network connection port.
+                    type: string
+                  privateConnectionPrefix:
+                    description: Private network connection prefix, used to modify
+                      the private network connection address. Only supports updating
+                      private network connections for existing instance.
+                    type: string
+                  privateIp:
+                    description: The internal IP address of the instance.
+                    type: string
+                  readOnlyCount:
+                    description: 'The number of read replicas in the primary zone.
+                      Valid values: 1 to 9.'
+                    type: number
+                  resourceGroupId:
+                    description: The ID of resource group which the resource belongs.
+                    type: string
+                  restoreTime:
+                    description: The point in time of a backup file.
+                    type: string
+                  roleArn:
+                    description: 'The Specify the global resource descriptor ARN (Alibaba
+                      Cloud Resource Name) information of the role to be authorized,
+                      and use the related key management services after the authorization
+                      is completed, in the format: acs:ram::$accountID:role/$roleName.'
+                    type: string
+                  secondaryZoneId:
+                    description: |-
+                      The ID of the secondary zone to which you want to migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance.
+                      -> NOTE: If you specify this parameter, the master node and replica node of the instance can be deployed in different zones and disaster recovery is implemented across zones. The instance can withstand failures in data centers.
+                    type: string
+                  securityGroupId:
+                    description: The ID of security groups. Separate multiple security
+                      group IDs with commas (,), such as sg-***,sg-***,sg-***.
+                    type: string
+                  securityGroupIdRef:
+                    description: Reference to a Group in ecs to populate securityGroupId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  securityGroupIdSelector:
+                    description: Selector for a Group in ecs to populate securityGroupId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  securityIpGroupAttribute:
+                    description: The value of this parameter is empty by default.
+                      The attribute of the whitelist group. The console does not display
+                      the whitelist group whose value of this parameter is hidden.
+                    type: string
+                  securityIpGroupName:
+                    description: The name of the whitelist group.
+                    type: string
+                  securityIps:
+                    description: The IP addresses in the whitelist group. The maximum
+                      number of IP addresses in the whitelist group is 1000.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  shardCount:
+                    description: 'The number of data shards. This parameter is available
+                      only if you create a cluster instance that uses cloud disks.
+                      You can use this parameter to specify a custom number of data
+                      shards. NOTE: From version 1.216.0, shard_count can be modified.'
+                    type: number
+                  slaveReadOnlyCount:
+                    description: |-
+                      The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
+                      -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
+                    type: number
+                  srcdbInstanceId:
+                    description: The ID of the source instance.
+                    type: string
+                  sslEnable:
+                    description: |-
+                      Modifies the SSL status. Valid values: Disable, Enable and Update.
+                      NOTE: This functionality is supported by Cluster mode (Redis 2.8, 4.0, 5.0) and Standard mode( Redis 2.8 only).
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  tdeStatus:
+                    description: |-
+                      Specifies whether to enable TDE. Valid values: Enabled.
+                      NOTE:: TDE cannot be disabled after it is enabled. Before you enable it, evaluate whether this feature affects.
+                      your business. For more information, see Enable TDE.
+                    type: string
+                  vpcAuthMode:
+                    description: 'Only meaningful if instance_type is Redis and network
+                      type is VPC. Valid values: Close, Open. Default value: Open.
+                      Close means the redis instance can be accessed without authentication.
+                      Open means authentication is required.'
+                    type: string
+                  vswitchId:
+                    description: The ID of VSwitch.
+                    type: string
+                  vswitchIdRef:
+                    description: Reference to a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vswitchIdSelector:
+                    description: Selector for a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  zoneId:
+                    description: The ID of the zone.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: InstanceStatus defines the observed state of Instance.
+            properties:
+              atProvider:
+                properties:
+                  autoRenew:
+                    description: 'Whether to renewal a KVStore DBInstance automatically
+                      or not. It is valid when payment_type is PrePaid. Default value:
+                      false.'
+                    type: boolean
+                  autoRenewPeriod:
+                    description: 'Auto-renewal period of an KVStore DBInstance, in
+                      the unit of the month. It is valid when payment_type is PrePaid.
+                      Valid values: [1~12]. Default value: 1.'
+                    type: number
+                  autoUseCoupon:
+                    description: 'Specifies whether to use a coupon. Default value:
+                      false.'
+                    type: boolean
+                  backupId:
+                    description: The ID of the backup file of the source instance.
+                    type: string
+                  backupPeriod:
+                    description: Backup period.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  backupTime:
+                    description: Backup time, the format is HH:mmZ-HH:mmZ (UTC time).
+                    type: string
+                  bandwidth:
+                    description: 'The total bandwidth of the instance. NOTE: From
+                      version 1.232.0, bandwidth can be set. If the instance is a
+                      cluster instance, bandwidth must be divisible by the number
+                      of shard_count in the instance, and if the instance is a read/write
+                      splitting instance, bandwidth cannot be set.'
+                    type: number
+                  businessInfo:
+                    description: The ID of the event or the business information.
+                    type: string
+                  capacity:
+                    description: 'The storage capacity of the KVStore DBInstance.
+                      Unit: MB.'
+                    type: number
+                  config:
+                    additionalProperties:
+                      type: string
+                    description: The configuration of the KVStore DBInstance. Available
+                      parameters can refer to the latest docs Instance configurations
+                      table.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  connectionDomain:
+                    description: Intranet connection address of the KVStore instance.
+                    type: string
+                  connectionString:
+                    description: (Deprecated since v1.101.0) Indicates whether the
+                      address is a private endpoint.
+                    type: string
+                  couponNo:
+                    description: 'The coupon code. NOTE: The default value youhuiquan_promotion_option_id_for_blank
+                      removed since v1.216.0, this can cause your status file to change
+                      even if it has not been modified, so please review your change
+                      plan before apply change plan.'
+                    type: string
+                  dbInstanceName:
+                    description: The name of KVStore DBInstance. It is a string of
+                      2 to 256 characters.
+                    type: string
+                  dedicatedHostGroupId:
+                    description: The ID of the dedicated cluster. This parameter is
+                      required when you create a Tair (Redis OSS-Compatible) And Memcache
+                      (KVStore) Classic Instance in a dedicated cluster.
+                    type: string
+                  dryRun:
+                    description: 'Specifies whether to precheck the request. Valid
+                      values:'
+                    type: boolean
+                  effectiveTime:
+                    description: 'The time when the database is switched after the
+                      instance is migrated, or when the major version is upgraded,
+                      or when the instance class is upgraded. Valid values:'
+                    type: string
+                  enableBackupLog:
+                    description: 'Turn on or off incremental backup. Valid values:
+                      1, 0. Default value: 0'
+                    type: number
+                  encryptionKey:
+                    description: The Custom key ID, which you can get by calling DescribeEncryptionKeyList.If
+                      this parameter is not passed, the key is automatically generated
+                      by the key management service. To create a custom key, you can
+                      call the CreateKey interface of the key management service.
+                    type: string
+                  encryptionName:
+                    description: The Encryption algorithm, default AES-CTR-256.Note
+                      that this parameter is only available when the TDEStatus parameter
+                      is Enabled.
+                    type: string
+                  endTime:
+                    description: The expiration time of the prepaid instance.
+                    type: string
+                  engineVersion:
+                    description: |-
+                      The engine version of the KVStore DBInstance. Valid values: ["2.8", "4.0", "5.0", "6.0", "7.0"]. Default value: 5.0.
+                      NOTE: When instance_type = Memcache, the engine_version only supports "4.0".
+                    type: string
+                  forceUpgrade:
+                    description: 'Specifies whether to forcibly change the type. Default
+                      value: true.'
+                    type: boolean
+                  globalInstance:
+                    description: 'Whether to create a distributed cache. Default value:
+                      false.'
+                    type: boolean
+                  globalInstanceId:
+                    description: The ID of distributed cache.
+                    type: string
+                  id:
+                    description: The ID of KVStore DBInstance.
+                    type: string
+                  instanceClass:
+                    description: |-
+                      Type of the applied Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance. It can be retrieved by data source alicloud_kvstore_instance_classes
+                      or referring to help-docs Instance type table.
+                    type: string
+                  instanceReleaseProtection:
+                    description: Whether to open the release protection.
+                    type: boolean
+                  instanceType:
+                    description: 'The engine type of the KVStore DBInstance. Valid
+                      values: Redis or Memcache. Default value: Redis.'
+                    type: string
+                  isAutoUpgradeOpen:
+                    description: 'Specifies whether to enable automatic minor version
+                      update. Valid values:'
+                    type: string
+                  kmsEncryptedPassword:
+                    description: An KMS encrypts password used to an instance. If
+                      the password is filled in, this field will be ignored.
+                    type: string
+                  kmsEncryptionContext:
+                    additionalProperties:
+                      type: string
+                    description: An KMS encryption context used to decrypt kms_encrypted_password
+                      before creating or updating instance with kms_encrypted_password.
+                      See Encryption Context. It is valid when kms_encrypted_password
+                      is set.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  maintainEndTime:
+                    description: The end time of the operation and maintenance time
+                      period of the KVStore DBInstance, in the format of HH:mmZ (UTC
+                      time).
+                    type: string
+                  maintainStartTime:
+                    description: The start time of the operation and maintenance time
+                      period of the KVStore DBInstance, in the format of HH:mmZ (UTC
+                      time).
+                    type: string
+                  modifyMode:
+                    description: '(Removed since v1.216.0) The method of modifying
+                      the whitelist. NOTE: Field modify_mode has been removed from
+                      provider version 1.216.0.'
+                    type: number
+                  orderType:
+                    description: 'Specifies a change type when you change the configuration
+                      of a subscription instance. Valid values: UPGRADE, DOWNGRADE.
+                      Default value: UPGRADE. UPGRADE means upgrades the configuration
+                      of a subscription instance. DOWNGRADE means downgrades the configuration
+                      of a subscription instance.'
+                    type: string
+                  paymentType:
+                    description: 'The billing method of the KVStore DBInstance. Valid
+                      values: PrePaid, PostPaid. Default value: PostPaid.'
+                    type: string
+                  period:
+                    description: 'The duration that you will buy KVStore DBInstance
+                      (in month). It is valid when payment_type is PrePaid. Valid
+                      values: [1~9], 12, 24, 36.'
+                    type: string
+                  port:
+                    description: It has been deprecated from provider version 1.101.0
+                      and resource alicloud_kvstore_connection instead.
+                    type: number
+                  privateConnectionPort:
+                    description: Private network connection port, used to modify the
+                      private network connection port.
+                    type: string
+                  privateConnectionPrefix:
+                    description: Private network connection prefix, used to modify
+                      the private network connection address. Only supports updating
+                      private network connections for existing instance.
+                    type: string
+                  privateIp:
+                    description: The internal IP address of the instance.
+                    type: string
+                  qps:
+                    description: Theoretical maximum QPS value.
+                    type: number
+                  readOnlyCount:
+                    description: 'The number of read replicas in the primary zone.
+                      Valid values: 1 to 9.'
+                    type: number
+                  resourceGroupId:
+                    description: The ID of resource group which the resource belongs.
+                    type: string
+                  restoreTime:
+                    description: The point in time of a backup file.
+                    type: string
+                  roleArn:
+                    description: 'The Specify the global resource descriptor ARN (Alibaba
+                      Cloud Resource Name) information of the role to be authorized,
+                      and use the related key management services after the authorization
+                      is completed, in the format: acs:ram::$accountID:role/$roleName.'
+                    type: string
+                  secondaryZoneId:
+                    description: |-
+                      The ID of the secondary zone to which you want to migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance.
+                      -> NOTE: If you specify this parameter, the master node and replica node of the instance can be deployed in different zones and disaster recovery is implemented across zones. The instance can withstand failures in data centers.
+                    type: string
+                  securityGroupId:
+                    description: The ID of security groups. Separate multiple security
+                      group IDs with commas (,), such as sg-***,sg-***,sg-***.
+                    type: string
+                  securityIpGroupAttribute:
+                    description: The value of this parameter is empty by default.
+                      The attribute of the whitelist group. The console does not display
+                      the whitelist group whose value of this parameter is hidden.
+                    type: string
+                  securityIpGroupName:
+                    description: The name of the whitelist group.
+                    type: string
+                  securityIps:
+                    description: The IP addresses in the whitelist group. The maximum
+                      number of IP addresses in the whitelist group is 1000.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  shardCount:
+                    description: 'The number of data shards. This parameter is available
+                      only if you create a cluster instance that uses cloud disks.
+                      You can use this parameter to specify a custom number of data
+                      shards. NOTE: From version 1.216.0, shard_count can be modified.'
+                    type: number
+                  slaveReadOnlyCount:
+                    description: |-
+                      The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
+                      -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
+                    type: number
+                  srcdbInstanceId:
+                    description: The ID of the source instance.
+                    type: string
+                  sslEnable:
+                    description: |-
+                      Modifies the SSL status. Valid values: Disable, Enable and Update.
+                      NOTE: This functionality is supported by Cluster mode (Redis 2.8, 4.0, 5.0) and Standard mode( Redis 2.8 only).
+                    type: string
+                  status:
+                    description: The status of KVStore DBInstance.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  tdeStatus:
+                    description: |-
+                      Specifies whether to enable TDE. Valid values: Enabled.
+                      NOTE:: TDE cannot be disabled after it is enabled. Before you enable it, evaluate whether this feature affects.
+                      your business. For more information, see Enable TDE.
+                    type: string
+                  vpcAuthMode:
+                    description: 'Only meaningful if instance_type is Redis and network
+                      type is VPC. Valid values: Close, Open. Default value: Open.
+                      Close means the redis instance can be accessed without authentication.
+                      Open means authentication is required.'
+                    type: string
+                  vswitchId:
+                    description: The ID of VSwitch.
+                    type: string
+                  zoneId:
+                    description: The ID of the zone.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

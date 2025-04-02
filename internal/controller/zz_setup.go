@@ -30,6 +30,11 @@ import (
 	parametergroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/parametergroup"
 	primaryendpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/primaryendpoint"
 	providerconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/providerconfig"
+	accounttair "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/account"
+	auditlogconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/auditlogconfig"
+	connection "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/connection"
+	instance "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/instance"
+	tairinstance "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/tairinstance"
 	vpc "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/vpc"
 	vswitch "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/vswitch"
 )
@@ -59,6 +64,11 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		parametergroup.Setup,
 		primaryendpoint.Setup,
 		providerconfig.Setup,
+		accounttair.Setup,
+		auditlogconfig.Setup,
+		connection.Setup,
+		instance.Setup,
+		tairinstance.Setup,
 		vpc.Setup,
 		vswitch.Setup,
 	} {

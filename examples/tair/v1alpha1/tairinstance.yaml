@@ -1,0 +1,57 @@
+apiVersion: tair.alibabacloud.crossplane.io/v1alpha1
+kind: TairInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/tairinstance
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    instanceClass: tair.rdb.2g
+    instanceType: tair_rdb
+    paymentType: Subscription
+    period: 1
+    shardCount: 2
+    tairInstanceName: crossplane_example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    zoneId: cn-hangzhou-g
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/tairinstance
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: crossplane_example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/tairinstance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    cidrBlock: 10.4.1.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: crossplane_example
+    zoneId: cn-hangzhou-g

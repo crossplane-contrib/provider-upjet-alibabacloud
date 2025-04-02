@@ -34,6 +34,12 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_polardb_global_database_network": config.IdentifierFromProvider,
 	"alicloud_polardb_parameter_group":         config.IdentifierFromProvider,
 	"alicloud_polardb_primary_endpoint":        config.IdentifierFromProvider,
+	// Tair
+	"alicloud_kvstore_account":          config.IdentifierFromProvider,
+	"alicloud_kvstore_audit_log_config": config.IdentifierFromProvider,
+	"alicloud_kvstore_connection":       config.IdentifierFromProvider,
+	"alicloud_kvstore_instance":         config.IdentifierFromProvider,
+	"alicloud_redis_tair_instance":      config.IdentifierFromProvider,
 	// VPC
 	"alicloud_vpc":     config.IdentifierFromProvider,
 	"alicloud_vswitch": config.IdentifierFromProvider,

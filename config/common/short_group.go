@@ -8,5 +8,6 @@ const (
 	MessageService = ShortGroup("messageservice")
 	POLARDB        = ShortGroup("polardb")
 	SLS            = ShortGroup("sls")
+	Tair           = ShortGroup("tair")
 	VPC            = ShortGroup("vpc")
 )

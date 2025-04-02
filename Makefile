@@ -200,11 +200,13 @@ CDN=./examples/cdn/v1alpha1
 ECS=./examples/ecs/v1alpha1
 MESSAGESERVICE=./examples/messageservice/v1alpha1
 POLARDB=./examples/polardb/v1alpha1
+TAIT=./examples/tait/v1alpha1
 VPC=./examples/vpc/v1alpha1
 UPTEST_EXAMPLE_LIST_CDN=$(CDN)/domain.yaml,$(CDN)/domainconfig.yaml,$(CDN)/fctrigger.yaml
 UPTEST_EXAMPLE_LIST_ECS=$(ECS)/group.yaml
 UPTEST_EXAMPLE_LIST_MESSAGESERVICE=$(MESSAGESERVICE)/endpoint.yaml,$(MESSAGESERVICE)/endpointacl.yaml,$(MESSAGESERVICE)/queue.yaml,$(MESSAGESERVICE)/subscription.yaml,$(MESSAGESERVICE)/topic.yaml
 UPTEST_EXAMPLE_LIST_POLARDB=$(POLARDB)/account.yaml,$(POLARDB)/accountprivilege.yaml,$(POLARDB)/backuppolicy.yaml,$(POLARDB)/cluster.yaml,$(POLARDB)/clusterendpoint.yaml,$(POLARDB)/database.yaml,$(POLARDB)/endpoint.yaml,$(POLARDB)/endpointaddress.yaml,$(POLARDB)/globaldatabasenetwork.yaml,$(POLARDB)/parametergroup.yaml,$(POLARDB)/primaryendpoint.yaml
+UPTEST_EXAMPLE_LIST_TAIT=$(TAIT)/account.yaml,$(TAIT)/auditlogconfig.yaml,$(TAIT)/connection.yaml,$(TAIT)/instance.yaml,$(TAIT)/tairinstance.yaml
 UPTEST_EXAMPLE_LIST_VPC=$(VPC)/vpc.yaml
 UPTEST_EXAMPLE_LIST=$(UPTEST_EXAMPLE_LIST_VPC)
 uptest: $(UPTEST) $(KUBECTL) $(KUTTL)

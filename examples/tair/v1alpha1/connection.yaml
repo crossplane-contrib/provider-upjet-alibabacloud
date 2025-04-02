@@ -1,0 +1,79 @@
+apiVersion: tair.alibabacloud.crossplane.io/v1alpha1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/connection
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    connectionStringPrefix: exampleconnection
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    port: "6370"
+
+---
+
+apiVersion: tair.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/connection
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    config:
+      appendonly: "yes"
+      lazyfree-lazy-eviction: "yes"
+    dbInstanceName: crossplane_example
+    engineVersion: "5.0"
+    instanceClass: redis.master.large.default
+    instanceType: Redis
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    securityIps:
+    - 10.23.12.24
+    tags:
+      Created: TF
+      For: example
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneId: cn-hangzhou-b
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/connection
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: crossplane_example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/connection
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: crossplane_example
+    zoneId: cn-hangzhou-b

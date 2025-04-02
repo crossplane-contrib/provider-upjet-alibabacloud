@@ -1,0 +1,1576 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: tairinstances.tair.alibabacloud.crossplane.io
+spec:
+  group: tair.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alicloud
+    kind: TairInstance
+    listKind: TairInstanceList
+    plural: tairinstances
+    singular: tairinstance
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: TairInstance is the Schema for the TairInstances API. Provides
+          a Alicloud Tair (Redis OSS-Compatible) And Memcache (KVStore) Tair Instance
+          resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: TairInstanceSpec defines the desired state of TairInstance
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  autoRenew:
+                    description: 'Specifies whether to enable auto-renewal for the
+                      instance. Default value: false. Valid values: true(enables auto-renewal),
+                      false(disables auto-renewal).'
+                    type: string
+                  autoRenewPeriod:
+                    description: 'The subscription duration that is supported by auto-renewal.
+                      Unit: months. Valid values: 1, 2, 3, 6, and 12. This parameter
+                      is required only if the AutoRenew parameter is set to true.'
+                    type: string
+                  backupId:
+                    description: You can set the BackupId parameter to the backup
+                      set ID of the source instance. The system uses the data stored
+                      in the backup set to create an instance. You can call the DescribeBackups
+                      operation to query backup set IDs. If the source instance is
+                      a cluster instance, set the BackupId parameter to the backup
+                      set IDs of all shards of the source instance, separated by commas
+                      (,).
+                    type: string
+                  clusterBackupId:
+                    description: This parameter is supported for specific new cluster
+                      instances. You can query the backup set ID by calling the DescribeClusterBackupList
+                      operation. If this parameter is supported, you can specify the
+                      backup set ID. In this case, you do not need to specify the
+                      BackupId parameter. If this parameter is not supported, set
+                      the BackupId parameter to the IDs of backup sets in all shards
+                      of the source instance, separated by commas (,).
+                    type: string
+                  connectionStringPrefix:
+                    description: The prefix of the endpoint the instance, which must
+                      consist of lowercase letters and numbers and start with a lowercase
+                      letter.
+                    type: string
+                  effectiveTime:
+                    description: 'The time when to change the configurations. Default
+                      value: Immediately. Valid values: Immediately (The configurations
+                      are immediately changed), MaintainTime (The configurations are
+                      changed within the maintenance window).'
+                    type: string
+                  engineVersion:
+                    description: 'Database version. Default value: 1.0.'
+                    type: string
+                  forceUpgrade:
+                    description: 'Specifies whether to forcefully change the configurations
+                      of the instance. Default value: true. Valid values: false (The
+                      system does not forcefully change the configurations), true
+                      (The system forcefully changes the configurations).'
+                    type: boolean
+                  globalInstanceId:
+                    description: The ID of a distributed (Global Distributed Cache)
+                      instance, which indicates whether to use the newly created instance
+                      as a sub-instance of a distributed instance. You can use this
+                      method to create a distributed instance.
+                    type: string
+                  instanceClass:
+                    description: The instance type of the instance. For more information,
+                      see Instance types.
+                    type: string
+                  instanceType:
+                    description: 'The storage medium of the instance. Valid values:
+                      tair_rdb, tair_scm, tair_essd.'
+                    type: string
+                  intranetBandwidth:
+                    description: Instance intranet bandwidth
+                    type: number
+                  modifyMode:
+                    description: 'The modification method when modifying the IP whitelist.
+                      The value includes Cover (default): overwrite the original whitelist;
+                      Append: Append the whitelist; Delete: Delete the whitelist.'
+                    type: string
+                  nodeType:
+                    description: The node type. For cloud-native instances, input
+                      MASTER_SLAVE (master-replica) or STAND_ALONE (standalone). For
+                      classic instances, input double (master-replica) or single (standalone).
+                    type: string
+                  paramNoLooseSentinelEnabled:
+                    description: 'sentinel compatibility mode, applicable to non-cluster
+                      instances. For more information about parameters, see yes or
+                      no in the https://www.alibabacloud.com/help/en/redis/user-guide/use-the-sentinel-compatible-mode-to-connect-to-an-apsaradb-for-redis-instance,
+                      valid values: yes, no. The default value is no.'
+                    type: string
+                  paramNoLooseSentinelPasswordFreeAccess:
+                    description: 'Whether to allow Sentinel commands to be executed
+                      without secrets when Sentinel mode is enabled. Value: yes: enabled.
+                      After the command is enabled, you can directly run the Sentinel
+                      command in the VPC without enabling the password-free feature.
+                      no: the default value, disabled. For parameters, see https://help.aliyun.com/zh/redis/user-guide/use-the-sentinel-compatible-mode-to-connect-to-an-apsaradb-for-redis-instance'
+                    type: string
+                  paramNoLooseSentinelPasswordFreeCommands:
+                    description: After sentinel mode and the# no_loose_sentinel-password-free-access
+                      parameter are enabled, you can use this parameter to add additional
+                      secret-free command lists (empty by default). After setting,
+                      you can execute the corresponding command on any connection
+                      without secret, please operate carefully. Commands are written
+                      in lowercase letters, and multiple commands are separated by
+                      commas (,). See https://help.aliyun.com/zh/redis/user-guide/parameter-support
+                      for details
+                    type: string
+                  paramReplMode:
+                    description: The value is semisync or async. The default value
+                      is async.
+                    type: string
+                  paramSemisyncReplTimeout:
+                    description: 'The degradation threshold time of the semi-synchronous
+                      replication mode. This parameter value is required only when
+                      semi-synchronous replication is enabled. The unit is milliseconds,
+                      and the range is 10ms to 60000ms. The default value is 500ms.
+                      Please refer to: https://www.alibabacloud.com/help/en/redis/user-guide/modify-the-synchronization-mode-of-a-persistent-memory-optimized-instance.'
+                    type: string
+                  paramSentinelCompatEnable:
+                    description: sentinel compatibility mode, applicable to instances
+                      in the cluster architecture proxy connection mode or read/write
+                      splitting architecture. For more information about the parameters,
+                      see https://www.alibabacloud.com/help/en/redis/user-guide/use-the-sentinel-compatible-mode-to-connect-to-an-apsaradb-for-redis-instance.
+                      The value is 0 or 1. The default value is 0.
+                    type: string
+                  passwordSecretRef:
+                    description: 'The password that is used to connect to the instance.
+                      The password must be 8 to 32 characters in length and contain
+                      at least three of the following character types: uppercase letters,
+                      lowercase letters, digits, and special characters. Special characters
+                      include ! @ # $ % ^ & * ( ) _ + - ='
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  paymentType:
+                    description: 'Payment type: Subscription (prepaid), PayAsYouGo
+                      (postpaid). Default Subscription.'
+                    type: string
+                  period:
+                    description: 'The subscription duration. Unit: months. Valid values:
+                      1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24,36, and 60. This parameter
+                      is required only if you set the PaymentType parameter to Subscription.'
+                    type: number
+                  port:
+                    description: 'The Tair service port. The service port of the instance.
+                      Valid values: 1024 to 65535. Default value: 6379.'
+                    type: number
+                  readOnlyCount:
+                    description: 'Number of read-only nodes in the primary zone. Valid
+                      values: 0 to 5. This parameter is only applicable to the following
+                      conditions:'
+                    type: number
+                  recoverConfigMode:
+                    description: Whether to restore the account, kernel parameters,
+                      and whitelist (config) information from the original backup
+                      set when creating an instance using a specified backup set.
+                      The default value is empty, indicating that the account, kernel
+                      parameters, and whitelist information are not restored from
+                      the original backup set. This parameter is only applicable to
+                      Cloud Native instances, and the account, kernel parameters,
+                      and whitelist information must have been saved in the original
+                      backup set.
+                    type: string
+                  resourceGroupId:
+                    description: The ID of the resource group to which the instance
+                      belongs.
+                    type: string
+                  secondaryZoneId:
+                    description: The ID of the secondary zone.This parameter is returned
+                      only if the instance is deployed in two zones.
+                    type: string
+                  securityGroupId:
+                    description: Security group id
+                    type: string
+                  securityGroupIdRef:
+                    description: Reference to a Group in ecs to populate securityGroupId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  securityGroupIdSelector:
+                    description: Selector for a Group in ecs to populate securityGroupId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  securityIpGroupName:
+                    description: The name of the IP address whitelist. You cannot
+                      modify the whitelist that is generated by the system. If you
+                      do not specify this parameter, the default whitelist is modified
+                      by default.
+                    type: string
+                  securityIps:
+                    description: The IP addresses in the whitelist. Up to 1,000 IP
+                      addresses can be specified in a whitelist. Separate multiple
+                      IP addresses with a comma (,). Specify an IP address in the
+                      0.0.0.0/0, 10.23.12.24, or 10.23.12.24/24 format. In CIDR block
+                      10.23.12.24/24, /24 specifies the length of the prefix of an
+                      IP address. The prefix length ranges from 1 to 32.
+                    type: string
+                  shardCount:
+                    description: 'The number of data nodes in the instance. When 1
+                      is passed, it means that the instance created is a standard
+                      architecture with only one data node. You can create an instance
+                      in the standard architecture that contains only a single data
+                      node. 2 to 32: You can create an instance in the cluster architecture
+                      that contains the specified number of data nodes. Only persistent
+                      memory-optimized instances can use the cluster architecture.
+                      Therefore, you can set this parameter to an integer from 2 to
+                      32 only if you set the InstanceType parameter to tair_scm. It
+                      is not allowed to modify the number of shards by modifying this
+                      parameter after creating a master-slave architecture instance
+                      with or without passing 1.'
+                    type: number
+                  slaveReadOnlyCount:
+                    description: Specifies the number of read-only nodes in the secondary
+                      zone when creating a multi-zone read/write splitting instance.
+                    type: number
+                  srcDbInstanceId:
+                    description: If you want to create an instance based on the backup
+                      set of an existing instance, set this parameter to the ID of
+                      the source instance. preceding three parameters. After you specify
+                      the SrcDBInstanceId parameter, use the BackupId, ClusterBackupId
+                      (recommended for cloud-native cluster instances), or RestoreTime
+                      parameter to specify the backup set or the specific point in
+                      time that you want to use to create an instance. The SrcDBInstanceId
+                      parameter must be used in combination with one of the preceding
+                      three parameters.
+                    type: string
+                  sslEnabled:
+                    description: 'Modifies SSL encryption configurations. Valid values:
+                      1. Disable (The SSL encryption is disabled) 2. Enable (The SSL
+                      encryption is enabled)  3. Update (The SSL certificate is updated)'
+                    type: string
+                  storagePerformanceLevel:
+                    description: 'The storage type. Valid values: PL1, PL2, and PL3.
+                      This parameter is available only when the value of InstanceType
+                      is tair_essd, that is, when an ESSD disk instance is selected.'
+                    type: string
+                  storageSizeGb:
+                    description: Different specifications have different value ranges.
+                      When the instance_type value is tair_essd and the disk type
+                      is ESSD, this attribute takes effect and is required. When a
+                      Tair disk is an SSD, see-https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type.
+                      The capacity field is defined as different fixed values according
+                      to different specifications, and does not need to be specified.
+                    type: number
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: The tag of the resource
+                    type: object
+                    x-kubernetes-map-type: granular
+                  tairInstanceName:
+                    description: The name of the resource.
+                    type: string
+                  vpcAuthMode:
+                    description: 'The VPC authentication mode. Valid values: Open
+                      (enables password authentication), Close (disables password
+                      authentication and enables password-free access).'
+                    type: string
+                  vpcId:
+                    description: The ID of the virtual private cloud (VPC).
+                    type: string
+                  vpcIdRef:
+                    description: Reference to a VPC in vpc to populate vpcId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vpcIdSelector:
+                    description: Selector for a VPC in vpc to populate vpcId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  vswitchId:
+                    description: The ID of the vSwitch to which the instance is connected.
+                    type: string
+                  vswitchIdRef:
+                    description: Reference to a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vswitchIdSelector:
+                    description: Selector for a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  zoneId:
+                    description: Zone ID
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  autoRenew:
+                    description: 'Specifies whether to enable auto-renewal for the
+                      instance. Default value: false. Valid values: true(enables auto-renewal),
+                      false(disables auto-renewal).'
+                    type: string
+                  autoRenewPeriod:
+                    description: 'The subscription duration that is supported by auto-renewal.
+                      Unit: months. Valid values: 1, 2, 3, 6, and 12. This parameter
+                      is required only if the AutoRenew parameter is set to true.'
+                    type: string
+                  backupId:
+                    description: You can set the BackupId parameter to the backup
+                      set ID of the source instance. The system uses the data stored
+                      in the backup set to create an instance. You can call the DescribeBackups
+                      operation to query backup set IDs. If the source instance is
+                      a cluster instance, set the BackupId parameter to the backup
+                      set IDs of all shards of the source instance, separated by commas
+                      (,).
+                    type: string
+                  clusterBackupId:
+                    description: This parameter is supported for specific new cluster
+                      instances. You can query the backup set ID by calling the DescribeClusterBackupList
+                      operation. If this parameter is supported, you can specify the
+                      backup set ID. In this case, you do not need to specify the
+                      BackupId parameter. If this parameter is not supported, set
+                      the BackupId parameter to the IDs of backup sets in all shards
+                      of the source instance, separated by commas (,).
+                    type: string
+                  connectionStringPrefix:
+                    description: The prefix of the endpoint the instance, which must
+                      consist of lowercase letters and numbers and start with a lowercase
+                      letter.
+                    type: string
+                  effectiveTime:
+                    description: 'The time when to change the configurations. Default
+                      value: Immediately. Valid values: Immediately (The configurations
+                      are immediately changed), MaintainTime (The configurations are
+                      changed within the maintenance window).'
+                    type: string
+                  engineVersion:
+                    description: 'Database version. Default value: 1.0.'
+                    type: string
+                  forceUpgrade:
+                    description: 'Specifies whether to forcefully change the configurations
+                      of the instance. Default value: true. Valid values: false (The
+                      system does not forcefully change the configurations), true
+                      (The system forcefully changes the configurations).'
+                    type: boolean
+                  globalInstanceId:
+                    description: The ID of a distributed (Global Distributed Cache)
+                      instance, which indicates whether to use the newly created instance
+                      as a sub-instance of a distributed instance. You can use this
+                      method to create a distributed instance.
+                    type: string
+                  instanceClass:
+                    description: The instance type of the instance. For more information,
+                      see Instance types.
+                    type: string
+                  instanceType:
+                    description: 'The storage medium of the instance. Valid values:
+                      tair_rdb, tair_scm, tair_essd.'
+                    type: string
+                  intranetBandwidth:
+                    description: Instance intranet bandwidth
+                    type: number
+                  modifyMode:
+                    description: 'The modification method when modifying the IP whitelist.
+                      The value includes Cover (default): overwrite the original whitelist;
+                      Append: Append the whitelist; Delete: Delete the whitelist.'
+                    type: string
+                  nodeType:
+                    description: The node type. For cloud-native instances, input
+                      MASTER_SLAVE (master-replica) or STAND_ALONE (standalone). For
+                      classic instances, input double (master-replica) or single (standalone).
+                    type: string
+                  paramNoLooseSentinelEnabled:
+                    description: 'sentinel compatibility mode, applicable to non-cluster
+                      instances. For more information about parameters, see yes or
+                      no in the https://www.alibabacloud.com/help/en/redis/user-guide/use-the-sentinel-compatible-mode-to-connect-to-an-apsaradb-for-redis-instance,
+                      valid values: yes, no. The default value is no.'
+                    type: string
+                  paramNoLooseSentinelPasswordFreeAccess:
+                    description: 'Whether to allow Sentinel commands to be executed
+                      without secrets when Sentinel mode is enabled. Value: yes: enabled.
+                      After the command is enabled, you can directly run the Sentinel
+                      command in the VPC without enabling the password-free feature.
+                      no: the default value, disabled. For parameters, see https://help.aliyun.com/zh/redis/user-guide/use-the-sentinel-compatible-mode-to-connect-to-an-apsaradb-for-redis-instance'
+                    type: string
+                  paramNoLooseSentinelPasswordFreeCommands:
+                    description: After sentinel mode and the# no_loose_sentinel-password-free-access
+                      parameter are enabled, you can use this parameter to add additional
+                      secret-free command lists (empty by default). After setting,
+                      you can execute the corresponding command on any connection
+                      without secret, please operate carefully. Commands are written
+                      in lowercase letters, and multiple commands are separated by
+                      commas (,). See https://help.aliyun.com/zh/redis/user-guide/parameter-support
+                      for details
+                    type: string
+                  paramReplMode:
+                    description: The value is semisync or async. The default value
+                      is async.
+                    type: string
+                  paramSemisyncReplTimeout:
+                    description: 'The degradation threshold time of the semi-synchronous
+                      replication mode. This parameter value is required only when
+                      semi-synchronous replication is enabled. The unit is milliseconds,
+                      and the range is 10ms to 60000ms. The default value is 500ms.
+                      Please refer to: https://www.alibabacloud.com/help/en/redis/user-guide/modify-the-synchronization-mode-of-a-persistent-memory-optimized-instance.'
+                    type: string
+                  paramSentinelCompatEnable:
+                    description: sentinel compatibility mode, applicable to instances
+                      in the cluster architecture proxy connection mode or read/write
+                      splitting architecture. For more information about the parameters,
+                      see https://www.alibabacloud.com/help/en/redis/user-guide/use-the-sentinel-compatible-mode-to-connect-to-an-apsaradb-for-redis-instance.
+                      The value is 0 or 1. The default value is 0.
+                    type: string
+                  passwordSecretRef:
+                    description: 'The password that is used to connect to the instance.
+                      The password must be 8 to 32 characters in length and contain
+                      at least three of the following character types: uppercase letters,
+                      lowercase letters, digits, and special characters. Special characters
+                      include ! @ # $ % ^ & * ( ) _ + - ='
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  paymentType:
+                    description: 'Payment type: Subscription (prepaid), PayAsYouGo
+                      (postpaid). Default Subscription.'
+                    type: string
+                  period:
+                    description: 'The subscription duration. Unit: months. Valid values:
+                      1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24,36, and 60. This parameter
+                      is required only if you set the PaymentType parameter to Subscription.'
+                    type: number
+                  port:
+                    description: 'The Tair service port. The service port of the instance.
+                      Valid values: 1024 to 65535. Default value: 6379.'
+                    type: number
+                  readOnlyCount:
+                    description: 'Number of read-only nodes in the primary zone. Valid
+                      values: 0 to 5. This parameter is only applicable to the following
+                      conditions:'
+                    type: number
+                  recoverConfigMode:
+                    description: Whether to restore the account, kernel parameters,
+                      and whitelist (config) information from the original backup
+                      set when creating an instance using a specified backup set.
+                      The default value is empty, indicating that the account, kernel
+                      parameters, and whitelist information are not restored from
+                      the original backup set. This parameter is only applicable to
+                      Cloud Native instances, and the account, kernel parameters,
+                      and whitelist information must have been saved in the original
+                      backup set.
+                    type: string
+                  resourceGroupId:
+                    description: The ID of the resource group to which the instance
+                      belongs.
+                    type: string
+                  secondaryZoneId:
+                    description: The ID of the secondary zone.This parameter is returned
+                      only if the instance is deployed in two zones.
+                    type: string
+                  securityGroupId:
+                    description: Security group id
+                    type: string
+                  securityGroupIdRef:
+                    description: Reference to a Group in ecs to populate securityGroupId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  securityGroupIdSelector:
+                    description: Selector for a Group in ecs to populate securityGroupId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  securityIpGroupName:
+                    description: The name of the IP address whitelist. You cannot
+                      modify the whitelist that is generated by the system. If you
+                      do not specify this parameter, the default whitelist is modified
+                      by default.
+                    type: string
+                  securityIps:
+                    description: The IP addresses in the whitelist. Up to 1,000 IP
+                      addresses can be specified in a whitelist. Separate multiple
+                      IP addresses with a comma (,). Specify an IP address in the
+                      0.0.0.0/0, 10.23.12.24, or 10.23.12.24/24 format. In CIDR block
+                      10.23.12.24/24, /24 specifies the length of the prefix of an
+                      IP address. The prefix length ranges from 1 to 32.
+                    type: string
+                  shardCount:
+                    description: 'The number of data nodes in the instance. When 1
+                      is passed, it means that the instance created is a standard
+                      architecture with only one data node. You can create an instance
+                      in the standard architecture that contains only a single data
+                      node. 2 to 32: You can create an instance in the cluster architecture
+                      that contains the specified number of data nodes. Only persistent
+                      memory-optimized instances can use the cluster architecture.
+                      Therefore, you can set this parameter to an integer from 2 to
+                      32 only if you set the InstanceType parameter to tair_scm. It
+                      is not allowed to modify the number of shards by modifying this
+                      parameter after creating a master-slave architecture instance
+                      with or without passing 1.'
+                    type: number
+                  slaveReadOnlyCount:
+                    description: Specifies the number of read-only nodes in the secondary
+                      zone when creating a multi-zone read/write splitting instance.
+                    type: number
+                  srcDbInstanceId:
+                    description: If you want to create an instance based on the backup
+                      set of an existing instance, set this parameter to the ID of
+                      the source instance. preceding three parameters. After you specify
+                      the SrcDBInstanceId parameter, use the BackupId, ClusterBackupId
+                      (recommended for cloud-native cluster instances), or RestoreTime
+                      parameter to specify the backup set or the specific point in
+                      time that you want to use to create an instance. The SrcDBInstanceId
+                      parameter must be used in combination with one of the preceding
+                      three parameters.
+                    type: string
+                  sslEnabled:
+                    description: 'Modifies SSL encryption configurations. Valid values:
+                      1. Disable (The SSL encryption is disabled) 2. Enable (The SSL
+                      encryption is enabled)  3. Update (The SSL certificate is updated)'
+                    type: string
+                  storagePerformanceLevel:
+                    description: 'The storage type. Valid values: PL1, PL2, and PL3.
+                      This parameter is available only when the value of InstanceType
+                      is tair_essd, that is, when an ESSD disk instance is selected.'
+                    type: string
+                  storageSizeGb:
+                    description: Different specifications have different value ranges.
+                      When the instance_type value is tair_essd and the disk type
+                      is ESSD, this attribute takes effect and is required. When a
+                      Tair disk is an SSD, see-https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type.
+                      The capacity field is defined as different fixed values according
+                      to different specifications, and does not need to be specified.
+                    type: number
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: The tag of the resource
+                    type: object
+                    x-kubernetes-map-type: granular
+                  tairInstanceName:
+                    description: The name of the resource.
+                    type: string
+                  vpcAuthMode:
+                    description: 'The VPC authentication mode. Valid values: Open
+                      (enables password authentication), Close (disables password
+                      authentication and enables password-free access).'
+                    type: string
+                  vpcId:
+                    description: The ID of the virtual private cloud (VPC).
+                    type: string
+                  vpcIdRef:
+                    description: Reference to a VPC in vpc to populate vpcId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vpcIdSelector:
+                    description: Selector for a VPC in vpc to populate vpcId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  vswitchId:
+                    description: The ID of the vSwitch to which the instance is connected.
+                    type: string
+                  vswitchIdRef:
+                    description: Reference to a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vswitchIdSelector:
+                    description: Selector for a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  zoneId:
+                    description: Zone ID
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.instanceClass is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceClass)
+                || (has(self.initProvider) && has(self.initProvider.instanceClass))'
+            - message: spec.forProvider.instanceType is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceType)
+                || (has(self.initProvider) && has(self.initProvider.instanceType))'
+            - message: spec.forProvider.zoneId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.zoneId)
+                || (has(self.initProvider) && has(self.initProvider.zoneId))'
+          status:
+            description: TairInstanceStatus defines the observed state of TairInstance.
+            properties:
+              atProvider:
+                properties:
+                  architectureType:
+                    description: The architecture of the instance.  cluster, standard,
+                      rwsplit.
+                    type: string
+                  autoRenew:
+                    description: 'Specifies whether to enable auto-renewal for the
+                      instance. Default value: false. Valid values: true(enables auto-renewal),
+                      false(disables auto-renewal).'
+                    type: string
+                  autoRenewPeriod:
+                    description: 'The subscription duration that is supported by auto-renewal.
+                      Unit: months. Valid values: 1, 2, 3, 6, and 12. This parameter
+                      is required only if the AutoRenew parameter is set to true.'
+                    type: string
+                  backupId:
+                    description: You can set the BackupId parameter to the backup
+                      set ID of the source instance. The system uses the data stored
+                      in the backup set to create an instance. You can call the DescribeBackups
+                      operation to query backup set IDs. If the source instance is
+                      a cluster instance, set the BackupId parameter to the backup
+                      set IDs of all shards of the source instance, separated by commas
+                      (,).
+                    type: string
+                  clusterBackupId:
+                    description: This parameter is supported for specific new cluster
+                      instances. You can query the backup set ID by calling the DescribeClusterBackupList
+                      operation. If this parameter is supported, you can specify the
+                      backup set ID. In this case, you do not need to specify the
+                      BackupId parameter. If this parameter is not supported, set
+                      the BackupId parameter to the IDs of backup sets in all shards
+                      of the source instance, separated by commas (,).
+                    type: string
+                  connectionDomain:
+                    description: The internal endpoint of the instance.
+                    type: string
+                  connectionStringPrefix:
+                    description: The prefix of the endpoint the instance, which must
+                      consist of lowercase letters and numbers and start with a lowercase
+                      letter.
+                    type: string
+                  createTime:
+                    description: The time when the instance was created. The time
+                      follows the ISO 8601 standard in the yyyy-MM-ddTHH:mm:ssZ format.
+                      The time is displayed in UTC.
+                    type: string
+                  effectiveTime:
+                    description: 'The time when to change the configurations. Default
+                      value: Immediately. Valid values: Immediately (The configurations
+                      are immediately changed), MaintainTime (The configurations are
+                      changed within the maintenance window).'
+                    type: string
+                  engineVersion:
+                    description: 'Database version. Default value: 1.0.'
+                    type: string
+                  forceUpgrade:
+                    description: 'Specifies whether to forcefully change the configurations
+                      of the instance. Default value: true. Valid values: false (The
+                      system does not forcefully change the configurations), true
+                      (The system forcefully changes the configurations).'
+                    type: boolean
+                  globalInstanceId:
+                    description: The ID of a distributed (Global Distributed Cache)
+                      instance, which indicates whether to use the newly created instance
+                      as a sub-instance of a distributed instance. You can use this
+                      method to create a distributed instance.
+                    type: string
+                  id:
+                    description: The ID of the resource supplied above.
+                    type: string
+                  instanceClass:
+                    description: The instance type of the instance. For more information,
+                      see Instance types.
+                    type: string
+                  instanceType:
+                    description: 'The storage medium of the instance. Valid values:
+                      tair_rdb, tair_scm, tair_essd.'
+                    type: string
+                  intranetBandwidth:
+                    description: Instance intranet bandwidth
+                    type: number
+                  maxConnections:
+                    description: The maximum number of connections supported by the
+                      instance.
+                    type: number
+                  modifyMode:
+                    description: 'The modification method when modifying the IP whitelist.
+                      The value includes Cover (default): overwrite the original whitelist;
+                      Append: Append the whitelist; Delete: Delete the whitelist.'
+                    type: string
+                  networkType:
+                    description: The network type of the instance.  CLASSIC(classic
+                      network), VPC.
+                    type: string
+                  nodeType:
+                    description: The node type. For cloud-native instances, input
+                      MASTER_SLAVE (master-replica) or STAND_ALONE (standalone). For
+                      classic instances, input double (master-replica) or single (standalone).
+                    type: string
+                  paramNoLooseSentinelEnabled:
+                    description: 'sentinel compatibility mode, applicable to non-cluster
+                      instances. For more information about parameters, see yes or
+                      no in the https://www.alibabacloud.com/help/en/redis/user-guide/use-the-sentinel-compatible-mode-to-connect-to-an-apsaradb-for-redis-instance,
+                      valid values: yes, no. The default value is no.'
+                    type: string
+                  paramNoLooseSentinelPasswordFreeAccess:
+                    description: 'Whether to allow Sentinel commands to be executed
+                      without secrets when Sentinel mode is enabled. Value: yes: enabled.
+                      After the command is enabled, you can directly run the Sentinel
+                      command in the VPC without enabling the password-free feature.
+                      no: the default value, disabled. For parameters, see https://help.aliyun.com/zh/redis/user-guide/use-the-sentinel-compatible-mode-to-connect-to-an-apsaradb-for-redis-instance'
+                    type: string
+                  paramNoLooseSentinelPasswordFreeCommands:
+                    description: After sentinel mode and the# no_loose_sentinel-password-free-access
+                      parameter are enabled, you can use this parameter to add additional
+                      secret-free command lists (empty by default). After setting,
+                      you can execute the corresponding command on any connection
+                      without secret, please operate carefully. Commands are written
+                      in lowercase letters, and multiple commands are separated by
+                      commas (,). See https://help.aliyun.com/zh/redis/user-guide/parameter-support
+                      for details
+                    type: string
+                  paramReplMode:
+                    description: The value is semisync or async. The default value
+                      is async.
+                    type: string
+                  paramSemisyncReplTimeout:
+                    description: 'The degradation threshold time of the semi-synchronous
+                      replication mode. This parameter value is required only when
+                      semi-synchronous replication is enabled. The unit is milliseconds,
+                      and the range is 10ms to 60000ms. The default value is 500ms.
+                      Please refer to: https://www.alibabacloud.com/help/en/redis/user-guide/modify-the-synchronization-mode-of-a-persistent-memory-optimized-instance.'
+                    type: string
+                  paramSentinelCompatEnable:
+                    description: sentinel compatibility mode, applicable to instances
+                      in the cluster architecture proxy connection mode or read/write
+                      splitting architecture. For more information about the parameters,
+                      see https://www.alibabacloud.com/help/en/redis/user-guide/use-the-sentinel-compatible-mode-to-connect-to-an-apsaradb-for-redis-instance.
+                      The value is 0 or 1. The default value is 0.
+                    type: string
+                  paymentType:
+                    description: 'Payment type: Subscription (prepaid), PayAsYouGo
+                      (postpaid). Default Subscription.'
+                    type: string
+                  period:
+                    description: 'The subscription duration. Unit: months. Valid values:
+                      1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24,36, and 60. This parameter
+                      is required only if you set the PaymentType parameter to Subscription.'
+                    type: number
+                  port:
+                    description: 'The Tair service port. The service port of the instance.
+                      Valid values: 1024 to 65535. Default value: 6379.'
+                    type: number
+                  readOnlyCount:
+                    description: 'Number of read-only nodes in the primary zone. Valid
+                      values: 0 to 5. This parameter is only applicable to the following
+                      conditions:'
+                    type: number
+                  recoverConfigMode:
+                    description: Whether to restore the account, kernel parameters,
+                      and whitelist (config) information from the original backup
+                      set when creating an instance using a specified backup set.
+                      The default value is empty, indicating that the account, kernel
+                      parameters, and whitelist information are not restored from
+                      the original backup set. This parameter is only applicable to
+                      Cloud Native instances, and the account, kernel parameters,
+                      and whitelist information must have been saved in the original
+                      backup set.
+                    type: string
+                  regionId:
+                    description: Region Id
+                    type: string
+                  resourceGroupId:
+                    description: The ID of the resource group to which the instance
+                      belongs.
+                    type: string
+                  secondaryZoneId:
+                    description: The ID of the secondary zone.This parameter is returned
+                      only if the instance is deployed in two zones.
+                    type: string
+                  securityGroupId:
+                    description: Security group id
+                    type: string
+                  securityIpGroupName:
+                    description: The name of the IP address whitelist. You cannot
+                      modify the whitelist that is generated by the system. If you
+                      do not specify this parameter, the default whitelist is modified
+                      by default.
+                    type: string
+                  securityIps:
+                    description: The IP addresses in the whitelist. Up to 1,000 IP
+                      addresses can be specified in a whitelist. Separate multiple
+                      IP addresses with a comma (,). Specify an IP address in the
+                      0.0.0.0/0, 10.23.12.24, or 10.23.12.24/24 format. In CIDR block
+                      10.23.12.24/24, /24 specifies the length of the prefix of an
+                      IP address. The prefix length ranges from 1 to 32.
+                    type: string
+                  shardCount:
+                    description: 'The number of data nodes in the instance. When 1
+                      is passed, it means that the instance created is a standard
+                      architecture with only one data node. You can create an instance
+                      in the standard architecture that contains only a single data
+                      node. 2 to 32: You can create an instance in the cluster architecture
+                      that contains the specified number of data nodes. Only persistent
+                      memory-optimized instances can use the cluster architecture.
+                      Therefore, you can set this parameter to an integer from 2 to
+                      32 only if you set the InstanceType parameter to tair_scm. It
+                      is not allowed to modify the number of shards by modifying this
+                      parameter after creating a master-slave architecture instance
+                      with or without passing 1.'
+                    type: number
+                  slaveReadOnlyCount:
+                    description: Specifies the number of read-only nodes in the secondary
+                      zone when creating a multi-zone read/write splitting instance.
+                    type: number
+                  srcDbInstanceId:
+                    description: If you want to create an instance based on the backup
+                      set of an existing instance, set this parameter to the ID of
+                      the source instance. preceding three parameters. After you specify
+                      the SrcDBInstanceId parameter, use the BackupId, ClusterBackupId
+                      (recommended for cloud-native cluster instances), or RestoreTime
+                      parameter to specify the backup set or the specific point in
+                      time that you want to use to create an instance. The SrcDBInstanceId
+                      parameter must be used in combination with one of the preceding
+                      three parameters.
+                    type: string
+                  sslEnabled:
+                    description: 'Modifies SSL encryption configurations. Valid values:
+                      1. Disable (The SSL encryption is disabled) 2. Enable (The SSL
+                      encryption is enabled)  3. Update (The SSL certificate is updated)'
+                    type: string
+                  status:
+                    description: The status of the resource
+                    type: string
+                  storagePerformanceLevel:
+                    description: 'The storage type. Valid values: PL1, PL2, and PL3.
+                      This parameter is available only when the value of InstanceType
+                      is tair_essd, that is, when an ESSD disk instance is selected.'
+                    type: string
+                  storageSizeGb:
+                    description: Different specifications have different value ranges.
+                      When the instance_type value is tair_essd and the disk type
+                      is ESSD, this attribute takes effect and is required. When a
+                      Tair disk is an SSD, see-https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type.
+                      The capacity field is defined as different fixed values according
+                      to different specifications, and does not need to be specified.
+                    type: number
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: The tag of the resource
+                    type: object
+                    x-kubernetes-map-type: granular
+                  tairInstanceId:
+                    description: The ID of the resource.
+                    type: string
+                  tairInstanceName:
+                    description: The name of the resource.
+                    type: string
+                  vpcAuthMode:
+                    description: 'The VPC authentication mode. Valid values: Open
+                      (enables password authentication), Close (disables password
+                      authentication and enables password-free access).'
+                    type: string
+                  vpcId:
+                    description: The ID of the virtual private cloud (VPC).
+                    type: string
+                  vswitchId:
+                    description: The ID of the vSwitch to which the instance is connected.
+                    type: string
+                  zoneId:
+                    description: Zone ID
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
