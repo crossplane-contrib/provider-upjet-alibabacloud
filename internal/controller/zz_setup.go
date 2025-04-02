@@ -9,6 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
+	domain "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cdn/domain"
+	domainconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cdn/domainconfig"
+	fctrigger "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cdn/fctrigger"
 	group "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/group"
 	endpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/messageservice/endpoint"
 	endpointacl "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/messageservice/endpointacl"
@@ -35,6 +38,9 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		domain.Setup,
+		domainconfig.Setup,
+		fctrigger.Setup,
 		group.Setup,
 		endpoint.Setup,
 		endpointacl.Setup,

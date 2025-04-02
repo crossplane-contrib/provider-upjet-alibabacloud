@@ -196,10 +196,12 @@ CROSSPLANE_NAMESPACE = upbound-system
 #   aws_secret_access_key = REDACTED'
 #   The associated `ProviderConfig`s will be named as `default` and `peer`.
 # - UPTEST_DATASOURCE_PATH (optional), please see https://github.com/crossplane/uptest#injecting-dynamic-values-and-datasource
+CDN=./examples/cdn/v1alpha1
 ECS=./examples/ecs/v1alpha1
 MESSAGESERVICE=./examples/messageservice/v1alpha1
 POLARDB=./examples/polardb/v1alpha1
 VPC=./examples/vpc/v1alpha1
+UPTEST_EXAMPLE_LIST_CDN=$(CDN)/domain.yaml,$(CDN)/domainconfig.yaml,$(CDN)/fctrigger.yaml
 UPTEST_EXAMPLE_LIST_ECS=$(ECS)/group.yaml
 UPTEST_EXAMPLE_LIST_MESSAGESERVICE=$(MESSAGESERVICE)/endpoint.yaml,$(MESSAGESERVICE)/endpointacl.yaml,$(MESSAGESERVICE)/queue.yaml,$(MESSAGESERVICE)/subscription.yaml,$(MESSAGESERVICE)/topic.yaml
 UPTEST_EXAMPLE_LIST_POLARDB=$(POLARDB)/account.yaml,$(POLARDB)/accountprivilege.yaml,$(POLARDB)/backuppolicy.yaml,$(POLARDB)/cluster.yaml,$(POLARDB)/clusterendpoint.yaml,$(POLARDB)/database.yaml,$(POLARDB)/endpoint.yaml,$(POLARDB)/endpointaddress.yaml,$(POLARDB)/globaldatabasenetwork.yaml,$(POLARDB)/parametergroup.yaml,$(POLARDB)/primaryendpoint.yaml

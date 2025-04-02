@@ -10,6 +10,10 @@ import "github.com/crossplane/upjet/pkg/config"
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
+	// CDN
+	"alicloud_cdn_domain_config": config.IdentifierFromProvider,
+	"alicloud_cdn_domain_new":    config.IdentifierFromProvider,
+	"alicloud_cdn_fc_trigger":    config.IdentifierFromProvider,
 	// ECS
 	"alicloud_security_group": config.IdentifierFromProvider,
 	// MessageService
