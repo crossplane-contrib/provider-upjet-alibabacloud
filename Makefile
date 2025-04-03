@@ -196,12 +196,14 @@ CROSSPLANE_NAMESPACE = upbound-system
 #   aws_secret_access_key = REDACTED'
 #   The associated `ProviderConfig`s will be named as `default` and `peer`.
 # - UPTEST_DATASOURCE_PATH (optional), please see https://github.com/crossplane/uptest#injecting-dynamic-values-and-datasource
+ALIDNS=./examples/alidns/v1alpha1
 CDN=./examples/cdn/v1alpha1
 ECS=./examples/ecs/v1alpha1
 MESSAGESERVICE=./examples/messageservice/v1alpha1
 POLARDB=./examples/polardb/v1alpha1
 TAIT=./examples/tait/v1alpha1
 VPC=./examples/vpc/v1alpha1
+UPTEST_EXAMPLE_LIST_ALIDNS=$(ALIDNS)/addreddpool.yaml,$(ALIDNS)/customline.yaml,$(ALIDNS)/domain.yaml,$(ALIDNS)/domainattachment.yaml,$(ALIDNS)/domaingroup.yaml,$(ALIDNS)/gtminstance.yaml,$(ALIDNS)/instance.yaml,$(ALIDNS)/monitorconfig.yaml,$(ALIDNS)/record.yaml
 UPTEST_EXAMPLE_LIST_CDN=$(CDN)/domain.yaml,$(CDN)/domainconfig.yaml,$(CDN)/fctrigger.yaml
 UPTEST_EXAMPLE_LIST_ECS=$(ECS)/group.yaml
 UPTEST_EXAMPLE_LIST_MESSAGESERVICE=$(MESSAGESERVICE)/endpoint.yaml,$(MESSAGESERVICE)/endpointacl.yaml,$(MESSAGESERVICE)/queue.yaml,$(MESSAGESERVICE)/subscription.yaml,$(MESSAGESERVICE)/topic.yaml

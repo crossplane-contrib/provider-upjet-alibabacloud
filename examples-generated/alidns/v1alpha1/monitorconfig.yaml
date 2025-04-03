@@ -1,0 +1,92 @@
+apiVersion: alidns.alibabacloud.crossplane.io/v1alpha1
+kind: MonitorConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/monitorconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    addrPoolIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    evaluationCount: "1"
+    interval: "60"
+    ispCityNode:
+    - cityCode: "503"
+      ispCode: "465"
+    monitorExtendInfo: '{"failureRate":50,"port":80}'
+    protocolType: TCP
+    timeout: "5000"
+
+---
+
+apiVersion: alidns.alibabacloud.crossplane.io/v1alpha1
+kind: AddressPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/monitorconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    address:
+    - address: 1.1.1.1
+      attributeInfo: '{"lineCodeRectifyType":"RECTIFIED","lineCodes":["os_namerica_us"]}'
+      lbaWeight: 1
+      mode: SMART
+      remark: address_remark
+    addressPoolName: ${var.name}
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    lbaStrategy: RATIO
+    type: IPV4
+
+---
+
+apiVersion: alidns.alibabacloud.crossplane.io/v1alpha1
+kind: GtmInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/monitorconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    alertConfig:
+    - dingtalkNotice: true
+      emailNotice: true
+      noticeType: ADDR_ALERT
+      smsNotice: true
+    alertGroup:
+    - ${alicloud_cms_alarm_contact_group.default.alarm_contact_group_name}
+    cnameType: PUBLIC
+    healthCheckTaskCount: 100
+    instanceName: ${var.name}
+    packageEdition: standard
+    paymentType: Subscription
+    period: 1
+    publicCnameMode: SYSTEM_ASSIGN
+    publicUserDomainName: ${var.domain_name}
+    renewalStatus: ManualRenewal
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    smsNotificationCount: 1000
+    ttl: 60
+
+---
+
+apiVersion: cloudmonitorservice.alibabacloud.crossplane.io/v1alpha1
+kind: AlarmContactGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/monitorconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    alarmContactGroupName: ${var.name}

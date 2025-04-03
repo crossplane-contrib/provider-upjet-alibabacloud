@@ -1,0 +1,11 @@
+apiVersion: cloudmonitorservice.alibabacloud.crossplane.io/v1alpha1
+kind: AlarmContactGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cloudmonitorservice/v1alpha1/alarmcontactgroup
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    alarmContactGroupName: tf-example

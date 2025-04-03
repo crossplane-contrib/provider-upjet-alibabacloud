@@ -1,0 +1,16 @@
+apiVersion: alidns.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    dnsSecurity: "no"
+    domainNumbers: "2"
+    period: 1
+    renewPeriod: 1
+    renewalStatus: ManualRenewal
+    versionCode: version_personal

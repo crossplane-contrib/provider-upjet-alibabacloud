@@ -10,10 +10,23 @@ import "github.com/crossplane/upjet/pkg/config"
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
+	// ALIDNS
+	//"alicloud_alidns_access_strategy":   config.IdentifierFromProvider,
+	"alicloud_alidns_address_pool":      config.IdentifierFromProvider,
+	"alicloud_alidns_custom_line":       config.IdentifierFromProvider,
+	"alicloud_alidns_domain":            config.IdentifierFromProvider,
+	"alicloud_alidns_domain_attachment": config.IdentifierFromProvider,
+	"alicloud_alidns_domain_group":      config.IdentifierFromProvider,
+	"alicloud_alidns_gtm_instance":      config.IdentifierFromProvider,
+	"alicloud_alidns_instance":          config.IdentifierFromProvider,
+	"alicloud_alidns_monitor_config":    config.IdentifierFromProvider,
+	"alicloud_alidns_record":            config.IdentifierFromProvider,
 	// CDN
 	"alicloud_cdn_domain_config": config.IdentifierFromProvider,
 	"alicloud_cdn_domain_new":    config.IdentifierFromProvider,
 	"alicloud_cdn_fc_trigger":    config.IdentifierFromProvider,
+	// CloudMonitorService
+	"alicloud_cms_alarm_contact_group": config.IdentifierFromProvider,
 	// ECS
 	"alicloud_security_group": config.IdentifierFromProvider,
 	// MessageService

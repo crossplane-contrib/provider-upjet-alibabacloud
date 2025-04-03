@@ -1,0 +1,52 @@
+apiVersion: alidns.alibabacloud.crossplane.io/v1alpha1
+kind: Record
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/record
+  labels:
+    testing.upbound.io/example-name: record
+  name: record
+spec:
+  forProvider:
+    domainNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    remark: crossplane-example
+    rr: alimail
+    status: ENABLE
+    type: CNAME
+    value: mail.mxhichin.com
+
+---
+
+apiVersion: alidns.alibabacloud.crossplane.io/v1alpha1
+kind: Domain
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/record
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    domainName: starmove.com
+    groupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    tags:
+      Created: Crossplane
+      For: example
+
+---
+
+apiVersion: alidns.alibabacloud.crossplane.io/v1alpha1
+kind: DomainGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/record
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    domainGroupName: crossplane-example

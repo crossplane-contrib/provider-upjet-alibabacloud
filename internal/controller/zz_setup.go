@@ -9,9 +9,19 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
-	domain "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cdn/domain"
+	addresspool "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/addresspool"
+	customline "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/customline"
+	domain "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/domain"
+	domainattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/domainattachment"
+	domaingroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/domaingroup"
+	gtminstance "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/gtminstance"
+	instance "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/instance"
+	monitorconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/monitorconfig"
+	record "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/record"
+	domaincdn "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cdn/domain"
 	domainconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cdn/domainconfig"
 	fctrigger "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cdn/fctrigger"
+	alarmcontactgroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cloudmonitorservice/alarmcontactgroup"
 	group "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/group"
 	endpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/messageservice/endpoint"
 	endpointacl "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/messageservice/endpointacl"
@@ -33,7 +43,7 @@ import (
 	accounttair "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/account"
 	auditlogconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/auditlogconfig"
 	connection "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/connection"
-	instance "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/instance"
+	instancetair "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/instance"
 	tairinstance "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/tairinstance"
 	vpc "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/vpc"
 	vswitch "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/vswitch"
@@ -43,9 +53,19 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		addresspool.Setup,
+		customline.Setup,
 		domain.Setup,
+		domainattachment.Setup,
+		domaingroup.Setup,
+		gtminstance.Setup,
+		instance.Setup,
+		monitorconfig.Setup,
+		record.Setup,
+		domaincdn.Setup,
 		domainconfig.Setup,
 		fctrigger.Setup,
+		alarmcontactgroup.Setup,
 		group.Setup,
 		endpoint.Setup,
 		endpointacl.Setup,
@@ -67,7 +87,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		accounttair.Setup,
 		auditlogconfig.Setup,
 		connection.Setup,
-		instance.Setup,
+		instancetair.Setup,
 		tairinstance.Setup,
 		vpc.Setup,
 		vswitch.Setup,
