@@ -60,6 +60,10 @@ import (
 	snapshot "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/snapshot"
 	snapshotgroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/snapshotgroup"
 	storagecapacityunit "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/storagecapacityunit"
+	alias "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/alias"
+	instancekms "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/instance"
+	key "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/key"
+	secret "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/secret"
 	endpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/messageservice/endpoint"
 	endpointacl "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/messageservice/endpointacl"
 	queue "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/messageservice/queue"
@@ -166,6 +170,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		snapshot.Setup,
 		snapshotgroup.Setup,
 		storagecapacityunit.Setup,
+		alias.Setup,
+		instancekms.Setup,
+		key.Setup,
+		secret.Setup,
 		endpoint.Setup,
 		endpointacl.Setup,
 		queue.Setup,

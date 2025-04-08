@@ -1,0 +1,543 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: keys.kms.alibabacloud.crossplane.io
+spec:
+  group: kms.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alicloud
+    kind: Key
+    listKind: KeyList
+    plural: keys
+    singular: key
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Key is the Schema for the Keys API. Provides a Alicloud KMS Key
+          resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: KeySpec defines the desired state of Key
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  automaticRotation:
+                    description: 'Specifies whether to enable automatic key rotation.
+                      Default value: Disabled. Valid values: Enabled, Disabled.'
+                    type: string
+                  deletionProtection:
+                    description: 'Specifies whether to enable deletion protection.
+                      Default value: Disabled. Valid values: Enabled, Disabled.'
+                    type: string
+                  deletionProtectionDescription:
+                    description: 'The description of deletion protection. NOTE: deletion_protection_description
+                      takes effect only if deletion_protection is set to Enabled.'
+                    type: string
+                  description:
+                    description: The description of the key.
+                    type: string
+                  dkmsInstanceId:
+                    description: The ID of the KMS instance.
+                    type: string
+                  keySpec:
+                    description: 'The specification of the key. Default value: Aliyun_AES_256.
+                      Valid values: Aliyun_AES_256, Aliyun_AES_128, Aliyun_AES_192,
+                      Aliyun_SM4, RSA_2048, RSA_3072, EC_P256, EC_P256K, EC_SM2.'
+                    type: string
+                  keyUsage:
+                    description: 'The usage of the key. Default value: ENCRYPT/DECRYPT.
+                      Valid values:'
+                    type: string
+                  origin:
+                    description: 'The key material origin. Default value: Aliyun_KMS.
+                      Valid values: Aliyun_KMS, EXTERNAL.'
+                    type: string
+                  pendingWindowInDays:
+                    description: 'The number of days before the CMK is deleted. During
+                      this period, the CMK is in the PendingDeletion state. After
+                      this period ends, you cannot cancel the deletion. Unit: days.
+                      Valid values: 7 to 366. NOTE: From version 1.184.0, pending_window_in_days
+                      can be set to 366.'
+                    type: number
+                  policy:
+                    description: The content of the key policy. The value is in the
+                      JSON format. The value can be up to 32,768 bytes in length.
+                      For more information, see How to use it.
+                    type: string
+                  protectionLevel:
+                    description: 'The protection level of the key. Default value:
+                      SOFTWARE. Valid values: SOFTWARE, HSM.'
+                    type: string
+                  rotationInterval:
+                    description: 'The period of automatic key rotation. The following
+                      units are supported: d (day), h (hour), m (minute), and s (second).
+                      For example, you can use either 7d or 604800s to specify a seven-day
+                      interval. NOTE: If automatic_rotation is set to Enabled, rotation_interval
+                      is required.'
+                    type: string
+                  status:
+                    description: 'The status of key. Default value: Enabled. Valid
+                      values: Enabled, Disabled, PendingDeletion.'
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  automaticRotation:
+                    description: 'Specifies whether to enable automatic key rotation.
+                      Default value: Disabled. Valid values: Enabled, Disabled.'
+                    type: string
+                  deletionProtection:
+                    description: 'Specifies whether to enable deletion protection.
+                      Default value: Disabled. Valid values: Enabled, Disabled.'
+                    type: string
+                  deletionProtectionDescription:
+                    description: 'The description of deletion protection. NOTE: deletion_protection_description
+                      takes effect only if deletion_protection is set to Enabled.'
+                    type: string
+                  description:
+                    description: The description of the key.
+                    type: string
+                  dkmsInstanceId:
+                    description: The ID of the KMS instance.
+                    type: string
+                  keySpec:
+                    description: 'The specification of the key. Default value: Aliyun_AES_256.
+                      Valid values: Aliyun_AES_256, Aliyun_AES_128, Aliyun_AES_192,
+                      Aliyun_SM4, RSA_2048, RSA_3072, EC_P256, EC_P256K, EC_SM2.'
+                    type: string
+                  keyUsage:
+                    description: 'The usage of the key. Default value: ENCRYPT/DECRYPT.
+                      Valid values:'
+                    type: string
+                  origin:
+                    description: 'The key material origin. Default value: Aliyun_KMS.
+                      Valid values: Aliyun_KMS, EXTERNAL.'
+                    type: string
+                  pendingWindowInDays:
+                    description: 'The number of days before the CMK is deleted. During
+                      this period, the CMK is in the PendingDeletion state. After
+                      this period ends, you cannot cancel the deletion. Unit: days.
+                      Valid values: 7 to 366. NOTE: From version 1.184.0, pending_window_in_days
+                      can be set to 366.'
+                    type: number
+                  policy:
+                    description: The content of the key policy. The value is in the
+                      JSON format. The value can be up to 32,768 bytes in length.
+                      For more information, see How to use it.
+                    type: string
+                  protectionLevel:
+                    description: 'The protection level of the key. Default value:
+                      SOFTWARE. Valid values: SOFTWARE, HSM.'
+                    type: string
+                  rotationInterval:
+                    description: 'The period of automatic key rotation. The following
+                      units are supported: d (day), h (hour), m (minute), and s (second).
+                      For example, you can use either 7d or 604800s to specify a seven-day
+                      interval. NOTE: If automatic_rotation is set to Enabled, rotation_interval
+                      is required.'
+                    type: string
+                  status:
+                    description: 'The status of key. Default value: Enabled. Valid
+                      values: Enabled, Disabled, PendingDeletion.'
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: KeyStatus defines the observed state of Key.
+            properties:
+              atProvider:
+                properties:
+                  arn:
+                    description: The ARN of the key.
+                    type: string
+                  automaticRotation:
+                    description: 'Specifies whether to enable automatic key rotation.
+                      Default value: Disabled. Valid values: Enabled, Disabled.'
+                    type: string
+                  creationDate:
+                    description: The time when the CMK was created.
+                    type: string
+                  creator:
+                    description: The creator of the CMK.
+                    type: string
+                  deleteDate:
+                    description: The time at which the CMK is scheduled for deletion.
+                    type: string
+                  deletionProtection:
+                    description: 'Specifies whether to enable deletion protection.
+                      Default value: Disabled. Valid values: Enabled, Disabled.'
+                    type: string
+                  deletionProtectionDescription:
+                    description: 'The description of deletion protection. NOTE: deletion_protection_description
+                      takes effect only if deletion_protection is set to Enabled.'
+                    type: string
+                  description:
+                    description: The description of the key.
+                    type: string
+                  dkmsInstanceId:
+                    description: The ID of the KMS instance.
+                    type: string
+                  id:
+                    type: string
+                  keySpec:
+                    description: 'The specification of the key. Default value: Aliyun_AES_256.
+                      Valid values: Aliyun_AES_256, Aliyun_AES_128, Aliyun_AES_192,
+                      Aliyun_SM4, RSA_2048, RSA_3072, EC_P256, EC_P256K, EC_SM2.'
+                    type: string
+                  keyUsage:
+                    description: 'The usage of the key. Default value: ENCRYPT/DECRYPT.
+                      Valid values:'
+                    type: string
+                  lastRotationDate:
+                    description: The time when the last rotation was performed.
+                    type: string
+                  materialExpireTime:
+                    description: The time when the key material expires.
+                    type: string
+                  nextRotationDate:
+                    description: The time when the next rotation will be performed.
+                    type: string
+                  origin:
+                    description: 'The key material origin. Default value: Aliyun_KMS.
+                      Valid values: Aliyun_KMS, EXTERNAL.'
+                    type: string
+                  pendingWindowInDays:
+                    description: 'The number of days before the CMK is deleted. During
+                      this period, the CMK is in the PendingDeletion state. After
+                      this period ends, you cannot cancel the deletion. Unit: days.
+                      Valid values: 7 to 366. NOTE: From version 1.184.0, pending_window_in_days
+                      can be set to 366.'
+                    type: number
+                  policy:
+                    description: The content of the key policy. The value is in the
+                      JSON format. The value can be up to 32,768 bytes in length.
+                      For more information, see How to use it.
+                    type: string
+                  primaryKeyVersion:
+                    description: The ID of the current primary key version of the
+                      symmetric CMK.
+                    type: string
+                  protectionLevel:
+                    description: 'The protection level of the key. Default value:
+                      SOFTWARE. Valid values: SOFTWARE, HSM.'
+                    type: string
+                  rotationInterval:
+                    description: 'The period of automatic key rotation. The following
+                      units are supported: d (day), h (hour), m (minute), and s (second).
+                      For example, you can use either 7d or 604800s to specify a seven-day
+                      interval. NOTE: If automatic_rotation is set to Enabled, rotation_interval
+                      is required.'
+                    type: string
+                  status:
+                    description: 'The status of key. Default value: Enabled. Valid
+                      values: Enabled, Disabled, PendingDeletion.'
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

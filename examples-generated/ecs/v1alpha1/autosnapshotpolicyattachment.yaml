@@ -59,3 +59,19 @@ spec:
     tags:
       Name: terraform-example
     zoneId: ${data.alicloud_zones.example.zones.0.id}
+
+---
+
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicyattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    description: terraform-example
+    pendingWindowInDays: "7"
+    status: Enabled

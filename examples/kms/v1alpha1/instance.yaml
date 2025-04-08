@@ -1,0 +1,202 @@
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bindVpcs:
+    - regionId: cn-zhangjiakou
+      vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: shareVPC
+      vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: shareVswitch
+    - regionId: cn-zhangjiakou
+      vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: share-VPC2
+      vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: share-vswitch2
+    - regionId: cn-zhangjiakou
+      vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: share-VPC3
+      vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: share-vsw3
+    keyNum: 1000
+    log: "0"
+    logStorage: 0
+    paymentType: Subscription
+    period: 1
+    productVersion: "3"
+    renewPeriod: 3
+    renewStatus: ManualRenewal
+    secretNum: 0
+    spec: 1000
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc-amp-instance-example
+    vpcNum: 7
+    vswitchRefs:
+    - name: vswitch-j
+    - name: vswitch
+    zoneIds:
+    - cn-zhangjiakou-b
+    - cn-zhangjiakou-a
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: share-VPC2
+  name: share-vpc2
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: share-VPC3
+  name: share-vpc3
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: shareVPC
+  name: sharevpc
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: vpc-amp-instance-example
+  name: vpc-amp-instance-example
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: share-vsw3
+  name: share-vsw3
+spec:
+  forProvider:
+    cidrBlock: 172.16.1.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: share-VPC3
+    zoneId: cn-zhangjiakou-b
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: share-vswitch2
+  name: share-vswitch2
+spec:
+  forProvider:
+    cidrBlock: 172.16.1.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: share-VPC2
+    zoneId: cn-zhangjiakou-b
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: shareVswitch
+  name: sharevswitch
+spec:
+  forProvider:
+    cidrBlock: 172.16.1.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: shareVPC
+    zoneId: cn-zhangjiakou-b
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: vswitch
+  name: vswitch
+spec:
+  forProvider:
+    cidrBlock: 172.16.1.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc-amp-instance-example
+    zoneId: cn-zhangjiakou-b
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: vswitch-j
+  name: vswitch-j
+spec:
+  forProvider:
+    cidrBlock: 172.16.2.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc-amp-instance-example
+    zoneId: cn-zhangjiakou-a

@@ -33,6 +33,22 @@ spec:
 
 ---
 
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+spec:
+  forProvider:
+    description: Hello KMS
+    pendingWindowInDays: "7"
+    status: Enabled
+
+---
+
 apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
 kind: Bucket
 metadata:
