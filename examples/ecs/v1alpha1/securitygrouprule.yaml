@@ -1,0 +1,52 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroupRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/securitygrouprule
+  labels:
+    testing.upbound.io/example-name: allow_all_tcp
+  name: allow-all-tcp
+spec:
+  forProvider:
+    cidrIp: 0.0.0.0/0
+    ipProtocol: tcp
+    nicType: intranet
+    policy: accept
+    portRange: 1/65535
+    priority: 1
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sgrule
+    type: ingress
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/securitygrouprule
+  labels:
+    testing.upbound.io/example-name: sgrule
+  name: sgrule
+spec:
+  forProvider:
+    securityGroupName: default
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sgrule
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfacepermission
+  labels:
+    testing.upbound.io/example-name: sgrule
+  name: sgrule
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcName: crossplane-example

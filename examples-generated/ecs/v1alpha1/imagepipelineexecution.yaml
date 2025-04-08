@@ -1,0 +1,77 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: ImagePipelineExecution
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagepipelineexecution
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    imagePipelineIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: pipelineExection-pipeline
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: ImagePipeline
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagepipelineexecution
+  labels:
+    testing.upbound.io/example-name: pipelineExection-pipeline
+  name: pipelineexection-pipeline
+spec:
+  forProvider:
+    addAccount:
+    - "1284387915995949"
+    baseImage: aliyun_3_x64_20G_dengbao_alibase_20240819.vhd
+    baseImageType: IMAGE
+    buildContent: COMPONENT ic-bp122acttbs2sxdyq2ky
+    deleteInstanceOnFailure: true
+    description: example
+    imageName: example-image-pipeline
+    internetMaxBandwidthOut: "5"
+    systemDiskSize: "40"
+    toRegionId:
+    - cn-beijing
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vs
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagepipelineexecution
+  labels:
+    testing.upbound.io/example-name: pipelineExecution-vpc
+  name: pipelineexecution-vpc
+spec:
+  forProvider:
+    description: example-pipeline
+    enableIpv6: true
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagepipelineexecution
+  labels:
+    testing.upbound.io/example-name: vs
+  name: vs
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/24
+    description: pipelineExecution-start
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: pipelineExecution-vpc
+    vswitchName: ${format("%s1", var.name)}
+    zoneId: cn-hangzhou-i

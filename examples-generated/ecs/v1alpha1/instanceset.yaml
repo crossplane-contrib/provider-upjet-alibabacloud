@@ -1,0 +1,74 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: InstanceSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instanceset
+  labels:
+    testing.upbound.io/example-name: beijing_k
+  name: beijing-k
+spec:
+  forProvider:
+    amount: 10
+    imageId: ${data.alicloud_images.default.images[0].id}
+    instanceChargeType: PostPaid
+    instanceName: ${var.name}
+    instanceType: ${data.alicloud_instance_types.default.instance_types[0].id}
+    securityGroupIds: ${alicloud_security_group.default.*.id}
+    systemDiskCategory: cloud_efficiency
+    systemDiskPerformanceLevel: PL0
+    systemDiskSize: 200
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneId: ${data.alicloud_zones.default.zones[0].id}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instanceset
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    name: ${var.name}
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instanceset
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instanceset
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

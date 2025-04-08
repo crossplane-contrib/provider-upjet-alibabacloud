@@ -1,0 +1,105 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: KeyPairAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    instanceRefs:
+    - name: example
+    keyPairNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: KeyPair
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    keyPairName: tf-example-${random_integer.default.result}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    availabilityZone: ${data.alicloud_zones.example.zones.0.id}
+    imageIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alicloud_images
+    instanceName: terraform-example
+    instanceType: ${data.alicloud_instance_types.example.instance_types.0.id}
+    internetChargeType: PayByBandwidth
+    securityGroupRefs:
+    - name: example
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: terraform-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcName: terraform-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    vswitchName: terraform-example
+    zoneId: ${data.alicloud_zones.example.zones.0.id}

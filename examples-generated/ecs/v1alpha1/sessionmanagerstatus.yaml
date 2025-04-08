@@ -1,0 +1,12 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SessionManagerStatus
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/sessionmanagerstatus
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    sessionManagerStatusName: sessionManagerStatus
+    status: Disabled

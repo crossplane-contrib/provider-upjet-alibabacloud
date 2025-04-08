@@ -1,0 +1,17 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: PrefixList
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/prefixlist
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    addressFamily: IPv4
+    description: description
+    entry:
+    - cidr: 192.168.0.0/24
+      description: description
+    maxEntries: 2
+    prefixListName: tftest

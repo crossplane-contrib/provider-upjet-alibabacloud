@@ -1,0 +1,29 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/securitygroup
+  labels:
+    testing.upbound.io/example-name: sg
+  name: sg
+spec:
+  forProvider:
+    securityGroupName: crossplane-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sg
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/securitygroup
+  labels:
+    testing.upbound.io/example-name: sg
+  name: sg
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcName: crossplane-example

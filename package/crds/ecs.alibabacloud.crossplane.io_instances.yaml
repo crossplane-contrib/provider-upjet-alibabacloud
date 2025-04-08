@@ -1,0 +1,2599 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: instances.ecs.alibabacloud.crossplane.io
+spec:
+  group: ecs.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alicloud
+    kind: Instance
+    listKind: InstanceList
+    plural: instances
+    singular: instance
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Instance is the Schema for the Instances API. Provides an ECS
+          instance resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InstanceSpec defines the desired state of Instance
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  autoReleaseTime:
+                    description: |-
+                      The automatic release time of the PostPaid instance.
+                      The time follows the ISO 8601 standard and is in UTC time. Format: yyyy-MM-ddTHH:mm:ssZ. It must be at least half an hour later than the current time and less than 3 years since the current time.
+                      Setting it to null can cancel automatic release feature, and the ECS instance will not be released automatically.
+                    type: string
+                  autoRenewPeriod:
+                    description: 'Auto renewal period of an instance, in the unit
+                      of month. It is valid when instance_charge_type is PrePaid.
+                      Default to 1. Valid value:'
+                    type: number
+                  availabilityZone:
+                    description: The Zone to start the instance in. It is ignored
+                      and will be computed when set vswitch_id.
+                    type: string
+                  creditSpecification:
+                    description: 'Performance mode of the t5 burstable instance. Valid
+                      values: ''Standard'', ''Unlimited''.'
+                    type: string
+                  dataDisks:
+                    description: The list of data disks created with instance. See
+                      data_disks below.
+                    items:
+                      properties:
+                        autoSnapshotPolicyId:
+                          description: The ID of the automatic snapshot policy applied
+                            to the system disk.
+                          type: string
+                        category:
+                          description: 'The category of the disk:'
+                          type: string
+                        deleteWithInstance:
+                          description: 'Delete this data disk when the instance is
+                            destroyed. It only works on cloud, cloud_efficiency, cloud_essd,
+                            cloud_ssd disk. If the category of this data disk was
+                            ephemeral_ssd, please don''t set this param. Default value:
+                            true.'
+                          type: boolean
+                        description:
+                          description: The description of the data disk.
+                          type: string
+                        device:
+                          description: The mount point of the data disk.
+                          type: string
+                        encrypted:
+                          description: 'Encrypted the data in this disk. Default value:
+                            false.'
+                          type: boolean
+                        kmsKeyId:
+                          description: The KMS key ID corresponding to the Nth data
+                            disk.
+                          type: string
+                        name:
+                          description: The name of the data disk.
+                          type: string
+                        performanceLevel:
+                          description: 'The performance level of the ESSD used as
+                            data disk:'
+                          type: string
+                        size:
+                          description: The size of the data disk.
+                          type: number
+                        snapshotId:
+                          description: The snapshot ID used to initialize the data
+                            disk. If the size specified by snapshot is greater that
+                            the size of the disk, use the size specified by snapshot
+                            as the size of the data disk.
+                          type: string
+                      type: object
+                    type: array
+                  dedicatedHostId:
+                    description: The ID of the dedicated host on which to create the
+                      instance. If you set the DedicatedHostId parameter, the spot_strategy
+                      and spot_price_limit parameters cannot be set. This is because
+                      preemptible instances cannot be created on dedicated hosts.
+                    type: string
+                  deletionProtection:
+                    description: 'Whether enable the deletion protection or not. It
+                      does not work when the instance is spot. Default value: false.'
+                    type: boolean
+                  deploymentSetId:
+                    description: 'The ID of the deployment set to which to deploy
+                      the instance. NOTE: From version 1.176.0, instance''s deploymentSetId
+                      can be removed when ''deployment_set_id'' = "".'
+                    type: string
+                  description:
+                    description: Description of the instance, This description can
+                      have a string of 2 to 256 characters, It cannot begin with http://
+                      or https://. Default value is null.
+                    type: string
+                  dryRun:
+                    description: Specifies whether to send a dry-run request. Default
+                      to false.
+                    type: boolean
+                  enableJumboFrame:
+                    description: 'Specifies whether to enable the Jumbo Frames feature
+                      for the instance. Valid values: true, false.'
+                    type: boolean
+                  forceDelete:
+                    description: |-
+                      If it is true, the "PrePaid" instance will be change to "PostPaid" and then deleted forcibly.
+                      However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
+                    type: boolean
+                  hostName:
+                    description: |-
+                      Host name of the ECS, which is a string of at least two characters. “hostname” cannot start or end with “.” or “-“. In addition, two or more consecutive “.” or “-“ symbols are not allowed. On Windows, the host name can contain a maximum of 15 characters, which can be a combination of uppercase/lowercase letters, numerals, and “-“. The host name cannot contain dots (“.”) or contain only numeric characters. When it is changed, the instance will reboot to make the change take effect.
+                      On other OSs such as Linux, the host name can contain a maximum of 64 characters, which can be segments separated by dots (“.”), where each segment can contain uppercase/lowercase letters, numerals, or “_“. When it is changed, the instance will reboot to make the change take effect.
+                    type: string
+                  hpcClusterId:
+                    description: The ID of the Elastic High Performance Computing
+                      (E-HPC) cluster to which to assign the instance.
+                    type: string
+                  httpEndpoint:
+                    description: 'Specifies whether to enable the access channel for
+                      instance metadata. Valid values: enabled, disabled. Default
+                      value: enabled.'
+                    type: string
+                  httpPutResponseHopLimit:
+                    description: 'NOTE:: This parameter is not available for use yet.
+                      The HTTP PUT response hop limit for accessing instance metadata.
+                      Valid values: 1 to 64. Default value: 1.'
+                    type: number
+                  httpTokens:
+                    description: 'Specifies whether to forcefully use the security-enhanced
+                      mode (IMDSv2) to access instance metadata. Default value: optional.
+                      Valid values:'
+                    type: string
+                  imageId:
+                    description: The Image to use for the instance. ECS instance's
+                      image can be replaced via changing image_id. When it is changed,
+                      the instance will reboot to make the change take effect. If
+                      you do not use launch_template_id or launch_template_name to
+                      specify a launch template, you must specify image_id.
+                    type: string
+                  imageIdRef:
+                    description: Reference to a Image in ecs to populate imageId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  imageIdSelector:
+                    description: Selector for a Image in ecs to populate imageId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  imageOptions:
+                    description: The options of images. See image_options below.
+                    items:
+                      properties:
+                        loginAsNonRoot:
+                          description: Whether to allow the instance logging in with
+                            the ecs-user user.
+                          type: boolean
+                      type: object
+                    type: array
+                  includeDataDisks:
+                    description: Whether to change instance disks charge type when
+                      changing instance charge type.
+                    type: boolean
+                  instanceChargeType:
+                    description: |-
+                      Valid values are PrePaid, PostPaid. NOTE: From version 1.243.0, the default value PostPaid will be removed.
+                      NOTE: Since 1.9.6, it can be changed each other between PostPaid and PrePaid.
+                      However, since some limitation about CPU core count in one month,
+                      there strongly recommends that Don't change instance_charge_type frequentlly in one month.
+                    type: string
+                  instanceName:
+                    description: 'The name of the ECS. This instance_name can have
+                      a string of 2 to 128 characters, must contain only alphanumeric
+                      characters or hyphens, such as "-",".","_", and must not begin
+                      with a hyphen, and must not begin with http:// or https://.
+                      NOTE: From version 1.243.0, the default value ECS-Instance will
+                      be removed.'
+                    type: string
+                  instanceType:
+                    description: The type of instance to start. When it is changed,
+                      the instance will reboot to make the change take effect. If
+                      you do not use launch_template_id or launch_template_name to
+                      specify a launch template, you must specify instance_type.
+                    type: string
+                  internetChargeType:
+                    description: 'Internet charge type of the instance, Valid values
+                      are PayByBandwidth, PayByTraffic. At present, ''PrePaid'' instance
+                      cannot change the value to "PayByBandwidth" from "PayByTraffic".
+                      NOTE: From version 1.243.0, the default value PayByTraffic will
+                      be removed.'
+                    type: string
+                  internetMaxBandwidthOut:
+                    description: 'Maximum outgoing bandwidth to the public network,
+                      measured in Mbps (Mega bit per second). Value range:  [0, 100].
+                      NOTE: From version 1.243.0, the default value 0 will be removed.'
+                    type: number
+                  ipv6AddressCount:
+                    description: 'The number of IPv6 addresses to randomly generate
+                      for the primary ENI. Valid values: 1 to 10. NOTE: You cannot
+                      specify both the ipv6_addresses and ipv6_address_count parameters.'
+                    type: number
+                  ipv6Addresses:
+                    description: 'A list of IPv6 address to be assigned to the primary
+                      ENI. Support up to 10. NOTE: From version 1.241.0, ipv6_addresses
+                      can be modified.'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  isOutdated:
+                    description: Whether to use outdated instance type.
+                    type: boolean
+                  keyName:
+                    description: The name of key pair that can login ECS instance
+                      successfully without password. If it is specified, the password
+                      would be invalid.
+                    type: string
+                  keyNameRef:
+                    description: Reference to a KeyPair in ecs to populate keyName.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  keyNameSelector:
+                    description: Selector for a KeyPair in ecs to populate keyName.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  kmsEncryptedPassword:
+                    description: An KMS encrypts password used to an instance. If
+                      the password is filled in, this field will be ignored. When
+                      it is changed, the instance will reboot to make the change take
+                      effect.
+                    type: string
+                  kmsEncryptionContext:
+                    additionalProperties:
+                      type: string
+                    description: An KMS encryption context used to decrypt kms_encrypted_password
+                      before creating or updating an instance with kms_encrypted_password.
+                      See Encryption Context. It is valid when kms_encrypted_password
+                      is set. When it is changed, the instance will reboot to make
+                      the change take effect.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  launchTemplateId:
+                    description: The ID of the launch template. For more information,
+                      see DescribeLaunchTemplates.To use a launch template to create
+                      an instance, you must use the launch_template_id or launch_template_name
+                      parameter to specify the launch template.
+                    type: string
+                  launchTemplateIdRef:
+                    description: Reference to a LaunchTemplate in ecs to populate
+                      launchTemplateId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  launchTemplateIdSelector:
+                    description: Selector for a LaunchTemplate in ecs to populate
+                      launchTemplateId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  launchTemplateName:
+                    description: The name of the launch template.
+                    type: string
+                  launchTemplateVersion:
+                    description: The version of the launch template. If you set launch_template_id
+                      or launch_template_name parameter but do not set the version
+                      number of the launch template, the default template version
+                      is used.
+                    type: string
+                  maintenanceAction:
+                    description: 'The maintenance action. Valid values: Stop, AutoRecover
+                      and AutoRedeploy.'
+                    type: string
+                  maintenanceNotify:
+                    description: 'Specifies whether to send an event notification
+                      before instance shutdown. Valid values: true, false. Default
+                      value: false.'
+                    type: boolean
+                  maintenanceTime:
+                    description: The time of maintenance. See maintenance_time below.
+                    items:
+                      properties:
+                        endTime:
+                          description: The end time of maintenance. The time must
+                            be on the hour at exactly 0 minute and 0 second. The start_time
+                            and end_time parameters must be specified at the same
+                            time. The end_time value must be 1 to 23 hours later than
+                            the start_time value. Specify the time in the HH:mm:ss
+                            format. The time must be in UTC+8.
+                          type: string
+                        startTime:
+                          description: The start time of maintenance. The time must
+                            be on the hour at exactly 0 minute and 0 second. The start_time
+                            and end_time parameters must be specified at the same
+                            time. The end_time value must be 1 to 23 hours later than
+                            the start_time value. Specify the time in the HH:mm:ss
+                            format. The time must be in UTC+8.
+                          type: string
+                      type: object
+                    type: array
+                  networkCardIndex:
+                    description: The index of the network card for Primary ENI.
+                    type: number
+                  networkInterfaceTrafficMode:
+                    description: 'The communication mode of the Primary ENI. Default
+                      value: Standard. Valid values:'
+                    type: string
+                  networkInterfaces:
+                    description: The list of network interfaces created with instance.
+                      See network_interfaces below.
+                    items:
+                      properties:
+                        networkCardIndex:
+                          description: The index of the network card for Secondary
+                            ENI.
+                          type: number
+                        networkInterfaceId:
+                          description: The ID of the Secondary ENI.
+                          type: string
+                        networkInterfaceTrafficMode:
+                          description: 'The communication mode of the Secondary ENI.
+                            Default value: Standard. Valid values:'
+                          type: string
+                        queuePairNumber:
+                          description: The number of queues supported by the ERI.
+                          type: number
+                        securityGroupIds:
+                          description: The ID of security group N to which to assign
+                            Secondary ENI N.
+                          items:
+                            type: string
+                          type: array
+                        vswitchId:
+                          description: The ID of the vSwitch to which to connect Secondary
+                            ENI N.
+                          type: string
+                      type: object
+                    type: array
+                  operatorType:
+                    description: 'The operation type. It is valid when instance_charge_type
+                      is PrePaid. Default value: upgrade. Valid values: upgrade, downgrade.
+                      NOTE:  When the new instance type specified by the instance_type
+                      parameter has lower specifications than the current instance
+                      type, you must set operator_type to downgrade.'
+                    type: string
+                  passwordInherit:
+                    description: 'Specifies whether to use the password preset in
+                      the image. Default value: false. Valid values:'
+                    type: boolean
+                  passwordSecretRef:
+                    description: Password to an instance is a string of 8 to 30 characters.
+                      It must contain uppercase/lowercase letters and numerals, but
+                      cannot contain special symbols. When it is changed, the instance
+                      will reboot to make the change take effect.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  period:
+                    description: 'The duration that you will buy the resource, in
+                      month. It is valid and required when instance_charge_type is
+                      PrePaid. Valid values:'
+                    type: number
+                  periodUnit:
+                    description: 'The duration unit that you will buy the resource.
+                      It is valid when instance_charge_type is ''PrePaid''. Valid
+                      value: ["Week", "Month"]. Default to "Month".'
+                    type: string
+                  privateIp:
+                    description: Instance private IP address can be specified when
+                      you creating new instance. It is valid when vswitch_id is specified.
+                      When it is changed, the instance will reboot to make the change
+                      take effect.
+                    type: string
+                  queuePairNumber:
+                    description: The number of queues supported by the ERI.
+                    type: number
+                  renewalStatus:
+                    description: 'Whether to renew an ECS instance automatically or
+                      not. It is valid when instance_charge_type is PrePaid. Default
+                      to "Normal". Valid values:'
+                    type: string
+                  resourceGroupId:
+                    description: The Id of resource group which the instance belongs.
+                    type: string
+                  roleName:
+                    description: Instance RAM role name. The name is provided and
+                      maintained by RAM. You can use alicloud_ram_role to create a
+                      new one.
+                    type: string
+                  secondaryPrivateIpAddressCount:
+                    description: 'The number of private IP addresses to be automatically
+                      assigned from within the CIDR block of the vswitch. NOTE: To
+                      assign secondary private IP addresses, you must specify secondary_private_ips
+                      or secondary_private_ip_address_count but not both.'
+                    type: number
+                  secondaryPrivateIps:
+                    description: A list of Secondary private IP addresses which is
+                      selected from within the CIDR block of the vSwitch.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  securityEnhancementStrategy:
+                    description: The security enhancement strategy.
+                    type: string
+                  securityGroupRefs:
+                    description: References to SecurityGroup in ecs to populate securityGroups.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  securityGroupSelector:
+                    description: Selector for a list of SecurityGroup in ecs to populate
+                      securityGroups.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  securityGroups:
+                    description: A list of security group ids to associate with. If
+                      you do not use launch_template_id or launch_template_name to
+                      specify a launch template, you must specify security_groups.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  spotDuration:
+                    description: 'The retention time of the preemptive instance in
+                      hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration
+                      2~6 is under invitation test, please submit a work order if
+                      you need to open. If the value is 0, the mode is no protection
+                      period. Default value is 1.'
+                    type: number
+                  spotPriceLimit:
+                    description: The hourly price threshold of a instance, and it
+                      takes effect only when parameter 'spot_strategy' is 'SpotWithPriceLimit'.
+                      Three decimals is allowed at most.
+                    type: number
+                  spotStrategy:
+                    description: 'The spot strategy of a Pay-As-You-Go instance, and
+                      it takes effect only when parameter instance_charge_type is
+                      ''PostPaid''. Value range:'
+                    type: string
+                  status:
+                    description: 'The instance status. Valid values: ["Running", "Stopped"].
+                      You can control the instance start and stop through this parameter.
+                      Default to Running.'
+                    type: string
+                  stoppedMode:
+                    description: 'The stop mode of the pay-as-you-go instance. Valid
+                      values: StopCharging,KeepCharging, Not-applicable. Default value:
+                      If the prerequisites required for enabling the economical mode
+                      are met, and you have enabled this mode in the ECS console,
+                      the default value is StopCharging. For more information, see
+                      "Enable the economical mode" in Economical mode. Otherwise,
+                      the default value is KeepCharging. Note: Not-applicable: Economical
+                      mode is not applicable to the instance.`'
+                    type: string
+                  systemDiskAutoSnapshotPolicyId:
+                    description: The ID of the automatic snapshot policy applied to
+                      the system disk.
+                    type: string
+                  systemDiskCategory:
+                    description: Valid values are ephemeral_ssd, cloud_efficiency,
+                      cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry.
+                      only is used to some none I/O optimized instance. Valid values
+                      cloud_auto Available since v1.184.0.
+                    type: string
+                  systemDiskDescription:
+                    description: The description of the system disk. The description
+                      must be 2 to 256 characters in length and cannot start with
+                      http:// or https://.
+                    type: string
+                  systemDiskEncryptAlgorithm:
+                    description: The algorithm to be used to encrypt the system disk.
+                      Valid values are aes-256, sm4-128. Default value is aes-256.
+                    type: string
+                  systemDiskEncrypted:
+                    description: 'Specifies whether to encrypt the system disk. Valid
+                      values: true,false. Default value: false.'
+                    type: boolean
+                  systemDiskKmsKeyId:
+                    description: The ID of the Key Management Service (KMS) key to
+                      be used for the system disk.
+                    type: string
+                  systemDiskName:
+                    description: The name of the system disk. The name must be 2 to
+                      128 characters in length and can contain letters, digits, periods
+                      (.), colons (:), underscores (_), and hyphens (-). It must start
+                      with a letter and cannot start with http:// or https://.
+                    type: string
+                  systemDiskPerformanceLevel:
+                    description: 'The performance level of the ESSD used as the system
+                      disk, Valid values: PL0, PL1, PL2, PL3, Default to PL1;For more
+                      information about ESSD, See Encryption Context.'
+                    type: string
+                  systemDiskSize:
+                    description: 'Size of the system disk, measured in GiB. Value
+                      range: [20, 500]. The specified value must be equal to or greater
+                      than max{20, Imagesize}. Default value: max{40, ImageSize}.'
+                    type: number
+                  systemDiskStorageClusterId:
+                    description: The ID of the dedicated block storage cluster. If
+                      you want to use disks in a dedicated block storage cluster as
+                      system disks when you create instances, you must specify this
+                      parameter. For more information about dedicated block storage
+                      clusters.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  userData:
+                    description: |-
+                      User-defined data to customize the startup behaviors of an ECS instance and to pass data into an ECS instance.
+                      It supports to setting a base64-encoded value, and it is the recommended usage.
+                      From version 1.60.0, it can be updated in-place. If updated, the instance will reboot to make the change take effect.
+                      Note: Not all changes will take effect, and it depends on cloud-init module type.
+                    type: string
+                  volumeTags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the devices created
+                      by the instance at launch time.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  vpcId:
+                    description: The ID of the VPC.
+                    type: string
+                  vswitchId:
+                    description: The virtual switch ID to launch in VPC. This parameter
+                      must be set unless you can create classic network instances.
+                      When it is changed, the instance will reboot to make the change
+                      take effect.
+                    type: string
+                  vswitchIdRef:
+                    description: Reference to a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vswitchIdSelector:
+                    description: Selector for a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  autoReleaseTime:
+                    description: |-
+                      The automatic release time of the PostPaid instance.
+                      The time follows the ISO 8601 standard and is in UTC time. Format: yyyy-MM-ddTHH:mm:ssZ. It must be at least half an hour later than the current time and less than 3 years since the current time.
+                      Setting it to null can cancel automatic release feature, and the ECS instance will not be released automatically.
+                    type: string
+                  autoRenewPeriod:
+                    description: 'Auto renewal period of an instance, in the unit
+                      of month. It is valid when instance_charge_type is PrePaid.
+                      Default to 1. Valid value:'
+                    type: number
+                  availabilityZone:
+                    description: The Zone to start the instance in. It is ignored
+                      and will be computed when set vswitch_id.
+                    type: string
+                  creditSpecification:
+                    description: 'Performance mode of the t5 burstable instance. Valid
+                      values: ''Standard'', ''Unlimited''.'
+                    type: string
+                  dataDisks:
+                    description: The list of data disks created with instance. See
+                      data_disks below.
+                    items:
+                      properties:
+                        autoSnapshotPolicyId:
+                          description: The ID of the automatic snapshot policy applied
+                            to the system disk.
+                          type: string
+                        category:
+                          description: 'The category of the disk:'
+                          type: string
+                        deleteWithInstance:
+                          description: 'Delete this data disk when the instance is
+                            destroyed. It only works on cloud, cloud_efficiency, cloud_essd,
+                            cloud_ssd disk. If the category of this data disk was
+                            ephemeral_ssd, please don''t set this param. Default value:
+                            true.'
+                          type: boolean
+                        description:
+                          description: The description of the data disk.
+                          type: string
+                        device:
+                          description: The mount point of the data disk.
+                          type: string
+                        encrypted:
+                          description: 'Encrypted the data in this disk. Default value:
+                            false.'
+                          type: boolean
+                        kmsKeyId:
+                          description: The KMS key ID corresponding to the Nth data
+                            disk.
+                          type: string
+                        name:
+                          description: The name of the data disk.
+                          type: string
+                        performanceLevel:
+                          description: 'The performance level of the ESSD used as
+                            data disk:'
+                          type: string
+                        size:
+                          description: The size of the data disk.
+                          type: number
+                        snapshotId:
+                          description: The snapshot ID used to initialize the data
+                            disk. If the size specified by snapshot is greater that
+                            the size of the disk, use the size specified by snapshot
+                            as the size of the data disk.
+                          type: string
+                      type: object
+                    type: array
+                  dedicatedHostId:
+                    description: The ID of the dedicated host on which to create the
+                      instance. If you set the DedicatedHostId parameter, the spot_strategy
+                      and spot_price_limit parameters cannot be set. This is because
+                      preemptible instances cannot be created on dedicated hosts.
+                    type: string
+                  deletionProtection:
+                    description: 'Whether enable the deletion protection or not. It
+                      does not work when the instance is spot. Default value: false.'
+                    type: boolean
+                  deploymentSetId:
+                    description: 'The ID of the deployment set to which to deploy
+                      the instance. NOTE: From version 1.176.0, instance''s deploymentSetId
+                      can be removed when ''deployment_set_id'' = "".'
+                    type: string
+                  description:
+                    description: Description of the instance, This description can
+                      have a string of 2 to 256 characters, It cannot begin with http://
+                      or https://. Default value is null.
+                    type: string
+                  dryRun:
+                    description: Specifies whether to send a dry-run request. Default
+                      to false.
+                    type: boolean
+                  enableJumboFrame:
+                    description: 'Specifies whether to enable the Jumbo Frames feature
+                      for the instance. Valid values: true, false.'
+                    type: boolean
+                  forceDelete:
+                    description: |-
+                      If it is true, the "PrePaid" instance will be change to "PostPaid" and then deleted forcibly.
+                      However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
+                    type: boolean
+                  hostName:
+                    description: |-
+                      Host name of the ECS, which is a string of at least two characters. “hostname” cannot start or end with “.” or “-“. In addition, two or more consecutive “.” or “-“ symbols are not allowed. On Windows, the host name can contain a maximum of 15 characters, which can be a combination of uppercase/lowercase letters, numerals, and “-“. The host name cannot contain dots (“.”) or contain only numeric characters. When it is changed, the instance will reboot to make the change take effect.
+                      On other OSs such as Linux, the host name can contain a maximum of 64 characters, which can be segments separated by dots (“.”), where each segment can contain uppercase/lowercase letters, numerals, or “_“. When it is changed, the instance will reboot to make the change take effect.
+                    type: string
+                  hpcClusterId:
+                    description: The ID of the Elastic High Performance Computing
+                      (E-HPC) cluster to which to assign the instance.
+                    type: string
+                  httpEndpoint:
+                    description: 'Specifies whether to enable the access channel for
+                      instance metadata. Valid values: enabled, disabled. Default
+                      value: enabled.'
+                    type: string
+                  httpPutResponseHopLimit:
+                    description: 'NOTE:: This parameter is not available for use yet.
+                      The HTTP PUT response hop limit for accessing instance metadata.
+                      Valid values: 1 to 64. Default value: 1.'
+                    type: number
+                  httpTokens:
+                    description: 'Specifies whether to forcefully use the security-enhanced
+                      mode (IMDSv2) to access instance metadata. Default value: optional.
+                      Valid values:'
+                    type: string
+                  imageId:
+                    description: The Image to use for the instance. ECS instance's
+                      image can be replaced via changing image_id. When it is changed,
+                      the instance will reboot to make the change take effect. If
+                      you do not use launch_template_id or launch_template_name to
+                      specify a launch template, you must specify image_id.
+                    type: string
+                  imageIdRef:
+                    description: Reference to a Image in ecs to populate imageId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  imageIdSelector:
+                    description: Selector for a Image in ecs to populate imageId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  imageOptions:
+                    description: The options of images. See image_options below.
+                    items:
+                      properties:
+                        loginAsNonRoot:
+                          description: Whether to allow the instance logging in with
+                            the ecs-user user.
+                          type: boolean
+                      type: object
+                    type: array
+                  includeDataDisks:
+                    description: Whether to change instance disks charge type when
+                      changing instance charge type.
+                    type: boolean
+                  instanceChargeType:
+                    description: |-
+                      Valid values are PrePaid, PostPaid. NOTE: From version 1.243.0, the default value PostPaid will be removed.
+                      NOTE: Since 1.9.6, it can be changed each other between PostPaid and PrePaid.
+                      However, since some limitation about CPU core count in one month,
+                      there strongly recommends that Don't change instance_charge_type frequentlly in one month.
+                    type: string
+                  instanceName:
+                    description: 'The name of the ECS. This instance_name can have
+                      a string of 2 to 128 characters, must contain only alphanumeric
+                      characters or hyphens, such as "-",".","_", and must not begin
+                      with a hyphen, and must not begin with http:// or https://.
+                      NOTE: From version 1.243.0, the default value ECS-Instance will
+                      be removed.'
+                    type: string
+                  instanceType:
+                    description: The type of instance to start. When it is changed,
+                      the instance will reboot to make the change take effect. If
+                      you do not use launch_template_id or launch_template_name to
+                      specify a launch template, you must specify instance_type.
+                    type: string
+                  internetChargeType:
+                    description: 'Internet charge type of the instance, Valid values
+                      are PayByBandwidth, PayByTraffic. At present, ''PrePaid'' instance
+                      cannot change the value to "PayByBandwidth" from "PayByTraffic".
+                      NOTE: From version 1.243.0, the default value PayByTraffic will
+                      be removed.'
+                    type: string
+                  internetMaxBandwidthOut:
+                    description: 'Maximum outgoing bandwidth to the public network,
+                      measured in Mbps (Mega bit per second). Value range:  [0, 100].
+                      NOTE: From version 1.243.0, the default value 0 will be removed.'
+                    type: number
+                  ipv6AddressCount:
+                    description: 'The number of IPv6 addresses to randomly generate
+                      for the primary ENI. Valid values: 1 to 10. NOTE: You cannot
+                      specify both the ipv6_addresses and ipv6_address_count parameters.'
+                    type: number
+                  ipv6Addresses:
+                    description: 'A list of IPv6 address to be assigned to the primary
+                      ENI. Support up to 10. NOTE: From version 1.241.0, ipv6_addresses
+                      can be modified.'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  isOutdated:
+                    description: Whether to use outdated instance type.
+                    type: boolean
+                  keyName:
+                    description: The name of key pair that can login ECS instance
+                      successfully without password. If it is specified, the password
+                      would be invalid.
+                    type: string
+                  keyNameRef:
+                    description: Reference to a KeyPair in ecs to populate keyName.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  keyNameSelector:
+                    description: Selector for a KeyPair in ecs to populate keyName.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  kmsEncryptedPassword:
+                    description: An KMS encrypts password used to an instance. If
+                      the password is filled in, this field will be ignored. When
+                      it is changed, the instance will reboot to make the change take
+                      effect.
+                    type: string
+                  kmsEncryptionContext:
+                    additionalProperties:
+                      type: string
+                    description: An KMS encryption context used to decrypt kms_encrypted_password
+                      before creating or updating an instance with kms_encrypted_password.
+                      See Encryption Context. It is valid when kms_encrypted_password
+                      is set. When it is changed, the instance will reboot to make
+                      the change take effect.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  launchTemplateId:
+                    description: The ID of the launch template. For more information,
+                      see DescribeLaunchTemplates.To use a launch template to create
+                      an instance, you must use the launch_template_id or launch_template_name
+                      parameter to specify the launch template.
+                    type: string
+                  launchTemplateIdRef:
+                    description: Reference to a LaunchTemplate in ecs to populate
+                      launchTemplateId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  launchTemplateIdSelector:
+                    description: Selector for a LaunchTemplate in ecs to populate
+                      launchTemplateId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  launchTemplateName:
+                    description: The name of the launch template.
+                    type: string
+                  launchTemplateVersion:
+                    description: The version of the launch template. If you set launch_template_id
+                      or launch_template_name parameter but do not set the version
+                      number of the launch template, the default template version
+                      is used.
+                    type: string
+                  maintenanceAction:
+                    description: 'The maintenance action. Valid values: Stop, AutoRecover
+                      and AutoRedeploy.'
+                    type: string
+                  maintenanceNotify:
+                    description: 'Specifies whether to send an event notification
+                      before instance shutdown. Valid values: true, false. Default
+                      value: false.'
+                    type: boolean
+                  maintenanceTime:
+                    description: The time of maintenance. See maintenance_time below.
+                    items:
+                      properties:
+                        endTime:
+                          description: The end time of maintenance. The time must
+                            be on the hour at exactly 0 minute and 0 second. The start_time
+                            and end_time parameters must be specified at the same
+                            time. The end_time value must be 1 to 23 hours later than
+                            the start_time value. Specify the time in the HH:mm:ss
+                            format. The time must be in UTC+8.
+                          type: string
+                        startTime:
+                          description: The start time of maintenance. The time must
+                            be on the hour at exactly 0 minute and 0 second. The start_time
+                            and end_time parameters must be specified at the same
+                            time. The end_time value must be 1 to 23 hours later than
+                            the start_time value. Specify the time in the HH:mm:ss
+                            format. The time must be in UTC+8.
+                          type: string
+                      type: object
+                    type: array
+                  networkCardIndex:
+                    description: The index of the network card for Primary ENI.
+                    type: number
+                  networkInterfaceTrafficMode:
+                    description: 'The communication mode of the Primary ENI. Default
+                      value: Standard. Valid values:'
+                    type: string
+                  networkInterfaces:
+                    description: The list of network interfaces created with instance.
+                      See network_interfaces below.
+                    items:
+                      properties:
+                        networkCardIndex:
+                          description: The index of the network card for Secondary
+                            ENI.
+                          type: number
+                        networkInterfaceId:
+                          description: The ID of the Secondary ENI.
+                          type: string
+                        networkInterfaceTrafficMode:
+                          description: 'The communication mode of the Secondary ENI.
+                            Default value: Standard. Valid values:'
+                          type: string
+                        queuePairNumber:
+                          description: The number of queues supported by the ERI.
+                          type: number
+                        securityGroupIds:
+                          description: The ID of security group N to which to assign
+                            Secondary ENI N.
+                          items:
+                            type: string
+                          type: array
+                        vswitchId:
+                          description: The ID of the vSwitch to which to connect Secondary
+                            ENI N.
+                          type: string
+                      type: object
+                    type: array
+                  operatorType:
+                    description: 'The operation type. It is valid when instance_charge_type
+                      is PrePaid. Default value: upgrade. Valid values: upgrade, downgrade.
+                      NOTE:  When the new instance type specified by the instance_type
+                      parameter has lower specifications than the current instance
+                      type, you must set operator_type to downgrade.'
+                    type: string
+                  passwordInherit:
+                    description: 'Specifies whether to use the password preset in
+                      the image. Default value: false. Valid values:'
+                    type: boolean
+                  passwordSecretRef:
+                    description: Password to an instance is a string of 8 to 30 characters.
+                      It must contain uppercase/lowercase letters and numerals, but
+                      cannot contain special symbols. When it is changed, the instance
+                      will reboot to make the change take effect.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  period:
+                    description: 'The duration that you will buy the resource, in
+                      month. It is valid and required when instance_charge_type is
+                      PrePaid. Valid values:'
+                    type: number
+                  periodUnit:
+                    description: 'The duration unit that you will buy the resource.
+                      It is valid when instance_charge_type is ''PrePaid''. Valid
+                      value: ["Week", "Month"]. Default to "Month".'
+                    type: string
+                  privateIp:
+                    description: Instance private IP address can be specified when
+                      you creating new instance. It is valid when vswitch_id is specified.
+                      When it is changed, the instance will reboot to make the change
+                      take effect.
+                    type: string
+                  queuePairNumber:
+                    description: The number of queues supported by the ERI.
+                    type: number
+                  renewalStatus:
+                    description: 'Whether to renew an ECS instance automatically or
+                      not. It is valid when instance_charge_type is PrePaid. Default
+                      to "Normal". Valid values:'
+                    type: string
+                  resourceGroupId:
+                    description: The Id of resource group which the instance belongs.
+                    type: string
+                  roleName:
+                    description: Instance RAM role name. The name is provided and
+                      maintained by RAM. You can use alicloud_ram_role to create a
+                      new one.
+                    type: string
+                  secondaryPrivateIpAddressCount:
+                    description: 'The number of private IP addresses to be automatically
+                      assigned from within the CIDR block of the vswitch. NOTE: To
+                      assign secondary private IP addresses, you must specify secondary_private_ips
+                      or secondary_private_ip_address_count but not both.'
+                    type: number
+                  secondaryPrivateIps:
+                    description: A list of Secondary private IP addresses which is
+                      selected from within the CIDR block of the vSwitch.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  securityEnhancementStrategy:
+                    description: The security enhancement strategy.
+                    type: string
+                  securityGroupRefs:
+                    description: References to SecurityGroup in ecs to populate securityGroups.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  securityGroupSelector:
+                    description: Selector for a list of SecurityGroup in ecs to populate
+                      securityGroups.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  securityGroups:
+                    description: A list of security group ids to associate with. If
+                      you do not use launch_template_id or launch_template_name to
+                      specify a launch template, you must specify security_groups.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  spotDuration:
+                    description: 'The retention time of the preemptive instance in
+                      hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration
+                      2~6 is under invitation test, please submit a work order if
+                      you need to open. If the value is 0, the mode is no protection
+                      period. Default value is 1.'
+                    type: number
+                  spotPriceLimit:
+                    description: The hourly price threshold of a instance, and it
+                      takes effect only when parameter 'spot_strategy' is 'SpotWithPriceLimit'.
+                      Three decimals is allowed at most.
+                    type: number
+                  spotStrategy:
+                    description: 'The spot strategy of a Pay-As-You-Go instance, and
+                      it takes effect only when parameter instance_charge_type is
+                      ''PostPaid''. Value range:'
+                    type: string
+                  status:
+                    description: 'The instance status. Valid values: ["Running", "Stopped"].
+                      You can control the instance start and stop through this parameter.
+                      Default to Running.'
+                    type: string
+                  stoppedMode:
+                    description: 'The stop mode of the pay-as-you-go instance. Valid
+                      values: StopCharging,KeepCharging, Not-applicable. Default value:
+                      If the prerequisites required for enabling the economical mode
+                      are met, and you have enabled this mode in the ECS console,
+                      the default value is StopCharging. For more information, see
+                      "Enable the economical mode" in Economical mode. Otherwise,
+                      the default value is KeepCharging. Note: Not-applicable: Economical
+                      mode is not applicable to the instance.`'
+                    type: string
+                  systemDiskAutoSnapshotPolicyId:
+                    description: The ID of the automatic snapshot policy applied to
+                      the system disk.
+                    type: string
+                  systemDiskCategory:
+                    description: Valid values are ephemeral_ssd, cloud_efficiency,
+                      cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry.
+                      only is used to some none I/O optimized instance. Valid values
+                      cloud_auto Available since v1.184.0.
+                    type: string
+                  systemDiskDescription:
+                    description: The description of the system disk. The description
+                      must be 2 to 256 characters in length and cannot start with
+                      http:// or https://.
+                    type: string
+                  systemDiskEncryptAlgorithm:
+                    description: The algorithm to be used to encrypt the system disk.
+                      Valid values are aes-256, sm4-128. Default value is aes-256.
+                    type: string
+                  systemDiskEncrypted:
+                    description: 'Specifies whether to encrypt the system disk. Valid
+                      values: true,false. Default value: false.'
+                    type: boolean
+                  systemDiskKmsKeyId:
+                    description: The ID of the Key Management Service (KMS) key to
+                      be used for the system disk.
+                    type: string
+                  systemDiskName:
+                    description: The name of the system disk. The name must be 2 to
+                      128 characters in length and can contain letters, digits, periods
+                      (.), colons (:), underscores (_), and hyphens (-). It must start
+                      with a letter and cannot start with http:// or https://.
+                    type: string
+                  systemDiskPerformanceLevel:
+                    description: 'The performance level of the ESSD used as the system
+                      disk, Valid values: PL0, PL1, PL2, PL3, Default to PL1;For more
+                      information about ESSD, See Encryption Context.'
+                    type: string
+                  systemDiskSize:
+                    description: 'Size of the system disk, measured in GiB. Value
+                      range: [20, 500]. The specified value must be equal to or greater
+                      than max{20, Imagesize}. Default value: max{40, ImageSize}.'
+                    type: number
+                  systemDiskStorageClusterId:
+                    description: The ID of the dedicated block storage cluster. If
+                      you want to use disks in a dedicated block storage cluster as
+                      system disks when you create instances, you must specify this
+                      parameter. For more information about dedicated block storage
+                      clusters.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  userData:
+                    description: |-
+                      User-defined data to customize the startup behaviors of an ECS instance and to pass data into an ECS instance.
+                      It supports to setting a base64-encoded value, and it is the recommended usage.
+                      From version 1.60.0, it can be updated in-place. If updated, the instance will reboot to make the change take effect.
+                      Note: Not all changes will take effect, and it depends on cloud-init module type.
+                    type: string
+                  volumeTags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the devices created
+                      by the instance at launch time.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  vpcId:
+                    description: The ID of the VPC.
+                    type: string
+                  vswitchId:
+                    description: The virtual switch ID to launch in VPC. This parameter
+                      must be set unless you can create classic network instances.
+                      When it is changed, the instance will reboot to make the change
+                      take effect.
+                    type: string
+                  vswitchIdRef:
+                    description: Reference to a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vswitchIdSelector:
+                    description: Selector for a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: InstanceStatus defines the observed state of Instance.
+            properties:
+              atProvider:
+                properties:
+                  autoReleaseTime:
+                    description: |-
+                      The automatic release time of the PostPaid instance.
+                      The time follows the ISO 8601 standard and is in UTC time. Format: yyyy-MM-ddTHH:mm:ssZ. It must be at least half an hour later than the current time and less than 3 years since the current time.
+                      Setting it to null can cancel automatic release feature, and the ECS instance will not be released automatically.
+                    type: string
+                  autoRenewPeriod:
+                    description: 'Auto renewal period of an instance, in the unit
+                      of month. It is valid when instance_charge_type is PrePaid.
+                      Default to 1. Valid value:'
+                    type: number
+                  availabilityZone:
+                    description: The Zone to start the instance in. It is ignored
+                      and will be computed when set vswitch_id.
+                    type: string
+                  cpu:
+                    description: The number of vCPUs.
+                    type: number
+                  createTime:
+                    description: (Available since v1.232.0) The time when the instance
+                      was created.
+                    type: string
+                  creditSpecification:
+                    description: 'Performance mode of the t5 burstable instance. Valid
+                      values: ''Standard'', ''Unlimited''.'
+                    type: string
+                  dataDisks:
+                    description: The list of data disks created with instance. See
+                      data_disks below.
+                    items:
+                      properties:
+                        autoSnapshotPolicyId:
+                          description: The ID of the automatic snapshot policy applied
+                            to the system disk.
+                          type: string
+                        category:
+                          description: 'The category of the disk:'
+                          type: string
+                        deleteWithInstance:
+                          description: 'Delete this data disk when the instance is
+                            destroyed. It only works on cloud, cloud_efficiency, cloud_essd,
+                            cloud_ssd disk. If the category of this data disk was
+                            ephemeral_ssd, please don''t set this param. Default value:
+                            true.'
+                          type: boolean
+                        description:
+                          description: The description of the data disk.
+                          type: string
+                        device:
+                          description: The mount point of the data disk.
+                          type: string
+                        encrypted:
+                          description: 'Encrypted the data in this disk. Default value:
+                            false.'
+                          type: boolean
+                        kmsKeyId:
+                          description: The KMS key ID corresponding to the Nth data
+                            disk.
+                          type: string
+                        name:
+                          description: The name of the data disk.
+                          type: string
+                        performanceLevel:
+                          description: 'The performance level of the ESSD used as
+                            data disk:'
+                          type: string
+                        size:
+                          description: The size of the data disk.
+                          type: number
+                        snapshotId:
+                          description: The snapshot ID used to initialize the data
+                            disk. If the size specified by snapshot is greater that
+                            the size of the disk, use the size specified by snapshot
+                            as the size of the data disk.
+                          type: string
+                      type: object
+                    type: array
+                  dedicatedHostId:
+                    description: The ID of the dedicated host on which to create the
+                      instance. If you set the DedicatedHostId parameter, the spot_strategy
+                      and spot_price_limit parameters cannot be set. This is because
+                      preemptible instances cannot be created on dedicated hosts.
+                    type: string
+                  deletionProtection:
+                    description: 'Whether enable the deletion protection or not. It
+                      does not work when the instance is spot. Default value: false.'
+                    type: boolean
+                  deploymentSetGroupNo:
+                    description: The group number of the instance in a deployment
+                      set when the deployment set is use.
+                    type: string
+                  deploymentSetId:
+                    description: 'The ID of the deployment set to which to deploy
+                      the instance. NOTE: From version 1.176.0, instance''s deploymentSetId
+                      can be removed when ''deployment_set_id'' = "".'
+                    type: string
+                  description:
+                    description: Description of the instance, This description can
+                      have a string of 2 to 256 characters, It cannot begin with http://
+                      or https://. Default value is null.
+                    type: string
+                  dryRun:
+                    description: Specifies whether to send a dry-run request. Default
+                      to false.
+                    type: boolean
+                  enableJumboFrame:
+                    description: 'Specifies whether to enable the Jumbo Frames feature
+                      for the instance. Valid values: true, false.'
+                    type: boolean
+                  expiredTime:
+                    description: (Available since v1.232.0) The expiration time of
+                      the instance.
+                    type: string
+                  forceDelete:
+                    description: |-
+                      If it is true, the "PrePaid" instance will be change to "PostPaid" and then deleted forcibly.
+                      However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
+                    type: boolean
+                  hostName:
+                    description: |-
+                      Host name of the ECS, which is a string of at least two characters. “hostname” cannot start or end with “.” or “-“. In addition, two or more consecutive “.” or “-“ symbols are not allowed. On Windows, the host name can contain a maximum of 15 characters, which can be a combination of uppercase/lowercase letters, numerals, and “-“. The host name cannot contain dots (“.”) or contain only numeric characters. When it is changed, the instance will reboot to make the change take effect.
+                      On other OSs such as Linux, the host name can contain a maximum of 64 characters, which can be segments separated by dots (“.”), where each segment can contain uppercase/lowercase letters, numerals, or “_“. When it is changed, the instance will reboot to make the change take effect.
+                    type: string
+                  hpcClusterId:
+                    description: The ID of the Elastic High Performance Computing
+                      (E-HPC) cluster to which to assign the instance.
+                    type: string
+                  httpEndpoint:
+                    description: 'Specifies whether to enable the access channel for
+                      instance metadata. Valid values: enabled, disabled. Default
+                      value: enabled.'
+                    type: string
+                  httpPutResponseHopLimit:
+                    description: 'NOTE:: This parameter is not available for use yet.
+                      The HTTP PUT response hop limit for accessing instance metadata.
+                      Valid values: 1 to 64. Default value: 1.'
+                    type: number
+                  httpTokens:
+                    description: 'Specifies whether to forcefully use the security-enhanced
+                      mode (IMDSv2) to access instance metadata. Default value: optional.
+                      Valid values:'
+                    type: string
+                  id:
+                    description: The instance ID.
+                    type: string
+                  imageId:
+                    description: The Image to use for the instance. ECS instance's
+                      image can be replaced via changing image_id. When it is changed,
+                      the instance will reboot to make the change take effect. If
+                      you do not use launch_template_id or launch_template_name to
+                      specify a launch template, you must specify image_id.
+                    type: string
+                  imageOptions:
+                    description: The options of images. See image_options below.
+                    items:
+                      properties:
+                        loginAsNonRoot:
+                          description: Whether to allow the instance logging in with
+                            the ecs-user user.
+                          type: boolean
+                      type: object
+                    type: array
+                  includeDataDisks:
+                    description: Whether to change instance disks charge type when
+                      changing instance charge type.
+                    type: boolean
+                  instanceChargeType:
+                    description: |-
+                      Valid values are PrePaid, PostPaid. NOTE: From version 1.243.0, the default value PostPaid will be removed.
+                      NOTE: Since 1.9.6, it can be changed each other between PostPaid and PrePaid.
+                      However, since some limitation about CPU core count in one month,
+                      there strongly recommends that Don't change instance_charge_type frequentlly in one month.
+                    type: string
+                  instanceName:
+                    description: 'The name of the ECS. This instance_name can have
+                      a string of 2 to 128 characters, must contain only alphanumeric
+                      characters or hyphens, such as "-",".","_", and must not begin
+                      with a hyphen, and must not begin with http:// or https://.
+                      NOTE: From version 1.243.0, the default value ECS-Instance will
+                      be removed.'
+                    type: string
+                  instanceType:
+                    description: The type of instance to start. When it is changed,
+                      the instance will reboot to make the change take effect. If
+                      you do not use launch_template_id or launch_template_name to
+                      specify a launch template, you must specify instance_type.
+                    type: string
+                  internetChargeType:
+                    description: 'Internet charge type of the instance, Valid values
+                      are PayByBandwidth, PayByTraffic. At present, ''PrePaid'' instance
+                      cannot change the value to "PayByBandwidth" from "PayByTraffic".
+                      NOTE: From version 1.243.0, the default value PayByTraffic will
+                      be removed.'
+                    type: string
+                  internetMaxBandwidthOut:
+                    description: 'Maximum outgoing bandwidth to the public network,
+                      measured in Mbps (Mega bit per second). Value range:  [0, 100].
+                      NOTE: From version 1.243.0, the default value 0 will be removed.'
+                    type: number
+                  ipv6AddressCount:
+                    description: 'The number of IPv6 addresses to randomly generate
+                      for the primary ENI. Valid values: 1 to 10. NOTE: You cannot
+                      specify both the ipv6_addresses and ipv6_address_count parameters.'
+                    type: number
+                  ipv6Addresses:
+                    description: 'A list of IPv6 address to be assigned to the primary
+                      ENI. Support up to 10. NOTE: From version 1.241.0, ipv6_addresses
+                      can be modified.'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  isOutdated:
+                    description: Whether to use outdated instance type.
+                    type: boolean
+                  keyName:
+                    description: The name of key pair that can login ECS instance
+                      successfully without password. If it is specified, the password
+                      would be invalid.
+                    type: string
+                  kmsEncryptedPassword:
+                    description: An KMS encrypts password used to an instance. If
+                      the password is filled in, this field will be ignored. When
+                      it is changed, the instance will reboot to make the change take
+                      effect.
+                    type: string
+                  kmsEncryptionContext:
+                    additionalProperties:
+                      type: string
+                    description: An KMS encryption context used to decrypt kms_encrypted_password
+                      before creating or updating an instance with kms_encrypted_password.
+                      See Encryption Context. It is valid when kms_encrypted_password
+                      is set. When it is changed, the instance will reboot to make
+                      the change take effect.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  launchTemplateId:
+                    description: The ID of the launch template. For more information,
+                      see DescribeLaunchTemplates.To use a launch template to create
+                      an instance, you must use the launch_template_id or launch_template_name
+                      parameter to specify the launch template.
+                    type: string
+                  launchTemplateName:
+                    description: The name of the launch template.
+                    type: string
+                  launchTemplateVersion:
+                    description: The version of the launch template. If you set launch_template_id
+                      or launch_template_name parameter but do not set the version
+                      number of the launch template, the default template version
+                      is used.
+                    type: string
+                  maintenanceAction:
+                    description: 'The maintenance action. Valid values: Stop, AutoRecover
+                      and AutoRedeploy.'
+                    type: string
+                  maintenanceNotify:
+                    description: 'Specifies whether to send an event notification
+                      before instance shutdown. Valid values: true, false. Default
+                      value: false.'
+                    type: boolean
+                  maintenanceTime:
+                    description: The time of maintenance. See maintenance_time below.
+                    items:
+                      properties:
+                        endTime:
+                          description: The end time of maintenance. The time must
+                            be on the hour at exactly 0 minute and 0 second. The start_time
+                            and end_time parameters must be specified at the same
+                            time. The end_time value must be 1 to 23 hours later than
+                            the start_time value. Specify the time in the HH:mm:ss
+                            format. The time must be in UTC+8.
+                          type: string
+                        startTime:
+                          description: The start time of maintenance. The time must
+                            be on the hour at exactly 0 minute and 0 second. The start_time
+                            and end_time parameters must be specified at the same
+                            time. The end_time value must be 1 to 23 hours later than
+                            the start_time value. Specify the time in the HH:mm:ss
+                            format. The time must be in UTC+8.
+                          type: string
+                      type: object
+                    type: array
+                  memory:
+                    description: 'The memory size of the instance. Unit: MiB.'
+                    type: number
+                  networkCardIndex:
+                    description: The index of the network card for Primary ENI.
+                    type: number
+                  networkInterfaceId:
+                    description: The ID of the Primary ENI.
+                    type: string
+                  networkInterfaceTrafficMode:
+                    description: 'The communication mode of the Primary ENI. Default
+                      value: Standard. Valid values:'
+                    type: string
+                  networkInterfaces:
+                    description: The list of network interfaces created with instance.
+                      See network_interfaces below.
+                    items:
+                      properties:
+                        networkCardIndex:
+                          description: The index of the network card for Secondary
+                            ENI.
+                          type: number
+                        networkInterfaceId:
+                          description: The ID of the Secondary ENI.
+                          type: string
+                        networkInterfaceTrafficMode:
+                          description: 'The communication mode of the Secondary ENI.
+                            Default value: Standard. Valid values:'
+                          type: string
+                        queuePairNumber:
+                          description: The number of queues supported by the ERI.
+                          type: number
+                        securityGroupIds:
+                          description: The ID of security group N to which to assign
+                            Secondary ENI N.
+                          items:
+                            type: string
+                          type: array
+                        vswitchId:
+                          description: The ID of the vSwitch to which to connect Secondary
+                            ENI N.
+                          type: string
+                      type: object
+                    type: array
+                  operatorType:
+                    description: 'The operation type. It is valid when instance_charge_type
+                      is PrePaid. Default value: upgrade. Valid values: upgrade, downgrade.
+                      NOTE:  When the new instance type specified by the instance_type
+                      parameter has lower specifications than the current instance
+                      type, you must set operator_type to downgrade.'
+                    type: string
+                  osName:
+                    description: The name of the operating system of the instance.
+                    type: string
+                  osType:
+                    description: The type of the operating system of the instance.
+                    type: string
+                  passwordInherit:
+                    description: 'Specifies whether to use the password preset in
+                      the image. Default value: false. Valid values:'
+                    type: boolean
+                  period:
+                    description: 'The duration that you will buy the resource, in
+                      month. It is valid and required when instance_charge_type is
+                      PrePaid. Valid values:'
+                    type: number
+                  periodUnit:
+                    description: 'The duration unit that you will buy the resource.
+                      It is valid when instance_charge_type is ''PrePaid''. Valid
+                      value: ["Week", "Month"]. Default to "Month".'
+                    type: string
+                  primaryIpAddress:
+                    description: The primary private IP address of the ENI.
+                    type: string
+                  privateIp:
+                    description: Instance private IP address can be specified when
+                      you creating new instance. It is valid when vswitch_id is specified.
+                      When it is changed, the instance will reboot to make the change
+                      take effect.
+                    type: string
+                  publicIp:
+                    description: The instance public ip.
+                    type: string
+                  queuePairNumber:
+                    description: The number of queues supported by the ERI.
+                    type: number
+                  renewalStatus:
+                    description: 'Whether to renew an ECS instance automatically or
+                      not. It is valid when instance_charge_type is PrePaid. Default
+                      to "Normal". Valid values:'
+                    type: string
+                  resourceGroupId:
+                    description: The Id of resource group which the instance belongs.
+                    type: string
+                  roleName:
+                    description: Instance RAM role name. The name is provided and
+                      maintained by RAM. You can use alicloud_ram_role to create a
+                      new one.
+                    type: string
+                  secondaryPrivateIpAddressCount:
+                    description: 'The number of private IP addresses to be automatically
+                      assigned from within the CIDR block of the vswitch. NOTE: To
+                      assign secondary private IP addresses, you must specify secondary_private_ips
+                      or secondary_private_ip_address_count but not both.'
+                    type: number
+                  secondaryPrivateIps:
+                    description: A list of Secondary private IP addresses which is
+                      selected from within the CIDR block of the vSwitch.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  securityEnhancementStrategy:
+                    description: The security enhancement strategy.
+                    type: string
+                  securityGroups:
+                    description: A list of security group ids to associate with. If
+                      you do not use launch_template_id or launch_template_name to
+                      specify a launch template, you must specify security_groups.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  spotDuration:
+                    description: 'The retention time of the preemptive instance in
+                      hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration
+                      2~6 is under invitation test, please submit a work order if
+                      you need to open. If the value is 0, the mode is no protection
+                      period. Default value is 1.'
+                    type: number
+                  spotPriceLimit:
+                    description: The hourly price threshold of a instance, and it
+                      takes effect only when parameter 'spot_strategy' is 'SpotWithPriceLimit'.
+                      Three decimals is allowed at most.
+                    type: number
+                  spotStrategy:
+                    description: 'The spot strategy of a Pay-As-You-Go instance, and
+                      it takes effect only when parameter instance_charge_type is
+                      ''PostPaid''. Value range:'
+                    type: string
+                  startTime:
+                    description: (Available since v1.232.0) The time when the instance
+                      was last started.
+                    type: string
+                  status:
+                    description: 'The instance status. Valid values: ["Running", "Stopped"].
+                      You can control the instance start and stop through this parameter.
+                      Default to Running.'
+                    type: string
+                  stoppedMode:
+                    description: 'The stop mode of the pay-as-you-go instance. Valid
+                      values: StopCharging,KeepCharging, Not-applicable. Default value:
+                      If the prerequisites required for enabling the economical mode
+                      are met, and you have enabled this mode in the ECS console,
+                      the default value is StopCharging. For more information, see
+                      "Enable the economical mode" in Economical mode. Otherwise,
+                      the default value is KeepCharging. Note: Not-applicable: Economical
+                      mode is not applicable to the instance.`'
+                    type: string
+                  systemDiskAutoSnapshotPolicyId:
+                    description: The ID of the automatic snapshot policy applied to
+                      the system disk.
+                    type: string
+                  systemDiskCategory:
+                    description: Valid values are ephemeral_ssd, cloud_efficiency,
+                      cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry.
+                      only is used to some none I/O optimized instance. Valid values
+                      cloud_auto Available since v1.184.0.
+                    type: string
+                  systemDiskDescription:
+                    description: The description of the system disk. The description
+                      must be 2 to 256 characters in length and cannot start with
+                      http:// or https://.
+                    type: string
+                  systemDiskEncryptAlgorithm:
+                    description: The algorithm to be used to encrypt the system disk.
+                      Valid values are aes-256, sm4-128. Default value is aes-256.
+                    type: string
+                  systemDiskEncrypted:
+                    description: 'Specifies whether to encrypt the system disk. Valid
+                      values: true,false. Default value: false.'
+                    type: boolean
+                  systemDiskId:
+                    description: (Available since v1.210.0) The ID of system disk.
+                    type: string
+                  systemDiskKmsKeyId:
+                    description: The ID of the Key Management Service (KMS) key to
+                      be used for the system disk.
+                    type: string
+                  systemDiskName:
+                    description: The name of the system disk. The name must be 2 to
+                      128 characters in length and can contain letters, digits, periods
+                      (.), colons (:), underscores (_), and hyphens (-). It must start
+                      with a letter and cannot start with http:// or https://.
+                    type: string
+                  systemDiskPerformanceLevel:
+                    description: 'The performance level of the ESSD used as the system
+                      disk, Valid values: PL0, PL1, PL2, PL3, Default to PL1;For more
+                      information about ESSD, See Encryption Context.'
+                    type: string
+                  systemDiskSize:
+                    description: 'Size of the system disk, measured in GiB. Value
+                      range: [20, 500]. The specified value must be equal to or greater
+                      than max{20, Imagesize}. Default value: max{40, ImageSize}.'
+                    type: number
+                  systemDiskStorageClusterId:
+                    description: The ID of the dedicated block storage cluster. If
+                      you want to use disks in a dedicated block storage cluster as
+                      system disks when you create instances, you must specify this
+                      parameter. For more information about dedicated block storage
+                      clusters.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  userData:
+                    description: |-
+                      User-defined data to customize the startup behaviors of an ECS instance and to pass data into an ECS instance.
+                      It supports to setting a base64-encoded value, and it is the recommended usage.
+                      From version 1.60.0, it can be updated in-place. If updated, the instance will reboot to make the change take effect.
+                      Note: Not all changes will take effect, and it depends on cloud-init module type.
+                    type: string
+                  volumeTags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the devices created
+                      by the instance at launch time.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  vpcId:
+                    description: The ID of the VPC.
+                    type: string
+                  vswitchId:
+                    description: The virtual switch ID to launch in VPC. This parameter
+                      must be set unless you can create classic network instances.
+                      When it is changed, the instance will reboot to make the change
+                      take effect.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

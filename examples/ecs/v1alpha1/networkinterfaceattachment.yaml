@@ -1,0 +1,116 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkInterfaceAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfaceattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: eniattach
+    networkInterfaceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: eniattach
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfaceattachment
+  labels:
+    testing.upbound.io/example-name: eniattach
+  name: eniattach
+spec:
+  forProvider:
+    description: Basic example
+    networkInterfaceName: crossplane-example
+    primaryIpAddress: 192.168.0.3
+#    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    securityGroupRefs:
+    - name: eniattach
+    tags:
+      Created: TF
+      For: example
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: eniattach
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfaceattachment
+  labels:
+    testing.upbound.io/example-name: eniattach
+  name: eniattach
+spec:
+  forProvider:
+    availabilityZone: cn-zhangjiakou-a
+    hostName: crossplane-example
+    imageId: ubuntu_18_04_x64_20G_alibase_20240223.vhd
+    instanceName: crossplane-example
+    instanceType: ecs.sn1.large
+    securityGroupRefs:
+    - name: eniattach
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: eniattach
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfaceattachment
+  labels:
+    testing.upbound.io/example-name: eniattach
+  name: eniattach
+spec:
+  forProvider:
+    description: New security group
+    securityGroupName: crossplane-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: eniattach
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfaceattachment
+  labels:
+    testing.upbound.io/example-name: eniattach
+  name: eniattach
+spec:
+  forProvider:
+    cidrBlock: 192.168.0.0/16
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfaceattachment
+  labels:
+    testing.upbound.io/example-name: eniattach
+  name: eniattach
+spec:
+  forProvider:
+    cidrBlock: 192.168.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: eniattach
+    vswitchName: crossplane-example
+    zoneId: cn-zhangjiakou-a

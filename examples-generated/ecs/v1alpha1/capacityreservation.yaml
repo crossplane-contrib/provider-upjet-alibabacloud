@@ -1,0 +1,22 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: CapacityReservation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/capacityreservation
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    capacityReservationName: terraform-example
+    description: terraform-example
+    endTimeType: Unlimited
+    instanceAmount: 1
+    instanceType: ${data.alicloud_instance_types.default.ids.0}
+    matchCriteria: Open
+    platform: linux
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    tags:
+      Created: terraform-example
+    zoneIds:
+    - ${data.alicloud_zones.default.zones[0].id}

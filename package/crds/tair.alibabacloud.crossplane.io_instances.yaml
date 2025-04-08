@@ -300,7 +300,7 @@ spec:
                       group IDs with commas (,), such as sg-***,sg-***,sg-***.
                     type: string
                   securityGroupIdRef:
-                    description: Reference to a Group in ecs to populate securityGroupId.
+                    description: Reference to a SecurityGroup in ecs to populate securityGroupId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -334,7 +334,7 @@ spec:
                     - name
                     type: object
                   securityGroupIdSelector:
-                    description: Selector for a Group in ecs to populate securityGroupId.
+                    description: Selector for a SecurityGroup in ecs to populate securityGroupId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -746,7 +746,7 @@ spec:
                       group IDs with commas (,), such as sg-***,sg-***,sg-***.
                     type: string
                   securityGroupIdRef:
-                    description: Reference to a Group in ecs to populate securityGroupId.
+                    description: Reference to a SecurityGroup in ecs to populate securityGroupId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -780,7 +780,7 @@ spec:
                     - name
                     type: object
                   securityGroupIdSelector:
-                    description: Selector for a Group in ecs to populate securityGroupId.
+                    description: Selector for a SecurityGroup in ecs to populate securityGroupId.
                     properties:
                       matchControllerRef:
                         description: |-

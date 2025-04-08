@@ -1,0 +1,103 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: KeyPairAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    instanceRefs:
+    - name: keypairattach
+    keyPairNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: keypairattach
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: KeyPair
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: keypairattach
+  name: keypairattach
+spec:
+  forProvider:
+    keyPairName: crossplane-example-for-attachment
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: keypairattach
+  name: keypairattach
+spec:
+  forProvider:
+    availabilityZone: cn-zhangjiakou-a
+    imageId: ubuntu_18_04_64_20G_alibase_20190624.vhd
+    instanceName: crossplane-example
+    instanceType: ecs.n4.large
+    internetChargeType: PayByBandwidth
+    securityGroupRefs:
+    - name: keypairattach
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: keypairattach
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: keypairattach
+  name: keypairattach
+spec:
+  forProvider:
+    securityGroupName: crossplane-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: keypairattach
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: keypairattach
+  name: keypairattach
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: keypairattach
+  name: keypairattach
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: keypairattach
+    vswitchName: crossplane-example
+    zoneId: cn-zhangjiakou-a

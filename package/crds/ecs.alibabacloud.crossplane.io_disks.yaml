@@ -1,0 +1,830 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: disks.ecs.alibabacloud.crossplane.io
+spec:
+  group: ecs.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alicloud
+    kind: Disk
+    listKind: DiskList
+    plural: disks
+    singular: disk
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Disk is the Schema for the Disks API. Provides a Alicloud ECS
+          Disk resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DiskSpec defines the desired state of Disk
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  advancedFeatures:
+                    type: string
+                  burstingEnabled:
+                    description: 'Specifies whether to enable the performance burst
+                      feature. Valid values: true, false. NOTE: bursting_enabled is
+                      only valid when category is cloud_auto.'
+                    type: boolean
+                  category:
+                    description: 'The category of the data disk. Default value: cloud_efficiency.
+                      Valid Values: cloud, cloud_efficiency, cloud_ssd, cloud_essd,
+                      cloud_auto, cloud_essd_entry, elastic_ephemeral_disk_standard,
+                      elastic_ephemeral_disk_premium.'
+                    type: string
+                  dedicatedBlockStorageClusterId:
+                    type: string
+                  deleteAutoSnapshot:
+                    description: 'Specifies whether to delete the automatic snapshots
+                      of the disk when the disk is released. Default value: false.'
+                    type: boolean
+                  deleteWithInstance:
+                    description: 'Specifies whether to release the disk along with
+                      its associated instance. Default value: false.'
+                    type: boolean
+                  description:
+                    description: The description of the disk. The description must
+                      be 2 to 256 characters in length and cannot start with http://
+                      or https://.
+                    type: string
+                  diskName:
+                    description: The name of the data disk. The name must be 2 to
+                      128 characters in length and can contain letters, digits, colons
+                      (:), underscores (_), periods (.), and hyphens (-). The name
+                      must start with a letter.
+                    type: string
+                  dryRun:
+                    description: 'Specifies whether to check the validity of the request
+                      without actually making the request.request Default value: false.
+                      Valid values:'
+                    type: boolean
+                  enableAutoSnapshot:
+                    description: 'Specifies whether to enable the automatic snapshot
+                      policy feature for the cloud disk. Valid values: true, false.'
+                    type: boolean
+                  encryptAlgorithm:
+                    type: string
+                  encrypted:
+                    description: 'Specifies whether to encrypt the disk. Default value:
+                      false. Valid values:'
+                    type: boolean
+                  instanceId:
+                    description: The ID of the instance to which the created subscription
+                      disk is automatically attached.
+                    type: string
+                  instanceIdRef:
+                    description: Reference to a Instance in ecs to populate instanceId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  instanceIdSelector:
+                    description: Selector for a Instance in ecs to populate instanceId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  kmsKeyId:
+                    description: 'The ID of the Key Management Service (KMS) key that
+                      is used for the disk. NOTE: kms_key_id is only valid when encrypted
+                      is true.'
+                    type: string
+                  multiAttach:
+                    description: 'Specifies whether to enable the multi-attach feature
+                      for the disk. Default value: Disabled. Valid values: Enabled,
+                      Disabled. NOTE: Currently, multi_attach can only be set to Enabled
+                      when category is set to cloud_essd.'
+                    type: string
+                  paymentType:
+                    description: 'The payment type of the disk. Default to PayAsYouGo.
+                      Valid values: PayAsYouGo, Subscription. If you want to change
+                      the disk payment type, the instance_id is required.'
+                    type: string
+                  performanceLevel:
+                    description: 'Specifies the performance level of an ESSD when
+                      you create the ESSD. Valid values:'
+                    type: string
+                  provisionedIops:
+                    description: 'The provisioned read/write IOPS of the ESSD AutoPL
+                      disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline
+                      IOPS}. NOTE: provisioned_iops is only valid when category is
+                      cloud_auto.'
+                    type: number
+                  resourceGroupId:
+                    description: ', tags, and kms_key_id parameters are ignored.'
+                    type: string
+                  size:
+                    description: 'The size of the disk. Unit: GiB. This parameter
+                      is required. Valid values:'
+                    type: number
+                  snapshotId:
+                    description: 'The ID of the snapshot to use to create the disk.
+                      NOTE: If the size of the snapshot specified by snapshot_id is
+                      larger than the value of size, the size of the created disk
+                      is equal to the specified snapshot size. If the size of the
+                      snapshot specified by snapshot_id is smaller than the value
+                      of size, the size of the created disk is equal to the value
+                      of size.'
+                    type: string
+                  storageSetId:
+                    description: The ID of the storage set.
+                    type: string
+                  storageSetPartitionNumber:
+                    description: The number of partitions in the storage set.
+                    type: number
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  type:
+                    description: 'The type to expand cloud disks. Valid Values: online,
+                      offline. Default to offline.'
+                    type: string
+                  zoneId:
+                    description: and instance_id must be set but can not be set at
+                      the same time.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  advancedFeatures:
+                    type: string
+                  burstingEnabled:
+                    description: 'Specifies whether to enable the performance burst
+                      feature. Valid values: true, false. NOTE: bursting_enabled is
+                      only valid when category is cloud_auto.'
+                    type: boolean
+                  category:
+                    description: 'The category of the data disk. Default value: cloud_efficiency.
+                      Valid Values: cloud, cloud_efficiency, cloud_ssd, cloud_essd,
+                      cloud_auto, cloud_essd_entry, elastic_ephemeral_disk_standard,
+                      elastic_ephemeral_disk_premium.'
+                    type: string
+                  dedicatedBlockStorageClusterId:
+                    type: string
+                  deleteAutoSnapshot:
+                    description: 'Specifies whether to delete the automatic snapshots
+                      of the disk when the disk is released. Default value: false.'
+                    type: boolean
+                  deleteWithInstance:
+                    description: 'Specifies whether to release the disk along with
+                      its associated instance. Default value: false.'
+                    type: boolean
+                  description:
+                    description: The description of the disk. The description must
+                      be 2 to 256 characters in length and cannot start with http://
+                      or https://.
+                    type: string
+                  diskName:
+                    description: The name of the data disk. The name must be 2 to
+                      128 characters in length and can contain letters, digits, colons
+                      (:), underscores (_), periods (.), and hyphens (-). The name
+                      must start with a letter.
+                    type: string
+                  dryRun:
+                    description: 'Specifies whether to check the validity of the request
+                      without actually making the request.request Default value: false.
+                      Valid values:'
+                    type: boolean
+                  enableAutoSnapshot:
+                    description: 'Specifies whether to enable the automatic snapshot
+                      policy feature for the cloud disk. Valid values: true, false.'
+                    type: boolean
+                  encryptAlgorithm:
+                    type: string
+                  encrypted:
+                    description: 'Specifies whether to encrypt the disk. Default value:
+                      false. Valid values:'
+                    type: boolean
+                  instanceId:
+                    description: The ID of the instance to which the created subscription
+                      disk is automatically attached.
+                    type: string
+                  instanceIdRef:
+                    description: Reference to a Instance in ecs to populate instanceId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  instanceIdSelector:
+                    description: Selector for a Instance in ecs to populate instanceId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  kmsKeyId:
+                    description: 'The ID of the Key Management Service (KMS) key that
+                      is used for the disk. NOTE: kms_key_id is only valid when encrypted
+                      is true.'
+                    type: string
+                  multiAttach:
+                    description: 'Specifies whether to enable the multi-attach feature
+                      for the disk. Default value: Disabled. Valid values: Enabled,
+                      Disabled. NOTE: Currently, multi_attach can only be set to Enabled
+                      when category is set to cloud_essd.'
+                    type: string
+                  paymentType:
+                    description: 'The payment type of the disk. Default to PayAsYouGo.
+                      Valid values: PayAsYouGo, Subscription. If you want to change
+                      the disk payment type, the instance_id is required.'
+                    type: string
+                  performanceLevel:
+                    description: 'Specifies the performance level of an ESSD when
+                      you create the ESSD. Valid values:'
+                    type: string
+                  provisionedIops:
+                    description: 'The provisioned read/write IOPS of the ESSD AutoPL
+                      disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline
+                      IOPS}. NOTE: provisioned_iops is only valid when category is
+                      cloud_auto.'
+                    type: number
+                  resourceGroupId:
+                    description: ', tags, and kms_key_id parameters are ignored.'
+                    type: string
+                  size:
+                    description: 'The size of the disk. Unit: GiB. This parameter
+                      is required. Valid values:'
+                    type: number
+                  snapshotId:
+                    description: 'The ID of the snapshot to use to create the disk.
+                      NOTE: If the size of the snapshot specified by snapshot_id is
+                      larger than the value of size, the size of the created disk
+                      is equal to the specified snapshot size. If the size of the
+                      snapshot specified by snapshot_id is smaller than the value
+                      of size, the size of the created disk is equal to the value
+                      of size.'
+                    type: string
+                  storageSetId:
+                    description: The ID of the storage set.
+                    type: string
+                  storageSetPartitionNumber:
+                    description: The number of partitions in the storage set.
+                    type: number
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  type:
+                    description: 'The type to expand cloud disks. Valid Values: online,
+                      offline. Default to offline.'
+                    type: string
+                  zoneId:
+                    description: and instance_id must be set but can not be set at
+                      the same time.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: DiskStatus defines the observed state of Disk.
+            properties:
+              atProvider:
+                properties:
+                  advancedFeatures:
+                    type: string
+                  burstingEnabled:
+                    description: 'Specifies whether to enable the performance burst
+                      feature. Valid values: true, false. NOTE: bursting_enabled is
+                      only valid when category is cloud_auto.'
+                    type: boolean
+                  category:
+                    description: 'The category of the data disk. Default value: cloud_efficiency.
+                      Valid Values: cloud, cloud_efficiency, cloud_ssd, cloud_essd,
+                      cloud_auto, cloud_essd_entry, elastic_ephemeral_disk_standard,
+                      elastic_ephemeral_disk_premium.'
+                    type: string
+                  createTime:
+                    description: (Available since v1.237.0) The time when the disk
+                      was created.
+                    type: string
+                  dedicatedBlockStorageClusterId:
+                    type: string
+                  deleteAutoSnapshot:
+                    description: 'Specifies whether to delete the automatic snapshots
+                      of the disk when the disk is released. Default value: false.'
+                    type: boolean
+                  deleteWithInstance:
+                    description: 'Specifies whether to release the disk along with
+                      its associated instance. Default value: false.'
+                    type: boolean
+                  description:
+                    description: The description of the disk. The description must
+                      be 2 to 256 characters in length and cannot start with http://
+                      or https://.
+                    type: string
+                  diskName:
+                    description: The name of the data disk. The name must be 2 to
+                      128 characters in length and can contain letters, digits, colons
+                      (:), underscores (_), periods (.), and hyphens (-). The name
+                      must start with a letter.
+                    type: string
+                  dryRun:
+                    description: 'Specifies whether to check the validity of the request
+                      without actually making the request.request Default value: false.
+                      Valid values:'
+                    type: boolean
+                  enableAutoSnapshot:
+                    description: 'Specifies whether to enable the automatic snapshot
+                      policy feature for the cloud disk. Valid values: true, false.'
+                    type: boolean
+                  encryptAlgorithm:
+                    type: string
+                  encrypted:
+                    description: 'Specifies whether to encrypt the disk. Default value:
+                      false. Valid values:'
+                    type: boolean
+                  id:
+                    type: string
+                  instanceId:
+                    description: The ID of the instance to which the created subscription
+                      disk is automatically attached.
+                    type: string
+                  kmsKeyId:
+                    description: 'The ID of the Key Management Service (KMS) key that
+                      is used for the disk. NOTE: kms_key_id is only valid when encrypted
+                      is true.'
+                    type: string
+                  multiAttach:
+                    description: 'Specifies whether to enable the multi-attach feature
+                      for the disk. Default value: Disabled. Valid values: Enabled,
+                      Disabled. NOTE: Currently, multi_attach can only be set to Enabled
+                      when category is set to cloud_essd.'
+                    type: string
+                  paymentType:
+                    description: 'The payment type of the disk. Default to PayAsYouGo.
+                      Valid values: PayAsYouGo, Subscription. If you want to change
+                      the disk payment type, the instance_id is required.'
+                    type: string
+                  performanceLevel:
+                    description: 'Specifies the performance level of an ESSD when
+                      you create the ESSD. Valid values:'
+                    type: string
+                  provisionedIops:
+                    description: 'The provisioned read/write IOPS of the ESSD AutoPL
+                      disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline
+                      IOPS}. NOTE: provisioned_iops is only valid when category is
+                      cloud_auto.'
+                    type: number
+                  regionId:
+                    description: (Available since v1.237.0) The ID of the region to
+                      which the disk belongs.
+                    type: string
+                  resourceGroupId:
+                    description: ', tags, and kms_key_id parameters are ignored.'
+                    type: string
+                  size:
+                    description: 'The size of the disk. Unit: GiB. This parameter
+                      is required. Valid values:'
+                    type: number
+                  snapshotId:
+                    description: 'The ID of the snapshot to use to create the disk.
+                      NOTE: If the size of the snapshot specified by snapshot_id is
+                      larger than the value of size, the size of the created disk
+                      is equal to the specified snapshot size. If the size of the
+                      snapshot specified by snapshot_id is smaller than the value
+                      of size, the size of the created disk is equal to the value
+                      of size.'
+                    type: string
+                  status:
+                    description: The status of the disk.
+                    type: string
+                  storageSetId:
+                    description: The ID of the storage set.
+                    type: string
+                  storageSetPartitionNumber:
+                    description: The number of partitions in the storage set.
+                    type: number
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  type:
+                    description: 'The type to expand cloud disks. Valid Values: online,
+                      offline. Default to offline.'
+                    type: string
+                  zoneId:
+                    description: and instance_id must be set but can not be set at
+                      the same time.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

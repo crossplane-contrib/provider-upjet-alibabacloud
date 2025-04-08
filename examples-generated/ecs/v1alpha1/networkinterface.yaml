@@ -1,0 +1,73 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterface
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: Basic test
+    networkInterfaceName: ${var.name}
+    primaryIpAddress: 192.168.0.2
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    securityGroupRefs:
+    - name: default
+    tags:
+      Created: TF
+      For: Test
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterface
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    name: ${var.name}
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterface
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 192.168.0.0/24
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterface
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 192.168.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

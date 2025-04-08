@@ -1,0 +1,66 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: ImagePipeline
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagepipeline
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    addAccount:
+    - ${data.alicloud_account.default.id}
+    baseImage: ${data.alicloud_images.default.ids.0}
+    baseImageType: IMAGE
+    buildContent: RUN yum update -y
+    deleteInstanceOnFailure: false
+    description: terraform-example
+    imageName: terraform-example
+    instanceType: ${data.alicloud_instance_types.default.ids.0}
+    internetMaxBandwidthOut: 20
+    name: terraform-example
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    systemDiskSize: 40
+    tags:
+      Created: TF
+      For: Acceptance-test
+    toRegionId:
+    - cn-qingdao
+    - cn-zhangjiakou
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagepipeline
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcName: terraform-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagepipeline
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: terraform-example
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

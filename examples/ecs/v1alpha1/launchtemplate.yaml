@@ -1,0 +1,138 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: LaunchTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/launchtemplate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    dataDisks:
+    - category: cloud
+      deleteWithInstance: true
+      description: description
+      encrypted: false
+      name: disk1
+      performanceLevel: PL0
+      size: 20
+    - category: cloud
+      deleteWithInstance: true
+      description: description2
+      encrypted: false
+      name: disk2
+      performanceLevel: PL0
+      size: 20
+    description: crossplane-example
+    hostName: crossplane-example
+    imageId: ubuntu_18_04_64_20G_alibase_20190624.vhd
+    instanceChargeType: PrePaid
+    instanceName: crossplane-example
+    instanceType: ecs.n4.large
+    internetChargeType: PayByBandwidth
+    internetMaxBandwidthIn: 5
+    internetMaxBandwidthOut: 5
+    ioOptimized: optimized
+    keyPairNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: launchtemplate
+    launchTemplateName: crossplane-example
+#    networkInterfaces:
+#    - description: hello1
+#      name: eth0
+#      primaryIp: 10.0.0.2
+#      securityGroupIdSelector:
+#        matchLabels:
+#          testing.upbound.io/example-name: default
+#      vswitchIdSelector:
+#        matchLabels:
+#          testing.upbound.io/example-name: default
+    networkType: vpc
+    ramRoleName: ram_role_name
+    securityEnhancementStrategy: Active
+    securityGroupRefs:
+    - name: launchtemplate
+    spotPriceLimit: 5
+    spotStrategy: SpotWithPriceLimit
+    systemDisk:
+    - category: cloud_ssd
+      deleteWithInstance: false
+      description: Test For Terraform
+      name: crossplane-example
+      size: 40
+    templateTags:
+      Create: Terraform
+      For: example
+    userData: xxxxxxx
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: launchtemplate
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: launchtemplate
+    zoneId: cn-zhangjiakou-a
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: KeyPair
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
+  labels:
+    testing.upbound.io/example-name: launchtemplate
+  name: launchtemplate
+spec:
+  forProvider:
+    keyPairName: crossplane-example-for-launchtemplate
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/launchtemplate
+  labels:
+    testing.upbound.io/example-name: launchtemplate
+  name: launchtemplate
+spec:
+  forProvider:
+    securityGroupName: crossplane-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: launchtemplate
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/launchtemplate
+  labels:
+    testing.upbound.io/example-name: launchtemplate
+  name: launchtemplate
+spec:
+  forProvider:
+    cidrBlock: 172.17.0.0/16
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/launchtemplate
+  labels:
+    testing.upbound.io/example-name: launchtemplate
+  name: launchtemplate
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: launchtemplate
+    vswitchName: crossplane-example
+    zoneId: cn-zhangjiakou-a

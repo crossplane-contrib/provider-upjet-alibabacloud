@@ -1,0 +1,18 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: ReservedInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/reservedinstance
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: ReservedInstance
+    instanceAmount: "1"
+    instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
+    offeringType: All Upfront
+    periodUnit: Month
+    reservedInstanceName: terraform-example
+    scope: Zone
+    zoneId: ${data.alicloud_instance_types.default.instance_types.0.availability_zones.0}

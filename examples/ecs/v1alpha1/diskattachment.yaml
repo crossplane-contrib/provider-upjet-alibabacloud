@@ -1,0 +1,114 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: DiskAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/diskattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    diskIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Disk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/diskattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    category: cloud_efficiency
+    deleteAutoSnapshot: true
+    description: Test For Terraform
+    diskName: crossplane-example
+    enableAutoSnapshot: true
+    encrypted: true
+    size: 500
+    tags:
+      Created: TF
+      Environment: Acceptance-test
+    zoneId: cn-zhangjiakou-a
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/diskattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    availabilityZone: cn-zhangjiakou-a
+    hostName: crossplane-example
+    imageId: ubuntu_18_04_64_20G_alibase_20190624.vhd
+    instanceName: crossplane-example
+    instanceType: ecs.n4.large
+    securityGroupRefs:
+    - name: default
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/diskattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: New security group
+    securityGroupName: crossplane-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/diskattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/diskattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneId: cn-zhangjiakou-a

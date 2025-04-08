@@ -1,0 +1,20 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: AutoSnapshotPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicy
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: terraform-example
+    repeatWeekdays:
+    - "1"
+    - "2"
+    - "3"
+    retentionDays: -1
+    timePoints:
+    - "1"
+    - "22"
+    - "23"

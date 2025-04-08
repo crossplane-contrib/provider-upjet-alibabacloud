@@ -252,7 +252,7 @@ spec:
                     description: Security group id
                     type: string
                   securityGroupIdRef:
-                    description: Reference to a Group in ecs to populate securityGroupId.
+                    description: Reference to a SecurityGroup in ecs to populate securityGroupId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -286,7 +286,7 @@ spec:
                     - name
                     type: object
                   securityGroupIdSelector:
-                    description: Selector for a Group in ecs to populate securityGroupId.
+                    description: Selector for a SecurityGroup in ecs to populate securityGroupId.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -749,7 +749,7 @@ spec:
                     description: Security group id
                     type: string
                   securityGroupIdRef:
-                    description: Reference to a Group in ecs to populate securityGroupId.
+                    description: Reference to a SecurityGroup in ecs to populate securityGroupId.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -783,7 +783,7 @@ spec:
                     - name
                     type: object
                   securityGroupIdSelector:
-                    description: Selector for a Group in ecs to populate securityGroupId.
+                    description: Selector for a SecurityGroup in ecs to populate securityGroupId.
                     properties:
                       matchControllerRef:
                         description: |-

@@ -1,0 +1,13 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: DeploymentSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/deploymentset
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    deploymentSetName: ${var.name}
+    description: ${var.name}
+    strategy: Availability

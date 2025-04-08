@@ -155,8 +155,8 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.GroupList{},
-			Managed: &v1alpha1.Group{},
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
 		},
 	})
 	if err != nil {
@@ -187,8 +187,8 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.GroupList{},
-			Managed: &v1alpha1.Group{},
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
 		},
 	})
 	if err != nil {
@@ -229,8 +229,8 @@ func (mg *TairInstance) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.GroupList{},
-			Managed: &v1alpha1.Group{},
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
 		},
 	})
 	if err != nil {
@@ -277,8 +277,8 @@ func (mg *TairInstance) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.GroupList{},
-			Managed: &v1alpha1.Group{},
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
 		},
 	})
 	if err != nil {

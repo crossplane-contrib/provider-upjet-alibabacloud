@@ -1,0 +1,18 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: ImageComponent
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imagecomponent
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    componentType: Build
+    content: RUN yum update -y
+    description: example_value
+    imageComponentName: example_value
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    systemType: Linux
+    tags:
+      Created: TF

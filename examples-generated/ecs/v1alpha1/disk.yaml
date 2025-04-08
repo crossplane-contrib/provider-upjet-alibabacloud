@@ -1,0 +1,19 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Disk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/disk
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    category: cloud_efficiency
+    description: terraform-example
+    diskName: terraform-example
+    encrypted: true
+    kmsKeyId: ${alicloud_kms_key.example.id}
+    size: "30"
+    tags:
+      Name: terraform-example
+    zoneId: ${data.alicloud_zones.example.zones.0.id}

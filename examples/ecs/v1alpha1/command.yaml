@@ -1,0 +1,15 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Command
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/command
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    commandContent: bHMK
+    description: For Terraform Test
+    name: tf-testAcc
+    type: RunShellScript
+    workingDir: /root

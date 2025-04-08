@@ -103,15 +103,15 @@ type TairInstanceInitParameters struct {
 	SecondaryZoneID *string `json:"secondaryZoneId,omitempty" tf:"secondary_zone_id,omitempty"`
 
 	// Security group id
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.Group
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.IdExtractor()
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
 
-	// Reference to a Group in ecs to populate securityGroupId.
+	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
 	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
-	// Selector for a Group in ecs to populate securityGroupId.
+	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
 	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
@@ -452,16 +452,16 @@ type TairInstanceParameters struct {
 	SecondaryZoneID *string `json:"secondaryZoneId,omitempty" tf:"secondary_zone_id,omitempty"`
 
 	// Security group id
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.Group
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.IdExtractor()
 	// +kubebuilder:validation:Optional
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
 
-	// Reference to a Group in ecs to populate securityGroupId.
+	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
 	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
-	// Selector for a Group in ecs to populate securityGroupId.
+	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
 	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 

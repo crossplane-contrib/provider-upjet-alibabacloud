@@ -1,0 +1,22 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: ElasticityAssurance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/elasticityassurance
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    assuranceTimes: Unlimited
+    description: before
+    instanceAmount: 1
+    instanceType:
+    - ${data.alicloud_instance_types.default.instance_types.0.id}
+    period: 1
+    periodUnit: Month
+    privatePoolOptionsMatchCriteria: Open
+    privatePoolOptionsName: test_before
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    zoneIds:
+    - ${data.alicloud_zones.default.zones[2].id}

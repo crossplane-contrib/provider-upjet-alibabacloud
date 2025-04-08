@@ -1,0 +1,20 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: ImageImport
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imageimport
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    architecture: x86_64
+    description: ${var.name}
+    diskDeviceMapping:
+    - diskImageSize: 5
+      ossBucket: ${alicloud_oss_bucket.default.id}
+      ossObject: ${alicloud_oss_bucket_object.default.id}
+    imageName: ${var.name}
+    licenseType: Auto
+    osType: linux
+    platform: Ubuntu

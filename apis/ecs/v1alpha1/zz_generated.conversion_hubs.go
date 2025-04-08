@@ -7,4 +7,115 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
-func (tr *Group) Hub() {}
+func (tr *Activation) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *AutoProvisioningGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *AutoSnapshotPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *AutoSnapshotPolicyAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *CapacityReservation) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Command) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DedicatedHost) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DedicatedHostCluster) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DeploymentSet) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Disk) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DiskAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ElasticityAssurance) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *HpcCluster) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Image) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ImageComponent) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ImageCopy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ImageExport) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ImageImport) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ImagePipeline) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ImagePipelineExecution) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ImageSharePermission) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Instance) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *InstanceSet) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Invocation) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *KeyPair) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *KeyPairAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *LaunchTemplate) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *NetworkInterface) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *NetworkInterfaceAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *NetworkInterfacePermission) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *PrefixList) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ReservedInstance) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SecurityGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SecurityGroupRule) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SessionManagerStatus) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Snapshot) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SnapshotGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *StorageCapacityUnit) Hub() {}

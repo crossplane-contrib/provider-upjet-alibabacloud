@@ -1,0 +1,61 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: AutoSnapshotPolicyAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicyattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    autoSnapshotPolicyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    diskIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: AutoSnapshotPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicyattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: terraform-example
+    repeatWeekdays:
+    - "1"
+    - "2"
+    - "3"
+    retentionDays: -1
+    timePoints:
+    - "1"
+    - "22"
+    - "23"
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Disk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicyattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    category: cloud_efficiency
+    description: Hello ecs disk.
+    diskName: terraform-example
+    encrypted: true
+    kmsKeyId: ${alicloud_kms_key.example.id}
+    size: "30"
+    tags:
+      Name: terraform-example
+    zoneId: ${data.alicloud_zones.example.zones.0.id}

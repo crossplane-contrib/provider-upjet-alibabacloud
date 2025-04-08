@@ -1,0 +1,92 @@
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkInterfacePermission
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfacepermission
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    accountId: ${data.alicloud_account.default.id}
+    force: true
+    networkInterfaceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    permission: InstanceAttach
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: NetworkInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfacepermission
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: terraform-example
+    networkInterfaceName: terraform-example
+    primaryIpAddress: ${cidrhost(alicloud_vswitch.default.cidr_block, 100)}
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    securityGroupRefs:
+    - name: default
+    tags:
+      Created: TF
+      For: example
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfacepermission
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    name: terraform-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfacepermission
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcName: terraform-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/networkinterfacepermission
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: terraform-example
+    zoneId: ${data.alicloud_zones.default.zones.0.id}
