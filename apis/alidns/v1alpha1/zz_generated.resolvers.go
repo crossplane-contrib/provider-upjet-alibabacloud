@@ -8,6 +8,8 @@ package v1alpha1
 
 import (
 	"context"
+	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1"
+	common "github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -247,6 +249,22 @@ func (mg *Record) ResolveReferences(ctx context.Context, c client.Reader) error 
 	mg.Spec.ForProvider.DomainNameRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Value),
+		Extract:      common.OssBucketCnameTokenExtractor(),
+		Reference:    mg.Spec.ForProvider.ValueRef,
+		Selector:     mg.Spec.ForProvider.ValueSelector,
+		To: reference.To{
+			List:    &v1alpha1.BucketCnameTokenList{},
+			Managed: &v1alpha1.BucketCnameToken{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Value")
+	}
+	mg.Spec.ForProvider.Value = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ValueRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DomainName),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.InitProvider.DomainNameRef,
@@ -261,6 +279,22 @@ func (mg *Record) ResolveReferences(ctx context.Context, c client.Reader) error 
 	}
 	mg.Spec.InitProvider.DomainName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DomainNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Value),
+		Extract:      common.OssBucketCnameTokenExtractor(),
+		Reference:    mg.Spec.InitProvider.ValueRef,
+		Selector:     mg.Spec.InitProvider.ValueSelector,
+		To: reference.To{
+			List:    &v1alpha1.BucketCnameTokenList{},
+			Managed: &v1alpha1.BucketCnameToken{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Value")
+	}
+	mg.Spec.InitProvider.Value = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ValueRef = rsp.ResolvedReference
 
 	return nil
 }

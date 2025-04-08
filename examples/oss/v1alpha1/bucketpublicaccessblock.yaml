@@ -1,0 +1,29 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketPublicAccessBlock
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketpublicaccessblock
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    blockPublicAccess: true
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketpublicaccessblock
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketpublicaccessblock
+  labels:
+    testing.upbound.io/example-name: bucketpublicaccessblock
+  name: bucketpublicaccessblock
+spec:
+  forProvider:
+    bucket: crossplane-example-bucketpublicaccessblock-202504081600
+    storageClass: Standard

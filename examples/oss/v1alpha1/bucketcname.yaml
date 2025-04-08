@@ -1,0 +1,69 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketCname
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcname
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketcname
+    domain: tftestacc.com
+
+---
+
+apiVersion: alidns.alibabacloud.crossplane.io/v1alpha1
+kind: Record
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcname
+  labels:
+    testing.upbound.io/example-name: bucketcname
+  name: bucketcname
+spec:
+  forProvider:
+    domainName: tftestacc.com
+    line: default
+    priority: 1
+    rr: _dnsauth
+    status: ENABLE
+    ttl: 600
+    type: TXT
+    valueSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketcname
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcname
+  labels:
+    testing.upbound.io/example-name: bucketcname
+  name: bucketcname
+spec:
+  forProvider:
+    bucket: crossplane-example-bucketcname-202504081600
+    storageClass: Standard
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketCnameToken
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcname
+  labels:
+    testing.upbound.io/example-name: bucketcname
+  name: bucketcname
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketcname
+    domain: tftestacc.com

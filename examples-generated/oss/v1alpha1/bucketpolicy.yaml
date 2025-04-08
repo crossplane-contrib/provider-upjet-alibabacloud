@@ -1,0 +1,31 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketpolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: CreateBucket
+    policy: '${jsonencode({ "Version" : "1", "Statement" : [{ "Action" : ["oss:PutObject",
+      "oss:GetObject"], "Effect" : "Deny", "Principal" : ["1234567890"], "Resource"
+      : ["acs:oss:*:1234567890:*/*"] }] })}'
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketpolicy
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+spec:
+  forProvider:
+    bucket: ${var.name}-${random_integer.default.result}
+    storageClass: Standard

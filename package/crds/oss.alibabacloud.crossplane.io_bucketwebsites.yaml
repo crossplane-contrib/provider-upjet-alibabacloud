@@ -1,0 +1,1931 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: bucketwebsites.oss.alibabacloud.crossplane.io
+spec:
+  group: oss.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alicloud
+    kind: BucketWebsite
+    listKind: BucketWebsiteList
+    plural: bucketwebsites
+    singular: bucketwebsite
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: BucketWebsite is the Schema for the BucketWebsites API. Provides
+          a Alicloud OSS Bucket Website resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: BucketWebsiteSpec defines the desired state of BucketWebsite
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  bucket:
+                    description: The name of the bucket
+                    type: string
+                  bucketRef:
+                    description: Reference to a Bucket in oss to populate bucket.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  bucketSelector:
+                    description: Selector for a Bucket in oss to populate bucket.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  errorDocument:
+                    description: The container that holds the error page configuration
+                      information. See error_document below.
+                    items:
+                      properties:
+                        httpStatus:
+                          description: The HTTP status code when the error page is
+                            returned. The default 404.
+                          type: number
+                        key:
+                          description: The error page file. If the Object accessed
+                            does not exist, this error page is returned.
+                          type: string
+                      type: object
+                    type: array
+                  indexDocument:
+                    description: Static Website Default Home Page Configuration See
+                      index_document below.
+                    items:
+                      properties:
+                        suffix:
+                          description: The default home page.
+                          type: string
+                        supportSubDir:
+                          description: Whether to jump to the default home page of
+                            a subdirectory when accessing a subdirectory.
+                          type: boolean
+                        type:
+                          description: After the default homepage is set, the behavior
+                            when an Object that ends with a non-forward slash (/)
+                            is accessed and the Object does not exist.
+                          type: string
+                      type: object
+                    type: array
+                  routingRules:
+                    description: The container that holds the jump rule or the mirroring
+                      back-to-origin rule. See routing_rules below.
+                    items:
+                      properties:
+                        routingRule:
+                          description: Specify a jump rule or a mirroring back-to-origin
+                            rule, with a maximum of 20 routing rules. See routing_rule
+                            below.
+                          items:
+                            properties:
+                              condition:
+                                description: Save the criteria that the rule needs
+                                  to match. See condition below.
+                                items:
+                                  properties:
+                                    httpErrorCodeReturnedEquals:
+                                      description: When the specified Object is accessed,
+                                        this status is returned to match this rule.
+                                        This field must be 404 when the jump rule
+                                        is mirrored back to the source.
+                                      type: string
+                                    includeHeaders:
+                                      description: This rule can only be matched if
+                                        the request contains the specified Header
+                                        and the value is the specified value. You
+                                        can specify up to 10 containers. See include_headers
+                                        below.
+                                      items:
+                                        properties:
+                                          endsWith:
+                                            description: This rule can only be matched
+                                              if the request contains the Header specified
+                                              by Key and the value ends with this
+                                              value.
+                                            type: string
+                                          equals:
+                                            description: This rule can only be matched
+                                              if the request contains the Header specified
+                                              by Key and the value is the specified
+                                              value.
+                                            type: string
+                                          key:
+                                            description: The tag key corresponding
+                                              to the current rule
+                                            type: string
+                                          startsWith:
+                                            description: This rule can only be matched
+                                              if the request contains the Header specified
+                                              by Key and the value starts with this
+                                              value.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    keyPrefixEquals:
+                                      description: Only objects that match this prefix
+                                        can match this rule.
+                                      type: string
+                                    keySuffixEquals:
+                                      description: Only objects that match this suffix
+                                        can match this rule.
+                                      type: string
+                                  type: object
+                                type: array
+                              luaConfig:
+                                description: The Lua script configuration to be executed.
+                                  See lua_config below.
+                                items:
+                                  properties:
+                                    script:
+                                      description: The Lua script name.
+                                      type: string
+                                  type: object
+                                type: array
+                              redirect:
+                                description: Specifies the action to perform after
+                                  this rule is matched. See redirect below.
+                                items:
+                                  properties:
+                                    enableReplacePrefix:
+                                      description: If this field is set to true, the
+                                        prefix of Object is replaced with the value
+                                        specified by ReplaceKeyPrefixWith. If this
+                                        field is not specified or is blank, the Object
+                                        prefix is truncated.
+                                      type: boolean
+                                    hostName:
+                                      description: The domain name during the jump.
+                                        The domain name must comply with the domain
+                                        name specification.
+                                      type: string
+                                    httpRedirectCode:
+                                      description: The status code returned during
+                                        the jump. It takes effect only when the RedirectType
+                                        is set to External or AliCDN.
+                                      type: string
+                                    mirrorAllowGetImageInfo:
+                                      description: Image back-to-source allows getting
+                                        Image information
+                                      type: boolean
+                                    mirrorAllowHeadObject:
+                                      description: Whether to allow HeadObject in
+                                        image back-to-source
+                                      type: boolean
+                                    mirrorAllowVideoSnapshot:
+                                      description: Mirror back-to-source allows support
+                                        for video frame truncation
+                                      type: boolean
+                                    mirrorAsyncStatus:
+                                      description: The status code of the mirror back-to-source
+                                        trigger asynchronous pull mode.
+                                      type: number
+                                    mirrorAuth:
+                                      description: Image back Source station authentication
+                                        information See mirror_auth below.
+                                      items:
+                                        properties:
+                                          accessKeyId:
+                                            description: Mirror back-to-source source
+                                              Station back-to-source AK
+                                            type: string
+                                          accessKeySecretSecretRef:
+                                            description: Mirroring back to the source
+                                              station back to the source SK will be
+                                              automatically desensitized when obtaining
+                                              the configuration.
+                                            properties:
+                                              key:
+                                                description: The key to select.
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                              namespace:
+                                                description: Namespace of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            - namespace
+                                            type: object
+                                          authType:
+                                            description: Authentication type of mirror
+                                              return Source
+                                            type: string
+                                          region:
+                                            description: Signature Region
+                                            type: string
+                                        type: object
+                                      type: array
+                                    mirrorCheckMd5:
+                                      description: Whether to check the MD5 of the
+                                        source body. It takes effect only when the
+                                        RedirectType is set to Mirror.
+                                      type: boolean
+                                    mirrorDstRegion:
+                                      description: Mirrored back-to-source high-speed
+                                        Channel vpregion
+                                      type: string
+                                    mirrorDstSlaveVpcId:
+                                      description: Mirroring back-to-source high-speed
+                                        Channel standby station VpcId
+                                      type: string
+                                    mirrorDstVpcId:
+                                      description: Mirror back-to-source high-speed
+                                        Channel VpcId
+                                      type: string
+                                    mirrorFollowRedirect:
+                                      description: If the result of the image back-to-source
+                                        acquisition is 3xx, whether to continue to
+                                        jump to the specified Location to obtain data.
+                                        It takes effect only when the RedirectType
+                                        is set to Mirror.
+                                      type: boolean
+                                    mirrorHeaders:
+                                      description: Specifies the Header carried when
+                                        the image returns to the source. It takes
+                                        effect only when the RedirectType is set to
+                                        Mirror. See mirror_headers below.
+                                      items:
+                                        properties:
+                                          pass:
+                                            description: Pass through the specified
+                                              Header to the source site. It takes
+                                              effect only when the RedirectType is
+                                              set to Mirror. Each Header is up to
+                                              1024 bytes in length and has A character
+                                              set of 0 to 9, a to Z, A to z, and dashes
+                                              (-).
+                                            items:
+                                              type: string
+                                            type: array
+                                          passAll:
+                                            description: Indicates whether other headers
+                                              except the following headers are transmitted
+                                              to the source site. It takes effect
+                                              only when the RedirectType is set to
+                                              Mirror. content-length, authorization2,
+                                              authorization, range, date, and other
+                                              headers Headers whose names start with
+                                              oss-/x-oss-/x-drs-
+                                            type: boolean
+                                          remove:
+                                            description: Do not pass the specified
+                                              Header to the source site. It takes
+                                              effect only when the RedirectType is
+                                              set to Mirror. Each Header is up to
+                                              1024 bytes in length and has A character
+                                              set of 0 to 9, a to Z, A to z, and dashes
+                                              (-).
+                                            items:
+                                              type: string
+                                            type: array
+                                          set:
+                                            description: Set a Header to send to the
+                                              source site. Regardless of whether the
+                                              request contains the specified Header,
+                                              these headers will be set when returning
+                                              to the source site. It takes effect
+                                              only when the RedirectType is set to
+                                              Mirror. See set below.
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: The tag key corresponding
+                                                    to the current rule
+                                                  type: string
+                                                value:
+                                                  description: Rules for Saving Label
+                                                    Values
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorIsExpressTunnel:
+                                      description: Whether it is a mirror back-to-source
+                                        high-speed Channel
+                                      type: boolean
+                                    mirrorMultiAlternates:
+                                      description: 'Mirror back-to-source multi-source
+                                        station configuration container. NOTE:: If
+                                        you want to clean one configuration, you must
+                                        set the configuration to empty value, removing
+                                        from code cannot make effect. See mirror_multi_alternates
+                                        below.'
+                                      items:
+                                        properties:
+                                          mirrorMultiAlternate:
+                                            description: Mirror back-to-source multi-source
+                                              station configuration list See mirror_multi_alternate
+                                              below.
+                                            items:
+                                              properties:
+                                                mirrorMultiAlternateDstRegion:
+                                                  description: Mirroring back-to-source
+                                                    multi-station Region
+                                                  type: string
+                                                mirrorMultiAlternateNumber:
+                                                  description: Image back-to-source
+                                                    multi-source station serial number
+                                                  type: number
+                                                mirrorMultiAlternateUrl:
+                                                  description: Mirroring back-to-source
+                                                    multi-source site URL
+                                                  type: string
+                                                mirrorMultiAlternateVpcId:
+                                                  description: Mirroring back-to-source
+                                                    multi-source VpcId
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorPassOriginalSlashes:
+                                      description: Transparent transmission/to source
+                                        Station
+                                      type: boolean
+                                    mirrorPassQueryString:
+                                      description: Same as PassQueryString and takes
+                                        precedence over PassQueryString. It takes
+                                        effect only when the RedirectType is set to
+                                        Mirror.
+                                      type: boolean
+                                    mirrorProxyPass:
+                                      description: Whether mirroring back to source
+                                        does not save data
+                                      type: boolean
+                                    mirrorReturnHeaders:
+                                      description: 'The container that saves the image
+                                        back to the source and returns the response
+                                        header rule. NOTE:: If you want to clean one
+                                        configuration, you must set the configuration
+                                        to empty value, removing from code cannot
+                                        make effect. See mirror_return_headers below.'
+                                      items:
+                                        properties:
+                                          returnHeader:
+                                            description: The list of response header
+                                              rules for mirroring back-to-source return.
+                                              See return_header below.
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: The tag key corresponding
+                                                    to the current rule
+                                                  type: string
+                                                value:
+                                                  description: Rules for Saving Label
+                                                    Values
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorRole:
+                                      description: Roles used when mirroring back-to-source
+                                      type: string
+                                    mirrorSaveOssMeta:
+                                      description: Mirror back-to-source back-to-source
+                                        OSS automatically saves user metadata
+                                      type: boolean
+                                    mirrorSni:
+                                      description: Transparent transmission of SNI
+                                      type: boolean
+                                    mirrorSwitchAllErrors:
+                                      description: 'It is used to judge the status
+                                        of active-standby switching. The judgment
+                                        logic of active-standby switching is that
+                                        the source station returns an error. If MirrorSwitchAllErrors
+                                        is true, it is considered a failure except
+                                        the following status code: 200,206,301,302,303,307,404;
+                                        If false, only the source Station Returns
+                                        5xx or times out is considered a failure.'
+                                      type: boolean
+                                    mirrorTaggings:
+                                      description: 'Save the label according to the
+                                        parameters when saving the file from the mirror
+                                        back to the source. NOTE:: If you want to
+                                        clean one configuration, you must set the
+                                        configuration to empty value, removing from
+                                        code cannot make effect. See mirror_taggings
+                                        below.'
+                                      items:
+                                        properties:
+                                          taggings:
+                                            description: Image back-to-source save
+                                              label rule list See taggings below.
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: The tag key corresponding
+                                                    to the current rule
+                                                  type: string
+                                                value:
+                                                  description: Rules for Saving Label
+                                                    Values
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorTunnelId:
+                                      description: Mirror back-to-source leased line
+                                        back-to-source tunnel ID
+                                      type: string
+                                    mirrorUrl:
+                                      description: The address of the origin of the
+                                        image. It takes effect only when the RedirectType
+                                        is set to Mirror. The origin address must
+                                        start with http:// or https:// and end with
+                                        a forward slash (/). OSS takes the Object
+                                        name after the Origin address to form the
+                                        origin URL.
+                                      type: string
+                                    mirrorUrlProbe:
+                                      description: Mirror back-to-source Master-backup
+                                        back-to-source switching decision URL
+                                      type: string
+                                    mirrorUrlSlave:
+                                      description: Mirror back-to-source primary backup
+                                        back-to-source backup station URL
+                                      type: string
+                                    mirrorUserLastModified:
+                                      description: Whether the source station LastModifiedTime
+                                        is used for the image back-to-source save
+                                        file.
+                                      type: boolean
+                                    mirrorUsingRole:
+                                      description: Whether to use role for mirroring
+                                        back to source
+                                      type: boolean
+                                    passQueryString:
+                                      description: 'Whether to carry the request parameters
+                                        when executing the jump or mirror back-to-source
+                                        rule. Did the user carry the request parameters
+                                        when requesting OSS? a = B & c = d, and set
+                                        PassQueryString to true. If the rule is a
+                                        302 jump, this request parameter is added
+                                        to the Location header of the jump. For example
+                                        Location:example.com? a = B & c = d, and the
+                                        jump type is mirrored back-to-origin, this
+                                        request parameter is also carried in the back-to-origin
+                                        request initiated. Values: true, false (default)'
+                                      type: boolean
+                                    protocol:
+                                      description: The protocol at the time of the
+                                        jump. It takes effect only when the RedirectType
+                                        is set to External or AliCDN.
+                                      type: string
+                                    redirectType:
+                                      description: 'Specifies the type of jump. The
+                                        value range is as follows: Mirror: Mirror
+                                        back to the source. External: External redirects,
+                                        that is, OSS returns a 3xx request to redirect
+                                        to another address. AliCDN: Alibaba Cloud
+                                        CDN jump, mainly used for Alibaba Cloud CDN.
+                                        Unlike External, OSS adds an additional Header.
+                                        After recognizing this Header, Alibaba Cloud
+                                        CDN redirects the data to the specified address
+                                        and returns the obtained data to the user
+                                        instead of returning the 3xx Redirection request
+                                        to the user.'
+                                      type: string
+                                    replaceKeyPrefixWith:
+                                      description: The prefix of the Object name will
+                                        be replaced with this value during Redirect.
+                                        If the prefix is empty, this string is inserted
+                                        in front of the Object name.
+                                      type: string
+                                    replaceKeyWith:
+                                      description: During redirection, the Object
+                                        name is replaced with the value specified
+                                        by ReplaceKeyWith. You can set variables in
+                                        ReplaceKeyWith. Currently, the supported variable
+                                        is ${key}, which indicates the name of the
+                                        Object in the request.
+                                      type: string
+                                    transparentMirrorResponseCodes:
+                                      description: Mirror back-to-source transparent
+                                        source station response code list
+                                      type: string
+                                  type: object
+                                type: array
+                              ruleNumber:
+                                description: The sequence number of the matching and
+                                  executing jump rules. OSS matches rules according
+                                  to this sequence number. If the match is successful,
+                                  the rule is executed and subsequent rules are not
+                                  executed.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  bucket:
+                    description: The name of the bucket
+                    type: string
+                  bucketRef:
+                    description: Reference to a Bucket in oss to populate bucket.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  bucketSelector:
+                    description: Selector for a Bucket in oss to populate bucket.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  errorDocument:
+                    description: The container that holds the error page configuration
+                      information. See error_document below.
+                    items:
+                      properties:
+                        httpStatus:
+                          description: The HTTP status code when the error page is
+                            returned. The default 404.
+                          type: number
+                        key:
+                          description: The error page file. If the Object accessed
+                            does not exist, this error page is returned.
+                          type: string
+                      type: object
+                    type: array
+                  indexDocument:
+                    description: Static Website Default Home Page Configuration See
+                      index_document below.
+                    items:
+                      properties:
+                        suffix:
+                          description: The default home page.
+                          type: string
+                        supportSubDir:
+                          description: Whether to jump to the default home page of
+                            a subdirectory when accessing a subdirectory.
+                          type: boolean
+                        type:
+                          description: After the default homepage is set, the behavior
+                            when an Object that ends with a non-forward slash (/)
+                            is accessed and the Object does not exist.
+                          type: string
+                      type: object
+                    type: array
+                  routingRules:
+                    description: The container that holds the jump rule or the mirroring
+                      back-to-origin rule. See routing_rules below.
+                    items:
+                      properties:
+                        routingRule:
+                          description: Specify a jump rule or a mirroring back-to-origin
+                            rule, with a maximum of 20 routing rules. See routing_rule
+                            below.
+                          items:
+                            properties:
+                              condition:
+                                description: Save the criteria that the rule needs
+                                  to match. See condition below.
+                                items:
+                                  properties:
+                                    httpErrorCodeReturnedEquals:
+                                      description: When the specified Object is accessed,
+                                        this status is returned to match this rule.
+                                        This field must be 404 when the jump rule
+                                        is mirrored back to the source.
+                                      type: string
+                                    includeHeaders:
+                                      description: This rule can only be matched if
+                                        the request contains the specified Header
+                                        and the value is the specified value. You
+                                        can specify up to 10 containers. See include_headers
+                                        below.
+                                      items:
+                                        properties:
+                                          endsWith:
+                                            description: This rule can only be matched
+                                              if the request contains the Header specified
+                                              by Key and the value ends with this
+                                              value.
+                                            type: string
+                                          equals:
+                                            description: This rule can only be matched
+                                              if the request contains the Header specified
+                                              by Key and the value is the specified
+                                              value.
+                                            type: string
+                                          key:
+                                            description: The tag key corresponding
+                                              to the current rule
+                                            type: string
+                                          startsWith:
+                                            description: This rule can only be matched
+                                              if the request contains the Header specified
+                                              by Key and the value starts with this
+                                              value.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    keyPrefixEquals:
+                                      description: Only objects that match this prefix
+                                        can match this rule.
+                                      type: string
+                                    keySuffixEquals:
+                                      description: Only objects that match this suffix
+                                        can match this rule.
+                                      type: string
+                                  type: object
+                                type: array
+                              luaConfig:
+                                description: The Lua script configuration to be executed.
+                                  See lua_config below.
+                                items:
+                                  properties:
+                                    script:
+                                      description: The Lua script name.
+                                      type: string
+                                  type: object
+                                type: array
+                              redirect:
+                                description: Specifies the action to perform after
+                                  this rule is matched. See redirect below.
+                                items:
+                                  properties:
+                                    enableReplacePrefix:
+                                      description: If this field is set to true, the
+                                        prefix of Object is replaced with the value
+                                        specified by ReplaceKeyPrefixWith. If this
+                                        field is not specified or is blank, the Object
+                                        prefix is truncated.
+                                      type: boolean
+                                    hostName:
+                                      description: The domain name during the jump.
+                                        The domain name must comply with the domain
+                                        name specification.
+                                      type: string
+                                    httpRedirectCode:
+                                      description: The status code returned during
+                                        the jump. It takes effect only when the RedirectType
+                                        is set to External or AliCDN.
+                                      type: string
+                                    mirrorAllowGetImageInfo:
+                                      description: Image back-to-source allows getting
+                                        Image information
+                                      type: boolean
+                                    mirrorAllowHeadObject:
+                                      description: Whether to allow HeadObject in
+                                        image back-to-source
+                                      type: boolean
+                                    mirrorAllowVideoSnapshot:
+                                      description: Mirror back-to-source allows support
+                                        for video frame truncation
+                                      type: boolean
+                                    mirrorAsyncStatus:
+                                      description: The status code of the mirror back-to-source
+                                        trigger asynchronous pull mode.
+                                      type: number
+                                    mirrorAuth:
+                                      description: Image back Source station authentication
+                                        information See mirror_auth below.
+                                      items:
+                                        properties:
+                                          accessKeyId:
+                                            description: Mirror back-to-source source
+                                              Station back-to-source AK
+                                            type: string
+                                          accessKeySecretSecretRef:
+                                            description: Mirroring back to the source
+                                              station back to the source SK will be
+                                              automatically desensitized when obtaining
+                                              the configuration.
+                                            properties:
+                                              key:
+                                                description: The key to select.
+                                                type: string
+                                              name:
+                                                description: Name of the secret.
+                                                type: string
+                                              namespace:
+                                                description: Namespace of the secret.
+                                                type: string
+                                            required:
+                                            - key
+                                            - name
+                                            - namespace
+                                            type: object
+                                          authType:
+                                            description: Authentication type of mirror
+                                              return Source
+                                            type: string
+                                          region:
+                                            description: Signature Region
+                                            type: string
+                                        type: object
+                                      type: array
+                                    mirrorCheckMd5:
+                                      description: Whether to check the MD5 of the
+                                        source body. It takes effect only when the
+                                        RedirectType is set to Mirror.
+                                      type: boolean
+                                    mirrorDstRegion:
+                                      description: Mirrored back-to-source high-speed
+                                        Channel vpregion
+                                      type: string
+                                    mirrorDstSlaveVpcId:
+                                      description: Mirroring back-to-source high-speed
+                                        Channel standby station VpcId
+                                      type: string
+                                    mirrorDstVpcId:
+                                      description: Mirror back-to-source high-speed
+                                        Channel VpcId
+                                      type: string
+                                    mirrorFollowRedirect:
+                                      description: If the result of the image back-to-source
+                                        acquisition is 3xx, whether to continue to
+                                        jump to the specified Location to obtain data.
+                                        It takes effect only when the RedirectType
+                                        is set to Mirror.
+                                      type: boolean
+                                    mirrorHeaders:
+                                      description: Specifies the Header carried when
+                                        the image returns to the source. It takes
+                                        effect only when the RedirectType is set to
+                                        Mirror. See mirror_headers below.
+                                      items:
+                                        properties:
+                                          pass:
+                                            description: Pass through the specified
+                                              Header to the source site. It takes
+                                              effect only when the RedirectType is
+                                              set to Mirror. Each Header is up to
+                                              1024 bytes in length and has A character
+                                              set of 0 to 9, a to Z, A to z, and dashes
+                                              (-).
+                                            items:
+                                              type: string
+                                            type: array
+                                          passAll:
+                                            description: Indicates whether other headers
+                                              except the following headers are transmitted
+                                              to the source site. It takes effect
+                                              only when the RedirectType is set to
+                                              Mirror. content-length, authorization2,
+                                              authorization, range, date, and other
+                                              headers Headers whose names start with
+                                              oss-/x-oss-/x-drs-
+                                            type: boolean
+                                          remove:
+                                            description: Do not pass the specified
+                                              Header to the source site. It takes
+                                              effect only when the RedirectType is
+                                              set to Mirror. Each Header is up to
+                                              1024 bytes in length and has A character
+                                              set of 0 to 9, a to Z, A to z, and dashes
+                                              (-).
+                                            items:
+                                              type: string
+                                            type: array
+                                          set:
+                                            description: Set a Header to send to the
+                                              source site. Regardless of whether the
+                                              request contains the specified Header,
+                                              these headers will be set when returning
+                                              to the source site. It takes effect
+                                              only when the RedirectType is set to
+                                              Mirror. See set below.
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: The tag key corresponding
+                                                    to the current rule
+                                                  type: string
+                                                value:
+                                                  description: Rules for Saving Label
+                                                    Values
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorIsExpressTunnel:
+                                      description: Whether it is a mirror back-to-source
+                                        high-speed Channel
+                                      type: boolean
+                                    mirrorMultiAlternates:
+                                      description: 'Mirror back-to-source multi-source
+                                        station configuration container. NOTE:: If
+                                        you want to clean one configuration, you must
+                                        set the configuration to empty value, removing
+                                        from code cannot make effect. See mirror_multi_alternates
+                                        below.'
+                                      items:
+                                        properties:
+                                          mirrorMultiAlternate:
+                                            description: Mirror back-to-source multi-source
+                                              station configuration list See mirror_multi_alternate
+                                              below.
+                                            items:
+                                              properties:
+                                                mirrorMultiAlternateDstRegion:
+                                                  description: Mirroring back-to-source
+                                                    multi-station Region
+                                                  type: string
+                                                mirrorMultiAlternateNumber:
+                                                  description: Image back-to-source
+                                                    multi-source station serial number
+                                                  type: number
+                                                mirrorMultiAlternateUrl:
+                                                  description: Mirroring back-to-source
+                                                    multi-source site URL
+                                                  type: string
+                                                mirrorMultiAlternateVpcId:
+                                                  description: Mirroring back-to-source
+                                                    multi-source VpcId
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorPassOriginalSlashes:
+                                      description: Transparent transmission/to source
+                                        Station
+                                      type: boolean
+                                    mirrorPassQueryString:
+                                      description: Same as PassQueryString and takes
+                                        precedence over PassQueryString. It takes
+                                        effect only when the RedirectType is set to
+                                        Mirror.
+                                      type: boolean
+                                    mirrorProxyPass:
+                                      description: Whether mirroring back to source
+                                        does not save data
+                                      type: boolean
+                                    mirrorReturnHeaders:
+                                      description: 'The container that saves the image
+                                        back to the source and returns the response
+                                        header rule. NOTE:: If you want to clean one
+                                        configuration, you must set the configuration
+                                        to empty value, removing from code cannot
+                                        make effect. See mirror_return_headers below.'
+                                      items:
+                                        properties:
+                                          returnHeader:
+                                            description: The list of response header
+                                              rules for mirroring back-to-source return.
+                                              See return_header below.
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: The tag key corresponding
+                                                    to the current rule
+                                                  type: string
+                                                value:
+                                                  description: Rules for Saving Label
+                                                    Values
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorRole:
+                                      description: Roles used when mirroring back-to-source
+                                      type: string
+                                    mirrorSaveOssMeta:
+                                      description: Mirror back-to-source back-to-source
+                                        OSS automatically saves user metadata
+                                      type: boolean
+                                    mirrorSni:
+                                      description: Transparent transmission of SNI
+                                      type: boolean
+                                    mirrorSwitchAllErrors:
+                                      description: 'It is used to judge the status
+                                        of active-standby switching. The judgment
+                                        logic of active-standby switching is that
+                                        the source station returns an error. If MirrorSwitchAllErrors
+                                        is true, it is considered a failure except
+                                        the following status code: 200,206,301,302,303,307,404;
+                                        If false, only the source Station Returns
+                                        5xx or times out is considered a failure.'
+                                      type: boolean
+                                    mirrorTaggings:
+                                      description: 'Save the label according to the
+                                        parameters when saving the file from the mirror
+                                        back to the source. NOTE:: If you want to
+                                        clean one configuration, you must set the
+                                        configuration to empty value, removing from
+                                        code cannot make effect. See mirror_taggings
+                                        below.'
+                                      items:
+                                        properties:
+                                          taggings:
+                                            description: Image back-to-source save
+                                              label rule list See taggings below.
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: The tag key corresponding
+                                                    to the current rule
+                                                  type: string
+                                                value:
+                                                  description: Rules for Saving Label
+                                                    Values
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorTunnelId:
+                                      description: Mirror back-to-source leased line
+                                        back-to-source tunnel ID
+                                      type: string
+                                    mirrorUrl:
+                                      description: The address of the origin of the
+                                        image. It takes effect only when the RedirectType
+                                        is set to Mirror. The origin address must
+                                        start with http:// or https:// and end with
+                                        a forward slash (/). OSS takes the Object
+                                        name after the Origin address to form the
+                                        origin URL.
+                                      type: string
+                                    mirrorUrlProbe:
+                                      description: Mirror back-to-source Master-backup
+                                        back-to-source switching decision URL
+                                      type: string
+                                    mirrorUrlSlave:
+                                      description: Mirror back-to-source primary backup
+                                        back-to-source backup station URL
+                                      type: string
+                                    mirrorUserLastModified:
+                                      description: Whether the source station LastModifiedTime
+                                        is used for the image back-to-source save
+                                        file.
+                                      type: boolean
+                                    mirrorUsingRole:
+                                      description: Whether to use role for mirroring
+                                        back to source
+                                      type: boolean
+                                    passQueryString:
+                                      description: 'Whether to carry the request parameters
+                                        when executing the jump or mirror back-to-source
+                                        rule. Did the user carry the request parameters
+                                        when requesting OSS? a = B & c = d, and set
+                                        PassQueryString to true. If the rule is a
+                                        302 jump, this request parameter is added
+                                        to the Location header of the jump. For example
+                                        Location:example.com? a = B & c = d, and the
+                                        jump type is mirrored back-to-origin, this
+                                        request parameter is also carried in the back-to-origin
+                                        request initiated. Values: true, false (default)'
+                                      type: boolean
+                                    protocol:
+                                      description: The protocol at the time of the
+                                        jump. It takes effect only when the RedirectType
+                                        is set to External or AliCDN.
+                                      type: string
+                                    redirectType:
+                                      description: 'Specifies the type of jump. The
+                                        value range is as follows: Mirror: Mirror
+                                        back to the source. External: External redirects,
+                                        that is, OSS returns a 3xx request to redirect
+                                        to another address. AliCDN: Alibaba Cloud
+                                        CDN jump, mainly used for Alibaba Cloud CDN.
+                                        Unlike External, OSS adds an additional Header.
+                                        After recognizing this Header, Alibaba Cloud
+                                        CDN redirects the data to the specified address
+                                        and returns the obtained data to the user
+                                        instead of returning the 3xx Redirection request
+                                        to the user.'
+                                      type: string
+                                    replaceKeyPrefixWith:
+                                      description: The prefix of the Object name will
+                                        be replaced with this value during Redirect.
+                                        If the prefix is empty, this string is inserted
+                                        in front of the Object name.
+                                      type: string
+                                    replaceKeyWith:
+                                      description: During redirection, the Object
+                                        name is replaced with the value specified
+                                        by ReplaceKeyWith. You can set variables in
+                                        ReplaceKeyWith. Currently, the supported variable
+                                        is ${key}, which indicates the name of the
+                                        Object in the request.
+                                      type: string
+                                    transparentMirrorResponseCodes:
+                                      description: Mirror back-to-source transparent
+                                        source station response code list
+                                      type: string
+                                  type: object
+                                type: array
+                              ruleNumber:
+                                description: The sequence number of the matching and
+                                  executing jump rules. OSS matches rules according
+                                  to this sequence number. If the match is successful,
+                                  the rule is executed and subsequent rules are not
+                                  executed.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: BucketWebsiteStatus defines the observed state of BucketWebsite.
+            properties:
+              atProvider:
+                properties:
+                  bucket:
+                    description: The name of the bucket
+                    type: string
+                  errorDocument:
+                    description: The container that holds the error page configuration
+                      information. See error_document below.
+                    items:
+                      properties:
+                        httpStatus:
+                          description: The HTTP status code when the error page is
+                            returned. The default 404.
+                          type: number
+                        key:
+                          description: The error page file. If the Object accessed
+                            does not exist, this error page is returned.
+                          type: string
+                      type: object
+                    type: array
+                  id:
+                    description: The ID of the resource supplied above.
+                    type: string
+                  indexDocument:
+                    description: Static Website Default Home Page Configuration See
+                      index_document below.
+                    items:
+                      properties:
+                        suffix:
+                          description: The default home page.
+                          type: string
+                        supportSubDir:
+                          description: Whether to jump to the default home page of
+                            a subdirectory when accessing a subdirectory.
+                          type: boolean
+                        type:
+                          description: After the default homepage is set, the behavior
+                            when an Object that ends with a non-forward slash (/)
+                            is accessed and the Object does not exist.
+                          type: string
+                      type: object
+                    type: array
+                  routingRules:
+                    description: The container that holds the jump rule or the mirroring
+                      back-to-origin rule. See routing_rules below.
+                    items:
+                      properties:
+                        routingRule:
+                          description: Specify a jump rule or a mirroring back-to-origin
+                            rule, with a maximum of 20 routing rules. See routing_rule
+                            below.
+                          items:
+                            properties:
+                              condition:
+                                description: Save the criteria that the rule needs
+                                  to match. See condition below.
+                                items:
+                                  properties:
+                                    httpErrorCodeReturnedEquals:
+                                      description: When the specified Object is accessed,
+                                        this status is returned to match this rule.
+                                        This field must be 404 when the jump rule
+                                        is mirrored back to the source.
+                                      type: string
+                                    includeHeaders:
+                                      description: This rule can only be matched if
+                                        the request contains the specified Header
+                                        and the value is the specified value. You
+                                        can specify up to 10 containers. See include_headers
+                                        below.
+                                      items:
+                                        properties:
+                                          endsWith:
+                                            description: This rule can only be matched
+                                              if the request contains the Header specified
+                                              by Key and the value ends with this
+                                              value.
+                                            type: string
+                                          equals:
+                                            description: This rule can only be matched
+                                              if the request contains the Header specified
+                                              by Key and the value is the specified
+                                              value.
+                                            type: string
+                                          key:
+                                            description: The tag key corresponding
+                                              to the current rule
+                                            type: string
+                                          startsWith:
+                                            description: This rule can only be matched
+                                              if the request contains the Header specified
+                                              by Key and the value starts with this
+                                              value.
+                                            type: string
+                                        type: object
+                                      type: array
+                                    keyPrefixEquals:
+                                      description: Only objects that match this prefix
+                                        can match this rule.
+                                      type: string
+                                    keySuffixEquals:
+                                      description: Only objects that match this suffix
+                                        can match this rule.
+                                      type: string
+                                  type: object
+                                type: array
+                              luaConfig:
+                                description: The Lua script configuration to be executed.
+                                  See lua_config below.
+                                items:
+                                  properties:
+                                    script:
+                                      description: The Lua script name.
+                                      type: string
+                                  type: object
+                                type: array
+                              redirect:
+                                description: Specifies the action to perform after
+                                  this rule is matched. See redirect below.
+                                items:
+                                  properties:
+                                    enableReplacePrefix:
+                                      description: If this field is set to true, the
+                                        prefix of Object is replaced with the value
+                                        specified by ReplaceKeyPrefixWith. If this
+                                        field is not specified or is blank, the Object
+                                        prefix is truncated.
+                                      type: boolean
+                                    hostName:
+                                      description: The domain name during the jump.
+                                        The domain name must comply with the domain
+                                        name specification.
+                                      type: string
+                                    httpRedirectCode:
+                                      description: The status code returned during
+                                        the jump. It takes effect only when the RedirectType
+                                        is set to External or AliCDN.
+                                      type: string
+                                    mirrorAllowGetImageInfo:
+                                      description: Image back-to-source allows getting
+                                        Image information
+                                      type: boolean
+                                    mirrorAllowHeadObject:
+                                      description: Whether to allow HeadObject in
+                                        image back-to-source
+                                      type: boolean
+                                    mirrorAllowVideoSnapshot:
+                                      description: Mirror back-to-source allows support
+                                        for video frame truncation
+                                      type: boolean
+                                    mirrorAsyncStatus:
+                                      description: The status code of the mirror back-to-source
+                                        trigger asynchronous pull mode.
+                                      type: number
+                                    mirrorAuth:
+                                      description: Image back Source station authentication
+                                        information See mirror_auth below.
+                                      items:
+                                        properties:
+                                          accessKeyId:
+                                            description: Mirror back-to-source source
+                                              Station back-to-source AK
+                                            type: string
+                                          authType:
+                                            description: Authentication type of mirror
+                                              return Source
+                                            type: string
+                                          region:
+                                            description: Signature Region
+                                            type: string
+                                        type: object
+                                      type: array
+                                    mirrorCheckMd5:
+                                      description: Whether to check the MD5 of the
+                                        source body. It takes effect only when the
+                                        RedirectType is set to Mirror.
+                                      type: boolean
+                                    mirrorDstRegion:
+                                      description: Mirrored back-to-source high-speed
+                                        Channel vpregion
+                                      type: string
+                                    mirrorDstSlaveVpcId:
+                                      description: Mirroring back-to-source high-speed
+                                        Channel standby station VpcId
+                                      type: string
+                                    mirrorDstVpcId:
+                                      description: Mirror back-to-source high-speed
+                                        Channel VpcId
+                                      type: string
+                                    mirrorFollowRedirect:
+                                      description: If the result of the image back-to-source
+                                        acquisition is 3xx, whether to continue to
+                                        jump to the specified Location to obtain data.
+                                        It takes effect only when the RedirectType
+                                        is set to Mirror.
+                                      type: boolean
+                                    mirrorHeaders:
+                                      description: Specifies the Header carried when
+                                        the image returns to the source. It takes
+                                        effect only when the RedirectType is set to
+                                        Mirror. See mirror_headers below.
+                                      items:
+                                        properties:
+                                          pass:
+                                            description: Pass through the specified
+                                              Header to the source site. It takes
+                                              effect only when the RedirectType is
+                                              set to Mirror. Each Header is up to
+                                              1024 bytes in length and has A character
+                                              set of 0 to 9, a to Z, A to z, and dashes
+                                              (-).
+                                            items:
+                                              type: string
+                                            type: array
+                                          passAll:
+                                            description: Indicates whether other headers
+                                              except the following headers are transmitted
+                                              to the source site. It takes effect
+                                              only when the RedirectType is set to
+                                              Mirror. content-length, authorization2,
+                                              authorization, range, date, and other
+                                              headers Headers whose names start with
+                                              oss-/x-oss-/x-drs-
+                                            type: boolean
+                                          remove:
+                                            description: Do not pass the specified
+                                              Header to the source site. It takes
+                                              effect only when the RedirectType is
+                                              set to Mirror. Each Header is up to
+                                              1024 bytes in length and has A character
+                                              set of 0 to 9, a to Z, A to z, and dashes
+                                              (-).
+                                            items:
+                                              type: string
+                                            type: array
+                                          set:
+                                            description: Set a Header to send to the
+                                              source site. Regardless of whether the
+                                              request contains the specified Header,
+                                              these headers will be set when returning
+                                              to the source site. It takes effect
+                                              only when the RedirectType is set to
+                                              Mirror. See set below.
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: The tag key corresponding
+                                                    to the current rule
+                                                  type: string
+                                                value:
+                                                  description: Rules for Saving Label
+                                                    Values
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorIsExpressTunnel:
+                                      description: Whether it is a mirror back-to-source
+                                        high-speed Channel
+                                      type: boolean
+                                    mirrorMultiAlternates:
+                                      description: 'Mirror back-to-source multi-source
+                                        station configuration container. NOTE:: If
+                                        you want to clean one configuration, you must
+                                        set the configuration to empty value, removing
+                                        from code cannot make effect. See mirror_multi_alternates
+                                        below.'
+                                      items:
+                                        properties:
+                                          mirrorMultiAlternate:
+                                            description: Mirror back-to-source multi-source
+                                              station configuration list See mirror_multi_alternate
+                                              below.
+                                            items:
+                                              properties:
+                                                mirrorMultiAlternateDstRegion:
+                                                  description: Mirroring back-to-source
+                                                    multi-station Region
+                                                  type: string
+                                                mirrorMultiAlternateNumber:
+                                                  description: Image back-to-source
+                                                    multi-source station serial number
+                                                  type: number
+                                                mirrorMultiAlternateUrl:
+                                                  description: Mirroring back-to-source
+                                                    multi-source site URL
+                                                  type: string
+                                                mirrorMultiAlternateVpcId:
+                                                  description: Mirroring back-to-source
+                                                    multi-source VpcId
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorPassOriginalSlashes:
+                                      description: Transparent transmission/to source
+                                        Station
+                                      type: boolean
+                                    mirrorPassQueryString:
+                                      description: Same as PassQueryString and takes
+                                        precedence over PassQueryString. It takes
+                                        effect only when the RedirectType is set to
+                                        Mirror.
+                                      type: boolean
+                                    mirrorProxyPass:
+                                      description: Whether mirroring back to source
+                                        does not save data
+                                      type: boolean
+                                    mirrorReturnHeaders:
+                                      description: 'The container that saves the image
+                                        back to the source and returns the response
+                                        header rule. NOTE:: If you want to clean one
+                                        configuration, you must set the configuration
+                                        to empty value, removing from code cannot
+                                        make effect. See mirror_return_headers below.'
+                                      items:
+                                        properties:
+                                          returnHeader:
+                                            description: The list of response header
+                                              rules for mirroring back-to-source return.
+                                              See return_header below.
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: The tag key corresponding
+                                                    to the current rule
+                                                  type: string
+                                                value:
+                                                  description: Rules for Saving Label
+                                                    Values
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorRole:
+                                      description: Roles used when mirroring back-to-source
+                                      type: string
+                                    mirrorSaveOssMeta:
+                                      description: Mirror back-to-source back-to-source
+                                        OSS automatically saves user metadata
+                                      type: boolean
+                                    mirrorSni:
+                                      description: Transparent transmission of SNI
+                                      type: boolean
+                                    mirrorSwitchAllErrors:
+                                      description: 'It is used to judge the status
+                                        of active-standby switching. The judgment
+                                        logic of active-standby switching is that
+                                        the source station returns an error. If MirrorSwitchAllErrors
+                                        is true, it is considered a failure except
+                                        the following status code: 200,206,301,302,303,307,404;
+                                        If false, only the source Station Returns
+                                        5xx or times out is considered a failure.'
+                                      type: boolean
+                                    mirrorTaggings:
+                                      description: 'Save the label according to the
+                                        parameters when saving the file from the mirror
+                                        back to the source. NOTE:: If you want to
+                                        clean one configuration, you must set the
+                                        configuration to empty value, removing from
+                                        code cannot make effect. See mirror_taggings
+                                        below.'
+                                      items:
+                                        properties:
+                                          taggings:
+                                            description: Image back-to-source save
+                                              label rule list See taggings below.
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: The tag key corresponding
+                                                    to the current rule
+                                                  type: string
+                                                value:
+                                                  description: Rules for Saving Label
+                                                    Values
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      type: array
+                                    mirrorTunnelId:
+                                      description: Mirror back-to-source leased line
+                                        back-to-source tunnel ID
+                                      type: string
+                                    mirrorUrl:
+                                      description: The address of the origin of the
+                                        image. It takes effect only when the RedirectType
+                                        is set to Mirror. The origin address must
+                                        start with http:// or https:// and end with
+                                        a forward slash (/). OSS takes the Object
+                                        name after the Origin address to form the
+                                        origin URL.
+                                      type: string
+                                    mirrorUrlProbe:
+                                      description: Mirror back-to-source Master-backup
+                                        back-to-source switching decision URL
+                                      type: string
+                                    mirrorUrlSlave:
+                                      description: Mirror back-to-source primary backup
+                                        back-to-source backup station URL
+                                      type: string
+                                    mirrorUserLastModified:
+                                      description: Whether the source station LastModifiedTime
+                                        is used for the image back-to-source save
+                                        file.
+                                      type: boolean
+                                    mirrorUsingRole:
+                                      description: Whether to use role for mirroring
+                                        back to source
+                                      type: boolean
+                                    passQueryString:
+                                      description: 'Whether to carry the request parameters
+                                        when executing the jump or mirror back-to-source
+                                        rule. Did the user carry the request parameters
+                                        when requesting OSS? a = B & c = d, and set
+                                        PassQueryString to true. If the rule is a
+                                        302 jump, this request parameter is added
+                                        to the Location header of the jump. For example
+                                        Location:example.com? a = B & c = d, and the
+                                        jump type is mirrored back-to-origin, this
+                                        request parameter is also carried in the back-to-origin
+                                        request initiated. Values: true, false (default)'
+                                      type: boolean
+                                    protocol:
+                                      description: The protocol at the time of the
+                                        jump. It takes effect only when the RedirectType
+                                        is set to External or AliCDN.
+                                      type: string
+                                    redirectType:
+                                      description: 'Specifies the type of jump. The
+                                        value range is as follows: Mirror: Mirror
+                                        back to the source. External: External redirects,
+                                        that is, OSS returns a 3xx request to redirect
+                                        to another address. AliCDN: Alibaba Cloud
+                                        CDN jump, mainly used for Alibaba Cloud CDN.
+                                        Unlike External, OSS adds an additional Header.
+                                        After recognizing this Header, Alibaba Cloud
+                                        CDN redirects the data to the specified address
+                                        and returns the obtained data to the user
+                                        instead of returning the 3xx Redirection request
+                                        to the user.'
+                                      type: string
+                                    replaceKeyPrefixWith:
+                                      description: The prefix of the Object name will
+                                        be replaced with this value during Redirect.
+                                        If the prefix is empty, this string is inserted
+                                        in front of the Object name.
+                                      type: string
+                                    replaceKeyWith:
+                                      description: During redirection, the Object
+                                        name is replaced with the value specified
+                                        by ReplaceKeyWith. You can set variables in
+                                        ReplaceKeyWith. Currently, the supported variable
+                                        is ${key}, which indicates the name of the
+                                        Object in the request.
+                                      type: string
+                                    transparentMirrorResponseCodes:
+                                      description: Mirror back-to-source transparent
+                                        source station response code list
+                                      type: string
+                                  type: object
+                                type: array
+                              ruleNumber:
+                                description: The sequence number of the matching and
+                                  executing jump rules. OSS matches rules according
+                                  to this sequence number. If the match is successful,
+                                  the rule is executed and subsequent rules are not
+                                  executed.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

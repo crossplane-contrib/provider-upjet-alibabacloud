@@ -59,6 +59,20 @@ spec:
 
 ---
 
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imageexport
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucket: example-value-${random_integer.default.result}
+
+---
+
 apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
 kind: SecurityGroup
 metadata:

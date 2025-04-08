@@ -55,7 +55,17 @@ type RecordInitParameters struct {
 	UserClientIP *string `json:"userClientIp,omitempty" tf:"user_client_ip,omitempty"`
 
 	// The value of domain record, When the type is MX,NS,CNAME,SRV, the server will treat the value as a fully qualified domain name, so it's no need to add a . at the end.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.BucketCnameToken
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.OssBucketCnameTokenExtractor()
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+
+	// Reference to a BucketCnameToken in oss to populate value.
+	// +kubebuilder:validation:Optional
+	ValueRef *v1.Reference `json:"valueRef,omitempty" tf:"-"`
+
+	// Selector for a BucketCnameToken in oss to populate value.
+	// +kubebuilder:validation:Optional
+	ValueSelector *v1.Selector `json:"valueSelector,omitempty" tf:"-"`
 }
 
 type RecordObservation struct {
@@ -149,8 +159,18 @@ type RecordParameters struct {
 	UserClientIP *string `json:"userClientIp,omitempty" tf:"user_client_ip,omitempty"`
 
 	// The value of domain record, When the type is MX,NS,CNAME,SRV, the server will treat the value as a fully qualified domain name, so it's no need to add a . at the end.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.BucketCnameToken
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.OssBucketCnameTokenExtractor()
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+
+	// Reference to a BucketCnameToken in oss to populate value.
+	// +kubebuilder:validation:Optional
+	ValueRef *v1.Reference `json:"valueRef,omitempty" tf:"-"`
+
+	// Selector for a BucketCnameToken in oss to populate value.
+	// +kubebuilder:validation:Optional
+	ValueSelector *v1.Selector `json:"valueSelector,omitempty" tf:"-"`
 }
 
 // RecordSpec defines the desired state of Record
@@ -191,7 +211,6 @@ type Record struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.rr) || (has(self.initProvider) && has(self.initProvider.rr))",message="spec.forProvider.rr is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.type) || (has(self.initProvider) && has(self.initProvider.type))",message="spec.forProvider.type is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.value) || (has(self.initProvider) && has(self.initProvider.value))",message="spec.forProvider.value is a required parameter"
 	Spec   RecordSpec   `json:"spec"`
 	Status RecordStatus `json:"status,omitempty"`
 }

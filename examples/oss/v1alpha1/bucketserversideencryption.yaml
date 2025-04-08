@@ -1,0 +1,31 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketServerSideEncryption
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketserversideencryption
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: CreateBucket
+    kmsDataEncryption: SM4
+    kmsMasterKeyId: ${alicloud_kms_key.GetKMS.id}
+    sseAlgorithm: KMS
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketserversideencryption
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+spec:
+  forProvider:
+    bucket: crossplane-example-202504081600
+    storageClass: Standard

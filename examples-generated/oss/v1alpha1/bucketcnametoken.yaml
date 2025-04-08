@@ -1,0 +1,29 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketCnameToken
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcnametoken
+  labels:
+    testing.upbound.io/example-name: defaultZaWJfG
+  name: defaultzawjfg
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: CreateBucket
+    domain: terraform-example.com
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcnametoken
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+spec:
+  forProvider:
+    bucket: ${var.name}
+    storageClass: Standard

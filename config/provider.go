@@ -12,6 +12,7 @@ import (
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/cloudmonitorservice"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ecs"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/messageservice"
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/oss"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/polardb"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/tair"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/vpc"
@@ -47,6 +48,7 @@ func GetProvider() *ujconfig.Provider {
 		cloudmonitorservice.Configure,
 		ecs.Configure,
 		messageservice.Configure,
+		oss.Configure,
 		polardb.Configure,
 		tair.Configure,
 		vpc.Configure,

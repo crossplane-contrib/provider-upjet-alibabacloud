@@ -1,0 +1,1417 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: buckets.oss.alibabacloud.crossplane.io
+spec:
+  group: oss.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alicloud
+    kind: Bucket
+    listKind: BucketList
+    plural: buckets
+    singular: bucket
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Bucket is the Schema for the Buckets API. Provides a resource
+          to create a oss bucket.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: BucketSpec defines the desired state of Bucket
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  accessMonitor:
+                    description: A access monitor status of a bucket. See access_monitor
+                      below.
+                    items:
+                      properties:
+                        status:
+                          description: 'Specifies the versioning state of a bucket.
+                            Valid values: Enabled and Suspended.'
+                          type: string
+                      type: object
+                    type: array
+                  bucket:
+                    description: The name of the bucket.
+                    type: string
+                  corsRule:
+                    description: A rule of  Cross-Origin Resource Sharing. The items
+                      of core rule are no more than 10 for every OSS bucket. See cors_rule
+                      below.
+                    items:
+                      properties:
+                        allowedHeaders:
+                          description: Specifies which headers are allowed.
+                          items:
+                            type: string
+                          type: array
+                        allowedMethods:
+                          description: Specifies which methods are allowed. Can be
+                            GET, PUT, POST, DELETE or HEAD.
+                          items:
+                            type: string
+                          type: array
+                        allowedOrigins:
+                          description: Specifies which origins are allowed.
+                          items:
+                            type: string
+                          type: array
+                        exposeHeaders:
+                          description: Specifies expose header in the response.
+                          items:
+                            type: string
+                          type: array
+                        maxAgeSeconds:
+                          description: Specifies time in seconds that browser can
+                            cache the response for a preflight request.
+                          type: number
+                      type: object
+                    type: array
+                  forceDestroy:
+                    description: A boolean that indicates all objects should be deleted
+                      from the bucket so that the bucket can be destroyed without
+                      error. These objects are not recoverable. Defaults to "false".
+                    type: boolean
+                  lifecycleRule:
+                    description: A configuration of object lifecycle management. See
+                      lifecycle_rule below.
+                    items:
+                      properties:
+                        abortMultipartUpload:
+                          description: Specifies the number of days after initiating
+                            a multipart upload when the multipart upload must be completed.
+                            See abort_multipart_upload below.
+                          items:
+                            properties:
+                              createdBeforeDate:
+                                description: 'Specifies the time before which the
+                                  rules take effect. The date must conform to the
+                                  ISO8601 format and always be UTC 00:00. For example:
+                                  2002-10-11T00:00:00.000Z indicates that objects
+                                  updated before 2002-10-11T00:00:00.000Z are deleted
+                                  or converted to another storage class, and objects
+                                  updated after this time (including this time) are
+                                  not deleted or converted.'
+                                type: string
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                            type: object
+                          type: array
+                        enabled:
+                          description: Specifies lifecycle rule status.
+                          type: boolean
+                        expiration:
+                          description: Specifies a period in the object's expire.
+                            See expiration below.
+                          items:
+                            properties:
+                              createdBeforeDate:
+                                description: 'Specifies the time before which the
+                                  rules take effect. The date must conform to the
+                                  ISO8601 format and always be UTC 00:00. For example:
+                                  2002-10-11T00:00:00.000Z indicates that objects
+                                  updated before 2002-10-11T00:00:00.000Z are deleted
+                                  or converted to another storage class, and objects
+                                  updated after this time (including this time) are
+                                  not deleted or converted.'
+                                type: string
+                              date:
+                                description: Specifies the date after which you want
+                                  the corresponding action to take effect. The value
+                                  obeys ISO8601 format like 2017-03-09.
+                                type: string
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                              expiredObjectDeleteMarker:
+                                description: On a versioned bucket (versioning-enabled
+                                  or versioning-suspended bucket), you can add this
+                                  element in the lifecycle configuration to direct
+                                  OSS to delete expired object delete markers. This
+                                  cannot be specified with Days, Date or CreatedBeforeDate
+                                  in a Lifecycle Expiration Policy.
+                                type: boolean
+                            type: object
+                          type: array
+                        filter:
+                          description: Configuration block used to identify objects
+                            that a Lifecycle rule applies to. See filter below.
+                          items:
+                            properties:
+                              not:
+                                description: The condition that is matched by objects
+                                  to which the lifecycle rule does not apply. See
+                                  not below.
+                                items:
+                                  properties:
+                                    prefix:
+                                      description: Object key prefix identifying one
+                                        or more objects to which the rule applies.
+                                        Default value is null, the rule applies to
+                                        all objects in a bucket.
+                                      type: string
+                                    tag:
+                                      description: The tag of the objects to which
+                                        the lifecycle rule does not apply. See tag
+                                        below.
+                                      items:
+                                        properties:
+                                          key:
+                                            description: The key of the tag that is
+                                              specified for the objects.
+                                            type: string
+                                          value:
+                                            description: The value of the tag that
+                                              is specified for the objects.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              objectSizeGreaterThan:
+                                description: Minimum object size (in bytes) to which
+                                  the rule applies.
+                                type: number
+                              objectSizeLessThan:
+                                description: Maximum object size (in bytes) to which
+                                  the rule applies.
+                                type: number
+                            type: object
+                          type: array
+                        id:
+                          description: Unique identifier for the rule. If omitted,
+                            OSS bucket will assign a unique name.
+                          type: string
+                        noncurrentVersionExpiration:
+                          description: Specifies when noncurrent object versions expire.
+                            See noncurrent_version_expiration below.
+                          items:
+                            properties:
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                            type: object
+                          type: array
+                        noncurrentVersionTransition:
+                          description: Specifies when noncurrent object versions transitions.
+                            See noncurrent_version_transition below.
+                          items:
+                            properties:
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                              isAccessTime:
+                                description: Specifies whether the lifecycle rule
+                                  applies to objects based on their last access time.
+                                  If set to true, the rule applies to objects based
+                                  on their last access time; if set to false, the
+                                  rule applies to objects based on their last modified
+                                  time. If configure the rule based on the last access
+                                  time, please enable access_monitor first.
+                                type: boolean
+                              returnToStdWhenVisit:
+                                description: |-
+                                  Specifies whether to convert the storage class of non-Standard objects back to Standard after the objects are accessed. It takes effect only when the IsAccessTime parameter is set to true. If set to true, converts the storage class of the objects to Standard; if set to false, does not convert the storage class of the objects to Standard.
+                                  NOTE: One and only one of "created_before_date" and "days" can be specified in one transition configuration.
+                                type: boolean
+                              storageClass:
+                                description: The storage class to apply. Can be "Standard",
+                                  "IA", "Archive", "ColdArchive" and "DeepColdArchive".
+                                  Defaults to "Standard". "ColdArchive" is available
+                                  since 1.203.0. "DeepColdArchive" is available since
+                                  1.209.0.
+                                type: string
+                            type: object
+                          type: array
+                        prefix:
+                          description: Object key prefix identifying one or more objects
+                            to which the rule applies. Default value is null, the
+                            rule applies to all objects in a bucket.
+                          type: string
+                        tags:
+                          additionalProperties:
+                            type: string
+                          description: A mapping of tags to assign to the bucket.
+                            The items are no more than 10 for a bucket.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        transitions:
+                          description: Specifies the time when an object is converted
+                            to the IA or archive storage class during a valid life
+                            cycle. See transitions below.
+                          items:
+                            properties:
+                              createdBeforeDate:
+                                description: 'Specifies the time before which the
+                                  rules take effect. The date must conform to the
+                                  ISO8601 format and always be UTC 00:00. For example:
+                                  2002-10-11T00:00:00.000Z indicates that objects
+                                  updated before 2002-10-11T00:00:00.000Z are deleted
+                                  or converted to another storage class, and objects
+                                  updated after this time (including this time) are
+                                  not deleted or converted.'
+                                type: string
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                              isAccessTime:
+                                description: Specifies whether the lifecycle rule
+                                  applies to objects based on their last access time.
+                                  If set to true, the rule applies to objects based
+                                  on their last access time; if set to false, the
+                                  rule applies to objects based on their last modified
+                                  time. If configure the rule based on the last access
+                                  time, please enable access_monitor first.
+                                type: boolean
+                              returnToStdWhenVisit:
+                                description: |-
+                                  Specifies whether to convert the storage class of non-Standard objects back to Standard after the objects are accessed. It takes effect only when the IsAccessTime parameter is set to true. If set to true, converts the storage class of the objects to Standard; if set to false, does not convert the storage class of the objects to Standard.
+                                  NOTE: One and only one of "created_before_date" and "days" can be specified in one transition configuration.
+                                type: boolean
+                              storageClass:
+                                description: The storage class to apply. Can be "Standard",
+                                  "IA", "Archive", "ColdArchive" and "DeepColdArchive".
+                                  Defaults to "Standard". "ColdArchive" is available
+                                  since 1.203.0. "DeepColdArchive" is available since
+                                  1.209.0.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  lifecycleRuleAllowSameActionOverlap:
+                    description: A boolean that indicates lifecycle rules allow prefix
+                      overlap.
+                    type: boolean
+                  logging:
+                    description: A Settings of bucket logging. See logging below.
+                    items:
+                      properties:
+                        targetBucket:
+                          description: The name of the bucket that will receive the
+                            log objects.
+                          type: string
+                        targetPrefix:
+                          description: To specify a key prefix for log objects.
+                          type: string
+                      type: object
+                    type: array
+                  redundancyType:
+                    description: The redundancy type to enable. Can be "LRS", and
+                      "ZRS". Defaults to "LRS".
+                    type: string
+                  resourceGroupId:
+                    description: The ID of the resource group to which the bucket
+                      belongs.
+                    type: string
+                  serverSideEncryptionRule:
+                    description: A configuration of server-side encryption. See server_side_encryption_rule
+                      below.
+                    items:
+                      properties:
+                        kmsDataEncryption:
+                          description: 'The algorithm used to encrypt objects. If
+                            this element is not specified, objects are encrypted with
+                            AES256. This element is valid only when the value of SSEAlgorithm
+                            is set to KMS. Valid values: SM4.'
+                          type: string
+                        kmsMasterKeyId:
+                          description: The alibaba cloud KMS master key ID used for
+                            the SSE-KMS encryption.
+                          type: string
+                        sseAlgorithm:
+                          description: 'The server-side encryption algorithm to use.
+                            Possible values: AES256 and KMS.'
+                          type: string
+                      type: object
+                    type: array
+                  storageClass:
+                    description: The storage class to apply. Can be "Standard", "IA",
+                      "Archive", "ColdArchive" and "DeepColdArchive". Defaults to
+                      "Standard". "ColdArchive" is available since 1.203.0. "DeepColdArchive"
+                      is available since 1.209.0.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the bucket. The items
+                      are no more than 10 for a bucket.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  transferAcceleration:
+                    description: A transfer acceleration status of a bucket. See transfer_acceleration
+                      below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Specifies lifecycle rule status.
+                          type: boolean
+                      type: object
+                    type: array
+                  versioning:
+                    description: A state of versioning. See versioning below.
+                    items:
+                      properties:
+                        status:
+                          description: 'Specifies the versioning state of a bucket.
+                            Valid values: Enabled and Suspended.'
+                          type: string
+                      type: object
+                    type: array
+                  website:
+                    description: A website configuration. See website below.
+                    items:
+                      properties:
+                        errorDocument:
+                          description: An absolute path to the document to return
+                            in case of a 4XX error.
+                          type: string
+                        indexDocument:
+                          description: Alicloud OSS returns this index document when
+                            requests are made to the root domain or any of the subfolders.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  accessMonitor:
+                    description: A access monitor status of a bucket. See access_monitor
+                      below.
+                    items:
+                      properties:
+                        status:
+                          description: 'Specifies the versioning state of a bucket.
+                            Valid values: Enabled and Suspended.'
+                          type: string
+                      type: object
+                    type: array
+                  bucket:
+                    description: The name of the bucket.
+                    type: string
+                  corsRule:
+                    description: A rule of  Cross-Origin Resource Sharing. The items
+                      of core rule are no more than 10 for every OSS bucket. See cors_rule
+                      below.
+                    items:
+                      properties:
+                        allowedHeaders:
+                          description: Specifies which headers are allowed.
+                          items:
+                            type: string
+                          type: array
+                        allowedMethods:
+                          description: Specifies which methods are allowed. Can be
+                            GET, PUT, POST, DELETE or HEAD.
+                          items:
+                            type: string
+                          type: array
+                        allowedOrigins:
+                          description: Specifies which origins are allowed.
+                          items:
+                            type: string
+                          type: array
+                        exposeHeaders:
+                          description: Specifies expose header in the response.
+                          items:
+                            type: string
+                          type: array
+                        maxAgeSeconds:
+                          description: Specifies time in seconds that browser can
+                            cache the response for a preflight request.
+                          type: number
+                      type: object
+                    type: array
+                  forceDestroy:
+                    description: A boolean that indicates all objects should be deleted
+                      from the bucket so that the bucket can be destroyed without
+                      error. These objects are not recoverable. Defaults to "false".
+                    type: boolean
+                  lifecycleRule:
+                    description: A configuration of object lifecycle management. See
+                      lifecycle_rule below.
+                    items:
+                      properties:
+                        abortMultipartUpload:
+                          description: Specifies the number of days after initiating
+                            a multipart upload when the multipart upload must be completed.
+                            See abort_multipart_upload below.
+                          items:
+                            properties:
+                              createdBeforeDate:
+                                description: 'Specifies the time before which the
+                                  rules take effect. The date must conform to the
+                                  ISO8601 format and always be UTC 00:00. For example:
+                                  2002-10-11T00:00:00.000Z indicates that objects
+                                  updated before 2002-10-11T00:00:00.000Z are deleted
+                                  or converted to another storage class, and objects
+                                  updated after this time (including this time) are
+                                  not deleted or converted.'
+                                type: string
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                            type: object
+                          type: array
+                        enabled:
+                          description: Specifies lifecycle rule status.
+                          type: boolean
+                        expiration:
+                          description: Specifies a period in the object's expire.
+                            See expiration below.
+                          items:
+                            properties:
+                              createdBeforeDate:
+                                description: 'Specifies the time before which the
+                                  rules take effect. The date must conform to the
+                                  ISO8601 format and always be UTC 00:00. For example:
+                                  2002-10-11T00:00:00.000Z indicates that objects
+                                  updated before 2002-10-11T00:00:00.000Z are deleted
+                                  or converted to another storage class, and objects
+                                  updated after this time (including this time) are
+                                  not deleted or converted.'
+                                type: string
+                              date:
+                                description: Specifies the date after which you want
+                                  the corresponding action to take effect. The value
+                                  obeys ISO8601 format like 2017-03-09.
+                                type: string
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                              expiredObjectDeleteMarker:
+                                description: On a versioned bucket (versioning-enabled
+                                  or versioning-suspended bucket), you can add this
+                                  element in the lifecycle configuration to direct
+                                  OSS to delete expired object delete markers. This
+                                  cannot be specified with Days, Date or CreatedBeforeDate
+                                  in a Lifecycle Expiration Policy.
+                                type: boolean
+                            type: object
+                          type: array
+                        filter:
+                          description: Configuration block used to identify objects
+                            that a Lifecycle rule applies to. See filter below.
+                          items:
+                            properties:
+                              not:
+                                description: The condition that is matched by objects
+                                  to which the lifecycle rule does not apply. See
+                                  not below.
+                                items:
+                                  properties:
+                                    prefix:
+                                      description: Object key prefix identifying one
+                                        or more objects to which the rule applies.
+                                        Default value is null, the rule applies to
+                                        all objects in a bucket.
+                                      type: string
+                                    tag:
+                                      description: The tag of the objects to which
+                                        the lifecycle rule does not apply. See tag
+                                        below.
+                                      items:
+                                        properties:
+                                          key:
+                                            description: The key of the tag that is
+                                              specified for the objects.
+                                            type: string
+                                          value:
+                                            description: The value of the tag that
+                                              is specified for the objects.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              objectSizeGreaterThan:
+                                description: Minimum object size (in bytes) to which
+                                  the rule applies.
+                                type: number
+                              objectSizeLessThan:
+                                description: Maximum object size (in bytes) to which
+                                  the rule applies.
+                                type: number
+                            type: object
+                          type: array
+                        id:
+                          description: Unique identifier for the rule. If omitted,
+                            OSS bucket will assign a unique name.
+                          type: string
+                        noncurrentVersionExpiration:
+                          description: Specifies when noncurrent object versions expire.
+                            See noncurrent_version_expiration below.
+                          items:
+                            properties:
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                            type: object
+                          type: array
+                        noncurrentVersionTransition:
+                          description: Specifies when noncurrent object versions transitions.
+                            See noncurrent_version_transition below.
+                          items:
+                            properties:
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                              isAccessTime:
+                                description: Specifies whether the lifecycle rule
+                                  applies to objects based on their last access time.
+                                  If set to true, the rule applies to objects based
+                                  on their last access time; if set to false, the
+                                  rule applies to objects based on their last modified
+                                  time. If configure the rule based on the last access
+                                  time, please enable access_monitor first.
+                                type: boolean
+                              returnToStdWhenVisit:
+                                description: |-
+                                  Specifies whether to convert the storage class of non-Standard objects back to Standard after the objects are accessed. It takes effect only when the IsAccessTime parameter is set to true. If set to true, converts the storage class of the objects to Standard; if set to false, does not convert the storage class of the objects to Standard.
+                                  NOTE: One and only one of "created_before_date" and "days" can be specified in one transition configuration.
+                                type: boolean
+                              storageClass:
+                                description: The storage class to apply. Can be "Standard",
+                                  "IA", "Archive", "ColdArchive" and "DeepColdArchive".
+                                  Defaults to "Standard". "ColdArchive" is available
+                                  since 1.203.0. "DeepColdArchive" is available since
+                                  1.209.0.
+                                type: string
+                            type: object
+                          type: array
+                        prefix:
+                          description: Object key prefix identifying one or more objects
+                            to which the rule applies. Default value is null, the
+                            rule applies to all objects in a bucket.
+                          type: string
+                        tags:
+                          additionalProperties:
+                            type: string
+                          description: A mapping of tags to assign to the bucket.
+                            The items are no more than 10 for a bucket.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        transitions:
+                          description: Specifies the time when an object is converted
+                            to the IA or archive storage class during a valid life
+                            cycle. See transitions below.
+                          items:
+                            properties:
+                              createdBeforeDate:
+                                description: 'Specifies the time before which the
+                                  rules take effect. The date must conform to the
+                                  ISO8601 format and always be UTC 00:00. For example:
+                                  2002-10-11T00:00:00.000Z indicates that objects
+                                  updated before 2002-10-11T00:00:00.000Z are deleted
+                                  or converted to another storage class, and objects
+                                  updated after this time (including this time) are
+                                  not deleted or converted.'
+                                type: string
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                              isAccessTime:
+                                description: Specifies whether the lifecycle rule
+                                  applies to objects based on their last access time.
+                                  If set to true, the rule applies to objects based
+                                  on their last access time; if set to false, the
+                                  rule applies to objects based on their last modified
+                                  time. If configure the rule based on the last access
+                                  time, please enable access_monitor first.
+                                type: boolean
+                              returnToStdWhenVisit:
+                                description: |-
+                                  Specifies whether to convert the storage class of non-Standard objects back to Standard after the objects are accessed. It takes effect only when the IsAccessTime parameter is set to true. If set to true, converts the storage class of the objects to Standard; if set to false, does not convert the storage class of the objects to Standard.
+                                  NOTE: One and only one of "created_before_date" and "days" can be specified in one transition configuration.
+                                type: boolean
+                              storageClass:
+                                description: The storage class to apply. Can be "Standard",
+                                  "IA", "Archive", "ColdArchive" and "DeepColdArchive".
+                                  Defaults to "Standard". "ColdArchive" is available
+                                  since 1.203.0. "DeepColdArchive" is available since
+                                  1.209.0.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  lifecycleRuleAllowSameActionOverlap:
+                    description: A boolean that indicates lifecycle rules allow prefix
+                      overlap.
+                    type: boolean
+                  logging:
+                    description: A Settings of bucket logging. See logging below.
+                    items:
+                      properties:
+                        targetBucket:
+                          description: The name of the bucket that will receive the
+                            log objects.
+                          type: string
+                        targetPrefix:
+                          description: To specify a key prefix for log objects.
+                          type: string
+                      type: object
+                    type: array
+                  redundancyType:
+                    description: The redundancy type to enable. Can be "LRS", and
+                      "ZRS". Defaults to "LRS".
+                    type: string
+                  resourceGroupId:
+                    description: The ID of the resource group to which the bucket
+                      belongs.
+                    type: string
+                  serverSideEncryptionRule:
+                    description: A configuration of server-side encryption. See server_side_encryption_rule
+                      below.
+                    items:
+                      properties:
+                        kmsDataEncryption:
+                          description: 'The algorithm used to encrypt objects. If
+                            this element is not specified, objects are encrypted with
+                            AES256. This element is valid only when the value of SSEAlgorithm
+                            is set to KMS. Valid values: SM4.'
+                          type: string
+                        kmsMasterKeyId:
+                          description: The alibaba cloud KMS master key ID used for
+                            the SSE-KMS encryption.
+                          type: string
+                        sseAlgorithm:
+                          description: 'The server-side encryption algorithm to use.
+                            Possible values: AES256 and KMS.'
+                          type: string
+                      type: object
+                    type: array
+                  storageClass:
+                    description: The storage class to apply. Can be "Standard", "IA",
+                      "Archive", "ColdArchive" and "DeepColdArchive". Defaults to
+                      "Standard". "ColdArchive" is available since 1.203.0. "DeepColdArchive"
+                      is available since 1.209.0.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the bucket. The items
+                      are no more than 10 for a bucket.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  transferAcceleration:
+                    description: A transfer acceleration status of a bucket. See transfer_acceleration
+                      below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Specifies lifecycle rule status.
+                          type: boolean
+                      type: object
+                    type: array
+                  versioning:
+                    description: A state of versioning. See versioning below.
+                    items:
+                      properties:
+                        status:
+                          description: 'Specifies the versioning state of a bucket.
+                            Valid values: Enabled and Suspended.'
+                          type: string
+                      type: object
+                    type: array
+                  website:
+                    description: A website configuration. See website below.
+                    items:
+                      properties:
+                        errorDocument:
+                          description: An absolute path to the document to return
+                            in case of a 4XX error.
+                          type: string
+                        indexDocument:
+                          description: Alicloud OSS returns this index document when
+                            requests are made to the root domain or any of the subfolders.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: BucketStatus defines the observed state of Bucket.
+            properties:
+              atProvider:
+                properties:
+                  accessMonitor:
+                    description: A access monitor status of a bucket. See access_monitor
+                      below.
+                    items:
+                      properties:
+                        status:
+                          description: 'Specifies the versioning state of a bucket.
+                            Valid values: Enabled and Suspended.'
+                          type: string
+                      type: object
+                    type: array
+                  bucket:
+                    description: The name of the bucket.
+                    type: string
+                  corsRule:
+                    description: A rule of  Cross-Origin Resource Sharing. The items
+                      of core rule are no more than 10 for every OSS bucket. See cors_rule
+                      below.
+                    items:
+                      properties:
+                        allowedHeaders:
+                          description: Specifies which headers are allowed.
+                          items:
+                            type: string
+                          type: array
+                        allowedMethods:
+                          description: Specifies which methods are allowed. Can be
+                            GET, PUT, POST, DELETE or HEAD.
+                          items:
+                            type: string
+                          type: array
+                        allowedOrigins:
+                          description: Specifies which origins are allowed.
+                          items:
+                            type: string
+                          type: array
+                        exposeHeaders:
+                          description: Specifies expose header in the response.
+                          items:
+                            type: string
+                          type: array
+                        maxAgeSeconds:
+                          description: Specifies time in seconds that browser can
+                            cache the response for a preflight request.
+                          type: number
+                      type: object
+                    type: array
+                  creationDate:
+                    description: The creation date of the bucket.
+                    type: string
+                  extranetEndpoint:
+                    description: The extranet access endpoint of the bucket.
+                    type: string
+                  forceDestroy:
+                    description: A boolean that indicates all objects should be deleted
+                      from the bucket so that the bucket can be destroyed without
+                      error. These objects are not recoverable. Defaults to "false".
+                    type: boolean
+                  id:
+                    description: Unique identifier for the rule. If omitted, OSS bucket
+                      will assign a unique name.
+                    type: string
+                  intranetEndpoint:
+                    description: The intranet access endpoint of the bucket.
+                    type: string
+                  lifecycleRule:
+                    description: A configuration of object lifecycle management. See
+                      lifecycle_rule below.
+                    items:
+                      properties:
+                        abortMultipartUpload:
+                          description: Specifies the number of days after initiating
+                            a multipart upload when the multipart upload must be completed.
+                            See abort_multipart_upload below.
+                          items:
+                            properties:
+                              createdBeforeDate:
+                                description: 'Specifies the time before which the
+                                  rules take effect. The date must conform to the
+                                  ISO8601 format and always be UTC 00:00. For example:
+                                  2002-10-11T00:00:00.000Z indicates that objects
+                                  updated before 2002-10-11T00:00:00.000Z are deleted
+                                  or converted to another storage class, and objects
+                                  updated after this time (including this time) are
+                                  not deleted or converted.'
+                                type: string
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                            type: object
+                          type: array
+                        enabled:
+                          description: Specifies lifecycle rule status.
+                          type: boolean
+                        expiration:
+                          description: Specifies a period in the object's expire.
+                            See expiration below.
+                          items:
+                            properties:
+                              createdBeforeDate:
+                                description: 'Specifies the time before which the
+                                  rules take effect. The date must conform to the
+                                  ISO8601 format and always be UTC 00:00. For example:
+                                  2002-10-11T00:00:00.000Z indicates that objects
+                                  updated before 2002-10-11T00:00:00.000Z are deleted
+                                  or converted to another storage class, and objects
+                                  updated after this time (including this time) are
+                                  not deleted or converted.'
+                                type: string
+                              date:
+                                description: Specifies the date after which you want
+                                  the corresponding action to take effect. The value
+                                  obeys ISO8601 format like 2017-03-09.
+                                type: string
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                              expiredObjectDeleteMarker:
+                                description: On a versioned bucket (versioning-enabled
+                                  or versioning-suspended bucket), you can add this
+                                  element in the lifecycle configuration to direct
+                                  OSS to delete expired object delete markers. This
+                                  cannot be specified with Days, Date or CreatedBeforeDate
+                                  in a Lifecycle Expiration Policy.
+                                type: boolean
+                            type: object
+                          type: array
+                        filter:
+                          description: Configuration block used to identify objects
+                            that a Lifecycle rule applies to. See filter below.
+                          items:
+                            properties:
+                              not:
+                                description: The condition that is matched by objects
+                                  to which the lifecycle rule does not apply. See
+                                  not below.
+                                items:
+                                  properties:
+                                    prefix:
+                                      description: Object key prefix identifying one
+                                        or more objects to which the rule applies.
+                                        Default value is null, the rule applies to
+                                        all objects in a bucket.
+                                      type: string
+                                    tag:
+                                      description: The tag of the objects to which
+                                        the lifecycle rule does not apply. See tag
+                                        below.
+                                      items:
+                                        properties:
+                                          key:
+                                            description: The key of the tag that is
+                                              specified for the objects.
+                                            type: string
+                                          value:
+                                            description: The value of the tag that
+                                              is specified for the objects.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              objectSizeGreaterThan:
+                                description: Minimum object size (in bytes) to which
+                                  the rule applies.
+                                type: number
+                              objectSizeLessThan:
+                                description: Maximum object size (in bytes) to which
+                                  the rule applies.
+                                type: number
+                            type: object
+                          type: array
+                        id:
+                          description: Unique identifier for the rule. If omitted,
+                            OSS bucket will assign a unique name.
+                          type: string
+                        noncurrentVersionExpiration:
+                          description: Specifies when noncurrent object versions expire.
+                            See noncurrent_version_expiration below.
+                          items:
+                            properties:
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                            type: object
+                          type: array
+                        noncurrentVersionTransition:
+                          description: Specifies when noncurrent object versions transitions.
+                            See noncurrent_version_transition below.
+                          items:
+                            properties:
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                              isAccessTime:
+                                description: Specifies whether the lifecycle rule
+                                  applies to objects based on their last access time.
+                                  If set to true, the rule applies to objects based
+                                  on their last access time; if set to false, the
+                                  rule applies to objects based on their last modified
+                                  time. If configure the rule based on the last access
+                                  time, please enable access_monitor first.
+                                type: boolean
+                              returnToStdWhenVisit:
+                                description: |-
+                                  Specifies whether to convert the storage class of non-Standard objects back to Standard after the objects are accessed. It takes effect only when the IsAccessTime parameter is set to true. If set to true, converts the storage class of the objects to Standard; if set to false, does not convert the storage class of the objects to Standard.
+                                  NOTE: One and only one of "created_before_date" and "days" can be specified in one transition configuration.
+                                type: boolean
+                              storageClass:
+                                description: The storage class to apply. Can be "Standard",
+                                  "IA", "Archive", "ColdArchive" and "DeepColdArchive".
+                                  Defaults to "Standard". "ColdArchive" is available
+                                  since 1.203.0. "DeepColdArchive" is available since
+                                  1.209.0.
+                                type: string
+                            type: object
+                          type: array
+                        prefix:
+                          description: Object key prefix identifying one or more objects
+                            to which the rule applies. Default value is null, the
+                            rule applies to all objects in a bucket.
+                          type: string
+                        tags:
+                          additionalProperties:
+                            type: string
+                          description: A mapping of tags to assign to the bucket.
+                            The items are no more than 10 for a bucket.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        transitions:
+                          description: Specifies the time when an object is converted
+                            to the IA or archive storage class during a valid life
+                            cycle. See transitions below.
+                          items:
+                            properties:
+                              createdBeforeDate:
+                                description: 'Specifies the time before which the
+                                  rules take effect. The date must conform to the
+                                  ISO8601 format and always be UTC 00:00. For example:
+                                  2002-10-11T00:00:00.000Z indicates that objects
+                                  updated before 2002-10-11T00:00:00.000Z are deleted
+                                  or converted to another storage class, and objects
+                                  updated after this time (including this time) are
+                                  not deleted or converted.'
+                                type: string
+                              days:
+                                description: Specifies the number of days after object
+                                  creation when the specific rule action takes effect.
+                                type: number
+                              isAccessTime:
+                                description: Specifies whether the lifecycle rule
+                                  applies to objects based on their last access time.
+                                  If set to true, the rule applies to objects based
+                                  on their last access time; if set to false, the
+                                  rule applies to objects based on their last modified
+                                  time. If configure the rule based on the last access
+                                  time, please enable access_monitor first.
+                                type: boolean
+                              returnToStdWhenVisit:
+                                description: |-
+                                  Specifies whether to convert the storage class of non-Standard objects back to Standard after the objects are accessed. It takes effect only when the IsAccessTime parameter is set to true. If set to true, converts the storage class of the objects to Standard; if set to false, does not convert the storage class of the objects to Standard.
+                                  NOTE: One and only one of "created_before_date" and "days" can be specified in one transition configuration.
+                                type: boolean
+                              storageClass:
+                                description: The storage class to apply. Can be "Standard",
+                                  "IA", "Archive", "ColdArchive" and "DeepColdArchive".
+                                  Defaults to "Standard". "ColdArchive" is available
+                                  since 1.203.0. "DeepColdArchive" is available since
+                                  1.209.0.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  lifecycleRuleAllowSameActionOverlap:
+                    description: A boolean that indicates lifecycle rules allow prefix
+                      overlap.
+                    type: boolean
+                  location:
+                    description: The location of the bucket.
+                    type: string
+                  logging:
+                    description: A Settings of bucket logging. See logging below.
+                    items:
+                      properties:
+                        targetBucket:
+                          description: The name of the bucket that will receive the
+                            log objects.
+                          type: string
+                        targetPrefix:
+                          description: To specify a key prefix for log objects.
+                          type: string
+                      type: object
+                    type: array
+                  owner:
+                    description: The bucket owner.
+                    type: string
+                  redundancyType:
+                    description: The redundancy type to enable. Can be "LRS", and
+                      "ZRS". Defaults to "LRS".
+                    type: string
+                  resourceGroupId:
+                    description: The ID of the resource group to which the bucket
+                      belongs.
+                    type: string
+                  serverSideEncryptionRule:
+                    description: A configuration of server-side encryption. See server_side_encryption_rule
+                      below.
+                    items:
+                      properties:
+                        kmsDataEncryption:
+                          description: 'The algorithm used to encrypt objects. If
+                            this element is not specified, objects are encrypted with
+                            AES256. This element is valid only when the value of SSEAlgorithm
+                            is set to KMS. Valid values: SM4.'
+                          type: string
+                        kmsMasterKeyId:
+                          description: The alibaba cloud KMS master key ID used for
+                            the SSE-KMS encryption.
+                          type: string
+                        sseAlgorithm:
+                          description: 'The server-side encryption algorithm to use.
+                            Possible values: AES256 and KMS.'
+                          type: string
+                      type: object
+                    type: array
+                  storageClass:
+                    description: The storage class to apply. Can be "Standard", "IA",
+                      "Archive", "ColdArchive" and "DeepColdArchive". Defaults to
+                      "Standard". "ColdArchive" is available since 1.203.0. "DeepColdArchive"
+                      is available since 1.209.0.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: A mapping of tags to assign to the bucket. The items
+                      are no more than 10 for a bucket.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  transferAcceleration:
+                    description: A transfer acceleration status of a bucket. See transfer_acceleration
+                      below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Specifies lifecycle rule status.
+                          type: boolean
+                      type: object
+                    type: array
+                  versioning:
+                    description: A state of versioning. See versioning below.
+                    items:
+                      properties:
+                        status:
+                          description: 'Specifies the versioning state of a bucket.
+                            Valid values: Enabled and Suspended.'
+                          type: string
+                      type: object
+                    type: array
+                  website:
+                    description: A website configuration. See website below.
+                    items:
+                      properties:
+                        errorDocument:
+                          description: An absolute path to the document to return
+                            in case of a 4XX error.
+                          type: string
+                        indexDocument:
+                          description: Alicloud OSS returns this index document when
+                            requests are made to the root domain or any of the subfolders.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

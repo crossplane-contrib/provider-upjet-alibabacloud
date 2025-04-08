@@ -1,0 +1,28 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketDataRedundancyTransition
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketdataredundancytransition
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketdataredundancytransition
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketdataredundancytransition
+  labels:
+    testing.upbound.io/example-name: bucketdataredundancytransition
+  name: bucketdataredundancytransition
+spec:
+  forProvider:
+    bucket: crossplane-example-bucketdataredundancytransition-202504081600
+    storageClass: Standard

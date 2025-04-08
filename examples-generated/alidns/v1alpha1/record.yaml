@@ -15,7 +15,9 @@ spec:
     rr: alimail
     status: ENABLE
     type: CNAME
-    value: mail.mxhichin.com
+    valueSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
 
 ---
 

@@ -21,6 +21,9 @@ const (
 	PathDBNameExtractor                = SelfPackagePath + ".DBNameExtractor()"
 	PathDBEndpointIdExtractor          = SelfPackagePath + ".DBEndpointIdExtractor()"
 	PathAlarmContactGroupNameExtractor = SelfPackagePath + ".AlarmContactGroupNameExtractor()"
+	PathOssBucketCnameTokenExtractor   = SelfPackagePath + ".OssBucketCnameTokenExtractor()"
+	PathAlidnsRecordDomainExtractor    = SelfPackagePath + ".AlidnsRecordDomainExtractor()"
+	PathOssBucketLocationExtractor     = SelfPackagePath + ".OssBucketLocationExtractor()"
 )
 
 // IdExtractor extracts id of the
@@ -95,7 +98,55 @@ func AlarmContactGroupNameExtractor() reference.ExtractValueFn {
 		if err != nil {
 			return ""
 		}
-		r, err := paved.GetString("status.atProvider.alarmContactGroupNameExtractor")
+		r, err := paved.GetString("status.atProvider.alarmContactGroupName")
+		if err != nil {
+			return ""
+		}
+		return r
+	}
+}
+
+// OssBucketCnameTokenExtractor extracts id of the
+// resources from "status.atProvider.token".
+func OssBucketCnameTokenExtractor() reference.ExtractValueFn {
+	return func(mg xpresource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		r, err := paved.GetString("status.atProvider.token")
+		if err != nil {
+			return ""
+		}
+		return r
+	}
+}
+
+// AlidnsRecordDomainExtractor extracts id of the
+// resources from "status.atProvider.domain".
+func AlidnsRecordDomainExtractor() reference.ExtractValueFn {
+	return func(mg xpresource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		r, err := paved.GetString("status.atProvider.domain")
+		if err != nil {
+			return ""
+		}
+		return r
+	}
+}
+
+// OssBucketLocationExtractor extracts id of the
+// resources from "status.atProvider.location".
+func OssBucketLocationExtractor() reference.ExtractValueFn {
+	return func(mg xpresource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		r, err := paved.GetString("status.atProvider.location")
 		if err != nil {
 			return ""
 		}

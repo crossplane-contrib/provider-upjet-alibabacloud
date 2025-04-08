@@ -1,0 +1,50 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: AccessPoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/accesspoint
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    accessPointName: crossplane-example
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: accesspoint
+    networkOrigin: vpc
+    publicAccessBlockConfiguration:
+    - blockPublicAccess: true
+    vpcConfiguration:
+    - vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: accesspoint
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/accesspoint
+  labels:
+    testing.upbound.io/example-name: accesspoint
+  name: accesspoint
+spec:
+  forProvider:
+    storageClass: Standard
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/accesspoint
+  labels:
+    testing.upbound.io/example-name: accesspoint
+  name: accesspoint
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/16
+    vpcName: crossplane-example

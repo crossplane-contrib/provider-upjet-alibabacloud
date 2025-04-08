@@ -1,0 +1,36 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketReferer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreferer
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    allowEmptyReferer: true
+    allowTruncateQueryString: true
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketreferer
+    refererBlacklist:
+    - '*.forbidden.com'
+    refererList:
+    - '*.aliyun.com'
+    - '*.example.com'
+    truncatePath: false
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreferer
+  labels:
+    testing.upbound.io/example-name: bucketreferer
+  name: bucketreferer
+spec:
+  forProvider:
+    bucket: crossplane-example-bucketreferer-202504081600
+    storageClass: Standard

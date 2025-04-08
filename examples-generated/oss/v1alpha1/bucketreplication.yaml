@@ -1,0 +1,60 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketReplication
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: cross-region-replication
+  name: cross-region-replication
+spec:
+  forProvider:
+    action: PUT,DELETE
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucket_src
+    destination:
+    - bucketSelector:
+        matchLabels:
+          testing.upbound.io/example-name: bucket_dest
+      locationSelector:
+        matchLabels:
+          testing.upbound.io/example-name: bucket_dest
+    encryptionConfiguration:
+    - replicaKmsKeyId: ${alicloud_kms_key.key.id}
+    historicalObjectReplication: enabled
+    prefixSet:
+    - prefixes:
+      - prefix1/
+      - prefix2/
+    sourceSelectionCriteria:
+    - sseKmsEncryptedObjects:
+      - status: Enabled
+    syncRole: ${alicloud_ram_role.role.name}
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: bucket_dest
+  name: bucket-dest
+spec:
+  forProvider:
+    bucket: example-dest-${random_integer.default.result}
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: bucket_src
+  name: bucket-src
+spec:
+  forProvider:
+    bucket: example-src-${random_integer.default.result}

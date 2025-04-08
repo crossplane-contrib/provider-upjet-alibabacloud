@@ -1,0 +1,29 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketTransferAcceleration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/buckettransferacceleration
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: CreateBucket
+    enabled: true
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/buckettransferacceleration
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+spec:
+  forProvider:
+    bucket: ${var.name}-${random_integer.default.result}
+    storageClass: Standard

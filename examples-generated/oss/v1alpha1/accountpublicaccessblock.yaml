@@ -1,0 +1,11 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: AccountPublicAccessBlock
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/accountpublicaccessblock
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    blockPublicAccess: true

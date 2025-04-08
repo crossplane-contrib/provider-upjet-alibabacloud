@@ -1,0 +1,31 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketHTTPSConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/buckethttpsconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: CreateBucket
+    enable: true
+    tlsVersions:
+    - TLSv1.2
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/buckethttpsconfig
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+spec:
+  forProvider:
+    bucket: ${var.name}-${random_integer.default.result}
+    storageClass: Standard

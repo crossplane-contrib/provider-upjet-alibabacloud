@@ -1,0 +1,29 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketWorm
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketworm
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketworm
+    retentionPeriodInDays: 1
+    status: InProgress
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketworm
+  labels:
+    testing.upbound.io/example-name: bucketworm
+  name: bucketworm
+spec:
+  forProvider:
+    storageClass: Standard

@@ -1,0 +1,29 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketCnameToken
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcnametoken
+  labels:
+    testing.upbound.io/example-name: defaultZaWJfG
+  name: defaultzawjfg
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketcnametoken
+    domain: crossplane-example.com
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcnametoken
+  labels:
+    testing.upbound.io/example-name: bucketcnametoken
+  name: bucketcnametoken
+spec:
+  forProvider:
+    bucket: crossplane-example-bucketcnametoken-202504081600
+    storageClass: Standard

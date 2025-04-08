@@ -1,0 +1,40 @@
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketCors
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcors
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketcors
+    corsRule:
+    - allowedHeaders:
+      - x-oss-test
+      - x-oss-abc
+      allowedMethods:
+      - GET
+      allowedOrigins:
+      - '*'
+      exposeHeader:
+      - x-oss-request-id
+      maxAgeSeconds: 1000
+    responseVary: true
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcors
+  labels:
+    testing.upbound.io/example-name: bucketcors
+  name: bucketcors
+spec:
+  forProvider:
+    bucket: crossplane-example-bucketcors-202504081600
+    storageClass: Standard
