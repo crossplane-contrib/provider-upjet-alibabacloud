@@ -229,6 +229,9 @@ func Configure(p *config.Provider) {
 		r.References["vswitch_id"] = config.Reference{
 			TerraformName: "alicloud_vswitch",
 		}
+		r.References["vpc_id"] = config.Reference{
+			TerraformName: "alicloud_vpc",
+		}
 		r.References["key_name"] = config.Reference{
 			TerraformName: "alicloud_ecs_key_pair",
 		}
