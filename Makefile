@@ -1,7 +1,8 @@
 # ====================================================================================
 # Setup Project
 
-PROJECT_NAME ?= provider-upjet-alibabacloud
+PROVIDER_NAME := upjet-alibabacloud
+PROJECT_NAME ?= provider-$(PROVIDER_NAME)
 PROJECT_REPO ?= github.com/crossplane-contrib/$(PROJECT_NAME)
 
 export TERRAFORM_VERSION ?= 1.5.7
@@ -10,6 +11,7 @@ export TERRAFORM_VERSION ?= 1.5.7
 # licensed under BSL, which is not permitted.
 TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAFORM_VERSION)\n1.6" | sort -V | head -n1`" ] && echo 1 || echo 0)
 
+export PROVIDER_NAME
 export TERRAFORM_PROVIDER_SOURCE ?= aliyun/alicloud
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/aliyun/terraform-provider-alicloud
 export TERRAFORM_PROVIDER_VERSION ?= 1.247.0
@@ -20,6 +22,8 @@ export TERRAFORM_DOCS_PATH ?= website/docs/r
 
 
 PLATFORMS ?= linux_amd64 linux_arm64
+
+export PROJECT_NAME := $(PROJECT_NAME)
 
 # -include will silently skip missing files, which allows us
 # to load those files with a target in the Makefile. If only
@@ -52,9 +56,14 @@ KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
 CROSSPLANE_VERSION = 1.19.0
 CRDDIFF_VERSION = v0.12.1
-GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
+SUBPACKAGES ?= $(shell find cmd/provider -type d -maxdepth 1 -mindepth 1 | cut -d/ -f3)
+#SUBPACKAGES ?= monolith
+GO_STATIC_PACKAGES ?= $(GO_PROJECT)/cmd/generator ${SUBPACKAGES:%=$(GO_PROJECT)/cmd/provider/%}
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis
+
+export SUBPACKAGES := $(SUBPACKAGES)
+
 -include build/makelib/golang.mk
 
 # ====================================================================================
@@ -64,6 +73,10 @@ KIND_VERSION = v0.26.0
 UP_VERSION = v0.38.0
 UP_CHANNEL = stable
 UPTEST_VERSION = v0.13.1
+
+export UP_VERSION := $(UP_VERSION)
+export UP_CHANNEL := $(UP_CHANNEL)
+
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
@@ -71,6 +84,9 @@ UPTEST_VERSION = v0.13.1
 
 REGISTRY_ORGS ?= xpkg.upbound.io/crossplane-contrib
 IMAGES = $(PROJECT_NAME)
+BATCH_PLATFORMS ?= linux_amd64,linux_arm64
+export BATCH_PLATFORMS := $(BATCH_PLATFORMS)
+
 -include build/makelib/imagelight.mk
 
 # ====================================================================================
@@ -80,7 +96,10 @@ XPKG_REG_ORGS ?= xpkg.upbound.io/crossplane-contrib
 # NOTE(hasheddan): skip promoting on xpkg.upbound.io as channel tags are
 # inferred.
 XPKG_REG_ORGS_NO_PROMOTE ?= xpkg.upbound.io/crossplane-contrib
-XPKGS = $(PROJECT_NAME)
+
+export XPKG_REG_ORGS := $(XPKG_REG_ORGS)
+export XPKG_REG_ORGS_NO_PROMOTE := $(XPKG_REG_ORGS_NO_PROMOTE)
+
 -include build/makelib/xpkg.mk
 
 # ====================================================================================
@@ -99,7 +118,9 @@ fallthrough: submodules
 
 # NOTE(hasheddan): we force image building to happen prior to xpkg build so that
 # we ensure image is present in daemon.
-xpkg.build.provider-upjet-alibabacloud: do.build.images
+xpkg.build.provider-alibabacloud: do.build.images
+
+xpkg.build.provider-alibabacloud-family: do.build.image.provider-alibabacloud-config do.build.provider-alibabacloud-ram
 
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.
@@ -119,6 +140,9 @@ endif
 $(TERRAFORM): check-terraform-version
 	@$(INFO) installing terraform $(HOSTOS)-$(HOSTARCH)
 	@mkdir -p $(TOOLS_HOST_DIR)/tmp-terraform
+	@$(INFO) TERRAFORM_VERSION $(TERRAFORM_VERSION)
+	@$(INFO) SAFEHOST_PLATFORM $(SAFEHOST_PLATFORM)
+	@$(INFO) TOOLS_HOST_DIR $(TOOLS_HOST_DIR)
 	@curl -fsSL https://releases.hashicorp.com/terraform/$(TERRAFORM_VERSION)/terraform_$(TERRAFORM_VERSION)_$(SAFEHOST_PLATFORM).zip -o $(TOOLS_HOST_DIR)/tmp-terraform/terraform.zip
 	@unzip $(TOOLS_HOST_DIR)/tmp-terraform/terraform.zip -d $(TOOLS_HOST_DIR)/tmp-terraform
 	@mv $(TOOLS_HOST_DIR)/tmp-terraform/terraform $(TERRAFORM)
@@ -173,7 +197,8 @@ submodules:
 run: go.build
 	@$(INFO) Running Crossplane locally out-of-cluster . . .
 	@# To see other arguments that can be provided, run the command with --help instead
-	UPBOUND_CONTEXT="local" $(GO_OUT_DIR)/provider --debug
+	# UPBOUND_CONTEXT="local" $(GO_OUT_DIR)/provider --debug
+	UPBOUND_CONTEXT="local" $(GO_OUT_DIR)/monolith --debug
 
 # ====================================================================================
 # End to End Testing
@@ -222,13 +247,54 @@ uptest: $(UPTEST) $(KUBECTL) $(KUTTL)
 	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) CROSSPLANE_NAMESPACE=$(CROSSPLANE_NAMESPACE) $(UPTEST) e2e "${UPTEST_EXAMPLE_LIST}" --data-source="${UPTEST_DATASOURCE_PATH}" --setup-script=cluster/test/setup.sh --default-conditions="Test" || $(FAIL)
 	@$(OK) running automated tests
 
-local-deploy: build controlplane.up local.xpkg.deploy.provider.$(PROJECT_NAME)
-	@$(INFO) running locally built provider
-	@$(KUBECTL) wait provider.pkg $(PROJECT_NAME) --for condition=Healthy --timeout 5m
-	@$(KUBECTL) -n upbound-system wait --for=condition=Available deployment --all --timeout=5m
-	@$(OK) running locally built provider
+build-provider.%:
+	@$(INFO) Building and loading provider SUBPACKAGES "$$(tr ',' ' ' <<< $*)"
+	@$(MAKE) build SUBPACKAGES="$$(tr ',' ' ' <<< $*)" LOAD_PACKAGES=true
 
-e2e: local-deploy uptest
+XPKG_SKIP_DEP_RESOLUTION := true
+
+local-deploy.%: controlplane.up
+	@for api in $$(tr ',' ' ' <<< $*); do \
+		$(MAKE) local.xpkg.deploy.provider.$(PROJECT_NAME)-$${api}; \
+		$(INFO) running locally built $(PROJECT_NAME)-$${api}; \
+		$(KUBECTL) wait provider.pkg $(PROJECT_NAME)-$${api} --for condition=Healthy --timeout 5m; \
+		$(KUBECTL) -n upbound-system wait --for=condition=Available deployment --all --timeout=5m; \
+		$(OK) running locally built $(PROJECT_NAME)-$${api}; \
+	done || $(FAIL)
+
+local-deploy: build-provider.monolith local-deploy.monolith
+
+family-e2e:
+	@$(INFO) Removing everything under $(XPKG_OUTPUT_DIR) and $(OUTPUT_DIR)/cache...
+	@rm -fR $(XPKG_OUTPUT_DIR)
+	@rm -fR $(OUTPUT_DIR)/cache
+	@$(INFO) Installing APIs
+	@(INSTALL_APIS=""; \
+	for m in $$(tr ',' ' ' <<< $(UPTEST_EXAMPLE_LIST)); do \
+		$(INFO) Processing the example manifest "$${m}"; \
+		for api in $$(sed -nE 's/^apiVersion: *(.+)/\1/p' "$${m}" | cut -d. -f1); do \
+			if [[ $${api} == "v1" ]]; then \
+		        	$(INFO) v1 is not a valid provider. Skipping...; \
+		        	continue; \
+			fi; \
+			if [[ $${INSTALL_APIS} =~ " $${api} " ]]; then \
+				$(INFO) Resource provider $(PROJECT_NAME)-$${api} is already marked for installation. Skipping...; \
+				continue; \
+			fi; \
+			$(INFO) Marking installation for the family resource $(PROJECT_NAME)-$${api} for the test file: $${m}; \
+			INSTALL_APIS="$${INSTALL_APIS} $${api} "; \
+		done; \
+	done; \
+	INSTALL_APIS="config,$$(tr ',' ' ' <<< $${INSTALL_APIS})"; \
+	INSTALL_APIS="$$(tr -s ',' <<< "$${INSTALL_APIS}")"; \
+	$(INFO) Building and deploying resource providers for the short API groups: $${INSTALL_APIS}; \
+	for api in $${INSTALL_APIS}; do \
+		$(INFO) build-provider.$${api} local-deploy.$${api}; \
+		$(MAKE) build-provider.$${api} local-deploy.$${api} || $(FAIL) \
+	done;)
+	$(MAKE) uptest
+
+e2e: family-e2e
 
 crddiff: $(UPTEST)
 	@$(INFO) Checking breaking CRD schema changes

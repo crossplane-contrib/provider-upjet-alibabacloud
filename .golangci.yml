@@ -1,5 +1,5 @@
 run:
-  timeout: 90m
+  timeout: 60m
   concurrency: 1
 
 output:

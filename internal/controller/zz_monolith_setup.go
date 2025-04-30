@@ -131,9 +131,9 @@ import (
 	vswitch "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/vswitch"
 )
 
-// Setup creates all controllers with the supplied logger and adds them to
+// Setup_monolith creates all controllers with the supplied logger and adds them to
 // the supplied manager.
-func Setup(mgr ctrl.Manager, o controller.Options) error {
+func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		addresspool.Setup,
 		customline.Setup,

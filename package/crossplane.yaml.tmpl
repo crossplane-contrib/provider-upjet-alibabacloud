@@ -1,0 +1,33 @@
+apiVersion: meta.pkg.crossplane.io/v1alpha1
+kind: Provider
+metadata:
+  name: {{ .Name }}
+{{ if ne .Service "monolith" }}
+  labels:
+    pkg.crossplane.io/provider-family: provider-family-{{ .ProviderName }}
+{{ end }}
+  annotations:
+    meta.crossplane.io/maintainer: Crossplane Maintainers <info@crossplane.io>
+    meta.crossplane.io/source: github.com/crossplane-contrib/provider-{{ .ProviderName }}
+    meta.crossplane.io/description: |
+      Crossplane contrib provider to manage Alibaba Cloud.
+      {{ .Service }} services in Kubernetes.
+    meta.crossplane.io/readme: |
+      Provider Alibabacloud is a Crossplane provider for [Alibabacloud](https://www.alibabacloud.com)
+      developed and supported by Alibaba and the community.
+      Available resources and their fields can be found in the [Upbound
+      Marketplace](https://marketplace.upbound.io/providers/upbound/provider-{{ .ProviderName }}).
+      If you encounter an issue please reach out on support@upbound.io email
+      address. This is a subpackage for the {{ .Service }} API group.
+    friendly-name.meta.crossplane.io: Provider Upjet Alibabacloud ({{ .Service }})
+    auth.upbound.io/group: {{ .ProviderName }}.crossplane.io
+spec:
+{{ if ne .Service "monolith" }}
+  crossplane:
+    version: ">=v0.1.0-0"
+{{ end }}
+{{ if and (ne .Service "config") (ne .Service "monolith") }}
+  dependsOn:
+    - provider: {{ .XpkgRegOrg }}/provider-family-{{ .ProviderName }}
+      version: "{{ .DepConstraint }}"
+{{ end }}
