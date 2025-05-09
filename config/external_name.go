@@ -125,6 +125,14 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_polardb_parameter_group":         config.IdentifierFromProvider,
 	"alicloud_polardb_primary_endpoint":        config.IdentifierFromProvider,
 
+	// PrivateLink
+	"alicloud_privatelink_vpc_endpoint":                  config.IdentifierFromProvider,
+	"alicloud_privatelink_vpc_endpoint_connection":       config.IdentifierFromProvider,
+	"alicloud_privatelink_vpc_endpoint_service":          config.IdentifierFromProvider,
+	"alicloud_privatelink_vpc_endpoint_service_resource": config.IdentifierFromProvider,
+	"alicloud_privatelink_vpc_endpoint_service_user":     config.IdentifierFromProvider,
+	"alicloud_privatelink_vpc_endpoint_zone":             config.IdentifierFromProvider,
+
 	// RAM
 	"alicloud_ram_access_key":              config.IdentifierFromProvider,
 	"alicloud_ram_account_alias":           config.IdentifierFromProvider,

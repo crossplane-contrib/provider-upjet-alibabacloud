@@ -11,6 +11,7 @@ const (
 	MessageService      = ShortGroup("messageservice")
 	OSS                 = ShortGroup("oss")
 	POLARDB             = ShortGroup("polardb")
+	PRIVATELINK         = ShortGroup("privatelink")
 	SLS                 = ShortGroup("sls")
 	Tair                = ShortGroup("tair")
 	VPC                 = ShortGroup("vpc")

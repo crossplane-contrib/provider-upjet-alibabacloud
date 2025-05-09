@@ -105,6 +105,12 @@ import (
 	globaldatabasenetwork "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/globaldatabasenetwork"
 	parametergroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/parametergroup"
 	primaryendpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/primaryendpoint"
+	vpcendpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpoint"
+	vpcendpointconnection "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpointconnection"
+	vpcendpointservice "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpointservice"
+	vpcendpointserviceresource "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpointserviceresource"
+	vpcendpointserviceuser "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpointserviceuser"
+	vpcendpointzone "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpointzone"
 	providerconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/providerconfig"
 	accesskey "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ram/accesskey"
 	accountalias "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ram/accountalias"
@@ -231,6 +237,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		globaldatabasenetwork.Setup,
 		parametergroup.Setup,
 		primaryendpoint.Setup,
+		vpcendpoint.Setup,
+		vpcendpointconnection.Setup,
+		vpcendpointservice.Setup,
+		vpcendpointserviceresource.Setup,
+		vpcendpointserviceuser.Setup,
+		vpcendpointzone.Setup,
 		providerconfig.Setup,
 		accesskey.Setup,
 		accountalias.Setup,

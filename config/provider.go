@@ -7,6 +7,7 @@ package config
 import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/privatelink"
 
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/alidns"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/cdn"
@@ -54,6 +55,7 @@ func GetProvider() *ujconfig.Provider {
 		messageservice.Configure,
 		oss.Configure,
 		polardb.Configure,
+		privatelink.Configure,
 		ram.Configure,
 		tair.Configure,
 		vpc.Configure,
