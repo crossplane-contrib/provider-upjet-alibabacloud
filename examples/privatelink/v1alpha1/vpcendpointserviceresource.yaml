@@ -9,7 +9,7 @@ metadata:
 spec:
   forProvider:
     resourceId: ${alicloud_slb_load_balancer.example.id}
-    resourceType: slb
+    resourceType: alb
     serviceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-for-service-resource

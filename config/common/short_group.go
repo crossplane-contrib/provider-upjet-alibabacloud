@@ -3,6 +3,7 @@ package common
 type ShortGroup string
 
 const (
+	ALB                 = ShortGroup("alb")
 	ALIDNS              = ShortGroup("alidns")
 	CDN                 = ShortGroup("cdn")
 	CLOUDMONITORSERVICE = ShortGroup("cloudmonitorservice")
