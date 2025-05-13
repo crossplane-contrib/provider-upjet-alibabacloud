@@ -1,0 +1,81 @@
+apiVersion: cs.alibabacloud.crossplane.io/v1alpha1
+kind: KubernetesAddon
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetesaddon
+  labels:
+    testing.upbound.io/example-name: logtail-ds
+  name: logtail-ds
+spec:
+  forProvider:
+    clusterId: ${alicloud_cs_managed_kubernetes.default.id}
+    config: |-
+      ${jsonencode(
+          {}
+        )}
+    name: logtail-ds
+    version: v1.6.0.0-aliyun
+
+---
+
+apiVersion: cs.alibabacloud.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetesaddon
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    addons:
+    - config: |-
+        ${jsonencode(
+              {
+                IngressDashboardEnabled = "true"
+              }
+            )}
+      disabled: false
+      name: logtail-ds
+    clusterSpec: ack.pro.small
+    namePrefix: ${var.name}
+    newNatGateway: false
+    podCidr: ${cidrsubnet("10.0.0.0/8", 8, 36)}
+    serviceCidr: ${cidrsubnet("172.16.0.0/16", 4, 7)}
+    slbInternetEnabled: true
+    workerVswitchIds:
+    - ${alicloud_vswitch.default.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetesaddon
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetesaddon
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

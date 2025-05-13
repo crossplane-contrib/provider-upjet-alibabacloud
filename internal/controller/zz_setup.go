@@ -9,6 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
+	cluster "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ackone/cluster"
+	membershipattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ackone/membershipattachment"
 	addresspool "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/addresspool"
 	customline "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/customline"
 	domain "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/domain"
@@ -22,6 +24,14 @@ import (
 	domainconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cdn/domainconfig"
 	fctrigger "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cdn/fctrigger"
 	alarmcontactgroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cloudmonitorservice/alarmcontactgroup"
+	autoscalingconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/autoscalingconfig"
+	edgekubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/edgekubernetes"
+	kubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/kubernetes"
+	kubernetesaddon "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/kubernetesaddon"
+	kubernetesnodepool "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/kubernetesnodepool"
+	kubernetespermissions "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/kubernetespermissions"
+	managedkubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/managedkubernetes"
+	serverlesskubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/serverlesskubernetes"
 	activation "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/activation"
 	autoprovisioninggroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/autoprovisioninggroup"
 	autosnapshotpolicy "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/autosnapshotpolicy"
@@ -97,7 +107,7 @@ import (
 	account "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/account"
 	accountprivilege "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/accountprivilege"
 	backuppolicy "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/backuppolicy"
-	cluster "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/cluster"
+	clusterpolardb "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/cluster"
 	clusterendpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/clusterendpoint"
 	database "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/database"
 	endpointpolardb "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/endpoint"
@@ -135,6 +145,8 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		cluster.Setup,
+		membershipattachment.Setup,
 		addresspool.Setup,
 		customline.Setup,
 		domain.Setup,
@@ -148,6 +160,14 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		domainconfig.Setup,
 		fctrigger.Setup,
 		alarmcontactgroup.Setup,
+		autoscalingconfig.Setup,
+		edgekubernetes.Setup,
+		kubernetes.Setup,
+		kubernetesaddon.Setup,
+		kubernetesnodepool.Setup,
+		kubernetespermissions.Setup,
+		managedkubernetes.Setup,
+		serverlesskubernetes.Setup,
 		activation.Setup,
 		autoprovisioninggroup.Setup,
 		autosnapshotpolicy.Setup,
@@ -223,7 +243,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		account.Setup,
 		accountprivilege.Setup,
 		backuppolicy.Setup,
-		cluster.Setup,
+		clusterpolardb.Setup,
 		clusterendpoint.Setup,
 		database.Setup,
 		endpointpolardb.Setup,

@@ -1,0 +1,97 @@
+apiVersion: cs.alibabacloud.crossplane.io/v1alpha1
+kind: Kubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    clusterDomain: cluster.local
+    customSan: www.terraform.io
+    deletionProtection: "false"
+    dynamic:
+      addons:
+      - content:
+        - config: ${jsonencode(lookup(addons.value, "config", var.cluster_addons))}
+          name: ${lookup(addons.value, "name", var.cluster_addons)}
+        for_each: ${var.cluster_addons}
+    installCloudMonitor: "true"
+    masterDiskCategory: cloud_essd
+    masterInstanceTypes:
+    - ${data.alicloud_instance_types.cloud_essd.0.instance_types.0.id}
+    - ${data.alicloud_instance_types.cloud_essd.1.instance_types.0.id}
+    - ${data.alicloud_instance_types.cloud_essd.2.instance_types.0.id}
+    masterVswitchIds: '${length(var.vswitch_ids) > 0 ? split(",", join(",", var.vswitch_ids))
+      : length(var.vswitch_cidrs) < 1 ? [] : split(",", join(",", alicloud_vswitch.vswitches.*.id))}'
+    newNatGateway: "true"
+    osType: Linux
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    platform: AliyunLinux3
+    podVswitchIds: '${length(var.terway_vswitch_ids) > 0 ? split(",", join(",", var.terway_vswitch_ids))
+      : length(var.terway_vswitch_cidrs) < 1 ? [] : split(",", join(",", alicloud_vswitch.terway_vswitches.*.id))}'
+    proxyMode: ipvs
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    serviceCidr: 172.18.0.0/16
+    timezone: Asia/Shanghai
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: vpc
+  name: vpc
+spec:
+  forProvider:
+    cidrBlock: ${var.vpc_cidr}
+    count: '${var.vpc_id == "" ? 1 : 0}'
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: terway_vswitches
+  name: terway-vswitches
+spec:
+  forProvider:
+    cidrBlock: ${element(var.terway_vswitch_cidrs, count.index)}
+    count: '${length(var.terway_vswitch_ids) > 0 ? 0 : length(var.terway_vswitch_cidrs)}'
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc_id == "" ? join("", alicloud_vpc
+    zoneId: '${data.alicloud_enhanced_nat_available_zones.enhanced.zones[count.index
+      < length(data.alicloud_enhanced_nat_available_zones.enhanced.zones) ? count.index
+      : 0].zone_id}'
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: vswitches
+  name: vswitches
+spec:
+  forProvider:
+    cidrBlock: ${element(var.vswitch_cidrs, count.index)}
+    count: '${length(var.vswitch_ids) > 0 ? 0 : length(var.vswitch_cidrs)}'
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc_id == "" ? join("", alicloud_vpc
+    zoneId: '${data.alicloud_enhanced_nat_available_zones.enhanced.zones[count.index
+      < length(data.alicloud_enhanced_nat_available_zones.enhanced.zones) ? count.index
+      : 0].zone_id}'

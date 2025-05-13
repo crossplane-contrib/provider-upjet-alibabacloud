@@ -11,6 +11,20 @@ import "github.com/crossplane/upjet/pkg/config"
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
 
+	// Ack
+	"alicloud_cs_autoscaling_config":     config.IdentifierFromProvider,
+	"alicloud_cs_edge_kubernetes":        config.IdentifierFromProvider,
+	"alicloud_cs_kubernetes":             config.IdentifierFromProvider,
+	"alicloud_cs_kubernetes_addon":       config.IdentifierFromProvider,
+	"alicloud_cs_kubernetes_node_pool":   config.IdentifierFromProvider,
+	"alicloud_cs_kubernetes_permissions": config.IdentifierFromProvider,
+	"alicloud_cs_managed_kubernetes":     config.IdentifierFromProvider,
+	"alicloud_cs_serverless_kubernetes":  config.IdentifierFromProvider,
+
+	// Ack One
+	"alicloud_ack_one_cluster":               config.IdentifierFromProvider,
+	"alicloud_ack_one_membership_attachment": config.IdentifierFromProvider,
+
 	// ALIDNS
 	// "alicloud_alidns_access_strategy":   config.IdentifierFromProvider,
 	"alicloud_alidns_address_pool":      config.IdentifierFromProvider,

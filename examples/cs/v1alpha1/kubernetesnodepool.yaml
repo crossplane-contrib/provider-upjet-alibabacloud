@@ -1,0 +1,82 @@
+---
+apiVersion: cs.alibabacloud.crossplane.io/v1alpha1
+kind: KubernetesNodePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetesnodepool
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    clusterId: ${alicloud_cs_managed_kubernetes.default.id}
+    instanceTypes:
+    - ${data.alicloud_instance_types.cloud_efficiency.instance_types.0.id}
+    keyName: ${alicloud_key_pair.default.key_pair_name}
+    labels:
+    - key: test1
+      value: nodepool
+    - key: test2
+      value: nodepool
+    nodePoolName: ${var.name}
+    systemDiskCategory: cloud_efficiency
+    systemDiskSize: 40
+    taints:
+    - effect: NoSchedule
+      key: tf
+      value: example
+    - effect: NoSchedule
+      key: tf2
+      value: example2
+    vswitchIds:
+    - ${alicloud_vswitch.default.id}
+---
+apiVersion: cs.alibabacloud.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetesnodepool
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    clusterSpec: ack.pro.small
+    enableRrsa: true
+    namePrefix: terraform-example-${random_integer.default.result}
+    newNatGateway: true
+    podCidr: ${cidrsubnet("10.0.0.0/8", 8, 36)}
+    serviceCidr: ${cidrsubnet("172.16.0.0/16", 4, 7)}
+    slbInternetEnabled: true
+    workerVswitchIds:
+    - ${alicloud_vswitch.default.id}
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetesnodepool
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: ${var.name}
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/kubernetesnodepool
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_enhanced_nat_available_zones.enhanced.zones.0.zone_id}

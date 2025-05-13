@@ -1,0 +1,108 @@
+---
+apiVersion: cs.alibabacloud.crossplane.io/v1alpha1
+kind: AutoscalingConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-cs-v1alpha1-asc-1
+  labels:
+    testing.upbound.io/example-name: test-cs-v1alpha1-asc-1
+  name: test-cs-v1alpha1-asc-1
+spec:
+  forProvider:
+    clusterId: test-cs-v1alpha1-asc-mk8s-1 # Replace with id
+    coolDownDuration: 10m
+    daemonsetEvictionForNodes: false
+    expander: least-waste
+    gpuUtilizationThreshold: "0.5"
+    maxGracefulTerminationSec: 14400
+    minReplicaCount: 0
+    recycleNodeDeletionEnabled: false
+    scaleDownEnabled: true
+    scaleUpFromZero: true
+    scalerType: goatscaler
+    scanInterval: 30s
+    skipNodesWithLocalStorage: false
+    skipNodesWithSystemPods: true
+    unneededDuration: 10m
+    utilizationThreshold: "0.5"
+---
+apiVersion: cs.alibabacloud.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-cs-v1alpha1-asc-mk8s-1
+  labels:
+    testing.upbound.io/example-name: test-cs-v1alpha1-asc-mk8s-1
+  name: test-cs-v1alpha1-asc-mk8s-1
+spec:
+  forProvider:
+    clusterSpec: ack.pro.small
+    namePrefix: test-cs-v1alpha1-asc-mk8s-1
+    newNatGateway: true
+    podCidr: 10.0.0.0/16
+    serviceCidr: 172.16.0.0/20
+    slbInternetEnabled: true
+    vswitchIds:
+    - vsw-rj9qhai9bthd40edn88cn
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-cs-v1alpha1-asc-vpc-1
+  labels:
+    testing.upbound.io/example-name: test-cs-v1alpha1-asc-vpc-1
+  name: test-cs-v1alpha1-asc-vpc-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: test-cs-v1alpha1-asc-vpc-1
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-cs-v1alpha1-asc-vswitch-1
+  labels:
+    testing.upbound.io/example-name: test-cs-v1alpha1-asc-vswitch-1
+  name: test-cs-v1alpha1-asc-vswitch-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-cs-v1alpha1-asc-vpc-1
+    vswitchName: test-cs-v1alpha1-asc-vswitch-1
+    zoneId: us-west-1b
+---
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: aliyuncsdefaultrole
+  labels:
+    testing.crossplane.io/example-name: aliyuncsdefaultrole
+  name: aliyuncsdefaultrole
+spec:
+  forProvider:
+    description: aliyuncsdefaultrole
+    document: |
+      {
+          "Statement": [
+              {
+                  "Action": "sts:AssumeRole",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "Service": [
+                          "cs.aliyuncs.com",
+                          "ecs.aliyuncs.com",
+                          "kms.aliyuncs.com",
+                          "oss.aliyuncs.com",
+                          "vpc.aliyuncs.com"
+                      ]
+                  }
+              }
+          ],
+          "Version": "1"
+      }
+    name: aliyuncsdefaultrole

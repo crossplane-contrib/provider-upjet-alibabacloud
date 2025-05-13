@@ -196,8 +196,10 @@ CROSSPLANE_NAMESPACE = upbound-system
 #   aws_secret_access_key = REDACTED'
 #   The associated `ProviderConfig`s will be named as `default` and `peer`.
 # - UPTEST_DATASOURCE_PATH (optional), please see https://github.com/crossplane/uptest#injecting-dynamic-values-and-datasource
+ACKONE=./examples/ackone/v1alpha1
 ALIDNS=./examples/alidns/v1alpha1
 CDN=./examples/cdn/v1alpha1
+CS=./examples/cs/v1alpha1
 ECS=./examples/ecs/v1alpha1
 KMS=./examples/kms/v1alpha1
 MESSAGESERVICE=./examples/messageservice/v1alpha1
@@ -206,8 +208,10 @@ POLARDB=./examples/polardb/v1alpha1
 RAM=./examples/ram/v1alpha1
 TAIT=./examples/tait/v1alpha1
 VPC=./examples/vpc/v1alpha1
+UPTEST_EXAMPLE_LIST_ACKONE=$(ACKONE)/cluster.yaml,$(ACKONE)/membershipattachment.yaml
 UPTEST_EXAMPLE_LIST_ALIDNS=$(ALIDNS)/addreddpool.yaml,$(ALIDNS)/customline.yaml,$(ALIDNS)/domain.yaml,$(ALIDNS)/domainattachment.yaml,$(ALIDNS)/domaingroup.yaml,$(ALIDNS)/gtminstance.yaml,$(ALIDNS)/instance.yaml,$(ALIDNS)/monitorconfig.yaml,$(ALIDNS)/record.yaml
 UPTEST_EXAMPLE_LIST_CDN=$(CDN)/domain.yaml,$(CDN)/domainconfig.yaml,$(CDN)/fctrigger.yaml
+UPTEST_EXAMPLE_LIST_CS=$(CS)/autoscalingconfig.yaml,$(CS)/edgekubernetes.yaml,$(CS)/kubernetes.yaml,$(CS)/kubernetesaddon.yaml,$(CS)/kubernetesnodepool.yaml,$(CS)/kubernetespermissions.yaml,$(CS)/managedkubernetes.yaml,$(CS)/serverlesskubernetes.yaml
 UPTEST_EXAMPLE_LIST_ECS=$(ECS)/command.yaml,$(ECS)/disk.yaml,$(ECS)/diskattachment.yaml,$(ECS)/instance.yaml,$(ECS)/keypair.yaml,$(ECS)/keypairattachment.yaml,$(ECS)/launchtemplate.yaml,$(ECS)/networkinterface.yaml,$(ECS)/networkinterfaceattachment.yaml,$(ECS)/networkinterfacepermission.yaml,$(ECS)/securitygroup.yaml,$(ECS)/securitygrouprule.yaml
 UPTEST_EXAMPLE_LIST_KMS=$(KMS)/alias.yaml,$(KMS)/key.yaml,$(KMS)/instance.yaml,$(KMS)/secret.yaml
 UPTEST_EXAMPLE_LIST_MESSAGESERVICE=$(MESSAGESERVICE)/endpoint.yaml,$(MESSAGESERVICE)/endpointacl.yaml,$(MESSAGESERVICE)/queue.yaml,$(MESSAGESERVICE)/subscription.yaml,$(MESSAGESERVICE)/topic.yaml
@@ -216,7 +220,7 @@ UPTEST_EXAMPLE_LIST_POLARDB=$(POLARDB)/account.yaml,$(POLARDB)/accountprivilege.
 UPTEST_EXAMPLE_LIST_RAM=$(RAM)/accesskey.yaml,$(RAM)/accountalias.yaml,$(RAM)/accountpasswordpolicy.yaml,$(RAM)/group.yaml,$(RAM)/groupmembership.yaml,$(RAM)/grouppolicyattachment.yaml,$(RAM)/loginprofile.yaml,$(RAM)/passwordpolicy.yaml,$(RAM)/policy.yaml,$(RAM)/role.yaml,$(RAM)/rolepolicyattachment.yaml,$(RAM)/samlprovider.yaml,$(RAM)/user.yaml,$(RAM)/usergroupattachment.yaml,$(RAM)/userpolicyattachment.yaml
 UPTEST_EXAMPLE_LIST_TAIT=$(TAIT)/account.yaml,$(TAIT)/auditlogconfig.yaml,$(TAIT)/connection.yaml,$(TAIT)/instance.yaml,$(TAIT)/tairinstance.yaml
 UPTEST_EXAMPLE_LIST_VPC=$(VPC)/vpc.yaml
-UPTEST_EXAMPLE_LIST=$(UPTEST_EXAMPLE_LIST_RAM)
+UPTEST_EXAMPLE_LIST=$(CS)/kubernetes.yaml
 uptest: $(UPTEST) $(KUBECTL) $(KUTTL)
 	@$(INFO) running automated tests
 	@KUBECTL=$(KUBECTL) KUTTL=$(KUTTL) CROSSPLANE_NAMESPACE=$(CROSSPLANE_NAMESPACE) $(UPTEST) e2e "${UPTEST_EXAMPLE_LIST}" --data-source="${UPTEST_DATASOURCE_PATH}" --setup-script=cluster/test/setup.sh --default-conditions="Test" || $(FAIL)

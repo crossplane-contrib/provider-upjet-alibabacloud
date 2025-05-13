@@ -1,0 +1,49 @@
+apiVersion: ackone.alibabacloud.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ackone/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    network:
+    - vpcId: ${alicloud_vpc.defaultVpc.id}
+      vswitches:
+      - ${alicloud_vswitch.defaultyVSwitch.id}
+    profile: XFlow
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ackone/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: defaultVpc
+  name: defaultvpc
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ackone/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: defaultyVSwitch
+  name: defaultyvswitch
+spec:
+  forProvider:
+    cidrBlock: 172.16.2.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: defaultVpc
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

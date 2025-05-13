@@ -1,0 +1,64 @@
+---
+apiVersion: cs.alibabacloud.crossplane.io/v1alpha1
+kind: EdgeKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/edgekubernetes
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    installCloudMonitor: "true"
+    isEnterpriseSecurityGroup: "true"
+    namePrefix: ${var.name}
+    newNatGateway: "true"
+    nodeCidrMask: "24"
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    podCidr: 10.99.0.0/16
+    serviceCidr: 172.16.0.0/16
+    slbInternetEnabled: "true"
+    version: 1.26.3-aliyun.1
+    workerDataDisks:
+    - category: cloud_ssd
+      encrypted: "false"
+      size: "200"
+    workerInstanceChargeType: PostPaid
+    workerInstanceTypes:
+    - ${data.alicloud_instance_types.default.instance_types.0.id}
+    workerNumber: "1"
+    workerVswitchIds:
+    - ${alicloud_vswitch.default.id}
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/edgekubernetes
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: ${var.name}
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cs/v1alpha1/edgekubernetes
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}
