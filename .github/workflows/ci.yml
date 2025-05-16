@@ -145,7 +145,7 @@ jobs:
         run: make vendor vendor.check
 
       - name: Install scraper
-        run: go get github.com/crossplane/upjet/cmd/scraper@v1.4.1
+        run: go get github.com/crossplane/upjet/cmd/scraper@v1.9.0
 
       - name: Check Diff
         run: make check-diff
