@@ -18,6 +18,7 @@ spec:
     refererList:
     - '*.aliyun.com'
     - '*.example.com'
+    region: cn-beijing
     truncatePath: "false"
 
 ---
@@ -33,4 +34,5 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
     storageClass: Standard

@@ -8,9 +8,13 @@ package v1alpha1
 
 import (
 	"context"
+	v1alpha12 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alidns/v1alpha1"
+	v1alpha11 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1"
+	v1alpha13 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1"
 	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1"
 	common "github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -88,6 +92,89 @@ func (mg *AccessPoint) ResolveReferences(ctx context.Context, c client.Reader) e
 		}
 		mg.Spec.InitProvider.VPCConfiguration[i3].VPCID = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.VPCConfiguration[i3].VPCIDRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this Bucket.
+func (mg *Bucket) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Logging); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Logging[i3].TargetBucket),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.Logging[i3].TargetBucketRef,
+			Selector:     mg.Spec.ForProvider.Logging[i3].TargetBucketSelector,
+			To: reference.To{
+				List:    &BucketList{},
+				Managed: &Bucket{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Logging[i3].TargetBucket")
+		}
+		mg.Spec.ForProvider.Logging[i3].TargetBucket = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Logging[i3].TargetBucketRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ServerSideEncryptionRule); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServerSideEncryptionRule[i3].KMSMasterKeyID),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.ServerSideEncryptionRule[i3].KMSMasterKeyIDRef,
+			Selector:     mg.Spec.ForProvider.ServerSideEncryptionRule[i3].KMSMasterKeyIDSelector,
+			To: reference.To{
+				List:    &v1alpha11.KeyList{},
+				Managed: &v1alpha11.Key{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.ServerSideEncryptionRule[i3].KMSMasterKeyID")
+		}
+		mg.Spec.ForProvider.ServerSideEncryptionRule[i3].KMSMasterKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.ServerSideEncryptionRule[i3].KMSMasterKeyIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Logging); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Logging[i3].TargetBucket),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.Logging[i3].TargetBucketRef,
+			Selector:     mg.Spec.InitProvider.Logging[i3].TargetBucketSelector,
+			To: reference.To{
+				List:    &BucketList{},
+				Managed: &Bucket{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Logging[i3].TargetBucket")
+		}
+		mg.Spec.InitProvider.Logging[i3].TargetBucket = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Logging[i3].TargetBucketRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ServerSideEncryptionRule); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServerSideEncryptionRule[i3].KMSMasterKeyID),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.ServerSideEncryptionRule[i3].KMSMasterKeyIDRef,
+			Selector:     mg.Spec.InitProvider.ServerSideEncryptionRule[i3].KMSMasterKeyIDSelector,
+			To: reference.To{
+				List:    &v1alpha11.KeyList{},
+				Managed: &v1alpha11.Key{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.ServerSideEncryptionRule[i3].KMSMasterKeyID")
+		}
+		mg.Spec.InitProvider.ServerSideEncryptionRule[i3].KMSMasterKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.ServerSideEncryptionRule[i3].KMSMasterKeyIDRef = rsp.ResolvedReference
 
 	}
 
@@ -202,6 +289,22 @@ func (mg *BucketCname) ResolveReferences(ctx context.Context, c client.Reader) e
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Domain),
+		Extract:      resource.ExtractParamPath("domain_name", false),
+		Reference:    mg.Spec.ForProvider.DomainRef,
+		Selector:     mg.Spec.ForProvider.DomainSelector,
+		To: reference.To{
+			List:    &v1alpha12.RecordList{},
+			Managed: &v1alpha12.Record{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Domain")
+	}
+	mg.Spec.ForProvider.Domain = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DomainRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.InitProvider.BucketRef,
@@ -216,6 +319,22 @@ func (mg *BucketCname) ResolveReferences(ctx context.Context, c client.Reader) e
 	}
 	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Domain),
+		Extract:      resource.ExtractParamPath("domain_name", false),
+		Reference:    mg.Spec.InitProvider.DomainRef,
+		Selector:     mg.Spec.InitProvider.DomainSelector,
+		To: reference.To{
+			List:    &v1alpha12.RecordList{},
+			Managed: &v1alpha12.Record{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Domain")
+	}
+	mg.Spec.InitProvider.Domain = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DomainRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -528,6 +647,22 @@ func (mg *BucketObject) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KMSKeyID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.KMSKeyIDRef,
+		Selector:     mg.Spec.ForProvider.KMSKeyIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.KeyList{},
+			Managed: &v1alpha11.Key{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.KMSKeyID")
+	}
+	mg.Spec.ForProvider.KMSKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.KMSKeyIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.InitProvider.BucketRef,
@@ -542,6 +677,22 @@ func (mg *BucketObject) ResolveReferences(ctx context.Context, c client.Reader) 
 	}
 	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KMSKeyID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.KMSKeyIDRef,
+		Selector:     mg.Spec.InitProvider.KMSKeyIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.KeyList{},
+			Managed: &v1alpha11.Key{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.KMSKeyID")
+	}
+	mg.Spec.InitProvider.KMSKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.KMSKeyIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -731,6 +882,40 @@ func (mg *BucketReplication) ResolveReferences(ctx context.Context, c client.Rea
 		mg.Spec.ForProvider.Destination[i3].LocationRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.EncryptionConfiguration); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EncryptionConfiguration[i3].ReplicaKMSKeyID),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.ForProvider.EncryptionConfiguration[i3].ReplicaKMSKeyIDRef,
+			Selector:     mg.Spec.ForProvider.EncryptionConfiguration[i3].ReplicaKMSKeyIDSelector,
+			To: reference.To{
+				List:    &v1alpha11.KeyList{},
+				Managed: &v1alpha11.Key{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.EncryptionConfiguration[i3].ReplicaKMSKeyID")
+		}
+		mg.Spec.ForProvider.EncryptionConfiguration[i3].ReplicaKMSKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.EncryptionConfiguration[i3].ReplicaKMSKeyIDRef = rsp.ResolvedReference
+
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SyncRole),
+		Extract:      resource.ExtractParamPath("name", false),
+		Reference:    mg.Spec.ForProvider.SyncRoleRef,
+		Selector:     mg.Spec.ForProvider.SyncRoleSelector,
+		To: reference.To{
+			List:    &v1alpha13.RoleList{},
+			Managed: &v1alpha13.Role{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SyncRole")
+	}
+	mg.Spec.ForProvider.SyncRole = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SyncRoleRef = rsp.ResolvedReference
+
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
 		Extract:      reference.ExternalName(),
@@ -783,6 +968,39 @@ func (mg *BucketReplication) ResolveReferences(ctx context.Context, c client.Rea
 		mg.Spec.InitProvider.Destination[i3].LocationRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.EncryptionConfiguration); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EncryptionConfiguration[i3].ReplicaKMSKeyID),
+			Extract:      resource.ExtractResourceID(),
+			Reference:    mg.Spec.InitProvider.EncryptionConfiguration[i3].ReplicaKMSKeyIDRef,
+			Selector:     mg.Spec.InitProvider.EncryptionConfiguration[i3].ReplicaKMSKeyIDSelector,
+			To: reference.To{
+				List:    &v1alpha11.KeyList{},
+				Managed: &v1alpha11.Key{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.EncryptionConfiguration[i3].ReplicaKMSKeyID")
+		}
+		mg.Spec.InitProvider.EncryptionConfiguration[i3].ReplicaKMSKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.EncryptionConfiguration[i3].ReplicaKMSKeyIDRef = rsp.ResolvedReference
+
+	}
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SyncRole),
+		Extract:      resource.ExtractParamPath("name", false),
+		Reference:    mg.Spec.InitProvider.SyncRoleRef,
+		Selector:     mg.Spec.InitProvider.SyncRoleSelector,
+		To: reference.To{
+			List:    &v1alpha13.RoleList{},
+			Managed: &v1alpha13.Role{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SyncRole")
+	}
+	mg.Spec.InitProvider.SyncRole = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SyncRoleRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -853,6 +1071,22 @@ func (mg *BucketServerSideEncryption) ResolveReferences(ctx context.Context, c c
 	mg.Spec.ForProvider.BucketRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KMSMasterKeyID),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.ForProvider.KMSMasterKeyIDRef,
+		Selector:     mg.Spec.ForProvider.KMSMasterKeyIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.KeyList{},
+			Managed: &v1alpha11.Key{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.KMSMasterKeyID")
+	}
+	mg.Spec.ForProvider.KMSMasterKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.KMSMasterKeyIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Bucket),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.InitProvider.BucketRef,
@@ -867,6 +1101,22 @@ func (mg *BucketServerSideEncryption) ResolveReferences(ctx context.Context, c c
 	}
 	mg.Spec.InitProvider.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.BucketRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KMSMasterKeyID),
+		Extract:      resource.ExtractResourceID(),
+		Reference:    mg.Spec.InitProvider.KMSMasterKeyIDRef,
+		Selector:     mg.Spec.InitProvider.KMSMasterKeyIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.KeyList{},
+			Managed: &v1alpha11.Key{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.KMSMasterKeyID")
+	}
+	mg.Spec.InitProvider.KMSMasterKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.KMSMasterKeyIDRef = rsp.ResolvedReference
 
 	return nil
 }

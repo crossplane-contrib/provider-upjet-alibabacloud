@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BucketReferer
     listKind: BucketRefererList
     plural: bucketreferers
@@ -169,6 +169,10 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   truncatePath:
                     description: 'Specifies whether to truncate the path and parts
                       that follow the path in the URL when the Referer is matched.

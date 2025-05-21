@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BucketLogging
     listKind: BucketLoggingList
     plural: bucketloggings
@@ -150,6 +150,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   targetBucket:
                     description: The bucket that stores access logs.
                     type: string

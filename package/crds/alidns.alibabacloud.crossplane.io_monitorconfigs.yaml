@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: MonitorConfig
     listKind: MonitorConfigList
     plural: monitorconfigs
@@ -185,6 +185,10 @@ spec:
                   protocolType:
                     description: 'The health check protocol. Valid values: HTTP, HTTPS,
                       PING, TCP.'
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   timeout:
                     description: 'The timeout period. Unit: milliseconds. Valid values:

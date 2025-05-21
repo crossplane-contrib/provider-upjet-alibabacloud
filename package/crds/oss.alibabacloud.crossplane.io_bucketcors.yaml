@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BucketCors
     listKind: BucketCorsList
     plural: bucketcors
@@ -193,6 +193,10 @@ spec:
                           type: number
                       type: object
                     type: array
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   responseVary:
                     description: 'Specifies whether to return the Vary: Origin header.
                       Valid values: true: returns the Vary: Origin header, regardless

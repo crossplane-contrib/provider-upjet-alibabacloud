@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: VpcEndpointZone
     listKind: VpcEndpointZoneList
     plural: vpcendpointzones
@@ -158,6 +158,10 @@ spec:
                     type: object
                   eniIp:
                     description: The IP address of the endpoint ENI.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   vswitchId:
                     description: The ID of the vSwitch in the zone.

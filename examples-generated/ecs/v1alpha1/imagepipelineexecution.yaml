@@ -11,6 +11,7 @@ spec:
     imagePipelineIdSelector:
       matchLabels:
         testing.upbound.io/example-name: pipelineExection-pipeline
+    region: cn-beijing
 
 ---
 
@@ -33,6 +34,7 @@ spec:
     description: example
     imageName: example-image-pipeline
     internetMaxBandwidthOut: "5"
+    region: cn-beijing
     systemDiskSize: "40"
     toRegionId:
     - cn-beijing
@@ -54,6 +56,7 @@ spec:
   forProvider:
     description: example-pipeline
     enableIpv6: true
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -70,6 +73,7 @@ spec:
   forProvider:
     cidrBlock: 172.16.0.0/24
     description: pipelineExecution-start
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: pipelineExecution-vpc

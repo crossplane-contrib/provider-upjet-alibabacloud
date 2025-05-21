@@ -12,6 +12,7 @@ spec:
     keyIdSelector:
       matchLabels:
         testing.upbound.io/example-name: this
+    region: cn-beijing
 
 ---
 
@@ -26,3 +27,4 @@ metadata:
 spec:
   forProvider:
     pendingWindowInDays: 7
+    region: cn-beijing

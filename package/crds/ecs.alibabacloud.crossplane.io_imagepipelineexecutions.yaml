@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: ImagePipelineExecution
     listKind: ImagePipelineExecutionList
     plural: imagepipelineexecutions
@@ -150,6 +150,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   status:
                     description: 'The status of the image build task. Valid values:'
                     type: string

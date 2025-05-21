@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BucketWorm
     listKind: BucketWormList
     plural: bucketworms
@@ -150,6 +150,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   retentionPeriodInDays:
                     description: The specified number of days to retain the Object.
                     type: number

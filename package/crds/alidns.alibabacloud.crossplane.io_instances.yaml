@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Instance
     listKind: InstanceList
     plural: instances
@@ -89,6 +89,10 @@ spec:
                       unit is month, please enter an integer multiple of 12 for annually
                       paid products.
                     type: number
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   renewPeriod:
                     description: Automatic renewal period, the unit is month. When
                       setting RenewalStatus to AutoRenewal, it must be set.

@@ -45,8 +45,18 @@ type AccountPrivilegeInitParameters struct {
 	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// List of specified database name.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/polardb/v1alpha1.Database
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("db_name",false)
 	// +listType=set
 	DBNames []*string `json:"dbNames,omitempty" tf:"db_names,omitempty"`
+
+	// References to Database in polardb to populate dbNames.
+	// +kubebuilder:validation:Optional
+	DBNamesRefs []v1.Reference `json:"dbNamesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Database in polardb to populate dbNames.
+	// +kubebuilder:validation:Optional
+	DBNamesSelector *v1.Selector `json:"dbNamesSelector,omitempty" tf:"-"`
 }
 
 type AccountPrivilegeObservation struct {
@@ -103,9 +113,24 @@ type AccountPrivilegeParameters struct {
 	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// List of specified database name.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/polardb/v1alpha1.Database
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("db_name",false)
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	DBNames []*string `json:"dbNames,omitempty" tf:"db_names,omitempty"`
+
+	// References to Database in polardb to populate dbNames.
+	// +kubebuilder:validation:Optional
+	DBNamesRefs []v1.Reference `json:"dbNamesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Database in polardb to populate dbNames.
+	// +kubebuilder:validation:Optional
+	DBNamesSelector *v1.Selector `json:"dbNamesSelector,omitempty" tf:"-"`
+
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
 }
 
 // AccountPrivilegeSpec defines the desired state of AccountPrivilege
@@ -140,13 +165,12 @@ type AccountPrivilegeStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type AccountPrivilege struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dbNames) || (has(self.initProvider) && has(self.initProvider.dbNames))",message="spec.forProvider.dbNames is a required parameter"
-	Spec   AccountPrivilegeSpec   `json:"spec"`
-	Status AccountPrivilegeStatus `json:"status,omitempty"`
+	Spec              AccountPrivilegeSpec   `json:"spec"`
+	Status            AccountPrivilegeStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

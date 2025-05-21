@@ -206,6 +206,11 @@ type AutoProvisioningGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	PayAsYouGoTargetCapacity *string `json:"payAsYouGoTargetCapacity,omitempty" tf:"pay_as_you_go_target_capacity,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The scale-out policy for preemptible instances. Valid values:lowest-price and diversified,Default value: lowest-price.
 	// +kubebuilder:validation:Optional
 	SpotAllocationStrategy *string `json:"spotAllocationStrategy,omitempty" tf:"spot_allocation_strategy,omitempty"`
@@ -255,7 +260,17 @@ type LaunchTemplateConfigInitParameters struct {
 	Priority *string `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// The ID of the VSwitch in the Nth extended configurations of the launch template.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
+
+	// Reference to a Vswitch in vpc to populate vswitchId.
+	// +kubebuilder:validation:Optional
+	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+
+	// Selector for a Vswitch in vpc to populate vswitchId.
+	// +kubebuilder:validation:Optional
+	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The weight of the instance type specified in the Nth extended configurations of the launch template.
 	WeightedCapacity *string `json:"weightedCapacity,omitempty" tf:"weighted_capacity,omitempty"`
@@ -294,8 +309,18 @@ type LaunchTemplateConfigParameters struct {
 	Priority *string `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// The ID of the VSwitch in the Nth extended configurations of the launch template.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
-	VswitchID *string `json:"vswitchId" tf:"vswitch_id,omitempty"`
+	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
+
+	// Reference to a Vswitch in vpc to populate vswitchId.
+	// +kubebuilder:validation:Optional
+	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+
+	// Selector for a Vswitch in vpc to populate vswitchId.
+	// +kubebuilder:validation:Optional
+	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The weight of the instance type specified in the Nth extended configurations of the launch template.
 	// +kubebuilder:validation:Optional
@@ -334,7 +359,7 @@ type AutoProvisioningGroupStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type AutoProvisioningGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

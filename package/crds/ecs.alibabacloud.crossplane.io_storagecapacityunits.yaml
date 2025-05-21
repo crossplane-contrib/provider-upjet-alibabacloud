@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: StorageCapacityUnit
     listKind: StorageCapacityUnitList
     plural: storagecapacityunits
@@ -90,6 +90,10 @@ spec:
                   periodUnit:
                     description: 'The unit of the validity period of the Storage Capacity
                       Unit. Default value: Month. Valid values: Month, Year.'
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   startTime:
                     description: 'The time when the Storage Capacity Unit takes effect.

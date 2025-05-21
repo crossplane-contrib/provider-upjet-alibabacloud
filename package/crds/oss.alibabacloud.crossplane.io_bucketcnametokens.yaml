@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BucketCnameToken
     listKind: BucketCnameTokenList
     plural: bucketcnametokens
@@ -152,6 +152,10 @@ spec:
                     type: object
                   domain:
                     description: The custom domain
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

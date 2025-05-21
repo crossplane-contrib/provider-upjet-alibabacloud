@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: VPC
     listKind: VPCList
     plural: vpcs
@@ -115,6 +115,10 @@ spec:
                       deprecated from provider version 1.119.0. New field 'vpc_name'
                       instead.
                     type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   resourceGroupId:
                     description: The ID of the resource group to which you want to
                       move the resource.
@@ -141,7 +145,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tags of Vpc.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   userCidrs:
@@ -234,7 +238,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tags of Vpc.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   userCidrs:
@@ -523,7 +527,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tags of Vpc.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   userCidrs:

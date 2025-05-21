@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: DedicatedHostCluster
     listKind: DedicatedHostClusterList
     plural: dedicatedhostclusters
@@ -87,10 +87,14 @@ spec:
                   dryRun:
                     description: The dry run.
                     type: boolean
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   zoneId:
@@ -128,7 +132,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   zoneId:
@@ -333,7 +337,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   zoneId:

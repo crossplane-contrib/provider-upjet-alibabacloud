@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: VpcEndpoint
     listKind: VpcEndpointList
     plural: vpcendpoints
@@ -96,6 +96,10 @@ spec:
                       This parameter is available in Security Token Service (STS)
                       mode. Valid values:'
                     type: boolean
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   resourceGroupId:
                     description: The resource group ID.
                     type: string
@@ -272,7 +276,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The list of tags.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcEndpointName:
@@ -573,7 +577,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The list of tags.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcEndpointName:
@@ -904,7 +908,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The list of tags.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcEndpointName:

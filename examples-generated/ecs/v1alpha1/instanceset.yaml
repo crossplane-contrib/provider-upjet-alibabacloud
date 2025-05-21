@@ -13,7 +13,10 @@ spec:
     instanceChargeType: PostPaid
     instanceName: ${var.name}
     instanceType: ${data.alicloud_instance_types.default.instance_types[0].id}
-    securityGroupIds: ${alicloud_security_group.default.*.id}
+    region: cn-beijing
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
     systemDiskCategory: cloud_efficiency
     systemDiskPerformanceLevel: PL0
     systemDiskSize: 200
@@ -35,6 +38,7 @@ metadata:
 spec:
   forProvider:
     name: ${var.name}
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -52,6 +56,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.17.3.0/24
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -67,6 +72,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.17.3.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

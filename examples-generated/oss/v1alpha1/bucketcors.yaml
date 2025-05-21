@@ -22,6 +22,7 @@ spec:
       exposeHeader:
       - x-oss-request-id
       maxAgeSeconds: "1000"
+    region: cn-beijing
     responseVary: true
 
 ---
@@ -37,4 +38,5 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}-${random_uuid.default.result}
+    region: cn-beijing
     storageClass: Standard

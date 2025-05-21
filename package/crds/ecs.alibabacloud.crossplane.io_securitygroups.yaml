@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: SecurityGroup
     listKind: SecurityGroupList
     plural: securitygroups
@@ -82,6 +82,10 @@ spec:
                     description: 'The internal access control policy of the security
                       group. Valid values:'
                     type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   resourceGroupId:
                     description: 'The ID of the resource group to which the security
                       group belongs. NOTE: From version 1.115.0, resource_group_id
@@ -102,7 +106,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcId:
@@ -226,7 +230,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcId:
@@ -515,7 +519,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcId:

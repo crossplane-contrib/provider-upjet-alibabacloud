@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Subscription
     listKind: SubscriptionList
     plural: subscriptions
@@ -111,6 +111,10 @@ spec:
                   pushType:
                     description: 'The Push type of Subscription. The Valid values:
                       http, queue, mpush, alisms and email.'
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   subscriptionName:
                     description: Two topics subscription on a single account in the

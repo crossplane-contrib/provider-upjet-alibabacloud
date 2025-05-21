@@ -12,12 +12,17 @@ spec:
     description: ${var.name}
     diskDeviceMapping:
     - diskImageSize: 5
-      ossBucket: ${alicloud_oss_bucket.default.id}
-      ossObject: ${alicloud_oss_bucket_object.default.id}
+      ossBucketSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      ossObjectSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
     imageName: ${var.name}
     licenseType: Auto
     osType: linux
     platform: Ubuntu
+    region: cn-beijing
 
 ---
 
@@ -32,6 +37,7 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
 
 ---
 
@@ -54,3 +60,4 @@ spec:
           print "hello world"
           return 'hello world'
     key: fc/hello.zip
+    region: cn-beijing

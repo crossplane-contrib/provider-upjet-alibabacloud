@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: NetworkInterfacePermission
     listKind: NetworkInterfacePermissionList
     plural: networkinterfacepermissions
@@ -166,6 +166,10 @@ spec:
                       values: InstanceAttach. InstanceAttach: Allows authorized users
                       to mount your ENI to the other ECS instance. The ECS instance
                       must be in the same zone as the ENI.'
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

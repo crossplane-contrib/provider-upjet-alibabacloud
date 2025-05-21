@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: AlarmContactGroup
     listKind: AlarmContactGroupList
     plural: alarmcontactgroups
@@ -88,6 +88,10 @@ spec:
                   enableSubscribed:
                     description: Whether to open weekly subscription.
                     type: boolean
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                 type: object
               initProvider:
                 description: |-

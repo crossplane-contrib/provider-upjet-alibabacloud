@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: DomainConfig
     listKind: DomainConfigList
     plural: domainconfigs
@@ -180,6 +180,10 @@ spec:
                       functions as a ParentId parameter, in this way, the rule conditions
                       can be combined with the functional configuration to form a
                       more flexible configuration.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

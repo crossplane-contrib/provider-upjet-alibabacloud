@@ -13,4 +13,5 @@ spec:
     messageRetentionPeriod: "566"
     pollingWaitSeconds: "2"
     queueName: ${var.name}
+    region: cn-beijing
     visibilityTimeout: "30"

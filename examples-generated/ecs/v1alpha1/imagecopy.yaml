@@ -11,6 +11,7 @@ spec:
     description: terraform-example
     imageName: terraform-example
     provider: ${alicloud.sh}
+    region: cn-beijing
     sourceImageIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -36,6 +37,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     provider: ${alicloud.hz}
+    region: cn-beijing
 
 ---
 
@@ -57,6 +59,7 @@ spec:
     instanceType: ${data.alicloud_instance_types.default.ids[0]}
     internetMaxBandwidthOut: 10
     provider: ${alicloud.hz}
+    region: cn-beijing
     securityGroupRefs:
     - name: default
     vswitchIdSelector:
@@ -77,6 +80,7 @@ spec:
   forProvider:
     name: terraform-example
     provider: ${alicloud.hz}
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -95,6 +99,7 @@ spec:
   forProvider:
     cidrBlock: 172.17.3.0/24
     provider: ${alicloud.hz}
+    region: cn-beijing
     vpcName: terraform-example
 
 ---
@@ -111,6 +116,7 @@ spec:
   forProvider:
     cidrBlock: 172.17.3.0/24
     provider: ${alicloud.hz}
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

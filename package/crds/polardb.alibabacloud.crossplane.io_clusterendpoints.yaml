@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: ClusterEndpoint
     listKind: ClusterEndpointList
     plural: clusterendpoints
@@ -193,6 +193,10 @@ spec:
                   readWriteMode:
                     description: Read or write mode. Valid values are ReadWrite, ReadOnly.
                       When creating a new custom endpoint, default to ReadOnly.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   sslAutoRotate:
                     description: |-

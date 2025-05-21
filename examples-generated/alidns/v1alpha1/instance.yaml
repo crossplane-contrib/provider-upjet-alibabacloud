@@ -11,6 +11,7 @@ spec:
     dnsSecurity: "no"
     domainNumbers: "2"
     period: 1
+    region: cn-beijing
     renewPeriod: 1
     renewalStatus: ManualRenewal
     versionCode: version_personal

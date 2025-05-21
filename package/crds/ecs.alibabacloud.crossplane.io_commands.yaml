@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Command
     listKind: CommandList
     plural: commands
@@ -86,6 +86,10 @@ spec:
                   name:
                     description: The name of the command, which supports all character
                       sets. It can be up to 128 characters in length.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   timeout:
                     description: 'The timeout period that is specified for the command

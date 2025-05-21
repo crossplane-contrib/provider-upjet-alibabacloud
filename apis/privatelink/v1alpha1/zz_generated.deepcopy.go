@@ -297,6 +297,11 @@ func (in *VPCEndpointServiceParameters) DeepCopyInto(out *VPCEndpointServicePara
 		*out = new(string)
 		**out = **in
 	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -598,6 +603,11 @@ func (in *VpcEndpointConnectionParameters) DeepCopyInto(out *VpcEndpointConnecti
 		in, out := &in.EndpointIDSelector, &out.EndpointIDSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
 	}
 	if in.ServiceID != nil {
 		in, out := &in.ServiceID, &out.ServiceID
@@ -1002,6 +1012,11 @@ func (in *VpcEndpointParameters) DeepCopyInto(out *VpcEndpointParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -1270,6 +1285,11 @@ func (in *VpcEndpointServiceResourceParameters) DeepCopyInto(out *VpcEndpointSer
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
 	if in.ResourceID != nil {
 		in, out := &in.ResourceID, &out.ResourceID
 		*out = new(string)
@@ -1507,6 +1527,11 @@ func (in *VpcEndpointServiceUserParameters) DeepCopyInto(out *VpcEndpointService
 	if in.DryRun != nil {
 		in, out := &in.DryRun, &out.DryRun
 		*out = new(bool)
+		**out = **in
+	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
 		**out = **in
 	}
 	if in.ServiceID != nil {
@@ -1825,6 +1850,11 @@ func (in *VpcEndpointZoneParameters) DeepCopyInto(out *VpcEndpointZoneParameters
 	}
 	if in.EniIP != nil {
 		in, out := &in.EniIP, &out.EniIP
+		*out = new(string)
+		**out = **in
+	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
 		*out = new(string)
 		**out = **in
 	}

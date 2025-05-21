@@ -30,7 +30,7 @@ type SecurityGroupInitParameters struct {
 	// The type of the security group. Default value: normal. Valid values:
 	SecurityGroupType *string `json:"securityGroupType,omitempty" tf:"security_group_type,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -69,7 +69,7 @@ type SecurityGroupObservation struct {
 	// The type of the security group. Default value: normal. Valid values:
 	SecurityGroupType *string `json:"securityGroupType,omitempty" tf:"security_group_type,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -87,6 +87,11 @@ type SecurityGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	InnerAccessPolicy *string `json:"innerAccessPolicy,omitempty" tf:"inner_access_policy,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of the resource group to which the security group belongs. NOTE: From version 1.115.0, resource_group_id can be modified.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -99,7 +104,7 @@ type SecurityGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	SecurityGroupType *string `json:"securityGroupType,omitempty" tf:"security_group_type,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -150,7 +155,7 @@ type SecurityGroupStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type SecurityGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

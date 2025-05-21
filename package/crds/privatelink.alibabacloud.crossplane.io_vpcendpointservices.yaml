@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: VPCEndpointService
     listKind: VPCEndpointServiceList
     plural: vpcendpointservices
@@ -91,6 +91,10 @@ spec:
                   payer:
                     description: 'The payer of the endpoint service. Valid values:'
                     type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   resourceGroupId:
                     description: The resource group ID.
                     type: string
@@ -107,7 +111,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The list of tags.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   zoneAffinityEnabled:
@@ -163,7 +167,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The list of tags.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   zoneAffinityEnabled:
@@ -397,7 +401,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The list of tags.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcEndpointServiceName:

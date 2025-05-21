@@ -11,7 +11,10 @@ spec:
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: CreateBucket
-    domain: ${alicloud_alidns_record.defaultnHqm5p.domain_name}
+    domainSelector:
+      matchLabels:
+        testing.upbound.io/example-name: defaultnHqm5p
+    region: cn-beijing
 
 ---
 
@@ -30,13 +33,12 @@ spec:
         testing.upbound.io/example-name: example
     line: default
     priority: "1"
+    region: cn-beijing
     rr: _dnsauth
     status: ENABLE
     ttl: "600"
     type: TXT
-    valueSelector:
-      matchLabels:
-        testing.upbound.io/example-name: defaultZaWJfG
+    value: ${alicloud_oss_bucket_cname_token.defaultZaWJfG.token}
 
 ---
 
@@ -51,6 +53,7 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}
+    region: cn-beijing
     storageClass: Standard
 
 ---
@@ -67,5 +70,6 @@ spec:
   forProvider:
     bucketSelector:
       matchLabels:
-        testing.upbound.io/example-name: CreateBucket
+        testing.upbound.io/example-name: example
     domain: tftestacc.com
+    region: cn-beijing

@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: AuditLogConfig
     listKind: AuditLogConfigList
     plural: auditlogconfigs
@@ -155,6 +155,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   retention:
                     description: 'Audit Log Retention Period Value: 1~365.'
                     type: number

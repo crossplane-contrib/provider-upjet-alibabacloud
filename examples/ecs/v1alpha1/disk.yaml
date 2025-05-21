@@ -8,6 +8,7 @@ metadata:
   name: example
 spec:
   forProvider:
+    region: cn-zhangjiakou
     category: cloud_efficiency
     description: crossplane-example
     diskName: crossplane-example

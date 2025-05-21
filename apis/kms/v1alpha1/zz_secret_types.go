@@ -72,7 +72,7 @@ type SecretInitParameters struct {
 	// The type of the secret. Valid values:
 	SecretType *string `json:"secretType,omitempty" tf:"secret_type,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -133,7 +133,7 @@ type SecretObservation struct {
 	// The type of the secret. Valid values:
 	SecretType *string `json:"secretType,omitempty" tf:"secret_type,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -197,6 +197,11 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	RecoveryWindowInDays *float64 `json:"recoveryWindowInDays,omitempty" tf:"recovery_window_in_days,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The interval for automatic rotation.
 	// +kubebuilder:validation:Optional
 	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
@@ -217,7 +222,7 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	SecretType *string `json:"secretType,omitempty" tf:"secret_type,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -264,7 +269,7 @@ type SecretStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type Secret struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

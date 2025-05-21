@@ -8,5 +8,6 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-beijing
     sessionManagerStatusName: sessionManagerStatus
     status: Disabled

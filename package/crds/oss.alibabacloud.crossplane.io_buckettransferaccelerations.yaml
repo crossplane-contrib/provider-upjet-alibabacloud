@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BucketTransferAcceleration
     listKind: BucketTransferAccelerationList
     plural: buckettransferaccelerations
@@ -157,6 +157,10 @@ spec:
                       the bucket is enabled. false: transfer acceleration for the
                       bucket is disabled.'
                     type: boolean
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                 type: object
               initProvider:
                 description: |-

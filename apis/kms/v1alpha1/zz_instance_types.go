@@ -167,8 +167,18 @@ type InstanceInitParameters struct {
 	VswitchSelector *v1.Selector `json:"vswitchSelector,omitempty" tf:"-"`
 
 	// zone id.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("zone_id",false)
 	// +listType=set
 	ZoneIds []*string `json:"zoneIds,omitempty" tf:"zone_ids,omitempty"`
+
+	// References to Vswitch in vpc to populate zoneIds.
+	// +kubebuilder:validation:Optional
+	ZoneIdsRefs []v1.Reference `json:"zoneIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Vswitch in vpc to populate zoneIds.
+	// +kubebuilder:validation:Optional
+	ZoneIdsSelector *v1.Selector `json:"zoneIdsSelector,omitempty" tf:"-"`
 }
 
 type InstanceObservation struct {
@@ -276,6 +286,11 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ProductVersion *string `json:"productVersion,omitempty" tf:"product_version,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// Automatic renewal period, in months. The attribute is valid when the attribute payment_type is Subscription.
 	// +kubebuilder:validation:Optional
 	RenewPeriod *float64 `json:"renewPeriod,omitempty" tf:"renew_period,omitempty"`
@@ -326,9 +341,19 @@ type InstanceParameters struct {
 	VswitchSelector *v1.Selector `json:"vswitchSelector,omitempty" tf:"-"`
 
 	// zone id.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("zone_id",false)
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	ZoneIds []*string `json:"zoneIds,omitempty" tf:"zone_ids,omitempty"`
+
+	// References to Vswitch in vpc to populate zoneIds.
+	// +kubebuilder:validation:Optional
+	ZoneIdsRefs []v1.Reference `json:"zoneIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Vswitch in vpc to populate zoneIds.
+	// +kubebuilder:validation:Optional
+	ZoneIdsSelector *v1.Selector `json:"zoneIdsSelector,omitempty" tf:"-"`
 }
 
 // InstanceSpec defines the desired state of Instance
@@ -363,13 +388,12 @@ type InstanceStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.zoneIds) || (has(self.initProvider) && has(self.initProvider.zoneIds))",message="spec.forProvider.zoneIds is a required parameter"
-	Spec   InstanceSpec   `json:"spec"`
-	Status InstanceStatus `json:"status,omitempty"`
+	Spec              InstanceSpec   `json:"spec"`
+	Status            InstanceStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

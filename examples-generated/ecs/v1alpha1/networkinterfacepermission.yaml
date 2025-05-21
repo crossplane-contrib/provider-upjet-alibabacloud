@@ -14,6 +14,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     permission: InstanceAttach
+    region: cn-beijing
 
 ---
 
@@ -30,6 +31,7 @@ spec:
     description: terraform-example
     networkInterfaceName: terraform-example
     primaryIpAddress: ${cidrhost(alicloud_vswitch.default.cidr_block, 100)}
+    region: cn-beijing
     resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
     securityGroupRefs:
     - name: default
@@ -53,6 +55,7 @@ metadata:
 spec:
   forProvider:
     name: terraform-example
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -70,6 +73,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.17.3.0/24
+    region: cn-beijing
     vpcName: terraform-example
 
 ---
@@ -85,6 +89,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.17.3.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

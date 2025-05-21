@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: TairInstance
     listKind: TairInstanceList
     plural: tairinstances
@@ -240,6 +240,10 @@ spec:
                       and whitelist information must have been saved in the original
                       backup set.
                     type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   resourceGroupId:
                     description: The ID of the resource group to which the instance
                       belongs.
@@ -389,7 +393,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tag of the resource
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   tairInstanceName:
@@ -886,7 +890,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tag of the resource
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   tairInstanceName:
@@ -1489,7 +1493,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tag of the resource
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   tairInstanceId:

@@ -12,4 +12,5 @@ spec:
     description: test
     enableIpv6: true
     ipv6Isp: BGP
+    region: cn-beijing
     vpcName: ${var.name}

@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Endpoint
     listKind: EndpointList
     plural: endpoints
@@ -79,6 +79,10 @@ spec:
                     type: boolean
                   endpointType:
                     description: 'Access point type. Value:'
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

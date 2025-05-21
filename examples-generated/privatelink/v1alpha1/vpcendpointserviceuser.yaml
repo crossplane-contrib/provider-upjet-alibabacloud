@@ -8,6 +8,7 @@ metadata:
   name: example
 spec:
   forProvider:
+    region: cn-beijing
     serviceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
@@ -29,6 +30,7 @@ spec:
   forProvider:
     autoAcceptConnection: false
     connectBandwidth: 103
+    region: cn-beijing
     serviceDescription: ${var.name}
 
 ---

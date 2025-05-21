@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Database
     listKind: DatabaseList
     plural: databases
@@ -171,6 +171,10 @@ spec:
                     description: Name of the database requiring a uniqueness check.
                       It may consist of lower case letters, numbers, and underlines,
                       and must start with a letterand have no more than 64 characters.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

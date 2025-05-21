@@ -15,6 +15,7 @@ spec:
     instanceType: ${data.alicloud_instance_types.default.ids.0}
     matchCriteria: Open
     platform: linux
+    region: cn-beijing
     resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
     tags:
       Created: terraform-example

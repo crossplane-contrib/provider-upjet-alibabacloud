@@ -78,6 +78,12 @@ type BucketWebsiteParameters struct {
 	// +kubebuilder:validation:Optional
 	IndexDocument []IndexDocumentParameters `json:"indexDocument,omitempty" tf:"index_document,omitempty"`
 
+	// Signature Region
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The container that holds the jump rule or the mirroring back-to-origin rule. See routing_rules below.
 	// +kubebuilder:validation:Optional
 	RoutingRules []RoutingRulesParameters `json:"routingRules,omitempty" tf:"routing_rules,omitempty"`
@@ -1035,7 +1041,7 @@ type BucketWebsiteStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type BucketWebsite struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

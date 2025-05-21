@@ -11,6 +11,7 @@ spec:
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: CreateBucket
+    region: cn-beijing
     targetBucketSelector:
       matchLabels:
         testing.upbound.io/example-name: CreateBucket
@@ -29,4 +30,5 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
     storageClass: Standard

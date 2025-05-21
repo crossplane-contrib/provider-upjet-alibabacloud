@@ -11,6 +11,9 @@ spec:
     eventMetaName: LogFileCreated
     eventMetaVersion: 1.0.0
     notes: example_value
-    roleArn: acs:ram::${data.alicloud_account.default.id}:role/aliyuncdneventnotificationrole
+    region: cn-beijing
+    roleArnSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alicloud_account
     sourceArn: acs:cdn:*:${data.alicloud_account.default.id}:domain/example.com
     triggerArn: acs:fc:${data.alicloud_regions.default.regions.0.id}:${data.alicloud_account.default.id}:services/FCTestService/functions/printEvent/triggers/testtrigger

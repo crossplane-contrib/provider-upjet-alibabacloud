@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: CustomLine
     listKind: CustomLineList
     plural: customlines
@@ -168,6 +168,10 @@ spec:
                     type: array
                   lang:
                     description: The lang.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

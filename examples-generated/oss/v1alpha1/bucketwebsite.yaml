@@ -18,6 +18,7 @@ spec:
     - suffix: index.html
       supportSubDir: "true"
       type: "0"
+    region: cn-beijing
     routingRules:
     - routingRule:
       - condition:
@@ -44,4 +45,5 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}-${random_uuid.default.result}
+    region: cn-beijing
     storageClass: Standard

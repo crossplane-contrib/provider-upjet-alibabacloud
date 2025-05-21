@@ -19,6 +19,7 @@ spec:
     instanceType: ${data.alicloud_instance_types.default.ids.0}
     internetMaxBandwidthOut: 20
     name: terraform-example
+    region: cn-beijing
     resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     systemDiskSize: 40
     tags:
@@ -44,6 +45,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.17.3.0/24
+    region: cn-beijing
     vpcName: terraform-example
 
 ---
@@ -59,6 +61,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.17.3.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

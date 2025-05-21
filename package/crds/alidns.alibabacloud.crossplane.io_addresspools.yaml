@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: AddressPool
     listKind: AddressPoolList
     plural: addresspools
@@ -185,6 +185,10 @@ spec:
                     description: 'The load balancing policy of the address pool. Valid
                       values:ALL_RR or RATIO. ALL_RR: returns all addresses. RATIO:
                       returns addresses by weight.'
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   type:
                     description: 'The type of the address pool. Valid values: IPV4,

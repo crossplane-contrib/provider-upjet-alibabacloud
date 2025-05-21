@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: DeploymentSet
     listKind: DeploymentSetList
     plural: deploymentsets
@@ -89,6 +89,10 @@ spec:
                       instances in the deployment set cannot be evenly distributed
                       to different zones due to resource insufficiency after the instances
                       failover. Valid values:'
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   strategy:
                     description: 'The deployment strategy. Default value: Availability.

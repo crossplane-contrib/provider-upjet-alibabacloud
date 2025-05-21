@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-hangzhou
     dbClusterIpArray:
     - dbClusterIpArrayName: default
       securityIps:
@@ -37,6 +38,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-hangzhou
     cidrBlock: 172.16.0.0/16
     vpcName: crossplane-example
 
@@ -52,6 +54,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-hangzhou
     cidrBlock: 172.16.0.0/24
     vpcIdSelector:
       matchLabels:

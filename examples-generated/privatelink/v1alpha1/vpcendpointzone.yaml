@@ -11,6 +11,7 @@ spec:
     endpointIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
+    region: cn-beijing
     vswitchIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
@@ -28,6 +29,7 @@ metadata:
   name: example
 spec:
   forProvider:
+    region: cn-beijing
     securityGroupRefs:
     - name: example
     serviceIdSelector:
@@ -52,6 +54,7 @@ spec:
   forProvider:
     autoAcceptConnection: false
     connectBandwidth: 103
+    region: cn-beijing
     serviceDescription: ${var.name}
 
 ---
@@ -66,6 +69,7 @@ metadata:
   name: example
 spec:
   forProvider:
+    region: cn-beijing
     resourceId: ${alicloud_slb_load_balancer.example.id}
     resourceType: slb
     serviceIdSelector:
@@ -85,6 +89,7 @@ metadata:
 spec:
   forProvider:
     name: ${var.name}
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
@@ -102,6 +107,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.0.0.0/8
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -117,6 +123,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.1.0.0/16
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example

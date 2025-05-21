@@ -16,10 +16,30 @@ import (
 type UserGroupAttachmentInitParameters struct {
 
 	// The name of group.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Group
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
 
+	// Reference to a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameRef *v1.Reference `json:"groupNameRef,omitempty" tf:"-"`
+
+	// Selector for a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameSelector *v1.Selector `json:"groupNameSelector,omitempty" tf:"-"`
+
 	// The name of user.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.User
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	UserName *string `json:"userName,omitempty" tf:"user_name,omitempty"`
+
+	// Reference to a User in ram to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameRef *v1.Reference `json:"userNameRef,omitempty" tf:"-"`
+
+	// Selector for a User in ram to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameSelector *v1.Selector `json:"userNameSelector,omitempty" tf:"-"`
 }
 
 type UserGroupAttachmentObservation struct {
@@ -37,12 +57,32 @@ type UserGroupAttachmentObservation struct {
 type UserGroupAttachmentParameters struct {
 
 	// The name of group.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Group
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
 
+	// Reference to a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameRef *v1.Reference `json:"groupNameRef,omitempty" tf:"-"`
+
+	// Selector for a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameSelector *v1.Selector `json:"groupNameSelector,omitempty" tf:"-"`
+
 	// The name of user.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.User
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	UserName *string `json:"userName,omitempty" tf:"user_name,omitempty"`
+
+	// Reference to a User in ram to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameRef *v1.Reference `json:"userNameRef,omitempty" tf:"-"`
+
+	// Selector for a User in ram to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameSelector *v1.Selector `json:"userNameSelector,omitempty" tf:"-"`
 }
 
 // UserGroupAttachmentSpec defines the desired state of UserGroupAttachment
@@ -77,14 +117,12 @@ type UserGroupAttachmentStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type UserGroupAttachment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.groupName) || (has(self.initProvider) && has(self.initProvider.groupName))",message="spec.forProvider.groupName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userName) || (has(self.initProvider) && has(self.initProvider.userName))",message="spec.forProvider.userName is a required parameter"
-	Spec   UserGroupAttachmentSpec   `json:"spec"`
-	Status UserGroupAttachmentStatus `json:"status,omitempty"`
+	Spec              UserGroupAttachmentSpec   `json:"spec"`
+	Status            UserGroupAttachmentStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

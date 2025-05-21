@@ -18,7 +18,7 @@ const (
 	// IdExtractor function in this package.
 	PathIdExtractor                              = SelfPackagePath + ".IdExtractor()"
 	PathAccountNameExtractor                     = SelfPackagePath + ".AccountNameExtractor()"
-	PathDBNameExtractor                          = SelfPackagePath + ".DBNameExtractor()"
+	PathRolaArnExtractor                         = SelfPackagePath + ".RoleArnExtractor()"
 	PathDBEndpointIdExtractor                    = SelfPackagePath + ".DBEndpointIdExtractor()"
 	PathAlarmContactGroupNameExtractor           = SelfPackagePath + ".AlarmContactGroupNameExtractor()"
 	PathOssBucketCnameTokenExtractor             = SelfPackagePath + ".OssBucketCnameTokenExtractor()"
@@ -59,15 +59,15 @@ func AccountNameExtractor() reference.ExtractValueFn {
 	}
 }
 
-// DBNameExtractor extracts id of the
+// RoleArnExtractor extracts id of the
 // resources from "status.atProvider.account_name".
-func DBNameExtractor() reference.ExtractValueFn {
+func RoleArnExtractor() reference.ExtractValueFn {
 	return func(mg xpresource.Managed) string {
 		paved, err := fieldpath.PaveObject(mg)
 		if err != nil {
 			return ""
 		}
-		r, err := paved.GetString("status.atProvider.dbName")
+		r, err := paved.GetString("status.atProvider.arn")
 		if err != nil {
 			return ""
 		}

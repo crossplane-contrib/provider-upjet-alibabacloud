@@ -266,7 +266,7 @@ type LaunchTemplateInitParameters struct {
 	// The System Disk. See system_disk below.
 	SystemDisk []SystemDiskInitParameters `json:"systemDisk,omitempty" tf:"system_disk,omitempty"`
 
-	// A mapping of tags to assign to instance, block storage, and elastic network.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -329,10 +329,30 @@ type LaunchTemplateNetworkInterfacesInitParameters struct {
 	PrimaryIP *string `json:"primaryIp,omitempty" tf:"primary_ip,omitempty"`
 
 	// The security group ID must be one in the same VPC.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
 
+	// Reference to a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+
+	// Selector for a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+
 	// The VSwitch ID for ENI. The instance must be in the same zone of the same VPC network as the ENI, but they may belong to different VSwitches.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
+
+	// Reference to a Vswitch in vpc to populate vswitchId.
+	// +kubebuilder:validation:Optional
+	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+
+	// Selector for a Vswitch in vpc to populate vswitchId.
+	// +kubebuilder:validation:Optional
+	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 type LaunchTemplateNetworkInterfacesObservation struct {
@@ -375,12 +395,32 @@ type LaunchTemplateNetworkInterfacesParameters struct {
 	PrimaryIP *string `json:"primaryIp,omitempty" tf:"primary_ip,omitempty"`
 
 	// The security group ID must be one in the same VPC.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
 
+	// Reference to a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+
+	// Selector for a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+
 	// The VSwitch ID for ENI. The instance must be in the same zone of the same VPC network as the ENI, but they may belong to different VSwitches.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
+
+	// Reference to a Vswitch in vpc to populate vswitchId.
+	// +kubebuilder:validation:Optional
+	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+
+	// Selector for a Vswitch in vpc to populate vswitchId.
+	// +kubebuilder:validation:Optional
+	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 type LaunchTemplateObservation struct {
@@ -504,7 +544,7 @@ type LaunchTemplateObservation struct {
 	// The System Disk. See system_disk below.
 	SystemDisk []SystemDiskObservation `json:"systemDisk,omitempty" tf:"system_disk,omitempty"`
 
-	// A mapping of tags to assign to instance, block storage, and elastic network.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -674,6 +714,11 @@ type LaunchTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	RAMRoleName *string `json:"ramRoleName,omitempty" tf:"ram_role_name,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of the resource group to which to assign the instance, Elastic Block Storage (EBS) device, and ENI.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -726,7 +771,7 @@ type LaunchTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	SystemDisk []SystemDiskParameters `json:"systemDisk,omitempty" tf:"system_disk,omitempty"`
 
-	// A mapping of tags to assign to instance, block storage, and elastic network.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -904,7 +949,7 @@ type LaunchTemplateStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type LaunchTemplate struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

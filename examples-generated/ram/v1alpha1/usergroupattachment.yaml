@@ -8,8 +8,12 @@ metadata:
   name: default
 spec:
   forProvider:
-    groupName: ${alicloud_ram_group.default.id}
-    userName: terraform-example-${random_integer.default.result}
+    groupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    userNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
 
 ---
 

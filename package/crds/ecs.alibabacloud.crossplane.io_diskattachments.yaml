@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: DiskAttachment
     listKind: DiskAttachmentList
     plural: diskattachments
@@ -241,6 +241,10 @@ spec:
                     description: When mounting the system disk, setting the user name
                       and password of the instance is only effective for the administrator
                       and root user names, and other user names are not effective.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

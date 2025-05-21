@@ -9,3 +9,4 @@ metadata:
 spec:
   forProvider:
     domainGroupName: tf-example
+    region: cn-beijing

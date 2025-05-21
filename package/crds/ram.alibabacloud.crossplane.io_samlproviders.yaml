@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: SAMLProvider
     listKind: SAMLProviderList
     plural: samlproviders

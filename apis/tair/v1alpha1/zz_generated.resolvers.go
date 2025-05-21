@@ -8,8 +8,9 @@ package v1alpha1
 
 import (
 	"context"
-	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
-	v1alpha11 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1"
+	v1alpha11 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1"
+	v1alpha12 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1"
 	common "github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
@@ -150,13 +151,29 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoleArn),
+		Extract:      common.RoleArnExtractor(),
+		Reference:    mg.Spec.ForProvider.RoleArnRef,
+		Selector:     mg.Spec.ForProvider.RoleArnSelector,
+		To: reference.To{
+			List:    &v1alpha1.RoleList{},
+			Managed: &v1alpha1.Role{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.RoleArn")
+	}
+	mg.Spec.ForProvider.RoleArn = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RoleArnRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityGroupID),
 		Extract:      common.IdExtractor(),
 		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.SecurityGroupList{},
-			Managed: &v1alpha1.SecurityGroup{},
+			List:    &v1alpha11.SecurityGroupList{},
+			Managed: &v1alpha11.SecurityGroup{},
 		},
 	})
 	if err != nil {
@@ -171,8 +188,8 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		Reference:    mg.Spec.ForProvider.VswitchIDRef,
 		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.VswitchList{},
-			Managed: &v1alpha11.Vswitch{},
+			List:    &v1alpha12.VswitchList{},
+			Managed: &v1alpha12.Vswitch{},
 		},
 	})
 	if err != nil {
@@ -182,13 +199,29 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.VswitchIDRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoleArn),
+		Extract:      common.RoleArnExtractor(),
+		Reference:    mg.Spec.InitProvider.RoleArnRef,
+		Selector:     mg.Spec.InitProvider.RoleArnSelector,
+		To: reference.To{
+			List:    &v1alpha1.RoleList{},
+			Managed: &v1alpha1.Role{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.RoleArn")
+	}
+	mg.Spec.InitProvider.RoleArn = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RoleArnRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityGroupID),
 		Extract:      common.IdExtractor(),
 		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.SecurityGroupList{},
-			Managed: &v1alpha1.SecurityGroup{},
+			List:    &v1alpha11.SecurityGroupList{},
+			Managed: &v1alpha11.SecurityGroup{},
 		},
 	})
 	if err != nil {
@@ -203,8 +236,8 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		Reference:    mg.Spec.InitProvider.VswitchIDRef,
 		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.VswitchList{},
-			Managed: &v1alpha11.Vswitch{},
+			List:    &v1alpha12.VswitchList{},
+			Managed: &v1alpha12.Vswitch{},
 		},
 	})
 	if err != nil {
@@ -229,8 +262,8 @@ func (mg *TairInstance) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.SecurityGroupList{},
-			Managed: &v1alpha1.SecurityGroup{},
+			List:    &v1alpha11.SecurityGroupList{},
+			Managed: &v1alpha11.SecurityGroup{},
 		},
 	})
 	if err != nil {
@@ -245,8 +278,8 @@ func (mg *TairInstance) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.VPCList{},
-			Managed: &v1alpha11.VPC{},
+			List:    &v1alpha12.VPCList{},
+			Managed: &v1alpha12.VPC{},
 		},
 	})
 	if err != nil {
@@ -261,8 +294,8 @@ func (mg *TairInstance) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.ForProvider.VswitchIDRef,
 		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.VswitchList{},
-			Managed: &v1alpha11.Vswitch{},
+			List:    &v1alpha12.VswitchList{},
+			Managed: &v1alpha12.Vswitch{},
 		},
 	})
 	if err != nil {
@@ -277,8 +310,8 @@ func (mg *TairInstance) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.SecurityGroupList{},
-			Managed: &v1alpha1.SecurityGroup{},
+			List:    &v1alpha11.SecurityGroupList{},
+			Managed: &v1alpha11.SecurityGroup{},
 		},
 	})
 	if err != nil {
@@ -293,8 +326,8 @@ func (mg *TairInstance) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.VPCList{},
-			Managed: &v1alpha11.VPC{},
+			List:    &v1alpha12.VPCList{},
+			Managed: &v1alpha12.VPC{},
 		},
 	})
 	if err != nil {
@@ -309,8 +342,8 @@ func (mg *TairInstance) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.InitProvider.VswitchIDRef,
 		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.VswitchList{},
-			Managed: &v1alpha11.Vswitch{},
+			List:    &v1alpha12.VswitchList{},
+			Managed: &v1alpha12.Vswitch{},
 		},
 	})
 	if err != nil {

@@ -12,6 +12,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: CreateBucket
     enable: true
+    region: cn-beijing
     tlsVersions:
     - TLSv1.2
 
@@ -28,4 +29,5 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
     storageClass: Standard

@@ -12,6 +12,7 @@ spec:
     content: RUN yum update -y
     description: example_value
     imageComponentName: example_value
+    region: cn-beijing
     resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     systemType: Linux
     tags:

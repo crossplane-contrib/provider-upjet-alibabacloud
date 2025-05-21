@@ -9,3 +9,4 @@ metadata:
 spec:
   forProvider:
     keyPairName: key_pair_name
+    region: cn-beijing

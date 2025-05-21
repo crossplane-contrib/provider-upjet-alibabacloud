@@ -16,11 +16,31 @@ import (
 type GroupMembershipInitParameters struct {
 
 	// Name of the RAM group. This name can have a string of 1 to 64 characters, must contain only alphanumeric characters or hyphen "-", and must not begin with a hyphen.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Group
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
 
+	// Reference to a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameRef *v1.Reference `json:"groupNameRef,omitempty" tf:"-"`
+
+	// Selector for a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameSelector *v1.Selector `json:"groupNameSelector,omitempty" tf:"-"`
+
 	// Set of user name which will be added to group. Each name can have a string of 1 to 64 characters, must contain only alphanumeric characters or hyphens, such as "-",".","_", and must not begin with a hyphen.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.User
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +listType=set
 	UserNames []*string `json:"userNames,omitempty" tf:"user_names,omitempty"`
+
+	// References to User in ram to populate userNames.
+	// +kubebuilder:validation:Optional
+	UserNamesRefs []v1.Reference `json:"userNamesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of User in ram to populate userNames.
+	// +kubebuilder:validation:Optional
+	UserNamesSelector *v1.Selector `json:"userNamesSelector,omitempty" tf:"-"`
 }
 
 type GroupMembershipObservation struct {
@@ -39,13 +59,33 @@ type GroupMembershipObservation struct {
 type GroupMembershipParameters struct {
 
 	// Name of the RAM group. This name can have a string of 1 to 64 characters, must contain only alphanumeric characters or hyphen "-", and must not begin with a hyphen.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Group
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
 
+	// Reference to a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameRef *v1.Reference `json:"groupNameRef,omitempty" tf:"-"`
+
+	// Selector for a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameSelector *v1.Selector `json:"groupNameSelector,omitempty" tf:"-"`
+
 	// Set of user name which will be added to group. Each name can have a string of 1 to 64 characters, must contain only alphanumeric characters or hyphens, such as "-",".","_", and must not begin with a hyphen.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.User
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	UserNames []*string `json:"userNames,omitempty" tf:"user_names,omitempty"`
+
+	// References to User in ram to populate userNames.
+	// +kubebuilder:validation:Optional
+	UserNamesRefs []v1.Reference `json:"userNamesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of User in ram to populate userNames.
+	// +kubebuilder:validation:Optional
+	UserNamesSelector *v1.Selector `json:"userNamesSelector,omitempty" tf:"-"`
 }
 
 // GroupMembershipSpec defines the desired state of GroupMembership
@@ -80,14 +120,12 @@ type GroupMembershipStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type GroupMembership struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.groupName) || (has(self.initProvider) && has(self.initProvider.groupName))",message="spec.forProvider.groupName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.userNames) || (has(self.initProvider) && has(self.initProvider.userNames))",message="spec.forProvider.userNames is a required parameter"
-	Spec   GroupMembershipSpec   `json:"spec"`
-	Status GroupMembershipStatus `json:"status,omitempty"`
+	Spec              GroupMembershipSpec   `json:"spec"`
+	Status            GroupMembershipStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

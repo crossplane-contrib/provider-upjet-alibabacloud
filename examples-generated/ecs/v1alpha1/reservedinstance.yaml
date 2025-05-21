@@ -13,6 +13,7 @@ spec:
     instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
     offeringType: All Upfront
     periodUnit: Month
+    region: cn-beijing
     reservedInstanceName: terraform-example
     scope: Zone
     zoneId: ${data.alicloud_instance_types.default.instance_types.0.availability_zones.0}

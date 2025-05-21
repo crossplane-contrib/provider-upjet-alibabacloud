@@ -33,6 +33,11 @@ type AccountPublicAccessBlockParameters struct {
 	// Whether or not AlibabaCloud OSS should block public bucket policies for buckets in this account is enabled.
 	// +kubebuilder:validation:Optional
 	BlockPublicAccess *bool `json:"blockPublicAccess,omitempty" tf:"block_public_access,omitempty"`
+
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
 }
 
 // AccountPublicAccessBlockSpec defines the desired state of AccountPublicAccessBlock
@@ -67,7 +72,7 @@ type AccountPublicAccessBlockStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type AccountPublicAccessBlock struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

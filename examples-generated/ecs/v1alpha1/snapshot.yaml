@@ -12,6 +12,7 @@ spec:
     diskIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
+    region: cn-beijing
     retentionDays: 20
 
 ---
@@ -28,6 +29,7 @@ spec:
   forProvider:
     category: cloud_essd
     diskName: ${var.name}
+    region: cn-beijing
     size: 500
     zoneId: ${data.alicloud_instance_types.default.instance_types.0.availability_zones.0}
 
@@ -49,6 +51,7 @@ spec:
     instanceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
+    region: cn-beijing
 
 ---
 
@@ -74,6 +77,7 @@ spec:
     instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
     internetChargeType: PayByTraffic
     internetMaxBandwidthOut: "10"
+    region: cn-beijing
     securityGroupSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -94,6 +98,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-beijing
     securityGroupName: ${var.name}
     vpcIdSelector:
       matchLabels:
@@ -112,6 +117,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 192.168.0.0/16
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -127,6 +133,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 192.168.192.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

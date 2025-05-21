@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BucketStyle
     listKind: BucketStyleList
     plural: bucketstyles
@@ -156,6 +156,10 @@ spec:
                   content:
                     description: The Image style content can contain single or multiple
                       image processing parameters.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   styleName:
                     description: Image Style Name

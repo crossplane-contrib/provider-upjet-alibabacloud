@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BackupPolicy
     listKind: BackupPolicyList
     plural: backuppolicies
@@ -232,6 +232,10 @@ spec:
                     description: PolarDB Cluster backup time, in the format of HH:mmZ-
                       HH:mmZ. Time setting interval is one hour. Default to "02:00Z-03:00Z".
                       China time is 8 hours behind it.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

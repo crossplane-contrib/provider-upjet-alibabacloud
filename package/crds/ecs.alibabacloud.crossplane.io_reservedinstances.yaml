@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: ReservedInstance
     listKind: ReservedInstanceList
     plural: reservedinstances
@@ -108,6 +108,10 @@ spec:
                     description: 'The operating system type of the image used by the
                       instance. Optional values: Windows, Linux. Default is Linux.'
                     type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   renewalStatus:
                     description: 'Automatic renewal status. Valid values: AutoRenewal,Normal.'
                     type: string
@@ -127,7 +131,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   zoneId:
@@ -203,7 +207,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   zoneId:
@@ -473,7 +477,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   zoneId:

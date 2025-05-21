@@ -12,7 +12,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: CreateBucket
     kmsDataEncryption: SM4
-    kmsMasterKeyId: ${alicloud_kms_key.GetKMS.id}
+    kmsMasterKeyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: GetKMS
+    region: cn-beijing
     sseAlgorithm: KMS
 
 ---
@@ -34,6 +37,7 @@ spec:
     origin: Aliyun_KMS
     pendingWindowInDays: 7
     protectionLevel: SOFTWARE
+    region: cn-beijing
 
 ---
 
@@ -48,4 +52,5 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
     storageClass: Standard

@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BucketVersioning
     listKind: BucketVersioningList
     plural: bucketversionings
@@ -150,6 +150,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   status:
                     description: 'A bucket can be in one of the following versioning
                       states: disabled, enabled, or suspended. By default, versioning

@@ -10,3 +10,4 @@ spec:
   forProvider:
     description: For Terraform Test
     name: tf-testAcc
+    region: cn-beijing

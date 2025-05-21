@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BucketPolicy
     listKind: BucketPolicyList
     plural: bucketpolicies
@@ -152,6 +152,10 @@ spec:
                     type: object
                   policy:
                     description: Json-formatted authorization policies for buckets.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

@@ -15,3 +15,4 @@ spec:
       description: description
     maxEntries: 2
     prefixListName: tftest
+    region: cn-beijing

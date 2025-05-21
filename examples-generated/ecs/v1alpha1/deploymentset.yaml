@@ -10,4 +10,5 @@ spec:
   forProvider:
     deploymentSetName: ${var.name}
     description: ${var.name}
+    region: cn-beijing
     strategy: Availability

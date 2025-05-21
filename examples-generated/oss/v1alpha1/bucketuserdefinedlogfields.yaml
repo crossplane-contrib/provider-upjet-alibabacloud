@@ -18,6 +18,7 @@ spec:
     - oss-example
     - example-para
     - abc
+    region: cn-beijing
 
 ---
 
@@ -32,4 +33,5 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
     storageClass: Standard

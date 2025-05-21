@@ -49,7 +49,17 @@ type BucketReplicationInitParameters struct {
 	SourceSelectionCriteria []SourceSelectionCriteriaInitParameters `json:"sourceSelectionCriteria,omitempty" tf:"source_selection_criteria,omitempty"`
 
 	// Specifies the role that you authorize OSS to use to replicate data. If SSE-KMS is specified to encrypt the objects replicated to the destination bucket, it must be specified.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Role
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	SyncRole *string `json:"syncRole,omitempty" tf:"sync_role,omitempty"`
+
+	// Reference to a Role in ram to populate syncRole.
+	// +kubebuilder:validation:Optional
+	SyncRoleRef *v1.Reference `json:"syncRoleRef,omitempty" tf:"-"`
+
+	// Selector for a Role in ram to populate syncRole.
+	// +kubebuilder:validation:Optional
+	SyncRoleSelector *v1.Selector `json:"syncRoleSelector,omitempty" tf:"-"`
 }
 
 type BucketReplicationObservation struct {
@@ -130,13 +140,28 @@ type BucketReplicationParameters struct {
 	// +kubebuilder:validation:Optional
 	Progress []ProgressParameters `json:"progress,omitempty" tf:"progress,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// Specifies other conditions used to filter the source objects to replicate. See source_selection_criteria below.
 	// +kubebuilder:validation:Optional
 	SourceSelectionCriteria []SourceSelectionCriteriaParameters `json:"sourceSelectionCriteria,omitempty" tf:"source_selection_criteria,omitempty"`
 
 	// Specifies the role that you authorize OSS to use to replicate data. If SSE-KMS is specified to encrypt the objects replicated to the destination bucket, it must be specified.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Role
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	SyncRole *string `json:"syncRole,omitempty" tf:"sync_role,omitempty"`
+
+	// Reference to a Role in ram to populate syncRole.
+	// +kubebuilder:validation:Optional
+	SyncRoleRef *v1.Reference `json:"syncRoleRef,omitempty" tf:"-"`
+
+	// Selector for a Role in ram to populate syncRole.
+	// +kubebuilder:validation:Optional
+	SyncRoleSelector *v1.Selector `json:"syncRoleSelector,omitempty" tf:"-"`
 }
 
 type DestinationInitParameters struct {
@@ -219,7 +244,17 @@ type DestinationParameters struct {
 type EncryptionConfigurationInitParameters struct {
 
 	// The CMK ID used in SSE-KMS.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1.Key
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	ReplicaKMSKeyID *string `json:"replicaKmsKeyId,omitempty" tf:"replica_kms_key_id,omitempty"`
+
+	// Reference to a Key in kms to populate replicaKmsKeyId.
+	// +kubebuilder:validation:Optional
+	ReplicaKMSKeyIDRef *v1.Reference `json:"replicaKmsKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in kms to populate replicaKmsKeyId.
+	// +kubebuilder:validation:Optional
+	ReplicaKMSKeyIDSelector *v1.Selector `json:"replicaKmsKeyIdSelector,omitempty" tf:"-"`
 }
 
 type EncryptionConfigurationObservation struct {
@@ -231,8 +266,18 @@ type EncryptionConfigurationObservation struct {
 type EncryptionConfigurationParameters struct {
 
 	// The CMK ID used in SSE-KMS.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1.Key
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
-	ReplicaKMSKeyID *string `json:"replicaKmsKeyId" tf:"replica_kms_key_id,omitempty"`
+	ReplicaKMSKeyID *string `json:"replicaKmsKeyId,omitempty" tf:"replica_kms_key_id,omitempty"`
+
+	// Reference to a Key in kms to populate replicaKmsKeyId.
+	// +kubebuilder:validation:Optional
+	ReplicaKMSKeyIDRef *v1.Reference `json:"replicaKmsKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in kms to populate replicaKmsKeyId.
+	// +kubebuilder:validation:Optional
+	ReplicaKMSKeyIDSelector *v1.Selector `json:"replicaKmsKeyIdSelector,omitempty" tf:"-"`
 }
 
 type PrefixSetInitParameters struct {
@@ -339,7 +384,7 @@ type BucketReplicationStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type BucketReplication struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

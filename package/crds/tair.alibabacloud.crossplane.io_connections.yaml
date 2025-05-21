@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Connection
     listKind: ConnectionList
     plural: connections
@@ -157,6 +157,10 @@ spec:
                     type: object
                   port:
                     description: The service port number of the instance.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

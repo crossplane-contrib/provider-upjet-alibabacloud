@@ -16,13 +16,43 @@ import (
 type GroupPolicyAttachmentInitParameters struct {
 
 	// The name of the group.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Group
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
 
+	// Reference to a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameRef *v1.Reference `json:"groupNameRef,omitempty" tf:"-"`
+
+	// Selector for a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameSelector *v1.Selector `json:"groupNameSelector,omitempty" tf:"-"`
+
 	// The name of the policy.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Policy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("policy_name",false)
 	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
 
+	// Reference to a Policy in ram to populate policyName.
+	// +kubebuilder:validation:Optional
+	PolicyNameRef *v1.Reference `json:"policyNameRef,omitempty" tf:"-"`
+
+	// Selector for a Policy in ram to populate policyName.
+	// +kubebuilder:validation:Optional
+	PolicyNameSelector *v1.Selector `json:"policyNameSelector,omitempty" tf:"-"`
+
 	// Policy type.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Policy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("type",true)
 	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
+
+	// Reference to a Policy in ram to populate policyType.
+	// +kubebuilder:validation:Optional
+	PolicyTypeRef *v1.Reference `json:"policyTypeRef,omitempty" tf:"-"`
+
+	// Selector for a Policy in ram to populate policyType.
+	// +kubebuilder:validation:Optional
+	PolicyTypeSelector *v1.Selector `json:"policyTypeSelector,omitempty" tf:"-"`
 }
 
 type GroupPolicyAttachmentObservation struct {
@@ -43,16 +73,46 @@ type GroupPolicyAttachmentObservation struct {
 type GroupPolicyAttachmentParameters struct {
 
 	// The name of the group.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Group
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
 
+	// Reference to a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameRef *v1.Reference `json:"groupNameRef,omitempty" tf:"-"`
+
+	// Selector for a Group in ram to populate groupName.
+	// +kubebuilder:validation:Optional
+	GroupNameSelector *v1.Selector `json:"groupNameSelector,omitempty" tf:"-"`
+
 	// The name of the policy.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Policy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("policy_name",false)
 	// +kubebuilder:validation:Optional
 	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
 
+	// Reference to a Policy in ram to populate policyName.
+	// +kubebuilder:validation:Optional
+	PolicyNameRef *v1.Reference `json:"policyNameRef,omitempty" tf:"-"`
+
+	// Selector for a Policy in ram to populate policyName.
+	// +kubebuilder:validation:Optional
+	PolicyNameSelector *v1.Selector `json:"policyNameSelector,omitempty" tf:"-"`
+
 	// Policy type.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Policy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("type",true)
 	// +kubebuilder:validation:Optional
 	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
+
+	// Reference to a Policy in ram to populate policyType.
+	// +kubebuilder:validation:Optional
+	PolicyTypeRef *v1.Reference `json:"policyTypeRef,omitempty" tf:"-"`
+
+	// Selector for a Policy in ram to populate policyType.
+	// +kubebuilder:validation:Optional
+	PolicyTypeSelector *v1.Selector `json:"policyTypeSelector,omitempty" tf:"-"`
 }
 
 // GroupPolicyAttachmentSpec defines the desired state of GroupPolicyAttachment
@@ -87,15 +147,12 @@ type GroupPolicyAttachmentStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type GroupPolicyAttachment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.groupName) || (has(self.initProvider) && has(self.initProvider.groupName))",message="spec.forProvider.groupName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.policyName) || (has(self.initProvider) && has(self.initProvider.policyName))",message="spec.forProvider.policyName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.policyType) || (has(self.initProvider) && has(self.initProvider.policyType))",message="spec.forProvider.policyType is a required parameter"
-	Spec   GroupPolicyAttachmentSpec   `json:"spec"`
-	Status GroupPolicyAttachmentStatus `json:"status,omitempty"`
+	Spec              GroupPolicyAttachmentSpec   `json:"spec"`
+	Status            GroupPolicyAttachmentStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

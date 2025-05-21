@@ -60,7 +60,16 @@ type DiskInitParameters struct {
 	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The ID of the Key Management Service (KMS) key that is used for the disk. NOTE: kms_key_id is only valid when encrypted is true.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1.Key
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// Reference to a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
 
 	// Specifies whether to enable the multi-attach feature for the disk. Default value: Disabled. Valid values: Enabled, Disabled. NOTE: Currently, multi_attach can only be set to Enabled when category is set to cloud_essd.
 	MultiAttach *string `json:"multiAttach,omitempty" tf:"multi_attach,omitempty"`
@@ -89,7 +98,7 @@ type DiskInitParameters struct {
 	// The number of partitions in the storage set.
 	StorageSetPartitionNumber *float64 `json:"storageSetPartitionNumber,omitempty" tf:"storage_set_partition_number,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -178,7 +187,7 @@ type DiskObservation struct {
 	// The number of partitions in the storage set.
 	StorageSetPartitionNumber *float64 `json:"storageSetPartitionNumber,omitempty" tf:"storage_set_partition_number,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -250,8 +259,17 @@ type DiskParameters struct {
 	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The ID of the Key Management Service (KMS) key that is used for the disk. NOTE: kms_key_id is only valid when encrypted is true.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1.Key
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// Reference to a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
 
 	// Specifies whether to enable the multi-attach feature for the disk. Default value: Disabled. Valid values: Enabled, Disabled. NOTE: Currently, multi_attach can only be set to Enabled when category is set to cloud_essd.
 	// +kubebuilder:validation:Optional
@@ -268,6 +286,11 @@ type DiskParameters struct {
 	// The provisioned read/write IOPS of the ESSD AutoPL disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline IOPS}. NOTE: provisioned_iops is only valid when category is cloud_auto.
 	// +kubebuilder:validation:Optional
 	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
 
 	// , tags, and kms_key_id parameters are ignored.
 	// +kubebuilder:validation:Optional
@@ -289,7 +312,7 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	StorageSetPartitionNumber *float64 `json:"storageSetPartitionNumber,omitempty" tf:"storage_set_partition_number,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -335,7 +358,7 @@ type DiskStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

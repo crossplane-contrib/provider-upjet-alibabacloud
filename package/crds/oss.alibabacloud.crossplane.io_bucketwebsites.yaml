@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BucketWebsite
     listKind: BucketWebsiteList
     plural: bucketwebsites
@@ -184,6 +184,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  region:
+                    description: |-
+                      Signature Region
+                      Region is the region you'd like your resource to be created in.
+                    type: string
                   routingRules:
                     description: The container that holds the jump rule or the mirroring
                       back-to-origin rule. See routing_rules below.

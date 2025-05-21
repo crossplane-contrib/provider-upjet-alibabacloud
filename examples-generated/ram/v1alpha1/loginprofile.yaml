@@ -9,7 +9,9 @@ metadata:
 spec:
   forProvider:
     password: Example_1234
-    userName: terraform-example-${random_integer.default.result}
+    userNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: user
 
 ---
 

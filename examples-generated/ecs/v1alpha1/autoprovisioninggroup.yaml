@@ -11,12 +11,15 @@ spec:
     launchTemplateConfig:
     - instanceType: ecs.n1.small
       maxPrice: "2"
-      vswitchId: ${alicloud_vswitch.default.id}
+      vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
       weightedCapacity: "2"
     launchTemplateIdSelector:
       matchLabels:
         testing.upbound.io/example-name: template
     payAsYouGoTargetCapacity: "1"
+    region: cn-beijing
     spotTargetCapacity: "2"
     totalTargetCapacity: "4"
 
@@ -35,6 +38,7 @@ spec:
     imageId: ${data.alicloud_images.default.images[0].id}
     instanceType: ecs.n1.tiny
     launchTemplateName: ${var.name}
+    region: cn-beijing
     securityGroupIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -52,6 +56,7 @@ metadata:
 spec:
   forProvider:
     name: ${var.name}
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -69,6 +74,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/16
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -84,6 +90,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

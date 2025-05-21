@@ -31,7 +31,17 @@ type InvocationInitParameters struct {
 	Frequency *string `json:"frequency,omitempty" tf:"frequency,omitempty"`
 
 	// The list of instances to execute the command. You can specify up to 50 instance IDs.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	InstanceID []*string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	// References to Instance in ecs to populate instanceId.
+	// +kubebuilder:validation:Optional
+	InstanceIDRefs []v1.Reference `json:"instanceIdRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Instance in ecs to populate instanceId.
+	// +kubebuilder:validation:Optional
+	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The key-value pairs of custom parameters to be passed in when the custom parameter feature is enabled.  Number of custom parameters: 0 to 10.
 	// +mapType=granular
@@ -103,13 +113,28 @@ type InvocationParameters struct {
 	Frequency *string `json:"frequency,omitempty" tf:"frequency,omitempty"`
 
 	// The list of instances to execute the command. You can specify up to 50 instance IDs.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.Instance
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	InstanceID []*string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
+
+	// References to Instance in ecs to populate instanceId.
+	// +kubebuilder:validation:Optional
+	InstanceIDRefs []v1.Reference `json:"instanceIdRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Instance in ecs to populate instanceId.
+	// +kubebuilder:validation:Optional
+	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The key-value pairs of custom parameters to be passed in when the custom parameter feature is enabled.  Number of custom parameters: 0 to 10.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
 
 	// Specifies how to run the command. Valid values: Once, Period, NextRebootOnly, EveryReboot. Default value: When timed is set to false and Frequency is not specified, the default value of repeat_mode is Once. When Timed is set to true and Frequency is specified, period is used as the value of RepeatMode regardless of whether repeat_mode is specified.
 	// +kubebuilder:validation:Optional
@@ -160,13 +185,12 @@ type InvocationStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type Invocation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceId) || (has(self.initProvider) && has(self.initProvider.instanceId))",message="spec.forProvider.instanceId is a required parameter"
-	Spec   InvocationSpec   `json:"spec"`
-	Status InvocationStatus `json:"status,omitempty"`
+	Spec              InvocationSpec   `json:"spec"`
+	Status            InvocationStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

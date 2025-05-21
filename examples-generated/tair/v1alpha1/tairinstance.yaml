@@ -12,6 +12,7 @@ spec:
     instanceType: tair_rdb
     paymentType: Subscription
     period: "1"
+    region: cn-beijing
     shardCount: "2"
     tairInstanceName: ${var.name}
     vpcIdSelector:

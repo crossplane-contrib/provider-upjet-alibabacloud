@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-hangzhou
     instanceClass: tair.rdb.2g
     instanceType: tair_rdb
     paymentType: Subscription
@@ -34,6 +35,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-hangzhou
     cidrBlock: 10.4.0.0/16
     vpcName: crossplane_example
 
@@ -49,6 +51,7 @@ metadata:
   name: example
 spec:
   forProvider:
+    region: cn-hangzhou
     cidrBlock: 10.4.1.0/24
     vpcIdSelector:
       matchLabels:

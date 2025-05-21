@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: BucketHTTPSConfig
     listKind: BucketHTTPSConfigList
     plural: buckethttpsconfigs
@@ -154,6 +154,10 @@ spec:
                     description: 'Specifies whether to enable TLS version management
                       for the bucket. Valid values: true, false.'
                     type: boolean
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   tlsVersions:
                     description: Specifies the TLS versions allowed to access this
                       buckets.

@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: DomainGroup
     listKind: DomainGroupList
     plural: domaingroups
@@ -79,6 +79,10 @@ spec:
                     type: string
                   lang:
                     description: User language.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

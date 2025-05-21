@@ -8,9 +8,15 @@ metadata:
   name: attach
 spec:
   forProvider:
-    groupName: ${alicloud_ram_group.group.name}
-    policyName: ${alicloud_ram_policy.policy.policy_name}
-    policyType: ${alicloud_ram_policy.policy.type}
+    groupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: group
+    policyNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
+    policyTypeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
 
 ---
 

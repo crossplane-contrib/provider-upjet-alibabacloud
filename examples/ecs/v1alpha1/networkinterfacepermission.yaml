@@ -8,6 +8,7 @@ metadata:
   name: example
 spec:
   forProvider:
+    region: cn-zhangjiakou
     accountId: "1234567890"
     force: true
     networkInterfaceIdSelector:
@@ -27,6 +28,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-zhangjiakou
     description: crossplane-example
     networkInterfaceName: crossplane-example
     primaryIpAddress: 172.17.3.100
@@ -52,6 +54,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-zhangjiakou
     securityGroupName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -69,6 +72,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-zhangjiakou
     cidrBlock: 172.17.3.0/24
     vpcName: crossplane-example
 
@@ -84,6 +88,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-zhangjiakou
     cidrBlock: 172.17.3.0/24
     vpcIdSelector:
       matchLabels:

@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: SecurityGroupRule
     listKind: SecurityGroupRuleList
     plural: securitygrouprules
@@ -115,6 +115,10 @@ spec:
                     description: 'The priority of the Security Group Rule. Default
                       value: 1. Valid values: 1 to 100.'
                     type: number
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   securityGroupId:
                     description: The ID of the Security Group.
                     type: string

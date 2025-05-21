@@ -10,6 +10,7 @@ spec:
   forProvider:
     cdnType: web
     domainName: mycdndomain-${random_integer.default.result}.alicloud-provider.cn
+    region: cn-beijing
     scope: overseas
     sources:
     - content: 1.1.1.1

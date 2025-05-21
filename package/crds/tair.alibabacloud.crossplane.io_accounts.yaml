@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Account
     listKind: AccountList
     plural: accounts
@@ -205,6 +205,10 @@ spec:
                       is set.
                     type: object
                     x-kubernetes-map-type: granular
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                 type: object
               initProvider:
                 description: |-

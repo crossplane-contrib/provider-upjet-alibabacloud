@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: GlobalDatabaseNetwork
     listKind: GlobalDatabaseNetworkList
     plural: globaldatabasenetworks
@@ -152,6 +152,10 @@ spec:
                     type: object
                   description:
                     description: The description of the Global Database Network.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

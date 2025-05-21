@@ -10,4 +10,5 @@ spec:
   forProvider:
     enableLogging: true
     maxMessageSize: 16888
+    region: cn-beijing
     topicName: ${var.name}

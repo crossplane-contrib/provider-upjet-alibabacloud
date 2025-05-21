@@ -9,6 +9,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/21
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: foo
@@ -28,4 +29,5 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/12
+    region: cn-beijing
     vpcName: terraform-example

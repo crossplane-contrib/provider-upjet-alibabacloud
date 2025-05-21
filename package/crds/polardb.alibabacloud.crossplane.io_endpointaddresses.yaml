@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: EndpointAddress
     listKind: EndpointAddressList
     plural: endpointaddresses
@@ -240,6 +240,10 @@ spec:
                   port:
                     description: 'Port of the specified endpoint. Valid values: 3000
                       to 5999.'
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

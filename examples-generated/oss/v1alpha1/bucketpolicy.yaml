@@ -14,6 +14,7 @@ spec:
     policy: '${jsonencode({ "Version" : "1", "Statement" : [{ "Action" : ["oss:PutObject",
       "oss:GetObject"], "Effect" : "Deny", "Principal" : ["1234567890"], "Resource"
       : ["acs:oss:*:1234567890:*/*"] }] })}'
+    region: cn-beijing
 
 ---
 
@@ -28,4 +29,5 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
     storageClass: Standard

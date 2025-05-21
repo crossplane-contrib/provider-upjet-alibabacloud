@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: AccountPublicAccessBlock
     listKind: AccountPublicAccessBlockList
     plural: accountpublicaccessblocks
@@ -78,6 +78,10 @@ spec:
                     description: Whether or not AlibabaCloud OSS should block public
                       bucket policies for buckets in this account is enabled.
                     type: boolean
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                 type: object
               initProvider:
                 description: |-

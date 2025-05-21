@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: VpcEndpointConnection
     listKind: VpcEndpointConnectionList
     plural: vpcendpointconnections
@@ -160,6 +160,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   serviceId:
                     description: The endpoint service ID.
                     type: string

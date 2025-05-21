@@ -9,6 +9,7 @@ metadata:
 spec:
   forProvider:
     name: terraform-example
+    region: cn-beijing
     repeatWeekdays:
     - "1"
     - "2"

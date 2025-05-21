@@ -11,6 +11,7 @@ spec:
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: defaulthNMfIF
+    region: cn-beijing
     retentionPeriodInDays: "1"
     status: InProgress
 
@@ -26,4 +27,5 @@ metadata:
   name: defaulthnmfif
 spec:
   forProvider:
+    region: cn-beijing
     storageClass: Standard

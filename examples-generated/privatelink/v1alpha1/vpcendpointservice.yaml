@@ -10,4 +10,5 @@ spec:
   forProvider:
     autoAcceptConnection: false
     connectBandwidth: 103
+    region: cn-beijing
     serviceDescription: ${var.name}
