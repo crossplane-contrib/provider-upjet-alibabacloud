@@ -10,7 +10,8 @@ package apis
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alidns/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alb/v1alpha1"
+	v1alpha1alidns "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alidns/v1alpha1"
 	v1alpha1cdn "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/cdn/v1alpha1"
 	v1alpha1cloudmonitorservice "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/cloudmonitorservice/v1alpha1"
 	v1alpha1ecs "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
@@ -30,6 +31,7 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1alidns.SchemeBuilder.AddToScheme,
 		v1alpha1cdn.SchemeBuilder.AddToScheme,
 		v1alpha1cloudmonitorservice.SchemeBuilder.AddToScheme,
 		v1alpha1ecs.SchemeBuilder.AddToScheme,

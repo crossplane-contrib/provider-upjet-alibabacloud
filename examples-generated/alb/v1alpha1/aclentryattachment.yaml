@@ -1,0 +1,32 @@
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: AclEntryAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/aclentryattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    aclIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    description: ${var.name}
+    entry: 168.10.10.0/24
+    region: cn-beijing
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: Acl
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/aclentryattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    aclName: ${var.name}
+    region: cn-beijing
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}

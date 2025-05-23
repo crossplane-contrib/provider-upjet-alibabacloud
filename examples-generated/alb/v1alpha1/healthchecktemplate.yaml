@@ -1,0 +1,12 @@
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: HealthCheckTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/healthchecktemplate
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    healthCheckTemplateName: ${var.name}
+    region: cn-beijing

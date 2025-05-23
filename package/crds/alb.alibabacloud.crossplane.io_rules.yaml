@@ -1,0 +1,2198 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.16.5
+  name: rules.alb.alibabacloud.crossplane.io
+spec:
+  group: alb.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alibabacloud
+    kind: Rule
+    listKind: RuleList
+    plural: rules
+    singular: rule
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Rule is the Schema for the Rules API. Provides a Alicloud Application
+          Load Balancer (ALB) Rule resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: RuleSpec defines the desired state of Rule
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  direction:
+                    description: 'The direction to which the forwarding rule is applied.
+                      Default value: Request. Valid values:'
+                    type: string
+                  dryRun:
+                    description: Specifies whether to precheck this request.
+                    type: boolean
+                  listenerId:
+                    description: The ID of the listener to which the forwarding rule
+                      belongs.
+                    type: string
+                  listenerIdRef:
+                    description: Reference to a Listener in alb to populate listenerId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  listenerIdSelector:
+                    description: Selector for a Listener in alb to populate listenerId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  priority:
+                    description: 'The priority of the rule. Valid values: 1 to 10000.
+                      A smaller value indicates a higher priority. Note: The priority
+                      of each rule within the same listener must be unique.'
+                    type: number
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
+                  ruleActions:
+                    description: The actions of the forwarding rules. See rule_actions
+                      below.
+                    items:
+                      properties:
+                        corsConfig:
+                          description: Request forwarding based on CORS. See cors_config
+                            below.
+                          items:
+                            properties:
+                              allowCredentials:
+                                description: 'Specifies whether credentials can be
+                                  passed during CORS operations. Valid values: on,
+                                  off.'
+                                type: string
+                              allowHeaders:
+                                description: The allowed headers for CORS requests.
+                                items:
+                                  type: string
+                                type: array
+                              allowMethods:
+                                description: 'The allowed HTTP methods for CORS requests.
+                                  Valid values: GET, POST, PUT, DELETE, HEAD, OPTIONS,
+                                  PATCH.'
+                                items:
+                                  type: string
+                                type: array
+                              allowOrigin:
+                                description: The allowed origins of CORS requests.
+                                items:
+                                  type: string
+                                type: array
+                              exposeHeaders:
+                                description: The headers that can be exposed.
+                                items:
+                                  type: string
+                                type: array
+                              maxAge:
+                                description: 'The maximum cache time of preflight
+                                  requests in the browser. Unit: seconds. Valid values:
+                                  -1 to 172800.'
+                                type: number
+                            type: object
+                          type: array
+                        fixedResponseConfig:
+                          description: The configuration of the fixed response. See
+                            fixed_response_config below.
+                          items:
+                            properties:
+                              content:
+                                description: The fixed response. The response cannot
+                                  exceed 1 KB in size and can contain only ASCII characters.
+                                type: string
+                              contentType:
+                                description: 'The format of the fixed response. Valid
+                                  values: text/plain, text/css, text/html, application/javascript,
+                                  and application/json.'
+                                type: string
+                              httpCode:
+                                description: The HTTP status code of the response.
+                                  The code must be an HTTP_2xx, HTTP_4xx or HTTP_5xx.x
+                                  is a digit.
+                                type: string
+                            type: object
+                          type: array
+                        forwardGroupConfig:
+                          description: The forward response action within ALB. See
+                            forward_group_config below.
+                          items:
+                            properties:
+                              serverGroupStickySession:
+                                description: The configuration of session persistence
+                                  for server groups. See server_group_sticky_session
+                                  below.
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Whether to enable session persistence.
+                                      type: boolean
+                                    timeout:
+                                      description: 'The timeout period. Unit: seconds.
+                                        Valid values: 1 to 86400. Default value: 1000.'
+                                      type: number
+                                  type: object
+                                type: array
+                              serverGroupTuples:
+                                description: The destination server group to which
+                                  requests are forwarded. See server_group_tuples
+                                  below.
+                                items:
+                                  properties:
+                                    serverGroupId:
+                                      description: The ID of the destination server
+                                        group to which requests are forwarded.
+                                      type: string
+                                    serverGroupIdRef:
+                                      description: Reference to a ServerGroup in alb
+                                        to populate serverGroupId.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    serverGroupIdSelector:
+                                      description: Selector for a ServerGroup in alb
+                                        to populate serverGroupId.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                    weight:
+                                      description: 'The Weight of server group. Default
+                                        value: 100. NOTE: This attribute is required
+                                        when the number of server_group_tuples is
+                                        greater than 2.'
+                                      type: number
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        insertHeaderConfig:
+                          description: The configuration of the inserted header field.
+                            See insert_header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                              value:
+                                description: 'The content of the inserted header field.
+                                  Valid values:'
+                                type: string
+                              valueType:
+                                description: 'is set to SystemDefined, the following
+                                  values are used:'
+                                type: string
+                            type: object
+                          type: array
+                        order:
+                          description: 'The order of the forwarding rule actions.
+                            Valid values: 1 to 50000. The actions are performed in
+                            ascending order. You cannot leave this parameter empty.
+                            Each value must be unique.'
+                          type: number
+                        redirectConfig:
+                          description: The configuration of the external redirect
+                            action. See redirect_config below.
+                          items:
+                            properties:
+                              host:
+                                description: 'The host name of the destination to
+                                  which requests are directed. The host name must
+                                  meet the following rules:  The host name must be
+                                  3 to 128 characters in length, and can contain letters,
+                                  digits, hyphens (-), periods (.), asterisks (),
+                                  and question marks (?). The host name must contain
+                                  at least one period (.), and cannot start or end
+                                  with a period (.). The rightmost domain label can
+                                  contain only letters, asterisks () and question
+                                  marks (?) and cannot contain digits or hyphens (-).
+                                  Other domain labels cannot start or end with a hyphen
+                                  (-). You can include asterisks (*) and question
+                                  marks (?) anywhere in a domain label. Default value:
+                                  ${host}. You cannot use this value with other characters
+                                  at the same time.'
+                                type: string
+                              httpCode:
+                                description: The HTTP status code of the response.
+                                  The code must be an HTTP_2xx, HTTP_4xx or HTTP_5xx.x
+                                  is a digit.
+                                type: string
+                              path:
+                                description: 'The path of the destination to which
+                                  requests are directed. Valid values: The path must
+                                  be 1 to 128 characters in length, and start with
+                                  a forward slash (/). The path can contain letters,
+                                  digits, asterisks (*), question marks (?) and the
+                                  following special characters: $ - _ . + / & ~ @
+                                  :. It cannot contain the following special characters:
+                                  " % # ; ! ( ) [ ] ^ , ”. The path is case-sensitive.
+                                  Default value: ${path}. You can also reference ${host},
+                                  ${protocol}, and ${port}. Each variable can appear
+                                  at most once. You can use the preceding variables
+                                  at the same time, or use them with a valid string.'
+                                type: string
+                              port:
+                                description: 'The port of the destination to which
+                                  requests are redirected. Valid values: 1 to 63335.
+                                  Default value: ${port}. You cannot use this value
+                                  together with other characters at the same time.'
+                                type: string
+                              protocol:
+                                description: 'The protocol of the requests to be redirected.
+                                  Valid values: HTTP and HTTPS. Default value: ${protocol}.
+                                  You cannot use this value together with other characters
+                                  at the same time. Note HTTPS listeners can redirect
+                                  only HTTPS requests.'
+                                type: string
+                              query:
+                                description: 'The query string of the request to be
+                                  redirected. The query string must be 1 to 128 characters
+                                  in length, can contain letters and printable characters.
+                                  It cannot contain the following special characters:
+                                  # [ ] { } \ | < > &. Default value: ${query}. You
+                                  can also reference ${host}, ${protocol}, and ${port}.
+                                  Each variable can appear at most once. You can use
+                                  the preceding variables at the same time, or use
+                                  them together with a valid string.'
+                                type: string
+                            type: object
+                          type: array
+                        removeHeaderConfig:
+                          description: The configuration of the inserted header field.
+                            See remove_header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                            type: object
+                          type: array
+                        rewriteConfig:
+                          description: The redirect action within ALB. See rewrite_config
+                            below.
+                          items:
+                            properties:
+                              host:
+                                description: 'The host name of the destination to
+                                  which requests are directed. The host name must
+                                  meet the following rules:  The host name must be
+                                  3 to 128 characters in length, and can contain letters,
+                                  digits, hyphens (-), periods (.), asterisks (),
+                                  and question marks (?). The host name must contain
+                                  at least one period (.), and cannot start or end
+                                  with a period (.). The rightmost domain label can
+                                  contain only letters, asterisks () and question
+                                  marks (?) and cannot contain digits or hyphens (-).
+                                  Other domain labels cannot start or end with a hyphen
+                                  (-). You can include asterisks (*) and question
+                                  marks (?) anywhere in a domain label. Default value:
+                                  ${host}. You cannot use this value with other characters
+                                  at the same time.'
+                                type: string
+                              path:
+                                description: 'The path of the destination to which
+                                  requests are directed. Valid values: The path must
+                                  be 1 to 128 characters in length, and start with
+                                  a forward slash (/). The path can contain letters,
+                                  digits, asterisks (*), question marks (?) and the
+                                  following special characters: $ - _ . + / & ~ @
+                                  :. It cannot contain the following special characters:
+                                  " % # ; ! ( ) [ ] ^ , ”. The path is case-sensitive.
+                                  Default value: ${path}. You can also reference ${host},
+                                  ${protocol}, and ${port}. Each variable can appear
+                                  at most once. You can use the preceding variables
+                                  at the same time, or use them with a valid string.'
+                                type: string
+                              query:
+                                description: 'The query string of the request to be
+                                  redirected. The query string must be 1 to 128 characters
+                                  in length, can contain letters and printable characters.
+                                  It cannot contain the following special characters:
+                                  # [ ] { } \ | < > &. Default value: ${query}. You
+                                  can also reference ${host}, ${protocol}, and ${port}.
+                                  Each variable can appear at most once. You can use
+                                  the preceding variables at the same time, or use
+                                  them together with a valid string.'
+                                type: string
+                            type: object
+                          type: array
+                        trafficLimitConfig:
+                          description: The Flow speed limit. See traffic_limit_config
+                            below.
+                          items:
+                            properties:
+                              perIpQps:
+                                description: 'The number of requests per second for
+                                  a single IP address. Value range: 1~1000000. Note:
+                                  If the QPS parameter is also configured, the value
+                                  of the PerIpQps parameter must be smaller than the
+                                  value of the QPS parameter.'
+                                type: number
+                              qps:
+                                description: 'The Number of requests per second. Valid
+                                  values: 1 to 100000.'
+                                type: number
+                            type: object
+                          type: array
+                        trafficMirrorConfig:
+                          description: The Traffic mirroring. See traffic_mirror_config
+                            below.
+                          items:
+                            properties:
+                              mirrorGroupConfig:
+                                description: The Traffic is mirrored to the server
+                                  group. See mirror_group_config below.
+                                items:
+                                  properties:
+                                    serverGroupTuples:
+                                      description: The destination server group to
+                                        which requests are forwarded. See server_group_tuples
+                                        below.
+                                      items:
+                                        properties:
+                                          serverGroupId:
+                                            description: The ID of the destination
+                                              server group to which requests are forwarded.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              targetType:
+                                description: The Mirror target type.
+                                type: string
+                            type: object
+                          type: array
+                        type:
+                          description: |-
+                            The action type. Valid values: ForwardGroup, Redirect, FixedResponse, Rewrite, InsertHeader, RemoveHeader, TrafficLimit, TrafficMirror and Cors.
+                            Note: The preceding actions can be classified into two types:  FinalType: A forwarding rule can contain only one FinalType action, which is executed last. This type of action can contain only one ForwardGroup, Redirect or FixedResponse action. ExtType: A forwarding rule can contain one or more ExtType actions, which are executed before FinalType actions and need to coexist with the FinalType actions. This type of action can contain multiple InsertHeader actions or one Rewrite action.
+                            NOTE: The TrafficLimit and TrafficMirror option is available since 1.162.0.
+                            NOTE: From version 1.205.0, type can be set to Cors.
+                          type: string
+                      type: object
+                    type: array
+                  ruleConditions:
+                    description: The conditions of the forwarding rule. See rule_conditions
+                      below.
+                    items:
+                      properties:
+                        cookieConfig:
+                          description: The configuration of the cookie. See See cookie_config
+                            below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  properties:
+                                    key:
+                                      description: The name of the inserted header
+                                        field. The name must be 1 to 40 characters
+                                        in length, and can contain letters, digits,
+                                        underscores (_), and hyphens (-). You cannot
+                                        use the same name in InsertHeader. Note You
+                                        cannot use Cookie or Host in the name.
+                                      type: string
+                                    value:
+                                      description: 'The content of the inserted header
+                                        field. Valid values:'
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        headerConfig:
+                          description: The configuration of the header field. See
+                            header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        hostConfig:
+                          description: The configuration of the host field. See host_config
+                            below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        methodConfig:
+                          description: The configuration of the request method. See
+                            method_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        pathConfig:
+                          description: The configuration of the path for the request
+                            to be forwarded. See path_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        queryStringConfig:
+                          description: The configuration of the query string. See
+                            query_string_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  properties:
+                                    key:
+                                      description: The name of the inserted header
+                                        field. The name must be 1 to 40 characters
+                                        in length, and can contain letters, digits,
+                                        underscores (_), and hyphens (-). You cannot
+                                        use the same name in InsertHeader. Note You
+                                        cannot use Cookie or Host in the name.
+                                      type: string
+                                    value:
+                                      description: 'The content of the inserted header
+                                        field. Valid values:'
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        responseHeaderConfig:
+                          description: The configuration of the header field. See
+                            response_header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        responseStatusCodeConfig:
+                          description: The configuration of the header field. See
+                            response_status_code_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        sourceIpConfig:
+                          description: The Based on source IP traffic matching. Required
+                            and valid when Type is SourceIP. See source_ip_config
+                            below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        type:
+                          description: 'The type of the forwarding rule. Valid values:'
+                          type: string
+                      type: object
+                    type: array
+                  ruleName:
+                    description: The name of the forwarding rule. The name must be
+                      2 to 128 characters in length, and can contain letters, digits,
+                      periods (.), underscores (_), and hyphens (-). The name must
+                      start with a letter.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  direction:
+                    description: 'The direction to which the forwarding rule is applied.
+                      Default value: Request. Valid values:'
+                    type: string
+                  dryRun:
+                    description: Specifies whether to precheck this request.
+                    type: boolean
+                  listenerId:
+                    description: The ID of the listener to which the forwarding rule
+                      belongs.
+                    type: string
+                  listenerIdRef:
+                    description: Reference to a Listener in alb to populate listenerId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  listenerIdSelector:
+                    description: Selector for a Listener in alb to populate listenerId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  priority:
+                    description: 'The priority of the rule. Valid values: 1 to 10000.
+                      A smaller value indicates a higher priority. Note: The priority
+                      of each rule within the same listener must be unique.'
+                    type: number
+                  ruleActions:
+                    description: The actions of the forwarding rules. See rule_actions
+                      below.
+                    items:
+                      properties:
+                        corsConfig:
+                          description: Request forwarding based on CORS. See cors_config
+                            below.
+                          items:
+                            properties:
+                              allowCredentials:
+                                description: 'Specifies whether credentials can be
+                                  passed during CORS operations. Valid values: on,
+                                  off.'
+                                type: string
+                              allowHeaders:
+                                description: The allowed headers for CORS requests.
+                                items:
+                                  type: string
+                                type: array
+                              allowMethods:
+                                description: 'The allowed HTTP methods for CORS requests.
+                                  Valid values: GET, POST, PUT, DELETE, HEAD, OPTIONS,
+                                  PATCH.'
+                                items:
+                                  type: string
+                                type: array
+                              allowOrigin:
+                                description: The allowed origins of CORS requests.
+                                items:
+                                  type: string
+                                type: array
+                              exposeHeaders:
+                                description: The headers that can be exposed.
+                                items:
+                                  type: string
+                                type: array
+                              maxAge:
+                                description: 'The maximum cache time of preflight
+                                  requests in the browser. Unit: seconds. Valid values:
+                                  -1 to 172800.'
+                                type: number
+                            type: object
+                          type: array
+                        fixedResponseConfig:
+                          description: The configuration of the fixed response. See
+                            fixed_response_config below.
+                          items:
+                            properties:
+                              content:
+                                description: The fixed response. The response cannot
+                                  exceed 1 KB in size and can contain only ASCII characters.
+                                type: string
+                              contentType:
+                                description: 'The format of the fixed response. Valid
+                                  values: text/plain, text/css, text/html, application/javascript,
+                                  and application/json.'
+                                type: string
+                              httpCode:
+                                description: The HTTP status code of the response.
+                                  The code must be an HTTP_2xx, HTTP_4xx or HTTP_5xx.x
+                                  is a digit.
+                                type: string
+                            type: object
+                          type: array
+                        forwardGroupConfig:
+                          description: The forward response action within ALB. See
+                            forward_group_config below.
+                          items:
+                            properties:
+                              serverGroupStickySession:
+                                description: The configuration of session persistence
+                                  for server groups. See server_group_sticky_session
+                                  below.
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Whether to enable session persistence.
+                                      type: boolean
+                                    timeout:
+                                      description: 'The timeout period. Unit: seconds.
+                                        Valid values: 1 to 86400. Default value: 1000.'
+                                      type: number
+                                  type: object
+                                type: array
+                              serverGroupTuples:
+                                description: The destination server group to which
+                                  requests are forwarded. See server_group_tuples
+                                  below.
+                                items:
+                                  properties:
+                                    serverGroupId:
+                                      description: The ID of the destination server
+                                        group to which requests are forwarded.
+                                      type: string
+                                    serverGroupIdRef:
+                                      description: Reference to a ServerGroup in alb
+                                        to populate serverGroupId.
+                                      properties:
+                                        name:
+                                          description: Name of the referenced object.
+                                          type: string
+                                        policy:
+                                          description: Policies for referencing.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      required:
+                                      - name
+                                      type: object
+                                    serverGroupIdSelector:
+                                      description: Selector for a ServerGroup in alb
+                                        to populate serverGroupId.
+                                      properties:
+                                        matchControllerRef:
+                                          description: |-
+                                            MatchControllerRef ensures an object with the same controller reference
+                                            as the selecting object is selected.
+                                          type: boolean
+                                        matchLabels:
+                                          additionalProperties:
+                                            type: string
+                                          description: MatchLabels ensures an object
+                                            with matching labels is selected.
+                                          type: object
+                                        policy:
+                                          description: Policies for selection.
+                                          properties:
+                                            resolution:
+                                              default: Required
+                                              description: |-
+                                                Resolution specifies whether resolution of this reference is required.
+                                                The default is 'Required', which means the reconcile will fail if the
+                                                reference cannot be resolved. 'Optional' means this reference will be
+                                                a no-op if it cannot be resolved.
+                                              enum:
+                                              - Required
+                                              - Optional
+                                              type: string
+                                            resolve:
+                                              description: |-
+                                                Resolve specifies when this reference should be resolved. The default
+                                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                                the corresponding field is not present. Use 'Always' to resolve the
+                                                reference on every reconcile.
+                                              enum:
+                                              - Always
+                                              - IfNotPresent
+                                              type: string
+                                          type: object
+                                      type: object
+                                    weight:
+                                      description: 'The Weight of server group. Default
+                                        value: 100. NOTE: This attribute is required
+                                        when the number of server_group_tuples is
+                                        greater than 2.'
+                                      type: number
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        insertHeaderConfig:
+                          description: The configuration of the inserted header field.
+                            See insert_header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                              value:
+                                description: 'The content of the inserted header field.
+                                  Valid values:'
+                                type: string
+                              valueType:
+                                description: 'is set to SystemDefined, the following
+                                  values are used:'
+                                type: string
+                            type: object
+                          type: array
+                        order:
+                          description: 'The order of the forwarding rule actions.
+                            Valid values: 1 to 50000. The actions are performed in
+                            ascending order. You cannot leave this parameter empty.
+                            Each value must be unique.'
+                          type: number
+                        redirectConfig:
+                          description: The configuration of the external redirect
+                            action. See redirect_config below.
+                          items:
+                            properties:
+                              host:
+                                description: 'The host name of the destination to
+                                  which requests are directed. The host name must
+                                  meet the following rules:  The host name must be
+                                  3 to 128 characters in length, and can contain letters,
+                                  digits, hyphens (-), periods (.), asterisks (),
+                                  and question marks (?). The host name must contain
+                                  at least one period (.), and cannot start or end
+                                  with a period (.). The rightmost domain label can
+                                  contain only letters, asterisks () and question
+                                  marks (?) and cannot contain digits or hyphens (-).
+                                  Other domain labels cannot start or end with a hyphen
+                                  (-). You can include asterisks (*) and question
+                                  marks (?) anywhere in a domain label. Default value:
+                                  ${host}. You cannot use this value with other characters
+                                  at the same time.'
+                                type: string
+                              httpCode:
+                                description: The HTTP status code of the response.
+                                  The code must be an HTTP_2xx, HTTP_4xx or HTTP_5xx.x
+                                  is a digit.
+                                type: string
+                              path:
+                                description: 'The path of the destination to which
+                                  requests are directed. Valid values: The path must
+                                  be 1 to 128 characters in length, and start with
+                                  a forward slash (/). The path can contain letters,
+                                  digits, asterisks (*), question marks (?) and the
+                                  following special characters: $ - _ . + / & ~ @
+                                  :. It cannot contain the following special characters:
+                                  " % # ; ! ( ) [ ] ^ , ”. The path is case-sensitive.
+                                  Default value: ${path}. You can also reference ${host},
+                                  ${protocol}, and ${port}. Each variable can appear
+                                  at most once. You can use the preceding variables
+                                  at the same time, or use them with a valid string.'
+                                type: string
+                              port:
+                                description: 'The port of the destination to which
+                                  requests are redirected. Valid values: 1 to 63335.
+                                  Default value: ${port}. You cannot use this value
+                                  together with other characters at the same time.'
+                                type: string
+                              protocol:
+                                description: 'The protocol of the requests to be redirected.
+                                  Valid values: HTTP and HTTPS. Default value: ${protocol}.
+                                  You cannot use this value together with other characters
+                                  at the same time. Note HTTPS listeners can redirect
+                                  only HTTPS requests.'
+                                type: string
+                              query:
+                                description: 'The query string of the request to be
+                                  redirected. The query string must be 1 to 128 characters
+                                  in length, can contain letters and printable characters.
+                                  It cannot contain the following special characters:
+                                  # [ ] { } \ | < > &. Default value: ${query}. You
+                                  can also reference ${host}, ${protocol}, and ${port}.
+                                  Each variable can appear at most once. You can use
+                                  the preceding variables at the same time, or use
+                                  them together with a valid string.'
+                                type: string
+                            type: object
+                          type: array
+                        removeHeaderConfig:
+                          description: The configuration of the inserted header field.
+                            See remove_header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                            type: object
+                          type: array
+                        rewriteConfig:
+                          description: The redirect action within ALB. See rewrite_config
+                            below.
+                          items:
+                            properties:
+                              host:
+                                description: 'The host name of the destination to
+                                  which requests are directed. The host name must
+                                  meet the following rules:  The host name must be
+                                  3 to 128 characters in length, and can contain letters,
+                                  digits, hyphens (-), periods (.), asterisks (),
+                                  and question marks (?). The host name must contain
+                                  at least one period (.), and cannot start or end
+                                  with a period (.). The rightmost domain label can
+                                  contain only letters, asterisks () and question
+                                  marks (?) and cannot contain digits or hyphens (-).
+                                  Other domain labels cannot start or end with a hyphen
+                                  (-). You can include asterisks (*) and question
+                                  marks (?) anywhere in a domain label. Default value:
+                                  ${host}. You cannot use this value with other characters
+                                  at the same time.'
+                                type: string
+                              path:
+                                description: 'The path of the destination to which
+                                  requests are directed. Valid values: The path must
+                                  be 1 to 128 characters in length, and start with
+                                  a forward slash (/). The path can contain letters,
+                                  digits, asterisks (*), question marks (?) and the
+                                  following special characters: $ - _ . + / & ~ @
+                                  :. It cannot contain the following special characters:
+                                  " % # ; ! ( ) [ ] ^ , ”. The path is case-sensitive.
+                                  Default value: ${path}. You can also reference ${host},
+                                  ${protocol}, and ${port}. Each variable can appear
+                                  at most once. You can use the preceding variables
+                                  at the same time, or use them with a valid string.'
+                                type: string
+                              query:
+                                description: 'The query string of the request to be
+                                  redirected. The query string must be 1 to 128 characters
+                                  in length, can contain letters and printable characters.
+                                  It cannot contain the following special characters:
+                                  # [ ] { } \ | < > &. Default value: ${query}. You
+                                  can also reference ${host}, ${protocol}, and ${port}.
+                                  Each variable can appear at most once. You can use
+                                  the preceding variables at the same time, or use
+                                  them together with a valid string.'
+                                type: string
+                            type: object
+                          type: array
+                        trafficLimitConfig:
+                          description: The Flow speed limit. See traffic_limit_config
+                            below.
+                          items:
+                            properties:
+                              perIpQps:
+                                description: 'The number of requests per second for
+                                  a single IP address. Value range: 1~1000000. Note:
+                                  If the QPS parameter is also configured, the value
+                                  of the PerIpQps parameter must be smaller than the
+                                  value of the QPS parameter.'
+                                type: number
+                              qps:
+                                description: 'The Number of requests per second. Valid
+                                  values: 1 to 100000.'
+                                type: number
+                            type: object
+                          type: array
+                        trafficMirrorConfig:
+                          description: The Traffic mirroring. See traffic_mirror_config
+                            below.
+                          items:
+                            properties:
+                              mirrorGroupConfig:
+                                description: The Traffic is mirrored to the server
+                                  group. See mirror_group_config below.
+                                items:
+                                  properties:
+                                    serverGroupTuples:
+                                      description: The destination server group to
+                                        which requests are forwarded. See server_group_tuples
+                                        below.
+                                      items:
+                                        properties:
+                                          serverGroupId:
+                                            description: The ID of the destination
+                                              server group to which requests are forwarded.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              targetType:
+                                description: The Mirror target type.
+                                type: string
+                            type: object
+                          type: array
+                        type:
+                          description: |-
+                            The action type. Valid values: ForwardGroup, Redirect, FixedResponse, Rewrite, InsertHeader, RemoveHeader, TrafficLimit, TrafficMirror and Cors.
+                            Note: The preceding actions can be classified into two types:  FinalType: A forwarding rule can contain only one FinalType action, which is executed last. This type of action can contain only one ForwardGroup, Redirect or FixedResponse action. ExtType: A forwarding rule can contain one or more ExtType actions, which are executed before FinalType actions and need to coexist with the FinalType actions. This type of action can contain multiple InsertHeader actions or one Rewrite action.
+                            NOTE: The TrafficLimit and TrafficMirror option is available since 1.162.0.
+                            NOTE: From version 1.205.0, type can be set to Cors.
+                          type: string
+                      type: object
+                    type: array
+                  ruleConditions:
+                    description: The conditions of the forwarding rule. See rule_conditions
+                      below.
+                    items:
+                      properties:
+                        cookieConfig:
+                          description: The configuration of the cookie. See See cookie_config
+                            below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  properties:
+                                    key:
+                                      description: The name of the inserted header
+                                        field. The name must be 1 to 40 characters
+                                        in length, and can contain letters, digits,
+                                        underscores (_), and hyphens (-). You cannot
+                                        use the same name in InsertHeader. Note You
+                                        cannot use Cookie or Host in the name.
+                                      type: string
+                                    value:
+                                      description: 'The content of the inserted header
+                                        field. Valid values:'
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        headerConfig:
+                          description: The configuration of the header field. See
+                            header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        hostConfig:
+                          description: The configuration of the host field. See host_config
+                            below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        methodConfig:
+                          description: The configuration of the request method. See
+                            method_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        pathConfig:
+                          description: The configuration of the path for the request
+                            to be forwarded. See path_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        queryStringConfig:
+                          description: The configuration of the query string. See
+                            query_string_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  properties:
+                                    key:
+                                      description: The name of the inserted header
+                                        field. The name must be 1 to 40 characters
+                                        in length, and can contain letters, digits,
+                                        underscores (_), and hyphens (-). You cannot
+                                        use the same name in InsertHeader. Note You
+                                        cannot use Cookie or Host in the name.
+                                      type: string
+                                    value:
+                                      description: 'The content of the inserted header
+                                        field. Valid values:'
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        responseHeaderConfig:
+                          description: The configuration of the header field. See
+                            response_header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        responseStatusCodeConfig:
+                          description: The configuration of the header field. See
+                            response_status_code_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        sourceIpConfig:
+                          description: The Based on source IP traffic matching. Required
+                            and valid when Type is SourceIP. See source_ip_config
+                            below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        type:
+                          description: 'The type of the forwarding rule. Valid values:'
+                          type: string
+                      type: object
+                    type: array
+                  ruleName:
+                    description: The name of the forwarding rule. The name must be
+                      2 to 128 characters in length, and can contain letters, digits,
+                      periods (.), underscores (_), and hyphens (-). The name must
+                      start with a letter.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.priority is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.priority)
+                || (has(self.initProvider) && has(self.initProvider.priority))'
+            - message: spec.forProvider.ruleActions is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.ruleActions)
+                || (has(self.initProvider) && has(self.initProvider.ruleActions))'
+            - message: spec.forProvider.ruleConditions is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.ruleConditions)
+                || (has(self.initProvider) && has(self.initProvider.ruleConditions))'
+            - message: spec.forProvider.ruleName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.ruleName)
+                || (has(self.initProvider) && has(self.initProvider.ruleName))'
+          status:
+            description: RuleStatus defines the observed state of Rule.
+            properties:
+              atProvider:
+                properties:
+                  direction:
+                    description: 'The direction to which the forwarding rule is applied.
+                      Default value: Request. Valid values:'
+                    type: string
+                  dryRun:
+                    description: Specifies whether to precheck this request.
+                    type: boolean
+                  id:
+                    type: string
+                  listenerId:
+                    description: The ID of the listener to which the forwarding rule
+                      belongs.
+                    type: string
+                  priority:
+                    description: 'The priority of the rule. Valid values: 1 to 10000.
+                      A smaller value indicates a higher priority. Note: The priority
+                      of each rule within the same listener must be unique.'
+                    type: number
+                  ruleActions:
+                    description: The actions of the forwarding rules. See rule_actions
+                      below.
+                    items:
+                      properties:
+                        corsConfig:
+                          description: Request forwarding based on CORS. See cors_config
+                            below.
+                          items:
+                            properties:
+                              allowCredentials:
+                                description: 'Specifies whether credentials can be
+                                  passed during CORS operations. Valid values: on,
+                                  off.'
+                                type: string
+                              allowHeaders:
+                                description: The allowed headers for CORS requests.
+                                items:
+                                  type: string
+                                type: array
+                              allowMethods:
+                                description: 'The allowed HTTP methods for CORS requests.
+                                  Valid values: GET, POST, PUT, DELETE, HEAD, OPTIONS,
+                                  PATCH.'
+                                items:
+                                  type: string
+                                type: array
+                              allowOrigin:
+                                description: The allowed origins of CORS requests.
+                                items:
+                                  type: string
+                                type: array
+                              exposeHeaders:
+                                description: The headers that can be exposed.
+                                items:
+                                  type: string
+                                type: array
+                              maxAge:
+                                description: 'The maximum cache time of preflight
+                                  requests in the browser. Unit: seconds. Valid values:
+                                  -1 to 172800.'
+                                type: number
+                            type: object
+                          type: array
+                        fixedResponseConfig:
+                          description: The configuration of the fixed response. See
+                            fixed_response_config below.
+                          items:
+                            properties:
+                              content:
+                                description: The fixed response. The response cannot
+                                  exceed 1 KB in size and can contain only ASCII characters.
+                                type: string
+                              contentType:
+                                description: 'The format of the fixed response. Valid
+                                  values: text/plain, text/css, text/html, application/javascript,
+                                  and application/json.'
+                                type: string
+                              httpCode:
+                                description: The HTTP status code of the response.
+                                  The code must be an HTTP_2xx, HTTP_4xx or HTTP_5xx.x
+                                  is a digit.
+                                type: string
+                            type: object
+                          type: array
+                        forwardGroupConfig:
+                          description: The forward response action within ALB. See
+                            forward_group_config below.
+                          items:
+                            properties:
+                              serverGroupStickySession:
+                                description: The configuration of session persistence
+                                  for server groups. See server_group_sticky_session
+                                  below.
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Whether to enable session persistence.
+                                      type: boolean
+                                    timeout:
+                                      description: 'The timeout period. Unit: seconds.
+                                        Valid values: 1 to 86400. Default value: 1000.'
+                                      type: number
+                                  type: object
+                                type: array
+                              serverGroupTuples:
+                                description: The destination server group to which
+                                  requests are forwarded. See server_group_tuples
+                                  below.
+                                items:
+                                  properties:
+                                    serverGroupId:
+                                      description: The ID of the destination server
+                                        group to which requests are forwarded.
+                                      type: string
+                                    weight:
+                                      description: 'The Weight of server group. Default
+                                        value: 100. NOTE: This attribute is required
+                                        when the number of server_group_tuples is
+                                        greater than 2.'
+                                      type: number
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        insertHeaderConfig:
+                          description: The configuration of the inserted header field.
+                            See insert_header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                              value:
+                                description: 'The content of the inserted header field.
+                                  Valid values:'
+                                type: string
+                              valueType:
+                                description: 'is set to SystemDefined, the following
+                                  values are used:'
+                                type: string
+                            type: object
+                          type: array
+                        order:
+                          description: 'The order of the forwarding rule actions.
+                            Valid values: 1 to 50000. The actions are performed in
+                            ascending order. You cannot leave this parameter empty.
+                            Each value must be unique.'
+                          type: number
+                        redirectConfig:
+                          description: The configuration of the external redirect
+                            action. See redirect_config below.
+                          items:
+                            properties:
+                              host:
+                                description: 'The host name of the destination to
+                                  which requests are directed. The host name must
+                                  meet the following rules:  The host name must be
+                                  3 to 128 characters in length, and can contain letters,
+                                  digits, hyphens (-), periods (.), asterisks (),
+                                  and question marks (?). The host name must contain
+                                  at least one period (.), and cannot start or end
+                                  with a period (.). The rightmost domain label can
+                                  contain only letters, asterisks () and question
+                                  marks (?) and cannot contain digits or hyphens (-).
+                                  Other domain labels cannot start or end with a hyphen
+                                  (-). You can include asterisks (*) and question
+                                  marks (?) anywhere in a domain label. Default value:
+                                  ${host}. You cannot use this value with other characters
+                                  at the same time.'
+                                type: string
+                              httpCode:
+                                description: The HTTP status code of the response.
+                                  The code must be an HTTP_2xx, HTTP_4xx or HTTP_5xx.x
+                                  is a digit.
+                                type: string
+                              path:
+                                description: 'The path of the destination to which
+                                  requests are directed. Valid values: The path must
+                                  be 1 to 128 characters in length, and start with
+                                  a forward slash (/). The path can contain letters,
+                                  digits, asterisks (*), question marks (?) and the
+                                  following special characters: $ - _ . + / & ~ @
+                                  :. It cannot contain the following special characters:
+                                  " % # ; ! ( ) [ ] ^ , ”. The path is case-sensitive.
+                                  Default value: ${path}. You can also reference ${host},
+                                  ${protocol}, and ${port}. Each variable can appear
+                                  at most once. You can use the preceding variables
+                                  at the same time, or use them with a valid string.'
+                                type: string
+                              port:
+                                description: 'The port of the destination to which
+                                  requests are redirected. Valid values: 1 to 63335.
+                                  Default value: ${port}. You cannot use this value
+                                  together with other characters at the same time.'
+                                type: string
+                              protocol:
+                                description: 'The protocol of the requests to be redirected.
+                                  Valid values: HTTP and HTTPS. Default value: ${protocol}.
+                                  You cannot use this value together with other characters
+                                  at the same time. Note HTTPS listeners can redirect
+                                  only HTTPS requests.'
+                                type: string
+                              query:
+                                description: 'The query string of the request to be
+                                  redirected. The query string must be 1 to 128 characters
+                                  in length, can contain letters and printable characters.
+                                  It cannot contain the following special characters:
+                                  # [ ] { } \ | < > &. Default value: ${query}. You
+                                  can also reference ${host}, ${protocol}, and ${port}.
+                                  Each variable can appear at most once. You can use
+                                  the preceding variables at the same time, or use
+                                  them together with a valid string.'
+                                type: string
+                            type: object
+                          type: array
+                        removeHeaderConfig:
+                          description: The configuration of the inserted header field.
+                            See remove_header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                            type: object
+                          type: array
+                        rewriteConfig:
+                          description: The redirect action within ALB. See rewrite_config
+                            below.
+                          items:
+                            properties:
+                              host:
+                                description: 'The host name of the destination to
+                                  which requests are directed. The host name must
+                                  meet the following rules:  The host name must be
+                                  3 to 128 characters in length, and can contain letters,
+                                  digits, hyphens (-), periods (.), asterisks (),
+                                  and question marks (?). The host name must contain
+                                  at least one period (.), and cannot start or end
+                                  with a period (.). The rightmost domain label can
+                                  contain only letters, asterisks () and question
+                                  marks (?) and cannot contain digits or hyphens (-).
+                                  Other domain labels cannot start or end with a hyphen
+                                  (-). You can include asterisks (*) and question
+                                  marks (?) anywhere in a domain label. Default value:
+                                  ${host}. You cannot use this value with other characters
+                                  at the same time.'
+                                type: string
+                              path:
+                                description: 'The path of the destination to which
+                                  requests are directed. Valid values: The path must
+                                  be 1 to 128 characters in length, and start with
+                                  a forward slash (/). The path can contain letters,
+                                  digits, asterisks (*), question marks (?) and the
+                                  following special characters: $ - _ . + / & ~ @
+                                  :. It cannot contain the following special characters:
+                                  " % # ; ! ( ) [ ] ^ , ”. The path is case-sensitive.
+                                  Default value: ${path}. You can also reference ${host},
+                                  ${protocol}, and ${port}. Each variable can appear
+                                  at most once. You can use the preceding variables
+                                  at the same time, or use them with a valid string.'
+                                type: string
+                              query:
+                                description: 'The query string of the request to be
+                                  redirected. The query string must be 1 to 128 characters
+                                  in length, can contain letters and printable characters.
+                                  It cannot contain the following special characters:
+                                  # [ ] { } \ | < > &. Default value: ${query}. You
+                                  can also reference ${host}, ${protocol}, and ${port}.
+                                  Each variable can appear at most once. You can use
+                                  the preceding variables at the same time, or use
+                                  them together with a valid string.'
+                                type: string
+                            type: object
+                          type: array
+                        trafficLimitConfig:
+                          description: The Flow speed limit. See traffic_limit_config
+                            below.
+                          items:
+                            properties:
+                              perIpQps:
+                                description: 'The number of requests per second for
+                                  a single IP address. Value range: 1~1000000. Note:
+                                  If the QPS parameter is also configured, the value
+                                  of the PerIpQps parameter must be smaller than the
+                                  value of the QPS parameter.'
+                                type: number
+                              qps:
+                                description: 'The Number of requests per second. Valid
+                                  values: 1 to 100000.'
+                                type: number
+                            type: object
+                          type: array
+                        trafficMirrorConfig:
+                          description: The Traffic mirroring. See traffic_mirror_config
+                            below.
+                          items:
+                            properties:
+                              mirrorGroupConfig:
+                                description: The Traffic is mirrored to the server
+                                  group. See mirror_group_config below.
+                                items:
+                                  properties:
+                                    serverGroupTuples:
+                                      description: The destination server group to
+                                        which requests are forwarded. See server_group_tuples
+                                        below.
+                                      items:
+                                        properties:
+                                          serverGroupId:
+                                            description: The ID of the destination
+                                              server group to which requests are forwarded.
+                                            type: string
+                                        type: object
+                                      type: array
+                                  type: object
+                                type: array
+                              targetType:
+                                description: The Mirror target type.
+                                type: string
+                            type: object
+                          type: array
+                        type:
+                          description: |-
+                            The action type. Valid values: ForwardGroup, Redirect, FixedResponse, Rewrite, InsertHeader, RemoveHeader, TrafficLimit, TrafficMirror and Cors.
+                            Note: The preceding actions can be classified into two types:  FinalType: A forwarding rule can contain only one FinalType action, which is executed last. This type of action can contain only one ForwardGroup, Redirect or FixedResponse action. ExtType: A forwarding rule can contain one or more ExtType actions, which are executed before FinalType actions and need to coexist with the FinalType actions. This type of action can contain multiple InsertHeader actions or one Rewrite action.
+                            NOTE: The TrafficLimit and TrafficMirror option is available since 1.162.0.
+                            NOTE: From version 1.205.0, type can be set to Cors.
+                          type: string
+                      type: object
+                    type: array
+                  ruleConditions:
+                    description: The conditions of the forwarding rule. See rule_conditions
+                      below.
+                    items:
+                      properties:
+                        cookieConfig:
+                          description: The configuration of the cookie. See See cookie_config
+                            below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  properties:
+                                    key:
+                                      description: The name of the inserted header
+                                        field. The name must be 1 to 40 characters
+                                        in length, and can contain letters, digits,
+                                        underscores (_), and hyphens (-). You cannot
+                                        use the same name in InsertHeader. Note You
+                                        cannot use Cookie or Host in the name.
+                                      type: string
+                                    value:
+                                      description: 'The content of the inserted header
+                                        field. Valid values:'
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        headerConfig:
+                          description: The configuration of the header field. See
+                            header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        hostConfig:
+                          description: The configuration of the host field. See host_config
+                            below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        methodConfig:
+                          description: The configuration of the request method. See
+                            method_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        pathConfig:
+                          description: The configuration of the path for the request
+                            to be forwarded. See path_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        queryStringConfig:
+                          description: The configuration of the query string. See
+                            query_string_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  properties:
+                                    key:
+                                      description: The name of the inserted header
+                                        field. The name must be 1 to 40 characters
+                                        in length, and can contain letters, digits,
+                                        underscores (_), and hyphens (-). You cannot
+                                        use the same name in InsertHeader. Note You
+                                        cannot use Cookie or Host in the name.
+                                      type: string
+                                    value:
+                                      description: 'The content of the inserted header
+                                        field. Valid values:'
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
+                        responseHeaderConfig:
+                          description: The configuration of the header field. See
+                            response_header_config below.
+                          items:
+                            properties:
+                              key:
+                                description: The name of the inserted header field.
+                                  The name must be 1 to 40 characters in length, and
+                                  can contain letters, digits, underscores (_), and
+                                  hyphens (-). You cannot use the same name in InsertHeader.
+                                  Note You cannot use Cookie or Host in the name.
+                                type: string
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        responseStatusCodeConfig:
+                          description: The configuration of the header field. See
+                            response_status_code_config below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        sourceIpConfig:
+                          description: The Based on source IP traffic matching. Required
+                            and valid when Type is SourceIP. See source_ip_config
+                            below.
+                          items:
+                            properties:
+                              values:
+                                description: The values of the cookie. See values
+                                  below.
+                                items:
+                                  type: string
+                                type: array
+                                x-kubernetes-list-type: set
+                            type: object
+                          type: array
+                        type:
+                          description: 'The type of the forwarding rule. Valid values:'
+                          type: string
+                      type: object
+                    type: array
+                  ruleName:
+                    description: The name of the forwarding rule. The name must be
+                      2 to 128 characters in length, and can contain letters, digits,
+                      periods (.), underscores (_), and hyphens (-). The name must
+                      start with a letter.
+                    type: string
+                  status:
+                    description: The status of the resource.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -1,0 +1,193 @@
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: Listener
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listener
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    defaultActions:
+    - forwardGroupConfig:
+      - serverGroupTuples:
+        - serverGroupIdSelector:
+            matchLabels:
+              testing.upbound.io/example-name: default
+      type: ForwardGroup
+    listenerDescription: ${var.name}
+    listenerPort: 443
+    listenerProtocol: HTTP
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listener
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    addressAllocatedMode: Fixed
+    addressType: Internet
+    loadBalancerBillingConfig:
+    - payType: PayAsYouGo
+    loadBalancerEdition: Basic
+    loadBalancerName: ${var.name}
+    modificationProtectionConfig:
+    - status: NonProtection
+    region: cn-beijing
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    tags:
+      Created: TF
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneMappings:
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      zoneId: ${data.alicloud_alb_zones.default.zones.0.id}
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      zoneId: ${data.alicloud_alb_zones.default.zones.1.id}
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: ServerGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listener
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    healthCheckConfig:
+    - healthCheckCodes:
+      - http_2xx
+      - http_3xx
+      - http_4xx
+      healthCheckConnectPort: "46325"
+      healthCheckEnabled: true
+      healthCheckHost: tf-example.com
+      healthCheckHttpVersion: HTTP1.1
+      healthCheckInterval: "2"
+      healthCheckMethod: HEAD
+      healthCheckPath: /tf-example
+      healthCheckProtocol: HTTP
+      healthCheckTimeout: 5
+      healthyThreshold: 3
+      unhealthyThreshold: 3
+    protocol: HTTP
+    region: cn-beijing
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    serverGroupName: ${var.name}
+    servers:
+    - description: ${var.name}
+      port: 80
+      serverIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      serverIpSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      serverType: Ecs
+      weight: 10
+    stickySessionConfig:
+    - cookie: tf-example
+      stickySessionEnabled: true
+      stickySessionType: Server
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listener
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    availabilityZone: ${data.alicloud_alb_zones.default.zones.0.id}
+    imageIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alicloud_images
+    instanceName: ${var.name}
+    instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
+    region: cn-beijing
+    securityGroupRefs:
+    - name: default
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listener
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: ${var.name}
+    region: cn-beijing
+    securityGroupName: ${var.name}
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listener
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    region: cn-beijing
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listener
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: ${format("10.4.%d.0/24", count.index + 1)}
+    count: 2
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${format("${var.name}_%d", count.index + 1)}
+    zoneId: ${data.alicloud_alb_zones.default.zones[count.index].id}

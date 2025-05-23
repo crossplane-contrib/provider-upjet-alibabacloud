@@ -1,0 +1,17 @@
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/securitypolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    ciphers:
+    - ECDHE-ECDSA-AES128-SHA
+    - AES256-SHA
+    region: cn-beijing
+    securityPolicyName: tf_example
+    tlsVersions:
+    - TLSv1.0

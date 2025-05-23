@@ -11,6 +11,23 @@ import "github.com/crossplane/upjet/pkg/config"
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
 
+	// ALB
+	"alicloud_alb_acl":                     config.IdentifierFromProvider,
+	"alicloud_alb_acl_entry_attachment":    config.IdentifierFromProvider,
+	"alicloud_alb_ascript":                 config.IdentifierFromProvider,
+	"alicloud_alb_health_check_template":   config.IdentifierFromProvider,
+	"alicloud_alb_listener":                config.IdentifierFromProvider,
+	"alicloud_alb_listener_acl_attachment": config.IdentifierFromProvider,
+	// "alicloud_alb_listener_additional_certificate_attachment": config.IdentifierFromProvider,
+	"alicloud_alb_load_balancer": config.IdentifierFromProvider,
+	// "alicloud_alb_load_balancer_access_log_config_attachment": config.IdentifierFromProvider,
+	// "alicloud_alb_load_balancer_common_bandwidth_package_attachment": config.IdentifierFromProvider,
+	"alicloud_alb_load_balancer_security_group_attachment": config.IdentifierFromProvider,
+	"alicloud_alb_load_balancer_zone_shifted_attachment":   config.IdentifierFromProvider,
+	"alicloud_alb_rule":            config.IdentifierFromProvider,
+	"alicloud_alb_security_policy": config.IdentifierFromProvider,
+	"alicloud_alb_server_group":    config.IdentifierFromProvider,
+
 	// ALIDNS
 	// "alicloud_alidns_access_strategy":   config.IdentifierFromProvider,
 	"alicloud_alidns_address_pool":      config.IdentifierFromProvider,

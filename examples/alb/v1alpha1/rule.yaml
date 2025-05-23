@@ -1,0 +1,176 @@
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: Rule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    listenerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-rule
+    priority: 555
+    region: cn-beijing
+    ruleActions:
+    - forwardGroupConfig:
+      - serverGroupTuples:
+        - serverGroupIdSelector:
+            matchLabels:
+              testing.upbound.io/example-name: for-rule
+      order: 9
+      type: ForwardGroup
+    ruleConditions:
+    - cookieConfig:
+      - values:
+        - key: created
+          value: tf
+      type: Cookie
+    ruleName: crossplane-example
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: Listener
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: for-rule
+  name: for-rule
+spec:
+  forProvider:
+    defaultActions:
+      - forwardGroupConfig:
+        - serverGroupTuples:
+          - serverGroupIdSelector:
+              matchLabels:
+                testing.upbound.io/example-name: for-rule
+        type: ForwardGroup
+    listenerDescription: crossplane-example
+    listenerPort: 80
+    listenerProtocol: HTTP
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-rule
+    region: cn-beijing
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: for-rule
+  name: for-rule
+spec:
+  forProvider:
+    addressAllocatedMode: Fixed
+    addressType: Internet
+    loadBalancerBillingConfig:
+      - payType: PayAsYouGo
+    loadBalancerEdition: Standard
+    loadBalancerName: crossplane-example
+    modificationProtectionConfig:
+      - status: NonProtection
+    region: cn-beijing
+    #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    tags:
+      Created: TF
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-rule
+    zoneMappings:
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-rule-1
+      zoneId: cn-beijing-f
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-rule-2
+      zoneId: cn-beijing-g
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: ServerGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: for-rule
+  name: for-rule
+spec:
+  forProvider:
+    healthCheckConfig:
+    - healthCheckEnabled: false
+    protocol: HTTP
+    region: cn-beijing
+#    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    serverGroupName: crossplane-example
+    stickySessionConfig:
+    - stickySessionEnabled: false
+    tags:
+      Created: TF
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-rule
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: for-rule
+  name: for-rule
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    region: cn-beijing
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: for-rule-1
+  name: for-rule-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.1.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-rule
+    vswitchName: crossplane-example_1
+    zoneId: cn-beijing-f
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: for-rule-2
+  name: for-rule-2
+spec:
+  forProvider:
+    cidrBlock: 10.4.2.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-rule
+    vswitchName: crossplane-example_2
+    zoneId: cn-beijing-g

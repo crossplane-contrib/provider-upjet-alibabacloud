@@ -9,6 +9,18 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
+	acl "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/acl"
+	aclentryattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/aclentryattachment"
+	ascript "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/ascript"
+	healthchecktemplate "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/healthchecktemplate"
+	listener "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/listener"
+	listeneraclattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/listeneraclattachment"
+	loadbalancer "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/loadbalancer"
+	loadbalancersecuritygroupattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/loadbalancersecuritygroupattachment"
+	loadbalancerzoneshiftedattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/loadbalancerzoneshiftedattachment"
+	rule "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/rule"
+	securitypolicy "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/securitypolicy"
+	servergroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/servergroup"
 	addresspool "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/addresspool"
 	customline "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/customline"
 	domain "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/domain"
@@ -141,6 +153,18 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		acl.Setup,
+		aclentryattachment.Setup,
+		ascript.Setup,
+		healthchecktemplate.Setup,
+		listener.Setup,
+		listeneraclattachment.Setup,
+		loadbalancer.Setup,
+		loadbalancersecuritygroupattachment.Setup,
+		loadbalancerzoneshiftedattachment.Setup,
+		rule.Setup,
+		securitypolicy.Setup,
+		servergroup.Setup,
 		addresspool.Setup,
 		customline.Setup,
 		domain.Setup,

@@ -1,0 +1,90 @@
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    addressAllocatedMode: Fixed
+    addressType: Internet
+    loadBalancerBillingConfig:
+    - payType: PayAsYouGo
+    loadBalancerEdition: Basic
+    loadBalancerName: crossplane-example
+    modificationProtectionConfig:
+    - status: NonProtection
+    region: cn-beijing
+#    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    tags:
+      Created: TF
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-loadbalancer
+    zoneMappings:
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-loadbalancer-1
+      zoneId: cn-beijing-f
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-loadbalancer-2
+      zoneId: cn-beijing-g
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: for-loadbalancer
+  name: for-loadbalancer
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    region: cn-beijing
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: for-loadbalancer-1
+  name: for-loadbalancer-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.1.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-loadbalancer
+    vswitchName: crossplane-example_1
+    zoneId: cn-beijing-f
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: for-loadbalancer-2
+  name: for-loadbalancer-2
+spec:
+  forProvider:
+    cidrBlock: 10.4.2.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-loadbalancer
+    vswitchName: crossplane-example_2
+    zoneId: cn-beijing-g
