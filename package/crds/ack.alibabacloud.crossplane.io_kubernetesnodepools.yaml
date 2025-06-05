@@ -1,0 +1,3212 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: kubernetesnodepools.ack.alibabacloud.crossplane.io
+spec:
+  group: ack.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alicloud
+    kind: KubernetesNodePool
+    listKind: KubernetesNodePoolList
+    plural: kubernetesnodepools
+    singular: kubernetesnodepool
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: KubernetesNodePool is the Schema for the KubernetesNodePools
+          API. Provides a Alicloud Container Service for Kubernetes (ACK) Nodepool
+          resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: KubernetesNodePoolSpec defines the desired state of KubernetesNodePool
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  autoRenew:
+                    description: 'Whether to enable automatic renewal for nodes in
+                      the node pool takes effect only when instance_charge_type is
+                      set to PrePaid. Default value: false. Valid values:'
+                    type: boolean
+                  autoRenewPeriod:
+                    description: 'The automatic renewal period of nodes in the node
+                      pool takes effect only when you select Prepaid and Automatic
+                      Renewal, and is a required value. When PeriodUnit = Month, the
+                      value range is {1, 2, 3, 6, 12}. Default value: 1.'
+                    type: number
+                  clusterId:
+                    description: The id of kubernetes cluster.
+                    type: string
+                  clusterIdRefs:
+                    description: Reference to a ManagedKubernetes in ack to populate
+                      clusterId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  clusterIdSelector:
+                    description: Selector for a ManagedKubernetes in ack to populate
+                      clusterId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  compensateWithOnDemand:
+                    description: 'Specifies whether to automatically create pay-as-you-go
+                      instances to meet the required number of ECS instances if preemptible
+                      instances cannot be created due to reasons such as cost or insufficient
+                      inventory. This parameter takes effect when you set multi_az_policy
+                      to COST_OPTIMIZED. Valid values: true: automatically creates
+                      pay-as-you-go instances to meet the required number of ECS instances
+                      if preemptible instances cannot be created. false: does not
+                      create pay-as-you-go instances to meet the required number of
+                      ECS instances if preemptible instances cannot be created.'
+                    type: boolean
+                  cpuPolicy:
+                    description: 'Node CPU management policies. Default value: none.
+                      When the cluster version is 1.12.6 or later, the following two
+                      policies are supported:'
+                    type: string
+                  dataDisks:
+                    description: Configure the data disk of the node in the node pool.
+                      See data_disks below.
+                    items:
+                      properties:
+                        autoFormat:
+                          description: 'Whether to automatically mount the data disk.
+                            Valid values: true and false.'
+                          type: string
+                        autoSnapshotPolicyId:
+                          description: The ID of the automatic snapshot policy that
+                            you want to apply to the system disk.
+                          type: string
+                        burstingEnabled:
+                          description: Whether the data disk is enabled with Burst
+                            (performance Burst). This is configured when the disk
+                            type is cloud_auto.
+                          type: boolean
+                        category:
+                          description: 'The type of data disk. Default value: cloud_efficiency.
+                            Valid values:'
+                          type: string
+                        device:
+                          description: 'The mount target of data disk N. Valid values
+                            of N: 1 to 16. If you do not specify this parameter, the
+                            system automatically assigns a mount target when Auto
+                            Scaling creates ECS instances. The name of the mount target
+                            ranges from /dev/xvdb to /dev/xvdz.'
+                          type: string
+                        encrypted:
+                          description: 'Specifies whether to encrypt data disks. Valid
+                            values: true and false. Default to false.'
+                          type: string
+                        fileSystem:
+                          description: 'The type of the mounted file system. Works
+                            when auto_format is true. Optional value: ext4, xfs.'
+                          type: string
+                        kmsKeyId:
+                          description: The kms key id used to encrypt the data disk.
+                            It takes effect when encrypted is true.
+                          type: string
+                        mountTarget:
+                          description: The Mount path. Works when auto_format is true.
+                          type: string
+                        name:
+                          description: The length is 2~128 English or Chinese characters.
+                            It must start with an uppercase or lowr letter or a Chinese
+                            character and cannot start with http:// or https. Can
+                            contain numbers, colons (:), underscores (_), or dashes
+                            (-). It will be overwritten if auto_format is set.
+                          type: string
+                        performanceLevel:
+                          description: Worker node data disk performance level, when
+                            category values cloud_essd, the optional values are PL0,
+                            PL1, PL2 or PL3, but the specific performance level is
+                            related to the disk capacity. For more information, see
+                            Enhanced SSDs. Default is PL1.
+                          type: string
+                        provisionedIops:
+                          description: The read/write IOPS preconfigured for the data
+                            disk, which is configured when the disk type is cloud_auto.
+                          type: number
+                        size:
+                          description: The size of a data disk, Its valid value range
+                            [40~32768] in GB. Default to 40.
+                          type: number
+                        snapshotId:
+                          description: 'The ID of the snapshot that you want to use
+                            to create data disk N. Valid values of N: 1 to 16. If
+                            you specify this parameter, DataDisk.N.Size is ignored.
+                            The size of the disk is the same as the size of the specified
+                            snapshot. If you specify a snapshot that is created on
+                            or before July 15, 2013, the operation fails and InvalidSnapshot.TooOld
+                            is returned.'
+                          type: string
+                      type: object
+                    type: array
+                  deploymentSetId:
+                    description: The deployment set of node pool. Specify the deploymentSet
+                      to ensure that the nodes in the node pool can be distributed
+                      on different physical machines.
+                    type: string
+                  desiredSize:
+                    description: Number of expected nodes in the node pool.
+                    type: string
+                  forceDelete:
+                    description: Whether to force deletion.
+                    type: boolean
+                  formatDisk:
+                    description: After you select this check box, if data disks have
+                      been attached to the specified ECS instances and the file system
+                      of the last data disk is uninitialized, the system automatically
+                      formats the last data disk to ext4 and mounts the data disk
+                      to /var/lib/docker and /var/lib/kubelet. The original data on
+                      the disk will be cleared. Make sure that you back up data in
+                      advance. If no data disk is mounted on the ECS instance, no
+                      new data disk will be purchased. Default is false.
+                    type: boolean
+                  imageId:
+                    description: The custom image ID. The system-provided image is
+                      used by default.
+                    type: string
+                  imageType:
+                    description: 'The operating system image type and the platform
+                      parameter can be selected from the following values:'
+                    type: string
+                  installCloudMonitor:
+                    description: 'Whether to install cloud monitoring on the ECS node.
+                      After installation, you can view the monitoring information
+                      of the created ECS instance in the cloud monitoring console
+                      and recommend enable it. Default value: false. Valid values:'
+                    type: boolean
+                  instanceChargeType:
+                    description: 'Node payment type. Valid values: PostPaid, PrePaid,
+                      default is PostPaid. If value is PrePaid, the arguments period,
+                      period_unit, auto_renew and auto_renew_period are required.'
+                    type: string
+                  instanceTypes:
+                    description: In the node instance specification list, you can
+                      select multiple instance specifications as alternatives. When
+                      each node is created, it will try to purchase from the first
+                      specification until it is created successfully. The final purchased
+                      instance specifications may vary with inventory changes.
+                    items:
+                      type: string
+                    type: array
+                  instances:
+                    description: The instance list. Add existing nodes under the same
+                      cluster VPC to the node pool.
+                    items:
+                      type: string
+                    type: array
+                  internetChargeType:
+                    description: The billing method for network usage. Valid values
+                      PayByBandwidth and PayByTraffic. Conflict with eip_internet_charge_type,
+                      EIP and public network IP can only choose one.
+                    type: string
+                  internetMaxBandwidthOut:
+                    description: The maximum bandwidth of the public IP address of
+                      the node. The unit is Mbps(Mega bit per second). The value range
+                      is:[1,100]
+                    type: number
+                  keepInstanceName:
+                    description: Add an existing instance to the node pool, whether
+                      to keep the original instance name. It is recommended to set
+                      to true.
+                    type: boolean
+                  keyName:
+                    description: The name of the key pair. When the node pool is a
+                      managed node pool, only key_name is supported.
+                    type: string
+                  keyNameRef:
+                    description: Reference to a KeyPair in ecs to populate keyName.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  keyNameSelector:
+                    description: Selector for a KeyPair in ecs to populate keyName.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  kmsEncryptedPasswordSecretRef:
+                    description: An KMS encrypts password used to a cs kubernetes.
+                      You have to specify one of password key_name kms_encrypted_password
+                      fields.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  kmsEncryptionContext:
+                    additionalProperties:
+                      type: string
+                    description: An KMS encryption context used to decrypt kms_encrypted_password
+                      before creating or updating a cs kubernetes with kms_encrypted_password.
+                      See Encryption Context. It is valid when kms_encrypted_password
+                      is set.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  kubeletConfiguration:
+                    description: Kubelet configuration parameters for worker nodes.
+                      See kubelet_configuration below. More information in Kubelet
+                      Configuration. See kubelet_configuration below.
+                    items:
+                      properties:
+                        allowedUnsafeSysctls:
+                          description: Allowed sysctl mode whitelist.
+                          items:
+                            type: string
+                          type: array
+                        clusterDns:
+                          description: The list of IP addresses of the cluster DNS
+                            servers.
+                          items:
+                            type: string
+                          type: array
+                        containerLogMaxFiles:
+                          description: The maximum number of log files that can exist
+                            in each container.
+                          type: string
+                        containerLogMaxSize:
+                          description: The maximum size that can be reached before
+                            a log file is rotated.
+                          type: string
+                        containerLogMaxWorkers:
+                          description: Specifies the maximum number of concurrent
+                            workers required to perform log rotation operations.
+                          type: string
+                        containerLogMonitorInterval:
+                          description: Specifies the duration for which container
+                            logs are monitored for log rotation.
+                          type: string
+                        cpuCfsQuota:
+                          description: CPU CFS quota constraint switch.
+                          type: string
+                        cpuCfsQuotaPeriod:
+                          description: CPU CFS quota period value.
+                          type: string
+                        cpuManagerPolicy:
+                          description: Same as cpuManagerPolicy. The name of the policy
+                            to use. Requires the CPUManager feature gate to be enabled.
+                            Valid value is none or static.
+                          type: string
+                        eventBurst:
+                          description: Same as eventBurst. The maximum size of a burst
+                            of event creations, temporarily allows event creations
+                            to burst to this number, while still not exceeding event_record_qps.
+                            It is only used when event_record_qps is greater than
+                            0. Valid value is [0-100].
+                          type: string
+                        eventRecordQps:
+                          description: Same as eventRecordQPS. The maximum event creations
+                            per second. If 0, there is no limit enforced. Valid value
+                            is [0-50].
+                          type: string
+                        evictionHard:
+                          additionalProperties:
+                            type: string
+                          description: 'Same as evictionHard. The map of signal names
+                            to quantities that defines hard eviction thresholds. For
+                            example: {"memory.available" = "300Mi"}.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        evictionSoft:
+                          additionalProperties:
+                            type: string
+                          description: 'Same as evictionSoft. The map of signal names
+                            to quantities that defines soft eviction thresholds. For
+                            example: {"memory.available" = "300Mi"}.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        evictionSoftGracePeriod:
+                          additionalProperties:
+                            type: string
+                          description: 'Same as evictionSoftGracePeriod. The map of
+                            signal names to quantities that defines grace periods
+                            for each soft eviction signal. For example: {"memory.available"
+                            = "30s"}.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        featureGates:
+                          additionalProperties:
+                            type: boolean
+                          description: Feature switch to enable configuration of experimental
+                            features.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        imageGcHighThresholdPercent:
+                          description: If the image usage exceeds this threshold,
+                            image garbage collection will continue.
+                          type: string
+                        imageGcLowThresholdPercent:
+                          description: Image garbage collection is not performed when
+                            the image usage is below this threshold.
+                          type: string
+                        kubeApiBurst:
+                          description: Same as kubeAPIBurst. The burst to allow while
+                            talking with kubernetes api-server. Valid value is [0-100].
+                          type: string
+                        kubeApiQps:
+                          description: Same as kubeAPIQPS. The QPS to use while talking
+                            with kubernetes api-server. Valid value is [0-50].
+                          type: string
+                        kubeReserved:
+                          additionalProperties:
+                            type: string
+                          description: Same as kubeReserved. The set of ResourceName=ResourceQuantity
+                            (e.g. cpu=200m,memory=150G) pairs that describe resources
+                            reserved for kubernetes system components. Currently,
+                            cpu, memory and local storage for root file system are
+                            supported. See compute resources for more details.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        maxPods:
+                          description: The maximum number of running pods.
+                          type: string
+                        memoryManagerPolicy:
+                          description: The policy to be used by the memory manager.
+                          type: string
+                        podPidsLimit:
+                          description: The maximum number of PIDs that can be used
+                            in a Pod.
+                          type: string
+                        readOnlyPort:
+                          description: Read-only port number.
+                          type: string
+                        registryBurst:
+                          description: Same as registryBurst. The maximum size of
+                            burst pulls, temporarily allows pulls to burst to this
+                            number, while still not exceeding registry_pull_qps. Only
+                            used if registry_pull_qps is greater than 0. Valid value
+                            is [0-100].
+                          type: string
+                        registryPullQps:
+                          description: Same as registryPullQPS. The limit of registry
+                            pulls per second. Setting it to 0 means no limit. Valid
+                            value is [0-50].
+                          type: string
+                        reservedMemory:
+                          description: Reserve memory for NUMA nodes. See reserved_memory
+                            below.
+                          items:
+                            properties:
+                              limits:
+                                additionalProperties:
+                                  type: string
+                                description: Memory resource limit.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              numaNode:
+                                description: The NUMA node.
+                                type: number
+                            type: object
+                          type: array
+                        serializeImagePulls:
+                          description: Same as serializeImagePulls. When enabled,
+                            it tells the Kubelet to pull images one at a time. We
+                            recommend not changing the default value on nodes that
+                            run docker daemon with version < 1.9 or an Aufs storage
+                            backend. Valid value is true or false.
+                          type: string
+                        systemReserved:
+                          additionalProperties:
+                            type: string
+                          description: Same as systemReserved. The set of ResourceName=ResourceQuantity
+                            (e.g. cpu=200m,memory=150G) pairs that describe resources
+                            reserved for non-kubernetes components. Currently, only
+                            cpu and memory are supported. See compute resources for
+                            more details.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        topologyManagerPolicy:
+                          description: Name of the Topology Manager policy used.
+                          type: string
+                        tracing:
+                          description: OpenTelemetry tracks the configuration information
+                            for client settings versioning. See tracing below.
+                          items:
+                            properties:
+                              endpoint:
+                                description: The endpoint of the collector.
+                                type: string
+                              samplingRatePerMillion:
+                                description: Number of samples to be collected per
+                                  million span.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  labels:
+                    description: A List of Kubernetes labels to assign to the nodes
+                      . Only labels that are applied with the ACK API are managed
+                      by this argument. Detailed below. More information in Labels.
+                      See labels below.
+                    items:
+                      properties:
+                        key:
+                          description: The label key.
+                          type: string
+                        value:
+                          description: The label value.
+                          type: string
+                      type: object
+                    type: array
+                  loginAsNonRoot:
+                    description: 'Whether the ECS instance is logged on as a ecs-user
+                      user. Valid value: true and false.'
+                    type: boolean
+                  management:
+                    description: Managed node pool configuration. See management below.
+                    items:
+                      properties:
+                        autoRepair:
+                          description: 'Whether to enable automatic repair. Valid
+                            values: true: Automatic repair. false: not automatically
+                            repaired.'
+                          type: boolean
+                        autoRepairPolicy:
+                          description: Automatic repair node policy. See auto_repair_policy
+                            below.
+                          items:
+                            properties:
+                              restartNode:
+                                description: Whether to allow node restart.
+                                type: boolean
+                            type: object
+                          type: array
+                        autoUpgrade:
+                          description: 'Specifies whether to enable auto update. Valid
+                            values: true: enables auto update. false: disables auto
+                            update.'
+                          type: boolean
+                        autoUpgradePolicy:
+                          description: The auto update policy. See auto_upgrade_policy
+                            below.
+                          items:
+                            properties:
+                              autoUpgradeKubelet:
+                                description: 'Specifies whether  to automatically
+                                  update the kubelet. Valid values: true: yes; false:
+                                  no.'
+                                type: boolean
+                            type: object
+                          type: array
+                        autoVulFix:
+                          description: 'Specifies whether to automatically patch CVE
+                            vulnerabilities. Valid values: true, false.'
+                          type: boolean
+                        autoVulFixPolicy:
+                          description: The auto CVE patching policy. See auto_vul_fix_policy
+                            below.
+                          items:
+                            properties:
+                              restartNode:
+                                description: Whether to allow node restart.
+                                type: boolean
+                              vulLevel:
+                                description: The severity levels of vulnerabilities
+                                  that is allowed to automatically patch. Multiple
+                                  severity levels are separated by commas (,).
+                                type: string
+                            type: object
+                          type: array
+                        enable:
+                          description: 'Specifies whether to enable the managed node
+                            pool feature. Valid values: true: enables the managed
+                            node pool feature. false: disables the managed node pool
+                            feature. Other parameters in this section take effect
+                            only when you specify enable=true.'
+                          type: boolean
+                        maxUnavailable:
+                          description: 'Maximum number of unavailable nodes. Default
+                            value: 1. Value range:[1,1000].'
+                          type: number
+                        surge:
+                          description: Number of additional nodes. You have to specify
+                            one of surge, surge_percentage.
+                          type: number
+                        surgePercentage:
+                          description: Proportion of additional nodes. You have to
+                            specify one of surge, surge_percentage.
+                          type: number
+                      type: object
+                    type: array
+                  multiAzPolicy:
+                    description: 'The scaling policy for ECS instances in a multi-zone
+                      scaling group. Valid value: PRIORITY, COST_OPTIMIZED and BALANCE.
+                      PRIORITY: scales the capacity according to the virtual switches
+                      you define (VSwitchIds.N). When an ECS instance cannot be created
+                      in the zone where the higher-priority vSwitch is located, the
+                      next-priority vSwitch is automatically used to create an ECS
+                      instance. COST_OPTIMIZED: try to create by vCPU unit price from
+                      low to high. When the scaling configuration is configured with
+                      multiple instances of preemptible billing, preemptible instances
+                      are created first. You can continue to use the CompensateWithOnDemand
+                      parameter to specify whether to automatically try to create
+                      a preemptible instance by paying for it. It takes effect only
+                      when the scaling configuration has multi-instance specifications
+                      or preemptible instances. BALANCE: distributes ECS instances
+                      evenly among the multi-zone specified by the scaling group.
+                      If the zones become unbalanced due to insufficient inventory,
+                      you can use the API [RebalanceInstances](~~ 71516 ~~) to balance
+                      resources.'
+                    type: string
+                  nodeNameMode:
+                    description: Each node name consists of a prefix, its private
+                      network IP, and a suffix, separated by commas. The input format
+                      is customized,,ip,.
+                    type: string
+                  nodePoolName:
+                    description: The name of node pool.
+                    type: string
+                  onDemandBaseCapacity:
+                    description: 'The minimum number of pay-as-you-go instances that
+                      must be kept in the scaling group. Valid values: 0 to 1000.
+                      If the number of pay-as-you-go instances is less than the value
+                      of this parameter, Auto Scaling preferably creates pay-as-you-go
+                      instances.'
+                    type: string
+                  onDemandPercentageAboveBaseCapacity:
+                    description: 'The percentage of pay-as-you-go instances among
+                      the extra instances that exceed the number specified by on_demand_base_capacity.
+                      Valid values: 0 to 100.'
+                    type: string
+                  passwordSecretRef:
+                    description: The password of ssh login. You have to specify one
+                      of password and key_name fields. The password rule is 8 to 30
+                      characters and contains at least three items (upper and lower
+                      case letters, numbers, and special symbols).
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  period:
+                    description: Node payment period. Its valid value is one of {1,
+                      2, 3, 6, 12}.
+                    type: number
+                  periodUnit:
+                    description: 'Node payment period unit, valid value: Month. Default
+                      is Month.'
+                    type: string
+                  preUserData:
+                    description: Node pre custom data, base64-encoded, the script
+                      executed before the node is initialized.
+                    type: string
+                  privatePoolOptions:
+                    description: Private node pool configuration. See private_pool_options
+                      below.
+                    items:
+                      properties:
+                        privatePoolOptionsId:
+                          description: The ID of the private node pool.
+                          type: string
+                        privatePoolOptionsMatchCriteria:
+                          description: 'The type of private node pool. This parameter
+                            specifies the type of the private pool that you want to
+                            use to create instances. A private node pool is generated
+                            when an elasticity assurance or a capacity reservation
+                            service takes effect. The system selects a private node
+                            pool to launch instances. Valid values: Open: specifies
+                            an open private node pool. The system selects an open
+                            private node pool to launch instances. If no matching
+                            open private node pool is available, the resources in
+                            the public node pool are used. Target: specifies a private
+                            node pool. The system uses the resources of the specified
+                            private node pool to launch instances. If the specified
+                            private node pool is unavailable, instances cannot be
+                            started. None: no private node pool is used. The resources
+                            of private node pools are not used to launch the instances.'
+                          type: string
+                      type: object
+                    type: array
+                  ramRoleName:
+                    description: The name of the Worker RAM role.
+                    type: string
+                  rdsInstances:
+                    description: The list of RDS instances.
+                    items:
+                      type: string
+                    type: array
+                  resourceGroupId:
+                    description: The ID of the resource group
+                    type: string
+                  rollingPolicy:
+                    description: Rotary configuration. See rolling_policy below.
+                    items:
+                      properties:
+                        maxParallelism:
+                          description: The maximum number of unusable nodes.
+                          type: number
+                      type: object
+                    type: array
+                  runtimeName:
+                    description: The runtime name of containers. If not set, the cluster
+                      runtime will be used as the node pool runtime. If you select
+                      another container runtime, see Comparison of Docker, containerd,
+                      and Sandboxed-Container.
+                    type: string
+                  runtimeVersion:
+                    description: The runtime version of containers. If not set, the
+                      cluster runtime will be used as the node pool runtime.
+                    type: string
+                  scalingConfig:
+                    description: Automatic scaling configuration. See scaling_config
+                      below.
+                    items:
+                      properties:
+                        eipBandwidth:
+                          description: Peak EIP bandwidth. Its valid value range [1~500]
+                            in Mbps. It works if is_bond_eip=true. Default to 5.
+                          type: number
+                        eipInternetChargeType:
+                          description: 'EIP billing type. PayByBandwidth: Charged
+                            at fixed bandwidth. PayByTraffic: Billed as used traffic.
+                            Default: PayByBandwidth. It works if is_bond_eip=true,
+                            conflict with internet_charge_type. EIP and public network
+                            IP can only choose one.'
+                          type: string
+                        enable:
+                          description: 'Whether to enable automatic scaling. Value:'
+                          type: boolean
+                        isBondEip:
+                          description: 'Whether to bind EIP for an instance. Default:
+                            false.'
+                          type: boolean
+                        maxSize:
+                          description: Max number of instances in a auto scaling group,
+                            its valid value range [0~1000]. max_size has to be greater
+                            than min_size.
+                          type: number
+                        minSize:
+                          description: Min number of instances in a auto scaling group,
+                            its valid value range [0~1000].
+                          type: number
+                        type:
+                          description: 'Instance classification, not required. Vaild
+                            value: cpu, gpu, gpushare and spot. Default: cpu. The
+                            actual instance type is determined by instance_types.'
+                          type: string
+                      type: object
+                    type: array
+                  scalingPolicy:
+                    description: 'Scaling group mode, default value: release. Valid
+                      values:'
+                    type: string
+                  securityGroupIds:
+                    description: Multiple security groups can be configured for a
+                      node pool. If both security_group_ids and security_group_id
+                      are configured, security_group_ids takes effect. This field
+                      cannot be modified.
+                    items:
+                      type: string
+                    type: array
+                  securityHardeningOs:
+                    description: |-
+                      Alibaba Cloud OS security reinforcement. Default value: false. Value:
+                      -true: enable Alibaba Cloud OS security reinforcement.
+                      -false: does not enable Alibaba Cloud OS security reinforcement.
+                    type: boolean
+                  socEnabled:
+                    description: Whether enable worker node to support soc security
+                      reinforcement, its valid value true or false. Default to false
+                      and apply to AliyunLinux series. See SOC Reinforcement.
+                    type: boolean
+                  spotInstancePools:
+                    description: 'The number of instance types that are available.
+                      Auto Scaling creates preemptible instances of multiple instance
+                      types that are available at the lowest cost. Valid values: 1
+                      to 10.'
+                    type: number
+                  spotInstanceRemedy:
+                    description: 'Specifies whether to supplement preemptible instances
+                      when the number of preemptible instances drops below the specified
+                      minimum number. If you set the value to true, Auto Scaling attempts
+                      to create a new preemptible instance when the system notifies
+                      that an existing preemptible instance is about to be reclaimed.
+                      Valid values: true: enables the supplementation of preemptible
+                      instances. false: disables the supplementation of preemptible
+                      instances.'
+                    type: boolean
+                  spotPriceLimit:
+                    description: The current single preemptible instance type market
+                      price range configuration. See spot_price_limit below.
+                    items:
+                      properties:
+                        instanceType:
+                          description: The type of the preemptible instance.
+                          type: string
+                        priceLimit:
+                          description: The maximum price of a single instance.
+                          type: string
+                      type: object
+                    type: array
+                  spotStrategy:
+                    description: 'The preemptible instance type. Value:'
+                    type: string
+                  systemDiskBurstingEnabled:
+                    description: 'Specifies whether to enable the burst feature for
+                      system disks. Valid values:true: enables the burst feature.
+                      false: disables the burst feature. This parameter is supported
+                      only when system_disk_category is set to cloud_auto.'
+                    type: boolean
+                  systemDiskCategories:
+                    description: The multi-disk categories of the system disk. When
+                      a high-priority disk type cannot be used, Auto Scaling automatically
+                      tries to create a system disk with the next priority disk category.
+                      Valid values see system_disk_category.
+                    items:
+                      type: string
+                    type: array
+                  systemDiskCategory:
+                    description: 'The category of the system disk for nodes. Default
+                      value: cloud_efficiency. Valid values:'
+                    type: string
+                  systemDiskEncryptAlgorithm:
+                    description: 'The encryption algorithm used by the system disk.
+                      Value range: aes-256.'
+                    type: string
+                  systemDiskEncrypted:
+                    description: 'Whether to encrypt the system disk. Value range:
+                      true: encryption. false: Do not encrypt.'
+                    type: boolean
+                  systemDiskKmsKey:
+                    description: The ID of the KMS key used by the system disk.
+                    type: string
+                  systemDiskPerformanceLevel:
+                    description: The system disk performance of the node takes effect
+                      only for the ESSD disk.
+                    type: string
+                  systemDiskProvisionedIops:
+                    description: 'The predefined IOPS of a system disk. Valid values:
+                      0 to min{50,000, 1,000 × Capacity - Baseline IOPS}. Baseline
+                      IOPS = min{1,800 + 50 × Capacity, 50,000}. This parameter is
+                      supported only when system_disk_category is set to cloud_auto.'
+                    type: number
+                  systemDiskSize:
+                    description: 'The size of the system disk. Unit: GiB. The value
+                      of this parameter must be at least 1 and greater than or equal
+                      to the image size. Default value: 40 or the size of the image,
+                      whichever is larger.'
+                    type: number
+                  systemDiskSnapshotPolicyId:
+                    description: The ID of the automatic snapshot policy used by the
+                      system disk.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Add tags only for ECS instances. The maximum length
+                      of the tag key is 128 characters. The tag key and value cannot
+                      start with aliyun or acs:, or contain https:// or http://.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  taints:
+                    description: A List of Kubernetes taints to assign to the nodes.
+                      Detailed below. More information in Taints and Toleration. See
+                      taints below.
+                    items:
+                      properties:
+                        effect:
+                          description: The scheduling policy.
+                          type: string
+                        key:
+                          description: The key of a taint.
+                          type: string
+                        value:
+                          description: The value of a taint.
+                          type: string
+                      type: object
+                    type: array
+                  teeConfig:
+                    description: The configuration about confidential computing for
+                      the cluster. See tee_config below.
+                    items:
+                      properties:
+                        teeEnable:
+                          description: Specifies whether to enable confidential computing
+                            for the cluster.
+                          type: boolean
+                      type: object
+                    type: array
+                  unschedulable:
+                    description: Whether the node after expansion can be scheduled.
+                    type: boolean
+                  updateNodes:
+                    description: Synchronously update node labels and taints.
+                    type: boolean
+                  userData:
+                    description: Node custom data, base64-encoded.
+                    type: string
+                  vswitchIdRefs:
+                    description: References to Vswitch in vpc to populate vswitchIds.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  vswitchIdSelector:
+                    description: Selector for a list of Vswitch in vpc to populate
+                      vswitchIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  vswitchIds:
+                    description: The vswitches used by node pool workers.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  autoRenew:
+                    description: 'Whether to enable automatic renewal for nodes in
+                      the node pool takes effect only when instance_charge_type is
+                      set to PrePaid. Default value: false. Valid values:'
+                    type: boolean
+                  autoRenewPeriod:
+                    description: 'The automatic renewal period of nodes in the node
+                      pool takes effect only when you select Prepaid and Automatic
+                      Renewal, and is a required value. When PeriodUnit = Month, the
+                      value range is {1, 2, 3, 6, 12}. Default value: 1.'
+                    type: number
+                  clusterId:
+                    description: The id of kubernetes cluster.
+                    type: string
+                  clusterIdRefs:
+                    description: Reference to a ManagedKubernetes in ack to populate
+                      clusterId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  clusterIdSelector:
+                    description: Selector for a ManagedKubernetes in ack to populate
+                      clusterId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  compensateWithOnDemand:
+                    description: 'Specifies whether to automatically create pay-as-you-go
+                      instances to meet the required number of ECS instances if preemptible
+                      instances cannot be created due to reasons such as cost or insufficient
+                      inventory. This parameter takes effect when you set multi_az_policy
+                      to COST_OPTIMIZED. Valid values: true: automatically creates
+                      pay-as-you-go instances to meet the required number of ECS instances
+                      if preemptible instances cannot be created. false: does not
+                      create pay-as-you-go instances to meet the required number of
+                      ECS instances if preemptible instances cannot be created.'
+                    type: boolean
+                  cpuPolicy:
+                    description: 'Node CPU management policies. Default value: none.
+                      When the cluster version is 1.12.6 or later, the following two
+                      policies are supported:'
+                    type: string
+                  dataDisks:
+                    description: Configure the data disk of the node in the node pool.
+                      See data_disks below.
+                    items:
+                      properties:
+                        autoFormat:
+                          description: 'Whether to automatically mount the data disk.
+                            Valid values: true and false.'
+                          type: string
+                        autoSnapshotPolicyId:
+                          description: The ID of the automatic snapshot policy that
+                            you want to apply to the system disk.
+                          type: string
+                        burstingEnabled:
+                          description: Whether the data disk is enabled with Burst
+                            (performance Burst). This is configured when the disk
+                            type is cloud_auto.
+                          type: boolean
+                        category:
+                          description: 'The type of data disk. Default value: cloud_efficiency.
+                            Valid values:'
+                          type: string
+                        device:
+                          description: 'The mount target of data disk N. Valid values
+                            of N: 1 to 16. If you do not specify this parameter, the
+                            system automatically assigns a mount target when Auto
+                            Scaling creates ECS instances. The name of the mount target
+                            ranges from /dev/xvdb to /dev/xvdz.'
+                          type: string
+                        encrypted:
+                          description: 'Specifies whether to encrypt data disks. Valid
+                            values: true and false. Default to false.'
+                          type: string
+                        fileSystem:
+                          description: 'The type of the mounted file system. Works
+                            when auto_format is true. Optional value: ext4, xfs.'
+                          type: string
+                        kmsKeyId:
+                          description: The kms key id used to encrypt the data disk.
+                            It takes effect when encrypted is true.
+                          type: string
+                        mountTarget:
+                          description: The Mount path. Works when auto_format is true.
+                          type: string
+                        name:
+                          description: The length is 2~128 English or Chinese characters.
+                            It must start with an uppercase or lowr letter or a Chinese
+                            character and cannot start with http:// or https. Can
+                            contain numbers, colons (:), underscores (_), or dashes
+                            (-). It will be overwritten if auto_format is set.
+                          type: string
+                        performanceLevel:
+                          description: Worker node data disk performance level, when
+                            category values cloud_essd, the optional values are PL0,
+                            PL1, PL2 or PL3, but the specific performance level is
+                            related to the disk capacity. For more information, see
+                            Enhanced SSDs. Default is PL1.
+                          type: string
+                        provisionedIops:
+                          description: The read/write IOPS preconfigured for the data
+                            disk, which is configured when the disk type is cloud_auto.
+                          type: number
+                        size:
+                          description: The size of a data disk, Its valid value range
+                            [40~32768] in GB. Default to 40.
+                          type: number
+                        snapshotId:
+                          description: 'The ID of the snapshot that you want to use
+                            to create data disk N. Valid values of N: 1 to 16. If
+                            you specify this parameter, DataDisk.N.Size is ignored.
+                            The size of the disk is the same as the size of the specified
+                            snapshot. If you specify a snapshot that is created on
+                            or before July 15, 2013, the operation fails and InvalidSnapshot.TooOld
+                            is returned.'
+                          type: string
+                      type: object
+                    type: array
+                  deploymentSetId:
+                    description: The deployment set of node pool. Specify the deploymentSet
+                      to ensure that the nodes in the node pool can be distributed
+                      on different physical machines.
+                    type: string
+                  desiredSize:
+                    description: Number of expected nodes in the node pool.
+                    type: string
+                  forceDelete:
+                    description: Whether to force deletion.
+                    type: boolean
+                  formatDisk:
+                    description: After you select this check box, if data disks have
+                      been attached to the specified ECS instances and the file system
+                      of the last data disk is uninitialized, the system automatically
+                      formats the last data disk to ext4 and mounts the data disk
+                      to /var/lib/docker and /var/lib/kubelet. The original data on
+                      the disk will be cleared. Make sure that you back up data in
+                      advance. If no data disk is mounted on the ECS instance, no
+                      new data disk will be purchased. Default is false.
+                    type: boolean
+                  imageId:
+                    description: The custom image ID. The system-provided image is
+                      used by default.
+                    type: string
+                  imageType:
+                    description: 'The operating system image type and the platform
+                      parameter can be selected from the following values:'
+                    type: string
+                  installCloudMonitor:
+                    description: 'Whether to install cloud monitoring on the ECS node.
+                      After installation, you can view the monitoring information
+                      of the created ECS instance in the cloud monitoring console
+                      and recommend enable it. Default value: false. Valid values:'
+                    type: boolean
+                  instanceChargeType:
+                    description: 'Node payment type. Valid values: PostPaid, PrePaid,
+                      default is PostPaid. If value is PrePaid, the arguments period,
+                      period_unit, auto_renew and auto_renew_period are required.'
+                    type: string
+                  instanceTypes:
+                    description: In the node instance specification list, you can
+                      select multiple instance specifications as alternatives. When
+                      each node is created, it will try to purchase from the first
+                      specification until it is created successfully. The final purchased
+                      instance specifications may vary with inventory changes.
+                    items:
+                      type: string
+                    type: array
+                  instances:
+                    description: The instance list. Add existing nodes under the same
+                      cluster VPC to the node pool.
+                    items:
+                      type: string
+                    type: array
+                  internetChargeType:
+                    description: The billing method for network usage. Valid values
+                      PayByBandwidth and PayByTraffic. Conflict with eip_internet_charge_type,
+                      EIP and public network IP can only choose one.
+                    type: string
+                  internetMaxBandwidthOut:
+                    description: The maximum bandwidth of the public IP address of
+                      the node. The unit is Mbps(Mega bit per second). The value range
+                      is:[1,100]
+                    type: number
+                  keepInstanceName:
+                    description: Add an existing instance to the node pool, whether
+                      to keep the original instance name. It is recommended to set
+                      to true.
+                    type: boolean
+                  keyName:
+                    description: The name of the key pair. When the node pool is a
+                      managed node pool, only key_name is supported.
+                    type: string
+                  keyNameRef:
+                    description: Reference to a KeyPair in ecs to populate keyName.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  keyNameSelector:
+                    description: Selector for a KeyPair in ecs to populate keyName.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  kmsEncryptedPasswordSecretRef:
+                    description: An KMS encrypts password used to a cs kubernetes.
+                      You have to specify one of password key_name kms_encrypted_password
+                      fields.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  kmsEncryptionContext:
+                    additionalProperties:
+                      type: string
+                    description: An KMS encryption context used to decrypt kms_encrypted_password
+                      before creating or updating a cs kubernetes with kms_encrypted_password.
+                      See Encryption Context. It is valid when kms_encrypted_password
+                      is set.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  kubeletConfiguration:
+                    description: Kubelet configuration parameters for worker nodes.
+                      See kubelet_configuration below. More information in Kubelet
+                      Configuration. See kubelet_configuration below.
+                    items:
+                      properties:
+                        allowedUnsafeSysctls:
+                          description: Allowed sysctl mode whitelist.
+                          items:
+                            type: string
+                          type: array
+                        clusterDns:
+                          description: The list of IP addresses of the cluster DNS
+                            servers.
+                          items:
+                            type: string
+                          type: array
+                        containerLogMaxFiles:
+                          description: The maximum number of log files that can exist
+                            in each container.
+                          type: string
+                        containerLogMaxSize:
+                          description: The maximum size that can be reached before
+                            a log file is rotated.
+                          type: string
+                        containerLogMaxWorkers:
+                          description: Specifies the maximum number of concurrent
+                            workers required to perform log rotation operations.
+                          type: string
+                        containerLogMonitorInterval:
+                          description: Specifies the duration for which container
+                            logs are monitored for log rotation.
+                          type: string
+                        cpuCfsQuota:
+                          description: CPU CFS quota constraint switch.
+                          type: string
+                        cpuCfsQuotaPeriod:
+                          description: CPU CFS quota period value.
+                          type: string
+                        cpuManagerPolicy:
+                          description: Same as cpuManagerPolicy. The name of the policy
+                            to use. Requires the CPUManager feature gate to be enabled.
+                            Valid value is none or static.
+                          type: string
+                        eventBurst:
+                          description: Same as eventBurst. The maximum size of a burst
+                            of event creations, temporarily allows event creations
+                            to burst to this number, while still not exceeding event_record_qps.
+                            It is only used when event_record_qps is greater than
+                            0. Valid value is [0-100].
+                          type: string
+                        eventRecordQps:
+                          description: Same as eventRecordQPS. The maximum event creations
+                            per second. If 0, there is no limit enforced. Valid value
+                            is [0-50].
+                          type: string
+                        evictionHard:
+                          additionalProperties:
+                            type: string
+                          description: 'Same as evictionHard. The map of signal names
+                            to quantities that defines hard eviction thresholds. For
+                            example: {"memory.available" = "300Mi"}.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        evictionSoft:
+                          additionalProperties:
+                            type: string
+                          description: 'Same as evictionSoft. The map of signal names
+                            to quantities that defines soft eviction thresholds. For
+                            example: {"memory.available" = "300Mi"}.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        evictionSoftGracePeriod:
+                          additionalProperties:
+                            type: string
+                          description: 'Same as evictionSoftGracePeriod. The map of
+                            signal names to quantities that defines grace periods
+                            for each soft eviction signal. For example: {"memory.available"
+                            = "30s"}.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        featureGates:
+                          additionalProperties:
+                            type: boolean
+                          description: Feature switch to enable configuration of experimental
+                            features.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        imageGcHighThresholdPercent:
+                          description: If the image usage exceeds this threshold,
+                            image garbage collection will continue.
+                          type: string
+                        imageGcLowThresholdPercent:
+                          description: Image garbage collection is not performed when
+                            the image usage is below this threshold.
+                          type: string
+                        kubeApiBurst:
+                          description: Same as kubeAPIBurst. The burst to allow while
+                            talking with kubernetes api-server. Valid value is [0-100].
+                          type: string
+                        kubeApiQps:
+                          description: Same as kubeAPIQPS. The QPS to use while talking
+                            with kubernetes api-server. Valid value is [0-50].
+                          type: string
+                        kubeReserved:
+                          additionalProperties:
+                            type: string
+                          description: Same as kubeReserved. The set of ResourceName=ResourceQuantity
+                            (e.g. cpu=200m,memory=150G) pairs that describe resources
+                            reserved for kubernetes system components. Currently,
+                            cpu, memory and local storage for root file system are
+                            supported. See compute resources for more details.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        maxPods:
+                          description: The maximum number of running pods.
+                          type: string
+                        memoryManagerPolicy:
+                          description: The policy to be used by the memory manager.
+                          type: string
+                        podPidsLimit:
+                          description: The maximum number of PIDs that can be used
+                            in a Pod.
+                          type: string
+                        readOnlyPort:
+                          description: Read-only port number.
+                          type: string
+                        registryBurst:
+                          description: Same as registryBurst. The maximum size of
+                            burst pulls, temporarily allows pulls to burst to this
+                            number, while still not exceeding registry_pull_qps. Only
+                            used if registry_pull_qps is greater than 0. Valid value
+                            is [0-100].
+                          type: string
+                        registryPullQps:
+                          description: Same as registryPullQPS. The limit of registry
+                            pulls per second. Setting it to 0 means no limit. Valid
+                            value is [0-50].
+                          type: string
+                        reservedMemory:
+                          description: Reserve memory for NUMA nodes. See reserved_memory
+                            below.
+                          items:
+                            properties:
+                              limits:
+                                additionalProperties:
+                                  type: string
+                                description: Memory resource limit.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              numaNode:
+                                description: The NUMA node.
+                                type: number
+                            type: object
+                          type: array
+                        serializeImagePulls:
+                          description: Same as serializeImagePulls. When enabled,
+                            it tells the Kubelet to pull images one at a time. We
+                            recommend not changing the default value on nodes that
+                            run docker daemon with version < 1.9 or an Aufs storage
+                            backend. Valid value is true or false.
+                          type: string
+                        systemReserved:
+                          additionalProperties:
+                            type: string
+                          description: Same as systemReserved. The set of ResourceName=ResourceQuantity
+                            (e.g. cpu=200m,memory=150G) pairs that describe resources
+                            reserved for non-kubernetes components. Currently, only
+                            cpu and memory are supported. See compute resources for
+                            more details.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        topologyManagerPolicy:
+                          description: Name of the Topology Manager policy used.
+                          type: string
+                        tracing:
+                          description: OpenTelemetry tracks the configuration information
+                            for client settings versioning. See tracing below.
+                          items:
+                            properties:
+                              endpoint:
+                                description: The endpoint of the collector.
+                                type: string
+                              samplingRatePerMillion:
+                                description: Number of samples to be collected per
+                                  million span.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  labels:
+                    description: A List of Kubernetes labels to assign to the nodes
+                      . Only labels that are applied with the ACK API are managed
+                      by this argument. Detailed below. More information in Labels.
+                      See labels below.
+                    items:
+                      properties:
+                        key:
+                          description: The label key.
+                          type: string
+                        value:
+                          description: The label value.
+                          type: string
+                      type: object
+                    type: array
+                  loginAsNonRoot:
+                    description: 'Whether the ECS instance is logged on as a ecs-user
+                      user. Valid value: true and false.'
+                    type: boolean
+                  management:
+                    description: Managed node pool configuration. See management below.
+                    items:
+                      properties:
+                        autoRepair:
+                          description: 'Whether to enable automatic repair. Valid
+                            values: true: Automatic repair. false: not automatically
+                            repaired.'
+                          type: boolean
+                        autoRepairPolicy:
+                          description: Automatic repair node policy. See auto_repair_policy
+                            below.
+                          items:
+                            properties:
+                              restartNode:
+                                description: Whether to allow node restart.
+                                type: boolean
+                            type: object
+                          type: array
+                        autoUpgrade:
+                          description: 'Specifies whether to enable auto update. Valid
+                            values: true: enables auto update. false: disables auto
+                            update.'
+                          type: boolean
+                        autoUpgradePolicy:
+                          description: The auto update policy. See auto_upgrade_policy
+                            below.
+                          items:
+                            properties:
+                              autoUpgradeKubelet:
+                                description: 'Specifies whether  to automatically
+                                  update the kubelet. Valid values: true: yes; false:
+                                  no.'
+                                type: boolean
+                            type: object
+                          type: array
+                        autoVulFix:
+                          description: 'Specifies whether to automatically patch CVE
+                            vulnerabilities. Valid values: true, false.'
+                          type: boolean
+                        autoVulFixPolicy:
+                          description: The auto CVE patching policy. See auto_vul_fix_policy
+                            below.
+                          items:
+                            properties:
+                              restartNode:
+                                description: Whether to allow node restart.
+                                type: boolean
+                              vulLevel:
+                                description: The severity levels of vulnerabilities
+                                  that is allowed to automatically patch. Multiple
+                                  severity levels are separated by commas (,).
+                                type: string
+                            type: object
+                          type: array
+                        enable:
+                          description: 'Specifies whether to enable the managed node
+                            pool feature. Valid values: true: enables the managed
+                            node pool feature. false: disables the managed node pool
+                            feature. Other parameters in this section take effect
+                            only when you specify enable=true.'
+                          type: boolean
+                        maxUnavailable:
+                          description: 'Maximum number of unavailable nodes. Default
+                            value: 1. Value range:[1,1000].'
+                          type: number
+                        surge:
+                          description: Number of additional nodes. You have to specify
+                            one of surge, surge_percentage.
+                          type: number
+                        surgePercentage:
+                          description: Proportion of additional nodes. You have to
+                            specify one of surge, surge_percentage.
+                          type: number
+                      type: object
+                    type: array
+                  multiAzPolicy:
+                    description: 'The scaling policy for ECS instances in a multi-zone
+                      scaling group. Valid value: PRIORITY, COST_OPTIMIZED and BALANCE.
+                      PRIORITY: scales the capacity according to the virtual switches
+                      you define (VSwitchIds.N). When an ECS instance cannot be created
+                      in the zone where the higher-priority vSwitch is located, the
+                      next-priority vSwitch is automatically used to create an ECS
+                      instance. COST_OPTIMIZED: try to create by vCPU unit price from
+                      low to high. When the scaling configuration is configured with
+                      multiple instances of preemptible billing, preemptible instances
+                      are created first. You can continue to use the CompensateWithOnDemand
+                      parameter to specify whether to automatically try to create
+                      a preemptible instance by paying for it. It takes effect only
+                      when the scaling configuration has multi-instance specifications
+                      or preemptible instances. BALANCE: distributes ECS instances
+                      evenly among the multi-zone specified by the scaling group.
+                      If the zones become unbalanced due to insufficient inventory,
+                      you can use the API [RebalanceInstances](~~ 71516 ~~) to balance
+                      resources.'
+                    type: string
+                  nodeNameMode:
+                    description: Each node name consists of a prefix, its private
+                      network IP, and a suffix, separated by commas. The input format
+                      is customized,,ip,.
+                    type: string
+                  nodePoolName:
+                    description: The name of node pool.
+                    type: string
+                  onDemandBaseCapacity:
+                    description: 'The minimum number of pay-as-you-go instances that
+                      must be kept in the scaling group. Valid values: 0 to 1000.
+                      If the number of pay-as-you-go instances is less than the value
+                      of this parameter, Auto Scaling preferably creates pay-as-you-go
+                      instances.'
+                    type: string
+                  onDemandPercentageAboveBaseCapacity:
+                    description: 'The percentage of pay-as-you-go instances among
+                      the extra instances that exceed the number specified by on_demand_base_capacity.
+                      Valid values: 0 to 100.'
+                    type: string
+                  passwordSecretRef:
+                    description: The password of ssh login. You have to specify one
+                      of password and key_name fields. The password rule is 8 to 30
+                      characters and contains at least three items (upper and lower
+                      case letters, numbers, and special symbols).
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  period:
+                    description: Node payment period. Its valid value is one of {1,
+                      2, 3, 6, 12}.
+                    type: number
+                  periodUnit:
+                    description: 'Node payment period unit, valid value: Month. Default
+                      is Month.'
+                    type: string
+                  preUserData:
+                    description: Node pre custom data, base64-encoded, the script
+                      executed before the node is initialized.
+                    type: string
+                  privatePoolOptions:
+                    description: Private node pool configuration. See private_pool_options
+                      below.
+                    items:
+                      properties:
+                        privatePoolOptionsId:
+                          description: The ID of the private node pool.
+                          type: string
+                        privatePoolOptionsMatchCriteria:
+                          description: 'The type of private node pool. This parameter
+                            specifies the type of the private pool that you want to
+                            use to create instances. A private node pool is generated
+                            when an elasticity assurance or a capacity reservation
+                            service takes effect. The system selects a private node
+                            pool to launch instances. Valid values: Open: specifies
+                            an open private node pool. The system selects an open
+                            private node pool to launch instances. If no matching
+                            open private node pool is available, the resources in
+                            the public node pool are used. Target: specifies a private
+                            node pool. The system uses the resources of the specified
+                            private node pool to launch instances. If the specified
+                            private node pool is unavailable, instances cannot be
+                            started. None: no private node pool is used. The resources
+                            of private node pools are not used to launch the instances.'
+                          type: string
+                      type: object
+                    type: array
+                  ramRoleName:
+                    description: The name of the Worker RAM role.
+                    type: string
+                  rdsInstances:
+                    description: The list of RDS instances.
+                    items:
+                      type: string
+                    type: array
+                  resourceGroupId:
+                    description: The ID of the resource group
+                    type: string
+                  rollingPolicy:
+                    description: Rotary configuration. See rolling_policy below.
+                    items:
+                      properties:
+                        maxParallelism:
+                          description: The maximum number of unusable nodes.
+                          type: number
+                      type: object
+                    type: array
+                  runtimeName:
+                    description: The runtime name of containers. If not set, the cluster
+                      runtime will be used as the node pool runtime. If you select
+                      another container runtime, see Comparison of Docker, containerd,
+                      and Sandboxed-Container.
+                    type: string
+                  runtimeVersion:
+                    description: The runtime version of containers. If not set, the
+                      cluster runtime will be used as the node pool runtime.
+                    type: string
+                  scalingConfig:
+                    description: Automatic scaling configuration. See scaling_config
+                      below.
+                    items:
+                      properties:
+                        eipBandwidth:
+                          description: Peak EIP bandwidth. Its valid value range [1~500]
+                            in Mbps. It works if is_bond_eip=true. Default to 5.
+                          type: number
+                        eipInternetChargeType:
+                          description: 'EIP billing type. PayByBandwidth: Charged
+                            at fixed bandwidth. PayByTraffic: Billed as used traffic.
+                            Default: PayByBandwidth. It works if is_bond_eip=true,
+                            conflict with internet_charge_type. EIP and public network
+                            IP can only choose one.'
+                          type: string
+                        enable:
+                          description: 'Whether to enable automatic scaling. Value:'
+                          type: boolean
+                        isBondEip:
+                          description: 'Whether to bind EIP for an instance. Default:
+                            false.'
+                          type: boolean
+                        maxSize:
+                          description: Max number of instances in a auto scaling group,
+                            its valid value range [0~1000]. max_size has to be greater
+                            than min_size.
+                          type: number
+                        minSize:
+                          description: Min number of instances in a auto scaling group,
+                            its valid value range [0~1000].
+                          type: number
+                        type:
+                          description: 'Instance classification, not required. Vaild
+                            value: cpu, gpu, gpushare and spot. Default: cpu. The
+                            actual instance type is determined by instance_types.'
+                          type: string
+                      type: object
+                    type: array
+                  scalingPolicy:
+                    description: 'Scaling group mode, default value: release. Valid
+                      values:'
+                    type: string
+                  securityGroupIds:
+                    description: Multiple security groups can be configured for a
+                      node pool. If both security_group_ids and security_group_id
+                      are configured, security_group_ids takes effect. This field
+                      cannot be modified.
+                    items:
+                      type: string
+                    type: array
+                  securityHardeningOs:
+                    description: |-
+                      Alibaba Cloud OS security reinforcement. Default value: false. Value:
+                      -true: enable Alibaba Cloud OS security reinforcement.
+                      -false: does not enable Alibaba Cloud OS security reinforcement.
+                    type: boolean
+                  socEnabled:
+                    description: Whether enable worker node to support soc security
+                      reinforcement, its valid value true or false. Default to false
+                      and apply to AliyunLinux series. See SOC Reinforcement.
+                    type: boolean
+                  spotInstancePools:
+                    description: 'The number of instance types that are available.
+                      Auto Scaling creates preemptible instances of multiple instance
+                      types that are available at the lowest cost. Valid values: 1
+                      to 10.'
+                    type: number
+                  spotInstanceRemedy:
+                    description: 'Specifies whether to supplement preemptible instances
+                      when the number of preemptible instances drops below the specified
+                      minimum number. If you set the value to true, Auto Scaling attempts
+                      to create a new preemptible instance when the system notifies
+                      that an existing preemptible instance is about to be reclaimed.
+                      Valid values: true: enables the supplementation of preemptible
+                      instances. false: disables the supplementation of preemptible
+                      instances.'
+                    type: boolean
+                  spotPriceLimit:
+                    description: The current single preemptible instance type market
+                      price range configuration. See spot_price_limit below.
+                    items:
+                      properties:
+                        instanceType:
+                          description: The type of the preemptible instance.
+                          type: string
+                        priceLimit:
+                          description: The maximum price of a single instance.
+                          type: string
+                      type: object
+                    type: array
+                  spotStrategy:
+                    description: 'The preemptible instance type. Value:'
+                    type: string
+                  systemDiskBurstingEnabled:
+                    description: 'Specifies whether to enable the burst feature for
+                      system disks. Valid values:true: enables the burst feature.
+                      false: disables the burst feature. This parameter is supported
+                      only when system_disk_category is set to cloud_auto.'
+                    type: boolean
+                  systemDiskCategories:
+                    description: The multi-disk categories of the system disk. When
+                      a high-priority disk type cannot be used, Auto Scaling automatically
+                      tries to create a system disk with the next priority disk category.
+                      Valid values see system_disk_category.
+                    items:
+                      type: string
+                    type: array
+                  systemDiskCategory:
+                    description: 'The category of the system disk for nodes. Default
+                      value: cloud_efficiency. Valid values:'
+                    type: string
+                  systemDiskEncryptAlgorithm:
+                    description: 'The encryption algorithm used by the system disk.
+                      Value range: aes-256.'
+                    type: string
+                  systemDiskEncrypted:
+                    description: 'Whether to encrypt the system disk. Value range:
+                      true: encryption. false: Do not encrypt.'
+                    type: boolean
+                  systemDiskKmsKey:
+                    description: The ID of the KMS key used by the system disk.
+                    type: string
+                  systemDiskPerformanceLevel:
+                    description: The system disk performance of the node takes effect
+                      only for the ESSD disk.
+                    type: string
+                  systemDiskProvisionedIops:
+                    description: 'The predefined IOPS of a system disk. Valid values:
+                      0 to min{50,000, 1,000 × Capacity - Baseline IOPS}. Baseline
+                      IOPS = min{1,800 + 50 × Capacity, 50,000}. This parameter is
+                      supported only when system_disk_category is set to cloud_auto.'
+                    type: number
+                  systemDiskSize:
+                    description: 'The size of the system disk. Unit: GiB. The value
+                      of this parameter must be at least 1 and greater than or equal
+                      to the image size. Default value: 40 or the size of the image,
+                      whichever is larger.'
+                    type: number
+                  systemDiskSnapshotPolicyId:
+                    description: The ID of the automatic snapshot policy used by the
+                      system disk.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Add tags only for ECS instances. The maximum length
+                      of the tag key is 128 characters. The tag key and value cannot
+                      start with aliyun or acs:, or contain https:// or http://.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  taints:
+                    description: A List of Kubernetes taints to assign to the nodes.
+                      Detailed below. More information in Taints and Toleration. See
+                      taints below.
+                    items:
+                      properties:
+                        effect:
+                          description: The scheduling policy.
+                          type: string
+                        key:
+                          description: The key of a taint.
+                          type: string
+                        value:
+                          description: The value of a taint.
+                          type: string
+                      type: object
+                    type: array
+                  teeConfig:
+                    description: The configuration about confidential computing for
+                      the cluster. See tee_config below.
+                    items:
+                      properties:
+                        teeEnable:
+                          description: Specifies whether to enable confidential computing
+                            for the cluster.
+                          type: boolean
+                      type: object
+                    type: array
+                  unschedulable:
+                    description: Whether the node after expansion can be scheduled.
+                    type: boolean
+                  updateNodes:
+                    description: Synchronously update node labels and taints.
+                    type: boolean
+                  userData:
+                    description: Node custom data, base64-encoded.
+                    type: string
+                  vswitchIdRefs:
+                    description: References to Vswitch in vpc to populate vswitchIds.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  vswitchIdSelector:
+                    description: Selector for a list of Vswitch in vpc to populate
+                      vswitchIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  vswitchIds:
+                    description: The vswitches used by node pool workers.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.instanceTypes is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceTypes)
+                || (has(self.initProvider) && has(self.initProvider.instanceTypes))'
+          status:
+            description: KubernetesNodePoolStatus defines the observed state of KubernetesNodePool.
+            properties:
+              atProvider:
+                properties:
+                  autoRenew:
+                    description: 'Whether to enable automatic renewal for nodes in
+                      the node pool takes effect only when instance_charge_type is
+                      set to PrePaid. Default value: false. Valid values:'
+                    type: boolean
+                  autoRenewPeriod:
+                    description: 'The automatic renewal period of nodes in the node
+                      pool takes effect only when you select Prepaid and Automatic
+                      Renewal, and is a required value. When PeriodUnit = Month, the
+                      value range is {1, 2, 3, 6, 12}. Default value: 1.'
+                    type: number
+                  clusterId:
+                    description: The id of kubernetes cluster.
+                    type: string
+                  compensateWithOnDemand:
+                    description: 'Specifies whether to automatically create pay-as-you-go
+                      instances to meet the required number of ECS instances if preemptible
+                      instances cannot be created due to reasons such as cost or insufficient
+                      inventory. This parameter takes effect when you set multi_az_policy
+                      to COST_OPTIMIZED. Valid values: true: automatically creates
+                      pay-as-you-go instances to meet the required number of ECS instances
+                      if preemptible instances cannot be created. false: does not
+                      create pay-as-you-go instances to meet the required number of
+                      ECS instances if preemptible instances cannot be created.'
+                    type: boolean
+                  cpuPolicy:
+                    description: 'Node CPU management policies. Default value: none.
+                      When the cluster version is 1.12.6 or later, the following two
+                      policies are supported:'
+                    type: string
+                  dataDisks:
+                    description: Configure the data disk of the node in the node pool.
+                      See data_disks below.
+                    items:
+                      properties:
+                        autoFormat:
+                          description: 'Whether to automatically mount the data disk.
+                            Valid values: true and false.'
+                          type: string
+                        autoSnapshotPolicyId:
+                          description: The ID of the automatic snapshot policy that
+                            you want to apply to the system disk.
+                          type: string
+                        burstingEnabled:
+                          description: Whether the data disk is enabled with Burst
+                            (performance Burst). This is configured when the disk
+                            type is cloud_auto.
+                          type: boolean
+                        category:
+                          description: 'The type of data disk. Default value: cloud_efficiency.
+                            Valid values:'
+                          type: string
+                        device:
+                          description: 'The mount target of data disk N. Valid values
+                            of N: 1 to 16. If you do not specify this parameter, the
+                            system automatically assigns a mount target when Auto
+                            Scaling creates ECS instances. The name of the mount target
+                            ranges from /dev/xvdb to /dev/xvdz.'
+                          type: string
+                        encrypted:
+                          description: 'Specifies whether to encrypt data disks. Valid
+                            values: true and false. Default to false.'
+                          type: string
+                        fileSystem:
+                          description: 'The type of the mounted file system. Works
+                            when auto_format is true. Optional value: ext4, xfs.'
+                          type: string
+                        kmsKeyId:
+                          description: The kms key id used to encrypt the data disk.
+                            It takes effect when encrypted is true.
+                          type: string
+                        mountTarget:
+                          description: The Mount path. Works when auto_format is true.
+                          type: string
+                        name:
+                          description: The length is 2~128 English or Chinese characters.
+                            It must start with an uppercase or lowr letter or a Chinese
+                            character and cannot start with http:// or https. Can
+                            contain numbers, colons (:), underscores (_), or dashes
+                            (-). It will be overwritten if auto_format is set.
+                          type: string
+                        performanceLevel:
+                          description: Worker node data disk performance level, when
+                            category values cloud_essd, the optional values are PL0,
+                            PL1, PL2 or PL3, but the specific performance level is
+                            related to the disk capacity. For more information, see
+                            Enhanced SSDs. Default is PL1.
+                          type: string
+                        provisionedIops:
+                          description: The read/write IOPS preconfigured for the data
+                            disk, which is configured when the disk type is cloud_auto.
+                          type: number
+                        size:
+                          description: The size of a data disk, Its valid value range
+                            [40~32768] in GB. Default to 40.
+                          type: number
+                        snapshotId:
+                          description: 'The ID of the snapshot that you want to use
+                            to create data disk N. Valid values of N: 1 to 16. If
+                            you specify this parameter, DataDisk.N.Size is ignored.
+                            The size of the disk is the same as the size of the specified
+                            snapshot. If you specify a snapshot that is created on
+                            or before July 15, 2013, the operation fails and InvalidSnapshot.TooOld
+                            is returned.'
+                          type: string
+                      type: object
+                    type: array
+                  deploymentSetId:
+                    description: The deployment set of node pool. Specify the deploymentSet
+                      to ensure that the nodes in the node pool can be distributed
+                      on different physical machines.
+                    type: string
+                  desiredSize:
+                    description: Number of expected nodes in the node pool.
+                    type: string
+                  forceDelete:
+                    description: Whether to force deletion.
+                    type: boolean
+                  formatDisk:
+                    description: After you select this check box, if data disks have
+                      been attached to the specified ECS instances and the file system
+                      of the last data disk is uninitialized, the system automatically
+                      formats the last data disk to ext4 and mounts the data disk
+                      to /var/lib/docker and /var/lib/kubelet. The original data on
+                      the disk will be cleared. Make sure that you back up data in
+                      advance. If no data disk is mounted on the ECS instance, no
+                      new data disk will be purchased. Default is false.
+                    type: boolean
+                  id:
+                    description: The ID of the resource supplied above.The value is
+                      formulated as <cluster_id>:<node_pool_id>.
+                    type: string
+                  imageId:
+                    description: The custom image ID. The system-provided image is
+                      used by default.
+                    type: string
+                  imageType:
+                    description: 'The operating system image type and the platform
+                      parameter can be selected from the following values:'
+                    type: string
+                  installCloudMonitor:
+                    description: 'Whether to install cloud monitoring on the ECS node.
+                      After installation, you can view the monitoring information
+                      of the created ECS instance in the cloud monitoring console
+                      and recommend enable it. Default value: false. Valid values:'
+                    type: boolean
+                  instanceChargeType:
+                    description: 'Node payment type. Valid values: PostPaid, PrePaid,
+                      default is PostPaid. If value is PrePaid, the arguments period,
+                      period_unit, auto_renew and auto_renew_period are required.'
+                    type: string
+                  instanceTypes:
+                    description: In the node instance specification list, you can
+                      select multiple instance specifications as alternatives. When
+                      each node is created, it will try to purchase from the first
+                      specification until it is created successfully. The final purchased
+                      instance specifications may vary with inventory changes.
+                    items:
+                      type: string
+                    type: array
+                  instances:
+                    description: The instance list. Add existing nodes under the same
+                      cluster VPC to the node pool.
+                    items:
+                      type: string
+                    type: array
+                  internetChargeType:
+                    description: The billing method for network usage. Valid values
+                      PayByBandwidth and PayByTraffic. Conflict with eip_internet_charge_type,
+                      EIP and public network IP can only choose one.
+                    type: string
+                  internetMaxBandwidthOut:
+                    description: The maximum bandwidth of the public IP address of
+                      the node. The unit is Mbps(Mega bit per second). The value range
+                      is:[1,100]
+                    type: number
+                  keepInstanceName:
+                    description: Add an existing instance to the node pool, whether
+                      to keep the original instance name. It is recommended to set
+                      to true.
+                    type: boolean
+                  keyName:
+                    description: The name of the key pair. When the node pool is a
+                      managed node pool, only key_name is supported.
+                    type: string
+                  kmsEncryptionContext:
+                    additionalProperties:
+                      type: string
+                    description: An KMS encryption context used to decrypt kms_encrypted_password
+                      before creating or updating a cs kubernetes with kms_encrypted_password.
+                      See Encryption Context. It is valid when kms_encrypted_password
+                      is set.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  kubeletConfiguration:
+                    description: Kubelet configuration parameters for worker nodes.
+                      See kubelet_configuration below. More information in Kubelet
+                      Configuration. See kubelet_configuration below.
+                    items:
+                      properties:
+                        allowedUnsafeSysctls:
+                          description: Allowed sysctl mode whitelist.
+                          items:
+                            type: string
+                          type: array
+                        clusterDns:
+                          description: The list of IP addresses of the cluster DNS
+                            servers.
+                          items:
+                            type: string
+                          type: array
+                        containerLogMaxFiles:
+                          description: The maximum number of log files that can exist
+                            in each container.
+                          type: string
+                        containerLogMaxSize:
+                          description: The maximum size that can be reached before
+                            a log file is rotated.
+                          type: string
+                        containerLogMaxWorkers:
+                          description: Specifies the maximum number of concurrent
+                            workers required to perform log rotation operations.
+                          type: string
+                        containerLogMonitorInterval:
+                          description: Specifies the duration for which container
+                            logs are monitored for log rotation.
+                          type: string
+                        cpuCfsQuota:
+                          description: CPU CFS quota constraint switch.
+                          type: string
+                        cpuCfsQuotaPeriod:
+                          description: CPU CFS quota period value.
+                          type: string
+                        cpuManagerPolicy:
+                          description: Same as cpuManagerPolicy. The name of the policy
+                            to use. Requires the CPUManager feature gate to be enabled.
+                            Valid value is none or static.
+                          type: string
+                        eventBurst:
+                          description: Same as eventBurst. The maximum size of a burst
+                            of event creations, temporarily allows event creations
+                            to burst to this number, while still not exceeding event_record_qps.
+                            It is only used when event_record_qps is greater than
+                            0. Valid value is [0-100].
+                          type: string
+                        eventRecordQps:
+                          description: Same as eventRecordQPS. The maximum event creations
+                            per second. If 0, there is no limit enforced. Valid value
+                            is [0-50].
+                          type: string
+                        evictionHard:
+                          additionalProperties:
+                            type: string
+                          description: 'Same as evictionHard. The map of signal names
+                            to quantities that defines hard eviction thresholds. For
+                            example: {"memory.available" = "300Mi"}.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        evictionSoft:
+                          additionalProperties:
+                            type: string
+                          description: 'Same as evictionSoft. The map of signal names
+                            to quantities that defines soft eviction thresholds. For
+                            example: {"memory.available" = "300Mi"}.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        evictionSoftGracePeriod:
+                          additionalProperties:
+                            type: string
+                          description: 'Same as evictionSoftGracePeriod. The map of
+                            signal names to quantities that defines grace periods
+                            for each soft eviction signal. For example: {"memory.available"
+                            = "30s"}.'
+                          type: object
+                          x-kubernetes-map-type: granular
+                        featureGates:
+                          additionalProperties:
+                            type: boolean
+                          description: Feature switch to enable configuration of experimental
+                            features.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        imageGcHighThresholdPercent:
+                          description: If the image usage exceeds this threshold,
+                            image garbage collection will continue.
+                          type: string
+                        imageGcLowThresholdPercent:
+                          description: Image garbage collection is not performed when
+                            the image usage is below this threshold.
+                          type: string
+                        kubeApiBurst:
+                          description: Same as kubeAPIBurst. The burst to allow while
+                            talking with kubernetes api-server. Valid value is [0-100].
+                          type: string
+                        kubeApiQps:
+                          description: Same as kubeAPIQPS. The QPS to use while talking
+                            with kubernetes api-server. Valid value is [0-50].
+                          type: string
+                        kubeReserved:
+                          additionalProperties:
+                            type: string
+                          description: Same as kubeReserved. The set of ResourceName=ResourceQuantity
+                            (e.g. cpu=200m,memory=150G) pairs that describe resources
+                            reserved for kubernetes system components. Currently,
+                            cpu, memory and local storage for root file system are
+                            supported. See compute resources for more details.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        maxPods:
+                          description: The maximum number of running pods.
+                          type: string
+                        memoryManagerPolicy:
+                          description: The policy to be used by the memory manager.
+                          type: string
+                        podPidsLimit:
+                          description: The maximum number of PIDs that can be used
+                            in a Pod.
+                          type: string
+                        readOnlyPort:
+                          description: Read-only port number.
+                          type: string
+                        registryBurst:
+                          description: Same as registryBurst. The maximum size of
+                            burst pulls, temporarily allows pulls to burst to this
+                            number, while still not exceeding registry_pull_qps. Only
+                            used if registry_pull_qps is greater than 0. Valid value
+                            is [0-100].
+                          type: string
+                        registryPullQps:
+                          description: Same as registryPullQPS. The limit of registry
+                            pulls per second. Setting it to 0 means no limit. Valid
+                            value is [0-50].
+                          type: string
+                        reservedMemory:
+                          description: Reserve memory for NUMA nodes. See reserved_memory
+                            below.
+                          items:
+                            properties:
+                              limits:
+                                additionalProperties:
+                                  type: string
+                                description: Memory resource limit.
+                                type: object
+                                x-kubernetes-map-type: granular
+                              numaNode:
+                                description: The NUMA node.
+                                type: number
+                            type: object
+                          type: array
+                        serializeImagePulls:
+                          description: Same as serializeImagePulls. When enabled,
+                            it tells the Kubelet to pull images one at a time. We
+                            recommend not changing the default value on nodes that
+                            run docker daemon with version < 1.9 or an Aufs storage
+                            backend. Valid value is true or false.
+                          type: string
+                        systemReserved:
+                          additionalProperties:
+                            type: string
+                          description: Same as systemReserved. The set of ResourceName=ResourceQuantity
+                            (e.g. cpu=200m,memory=150G) pairs that describe resources
+                            reserved for non-kubernetes components. Currently, only
+                            cpu and memory are supported. See compute resources for
+                            more details.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        topologyManagerPolicy:
+                          description: Name of the Topology Manager policy used.
+                          type: string
+                        tracing:
+                          description: OpenTelemetry tracks the configuration information
+                            for client settings versioning. See tracing below.
+                          items:
+                            properties:
+                              endpoint:
+                                description: The endpoint of the collector.
+                                type: string
+                              samplingRatePerMillion:
+                                description: Number of samples to be collected per
+                                  million span.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  labels:
+                    description: A List of Kubernetes labels to assign to the nodes
+                      . Only labels that are applied with the ACK API are managed
+                      by this argument. Detailed below. More information in Labels.
+                      See labels below.
+                    items:
+                      properties:
+                        key:
+                          description: The label key.
+                          type: string
+                        value:
+                          description: The label value.
+                          type: string
+                      type: object
+                    type: array
+                  loginAsNonRoot:
+                    description: 'Whether the ECS instance is logged on as a ecs-user
+                      user. Valid value: true and false.'
+                    type: boolean
+                  management:
+                    description: Managed node pool configuration. See management below.
+                    items:
+                      properties:
+                        autoRepair:
+                          description: 'Whether to enable automatic repair. Valid
+                            values: true: Automatic repair. false: not automatically
+                            repaired.'
+                          type: boolean
+                        autoRepairPolicy:
+                          description: Automatic repair node policy. See auto_repair_policy
+                            below.
+                          items:
+                            properties:
+                              restartNode:
+                                description: Whether to allow node restart.
+                                type: boolean
+                            type: object
+                          type: array
+                        autoUpgrade:
+                          description: 'Specifies whether to enable auto update. Valid
+                            values: true: enables auto update. false: disables auto
+                            update.'
+                          type: boolean
+                        autoUpgradePolicy:
+                          description: The auto update policy. See auto_upgrade_policy
+                            below.
+                          items:
+                            properties:
+                              autoUpgradeKubelet:
+                                description: 'Specifies whether  to automatically
+                                  update the kubelet. Valid values: true: yes; false:
+                                  no.'
+                                type: boolean
+                            type: object
+                          type: array
+                        autoVulFix:
+                          description: 'Specifies whether to automatically patch CVE
+                            vulnerabilities. Valid values: true, false.'
+                          type: boolean
+                        autoVulFixPolicy:
+                          description: The auto CVE patching policy. See auto_vul_fix_policy
+                            below.
+                          items:
+                            properties:
+                              restartNode:
+                                description: Whether to allow node restart.
+                                type: boolean
+                              vulLevel:
+                                description: The severity levels of vulnerabilities
+                                  that is allowed to automatically patch. Multiple
+                                  severity levels are separated by commas (,).
+                                type: string
+                            type: object
+                          type: array
+                        enable:
+                          description: 'Specifies whether to enable the managed node
+                            pool feature. Valid values: true: enables the managed
+                            node pool feature. false: disables the managed node pool
+                            feature. Other parameters in this section take effect
+                            only when you specify enable=true.'
+                          type: boolean
+                        maxUnavailable:
+                          description: 'Maximum number of unavailable nodes. Default
+                            value: 1. Value range:[1,1000].'
+                          type: number
+                        surge:
+                          description: Number of additional nodes. You have to specify
+                            one of surge, surge_percentage.
+                          type: number
+                        surgePercentage:
+                          description: Proportion of additional nodes. You have to
+                            specify one of surge, surge_percentage.
+                          type: number
+                      type: object
+                    type: array
+                  multiAzPolicy:
+                    description: 'The scaling policy for ECS instances in a multi-zone
+                      scaling group. Valid value: PRIORITY, COST_OPTIMIZED and BALANCE.
+                      PRIORITY: scales the capacity according to the virtual switches
+                      you define (VSwitchIds.N). When an ECS instance cannot be created
+                      in the zone where the higher-priority vSwitch is located, the
+                      next-priority vSwitch is automatically used to create an ECS
+                      instance. COST_OPTIMIZED: try to create by vCPU unit price from
+                      low to high. When the scaling configuration is configured with
+                      multiple instances of preemptible billing, preemptible instances
+                      are created first. You can continue to use the CompensateWithOnDemand
+                      parameter to specify whether to automatically try to create
+                      a preemptible instance by paying for it. It takes effect only
+                      when the scaling configuration has multi-instance specifications
+                      or preemptible instances. BALANCE: distributes ECS instances
+                      evenly among the multi-zone specified by the scaling group.
+                      If the zones become unbalanced due to insufficient inventory,
+                      you can use the API [RebalanceInstances](~~ 71516 ~~) to balance
+                      resources.'
+                    type: string
+                  nodeNameMode:
+                    description: Each node name consists of a prefix, its private
+                      network IP, and a suffix, separated by commas. The input format
+                      is customized,,ip,.
+                    type: string
+                  nodePoolId:
+                    description: The first ID of the resource.
+                    type: string
+                  nodePoolName:
+                    description: The name of node pool.
+                    type: string
+                  onDemandBaseCapacity:
+                    description: 'The minimum number of pay-as-you-go instances that
+                      must be kept in the scaling group. Valid values: 0 to 1000.
+                      If the number of pay-as-you-go instances is less than the value
+                      of this parameter, Auto Scaling preferably creates pay-as-you-go
+                      instances.'
+                    type: string
+                  onDemandPercentageAboveBaseCapacity:
+                    description: 'The percentage of pay-as-you-go instances among
+                      the extra instances that exceed the number specified by on_demand_base_capacity.
+                      Valid values: 0 to 100.'
+                    type: string
+                  period:
+                    description: Node payment period. Its valid value is one of {1,
+                      2, 3, 6, 12}.
+                    type: number
+                  periodUnit:
+                    description: 'Node payment period unit, valid value: Month. Default
+                      is Month.'
+                    type: string
+                  preUserData:
+                    description: Node pre custom data, base64-encoded, the script
+                      executed before the node is initialized.
+                    type: string
+                  privatePoolOptions:
+                    description: Private node pool configuration. See private_pool_options
+                      below.
+                    items:
+                      properties:
+                        privatePoolOptionsId:
+                          description: The ID of the private node pool.
+                          type: string
+                        privatePoolOptionsMatchCriteria:
+                          description: 'The type of private node pool. This parameter
+                            specifies the type of the private pool that you want to
+                            use to create instances. A private node pool is generated
+                            when an elasticity assurance or a capacity reservation
+                            service takes effect. The system selects a private node
+                            pool to launch instances. Valid values: Open: specifies
+                            an open private node pool. The system selects an open
+                            private node pool to launch instances. If no matching
+                            open private node pool is available, the resources in
+                            the public node pool are used. Target: specifies a private
+                            node pool. The system uses the resources of the specified
+                            private node pool to launch instances. If the specified
+                            private node pool is unavailable, instances cannot be
+                            started. None: no private node pool is used. The resources
+                            of private node pools are not used to launch the instances.'
+                          type: string
+                      type: object
+                    type: array
+                  ramRoleName:
+                    description: The name of the Worker RAM role.
+                    type: string
+                  rdsInstances:
+                    description: The list of RDS instances.
+                    items:
+                      type: string
+                    type: array
+                  resourceGroupId:
+                    description: The ID of the resource group
+                    type: string
+                  rollingPolicy:
+                    description: Rotary configuration. See rolling_policy below.
+                    items:
+                      properties:
+                        maxParallelism:
+                          description: The maximum number of unusable nodes.
+                          type: number
+                      type: object
+                    type: array
+                  runtimeName:
+                    description: The runtime name of containers. If not set, the cluster
+                      runtime will be used as the node pool runtime. If you select
+                      another container runtime, see Comparison of Docker, containerd,
+                      and Sandboxed-Container.
+                    type: string
+                  runtimeVersion:
+                    description: The runtime version of containers. If not set, the
+                      cluster runtime will be used as the node pool runtime.
+                    type: string
+                  scalingConfig:
+                    description: Automatic scaling configuration. See scaling_config
+                      below.
+                    items:
+                      properties:
+                        eipBandwidth:
+                          description: Peak EIP bandwidth. Its valid value range [1~500]
+                            in Mbps. It works if is_bond_eip=true. Default to 5.
+                          type: number
+                        eipInternetChargeType:
+                          description: 'EIP billing type. PayByBandwidth: Charged
+                            at fixed bandwidth. PayByTraffic: Billed as used traffic.
+                            Default: PayByBandwidth. It works if is_bond_eip=true,
+                            conflict with internet_charge_type. EIP and public network
+                            IP can only choose one.'
+                          type: string
+                        enable:
+                          description: 'Whether to enable automatic scaling. Value:'
+                          type: boolean
+                        isBondEip:
+                          description: 'Whether to bind EIP for an instance. Default:
+                            false.'
+                          type: boolean
+                        maxSize:
+                          description: Max number of instances in a auto scaling group,
+                            its valid value range [0~1000]. max_size has to be greater
+                            than min_size.
+                          type: number
+                        minSize:
+                          description: Min number of instances in a auto scaling group,
+                            its valid value range [0~1000].
+                          type: number
+                        type:
+                          description: 'Instance classification, not required. Vaild
+                            value: cpu, gpu, gpushare and spot. Default: cpu. The
+                            actual instance type is determined by instance_types.'
+                          type: string
+                      type: object
+                    type: array
+                  scalingGroupId:
+                    description: The ID of the scaling group.
+                    type: string
+                  scalingPolicy:
+                    description: 'Scaling group mode, default value: release. Valid
+                      values:'
+                    type: string
+                  securityGroupIds:
+                    description: Multiple security groups can be configured for a
+                      node pool. If both security_group_ids and security_group_id
+                      are configured, security_group_ids takes effect. This field
+                      cannot be modified.
+                    items:
+                      type: string
+                    type: array
+                  securityHardeningOs:
+                    description: |-
+                      Alibaba Cloud OS security reinforcement. Default value: false. Value:
+                      -true: enable Alibaba Cloud OS security reinforcement.
+                      -false: does not enable Alibaba Cloud OS security reinforcement.
+                    type: boolean
+                  socEnabled:
+                    description: Whether enable worker node to support soc security
+                      reinforcement, its valid value true or false. Default to false
+                      and apply to AliyunLinux series. See SOC Reinforcement.
+                    type: boolean
+                  spotInstancePools:
+                    description: 'The number of instance types that are available.
+                      Auto Scaling creates preemptible instances of multiple instance
+                      types that are available at the lowest cost. Valid values: 1
+                      to 10.'
+                    type: number
+                  spotInstanceRemedy:
+                    description: 'Specifies whether to supplement preemptible instances
+                      when the number of preemptible instances drops below the specified
+                      minimum number. If you set the value to true, Auto Scaling attempts
+                      to create a new preemptible instance when the system notifies
+                      that an existing preemptible instance is about to be reclaimed.
+                      Valid values: true: enables the supplementation of preemptible
+                      instances. false: disables the supplementation of preemptible
+                      instances.'
+                    type: boolean
+                  spotPriceLimit:
+                    description: The current single preemptible instance type market
+                      price range configuration. See spot_price_limit below.
+                    items:
+                      properties:
+                        instanceType:
+                          description: The type of the preemptible instance.
+                          type: string
+                        priceLimit:
+                          description: The maximum price of a single instance.
+                          type: string
+                      type: object
+                    type: array
+                  spotStrategy:
+                    description: 'The preemptible instance type. Value:'
+                    type: string
+                  systemDiskBurstingEnabled:
+                    description: 'Specifies whether to enable the burst feature for
+                      system disks. Valid values:true: enables the burst feature.
+                      false: disables the burst feature. This parameter is supported
+                      only when system_disk_category is set to cloud_auto.'
+                    type: boolean
+                  systemDiskCategories:
+                    description: The multi-disk categories of the system disk. When
+                      a high-priority disk type cannot be used, Auto Scaling automatically
+                      tries to create a system disk with the next priority disk category.
+                      Valid values see system_disk_category.
+                    items:
+                      type: string
+                    type: array
+                  systemDiskCategory:
+                    description: 'The category of the system disk for nodes. Default
+                      value: cloud_efficiency. Valid values:'
+                    type: string
+                  systemDiskEncryptAlgorithm:
+                    description: 'The encryption algorithm used by the system disk.
+                      Value range: aes-256.'
+                    type: string
+                  systemDiskEncrypted:
+                    description: 'Whether to encrypt the system disk. Value range:
+                      true: encryption. false: Do not encrypt.'
+                    type: boolean
+                  systemDiskKmsKey:
+                    description: The ID of the KMS key used by the system disk.
+                    type: string
+                  systemDiskPerformanceLevel:
+                    description: The system disk performance of the node takes effect
+                      only for the ESSD disk.
+                    type: string
+                  systemDiskProvisionedIops:
+                    description: 'The predefined IOPS of a system disk. Valid values:
+                      0 to min{50,000, 1,000 × Capacity - Baseline IOPS}. Baseline
+                      IOPS = min{1,800 + 50 × Capacity, 50,000}. This parameter is
+                      supported only when system_disk_category is set to cloud_auto.'
+                    type: number
+                  systemDiskSize:
+                    description: 'The size of the system disk. Unit: GiB. The value
+                      of this parameter must be at least 1 and greater than or equal
+                      to the image size. Default value: 40 or the size of the image,
+                      whichever is larger.'
+                    type: number
+                  systemDiskSnapshotPolicyId:
+                    description: The ID of the automatic snapshot policy used by the
+                      system disk.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Add tags only for ECS instances. The maximum length
+                      of the tag key is 128 characters. The tag key and value cannot
+                      start with aliyun or acs:, or contain https:// or http://.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  taints:
+                    description: A List of Kubernetes taints to assign to the nodes.
+                      Detailed below. More information in Taints and Toleration. See
+                      taints below.
+                    items:
+                      properties:
+                        effect:
+                          description: The scheduling policy.
+                          type: string
+                        key:
+                          description: The key of a taint.
+                          type: string
+                        value:
+                          description: The value of a taint.
+                          type: string
+                      type: object
+                    type: array
+                  teeConfig:
+                    description: The configuration about confidential computing for
+                      the cluster. See tee_config below.
+                    items:
+                      properties:
+                        teeEnable:
+                          description: Specifies whether to enable confidential computing
+                            for the cluster.
+                          type: boolean
+                      type: object
+                    type: array
+                  unschedulable:
+                    description: Whether the node after expansion can be scheduled.
+                    type: boolean
+                  updateNodes:
+                    description: Synchronously update node labels and taints.
+                    type: boolean
+                  userData:
+                    description: Node custom data, base64-encoded.
+                    type: string
+                  vpcId:
+                    description: The ID of the resource supplied above.The value is
+                      formulated as <cluster_id>:<node_pool_id>.
+                    type: string
+                  vswitchIds:
+                    description: The vswitches used by node pool workers.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

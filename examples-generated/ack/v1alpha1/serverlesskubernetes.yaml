@@ -1,0 +1,68 @@
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: ServerlessKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/serverlesskubernetes
+  labels:
+    testing.upbound.io/example-name: serverless
+  name: serverless
+spec:
+  forProvider:
+    addons:
+    - name: alb-ingress-controller
+    - name: metrics-server
+    - name: knative
+    - name: arms-prometheus
+    clusterSpec: ack.pro.small
+    deletionProtection: false
+    endpointPublicAccessEnabled: true
+    loadBalancerSpec: slb.s2.small
+    loggingType: SLS
+    namePrefix: ${var.name}
+    newNatGateway: true
+    serviceCidr: 172.21.0.0/20
+    serviceDiscoveryTypes:
+    - PrivateZone
+    tags:
+      k-aa: v-aa
+      k-bb: v-aa
+    timeZone: Asia/Shanghai
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchIdRefs:
+    - name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/serverlesskubernetes
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.2.0.0/21
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/serverlesskubernetes
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.2.1.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones[0].id}

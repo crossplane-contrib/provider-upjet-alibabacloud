@@ -1,0 +1,94 @@
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: KubernetesPermissions
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/kubernetespermissions
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    permissions:
+    - clusterIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      isCustom: false
+      isRamRole: false
+      namespace: ""
+      roleIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
+      roleType: cluster
+    uidSelector:
+      matchLabels:
+        testing.upbound.io/example-name: user
+
+---
+
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/kubernetespermissions
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    clusterSpec: ack.pro.small
+    name: ${var.name}-${random_integer.default.result}
+    newNatGateway: false
+    podCidr: ${var.pod_cidr}
+    serviceCidr: ${var.service_cidr}
+    slbInternetEnabled: false
+    version: ${data.alicloud_cs_kubernetes_version.default.metadata.0.version}
+    workerVswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/kubernetespermissions
+  labels:
+    testing.upbound.io/example-name: user
+  name: user
+spec:
+  forProvider:
+    name: ${var.name}-${random_integer.default.result}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/kubernetespermissions
+  labels:
+    testing.upbound.io/example-name: vpc
+  name: vpc
+spec:
+  forProvider:
+    cidrBlock: ${var.vpc_cidr}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/kubernetespermissions
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: ${element(var.vswitch_cidrs, count.index)}
+    count: ${length(var.vswitch_cidrs)}
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc
+    zoneId: ${data.alicloud_enhanced_nat_available_zones.enhanced.zones[count.index].zone_id}

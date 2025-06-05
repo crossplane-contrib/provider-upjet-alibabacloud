@@ -8,6 +8,7 @@ import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
 
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ack"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ackone"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/alidns"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/cdn"
@@ -47,6 +48,7 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
+		ack.Configure,
 		ackone.Configure,
 		alidns.Configure,
 		cdn.Configure,

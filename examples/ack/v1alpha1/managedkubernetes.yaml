@@ -1,0 +1,90 @@
+---
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-managedkubernetes-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-managedkubernetes-1
+  name: test-ack-v1alpha1-managedkubernetes-1
+spec:
+  forProvider:
+    addons:
+    - name: terway-eniip
+    - name: csi-plugin
+    - name: csi-provisioner
+    - config: |-
+        {
+          IngressDashboardEnabled = "true"
+        }
+      name: logtail-ds
+    - config: |-
+        {
+          IngressSlbNetworkType = "internet"
+        }
+      name: nginx-ingress-controller
+    - name: arms-prometheus
+    - config: |-
+        {
+          sls_project_name = "crossplane-sls-project"
+        }
+      name: ack-node-problem-detector
+    clusterSpec: ack.pro.small
+    name: test-ack-v1alpha1-managedkubernetes-1
+    newNatGateway: true
+    nodeCidrMask: 24
+    podVswitchIdSelector:
+      matchLabels:
+       testing.upbound.io/example-name: terway_vswitches
+    proxyMode: ipvs
+    serviceCidr: 172.20.0.0/16
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vswitches
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/managedkubernetes
+  labels:
+    testing.upbound.io/example-name: test-managed-kubernetes-vpc-1
+  name: test-managed-kubernetes-vpc-1
+spec:
+  forProvider:
+    cidrBlock: ${var.vpc_cidr}
+    count: 1
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/managedkubernetes
+  labels:
+    testing.upbound.io/example-name: terway_vswitches
+  name: terway-vswitches
+spec:
+  forProvider:
+    cidrBlock: ${element(var.terway_vswitch_cidrs, count.index)}
+    count: '${length(var.terway_vswitch_ids) > 0 ? 0 : length(var.terway_vswitch_cidrs)}'
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc_id == "" ? join("", alicloud_vpc
+    zoneId: us-west-1a
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/managedkubernetes
+  labels:
+    testing.upbound.io/example-name: vswitches
+  name: vswitches
+spec:
+  forProvider:
+    cidrBlock: ${element(var.vswitch_cidrs, count.index)}
+    count: '${length(var.vswitch_ids) > 0 ? 0 : length(var.vswitch_cidrs)}'
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc_id == "" ? join("", alicloud_vpc
+    zoneId: us-west-1a

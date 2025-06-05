@@ -9,6 +9,14 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
+	autoscalingconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ack/autoscalingconfig"
+	edgekubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ack/edgekubernetes"
+	kubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ack/kubernetes"
+	kubernetesaddon "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ack/kubernetesaddon"
+	kubernetesnodepool "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ack/kubernetesnodepool"
+	kubernetespermissions "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ack/kubernetespermissions"
+	managedkubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ack/managedkubernetes"
+	serverlesskubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ack/serverlesskubernetes"
 	cluster "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ackone/cluster"
 	membershipattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ackone/membershipattachment"
 	addresspool "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/addresspool"
@@ -24,14 +32,6 @@ import (
 	domainconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cdn/domainconfig"
 	fctrigger "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cdn/fctrigger"
 	alarmcontactgroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cloudmonitorservice/alarmcontactgroup"
-	autoscalingconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/autoscalingconfig"
-	edgekubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/edgekubernetes"
-	kubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/kubernetes"
-	kubernetesaddon "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/kubernetesaddon"
-	kubernetesnodepool "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/kubernetesnodepool"
-	kubernetespermissions "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/kubernetespermissions"
-	managedkubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/managedkubernetes"
-	serverlesskubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/cs/serverlesskubernetes"
 	activation "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/activation"
 	autoprovisioninggroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/autoprovisioninggroup"
 	autosnapshotpolicy "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/autosnapshotpolicy"
@@ -145,6 +145,14 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		autoscalingconfig.Setup,
+		edgekubernetes.Setup,
+		kubernetes.Setup,
+		kubernetesaddon.Setup,
+		kubernetesnodepool.Setup,
+		kubernetespermissions.Setup,
+		managedkubernetes.Setup,
+		serverlesskubernetes.Setup,
 		cluster.Setup,
 		membershipattachment.Setup,
 		addresspool.Setup,
@@ -160,14 +168,6 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		domainconfig.Setup,
 		fctrigger.Setup,
 		alarmcontactgroup.Setup,
-		autoscalingconfig.Setup,
-		edgekubernetes.Setup,
-		kubernetes.Setup,
-		kubernetesaddon.Setup,
-		kubernetesnodepool.Setup,
-		kubernetespermissions.Setup,
-		managedkubernetes.Setup,
-		serverlesskubernetes.Setup,
 		activation.Setup,
 		autoprovisioninggroup.Setup,
 		autosnapshotpolicy.Setup,

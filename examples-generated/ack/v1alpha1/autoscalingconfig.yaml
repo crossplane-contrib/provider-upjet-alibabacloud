@@ -1,0 +1,83 @@
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: AutoscalingConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/autoscalingconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    clusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    coolDownDuration: 10m
+    daemonsetEvictionForNodes: false
+    expander: least-waste
+    gpuUtilizationThreshold: "0.5"
+    maxGracefulTerminationSec: 14400
+    minReplicaCount: 0
+    recycleNodeDeletionEnabled: false
+    scaleDownEnabled: true
+    scaleUpFromZero: true
+    scalerType: goatscaler
+    scanInterval: 30s
+    skipNodesWithLocalStorage: false
+    skipNodesWithSystemPods: true
+    unneededDuration: 10m
+    utilizationThreshold: "0.5"
+
+---
+
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/autoscalingconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    clusterSpec: ack.pro.small
+    name_prefix: ${var.name}
+    newNatGateway: true
+    podCidr: ${cidrsubnet("10.0.0.0/8", 8, 36)}
+    serviceCidr: ${cidrsubnet("172.16.0.0/16", 4, 7)}
+    slbInternetEnabled: true
+    workerVswitchIdRefs:
+    - name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/autoscalingconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/autoscalingconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

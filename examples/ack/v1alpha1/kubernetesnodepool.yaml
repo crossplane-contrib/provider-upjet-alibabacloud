@@ -1,0 +1,85 @@
+---
+apiversion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: KubernetesNodePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-k8snodepool-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-1
+  name: test-ack-v1alpha1-k8snodepool-1
+spec:
+  forProvider:
+    clusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-cluster-1
+    instanceTypes:
+      - ecs.g6.large
+    keyName: Default
+    labels:
+    - key: test1
+      value: nodepool
+    - key: test2
+      value: nodepool
+    nodePoolName: test-ack-v1alpha1-k8snodepool-1
+    systemDiskCategory: cloud_efficiency
+    systemDiskSize: 40
+    taints:
+    - effect: NoSchedule
+      key: tf
+      value: example
+    - effect: NoSchedule
+      key: tf2
+      value: example2
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vsw-1
+---
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-k8snodepool-cluster-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-cluster-1
+  name: test-ack-v1alpha1-k8snodepool-cluster-1
+spec:
+  forProvider:
+    clusterSpec: ack.pro.small
+    enableRrsa: true
+    newNatGateway: true
+    podCidr: 10.32.0.0/27
+    serviceCidr: 172.20.0.0/23
+    slbInternetEnabled: true
+    workerVswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vsw-1
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-k8snodepool-vpc-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vpc-1
+  name: test-ack-v1alpha1-k8snodepool-vpc-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: test-ack-v1alpha1-k8snodepool-vpc-1
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-k8snodepool-vsw-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vsw-1
+  name: test-ack-v1alpha1-k8snodepool-vsw-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vpc-1
+    vswitchName: test-ack-v1alpha1-k8snodepool-vsw-1
+    zoneId: us-west-1a

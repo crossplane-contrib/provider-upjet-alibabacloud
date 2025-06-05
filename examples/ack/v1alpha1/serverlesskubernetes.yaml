@@ -1,0 +1,71 @@
+#
+# NAME                                                                                    SYNCED   READY   EXTERNAL-NAME                       AGE
+# serverlesskubernetes.ack.alibabacloud.crossplane.io/test-ack-v1alpha1-serverlessk8s-1   True     True    c44b86912d8794e7393095e01f2592a33   9m25s
+# vswitch.vpc.alibabacloud.crossplane.io/test-ack-v1alpha1-serverlessk8s-vsw-1            True     True    vsw-rj9iorlyc819bju4c05oy   9m25s
+# vpc.vpc.alibabacloud.crossplane.io/test-ack-v1alpha1-serverlessk8s-vpc-1                True     True    vpc-rj9bz7ja51lnv6p1susva   9m25s
+#
+---
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: ServerlessKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-serverlessk8s-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-1
+  name: test-ack-v1alpha1-serverlessk8s-1
+spec:
+  forProvider:
+    addons:
+      - name: alb-ingress-controller
+      - name: metrics-server
+      - name: knative
+      - name: arms-prometheus
+    clusterSpec: ack.pro.small
+    deletionProtection: false
+    endpointPublicAccessEnabled: true
+    loadBalancerSpec: slb.s2.small
+    loggingType: SLS
+    newNatGateway: true
+    serviceCidr: 172.21.0.0/20
+    serviceDiscoveryTypes:
+      - PrivateZone
+    tags:
+      k-aa: v-aa
+      k-bb: v-aa
+    timeZone: Asia/Shanghai
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-vpc-1
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-vsw-1
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-serverlessk8s-vpc-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-vpc-1
+  name: test-ack-v1alpha1-serverlessk8s-vpc-1
+spec:
+  forProvider:
+    cidrBlock: 10.2.0.0/21
+    vpcName: test-ack-v1alpha1-serverlessk8s-vpc-1
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-serverlessk8s-vsw-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-vsw-1
+  name: test-ack-v1alpha1-serverlessk8s-vsw-1
+spec:
+  forProvider:
+    cidrBlock: 10.2.1.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-vpc-1
+    vswitchName: test-ack-v1alpha1-serverlessk8s-vsw-1
+    zoneId: us-west-1a

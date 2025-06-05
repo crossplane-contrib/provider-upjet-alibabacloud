@@ -1,0 +1,85 @@
+---
+# Requires authorization to create an edge cluster
+# Go to the authorization link provided in MR error message and authorize.
+#
+# Requires example-secret:
+# kubectl create secret generic example-secret -n upbound-system --from-literal=password='f00BarBaz!'
+#
+#
+# NAME                                                                   SYNCED   READY   EXTERNAL-NAME                       AGE
+# edgekubernetes.ack.alibabacloud.crossplane.io/test-edge-kubernetes-1   True     True    c4667ea84dcc04d72b9612b495e645419   13m
+# vpc.vpc.alibabacloud.crossplane.io/test-edge-kubernetes-vpc-1          True     True    vpc-rj9u4zmoyvrf7qnb3zo82           13m
+# vswitch.vpc.alibabacloud.crossplane.io/test-edge-kubernetes-vsw-1      True     True    vsw-rj9bovokwvinpd4yrkzep           13m
+#
+# Note during deletion the following error is observed:
+# observe failed: cannot run plan: plan failed: Instance cannot be destroyed:
+# Resource alicloud_cs_edge_kubernetes.test-edge-kubernetes-1 has lifecycle.prevent_destroy
+# set, but the plan calls for this resource to be destroyed. To avoid this error
+# and continue with the plan, either disable lifecycle.prevent_destroy or reduce
+# the scope of the plan using the -target flag.'
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: EdgeKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-edgek8s
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-edge-k8s-1
+  name: test-ack-v1alpha1-edge-k8s-1
+spec:
+  deletionPolicy: Delete
+  forProvider:
+    installCloudMonitor: false
+    isEnterpriseSecurityGroup: true
+    newNatGateway: true
+    nodeCidrMask: 24
+    passwordSecretRef:
+      key: password
+      name: example-secret
+      namespace: upbound-system
+    podCidr: 10.99.0.0/16
+    serviceCidr: 172.16.0.0/16
+    slbInternetEnabled: false
+    version: 1.32.1-aliyun.1
+    workerDataDisks:
+    - category: cloud_ssd
+      encrypted: "false"
+      size: "200"
+    workerInstanceChargeType: PostPaid
+    workerInstanceTypes:
+      - ecs.g6.large
+    workerNumber: 1
+    workerVswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-edge-k8s-vsw-1
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/edgekubernetes
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-edge-k8s-vpc-1
+  name: test-ack-v1alpha1-edge-k8s-vpc-1
+spec:
+  deletionPolicy: Delete
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: test-ack-v1alpha1-edge-k8s-vpc-1
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/edgekubernetes
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-edge-k8s-vsw-1
+  name: test-ack-v1alpha1-edge-k8s-vsw-1
+spec:
+  deletionPolicy: Delete
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-edge-k8s-vpc-1
+    vswitchName: test-ack-v1alpha1-edge-k8s-vsw-1
+    zoneId: us-west-1a

@@ -1,0 +1,85 @@
+---
+# The managed resources view below shows successful external resources
+# creation in AlibabaCloud.
+#
+# NAME                                                                                           SYNCED   READY   EXTERNAL-NAME                                  AGE
+# managedkubernetes.ack.alibabacloud.crossplane.io/test-ack-v1alpha1-kubernetesaddon-cluster-1   True     True    ceb93ec88b5d6447cad5773e85ff06101              9m11s
+# kubernetesaddon.ack.alibabacloud.crossplane.io/test-ack-v1alpha1-kubernetesaddon-logtail-ds    True     True    ceb93ec88b5d6447cad5773e85ff06101:logtail-ds   9m11s
+# vswitch.vpc.alibabacloud.crossplane.io/test-ack-v1alpha1-kubernetesaddon-vsw-1                 True     True    vsw-rj9sfxbo2mg5s1m6s05sa                      9m11s
+# vpc.vpc.alibabacloud.crossplane.io/test-ack-v1alpha1-kubernetesaddon-vpc-1                     True     True    vpc-rj9vvrdbpcmu1fzlyu75w                      9m11s
+#
+# make e2e
+# ...
+# PASS
+# 15:35:45 [ OK ] running automated tests
+#
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: KubernetesAddon
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-kubernetesaddon
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-kubernetesaddon-logtail-ds
+  name: test-ack-v1alpha1-kubernetesaddon-logtail-ds
+spec:
+  forProvider:
+    clusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-kubernetesaddon-cluster-1
+    config: '{}'
+    name: logtail-ds
+    version: v1.6.0.0-aliyun
+---
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-kubernetesaddon-cluster-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-kubernetesaddon-cluster-1
+  name: test-ack-v1alpha1-kubernetesaddon-cluster-1
+spec:
+  forProvider:
+    addons:
+    - config: '{ "IngressDashboardEnabled":"true" }'
+      disabled: false
+      name: logtail-ds
+    clusterSpec: ack.pro.small
+    # namePrefix: crossplane
+    newNatGateway: false
+    podCidr: 10.32.0.0/27
+    serviceCidr: 172.20.0.0/23
+    slbInternetEnabled: true
+    workerVswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-kubernetesaddon-vsw-1
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-kubernetesaddon-vpc-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-kubernetesaddon-vpc-1
+  name: test-ack-v1alpha1-kubernetesaddon-vpc-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: test-ack-v1alpha1-kubernetesaddon-vpc-1
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-kubernetesaddon-vsw-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-kubernetesaddon-vsw-1
+  name: test-ack-v1alpha1-kubernetesaddon-vsw-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-kubernetesaddon-vpc-1
+    vswitchName: test-ack-v1alpha1-kubernetesaddon-vsw-1
+    zoneId: us-west-1a

@@ -1,0 +1,121 @@
+---
+# Dedicated Kubernetes Clusters have been discontinued by Alibaba Cloud
+# https://www.alibabacloud.com/help/en/ack/ack-managed-and-ack-dedicated/user-guide/create-an-ack-dedicated-cluster/?spm=a2c63.p38356.help-menu-85222.d_2_0_3.5c506344ZOsCcH&scm=20140722.H_86488._.OR_help-T_intl~en-V_1
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: Kubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: kubernetes
+  name: kubernetes-example
+spec:
+  forProvider:
+    clusterDomain: cluster.local
+    customSan: www.example.com
+    deletionProtection: false
+    installCloudMonitor: true
+    masterDiskCategory: cloud_essd
+    masterInstanceTypes:
+    - ecs.g6.large
+    - ecs.g6.xlarge
+    - ecs.g6.2xlarge
+    masterVswitchSelector:
+      matchLabels:
+        testing.upbound.io/example-name: kubernetes-vswitch-master
+    newNatGateway: true
+    osType: Linux
+    passwordSecretRef:
+      key: password
+      name: kubernetes-secret
+      namespace: upbound-system
+    platform: AliyunLinux3
+    podCidr: 10.32.0.0/27
+    proxyMode: ipvs
+    serviceCidr: 172.18.0.0/16
+    timezone: Asia/Shanghai
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: kubernetes-vpc
+  name: kubernetes-vpc
+spec:
+  forProvider:
+    cidrBlock: 10.0.0.0/8
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/kubernetes-1
+  labels:
+    testing.upbound.io/example-name: kubernetes-vswitch-master
+  name: vswitch-ids-dependency-master-1
+spec:
+  forProvider:
+    cidrBlock: 10.1.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: kubernetes-vpc
+    zoneId: us-west-1a
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/kubernetes-2
+  labels:
+    testing.upbound.io/example-name: kubernetes-vswitch-master
+  name: vswitch-ids-dependency-master-2
+spec:
+  forProvider:
+    cidrBlock: 10.2.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: kubernetes-vpc
+    zoneId: us-west-1a
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/kubernetes-3
+  labels:
+    testing.upbound.io/example-name: kubernetes-vswitch-master
+  name: vswitch-ids-dependency-master-3
+spec:
+  forProvider:
+    cidrBlock: 10.3.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: kubernetes-vpc
+    zoneId: us-west-1a
+---
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: kubernetes-vswitch-pod
+  name: vswitch-ids-dependency-pod
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: kubernetes-vpc
+    zoneId: us-west-1a
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kubernetes-secret
+  namespace: upbound-system
+type: Opaque
+stringData:
+  password: "VeryStr0ngP@ssw0rd123!"
