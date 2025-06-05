@@ -8,9 +8,15 @@ metadata:
   name: attach
 spec:
   forProvider:
-    policyName: ${alicloud_ram_policy.policy.policy_name}
-    policyType: ${alicloud_ram_policy.policy.type}
-    userName: terraform-example-${random_integer.default.result}
+    policyNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
+    policyTypeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
+    userNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: user
 
 ---
 

@@ -48,7 +48,7 @@ type SnapshotGroupInitParameters struct {
 	// The name of the snapshot-consistent group. The name must be 2 to 128 characters in length, and can contain letters, digits, periods (.), underscores (_), hyphens (-), and colons (:). It must start with a letter or a digit and cannot start with http:// or https://.
 	SnapshotGroupName *string `json:"snapshotGroupName,omitempty" tf:"snapshot_group_name,omitempty"`
 
-	// A mapping of tags to assign to the snapshot group.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -84,7 +84,7 @@ type SnapshotGroupObservation struct {
 	// The status of the resource.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// A mapping of tags to assign to the snapshot group.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -124,6 +124,11 @@ type SnapshotGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	InstantAccessRetentionDays *float64 `json:"instantAccessRetentionDays,omitempty" tf:"instant_access_retention_days,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of the resource group to which the snapshot consistency group belongs.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -132,7 +137,7 @@ type SnapshotGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	SnapshotGroupName *string `json:"snapshotGroupName,omitempty" tf:"snapshot_group_name,omitempty"`
 
-	// A mapping of tags to assign to the snapshot group.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -170,7 +175,7 @@ type SnapshotGroupStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type SnapshotGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

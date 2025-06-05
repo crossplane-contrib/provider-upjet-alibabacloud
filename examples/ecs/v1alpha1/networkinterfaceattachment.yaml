@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-zhangjiakou
     instanceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: eniattach
@@ -27,6 +28,7 @@ metadata:
   name: eniattach
 spec:
   forProvider:
+    region: cn-zhangjiakou
     description: Basic example
     networkInterfaceName: crossplane-example
     primaryIpAddress: 192.168.0.3
@@ -52,6 +54,7 @@ metadata:
   name: eniattach
 spec:
   forProvider:
+    region: cn-zhangjiakou
     availabilityZone: cn-zhangjiakou-a
     hostName: crossplane-example
     imageId: ubuntu_18_04_x64_20G_alibase_20240223.vhd
@@ -75,6 +78,7 @@ metadata:
   name: eniattach
 spec:
   forProvider:
+    region: cn-zhangjiakou
     description: New security group
     securityGroupName: crossplane-example
     vpcIdSelector:
@@ -93,6 +97,7 @@ metadata:
   name: eniattach
 spec:
   forProvider:
+    region: cn-zhangjiakou
     cidrBlock: 192.168.0.0/16
     vpcName: crossplane-example
 
@@ -108,6 +113,7 @@ metadata:
   name: eniattach
 spec:
   forProvider:
+    region: cn-zhangjiakou
     cidrBlock: 192.168.0.0/24
     vpcIdSelector:
       matchLabels:

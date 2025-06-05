@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-zhangjiakou
     dataDisks:
     - category: cloud
       deleteWithInstance: true
@@ -84,6 +85,7 @@ metadata:
   name: launchtemplate
 spec:
   forProvider:
+    region: cn-zhangjiakou
     keyPairName: crossplane-example-for-launchtemplate
 
 ---
@@ -98,6 +100,7 @@ metadata:
   name: launchtemplate
 spec:
   forProvider:
+    region: cn-zhangjiakou
     securityGroupName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -115,6 +118,7 @@ metadata:
   name: launchtemplate
 spec:
   forProvider:
+    region: cn-zhangjiakou
     cidrBlock: 172.17.0.0/16
     vpcName: crossplane-example
 
@@ -130,6 +134,7 @@ metadata:
   name: launchtemplate
 spec:
   forProvider:
+    region: cn-zhangjiakou
     cidrBlock: 172.17.3.0/24
     vpcIdSelector:
       matchLabels:

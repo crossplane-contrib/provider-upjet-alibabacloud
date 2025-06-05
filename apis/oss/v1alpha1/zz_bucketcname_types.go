@@ -34,7 +34,17 @@ type BucketCnameInitParameters struct {
 	DeleteCertificate *bool `json:"deleteCertificate,omitempty" tf:"delete_certificate,omitempty"`
 
 	// User-defined domain name
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alidns/v1alpha1.Record
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("domain_name",false)
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// Reference to a Record in alidns to populate domain.
+	// +kubebuilder:validation:Optional
+	DomainRef *v1.Reference `json:"domainRef,omitempty" tf:"-"`
+
+	// Selector for a Record in alidns to populate domain.
+	// +kubebuilder:validation:Optional
+	DomainSelector *v1.Selector `json:"domainSelector,omitempty" tf:"-"`
 
 	// Whether to force overwrite certificate.
 	Force *bool `json:"force,omitempty" tf:"force,omitempty"`
@@ -94,8 +104,18 @@ type BucketCnameParameters struct {
 	DeleteCertificate *bool `json:"deleteCertificate,omitempty" tf:"delete_certificate,omitempty"`
 
 	// User-defined domain name
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alidns/v1alpha1.Record
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("domain_name",false)
 	// +kubebuilder:validation:Optional
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// Reference to a Record in alidns to populate domain.
+	// +kubebuilder:validation:Optional
+	DomainRef *v1.Reference `json:"domainRef,omitempty" tf:"-"`
+
+	// Selector for a Record in alidns to populate domain.
+	// +kubebuilder:validation:Optional
+	DomainSelector *v1.Selector `json:"domainSelector,omitempty" tf:"-"`
 
 	// Whether to force overwrite certificate.
 	// +kubebuilder:validation:Optional
@@ -104,6 +124,11 @@ type BucketCnameParameters struct {
 	// The current certificate ID. If the Force value is not true, the OSS Server checks whether the value matches the current certificate ID. If the value does not match, an error is reported.
 	// +kubebuilder:validation:Optional
 	PreviousCertID *string `json:"previousCertId,omitempty" tf:"previous_cert_id,omitempty"`
+
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
 }
 
 type CertificateInitParameters struct {
@@ -189,13 +214,12 @@ type BucketCnameStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type BucketCname struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.domain) || (has(self.initProvider) && has(self.initProvider.domain))",message="spec.forProvider.domain is a required parameter"
-	Spec   BucketCnameSpec   `json:"spec"`
-	Status BucketCnameStatus `json:"status,omitempty"`
+	Spec              BucketCnameSpec   `json:"spec"`
+	Status            BucketCnameStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

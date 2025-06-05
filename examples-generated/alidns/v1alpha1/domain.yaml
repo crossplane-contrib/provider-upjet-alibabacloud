@@ -12,6 +12,7 @@ spec:
     groupIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
+    region: cn-beijing
     tags:
       Created: TF
       For: example
@@ -29,3 +30,4 @@ metadata:
 spec:
   forProvider:
     domainGroupName: tf-example
+    region: cn-beijing

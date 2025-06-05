@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: commands.ecs.alibabacloud.crossplane.io
 spec:
   group: ecs.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Command
     listKind: CommandList
     plural: commands
@@ -86,6 +86,10 @@ spec:
                   name:
                     description: The name of the command, which supports all character
                       sets. It can be up to 128 characters in length.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   timeout:
                     description: 'The timeout period that is specified for the command

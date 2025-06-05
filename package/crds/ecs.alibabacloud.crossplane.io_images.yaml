@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: images.ecs.alibabacloud.crossplane.io
 spec:
   group: ecs.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Image
     listKind: ImageList
     plural: images
@@ -253,6 +253,10 @@ spec:
                       Server 2019, Windows Server 2016, Windows Server 2012, Windows
                       Server 2008, Windows Server 2003. Default value: Others Linux.'
                     type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   resourceGroupId:
                     description: The ID of the resource group to which to assign the
                       custom image. If you do not specify this parameter, the image
@@ -339,7 +343,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tag
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                 type: object
@@ -622,7 +626,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tag
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                 type: object
@@ -945,7 +949,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tag
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                 type: object

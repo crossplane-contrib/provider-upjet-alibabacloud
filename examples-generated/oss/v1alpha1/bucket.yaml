@@ -9,6 +9,7 @@ metadata:
 spec:
   forProvider:
     bucket: example-value-${random_integer.default.result}
+    region: cn-beijing
 
 ---
 
@@ -26,3 +27,4 @@ spec:
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucket-acl
+    region: cn-beijing

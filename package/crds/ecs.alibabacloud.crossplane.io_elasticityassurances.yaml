@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: elasticityassurances.ecs.alibabacloud.crossplane.io
 spec:
   group: ecs.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: ElasticityAssurance
     listKind: ElasticityAssuranceList
     plural: elasticityassurances
@@ -110,6 +110,10 @@ spec:
                   privatePoolOptionsName:
                     description: The name of the flexible protection service.
                     type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   resourceGroupId:
                     description: (ForceNew,Optional) The ID of the resource group.
                     type: string
@@ -120,8 +124,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tag key-value pair information bound by the elastic
-                      guarantee service.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   zoneIds:
@@ -193,8 +196,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tag key-value pair information bound by the elastic
-                      guarantee service.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   zoneIds:
@@ -460,8 +462,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tag key-value pair information bound by the elastic
-                      guarantee service.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   usedAssuranceTimes:

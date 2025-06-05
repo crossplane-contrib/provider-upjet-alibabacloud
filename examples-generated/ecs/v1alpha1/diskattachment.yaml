@@ -14,6 +14,7 @@ spec:
     instanceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
+    region: cn-beijing
 
 ---
 
@@ -33,6 +34,7 @@ spec:
     diskName: ${var.name}
     enableAutoSnapshot: "true"
     encrypted: "true"
+    region: cn-beijing
     size: "500"
     tags:
       Created: TF
@@ -58,6 +60,7 @@ spec:
         testing.upbound.io/example-name: alicloud_images
     instanceName: ${var.name}
     instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
+    region: cn-beijing
     securityGroupRefs:
     - name: default
     vswitchIdSelector:
@@ -78,6 +81,7 @@ spec:
   forProvider:
     description: New security group
     name: tf-example
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -95,6 +99,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -110,6 +115,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

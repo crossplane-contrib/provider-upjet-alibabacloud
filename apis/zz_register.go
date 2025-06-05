@@ -12,6 +12,7 @@ import (
 
 	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ack/v1alpha1"
 	v1alpha1ackone "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ackone/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alb/v1alpha1"
 	v1alpha1alidns "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alidns/v1alpha1"
 	v1alpha1cdn "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/cdn/v1alpha1"
 	v1alpha1cloudmonitorservice "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/cloudmonitorservice/v1alpha1"
@@ -20,6 +21,7 @@ import (
 	v1alpha1messageservice "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/messageservice/v1alpha1"
 	v1alpha1oss "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1"
 	v1alpha1polardb "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/polardb/v1alpha1"
+	v1alpha1privatelink "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/privatelink/v1alpha1"
 	v1alpha1ram "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1"
 	v1alpha1tair "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/tair/v1alpha1"
 	v1alpha1apis "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/v1alpha1"
@@ -40,6 +42,7 @@ func init() {
 		v1alpha1messageservice.SchemeBuilder.AddToScheme,
 		v1alpha1oss.SchemeBuilder.AddToScheme,
 		v1alpha1polardb.SchemeBuilder.AddToScheme,
+		v1alpha1privatelink.SchemeBuilder.AddToScheme,
 		v1alpha1ram.SchemeBuilder.AddToScheme,
 		v1alpha1tair.SchemeBuilder.AddToScheme,
 		v1alpha1apis.SchemeBuilder.AddToScheme,

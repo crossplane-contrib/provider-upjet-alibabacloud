@@ -15,6 +15,7 @@ spec:
     - argName: ip_list
       argValue: 110.110.110.110
     functionName: ip_allow_list_set
+    region: cn-beijing
 
 ---
 
@@ -30,6 +31,7 @@ spec:
   forProvider:
     cdnType: web
     domainName: mycdndomain-${random_integer.default.result}.alicloud-provider.cn
+    region: cn-beijing
     scope: overseas
     sources:
     - content: 1.1.1.1

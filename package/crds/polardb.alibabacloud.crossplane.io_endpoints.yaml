@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: endpoints.polardb.alibabacloud.crossplane.io
 spec:
   group: polardb.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Endpoint
     listKind: EndpointList
     plural: endpoints
@@ -199,6 +199,10 @@ spec:
                   readWriteMode:
                     description: Read or write mode. Valid values are ReadWrite, ReadOnly.
                       When creating a new custom endpoint, default to ReadOnly.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   sslAutoRotate:
                     description: 'Specifies whether automatic rotation of SSL certificates

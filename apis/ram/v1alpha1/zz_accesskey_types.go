@@ -25,7 +25,17 @@ type AccessKeyInitParameters struct {
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// The RAM user name.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.User
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	UserName *string `json:"userName,omitempty" tf:"user_name,omitempty"`
+
+	// Reference to a User in ram to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameRef *v1.Reference `json:"userNameRef,omitempty" tf:"-"`
+
+	// Selector for a User in ram to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameSelector *v1.Selector `json:"userNameSelector,omitempty" tf:"-"`
 }
 
 type AccessKeyObservation struct {
@@ -70,8 +80,18 @@ type AccessKeyParameters struct {
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// The RAM user name.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.User
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	UserName *string `json:"userName,omitempty" tf:"user_name,omitempty"`
+
+	// Reference to a User in ram to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameRef *v1.Reference `json:"userNameRef,omitempty" tf:"-"`
+
+	// Selector for a User in ram to populate userName.
+	// +kubebuilder:validation:Optional
+	UserNameSelector *v1.Selector `json:"userNameSelector,omitempty" tf:"-"`
 }
 
 // AccessKeySpec defines the desired state of AccessKey
@@ -106,7 +126,7 @@ type AccessKeyStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type AccessKey struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

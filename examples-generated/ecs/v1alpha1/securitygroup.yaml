@@ -8,4 +8,5 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-beijing
     securityGroupName: terraform-example

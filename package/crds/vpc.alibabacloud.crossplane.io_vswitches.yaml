@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: vswitches.vpc.alibabacloud.crossplane.io
 spec:
   group: vpc.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Vswitch
     listKind: VswitchList
     plural: vswitches
@@ -92,10 +92,14 @@ spec:
                     description: 'Specifies whether to create the default VSwitch.
                       Default value: false. Valid values:'
                     type: boolean
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tags of VSwitch.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcId:
@@ -219,7 +223,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tags of VSwitch.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcId:
@@ -514,7 +518,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: The tags of VSwitch.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcId:

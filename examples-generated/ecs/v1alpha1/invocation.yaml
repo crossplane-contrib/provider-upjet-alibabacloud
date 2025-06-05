@@ -11,8 +11,9 @@ spec:
     commandIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    instanceId:
-    - ${alicloud_instance.default.id}
+    instanceIdRefs:
+    - name: default
+    region: cn-beijing
 
 ---
 
@@ -30,6 +31,7 @@ spec:
     description: For Terraform Test
     enableParameter: true
     name: ${var.name}
+    region: cn-beijing
     type: RunShellScript
     workingDir: /root
 
@@ -52,6 +54,7 @@ spec:
     instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
     internetChargeType: PayByTraffic
     internetMaxBandwidthOut: 5
+    region: cn-beijing
     securityGroupRefs:
     - name: default
     systemDiskCategory: cloud_efficiency
@@ -72,6 +75,7 @@ metadata:
 spec:
   forProvider:
     name: ${var.name}
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -94,6 +98,7 @@ spec:
     policy: accept
     portRange: 22/22
     priority: 1
+    region: cn-beijing
     securityGroupIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -112,6 +117,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/16
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -127,6 +133,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

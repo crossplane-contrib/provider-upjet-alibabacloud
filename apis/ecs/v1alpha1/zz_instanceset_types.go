@@ -254,7 +254,18 @@ type InstanceSetInitParameters struct {
 	// The security enhancement strategy.
 	SecurityEnhancementStrategy *string `json:"securityEnhancementStrategy,omitempty" tf:"security_enhancement_strategy,omitempty"`
 
+	// References to SecurityGroup in ecs to populate securityGroupIds.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDRefs []v1.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
+
+	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+
 	// A list of security group ids to associate with.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
+	// +crossplane:generate:reference:refFieldName=SecurityGroupIDRefs
+	// +crossplane:generate:reference:selectorFieldName=SecurityGroupIDSelector
 	// +listType=set
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
@@ -282,7 +293,7 @@ type InstanceSetInitParameters struct {
 	// The size of the system disk, measured in GiB. Value range:  values: 20 to 500.
 	SystemDiskSize *float64 `json:"systemDiskSize,omitempty" tf:"system_disk_size,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -431,7 +442,7 @@ type InstanceSetObservation struct {
 	// The size of the system disk, measured in GiB. Value range:  values: 20 to 500.
 	SystemDiskSize *float64 `json:"systemDiskSize,omitempty" tf:"system_disk_size,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -581,6 +592,11 @@ type InstanceSetParameters struct {
 	// +kubebuilder:validation:Optional
 	RAMRoleName *string `json:"ramRoleName,omitempty" tf:"ram_role_name,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of resource group which the instance belongs.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -589,7 +605,18 @@ type InstanceSetParameters struct {
 	// +kubebuilder:validation:Optional
 	SecurityEnhancementStrategy *string `json:"securityEnhancementStrategy,omitempty" tf:"security_enhancement_strategy,omitempty"`
 
+	// References to SecurityGroup in ecs to populate securityGroupIds.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDRefs []v1.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
+
+	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+
 	// A list of security group ids to associate with.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
+	// +crossplane:generate:reference:refFieldName=SecurityGroupIDRefs
+	// +crossplane:generate:reference:selectorFieldName=SecurityGroupIDSelector
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
@@ -626,7 +653,7 @@ type InstanceSetParameters struct {
 	// +kubebuilder:validation:Optional
 	SystemDiskSize *float64 `json:"systemDiskSize,omitempty" tf:"system_disk_size,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -744,13 +771,12 @@ type InstanceSetStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type InstanceSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.imageId) || (has(self.initProvider) && has(self.initProvider.imageId))",message="spec.forProvider.imageId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceType) || (has(self.initProvider) && has(self.initProvider.instanceType))",message="spec.forProvider.instanceType is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.securityGroupIds) || (has(self.initProvider) && has(self.initProvider.securityGroupIds))",message="spec.forProvider.securityGroupIds is a required parameter"
 	Spec   InstanceSetSpec   `json:"spec"`
 	Status InstanceSetStatus `json:"status,omitempty"`
 }

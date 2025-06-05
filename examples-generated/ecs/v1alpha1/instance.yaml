@@ -13,7 +13,9 @@ spec:
     - category: cloud_efficiency
       description: disk2
       encrypted: true
-      kmsKeyId: ${alicloud_kms_key.key.id}
+      kmsKeyIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: key
       name: disk2
       size: 20
     imageIdSelector:
@@ -22,6 +24,7 @@ spec:
     instanceName: ${var.name}
     instanceType: ${var.instance_type}
     internetMaxBandwidthOut: 10
+    region: cn-beijing
     securityGroupSelector:
       matchLabels:
         testing.upbound.io/example-name: group
@@ -46,6 +49,7 @@ spec:
   forProvider:
     description: Hello KMS
     pendingWindowInDays: "7"
+    region: cn-beijing
     status: Enabled
 
 ---
@@ -61,6 +65,7 @@ metadata:
 spec:
   forProvider:
     description: foo
+    region: cn-beijing
     securityGroupName: ${var.name}
     vpcIdSelector:
       matchLabels:
@@ -79,6 +84,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/16
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -94,6 +100,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpc

@@ -12,6 +12,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: CreateBucket
     domain: terraform-example.com
+    region: cn-beijing
 
 ---
 
@@ -26,4 +27,5 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}
+    region: cn-beijing
     storageClass: Standard

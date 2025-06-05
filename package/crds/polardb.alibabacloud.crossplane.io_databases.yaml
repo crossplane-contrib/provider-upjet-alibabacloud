@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: databases.polardb.alibabacloud.crossplane.io
 spec:
   group: polardb.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Database
     listKind: DatabaseList
     plural: databases
@@ -171,6 +171,10 @@ spec:
                     description: Name of the database requiring a uniqueness check.
                       It may consist of lower case letters, numbers, and underlines,
                       and must start with a letterand have no more than 64 characters.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

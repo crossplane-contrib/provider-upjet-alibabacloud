@@ -8,11 +8,12 @@ metadata:
   name: default
 spec:
   forProvider:
-    domainNames:
-    - ${alicloud_alidns_domain.default.domain_name}
+    domainNamesRefs:
+    - name: default
     instanceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
+    region: cn-beijing
 
 ---
 
@@ -30,6 +31,7 @@ spec:
     groupIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
+    region: cn-beijing
     tags:
       Created: TF
       For: example
@@ -47,6 +49,7 @@ metadata:
 spec:
   forProvider:
     domainGroupName: tf-example
+    region: cn-beijing
 
 ---
 
@@ -63,5 +66,6 @@ spec:
     dnsSecurity: basic
     domainNumbers: 3
     period: 1
+    region: cn-beijing
     renewalStatus: ManualRenewal
     versionCode: version_personal

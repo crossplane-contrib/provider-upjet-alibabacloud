@@ -1,0 +1,14 @@
+apiVersion: privatelink.alibabacloud.crossplane.io/v1alpha1
+kind: VPCEndpointService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointservice
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    autoAcceptConnection: false
+    connectBandwidth: 103
+    region: cn-beijing
+    serviceDescription: ${var.name}

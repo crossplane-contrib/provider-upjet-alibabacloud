@@ -16,6 +16,7 @@ spec:
         testing.upbound.io/example-name: default
     instantAccess: true
     instantAccessRetentionDays: 1
+    region: cn-beijing
     snapshotGroupName: terraform-example
     tags:
       Created: TF
@@ -36,6 +37,7 @@ spec:
     category: cloud_essd
     description: terraform-example
     diskName: terraform-example
+    region: cn-beijing
     size: "30"
     zoneId: ${data.alicloud_zones.default.zones.0.id}
 
@@ -58,6 +60,7 @@ spec:
     instanceName: terraform-example
     instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
     internetMaxBandwidthOut: 10
+    region: cn-beijing
     securityGroupRefs:
     - name: default
     vswitchIdSelector:
@@ -77,6 +80,7 @@ metadata:
 spec:
   forProvider:
     name: terraform-example
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -94,6 +98,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.17.3.0/24
+    region: cn-beijing
     vpcName: terraform-example
 
 ---
@@ -109,6 +114,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.17.3.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

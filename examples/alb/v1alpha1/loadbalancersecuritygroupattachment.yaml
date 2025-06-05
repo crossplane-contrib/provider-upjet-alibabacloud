@@ -1,0 +1,123 @@
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: LoadBalancerSecurityGroupAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancersecuritygroupattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: create_alb
+    region: cn-beijing
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: create_security_group
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancersecuritygroupattachment
+  labels:
+    testing.upbound.io/example-name: create_alb
+  name: create-alb
+spec:
+  forProvider:
+    addressAllocatedMode: Fixed
+    addressType: Intranet
+    loadBalancerBillingConfig:
+    - payType: PayAsYouGo
+    loadBalancerEdition: Standard
+    loadBalancerName: crossplane-example
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
+    zoneMappings:
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
+      zoneId: cn-beijing-g
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment-1
+      zoneId: cn-beijing-h
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancersecuritygroupattachment
+  labels:
+    testing.upbound.io/example-name: create_security_group
+  name: create-security-group
+spec:
+  forProvider:
+    securityGroupName: crossplane-example
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancersecuritygroupattachment
+  labels:
+    testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
+  name: for-loadbalancersecuritygroupattachment
+spec:
+  forProvider:
+    cidrBlock: 192.168.0.0/16
+    region: cn-beijing
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancersecuritygroupattachment
+  labels:
+    testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment-1
+  name: for-loadbalancersecuritygroupattachment-1
+spec:
+  forProvider:
+    cidrBlock: 192.168.1.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
+    vswitchName: crossplane-example
+    zoneId: cn-beijing-h
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancersecuritygroupattachment
+  labels:
+    testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
+  name: for-loadbalancersecuritygroupattachment
+spec:
+  forProvider:
+    cidrBlock: 192.168.2.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
+    vswitchName: crossplane-example
+    zoneId: cn-beijing-g

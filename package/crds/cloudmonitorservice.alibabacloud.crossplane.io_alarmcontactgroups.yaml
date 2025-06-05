@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: alarmcontactgroups.cloudmonitorservice.alibabacloud.crossplane.io
 spec:
   group: cloudmonitorservice.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: AlarmContactGroup
     listKind: AlarmContactGroupList
     plural: alarmcontactgroups
@@ -88,6 +88,10 @@ spec:
                   enableSubscribed:
                     description: Whether to open weekly subscription.
                     type: boolean
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                 type: object
               initProvider:
                 description: |-

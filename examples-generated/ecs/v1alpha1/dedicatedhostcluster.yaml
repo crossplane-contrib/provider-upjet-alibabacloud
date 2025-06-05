@@ -10,6 +10,7 @@ spec:
   forProvider:
     dedicatedHostClusterName: example_value
     description: example_value
+    region: cn-beijing
     tags:
       Create: TF
       For: DDH_Cluster_Test

@@ -68,8 +68,18 @@ type GtmInstanceInitParameters struct {
 	AlertConfig []AlertConfigInitParameters `json:"alertConfig,omitempty" tf:"alert_config,omitempty"`
 
 	// The alert group.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/cloudmonitorservice/v1alpha1.AlarmContactGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("alarm_contact_group_name",false)
 	// +listType=set
 	AlertGroup []*string `json:"alertGroup,omitempty" tf:"alert_group,omitempty"`
+
+	// References to AlarmContactGroup in cloudmonitorservice to populate alertGroup.
+	// +kubebuilder:validation:Optional
+	AlertGroupRefs []v1.Reference `json:"alertGroupRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AlarmContactGroup in cloudmonitorservice to populate alertGroup.
+	// +kubebuilder:validation:Optional
+	AlertGroupSelector *v1.Selector `json:"alertGroupSelector,omitempty" tf:"-"`
 
 	// The access type of the CNAME domain name. Valid value: PUBLIC.
 	CnameType *string `json:"cnameType,omitempty" tf:"cname_type,omitempty"`
@@ -199,9 +209,19 @@ type GtmInstanceParameters struct {
 	AlertConfig []AlertConfigParameters `json:"alertConfig,omitempty" tf:"alert_config,omitempty"`
 
 	// The alert group.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/cloudmonitorservice/v1alpha1.AlarmContactGroup
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("alarm_contact_group_name",false)
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	AlertGroup []*string `json:"alertGroup,omitempty" tf:"alert_group,omitempty"`
+
+	// References to AlarmContactGroup in cloudmonitorservice to populate alertGroup.
+	// +kubebuilder:validation:Optional
+	AlertGroupRefs []v1.Reference `json:"alertGroupRefs,omitempty" tf:"-"`
+
+	// Selector for a list of AlarmContactGroup in cloudmonitorservice to populate alertGroup.
+	// +kubebuilder:validation:Optional
+	AlertGroupSelector *v1.Selector `json:"alertGroupSelector,omitempty" tf:"-"`
 
 	// The access type of the CNAME domain name. Valid value: PUBLIC.
 	// +kubebuilder:validation:Optional
@@ -250,6 +270,11 @@ type GtmInstanceParameters struct {
 	// The domain name that is used to access GTM over the Internet.
 	// +kubebuilder:validation:Optional
 	PublicZoneName *string `json:"publicZoneName,omitempty" tf:"public_zone_name,omitempty"`
+
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
 
 	// Automatic renewal period, the unit is month. When setting renewal_status to AutoRenewal, it must be set.
 	// +kubebuilder:validation:Optional
@@ -308,7 +333,7 @@ type GtmInstanceStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type GtmInstance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

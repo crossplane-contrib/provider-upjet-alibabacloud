@@ -15,6 +15,7 @@ spec:
     networkOrigin: vpc
     publicAccessBlockConfiguration:
     - blockPublicAccess: true
+    region: cn-beijing
     vpcConfiguration:
     - vpcIdSelector:
         matchLabels:
@@ -32,4 +33,5 @@ metadata:
   name: createbucket
 spec:
   forProvider:
+    region: cn-beijing
     storageClass: Standard

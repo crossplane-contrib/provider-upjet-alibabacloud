@@ -508,6 +508,11 @@ func (in *VPCParameters) DeepCopyInto(out *VPCParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -875,6 +880,11 @@ func (in *VswitchParameters) DeepCopyInto(out *VswitchParameters) {
 	if in.IsDefault != nil {
 		in, out := &in.IsDefault, &out.IsDefault
 		*out = new(bool)
+		**out = **in
+	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tags != nil {

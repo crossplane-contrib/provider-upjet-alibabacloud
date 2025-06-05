@@ -8,6 +8,7 @@ package v1alpha1
 
 import (
 	"context"
+	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1"
 	common "github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
@@ -52,6 +53,48 @@ func (mg *DomainConfig) ResolveReferences(ctx context.Context, c client.Reader) 
 	}
 	mg.Spec.InitProvider.DomainName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DomainNameRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this FcTrigger.
+func (mg *FcTrigger) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoleArn),
+		Extract:      common.RoleArnExtractor(),
+		Reference:    mg.Spec.ForProvider.RoleArnRef,
+		Selector:     mg.Spec.ForProvider.RoleArnSelector,
+		To: reference.To{
+			List:    &v1alpha1.RoleList{},
+			Managed: &v1alpha1.Role{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.RoleArn")
+	}
+	mg.Spec.ForProvider.RoleArn = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.RoleArnRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoleArn),
+		Extract:      common.RoleArnExtractor(),
+		Reference:    mg.Spec.InitProvider.RoleArnRef,
+		Selector:     mg.Spec.InitProvider.RoleArnSelector,
+		To: reference.To{
+			List:    &v1alpha1.RoleList{},
+			Managed: &v1alpha1.Role{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.RoleArn")
+	}
+	mg.Spec.InitProvider.RoleArn = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.RoleArnRef = rsp.ResolvedReference
 
 	return nil
 }

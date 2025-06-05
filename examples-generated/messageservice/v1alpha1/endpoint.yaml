@@ -10,3 +10,4 @@ spec:
   forProvider:
     endpointEnabled: true
     endpointType: public
+    region: cn-beijing

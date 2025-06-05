@@ -11,5 +11,6 @@ spec:
     commandContent: bHMK
     description: For Terraform Test
     name: tf-testAcc
+    region: cn-beijing
     type: RunShellScript
     workingDir: /root

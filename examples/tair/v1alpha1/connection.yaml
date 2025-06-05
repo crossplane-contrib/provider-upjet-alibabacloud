@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-hangzhou
     connectionStringPrefix: exampleconnection
     instanceIdSelector:
       matchLabels:
@@ -26,6 +27,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-hangzhou
     config:
       appendonly: "yes"
       lazyfree-lazy-eviction: "yes"
@@ -56,6 +58,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-hangzhou
     cidrBlock: 10.4.0.0/16
     vpcName: crossplane_example
 
@@ -71,6 +74,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: cn-hangzhou
     cidrBlock: 10.4.0.0/24
     vpcIdSelector:
       matchLabels:

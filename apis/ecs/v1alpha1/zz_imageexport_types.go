@@ -28,7 +28,16 @@ type ImageExportInitParameters struct {
 	ImageIDSelector *v1.Selector `json:"imageIdSelector,omitempty" tf:"-"`
 
 	// Save the exported OSS bucket.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.Bucket
 	OssBucket *string `json:"ossBucket,omitempty" tf:"oss_bucket,omitempty"`
+
+	// Reference to a Bucket in oss to populate ossBucket.
+	// +kubebuilder:validation:Optional
+	OssBucketRef *v1.Reference `json:"ossBucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in oss to populate ossBucket.
+	// +kubebuilder:validation:Optional
+	OssBucketSelector *v1.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
 
 	// The prefix of your OSS Object. It can be composed of numbers or letters, and the character length is 1 ~ 30.
 	OssPrefix *string `json:"ossPrefix,omitempty" tf:"oss_prefix,omitempty"`
@@ -65,12 +74,26 @@ type ImageExportParameters struct {
 	ImageIDSelector *v1.Selector `json:"imageIdSelector,omitempty" tf:"-"`
 
 	// Save the exported OSS bucket.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.Bucket
 	// +kubebuilder:validation:Optional
 	OssBucket *string `json:"ossBucket,omitempty" tf:"oss_bucket,omitempty"`
+
+	// Reference to a Bucket in oss to populate ossBucket.
+	// +kubebuilder:validation:Optional
+	OssBucketRef *v1.Reference `json:"ossBucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in oss to populate ossBucket.
+	// +kubebuilder:validation:Optional
+	OssBucketSelector *v1.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
 
 	// The prefix of your OSS Object. It can be composed of numbers or letters, and the character length is 1 ~ 30.
 	// +kubebuilder:validation:Optional
 	OssPrefix *string `json:"ossPrefix,omitempty" tf:"oss_prefix,omitempty"`
+
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
 }
 
 // ImageExportSpec defines the desired state of ImageExport
@@ -105,13 +128,12 @@ type ImageExportStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type ImageExport struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ossBucket) || (has(self.initProvider) && has(self.initProvider.ossBucket))",message="spec.forProvider.ossBucket is a required parameter"
-	Spec   ImageExportSpec   `json:"spec"`
-	Status ImageExportStatus `json:"status,omitempty"`
+	Spec              ImageExportSpec   `json:"spec"`
+	Status            ImageExportStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

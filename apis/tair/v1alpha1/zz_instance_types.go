@@ -147,7 +147,17 @@ type InstanceInitParameters struct {
 	RestoreTime *string `json:"restoreTime,omitempty" tf:"restore_time,omitempty"`
 
 	// The Specify the global resource descriptor ARN (Alibaba Cloud Resource Name) information of the role to be authorized, and use the related key management services after the authorization is completed, in the format: acs:ram::$accountID:role/$roleName.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Role
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.RoleArnExtractor()
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+
+	// Reference to a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+
+	// Selector for a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// Modifies the SSL status. Valid values: Disable, Enable and Update.
 	// NOTE: This functionality is supported by Cluster mode (Redis 2.8, 4.0, 5.0) and Standard mode( Redis 2.8 only).
@@ -190,7 +200,7 @@ type InstanceInitParameters struct {
 	// The ID of the source instance.
 	SrcdbInstanceID *string `json:"srcdbInstanceId,omitempty" tf:"srcdb_instance_id,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -401,7 +411,7 @@ type InstanceObservation struct {
 	// The status of KVStore DBInstance.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -587,6 +597,11 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ReadOnlyCount *float64 `json:"readOnlyCount,omitempty" tf:"read_only_count,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of resource group which the resource belongs.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -596,8 +611,18 @@ type InstanceParameters struct {
 	RestoreTime *string `json:"restoreTime,omitempty" tf:"restore_time,omitempty"`
 
 	// The Specify the global resource descriptor ARN (Alibaba Cloud Resource Name) information of the role to be authorized, and use the related key management services after the authorization is completed, in the format: acs:ram::$accountID:role/$roleName.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Role
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.RoleArnExtractor()
 	// +kubebuilder:validation:Optional
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+
+	// Reference to a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+
+	// Selector for a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// Modifies the SSL status. Valid values: Disable, Enable and Update.
 	// NOTE: This functionality is supported by Cluster mode (Redis 2.8, 4.0, 5.0) and Standard mode( Redis 2.8 only).
@@ -649,7 +674,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	SrcdbInstanceID *string `json:"srcdbInstanceId,omitempty" tf:"srcdb_instance_id,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -715,7 +740,7 @@ type InstanceStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type Instance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

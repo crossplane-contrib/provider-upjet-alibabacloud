@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: diskattachments.ecs.alibabacloud.crossplane.io
 spec:
   group: ecs.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: DiskAttachment
     listKind: DiskAttachmentList
     plural: diskattachments
@@ -241,6 +241,10 @@ spec:
                     description: When mounting the system disk, setting the user name
                       and password of the instance is only effective for the administrator
                       and root user names, and other user names are not effective.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                 type: object
               initProvider:

@@ -14,6 +14,7 @@ spec:
     policy: accept
     portRange: 1/65535
     priority: 1
+    region: cn-beijing
     securityGroupIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -32,3 +33,4 @@ metadata:
 spec:
   forProvider:
     name: default
+    region: cn-beijing

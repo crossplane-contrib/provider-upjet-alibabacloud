@@ -9,3 +9,4 @@ metadata:
 spec:
   forProvider:
     alarmContactGroupName: tf-example
+    region: cn-beijing

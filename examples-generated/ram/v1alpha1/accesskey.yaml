@@ -9,7 +9,9 @@ metadata:
 spec:
   forProvider:
     secretFile: /xxx/xxx/xxx.txt
-    userName: terraform-example-${random_integer.default.result}
+    userNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: user
 
 ---
 

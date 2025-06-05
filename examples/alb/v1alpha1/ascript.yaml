@@ -1,0 +1,162 @@
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: Ascript
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/ascript
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    ascriptName: crossplane-example
+    enabled: true
+    listenerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-ascript
+    position: RequestHead
+    region: cn-hangzhou
+    scriptContent: time()
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: Listener
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/ascript
+  labels:
+    testing.upbound.io/example-name: for-ascript
+  name: for-ascript
+spec:
+  forProvider:
+    defaultActions:
+    - forwardGroupConfig:
+      - serverGroupTuples:
+        - serverGroupIdSelector:
+            matchLabels:
+              testing.upbound.io/example-name: for-ascript
+      type: ForwardGroup
+    listenerDescription: crossplane-example
+    listenerPort: 8081
+    listenerProtocol: HTTP
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-ascript
+    region: cn-hangzhou
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/ascript
+  labels:
+    testing.upbound.io/example-name: for-ascript
+  name: for-ascript
+spec:
+  forProvider:
+    addressAllocatedMode: Fixed
+    addressType: Internet
+    loadBalancerBillingConfig:
+    - payType: PayAsYouGo
+    loadBalancerEdition: Standard
+    loadBalancerName: crossplane-example
+    region: cn-hangzhou
+#    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    tags:
+      Created: TF
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-ascript
+    zoneMappings:
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-ascript-1
+      zoneId: cn-hangzhou-h
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-ascript-2
+      zoneId: cn-hangzhou-g
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: ServerGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/ascript
+  labels:
+    testing.upbound.io/example-name: for-ascript
+  name: for-ascript
+spec:
+  forProvider:
+    healthCheckConfig:
+    - healthCheckEnabled: false
+    protocol: HTTP
+    region: cn-hangzhou
+#    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    serverGroupName: crossplane-example
+    stickySessionConfig:
+    - stickySessionEnabled: false
+    tags:
+      Created: TF
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-ascript
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: for-ascript
+  name: for-ascript
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    region: cn-hangzhou
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: for-ascript-1
+  name: for-ascript-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.1.0/24
+    region: cn-hangzhou
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-ascript
+    vswitchName: crossplane-example_1
+    zoneId: cn-hangzhou-h
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: for-ascript-2
+  name: for-ascript-2
+spec:
+  forProvider:
+    cidrBlock: 10.4.2.0/24
+    region: cn-hangzhou
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-ascript
+    vswitchName: crossplane-example_2
+    zoneId: cn-hangzhou-g

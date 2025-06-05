@@ -81,7 +81,7 @@ type VPCInitParameters struct {
 	// The name of the route table.
 	SystemRouteTableName *string `json:"systemRouteTableName,omitempty" tf:"system_route_table_name,omitempty"`
 
-	// The tags of Vpc.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -169,7 +169,7 @@ type VPCObservation struct {
 	// The name of the route table.
 	SystemRouteTableName *string `json:"systemRouteTableName,omitempty" tf:"system_route_table_name,omitempty"`
 
-	// The tags of Vpc.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -230,6 +230,11 @@ type VPCParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of the resource group to which you want to move the resource.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -250,7 +255,7 @@ type VPCParameters struct {
 	// +kubebuilder:validation:Optional
 	SystemRouteTableName *string `json:"systemRouteTableName,omitempty" tf:"system_route_table_name,omitempty"`
 
-	// The tags of Vpc.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -296,7 +301,7 @@ type VPCStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type VPC struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

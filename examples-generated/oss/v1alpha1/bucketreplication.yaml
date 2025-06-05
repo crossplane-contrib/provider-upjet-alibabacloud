@@ -20,16 +20,21 @@ spec:
         matchLabels:
           testing.upbound.io/example-name: bucket_dest
     encryptionConfiguration:
-    - replicaKmsKeyId: ${alicloud_kms_key.key.id}
+    - replicaKmsKeyIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: key
     historicalObjectReplication: enabled
     prefixSet:
     - prefixes:
       - prefix1/
       - prefix2/
+    region: cn-beijing
     sourceSelectionCriteria:
     - sseKmsEncryptedObjects:
       - status: Enabled
-    syncRole: terraform-example
+    syncRoleSelector:
+      matchLabels:
+        testing.upbound.io/example-name: role
 
 ---
 
@@ -45,6 +50,7 @@ spec:
   forProvider:
     description: Hello KMS
     pendingWindowInDays: "7"
+    region: cn-beijing
     status: Enabled
 
 ---
@@ -60,6 +66,7 @@ metadata:
 spec:
   forProvider:
     bucket: example-dest-${random_integer.default.result}
+    region: cn-beijing
 
 ---
 
@@ -74,6 +81,7 @@ metadata:
 spec:
   forProvider:
     bucket: example-src-${random_integer.default.result}
+    region: cn-beijing
 
 ---
 
@@ -126,6 +134,12 @@ metadata:
   name: attach
 spec:
   forProvider:
-    policyName: example-policy-${random_integer.default.result}
-    policyType: ${alicloud_ram_policy.policy.type}
-    roleName: example-role-${random_integer.default.result}
+    policyNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
+    policyTypeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
+    roleNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: role

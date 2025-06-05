@@ -16,14 +16,15 @@ const (
 
 	// PathIdExtractor is the golang path to
 	// IdExtractor function in this package.
-	PathIdExtractor                    = SelfPackagePath + ".IdExtractor()"
-	PathAccountNameExtractor           = SelfPackagePath + ".AccountNameExtractor()"
-	PathDBNameExtractor                = SelfPackagePath + ".DBNameExtractor()"
-	PathDBEndpointIdExtractor          = SelfPackagePath + ".DBEndpointIdExtractor()"
-	PathAlarmContactGroupNameExtractor = SelfPackagePath + ".AlarmContactGroupNameExtractor()"
-	PathOssBucketCnameTokenExtractor   = SelfPackagePath + ".OssBucketCnameTokenExtractor()"
-	PathAlidnsRecordDomainExtractor    = SelfPackagePath + ".AlidnsRecordDomainExtractor()"
-	PathOssBucketLocationExtractor     = SelfPackagePath + ".OssBucketLocationExtractor()"
+	PathIdExtractor                              = SelfPackagePath + ".IdExtractor()"
+	PathAccountNameExtractor                     = SelfPackagePath + ".AccountNameExtractor()"
+	PathRolaArnExtractor                         = SelfPackagePath + ".RoleArnExtractor()"
+	PathDBEndpointIdExtractor                    = SelfPackagePath + ".DBEndpointIdExtractor()"
+	PathAlarmContactGroupNameExtractor           = SelfPackagePath + ".AlarmContactGroupNameExtractor()"
+	PathOssBucketCnameTokenExtractor             = SelfPackagePath + ".OssBucketCnameTokenExtractor()"
+	PathAlidnsRecordDomainExtractor              = SelfPackagePath + ".AlidnsRecordDomainExtractor()"
+	PathOssBucketLocationExtractor               = SelfPackagePath + ".OssBucketLocationExtractor()"
+	PathPrivateLinkVpcEndpointServiceIdExtractor = SelfPackagePath + ".PrivateLinkVpcEndpointServiceIdExtractor()"
 )
 
 // IdExtractor extracts id of the
@@ -58,15 +59,15 @@ func AccountNameExtractor() reference.ExtractValueFn {
 	}
 }
 
-// DBNameExtractor extracts id of the
+// RoleArnExtractor extracts id of the
 // resources from "status.atProvider.account_name".
-func DBNameExtractor() reference.ExtractValueFn {
+func RoleArnExtractor() reference.ExtractValueFn {
 	return func(mg xpresource.Managed) string {
 		paved, err := fieldpath.PaveObject(mg)
 		if err != nil {
 			return ""
 		}
-		r, err := paved.GetString("status.atProvider.dbName")
+		r, err := paved.GetString("status.atProvider.arn")
 		if err != nil {
 			return ""
 		}
@@ -147,6 +148,22 @@ func OssBucketLocationExtractor() reference.ExtractValueFn {
 			return ""
 		}
 		r, err := paved.GetString("status.atProvider.location")
+		if err != nil {
+			return ""
+		}
+		return r
+	}
+}
+
+// PrivateLinkVpcEndpointServiceIdExtractor extracts id of the
+// resources from "status.atProvider.service_id".
+func PrivateLinkVpcEndpointServiceIdExtractor() reference.ExtractValueFn {
+	return func(mg xpresource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		r, err := paved.GetString("status.atProvider.service_id")
 		if err != nil {
 			return ""
 		}

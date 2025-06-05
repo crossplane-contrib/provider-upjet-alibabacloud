@@ -28,7 +28,17 @@ type FcTriggerInitParameters struct {
 	Notes *string `json:"notes,omitempty" tf:"notes,omitempty"`
 
 	// The role authorized by RAM. The value formats as acs:ram::{AccountID}:role/{RoleName}.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Role
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.RoleArnExtractor()
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+
+	// Reference to a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+
+	// Selector for a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// Resources and filters for event listening. The value formats as acs:cdn:{RegionID}:{AccountID}:{Filter}.
 	SourceArn *string `json:"sourceArn,omitempty" tf:"source_arn,omitempty"`
@@ -82,9 +92,24 @@ type FcTriggerParameters struct {
 	// +kubebuilder:validation:Optional
 	Notes *string `json:"notes,omitempty" tf:"notes,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The role authorized by RAM. The value formats as acs:ram::{AccountID}:role/{RoleName}.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.Role
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.RoleArnExtractor()
 	// +kubebuilder:validation:Optional
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+
+	// Reference to a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+
+	// Selector for a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// Resources and filters for event listening. The value formats as acs:cdn:{RegionID}:{AccountID}:{Filter}.
 	// +kubebuilder:validation:Optional
@@ -127,14 +152,13 @@ type FcTriggerStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type FcTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.eventMetaName) || (has(self.initProvider) && has(self.initProvider.eventMetaName))",message="spec.forProvider.eventMetaName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.eventMetaVersion) || (has(self.initProvider) && has(self.initProvider.eventMetaVersion))",message="spec.forProvider.eventMetaVersion is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.notes) || (has(self.initProvider) && has(self.initProvider.notes))",message="spec.forProvider.notes is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.roleArn) || (has(self.initProvider) && has(self.initProvider.roleArn))",message="spec.forProvider.roleArn is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sourceArn) || (has(self.initProvider) && has(self.initProvider.sourceArn))",message="spec.forProvider.sourceArn is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.triggerArn) || (has(self.initProvider) && has(self.initProvider.triggerArn))",message="spec.forProvider.triggerArn is a required parameter"
 	Spec   FcTriggerSpec   `json:"spec"`

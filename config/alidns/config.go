@@ -63,9 +63,5 @@ func Configure(p *config.Provider) {
 		r.References["domain_name"] = config.Reference{
 			TerraformName: "alicloud_alidns_domain",
 		}
-		r.References["value"] = config.Reference{
-			TerraformName: "alicloud_oss_bucket_cname_token",
-			Extractor:     common.PathOssBucketCnameTokenExtractor,
-		}
 	})
 }

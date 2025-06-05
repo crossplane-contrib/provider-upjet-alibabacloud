@@ -1,0 +1,128 @@
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: ServerGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/servergroup
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    healthCheckConfig:
+    - healthCheckCodes:
+      - http_2xx
+      - http_3xx
+      - http_4xx
+      healthCheckConnectPort: 46325
+      healthCheckEnabled: true
+      healthCheckHost: tf-example.com
+      healthCheckHttpVersion: HTTP1.1
+      healthCheckInterval: 2
+      healthCheckMethod: HEAD
+      healthCheckPath: /tf-example
+      healthCheckProtocol: HTTP
+      healthCheckTimeout: 5
+      healthyThreshold: 3
+      unhealthyThreshold: 3
+    protocol: HTTP
+    region: cn-beijing
+#    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.example.groups.0.id}
+    serverGroupName: crossplane-example
+    servers:
+    - description: crossplane-example
+      port: 80
+      serverIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-servergroup
+      serverIpSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-servergroup
+      serverType: Ecs
+      weight: 10
+    stickySessionConfig:
+    - cookie: tf-example
+      stickySessionEnabled: true
+      stickySessionType: Server
+    tags:
+      Created: TF
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-servergroup
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/servergroup
+  labels:
+    testing.upbound.io/example-name: for-servergroup
+  name: for-servergroup
+spec:
+  forProvider:
+    availabilityZone: cn-beijing-f
+    imageId: ubuntu_18_04_x64_20G_alibase_20240223.vhd
+    instanceName: crossplane-example
+    instanceType: ecs.sn1ne.large
+    region: cn-beijing
+    securityGroupRefs:
+    - name: for-servergroup
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-servergroup
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/servergroup
+  labels:
+    testing.upbound.io/example-name: for-servergroup
+  name: for-servergroup
+spec:
+  forProvider:
+    description: crossplane-example
+    name: crossplane-example
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-servergroup
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/servergroup
+  labels:
+    testing.upbound.io/example-name: for-servergroup
+  name: for-servergroup
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    region: cn-beijing
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/servergroup
+  labels:
+    testing.upbound.io/example-name: for-servergroup
+  name: for-servergroup
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-servergroup
+    vswitchName: crossplane-example
+    zoneId: cn-beijing-f

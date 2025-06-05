@@ -8,6 +8,7 @@ metadata:
   name: instance
 spec:
   forProvider:
+    region: cn-zhangjiakou
     availabilityZone: cn-zhangjiakou-a
     dataDisks:
     - category: cloud_efficiency
@@ -42,6 +43,7 @@ metadata:
   name: group
 spec:
   forProvider:
+    region: cn-zhangjiakou
     description: foo
     securityGroupName: crossplane-example
     vpcIdSelector:
@@ -60,6 +62,7 @@ metadata:
   name: vpc
 spec:
   forProvider:
+    region: cn-zhangjiakou
     cidrBlock: 172.16.0.0/16
     vpcName: crossplane-example
 
@@ -75,6 +78,7 @@ metadata:
   name: vswitch
 spec:
   forProvider:
+    region: cn-zhangjiakou
     cidrBlock: 172.16.0.0/24
     vpcIdSelector:
       matchLabels:

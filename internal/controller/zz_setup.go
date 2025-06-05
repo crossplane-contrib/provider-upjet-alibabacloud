@@ -19,6 +19,18 @@ import (
 	serverlesskubernetes "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ack/serverlesskubernetes"
 	cluster "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ackone/cluster"
 	membershipattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ackone/membershipattachment"
+	acl "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/acl"
+	aclentryattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/aclentryattachment"
+	ascript "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/ascript"
+	healthchecktemplate "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/healthchecktemplate"
+	listener "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/listener"
+	listeneraclattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/listeneraclattachment"
+	loadbalancer "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/loadbalancer"
+	loadbalancersecuritygroupattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/loadbalancersecuritygroupattachment"
+	loadbalancerzoneshiftedattachment "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/loadbalancerzoneshiftedattachment"
+	rule "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/rule"
+	securitypolicy "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/securitypolicy"
+	servergroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alb/servergroup"
 	addresspool "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/addresspool"
 	customline "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/customline"
 	domain "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/alidns/domain"
@@ -115,6 +127,12 @@ import (
 	globaldatabasenetwork "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/globaldatabasenetwork"
 	parametergroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/parametergroup"
 	primaryendpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/polardb/primaryendpoint"
+	vpcendpoint "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpoint"
+	vpcendpointconnection "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpointconnection"
+	vpcendpointservice "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpointservice"
+	vpcendpointserviceresource "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpointserviceresource"
+	vpcendpointserviceuser "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpointserviceuser"
+	vpcendpointzone "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/privatelink/vpcendpointzone"
 	providerconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/providerconfig"
 	accesskey "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ram/accesskey"
 	accountalias "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ram/accountalias"
@@ -155,6 +173,18 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		serverlesskubernetes.Setup,
 		cluster.Setup,
 		membershipattachment.Setup,
+		acl.Setup,
+		aclentryattachment.Setup,
+		ascript.Setup,
+		healthchecktemplate.Setup,
+		listener.Setup,
+		listeneraclattachment.Setup,
+		loadbalancer.Setup,
+		loadbalancersecuritygroupattachment.Setup,
+		loadbalancerzoneshiftedattachment.Setup,
+		rule.Setup,
+		securitypolicy.Setup,
+		servergroup.Setup,
 		addresspool.Setup,
 		customline.Setup,
 		domain.Setup,
@@ -251,6 +281,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		globaldatabasenetwork.Setup,
 		parametergroup.Setup,
 		primaryendpoint.Setup,
+		vpcendpoint.Setup,
+		vpcendpointconnection.Setup,
+		vpcendpointservice.Setup,
+		vpcendpointserviceresource.Setup,
+		vpcendpointserviceuser.Setup,
+		vpcendpointzone.Setup,
 		providerconfig.Setup,
 		accesskey.Setup,
 		accountalias.Setup,

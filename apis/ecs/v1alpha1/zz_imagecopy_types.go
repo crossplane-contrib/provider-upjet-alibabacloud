@@ -29,7 +29,16 @@ type ImageCopyInitParameters struct {
 	ImageName *string `json:"imageName,omitempty" tf:"image_name,omitempty"`
 
 	// Key ID used to encrypt the image.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1.Key
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// Reference to a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
 
 	// The source image ID.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.Image
@@ -46,7 +55,7 @@ type ImageCopyInitParameters struct {
 	// The ID of the region to which the source custom image belongs. You can call DescribeRegions to view the latest regions of Alibaba Cloud.
 	SourceRegionID *string `json:"sourceRegionId,omitempty" tf:"source_region_id,omitempty"`
 
-	// The tag value of an image. The value of N ranges from 1 to 20.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -78,7 +87,7 @@ type ImageCopyObservation struct {
 	// The ID of the region to which the source custom image belongs. You can call DescribeRegions to view the latest regions of Alibaba Cloud.
 	SourceRegionID *string `json:"sourceRegionId,omitempty" tf:"source_region_id,omitempty"`
 
-	// The tag value of an image. The value of N ranges from 1 to 20.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -105,8 +114,22 @@ type ImageCopyParameters struct {
 	ImageName *string `json:"imageName,omitempty" tf:"image_name,omitempty"`
 
 	// Key ID used to encrypt the image.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1.Key
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// Reference to a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
+
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
 
 	// The source image ID.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.Image
@@ -125,7 +148,7 @@ type ImageCopyParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceRegionID *string `json:"sourceRegionId,omitempty" tf:"source_region_id,omitempty"`
 
-	// The tag value of an image. The value of N ranges from 1 to 20.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -163,7 +186,7 @@ type ImageCopyStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type ImageCopy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

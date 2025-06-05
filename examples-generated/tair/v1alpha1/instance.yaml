@@ -15,6 +15,7 @@ spec:
     engineVersion: "5.0"
     instanceClass: redis.master.large.default
     instanceType: Redis
+    region: cn-beijing
     resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
     securityIps:
     - 10.23.12.24
@@ -39,6 +40,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -54,6 +56,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

@@ -45,7 +45,7 @@ type ElasticityAssuranceInitParameters struct {
 	// (ForceNew,Optional) Flexible guarantee service effective time.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// The tag key-value pair information bound by the elastic guarantee service.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -103,7 +103,7 @@ type ElasticityAssuranceObservation struct {
 	// The status of flexible guarantee services. Possible values:-Preparing: in preparation.-Prepared: to take effect.-Active: in effect.-Released: Released.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// The tag key-value pair information bound by the elastic guarantee service.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -148,6 +148,11 @@ type ElasticityAssuranceParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivatePoolOptionsName *string `json:"privatePoolOptionsName,omitempty" tf:"private_pool_options_name,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// (ForceNew,Optional) The ID of the resource group.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -156,7 +161,7 @@ type ElasticityAssuranceParameters struct {
 	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 
-	// The tag key-value pair information bound by the elastic guarantee service.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -198,7 +203,7 @@ type ElasticityAssuranceStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type ElasticityAssurance struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: imagepipelines.ecs.alibabacloud.crossplane.io
 spec:
   group: ecs.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: ImagePipeline
     listKind: ImagePipelineList
     plural: imagepipelines
@@ -133,6 +133,10 @@ spec:
                       digits, colons (:), underscores (_), periods (.),and hyphens
                       (-).
                     type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   resourceGroupId:
                     description: The ID of the resource group.
                     type: string
@@ -144,7 +148,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   toRegionId:
@@ -318,7 +322,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   toRegionId:
@@ -662,7 +666,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   toRegionId:

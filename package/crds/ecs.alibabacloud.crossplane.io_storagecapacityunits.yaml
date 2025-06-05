@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: storagecapacityunits.ecs.alibabacloud.crossplane.io
 spec:
   group: ecs.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: StorageCapacityUnit
     listKind: StorageCapacityUnitList
     plural: storagecapacityunits
@@ -90,6 +90,10 @@ spec:
                   periodUnit:
                     description: 'The unit of the validity period of the Storage Capacity
                       Unit. Default value: Month. Valid values: Month, Year.'
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
                     type: string
                   startTime:
                     description: 'The time when the Storage Capacity Unit takes effect.

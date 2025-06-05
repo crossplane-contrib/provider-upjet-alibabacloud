@@ -12,6 +12,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     key: example_key
+    region: cn-beijing
     source: ./main.tf
 
 ---
@@ -27,6 +28,7 @@ metadata:
 spec:
   forProvider:
     bucket: terraform-example-${random_integer.default.result}
+    region: cn-beijing
 
 ---
 
@@ -44,3 +46,4 @@ spec:
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: default
+    region: cn-beijing

@@ -18,6 +18,7 @@ spec:
       ispCode: "465"
     monitorExtendInfo: '{"failureRate":50,"port":80}'
     protocolType: TCP
+    region: cn-beijing
     timeout: "5000"
 
 ---
@@ -43,6 +44,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     lbaStrategy: RATIO
+    region: cn-beijing
     type: IPV4
 
 ---
@@ -62,8 +64,8 @@ spec:
       emailNotice: true
       noticeType: ADDR_ALERT
       smsNotice: true
-    alertGroup:
-    - ${alicloud_cms_alarm_contact_group.default.alarm_contact_group_name}
+    alertGroupRefs:
+    - name: default
     cnameType: PUBLIC
     healthCheckTaskCount: 100
     instanceName: ${var.name}
@@ -72,6 +74,7 @@ spec:
     period: 1
     publicCnameMode: SYSTEM_ASSIGN
     publicUserDomainName: ${var.domain_name}
+    region: cn-beijing
     renewalStatus: ManualRenewal
     resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     smsNotificationCount: 1000
@@ -90,3 +93,4 @@ metadata:
 spec:
   forProvider:
     alarmContactGroupName: ${var.name}
+    region: cn-beijing

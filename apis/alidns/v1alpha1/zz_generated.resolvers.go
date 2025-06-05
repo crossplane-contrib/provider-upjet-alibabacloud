@@ -8,9 +8,9 @@ package v1alpha1
 
 import (
 	"context"
-	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1"
-	common "github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common"
+	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/cloudmonitorservice/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -146,7 +146,24 @@ func (mg *DomainAttachment) ResolveReferences(ctx context.Context, c client.Read
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
+	var mrsp reference.MultiResolutionResponse
 	var err error
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.DomainNames),
+		Extract:       resource.ExtractParamPath("domain_name", false),
+		References:    mg.Spec.ForProvider.DomainNamesRefs,
+		Selector:      mg.Spec.ForProvider.DomainNamesSelector,
+		To: reference.To{
+			List:    &DomainList{},
+			Managed: &Domain{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.DomainNames")
+	}
+	mg.Spec.ForProvider.DomainNames = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.DomainNamesRefs = mrsp.ResolvedReferences
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
@@ -164,6 +181,22 @@ func (mg *DomainAttachment) ResolveReferences(ctx context.Context, c client.Read
 	mg.Spec.ForProvider.InstanceID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceIDRef = rsp.ResolvedReference
 
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.DomainNames),
+		Extract:       resource.ExtractParamPath("domain_name", false),
+		References:    mg.Spec.InitProvider.DomainNamesRefs,
+		Selector:      mg.Spec.InitProvider.DomainNamesSelector,
+		To: reference.To{
+			List:    &DomainList{},
+			Managed: &Domain{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DomainNames")
+	}
+	mg.Spec.InitProvider.DomainNames = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.DomainNamesRefs = mrsp.ResolvedReferences
+
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceID),
 		Extract:      reference.ExternalName(),
@@ -179,6 +212,48 @@ func (mg *DomainAttachment) ResolveReferences(ctx context.Context, c client.Read
 	}
 	mg.Spec.InitProvider.InstanceID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.InstanceIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this GtmInstance.
+func (mg *GtmInstance) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var mrsp reference.MultiResolutionResponse
+	var err error
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.AlertGroup),
+		Extract:       resource.ExtractParamPath("alarm_contact_group_name", false),
+		References:    mg.Spec.ForProvider.AlertGroupRefs,
+		Selector:      mg.Spec.ForProvider.AlertGroupSelector,
+		To: reference.To{
+			List:    &v1alpha1.AlarmContactGroupList{},
+			Managed: &v1alpha1.AlarmContactGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.AlertGroup")
+	}
+	mg.Spec.ForProvider.AlertGroup = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.AlertGroupRefs = mrsp.ResolvedReferences
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.AlertGroup),
+		Extract:       resource.ExtractParamPath("alarm_contact_group_name", false),
+		References:    mg.Spec.InitProvider.AlertGroupRefs,
+		Selector:      mg.Spec.InitProvider.AlertGroupSelector,
+		To: reference.To{
+			List:    &v1alpha1.AlarmContactGroupList{},
+			Managed: &v1alpha1.AlarmContactGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.AlertGroup")
+	}
+	mg.Spec.InitProvider.AlertGroup = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.AlertGroupRefs = mrsp.ResolvedReferences
 
 	return nil
 }
@@ -249,22 +324,6 @@ func (mg *Record) ResolveReferences(ctx context.Context, c client.Reader) error 
 	mg.Spec.ForProvider.DomainNameRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Value),
-		Extract:      common.OssBucketCnameTokenExtractor(),
-		Reference:    mg.Spec.ForProvider.ValueRef,
-		Selector:     mg.Spec.ForProvider.ValueSelector,
-		To: reference.To{
-			List:    &v1alpha1.BucketCnameTokenList{},
-			Managed: &v1alpha1.BucketCnameToken{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.Value")
-	}
-	mg.Spec.ForProvider.Value = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ValueRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DomainName),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.InitProvider.DomainNameRef,
@@ -279,22 +338,6 @@ func (mg *Record) ResolveReferences(ctx context.Context, c client.Reader) error 
 	}
 	mg.Spec.InitProvider.DomainName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DomainNameRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Value),
-		Extract:      common.OssBucketCnameTokenExtractor(),
-		Reference:    mg.Spec.InitProvider.ValueRef,
-		Selector:     mg.Spec.InitProvider.ValueSelector,
-		To: reference.To{
-			List:    &v1alpha1.BucketCnameTokenList{},
-			Managed: &v1alpha1.BucketCnameToken{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.Value")
-	}
-	mg.Spec.InitProvider.Value = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.ValueRef = rsp.ResolvedReference
 
 	return nil
 }

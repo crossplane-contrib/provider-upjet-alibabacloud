@@ -25,6 +25,23 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_ack_one_cluster":               config.IdentifierFromProvider,
 	"alicloud_ack_one_membership_attachment": config.IdentifierFromProvider,
 
+  // ALB
+	"alicloud_alb_acl":                     config.IdentifierFromProvider,
+	"alicloud_alb_acl_entry_attachment":    config.IdentifierFromProvider,
+	"alicloud_alb_ascript":                 config.IdentifierFromProvider,
+	"alicloud_alb_health_check_template":   config.IdentifierFromProvider,
+	"alicloud_alb_listener":                config.IdentifierFromProvider,
+	"alicloud_alb_listener_acl_attachment": config.IdentifierFromProvider,
+	// "alicloud_alb_listener_additional_certificate_attachment": config.IdentifierFromProvider,
+	"alicloud_alb_load_balancer": config.IdentifierFromProvider,
+	// "alicloud_alb_load_balancer_access_log_config_attachment": config.IdentifierFromProvider,
+	// "alicloud_alb_load_balancer_common_bandwidth_package_attachment": config.IdentifierFromProvider,
+	"alicloud_alb_load_balancer_security_group_attachment": config.IdentifierFromProvider,
+	"alicloud_alb_load_balancer_zone_shifted_attachment":   config.IdentifierFromProvider,
+	"alicloud_alb_rule":            config.IdentifierFromProvider,
+	"alicloud_alb_security_policy": config.IdentifierFromProvider,
+	"alicloud_alb_server_group":    config.IdentifierFromProvider,
+
 	// ALIDNS
 	// "alicloud_alidns_access_strategy":   config.IdentifierFromProvider,
 	"alicloud_alidns_address_pool":      config.IdentifierFromProvider,
@@ -138,6 +155,14 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_polardb_global_database_network": config.IdentifierFromProvider,
 	"alicloud_polardb_parameter_group":         config.IdentifierFromProvider,
 	"alicloud_polardb_primary_endpoint":        config.IdentifierFromProvider,
+
+	// PrivateLink
+	"alicloud_privatelink_vpc_endpoint":                  config.IdentifierFromProvider,
+	"alicloud_privatelink_vpc_endpoint_connection":       config.IdentifierFromProvider,
+	"alicloud_privatelink_vpc_endpoint_service":          config.IdentifierFromProvider,
+	"alicloud_privatelink_vpc_endpoint_service_resource": config.IdentifierFromProvider,
+	"alicloud_privatelink_vpc_endpoint_service_user":     config.IdentifierFromProvider,
+	"alicloud_privatelink_vpc_endpoint_zone":             config.IdentifierFromProvider,
 
 	// RAM
 	"alicloud_ram_access_key":              config.IdentifierFromProvider,

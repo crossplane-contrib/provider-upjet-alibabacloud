@@ -1,0 +1,1061 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.16.5
+  name: loadbalancers.alb.alibabacloud.crossplane.io
+spec:
+  group: alb.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alibabacloud
+    kind: LoadBalancer
+    listKind: LoadBalancerList
+    plural: loadbalancers
+    singular: loadbalancer
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: LoadBalancer is the Schema for the LoadBalancers API. Provides
+          a Alicloud Application Load Balancer (ALB) Load Balancer resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: LoadBalancerSpec defines the desired state of LoadBalancer
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  accessLogConfig:
+                    description: The configuration of the access log. See access_log_config
+                      below.
+                    items:
+                      properties:
+                        logProject:
+                          description: The project to which the access log is shipped.
+                          type: string
+                        logStore:
+                          description: The Logstore to which the access log is shipped.
+                          type: string
+                      type: object
+                    type: array
+                  addressAllocatedMode:
+                    description: 'The method in which IP addresses are assigned. Valid
+                      values:  Fixed: The ALB instance uses a fixed IP address. Dynamic
+                      (default): An IP address is dynamically assigned to each zone
+                      of the ALB instance.'
+                    type: string
+                  addressIpVersion:
+                    description: 'The protocol version. Value:'
+                    type: string
+                  addressType:
+                    description: The type of IP address that the SLB instance uses
+                      to provide services.
+                    type: string
+                  bandwidthPackageId:
+                    description: The ID of the EIP bandwidth plan which is associated
+                      with an ALB instance that uses a public IP address.
+                    type: string
+                  deletionProtectionConfig:
+                    description: The Protection Configuration See deletion_protection_config
+                      below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Remove the Protection Status
+                          type: boolean
+                      type: object
+                    type: array
+                  deletionProtectionEnabled:
+                    description: 'Specifies whether to enable deletion protection.
+                      Default value: false. Valid values:'
+                    type: boolean
+                  dryRun:
+                    description: 'Whether to PreCheck only this request, value:'
+                    type: boolean
+                  ipv6AddressType:
+                    description: The address type of Ipv6
+                    type: string
+                  loadBalancerBillingConfig:
+                    description: The configuration of the billing method. See load_balancer_billing_config
+                      below.
+                    items:
+                      properties:
+                        payType:
+                          description: Pay Type
+                          type: string
+                      type: object
+                    type: array
+                  loadBalancerEdition:
+                    description: The edition of the ALB instance.
+                    type: string
+                  loadBalancerName:
+                    description: The name of the resource
+                    type: string
+                  modificationProtectionConfig:
+                    description: Modify the Protection Configuration See modification_protection_config
+                      below.
+                    items:
+                      properties:
+                        reason:
+                          description: Managed Instance
+                          type: string
+                        status:
+                          description: Load Balancing Modify the Protection Status
+                          type: string
+                      type: object
+                    type: array
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
+                  resourceGroupId:
+                    description: The ID of the resource group
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  vpcId:
+                    description: The ID of the virtual private cloud (VPC) where the
+                      SLB instance is deployed.
+                    type: string
+                  vpcIdRef:
+                    description: Reference to a VPC in vpc to populate vpcId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vpcIdSelector:
+                    description: Selector for a VPC in vpc to populate vpcId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  zoneMappings:
+                    description: The zones and vSwitches. You must specify at least
+                      two zones. See zone_mappings below.
+                    items:
+                      properties:
+                        allocationId:
+                          description: The ID of the EIP instance.
+                          type: string
+                        eipType:
+                          description: The type of the EIP instance.
+                          type: string
+                        intranetAddress:
+                          description: IPv4 private network address.
+                          type: string
+                        vswitchId:
+                          description: The ID of the vSwitch that corresponds to the
+                            zone. Each zone can use only one vSwitch and subnet.
+                          type: string
+                        vswitchIdRef:
+                          description: Reference to a Vswitch in vpc to populate vswitchId.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        vswitchIdSelector:
+                          description: Selector for a Vswitch in vpc to populate vswitchId.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        zoneId:
+                          description: The ID of the zone to which the SLB instance
+                            belongs.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  accessLogConfig:
+                    description: The configuration of the access log. See access_log_config
+                      below.
+                    items:
+                      properties:
+                        logProject:
+                          description: The project to which the access log is shipped.
+                          type: string
+                        logStore:
+                          description: The Logstore to which the access log is shipped.
+                          type: string
+                      type: object
+                    type: array
+                  addressAllocatedMode:
+                    description: 'The method in which IP addresses are assigned. Valid
+                      values:  Fixed: The ALB instance uses a fixed IP address. Dynamic
+                      (default): An IP address is dynamically assigned to each zone
+                      of the ALB instance.'
+                    type: string
+                  addressIpVersion:
+                    description: 'The protocol version. Value:'
+                    type: string
+                  addressType:
+                    description: The type of IP address that the SLB instance uses
+                      to provide services.
+                    type: string
+                  bandwidthPackageId:
+                    description: The ID of the EIP bandwidth plan which is associated
+                      with an ALB instance that uses a public IP address.
+                    type: string
+                  deletionProtectionConfig:
+                    description: The Protection Configuration See deletion_protection_config
+                      below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Remove the Protection Status
+                          type: boolean
+                      type: object
+                    type: array
+                  deletionProtectionEnabled:
+                    description: 'Specifies whether to enable deletion protection.
+                      Default value: false. Valid values:'
+                    type: boolean
+                  dryRun:
+                    description: 'Whether to PreCheck only this request, value:'
+                    type: boolean
+                  ipv6AddressType:
+                    description: The address type of Ipv6
+                    type: string
+                  loadBalancerBillingConfig:
+                    description: The configuration of the billing method. See load_balancer_billing_config
+                      below.
+                    items:
+                      properties:
+                        payType:
+                          description: Pay Type
+                          type: string
+                      type: object
+                    type: array
+                  loadBalancerEdition:
+                    description: The edition of the ALB instance.
+                    type: string
+                  loadBalancerName:
+                    description: The name of the resource
+                    type: string
+                  modificationProtectionConfig:
+                    description: Modify the Protection Configuration See modification_protection_config
+                      below.
+                    items:
+                      properties:
+                        reason:
+                          description: Managed Instance
+                          type: string
+                        status:
+                          description: Load Balancing Modify the Protection Status
+                          type: string
+                      type: object
+                    type: array
+                  resourceGroupId:
+                    description: The ID of the resource group
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  vpcId:
+                    description: The ID of the virtual private cloud (VPC) where the
+                      SLB instance is deployed.
+                    type: string
+                  vpcIdRef:
+                    description: Reference to a VPC in vpc to populate vpcId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vpcIdSelector:
+                    description: Selector for a VPC in vpc to populate vpcId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  zoneMappings:
+                    description: The zones and vSwitches. You must specify at least
+                      two zones. See zone_mappings below.
+                    items:
+                      properties:
+                        allocationId:
+                          description: The ID of the EIP instance.
+                          type: string
+                        eipType:
+                          description: The type of the EIP instance.
+                          type: string
+                        intranetAddress:
+                          description: IPv4 private network address.
+                          type: string
+                        vswitchId:
+                          description: The ID of the vSwitch that corresponds to the
+                            zone. Each zone can use only one vSwitch and subnet.
+                          type: string
+                        vswitchIdRef:
+                          description: Reference to a Vswitch in vpc to populate vswitchId.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        vswitchIdSelector:
+                          description: Selector for a Vswitch in vpc to populate vswitchId.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        zoneId:
+                          description: The ID of the zone to which the SLB instance
+                            belongs.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.addressType is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.addressType)
+                || (has(self.initProvider) && has(self.initProvider.addressType))'
+            - message: spec.forProvider.loadBalancerBillingConfig is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.loadBalancerBillingConfig)
+                || (has(self.initProvider) && has(self.initProvider.loadBalancerBillingConfig))'
+            - message: spec.forProvider.loadBalancerEdition is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.loadBalancerEdition)
+                || (has(self.initProvider) && has(self.initProvider.loadBalancerEdition))'
+            - message: spec.forProvider.zoneMappings is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.zoneMappings)
+                || (has(self.initProvider) && has(self.initProvider.zoneMappings))'
+          status:
+            description: LoadBalancerStatus defines the observed state of LoadBalancer.
+            properties:
+              atProvider:
+                properties:
+                  accessLogConfig:
+                    description: The configuration of the access log. See access_log_config
+                      below.
+                    items:
+                      properties:
+                        logProject:
+                          description: The project to which the access log is shipped.
+                          type: string
+                        logStore:
+                          description: The Logstore to which the access log is shipped.
+                          type: string
+                      type: object
+                    type: array
+                  addressAllocatedMode:
+                    description: 'The method in which IP addresses are assigned. Valid
+                      values:  Fixed: The ALB instance uses a fixed IP address. Dynamic
+                      (default): An IP address is dynamically assigned to each zone
+                      of the ALB instance.'
+                    type: string
+                  addressIpVersion:
+                    description: 'The protocol version. Value:'
+                    type: string
+                  addressType:
+                    description: The type of IP address that the SLB instance uses
+                      to provide services.
+                    type: string
+                  bandwidthPackageId:
+                    description: The ID of the EIP bandwidth plan which is associated
+                      with an ALB instance that uses a public IP address.
+                    type: string
+                  createTime:
+                    description: The creation time of the resource
+                    type: string
+                  deletionProtectionConfig:
+                    description: The Protection Configuration See deletion_protection_config
+                      below.
+                    items:
+                      properties:
+                        enabled:
+                          description: Remove the Protection Status
+                          type: boolean
+                        enabledTime:
+                          description: 'Deletion Protection Turn-on Time Use Greenwich
+                            Mean Time, in the Format of Yyyy-MM-ddTHH: mm: SSZ'
+                          type: string
+                      type: object
+                    type: array
+                  deletionProtectionEnabled:
+                    description: 'Specifies whether to enable deletion protection.
+                      Default value: false. Valid values:'
+                    type: boolean
+                  dnsName:
+                    description: DNS Domain Name
+                    type: string
+                  dryRun:
+                    description: 'Whether to PreCheck only this request, value:'
+                    type: boolean
+                  id:
+                    description: The ID of the resource supplied above.
+                    type: string
+                  ipv6AddressType:
+                    description: The address type of Ipv6
+                    type: string
+                  loadBalancerBillingConfig:
+                    description: The configuration of the billing method. See load_balancer_billing_config
+                      below.
+                    items:
+                      properties:
+                        payType:
+                          description: Pay Type
+                          type: string
+                      type: object
+                    type: array
+                  loadBalancerEdition:
+                    description: The edition of the ALB instance.
+                    type: string
+                  loadBalancerName:
+                    description: The name of the resource
+                    type: string
+                  modificationProtectionConfig:
+                    description: Modify the Protection Configuration See modification_protection_config
+                      below.
+                    items:
+                      properties:
+                        reason:
+                          description: Managed Instance
+                          type: string
+                        status:
+                          description: Load Balancing Modify the Protection Status
+                          type: string
+                      type: object
+                    type: array
+                  regionId:
+                    description: The region ID of the resource
+                    type: string
+                  resourceGroupId:
+                    description: The ID of the resource group
+                    type: string
+                  status:
+                    description: Server Load Balancer Instance Status:, indicating
+                      that the instance listener will no longer forward traffic.(default).
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  vpcId:
+                    description: The ID of the virtual private cloud (VPC) where the
+                      SLB instance is deployed.
+                    type: string
+                  zoneMappings:
+                    description: The zones and vSwitches. You must specify at least
+                      two zones. See zone_mappings below.
+                    items:
+                      properties:
+                        address:
+                          description: IP Address. The Public IP Address, and Private
+                            IP Address from the Address Type
+                          type: string
+                        allocationId:
+                          description: The ID of the EIP instance.
+                          type: string
+                        eipType:
+                          description: The type of the EIP instance.
+                          type: string
+                        intranetAddress:
+                          description: IPv4 private network address.
+                          type: string
+                        ipv6Address:
+                          description: Ipv6 address
+                          type: string
+                        loadBalancerAddresses:
+                          description: The instance address.
+                          items:
+                            properties:
+                              address:
+                                description: IP Address. The Public IP Address, and
+                                  Private IP Address from the Address Type
+                                type: string
+                              allocationId:
+                                description: The ID of the EIP instance.
+                                type: string
+                              eipType:
+                                description: The type of the EIP instance.
+                                type: string
+                              intranetAddress:
+                                description: IPv4 private network address.
+                                type: string
+                              intranetAddressHcStatus:
+                                description: The private network IPv4 address detection
+                                  status of the application-oriented load balancing
+                                  instance.
+                                type: string
+                              ipv4LocalAddresses:
+                                description: IPv4 Local address list. The list of
+                                  addresses used by ALB to interact with the backend
+                                  service.
+                                items:
+                                  type: string
+                                type: array
+                              ipv6Address:
+                                description: Ipv6 address
+                                type: string
+                              ipv6AddressHcStatus:
+                                description: The IPv6 address detection status of
+                                  the application-based load balancing instance.
+                                type: string
+                              ipv6LocalAddresses:
+                                description: IPv6 Local address list. The list of
+                                  addresses used by ALB to interact with the backend
+                                  service.
+                                items:
+                                  type: string
+                                type: array
+                            type: object
+                          type: array
+                        vswitchId:
+                          description: The ID of the vSwitch that corresponds to the
+                            zone. Each zone can use only one vSwitch and subnet.
+                          type: string
+                        zoneId:
+                          description: The ID of the zone to which the SLB instance
+                            belongs.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -24,7 +24,7 @@ type DedicatedHostClusterInitParameters struct {
 	// The dry run.
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -45,7 +45,7 @@ type DedicatedHostClusterObservation struct {
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -67,7 +67,12 @@ type DedicatedHostClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -109,7 +114,7 @@ type DedicatedHostClusterStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type DedicatedHostCluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

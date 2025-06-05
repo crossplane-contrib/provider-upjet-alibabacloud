@@ -13,3 +13,26 @@ spec:
     enableIpv6: true
     ipv6Isp: BGP
     vpcName: crossplane-example
+
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vpc
+  labels:
+    testing.upbound.io/example-name: with-region
+  name: crossplane-example-with-region
+spec:
+  forProvider:
+    region: cn-shenzhen
+    cidrBlock: 10.0.0.0/8
+    description: test
+    enableIpv6: true
+    ipv6Isp: BGP
+    vpcName: crossplane-example-with-region
+    tags:
+      From: Crossplane
+      For: Testing

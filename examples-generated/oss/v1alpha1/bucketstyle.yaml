@@ -13,6 +13,7 @@ spec:
         testing.upbound.io/example-name: CreateBucket
     category: document
     content: image/resize,p_75,w_75
+    region: cn-beijing
     styleName: style-933
 
 ---
@@ -28,4 +29,5 @@ metadata:
 spec:
   forProvider:
     bucket: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
     storageClass: Standard

@@ -10,4 +10,5 @@ spec:
   forProvider:
     capacity: 20
     description: tftestdescription
+    region: cn-beijing
     storageCapacityUnitName: tftestname

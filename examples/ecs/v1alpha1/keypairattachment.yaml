@@ -8,6 +8,7 @@ metadata:
   name: example
 spec:
   forProvider:
+    region: cn-zhangjiakou
     instanceRefs:
     - name: keypairattach
     keyPairNameSelector:
@@ -26,6 +27,7 @@ metadata:
   name: keypairattach
 spec:
   forProvider:
+    region: cn-zhangjiakou
     keyPairName: crossplane-example-for-attachment
 
 ---
@@ -40,6 +42,7 @@ metadata:
   name: keypairattach
 spec:
   forProvider:
+    region: cn-zhangjiakou
     availabilityZone: cn-zhangjiakou-a
     imageId: ubuntu_18_04_64_20G_alibase_20190624.vhd
     instanceName: crossplane-example
@@ -63,6 +66,7 @@ metadata:
   name: keypairattach
 spec:
   forProvider:
+    region: cn-zhangjiakou
     securityGroupName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -80,6 +84,7 @@ metadata:
   name: keypairattach
 spec:
   forProvider:
+    region: cn-zhangjiakou
     cidrBlock: 172.17.3.0/24
     vpcName: crossplane-example
 
@@ -95,6 +100,7 @@ metadata:
   name: keypairattach
 spec:
   forProvider:
+    region: cn-zhangjiakou
     cidrBlock: 172.17.3.0/24
     vpcIdSelector:
       matchLabels:

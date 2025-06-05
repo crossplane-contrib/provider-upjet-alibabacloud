@@ -96,7 +96,7 @@ type BucketInitParameters struct {
 	// The storage class to apply. Can be "Standard", "IA", "Archive", "ColdArchive" and "DeepColdArchive". Defaults to "Standard". "ColdArchive" is available since 1.203.0. "DeepColdArchive" is available since 1.209.0.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
-	// A mapping of tags to assign to the bucket. The items are no more than 10 for a bucket.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -163,7 +163,7 @@ type BucketObservation struct {
 	// The storage class to apply. Can be "Standard", "IA", "Archive", "ColdArchive" and "DeepColdArchive". Defaults to "Standard". "ColdArchive" is available since 1.203.0. "DeepColdArchive" is available since 1.209.0.
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
-	// A mapping of tags to assign to the bucket. The items are no more than 10 for a bucket.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -211,6 +211,11 @@ type BucketParameters struct {
 	// +kubebuilder:validation:Optional
 	RedundancyType *string `json:"redundancyType,omitempty" tf:"redundancy_type,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of the resource group to which the bucket belongs.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -223,7 +228,7 @@ type BucketParameters struct {
 	// +kubebuilder:validation:Optional
 	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
 
-	// A mapping of tags to assign to the bucket. The items are no more than 10 for a bucket.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -414,7 +419,7 @@ type LifecycleRuleInitParameters struct {
 	// Object key prefix identifying one or more objects to which the rule applies. Default value is null, the rule applies to all objects in a bucket.
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
-	// A mapping of tags to assign to the bucket. The items are no more than 10 for a bucket.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -448,7 +453,7 @@ type LifecycleRuleObservation struct {
 	// Object key prefix identifying one or more objects to which the rule applies. Default value is null, the rule applies to all objects in a bucket.
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
-	// A mapping of tags to assign to the bucket. The items are no more than 10 for a bucket.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -490,7 +495,7 @@ type LifecycleRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	Prefix *string `json:"prefix,omitempty" tf:"prefix,omitempty"`
 
-	// A mapping of tags to assign to the bucket. The items are no more than 10 for a bucket.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -503,7 +508,17 @@ type LifecycleRuleParameters struct {
 type LoggingInitParameters struct {
 
 	// The name of the bucket that will receive the log objects.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.Bucket
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	TargetBucket *string `json:"targetBucket,omitempty" tf:"target_bucket,omitempty"`
+
+	// Reference to a Bucket in oss to populate targetBucket.
+	// +kubebuilder:validation:Optional
+	TargetBucketRef *v1.Reference `json:"targetBucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in oss to populate targetBucket.
+	// +kubebuilder:validation:Optional
+	TargetBucketSelector *v1.Selector `json:"targetBucketSelector,omitempty" tf:"-"`
 
 	// To specify a key prefix for log objects.
 	TargetPrefix *string `json:"targetPrefix,omitempty" tf:"target_prefix,omitempty"`
@@ -521,8 +536,18 @@ type LoggingObservation struct {
 type LoggingParameters struct {
 
 	// The name of the bucket that will receive the log objects.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.Bucket
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
-	TargetBucket *string `json:"targetBucket" tf:"target_bucket,omitempty"`
+	TargetBucket *string `json:"targetBucket,omitempty" tf:"target_bucket,omitempty"`
+
+	// Reference to a Bucket in oss to populate targetBucket.
+	// +kubebuilder:validation:Optional
+	TargetBucketRef *v1.Reference `json:"targetBucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in oss to populate targetBucket.
+	// +kubebuilder:validation:Optional
+	TargetBucketSelector *v1.Selector `json:"targetBucketSelector,omitempty" tf:"-"`
 
 	// To specify a key prefix for log objects.
 	// +kubebuilder:validation:Optional
@@ -635,7 +660,17 @@ type ServerSideEncryptionRuleInitParameters struct {
 	KMSDataEncryption *string `json:"kmsDataEncryption,omitempty" tf:"kms_data_encryption,omitempty"`
 
 	// The alibaba cloud KMS master key ID used for the SSE-KMS encryption.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1.Key
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	KMSMasterKeyID *string `json:"kmsMasterKeyId,omitempty" tf:"kms_master_key_id,omitempty"`
+
+	// Reference to a Key in kms to populate kmsMasterKeyId.
+	// +kubebuilder:validation:Optional
+	KMSMasterKeyIDRef *v1.Reference `json:"kmsMasterKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in kms to populate kmsMasterKeyId.
+	// +kubebuilder:validation:Optional
+	KMSMasterKeyIDSelector *v1.Selector `json:"kmsMasterKeyIdSelector,omitempty" tf:"-"`
 
 	// The server-side encryption algorithm to use. Possible values: AES256 and KMS.
 	SseAlgorithm *string `json:"sseAlgorithm,omitempty" tf:"sse_algorithm,omitempty"`
@@ -660,8 +695,18 @@ type ServerSideEncryptionRuleParameters struct {
 	KMSDataEncryption *string `json:"kmsDataEncryption,omitempty" tf:"kms_data_encryption,omitempty"`
 
 	// The alibaba cloud KMS master key ID used for the SSE-KMS encryption.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1.Key
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSMasterKeyID *string `json:"kmsMasterKeyId,omitempty" tf:"kms_master_key_id,omitempty"`
+
+	// Reference to a Key in kms to populate kmsMasterKeyId.
+	// +kubebuilder:validation:Optional
+	KMSMasterKeyIDRef *v1.Reference `json:"kmsMasterKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in kms to populate kmsMasterKeyId.
+	// +kubebuilder:validation:Optional
+	KMSMasterKeyIDSelector *v1.Selector `json:"kmsMasterKeyIdSelector,omitempty" tf:"-"`
 
 	// The server-side encryption algorithm to use. Possible values: AES256 and KMS.
 	// +kubebuilder:validation:Optional
@@ -858,7 +903,7 @@ type BucketStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type Bucket struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

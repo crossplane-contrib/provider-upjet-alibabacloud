@@ -25,10 +25,30 @@ type ImageImportDiskDeviceMappingInitParameters struct {
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 
 	// The OSS bucket where the image file is stored.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.Bucket
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	OssBucket *string `json:"ossBucket,omitempty" tf:"oss_bucket,omitempty"`
 
+	// Reference to a Bucket in oss to populate ossBucket.
+	// +kubebuilder:validation:Optional
+	OssBucketRef *v1.Reference `json:"ossBucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in oss to populate ossBucket.
+	// +kubebuilder:validation:Optional
+	OssBucketSelector *v1.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
+
 	// The name (key) of the object that the uploaded image is stored as in the OSS bucket.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.BucketObject
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	OssObject *string `json:"ossObject,omitempty" tf:"oss_object,omitempty"`
+
+	// Reference to a BucketObject in oss to populate ossObject.
+	// +kubebuilder:validation:Optional
+	OssObjectRef *v1.Reference `json:"ossObjectRef,omitempty" tf:"-"`
+
+	// Selector for a BucketObject in oss to populate ossObject.
+	// +kubebuilder:validation:Optional
+	OssObjectSelector *v1.Selector `json:"ossObjectSelector,omitempty" tf:"-"`
 }
 
 type ImageImportDiskDeviceMappingObservation struct {
@@ -64,12 +84,32 @@ type ImageImportDiskDeviceMappingParameters struct {
 	Format *string `json:"format,omitempty" tf:"format,omitempty"`
 
 	// The OSS bucket where the image file is stored.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.Bucket
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	OssBucket *string `json:"ossBucket,omitempty" tf:"oss_bucket,omitempty"`
 
+	// Reference to a Bucket in oss to populate ossBucket.
+	// +kubebuilder:validation:Optional
+	OssBucketRef *v1.Reference `json:"ossBucketRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in oss to populate ossBucket.
+	// +kubebuilder:validation:Optional
+	OssBucketSelector *v1.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
+
 	// The name (key) of the object that the uploaded image is stored as in the OSS bucket.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.BucketObject
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	OssObject *string `json:"ossObject,omitempty" tf:"oss_object,omitempty"`
+
+	// Reference to a BucketObject in oss to populate ossObject.
+	// +kubebuilder:validation:Optional
+	OssObjectRef *v1.Reference `json:"ossObjectRef,omitempty" tf:"-"`
+
+	// Selector for a BucketObject in oss to populate ossObject.
+	// +kubebuilder:validation:Optional
+	OssObjectSelector *v1.Selector `json:"ossObjectSelector,omitempty" tf:"-"`
 }
 
 type ImageImportInitParameters struct {
@@ -164,6 +204,11 @@ type ImageImportParameters struct {
 	// -> NOTE: Before provider version 1.197.0, the default value of platform is Ubuntu.
 	// +kubebuilder:validation:Optional
 	Platform *string `json:"platform,omitempty" tf:"platform,omitempty"`
+
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
 }
 
 // ImageImportSpec defines the desired state of ImageImport
@@ -198,7 +243,7 @@ type ImageImportStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type ImageImport struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

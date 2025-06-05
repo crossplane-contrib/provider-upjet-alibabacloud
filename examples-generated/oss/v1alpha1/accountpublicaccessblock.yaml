@@ -9,3 +9,4 @@ metadata:
 spec:
   forProvider:
     blockPublicAccess: true
+    region: cn-beijing

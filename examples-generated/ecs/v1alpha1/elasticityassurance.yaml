@@ -17,6 +17,7 @@ spec:
     periodUnit: Month
     privatePoolOptionsMatchCriteria: Open
     privatePoolOptionsName: test_before
+    region: cn-beijing
     resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
     zoneIds:
     - ${data.alicloud_zones.default.zones[2].id}

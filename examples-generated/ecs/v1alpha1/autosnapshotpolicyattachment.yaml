@@ -14,6 +14,7 @@ spec:
     diskIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
+    region: cn-beijing
 
 ---
 
@@ -28,6 +29,7 @@ metadata:
 spec:
   forProvider:
     name: terraform-example
+    region: cn-beijing
     repeatWeekdays:
     - "1"
     - "2"
@@ -54,7 +56,10 @@ spec:
     description: Hello ecs disk.
     diskName: terraform-example
     encrypted: true
-    kmsKeyId: ${alicloud_kms_key.example.id}
+    kmsKeyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: cn-beijing
     size: "30"
     tags:
       Name: terraform-example
@@ -74,4 +79,5 @@ spec:
   forProvider:
     description: terraform-example
     pendingWindowInDays: "7"
+    region: cn-beijing
     status: Enabled

@@ -13,6 +13,7 @@ spec:
     notifyContentFormat: XML
     notifyStrategy: BACKOFF_RETRY
     pushType: http
+    region: cn-beijing
     subscriptionName: ${var.name}
     topicNameSelector:
       matchLabels:
@@ -32,4 +33,5 @@ spec:
   forProvider:
     enableLogging: true
     maxMessageSize: 16888
+    region: cn-beijing
     topicName: ${var.name}

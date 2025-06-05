@@ -54,7 +54,7 @@ type KeyInitParameters struct {
 	// The status of key. Default value: Enabled. Valid values: Enabled, Disabled, PendingDeletion.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -126,7 +126,7 @@ type KeyObservation struct {
 	// The status of key. Default value: Enabled. Valid values: Enabled, Disabled, PendingDeletion.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -177,6 +177,11 @@ type KeyParameters struct {
 	// +kubebuilder:validation:Optional
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The period of automatic key rotation. The following units are supported: d (day), h (hour), m (minute), and s (second). For example, you can use either 7d or 604800s to specify a seven-day interval. NOTE: If automatic_rotation is set to Enabled, rotation_interval is required.
 	// +kubebuilder:validation:Optional
 	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
@@ -185,7 +190,7 @@ type KeyParameters struct {
 	// +kubebuilder:validation:Optional
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// A mapping of tags to assign to the resource.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -223,7 +228,7 @@ type KeyStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type Key struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

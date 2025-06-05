@@ -10,6 +10,7 @@ import (
 	"context"
 	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -132,6 +133,22 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.VswitchRefs = mrsp.ResolvedReferences
 
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.ZoneIds),
+		Extract:       resource.ExtractParamPath("zone_id", false),
+		References:    mg.Spec.ForProvider.ZoneIdsRefs,
+		Selector:      mg.Spec.ForProvider.ZoneIdsSelector,
+		To: reference.To{
+			List:    &v1alpha1.VswitchList{},
+			Managed: &v1alpha1.Vswitch{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ZoneIds")
+	}
+	mg.Spec.ForProvider.ZoneIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.ZoneIdsRefs = mrsp.ResolvedReferences
+
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.BindVpcs); i3++ {
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BindVpcs[i3].VPCID),
@@ -199,6 +216,22 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	}
 	mg.Spec.InitProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.InitProvider.VswitchRefs = mrsp.ResolvedReferences
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ZoneIds),
+		Extract:       resource.ExtractParamPath("zone_id", false),
+		References:    mg.Spec.InitProvider.ZoneIdsRefs,
+		Selector:      mg.Spec.InitProvider.ZoneIdsSelector,
+		To: reference.To{
+			List:    &v1alpha1.VswitchList{},
+			Managed: &v1alpha1.Vswitch{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ZoneIds")
+	}
+	mg.Spec.InitProvider.ZoneIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.ZoneIdsRefs = mrsp.ResolvedReferences
 
 	return nil
 }

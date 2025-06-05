@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: keys.kms.alibabacloud.crossplane.io
 spec:
   group: kms.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: Key
     listKind: KeyList
     plural: keys
@@ -120,6 +120,10 @@ spec:
                     description: 'The protection level of the key. Default value:
                       SOFTWARE. Valid values: SOFTWARE, HSM.'
                     type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   rotationInterval:
                     description: 'The period of automatic key rotation. The following
                       units are supported: d (day), h (hour), m (minute), and s (second).
@@ -134,7 +138,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                 type: object
@@ -212,7 +216,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                 type: object
@@ -476,7 +480,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: A mapping of tags to assign to the resource.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                 type: object

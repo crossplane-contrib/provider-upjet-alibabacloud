@@ -17,6 +17,7 @@ spec:
     dbClusterIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
+    region: cn-beijing
 
 ---
 
@@ -35,6 +36,7 @@ spec:
     dbVersion: "8.0"
     description: terraform-example
     payType: PostPaid
+    region: cn-beijing
     vswitchIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -52,6 +54,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/16
+    region: cn-beijing
     vpcName: terraform-example
 
 ---
@@ -67,6 +70,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

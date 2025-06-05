@@ -1,0 +1,77 @@
+apiVersion: privatelink.alibabacloud.crossplane.io/v1alpha1
+kind: VpcEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpoint
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    dryRun: false
+    endpointDescription: crossplane-example
+    endpointType: Interface
+#    policyDocument: '${jsonencode({ "Version" : "1", "Statement" : [{ "Effect" : "Allow",
+#      "Action" : ["*"], "Resource" : ["*"], "Principal" : "*" }] })}'
+    protectedEnabled: false
+#    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    securityGroupRefs:
+    - name: for-endpoint
+    serviceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-endpoint
+#    serviceName: com.aliyuncs.privatelink.cn-beijing.oss
+    vpcEndpointName: crossplane-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-endpoint
+    zonePrivateIpAddressCount: 1
+
+---
+
+apiVersion: privatelink.alibabacloud.crossplane.io/v1alpha1
+kind: VPCEndpointService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpoint
+  labels:
+    testing.upbound.io/example-name: for-endpoint
+  name: for-endpoint
+spec:
+  forProvider:
+    autoAcceptConnection: false
+    connectBandwidth: 103
+    serviceDescription: crossplane-example
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpoint
+  labels:
+    testing.upbound.io/example-name: for-endpoint
+  name: for-endpoint
+spec:
+  forProvider:
+    securityGroupName: crossplane-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-endpoint
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpoint
+  labels:
+    testing.upbound.io/example-name: for-endpoint
+  name: for-endpoint
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    description: example-terraform
+    vpcName: crossplane-example

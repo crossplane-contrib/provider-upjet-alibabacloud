@@ -36,7 +36,7 @@ type ImageComponentInitParameters struct {
 	// The operating system supported by the component.
 	SystemType *string `json:"systemType,omitempty" tf:"system_type,omitempty"`
 
-	// List of label key-value pairs.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -70,7 +70,7 @@ type ImageComponentObservation struct {
 	// The operating system supported by the component.
 	SystemType *string `json:"systemType,omitempty" tf:"system_type,omitempty"`
 
-	// List of label key-value pairs.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -97,6 +97,11 @@ type ImageComponentParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageComponentName *string `json:"imageComponentName,omitempty" tf:"image_component_name,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of the enterprise resource group to which the created image component belongs.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -105,7 +110,7 @@ type ImageComponentParameters struct {
 	// +kubebuilder:validation:Optional
 	SystemType *string `json:"systemType,omitempty" tf:"system_type,omitempty"`
 
-	// List of label key-value pairs.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -143,7 +148,7 @@ type ImageComponentStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type ImageComponent struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
