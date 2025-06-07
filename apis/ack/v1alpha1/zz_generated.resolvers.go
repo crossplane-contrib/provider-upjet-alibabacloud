@@ -8,9 +8,9 @@ package v1alpha1
 
 import (
 	"context"
-	v1alpha11 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
 	v1alpha12 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1"
-	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1"
+	v1alpha11 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
@@ -62,40 +62,73 @@ func (mg *AutoscalingConfig) ResolveReferences(ctx context.Context, c client.Rea
 func (mg *EdgeKubernetes) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
+	var rsp reference.ResolutionResponse
 	var mrsp reference.MultiResolutionResponse
 	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityGroupID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
+		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SecurityGroupID")
+	}
+	mg.Spec.ForProvider.SecurityGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SecurityGroupIDRef = rsp.ResolvedReference
 
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.WorkerVswitchIds),
 		Extract:       reference.ExternalName(),
-		References:    mg.Spec.ForProvider.WorkerVswitchIDRefs,
-		Selector:      mg.Spec.ForProvider.WorkerVswitchIDSelector,
+		References:    mg.Spec.ForProvider.WorkerVswitchIDsRefs,
+		Selector:      mg.Spec.ForProvider.WorkerVswitchIDsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.WorkerVswitchIds")
 	}
 	mg.Spec.ForProvider.WorkerVswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.ForProvider.WorkerVswitchIDRefs = mrsp.ResolvedReferences
+	mg.Spec.ForProvider.WorkerVswitchIDsRefs = mrsp.ResolvedReferences
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityGroupID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
+		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SecurityGroupID")
+	}
+	mg.Spec.InitProvider.SecurityGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SecurityGroupIDRef = rsp.ResolvedReference
 
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.WorkerVswitchIds),
 		Extract:       reference.ExternalName(),
-		References:    mg.Spec.InitProvider.WorkerVswitchIDRefs,
-		Selector:      mg.Spec.InitProvider.WorkerVswitchIDSelector,
+		References:    mg.Spec.InitProvider.WorkerVswitchIDsRefs,
+		Selector:      mg.Spec.InitProvider.WorkerVswitchIDsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.WorkerVswitchIds")
 	}
 	mg.Spec.InitProvider.WorkerVswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.InitProvider.WorkerVswitchIDRefs = mrsp.ResolvedReferences
+	mg.Spec.InitProvider.WorkerVswitchIDsRefs = mrsp.ResolvedReferences
 
 	return nil
 }
@@ -104,6 +137,7 @@ func (mg *EdgeKubernetes) ResolveReferences(ctx context.Context, c client.Reader
 func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
+	var rsp reference.ResolutionResponse
 	var mrsp reference.MultiResolutionResponse
 	var err error
 
@@ -113,8 +147,8 @@ func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) er
 		References:    mg.Spec.ForProvider.MasterVswitchIdsRefs,
 		Selector:      mg.Spec.ForProvider.MasterVswitchIdsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
@@ -129,8 +163,8 @@ func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) er
 		References:    mg.Spec.ForProvider.PodVswitchIdsRefs,
 		Selector:      mg.Spec.ForProvider.PodVswitchIdsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
@@ -139,14 +173,62 @@ func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) er
 	mg.Spec.ForProvider.PodVswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.PodVswitchIdsRefs = mrsp.ResolvedReferences
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityGroupID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
+		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SecurityGroupID")
+	}
+	mg.Spec.ForProvider.SecurityGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SecurityGroupIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VswitchID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.VswitchIDRef,
+		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.VswitchID")
+	}
+	mg.Spec.ForProvider.VswitchID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.VswitchIDRef = rsp.ResolvedReference
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.VswitchIds),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.ForProvider.VswitchIDsRefs,
+		Selector:      mg.Spec.ForProvider.VswitchIDsSelector,
+		To: reference.To{
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.VswitchIds")
+	}
+	mg.Spec.ForProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.VswitchIDsRefs = mrsp.ResolvedReferences
+
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.MasterVswitchIds),
 		Extract:       reference.ExternalName(),
 		References:    mg.Spec.InitProvider.MasterVswitchIdsRefs,
 		Selector:      mg.Spec.InitProvider.MasterVswitchIdsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
@@ -161,8 +243,8 @@ func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) er
 		References:    mg.Spec.InitProvider.PodVswitchIdsRefs,
 		Selector:      mg.Spec.InitProvider.PodVswitchIdsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
@@ -170,6 +252,54 @@ func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	mg.Spec.InitProvider.PodVswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.InitProvider.PodVswitchIdsRefs = mrsp.ResolvedReferences
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityGroupID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
+		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SecurityGroupID")
+	}
+	mg.Spec.InitProvider.SecurityGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SecurityGroupIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VswitchID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.VswitchIDRef,
+		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.VswitchID")
+	}
+	mg.Spec.InitProvider.VswitchID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.VswitchIDRef = rsp.ResolvedReference
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.VswitchIds),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.InitProvider.VswitchIDsRefs,
+		Selector:      mg.Spec.InitProvider.VswitchIDsSelector,
+		To: reference.To{
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.VswitchIds")
+	}
+	mg.Spec.InitProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.VswitchIDsRefs = mrsp.ResolvedReferences
 
 	return nil
 }
@@ -246,8 +376,8 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 		Reference:    mg.Spec.ForProvider.KeyNameRef,
 		Selector:     mg.Spec.ForProvider.KeyNameSelector,
 		To: reference.To{
-			List:    &v1alpha11.KeyPairList{},
-			Managed: &v1alpha11.KeyPair{},
+			List:    &v1alpha1.KeyPairList{},
+			Managed: &v1alpha1.KeyPair{},
 		},
 	})
 	if err != nil {
@@ -257,20 +387,36 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mg.Spec.ForProvider.KeyNameRef = rsp.ResolvedReference
 
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.SecurityGroupIds),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.ForProvider.SecurityGroupIDRefs,
+		Selector:      mg.Spec.ForProvider.SecurityGroupIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SecurityGroupIds")
+	}
+	mg.Spec.ForProvider.SecurityGroupIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.SecurityGroupIDRefs = mrsp.ResolvedReferences
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
-		References:    mg.Spec.ForProvider.VswitchIDRefs,
-		Selector:      mg.Spec.ForProvider.VswitchIDSelector,
+		References:    mg.Spec.ForProvider.VswitchIdsRefs,
+		Selector:      mg.Spec.ForProvider.VswitchIdsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.VswitchIds")
 	}
 	mg.Spec.ForProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.ForProvider.VswitchIDRefs = mrsp.ResolvedReferences
+	mg.Spec.ForProvider.VswitchIdsRefs = mrsp.ResolvedReferences
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterID),
@@ -294,8 +440,8 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 		Reference:    mg.Spec.InitProvider.KeyNameRef,
 		Selector:     mg.Spec.InitProvider.KeyNameSelector,
 		To: reference.To{
-			List:    &v1alpha11.KeyPairList{},
-			Managed: &v1alpha11.KeyPair{},
+			List:    &v1alpha1.KeyPairList{},
+			Managed: &v1alpha1.KeyPair{},
 		},
 	})
 	if err != nil {
@@ -305,20 +451,36 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mg.Spec.InitProvider.KeyNameRef = rsp.ResolvedReference
 
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.SecurityGroupIds),
+		Extract:       reference.ExternalName(),
+		References:    mg.Spec.InitProvider.SecurityGroupIDRefs,
+		Selector:      mg.Spec.InitProvider.SecurityGroupIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SecurityGroupIds")
+	}
+	mg.Spec.InitProvider.SecurityGroupIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.SecurityGroupIDRefs = mrsp.ResolvedReferences
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
-		References:    mg.Spec.InitProvider.VswitchIDRefs,
-		Selector:      mg.Spec.InitProvider.VswitchIDSelector,
+		References:    mg.Spec.InitProvider.VswitchIdsRefs,
+		Selector:      mg.Spec.InitProvider.VswitchIdsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.VswitchIds")
 	}
 	mg.Spec.InitProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.InitProvider.VswitchIDRefs = mrsp.ResolvedReferences
+	mg.Spec.InitProvider.VswitchIdsRefs = mrsp.ResolvedReferences
 
 	return nil
 }
@@ -441,72 +603,73 @@ func (mg *KubernetesPermissions) ResolveReferences(ctx context.Context, c client
 func (mg *ManagedKubernetes) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
+	var rsp reference.ResolutionResponse
 	var mrsp reference.MultiResolutionResponse
 	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityGroupID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
+		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SecurityGroupID")
+	}
+	mg.Spec.ForProvider.SecurityGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SecurityGroupIDRef = rsp.ResolvedReference
 
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
-		References:    mg.Spec.ForProvider.VswitchIDRefs,
-		Selector:      mg.Spec.ForProvider.VswitchIDSelector,
+		References:    mg.Spec.ForProvider.VswitchIdsRefs,
+		Selector:      mg.Spec.ForProvider.VswitchIdsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.VswitchIds")
 	}
 	mg.Spec.ForProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.ForProvider.VswitchIDRefs = mrsp.ResolvedReferences
+	mg.Spec.ForProvider.VswitchIdsRefs = mrsp.ResolvedReferences
 
-	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.WorkerVswitchIds),
-		Extract:       reference.ExternalName(),
-		References:    mg.Spec.ForProvider.WorkerVswitchIDRefs,
-		Selector:      mg.Spec.ForProvider.WorkerVswitchIDSelector,
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityGroupID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
+		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
 		},
 	})
 	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.WorkerVswitchIds")
+		return errors.Wrap(err, "mg.Spec.InitProvider.SecurityGroupID")
 	}
-	mg.Spec.ForProvider.WorkerVswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.ForProvider.WorkerVswitchIDRefs = mrsp.ResolvedReferences
+	mg.Spec.InitProvider.SecurityGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SecurityGroupIDRef = rsp.ResolvedReference
 
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
-		References:    mg.Spec.InitProvider.VswitchIDRefs,
-		Selector:      mg.Spec.InitProvider.VswitchIDSelector,
+		References:    mg.Spec.InitProvider.VswitchIdsRefs,
+		Selector:      mg.Spec.InitProvider.VswitchIdsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.VswitchIds")
 	}
 	mg.Spec.InitProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.InitProvider.VswitchIDRefs = mrsp.ResolvedReferences
-
-	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.WorkerVswitchIds),
-		Extract:       reference.ExternalName(),
-		References:    mg.Spec.InitProvider.WorkerVswitchIDRefs,
-		Selector:      mg.Spec.InitProvider.WorkerVswitchIDSelector,
-		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.WorkerVswitchIds")
-	}
-	mg.Spec.InitProvider.WorkerVswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.InitProvider.WorkerVswitchIDRefs = mrsp.ResolvedReferences
+	mg.Spec.InitProvider.VswitchIdsRefs = mrsp.ResolvedReferences
 
 	return nil
 }
@@ -520,13 +683,29 @@ func (mg *ServerlessKubernetes) ResolveReferences(ctx context.Context, c client.
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityGroupID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
+		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SecurityGroupID")
+	}
+	mg.Spec.ForProvider.SecurityGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SecurityGroupIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCID),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.VPCList{},
-			Managed: &v1alpha1.VPC{},
+			List:    &v1alpha11.VPCList{},
+			Managed: &v1alpha11.VPC{},
 		},
 	})
 	if err != nil {
@@ -535,21 +714,53 @@ func (mg *ServerlessKubernetes) ResolveReferences(ctx context.Context, c client.
 	mg.Spec.ForProvider.VPCID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.VPCIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VswitchID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.VswitchIDRef,
+		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.VswitchID")
+	}
+	mg.Spec.ForProvider.VswitchID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.VswitchIDRef = rsp.ResolvedReference
+
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
-		References:    mg.Spec.ForProvider.VswitchIDRefs,
-		Selector:      mg.Spec.ForProvider.VswitchIDSelector,
+		References:    mg.Spec.ForProvider.VswitchIdsRefs,
+		Selector:      mg.Spec.ForProvider.VswitchIdsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.ForProvider.VswitchIds")
 	}
 	mg.Spec.ForProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.ForProvider.VswitchIDRefs = mrsp.ResolvedReferences
+	mg.Spec.ForProvider.VswitchIdsRefs = mrsp.ResolvedReferences
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityGroupID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
+		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.SecurityGroupList{},
+			Managed: &v1alpha1.SecurityGroup{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SecurityGroupID")
+	}
+	mg.Spec.InitProvider.SecurityGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SecurityGroupIDRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
@@ -557,8 +768,8 @@ func (mg *ServerlessKubernetes) ResolveReferences(ctx context.Context, c client.
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.VPCList{},
-			Managed: &v1alpha1.VPC{},
+			List:    &v1alpha11.VPCList{},
+			Managed: &v1alpha11.VPC{},
 		},
 	})
 	if err != nil {
@@ -567,21 +778,37 @@ func (mg *ServerlessKubernetes) ResolveReferences(ctx context.Context, c client.
 	mg.Spec.InitProvider.VPCID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.VPCIDRef = rsp.ResolvedReference
 
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VswitchID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.VswitchIDRef,
+		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
+		To: reference.To{
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.VswitchID")
+	}
+	mg.Spec.InitProvider.VswitchID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.VswitchIDRef = rsp.ResolvedReference
+
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
-		References:    mg.Spec.InitProvider.VswitchIDRefs,
-		Selector:      mg.Spec.InitProvider.VswitchIDSelector,
+		References:    mg.Spec.InitProvider.VswitchIdsRefs,
+		Selector:      mg.Spec.InitProvider.VswitchIdsSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
 		return errors.Wrap(err, "mg.Spec.InitProvider.VswitchIds")
 	}
 	mg.Spec.InitProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.InitProvider.VswitchIDRefs = mrsp.ResolvedReferences
+	mg.Spec.InitProvider.VswitchIdsRefs = mrsp.ResolvedReferences
 
 	return nil
 }

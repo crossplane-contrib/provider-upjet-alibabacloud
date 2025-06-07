@@ -21,7 +21,6 @@ metadata:
 spec:
   forProvider:
     permissions:
-#   - cluster: "ce9da0aae46094670a000b934bcf995e6"
     - clusterIdSelector:
         matchLabels:
           testing.upbound.io/example-name: test-ack-v1alpha1-k8spermissions-cluster-1
@@ -30,7 +29,6 @@ spec:
       namespace: ""
       roleName: admin
       roleType: cluster
-      # roleType: all-clusters
     uidSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-k8spermissions-user-1
@@ -40,6 +38,7 @@ kind: ManagedKubernetes
 metadata:
   annotations:
     meta.upbound.io/example-id: test-ack-v1alpha1-k8spermissions-cluster-1
+    uptest.upbound.io/timeout: "2400"
   labels:
     testing.upbound.io/example-name: test-ack-v1alpha1-k8spermissions-cluster-1
   name: test-ack-v1alpha1-k8spermissions-cluster-1
@@ -51,8 +50,7 @@ spec:
     podCidr: 10.32.0.0/27
     serviceCidr: 172.20.0.0/23
     slbInternetEnabled: false
-    # version: 
-    workerVswitchIdSelector:
+    workerVswitchIdsSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-k8spermissions-vsw-1
 ---

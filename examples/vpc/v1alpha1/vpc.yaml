@@ -13,10 +13,7 @@ spec:
     enableIpv6: true
     ipv6Isp: BGP
     vpcName: crossplane-example
-
-
 ---
-
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: VPC
 metadata:

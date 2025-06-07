@@ -577,6 +577,9 @@ type KubernetesNodePoolInitParameters struct {
 	// Node CPU management policies. Default value: none. When the cluster version is 1.12.6 or later, the following two policies are supported:
 	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
 
+	// Whether enable worker node to support cis security reinforcement, its valid value true or false. Default to false and apply to AliyunLinux series. Use security_hardening_os instead.
+	CisEnabled *bool `json:"cisEnabled,omitempty" tf:"cis_enabled,omitempty"`
+
 	// The id of kubernetes cluster.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ack/v1alpha1.ManagedKubernetes
 	// +crossplane:generate:reference:refFieldName=ClusterIDRefs
@@ -670,6 +673,12 @@ type KubernetesNodePoolInitParameters struct {
 	// The scaling policy for ECS instances in a multi-zone scaling group. Valid value: PRIORITY, COST_OPTIMIZED and BALANCE. PRIORITY: scales the capacity according to the virtual switches you define (VSwitchIds.N). When an ECS instance cannot be created in the zone where the higher-priority vSwitch is located, the next-priority vSwitch is automatically used to create an ECS instance. COST_OPTIMIZED: try to create by vCPU unit price from low to high. When the scaling configuration is configured with multiple instances of preemptible billing, preemptible instances are created first. You can continue to use the CompensateWithOnDemand parameter to specify whether to automatically try to create a preemptible instance by paying for it. It takes effect only when the scaling configuration has multi-instance specifications or preemptible instances. BALANCE: distributes ECS instances evenly among the multi-zone specified by the scaling group. If the zones become unbalanced due to insufficient inventory, you can use the API [RebalanceInstances](~~ 71516 ~~) to balance resources.
 	MultiAzPolicy *string `json:"multiAzPolicy,omitempty" tf:"multi_az_policy,omitempty"`
 
+	// (Deprecated since v1.219.0). Field 'name' has been deprecated from provider version 1.219.0. New field 'node_pool_name' instead.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The worker node number of the node pool. From version 1.111.0, node_count is not required.
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
 	// Each node name consists of a prefix, its private network IP, and a suffix, separated by commas. The input format is customized,,ip,.
 	NodeNameMode *string `json:"nodeNameMode,omitempty" tf:"node_name_mode,omitempty"`
 
@@ -691,6 +700,9 @@ type KubernetesNodePoolInitParameters struct {
 	// Node payment period unit, valid value: Month. Default is Month.
 	PeriodUnit *string `json:"periodUnit,omitempty" tf:"period_unit,omitempty"`
 
+	// Operating system release, using image_type instead.
+	Platform *string `json:"platform,omitempty" tf:"platform,omitempty"`
+
 	// Node pre custom data, base64-encoded, the script executed before the node is initialized.
 	PreUserData *string `json:"preUserData,omitempty" tf:"pre_user_data,omitempty"`
 
@@ -709,6 +721,9 @@ type KubernetesNodePoolInitParameters struct {
 	// Rotary configuration. See rolling_policy below.
 	RollingPolicy []RollingPolicyInitParameters `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
 
+	// Rollout policy is used to specify the strategy when the node pool is rolling update. This field works when node pool updating. Please use rolling_policy to instead it from provider version 1.185.0. See rollout_policy below.
+	RolloutPolicy []RolloutPolicyInitParameters `json:"rolloutPolicy,omitempty" tf:"rollout_policy,omitempty"`
+
 	// The runtime name of containers. If not set, the cluster runtime will be used as the node pool runtime. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container.
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
 
@@ -721,7 +736,18 @@ type KubernetesNodePoolInitParameters struct {
 	// Scaling group mode, default value: release. Valid values:
 	ScalingPolicy *string `json:"scalingPolicy,omitempty" tf:"scaling_policy,omitempty"`
 
+	// References to SecurityGroup in ecs to populate securityGroupIds.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDRefs []v1.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
+
+	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+
 	// Multiple security groups can be configured for a node pool. If both security_group_ids and security_group_id are configured, security_group_ids takes effect. This field cannot be modified.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
+	// +crossplane:generate:reference:refFieldName=SecurityGroupIDRefs
+	// +crossplane:generate:reference:selectorFieldName=SecurityGroupIDSelector
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
 	// Alibaba Cloud OS security reinforcement. Default value: false. Value:
@@ -774,12 +800,12 @@ type KubernetesNodePoolInitParameters struct {
 	// The ID of the automatic snapshot policy used by the system disk.
 	SystemDiskSnapshotPolicyID *string `json:"systemDiskSnapshotPolicyId,omitempty" tf:"system_disk_snapshot_policy_id,omitempty"`
 
-	// Add tags only for ECS instances. The maximum length of the tag key is 128 characters. The tag key and value cannot start with aliyun or acs:, or contain https:// or http://.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// A List of Kubernetes taints to assign to the nodes. Detailed below. More information in Taints and Toleration. See taints below.
-	Taints []TaintsInitParameters `json:"taints,omitempty" tf:"taints,omitempty"`
+	Taints []KubernetesNodePoolTaintsInitParameters `json:"taints,omitempty" tf:"taints,omitempty"`
 
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	TeeConfig []TeeConfigInitParameters `json:"teeConfig,omitempty" tf:"tee_config,omitempty"`
@@ -793,19 +819,17 @@ type KubernetesNodePoolInitParameters struct {
 	// Node custom data, base64-encoded.
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
 
+	// The vswitches used by node pool workers.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
+	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
+
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIDRefs []v1.Reference `json:"vswitchIdRefs,omitempty" tf:"-"`
+	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
-
-	// The vswitches used by node pool workers.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=VswitchIDRefs
-	// +crossplane:generate:reference:selectorFieldName=VswitchIDSelector
-	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
+	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 }
 
 type KubernetesNodePoolObservation struct {
@@ -818,6 +842,9 @@ type KubernetesNodePoolObservation struct {
 
 	// Node CPU management policies. Default value: none. When the cluster version is 1.12.6 or later, the following two policies are supported:
 	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
+
+	// Whether enable worker node to support cis security reinforcement, its valid value true or false. Default to false and apply to AliyunLinux series. Use security_hardening_os instead.
+	CisEnabled *bool `json:"cisEnabled,omitempty" tf:"cis_enabled,omitempty"`
 
 	// The id of kubernetes cluster.
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
@@ -892,6 +919,12 @@ type KubernetesNodePoolObservation struct {
 	// The scaling policy for ECS instances in a multi-zone scaling group. Valid value: PRIORITY, COST_OPTIMIZED and BALANCE. PRIORITY: scales the capacity according to the virtual switches you define (VSwitchIds.N). When an ECS instance cannot be created in the zone where the higher-priority vSwitch is located, the next-priority vSwitch is automatically used to create an ECS instance. COST_OPTIMIZED: try to create by vCPU unit price from low to high. When the scaling configuration is configured with multiple instances of preemptible billing, preemptible instances are created first. You can continue to use the CompensateWithOnDemand parameter to specify whether to automatically try to create a preemptible instance by paying for it. It takes effect only when the scaling configuration has multi-instance specifications or preemptible instances. BALANCE: distributes ECS instances evenly among the multi-zone specified by the scaling group. If the zones become unbalanced due to insufficient inventory, you can use the API [RebalanceInstances](~~ 71516 ~~) to balance resources.
 	MultiAzPolicy *string `json:"multiAzPolicy,omitempty" tf:"multi_az_policy,omitempty"`
 
+	// (Deprecated since v1.219.0). Field 'name' has been deprecated from provider version 1.219.0. New field 'node_pool_name' instead.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The worker node number of the node pool. From version 1.111.0, node_count is not required.
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
 	// Each node name consists of a prefix, its private network IP, and a suffix, separated by commas. The input format is customized,,ip,.
 	NodeNameMode *string `json:"nodeNameMode,omitempty" tf:"node_name_mode,omitempty"`
 
@@ -913,6 +946,9 @@ type KubernetesNodePoolObservation struct {
 	// Node payment period unit, valid value: Month. Default is Month.
 	PeriodUnit *string `json:"periodUnit,omitempty" tf:"period_unit,omitempty"`
 
+	// Operating system release, using image_type instead.
+	Platform *string `json:"platform,omitempty" tf:"platform,omitempty"`
+
 	// Node pre custom data, base64-encoded, the script executed before the node is initialized.
 	PreUserData *string `json:"preUserData,omitempty" tf:"pre_user_data,omitempty"`
 
@@ -930,6 +966,9 @@ type KubernetesNodePoolObservation struct {
 
 	// Rotary configuration. See rolling_policy below.
 	RollingPolicy []RollingPolicyObservation `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
+
+	// Rollout policy is used to specify the strategy when the node pool is rolling update. This field works when node pool updating. Please use rolling_policy to instead it from provider version 1.185.0. See rollout_policy below.
+	RolloutPolicy []RolloutPolicyObservation `json:"rolloutPolicy,omitempty" tf:"rollout_policy,omitempty"`
 
 	// The runtime name of containers. If not set, the cluster runtime will be used as the node pool runtime. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container.
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
@@ -999,12 +1038,12 @@ type KubernetesNodePoolObservation struct {
 	// The ID of the automatic snapshot policy used by the system disk.
 	SystemDiskSnapshotPolicyID *string `json:"systemDiskSnapshotPolicyId,omitempty" tf:"system_disk_snapshot_policy_id,omitempty"`
 
-	// Add tags only for ECS instances. The maximum length of the tag key is 128 characters. The tag key and value cannot start with aliyun or acs:, or contain https:// or http://.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// A List of Kubernetes taints to assign to the nodes. Detailed below. More information in Taints and Toleration. See taints below.
-	Taints []TaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
+	Taints []KubernetesNodePoolTaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
 
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	TeeConfig []TeeConfigObservation `json:"teeConfig,omitempty" tf:"tee_config,omitempty"`
@@ -1038,6 +1077,10 @@ type KubernetesNodePoolParameters struct {
 	// Node CPU management policies. Default value: none. When the cluster version is 1.12.6 or later, the following two policies are supported:
 	// +kubebuilder:validation:Optional
 	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
+
+	// Whether enable worker node to support cis security reinforcement, its valid value true or false. Default to false and apply to AliyunLinux series. Use security_hardening_os instead.
+	// +kubebuilder:validation:Optional
+	CisEnabled *bool `json:"cisEnabled,omitempty" tf:"cis_enabled,omitempty"`
 
 	// The id of kubernetes cluster.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ack/v1alpha1.ManagedKubernetes
@@ -1156,6 +1199,14 @@ type KubernetesNodePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	MultiAzPolicy *string `json:"multiAzPolicy,omitempty" tf:"multi_az_policy,omitempty"`
 
+	// (Deprecated since v1.219.0). Field 'name' has been deprecated from provider version 1.219.0. New field 'node_pool_name' instead.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The worker node number of the node pool. From version 1.111.0, node_count is not required.
+	// +kubebuilder:validation:Optional
+	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
 	// Each node name consists of a prefix, its private network IP, and a suffix, separated by commas. The input format is customized,,ip,.
 	// +kubebuilder:validation:Optional
 	NodeNameMode *string `json:"nodeNameMode,omitempty" tf:"node_name_mode,omitempty"`
@@ -1184,6 +1235,10 @@ type KubernetesNodePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	PeriodUnit *string `json:"periodUnit,omitempty" tf:"period_unit,omitempty"`
 
+	// Operating system release, using image_type instead.
+	// +kubebuilder:validation:Optional
+	Platform *string `json:"platform,omitempty" tf:"platform,omitempty"`
+
 	// Node pre custom data, base64-encoded, the script executed before the node is initialized.
 	// +kubebuilder:validation:Optional
 	PreUserData *string `json:"preUserData,omitempty" tf:"pre_user_data,omitempty"`
@@ -1200,6 +1255,11 @@ type KubernetesNodePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	RDSInstances []*string `json:"rdsInstances,omitempty" tf:"rds_instances,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of the resource group
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -1207,6 +1267,10 @@ type KubernetesNodePoolParameters struct {
 	// Rotary configuration. See rolling_policy below.
 	// +kubebuilder:validation:Optional
 	RollingPolicy []RollingPolicyParameters `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
+
+	// Rollout policy is used to specify the strategy when the node pool is rolling update. This field works when node pool updating. Please use rolling_policy to instead it from provider version 1.185.0. See rollout_policy below.
+	// +kubebuilder:validation:Optional
+	RolloutPolicy []RolloutPolicyParameters `json:"rolloutPolicy,omitempty" tf:"rollout_policy,omitempty"`
 
 	// The runtime name of containers. If not set, the cluster runtime will be used as the node pool runtime. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container.
 	// +kubebuilder:validation:Optional
@@ -1224,7 +1288,18 @@ type KubernetesNodePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	ScalingPolicy *string `json:"scalingPolicy,omitempty" tf:"scaling_policy,omitempty"`
 
+	// References to SecurityGroup in ecs to populate securityGroupIds.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDRefs []v1.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
+
+	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+
 	// Multiple security groups can be configured for a node pool. If both security_group_ids and security_group_id are configured, security_group_ids takes effect. This field cannot be modified.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
+	// +crossplane:generate:reference:refFieldName=SecurityGroupIDRefs
+	// +crossplane:generate:reference:selectorFieldName=SecurityGroupIDSelector
 	// +kubebuilder:validation:Optional
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
@@ -1294,14 +1369,14 @@ type KubernetesNodePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	SystemDiskSnapshotPolicyID *string `json:"systemDiskSnapshotPolicyId,omitempty" tf:"system_disk_snapshot_policy_id,omitempty"`
 
-	// Add tags only for ECS instances. The maximum length of the tag key is 128 characters. The tag key and value cannot start with aliyun or acs:, or contain https:// or http://.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// A List of Kubernetes taints to assign to the nodes. Detailed below. More information in Taints and Toleration. See taints below.
 	// +kubebuilder:validation:Optional
-	Taints []TaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
+	Taints []KubernetesNodePoolTaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
 
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	// +kubebuilder:validation:Optional
@@ -1319,20 +1394,57 @@ type KubernetesNodePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
 
+	// The vswitches used by node pool workers.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
+	// +kubebuilder:validation:Optional
+	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
+
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIDRefs []v1.Reference `json:"vswitchIdRefs,omitempty" tf:"-"`
+	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
+}
 
-	// The vswitches used by node pool workers.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=VswitchIDRefs
-	// +crossplane:generate:reference:selectorFieldName=VswitchIDSelector
+type KubernetesNodePoolTaintsInitParameters struct {
+
+	// The scheduling policy.
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	// The key of a taint.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of a taint.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type KubernetesNodePoolTaintsObservation struct {
+
+	// The scheduling policy.
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	// The key of a taint.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of a taint.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type KubernetesNodePoolTaintsParameters struct {
+
+	// The scheduling policy.
 	// +kubebuilder:validation:Optional
-	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	// The key of a taint.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The value of a taint.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type LabelsInitParameters struct {
@@ -1553,6 +1665,25 @@ type RollingPolicyParameters struct {
 	MaxParallelism *float64 `json:"maxParallelism,omitempty" tf:"max_parallelism,omitempty"`
 }
 
+type RolloutPolicyInitParameters struct {
+
+	// Maximum number of unavailable nodes during rolling upgrade. The value of this field should be greater than 0, and if it's set to a number less than or equal to 0, the default setting will be used. Please use max_parallelism to instead it from provider version 1.185.0.
+	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
+}
+
+type RolloutPolicyObservation struct {
+
+	// Maximum number of unavailable nodes during rolling upgrade. The value of this field should be greater than 0, and if it's set to a number less than or equal to 0, the default setting will be used. Please use max_parallelism to instead it from provider version 1.185.0.
+	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
+}
+
+type RolloutPolicyParameters struct {
+
+	// Maximum number of unavailable nodes during rolling upgrade. The value of this field should be greater than 0, and if it's set to a number less than or equal to 0, the default setting will be used. Please use max_parallelism to instead it from provider version 1.185.0.
+	// +kubebuilder:validation:Optional
+	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
+}
+
 type ScalingConfigInitParameters struct {
 
 	// Peak EIP bandwidth. Its valid value range [1~500] in Mbps. It works if is_bond_eip=true. Default to 5.
@@ -1661,45 +1792,6 @@ type SpotPriceLimitParameters struct {
 	PriceLimit *string `json:"priceLimit,omitempty" tf:"price_limit,omitempty"`
 }
 
-type TaintsInitParameters struct {
-
-	// The scheduling policy.
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// The value of a taint.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type TaintsObservation struct {
-
-	// The scheduling policy.
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// The value of a taint.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type TaintsParameters struct {
-
-	// The scheduling policy.
-	// +kubebuilder:validation:Optional
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	// +kubebuilder:validation:Optional
-	Key *string `json:"key" tf:"key,omitempty"`
-
-	// The value of a taint.
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
 type TeeConfigInitParameters struct {
 
 	// Specifies whether to enable confidential computing for the cluster.
@@ -1780,7 +1872,7 @@ type KubernetesNodePoolStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type KubernetesNodePool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

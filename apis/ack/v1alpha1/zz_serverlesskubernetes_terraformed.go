@@ -124,6 +124,7 @@ func (tr *ServerlessKubernetes) LateInitialize(attrs []byte) (bool, error) {
 	opts = append(opts, resource.WithNameFilter("KubeConfig"))
 	opts = append(opts, resource.WithNameFilter("LoadBalancerSpec"))
 	opts = append(opts, resource.WithNameFilter("LoggingType"))
+	opts = append(opts, resource.WithNameFilter("NewNATGateway"))
 	opts = append(opts, resource.WithNameFilter("SlsProjectName"))
 
 	li := resource.NewGenericLateInitializer(opts...)

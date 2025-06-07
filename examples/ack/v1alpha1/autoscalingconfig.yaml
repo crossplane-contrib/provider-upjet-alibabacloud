@@ -39,18 +39,18 @@ kind: ManagedKubernetes
 metadata:
   annotations:
     meta.upbound.io/example-id: test-ack-v1alpha1-asc-mk8s-1
+    uptest.upbound.io/timeout: "2400"
   labels:
     testing.upbound.io/example-name: test-ack-v1alpha1-asc-mk8s-1
   name: test-ack-v1alpha1-asc-mk8s-1
 spec:
   forProvider:
     clusterSpec: ack.pro.small
-    # namePrefix: test-ack-v1alpha1-asc-mk8s-1
     newNatGateway: true
     podCidr: 10.0.0.0/16
     serviceCidr: 172.16.0.0/20
     slbInternetEnabled: true
-    vswitchIdSelector:
+    vswitchIdsSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-asc-vswitch-1
 ---

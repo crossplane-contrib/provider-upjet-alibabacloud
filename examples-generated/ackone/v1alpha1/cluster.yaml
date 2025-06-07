@@ -9,10 +9,13 @@ metadata:
 spec:
   forProvider:
     network:
-    - vpcId: ${alicloud_vpc.defaultVpc.id}
-      vswitches:
-      - ${alicloud_vswitch.defaultyVSwitch.id}
+    - vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: defaultVpc
+      vswitchesRefs:
+      - name: defaultyVSwitch
     profile: XFlow
+    region: cn-beijing
 
 ---
 
@@ -27,6 +30,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/12
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -42,6 +46,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.2.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: defaultVpc

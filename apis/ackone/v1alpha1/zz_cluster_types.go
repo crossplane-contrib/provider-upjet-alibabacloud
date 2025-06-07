@@ -69,15 +69,39 @@ type ClusterParameters struct {
 	// Cluster attributes. Valid values: 'Default', 'XFlow'.
 	// +kubebuilder:validation:Optional
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
+
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
 }
 
 type NetworkInitParameters struct {
 
 	// VpcId to which the cluster belongs.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.VPC
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
+	// Reference to a VPC in vpc to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+
+	// Selector for a VPC in vpc to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+
 	// Switch to which the cluster belongs.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	Vswitches []*string `json:"vswitches,omitempty" tf:"vswitches,omitempty"`
+
+	// References to Vswitch in vpc to populate vswitches.
+	// +kubebuilder:validation:Optional
+	VswitchesRefs []v1.Reference `json:"vswitchesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Vswitch in vpc to populate vswitches.
+	// +kubebuilder:validation:Optional
+	VswitchesSelector *v1.Selector `json:"vswitchesSelector,omitempty" tf:"-"`
 }
 
 type NetworkObservation struct {
@@ -95,12 +119,31 @@ type NetworkObservation struct {
 type NetworkParameters struct {
 
 	// VpcId to which the cluster belongs.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.VPC
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
-	VPCID *string `json:"vpcId" tf:"vpc_id,omitempty"`
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	// Reference to a VPC in vpc to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+
+	// Selector for a VPC in vpc to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// Switch to which the cluster belongs.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +kubebuilder:validation:Optional
-	Vswitches []*string `json:"vswitches" tf:"vswitches,omitempty"`
+	Vswitches []*string `json:"vswitches,omitempty" tf:"vswitches,omitempty"`
+
+	// References to Vswitch in vpc to populate vswitches.
+	// +kubebuilder:validation:Optional
+	VswitchesRefs []v1.Reference `json:"vswitchesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Vswitch in vpc to populate vswitches.
+	// +kubebuilder:validation:Optional
+	VswitchesSelector *v1.Selector `json:"vswitchesSelector,omitempty" tf:"-"`
 }
 
 // ClusterSpec defines the desired state of Cluster
@@ -135,7 +178,7 @@ type ClusterStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type Cluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

@@ -38,6 +38,7 @@ spec:
         testing.upbound.io/example-name: terway_vswitch_ids) > 0 ? split(",", join(",",
           var
     proxyMode: ipvs
+    region: cn-beijing
     resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     serviceCidr: 172.18.0.0/16
     timezone: Asia/Shanghai
@@ -56,6 +57,7 @@ spec:
   forProvider:
     cidrBlock: ${var.vpc_cidr}
     count: '${var.vpc_id == "" ? 1 : 0}'
+    region: cn-beijing
 
 ---
 
@@ -71,6 +73,7 @@ spec:
   forProvider:
     cidrBlock: ${element(var.terway_vswitch_cidrs, count.index)}
     count: '${length(var.terway_vswitch_ids) > 0 ? 0 : length(var.terway_vswitch_cidrs)}'
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpc_id == "" ? join("", alicloud_vpc
@@ -92,6 +95,7 @@ spec:
   forProvider:
     cidrBlock: ${element(var.vswitch_cidrs, count.index)}
     count: '${length(var.vswitch_ids) > 0 ? 0 : length(var.vswitch_cidrs)}'
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpc_id == "" ? join("", alicloud_vpc

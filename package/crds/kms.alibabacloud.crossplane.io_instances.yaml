@@ -374,7 +374,7 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
-                  vswitchRefs:
+                  vswitchIdsRefs:
                     description: References to Vswitch in vpc to populate vswitchIds.
                     items:
                       description: A Reference to a named object.
@@ -411,7 +411,7 @@ spec:
                       - name
                       type: object
                     type: array
-                  vswitchSelector:
+                  vswitchIdsSelector:
                     description: Selector for a list of Vswitch in vpc to populate
                       vswitchIds.
                     properties:
@@ -847,7 +847,7 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
-                  vswitchRefs:
+                  vswitchIdsRefs:
                     description: References to Vswitch in vpc to populate vswitchIds.
                     items:
                       description: A Reference to a named object.
@@ -884,7 +884,7 @@ spec:
                       - name
                       type: object
                     type: array
-                  vswitchSelector:
+                  vswitchIdsSelector:
                     description: Selector for a list of Vswitch in vpc to populate
                       vswitchIds.
                     properties:

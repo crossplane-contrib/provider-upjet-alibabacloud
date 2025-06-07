@@ -12,7 +12,7 @@ import (
 
 	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ack/v1alpha1"
 	v1alpha1ackone "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ackone/v1alpha1"
-	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alb/v1alpha1"
+	v1alpha1alb "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alb/v1alpha1"
 	v1alpha1alidns "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alidns/v1alpha1"
 	v1alpha1cdn "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/cdn/v1alpha1"
 	v1alpha1cloudmonitorservice "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/cloudmonitorservice/v1alpha1"
@@ -34,6 +34,7 @@ func init() {
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1alpha1ackone.SchemeBuilder.AddToScheme,
+		v1alpha1alb.SchemeBuilder.AddToScheme,
 		v1alpha1alidns.SchemeBuilder.AddToScheme,
 		v1alpha1cdn.SchemeBuilder.AddToScheme,
 		v1alpha1cloudmonitorservice.SchemeBuilder.AddToScheme,

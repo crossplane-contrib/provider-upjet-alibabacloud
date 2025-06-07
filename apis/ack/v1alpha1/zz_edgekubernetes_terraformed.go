@@ -125,7 +125,7 @@ func (tr *EdgeKubernetes) LateInitialize(attrs []byte) (bool, error) {
 	opts = append(opts, resource.WithNameFilter("IsEnterpriseSecurityGroup"))
 	opts = append(opts, resource.WithNameFilter("KubeConfig"))
 	opts = append(opts, resource.WithNameFilter("LogConfig"))
-	opts = append(opts, resource.WithNameFilter("NamePrefix"))
+	opts = append(opts, resource.WithNameFilter("NewNATGateway"))
 	opts = append(opts, resource.WithNameFilter("SecurityGroupID"))
 
 	li := resource.NewGenericLateInitializer(opts...)

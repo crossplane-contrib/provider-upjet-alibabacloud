@@ -22,6 +22,7 @@ spec:
     - key: test2
       value: nodepool
     nodePoolName: ${var.name}
+    region: cn-beijing
     systemDiskCategory: cloud_efficiency
     systemDiskSize: 40
     taints:
@@ -31,7 +32,7 @@ spec:
     - effect: NoSchedule
       key: tf2
       value: example2
-    vswitchIdRefs:
+    vswitchIdsRefs:
     - name: default
 
 ---
@@ -48,13 +49,13 @@ spec:
   forProvider:
     clusterSpec: ack.pro.small
     enableRrsa: true
-    name_prefix: terraform-example-${random_integer.default.result}
     newNatGateway: true
     podCidr: ${cidrsubnet("10.0.0.0/8", 8, 36)}
+    region: cn-beijing
     serviceCidr: ${cidrsubnet("172.16.0.0/16", 4, 7)}
     slbInternetEnabled: true
-    workerVswitchIdRefs:
-    - name: default
+    workerVswitchIds:
+    - ${alicloud_vswitch.default.id}
 
 ---
 
@@ -69,6 +70,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -84,6 +86,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

@@ -19,6 +19,7 @@ spec:
         matchLabels:
           testing.upbound.io/example-name: example
       roleType: cluster
+    region: cn-beijing
     uidSelector:
       matchLabels:
         testing.upbound.io/example-name: user
@@ -39,12 +40,11 @@ spec:
     name: ${var.name}-${random_integer.default.result}
     newNatGateway: false
     podCidr: ${var.pod_cidr}
+    region: cn-beijing
     serviceCidr: ${var.service_cidr}
     slbInternetEnabled: false
     version: ${data.alicloud_cs_kubernetes_version.default.metadata.0.version}
-    workerVswitchIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: default
+    workerVswitchIds: ${split(",", join(",", alicloud_vswitch.default.*.id))}
 
 ---
 
@@ -73,6 +73,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: ${var.vpc_cidr}
+    region: cn-beijing
 
 ---
 
@@ -88,6 +89,7 @@ spec:
   forProvider:
     cidrBlock: ${element(var.vswitch_cidrs, count.index)}
     count: ${length(var.vswitch_cidrs)}
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpc

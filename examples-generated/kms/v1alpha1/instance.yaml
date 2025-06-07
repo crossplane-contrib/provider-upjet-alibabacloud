@@ -48,7 +48,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: vswitch
     vpcNum: "7"
-    vswitchRefs:
+    vswitchIdsRefs:
     - name: vswitch-j
     - name: vswitch
     zoneIdsRefs:

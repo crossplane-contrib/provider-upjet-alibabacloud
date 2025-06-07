@@ -10,6 +10,7 @@ kind: ServerlessKubernetes
 metadata:
   annotations:
     meta.upbound.io/example-id: test-ack-v1alpha1-serverlessk8s-1
+    uptest.upbound.io/timeout: "2400"
   labels:
     testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-1
   name: test-ack-v1alpha1-serverlessk8s-1
@@ -36,7 +37,7 @@ spec:
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-vpc-1
-    vswitchIdSelector:
+    vswitchIdsSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-vsw-1
 ---

@@ -47,7 +47,6 @@ GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 GO_REQUIRED_VERSION ?= 1.24.1
 GOLANGCILINT_VERSION ?= 1.64.8
 UPTEST_LOCAL_VERSION = v0.13.0
-UPTEST_DEFAULT_TIMEOUT = 10000
 UPTEST_LOCAL_CHANNEL = stable
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
@@ -227,7 +226,7 @@ UPTEST_EXAMPLE_LIST_PRIVATELINK=$(PRIVATELINK)/vpcendpoint.yaml,$(PRIVATELINK)/v
 UPTEST_EXAMPLE_LIST_RAM=$(RAM)/accesskey.yaml,$(RAM)/accountalias.yaml,$(RAM)/accountpasswordpolicy.yaml,$(RAM)/group.yaml,$(RAM)/groupmembership.yaml,$(RAM)/grouppolicyattachment.yaml,$(RAM)/loginprofile.yaml,$(RAM)/passwordpolicy.yaml,$(RAM)/policy.yaml,$(RAM)/role.yaml,$(RAM)/rolepolicyattachment.yaml,$(RAM)/samlprovider.yaml,$(RAM)/user.yaml,$(RAM)/usergroupattachment.yaml,$(RAM)/userpolicyattachment.yaml
 UPTEST_EXAMPLE_LIST_TAIT=$(TAIT)/account.yaml,$(TAIT)/auditlogconfig.yaml,$(TAIT)/connection.yaml,$(TAIT)/instance.yaml,$(TAIT)/tairinstance.yaml
 UPTEST_EXAMPLE_LIST_VPC=$(VPC)/vpc.yaml
-UPTEST_EXAMPLE_LIST=$(ACK)/edgekubernetes.yaml
+UPTEST_EXAMPLE_LIST=$(VPC)/vpc.yaml
 uptest: $(UPTEST) $(KUBECTL) $(CHAINSAW)
 	@$(INFO) running automated tests
 	@KUBECTL=$(KUBECTL) CHAINSAW=$(CHAINSAW) CROSSPLANE_NAMESPACE=$(CROSSPLANE_NAMESPACE) $(UPTEST) e2e "${UPTEST_EXAMPLE_LIST}" --data-source="${UPTEST_DATASOURCE_PATH}" --setup-script=cluster/test/setup.sh --default-conditions="Test" || $(FAIL)

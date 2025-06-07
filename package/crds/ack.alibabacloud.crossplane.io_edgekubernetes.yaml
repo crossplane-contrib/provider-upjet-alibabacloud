@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: edgekubernetes.ack.alibabacloud.crossplane.io
 spec:
   group: ack.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: EdgeKubernetes
     listKind: EdgeKubernetesList
     plural: edgekubernetes
@@ -157,10 +157,6 @@ spec:
                     description: The kubernetes cluster's name. It is unique in one
                       Alicloud account.
                     type: string
-                  namePrefix:
-                    description: The kubernetes cluster name's prefix. It is conflict
-                      with name.
-                    type: string
                   newNatGateway:
                     description: Whether to create a new nat gateway while creating
                       kubernetes cluster. Default to true. Then openapi in Alibaba
@@ -205,6 +201,10 @@ spec:
                     items:
                       type: string
                     type: array
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   resourceGroupId:
                     description: The ID of the resource group,by default these cloud
                       resources are automatically assigned to the default resource
@@ -234,6 +234,80 @@ spec:
                       in the cluster belong. If it is not specified, a new Security
                       group will be built.
                     type: string
+                  securityGroupIdRef:
+                    description: Reference to a SecurityGroup in ecs to populate securityGroupId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  securityGroupIdSelector:
+                    description: Selector for a SecurityGroup in ecs to populate securityGroupId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   serviceCidr:
                     description: The CIDR block for the service network. It cannot
                       be duplicated with the VPC CIDR and CIDR used by Kubernetes
@@ -246,8 +320,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: Default nil, A map of tags assigned to the kubernetes
-                      cluster and work node.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   userData:
@@ -339,7 +412,7 @@ spec:
                       cluster. Default to 1. It is limited up to 50 and if you want
                       to enlarge it, please apply white list or contact with us.
                     type: number
-                  workerVswitchIdRefs:
+                  workerVswitchIDsRefs:
                     description: References to Vswitch in vpc to populate workerVswitchIds.
                     items:
                       description: A Reference to a named object.
@@ -376,7 +449,7 @@ spec:
                       - name
                       type: object
                     type: array
-                  workerVswitchIdSelector:
+                  workerVswitchIDsSelector:
                     description: Selector for a list of Vswitch in vpc to populate
                       workerVswitchIds.
                     properties:
@@ -520,10 +593,6 @@ spec:
                     description: The kubernetes cluster's name. It is unique in one
                       Alicloud account.
                     type: string
-                  namePrefix:
-                    description: The kubernetes cluster name's prefix. It is conflict
-                      with name.
-                    type: string
                   newNatGateway:
                     description: Whether to create a new nat gateway while creating
                       kubernetes cluster. Default to true. Then openapi in Alibaba
@@ -597,6 +666,80 @@ spec:
                       in the cluster belong. If it is not specified, a new Security
                       group will be built.
                     type: string
+                  securityGroupIdRef:
+                    description: Reference to a SecurityGroup in ecs to populate securityGroupId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  securityGroupIdSelector:
+                    description: Selector for a SecurityGroup in ecs to populate securityGroupId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   serviceCidr:
                     description: The CIDR block for the service network. It cannot
                       be duplicated with the VPC CIDR and CIDR used by Kubernetes
@@ -609,8 +752,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: Default nil, A map of tags assigned to the kubernetes
-                      cluster and work node.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   userData:
@@ -702,7 +844,7 @@ spec:
                       cluster. Default to 1. It is limited up to 50 and if you want
                       to enlarge it, please apply white list or contact with us.
                     type: number
-                  workerVswitchIdRefs:
+                  workerVswitchIDsRefs:
                     description: References to Vswitch in vpc to populate workerVswitchIds.
                     items:
                       description: A Reference to a named object.
@@ -739,7 +881,7 @@ spec:
                       - name
                       type: object
                     type: array
-                  workerVswitchIdSelector:
+                  workerVswitchIDsSelector:
                     description: Selector for a list of Vswitch in vpc to populate
                       workerVswitchIds.
                     properties:
@@ -1067,10 +1209,6 @@ spec:
                     description: The kubernetes cluster's name. It is unique in one
                       Alicloud account.
                     type: string
-                  namePrefix:
-                    description: The kubernetes cluster name's prefix. It is conflict
-                      with name.
-                    type: string
                   natGatewayId:
                     description: The ID of nat gateway used to launch kubernetes cluster.
                     type: string
@@ -1147,8 +1285,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: Default nil, A map of tags assigned to the kubernetes
-                      cluster and work node.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   userData:

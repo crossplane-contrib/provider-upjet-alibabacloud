@@ -21,7 +21,7 @@ func (mg *ManagedKubernetes) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this ManagedKubernetes
 func (tr *ManagedKubernetes) GetConnectionDetailsMapping() map[string]string {
-	return nil
+	return map[string]string{"password": "passwordSecretRef"}
 }
 
 // GetObservation of this ManagedKubernetes
@@ -118,6 +118,39 @@ func (tr *ManagedKubernetes) LateInitialize(attrs []byte) (bool, error) {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
 	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+	opts = append(opts, resource.WithNameFilter("AvailabilityZone"))
+	opts = append(opts, resource.WithNameFilter("CPUPolicy"))
+	opts = append(opts, resource.WithNameFilter("EnableSSH"))
+	opts = append(opts, resource.WithNameFilter("ExcludeAutoscalerNodes"))
+	opts = append(opts, resource.WithNameFilter("ImageID"))
+	opts = append(opts, resource.WithNameFilter("InstallCloudMonitor"))
+	opts = append(opts, resource.WithNameFilter("KeyName"))
+	opts = append(opts, resource.WithNameFilter("KMSEncryptedPassword"))
+	opts = append(opts, resource.WithNameFilter("KMSEncryptionContext"))
+	opts = append(opts, resource.WithNameFilter("KubeConfig"))
+	opts = append(opts, resource.WithNameFilter("NewNATGateway"))
+	opts = append(opts, resource.WithNameFilter("NodeNameMode"))
+	opts = append(opts, resource.WithNameFilter("NodePortRange"))
+	opts = append(opts, resource.WithNameFilter("OsType"))
+	opts = append(opts, resource.WithNameFilter("Password"))
+	opts = append(opts, resource.WithNameFilter("Platform"))
+	opts = append(opts, resource.WithNameFilter("RDSInstances"))
+	opts = append(opts, resource.WithNameFilter("Runtime"))
+	opts = append(opts, resource.WithNameFilter("Taints"))
+	opts = append(opts, resource.WithNameFilter("UserData"))
+	opts = append(opts, resource.WithNameFilter("WorkerAutoRenew"))
+	opts = append(opts, resource.WithNameFilter("WorkerAutoRenewPeriod"))
+	opts = append(opts, resource.WithNameFilter("WorkerDataDisks"))
+	opts = append(opts, resource.WithNameFilter("WorkerDiskCategory"))
+	opts = append(opts, resource.WithNameFilter("WorkerDiskPerformanceLevel"))
+	opts = append(opts, resource.WithNameFilter("WorkerDiskSize"))
+	opts = append(opts, resource.WithNameFilter("WorkerDiskSnapshotPolicyID"))
+	opts = append(opts, resource.WithNameFilter("WorkerInstanceChargeType"))
+	opts = append(opts, resource.WithNameFilter("WorkerInstanceTypes"))
+	opts = append(opts, resource.WithNameFilter("WorkerNumber"))
+	opts = append(opts, resource.WithNameFilter("WorkerPeriod"))
+	opts = append(opts, resource.WithNameFilter("WorkerPeriodUnit"))
+	opts = append(opts, resource.WithNameFilter("WorkerVswitchIds"))
 
 	li := resource.NewGenericLateInitializer(opts...)
 	return li.LateInitialize(&tr.Spec.ForProvider, params)

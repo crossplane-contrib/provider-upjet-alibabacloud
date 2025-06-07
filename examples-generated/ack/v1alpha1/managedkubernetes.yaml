@@ -35,8 +35,9 @@ spec:
     podVswitchIds: '${length(var.terway_vswitch_ids) > 0 ? split(",", join(",", var.terway_vswitch_ids))
       : length(var.terway_vswitch_cidrs) < 1 ? [] : split(",", join(",", alicloud_vswitch.terway_vswitches.*.id))}'
     proxyMode: ${var.proxy_mode}
+    region: cn-beijing
     serviceCidr: ${var.service_cidr}
-    vswitchIdSelector:
+    vswitchIdsSelector:
       matchLabels:
         testing.upbound.io/example-name: vswitch_ids) > 0 ? split(",", join(",", var
 
@@ -54,6 +55,7 @@ spec:
   forProvider:
     cidrBlock: ${var.vpc_cidr}
     count: '${var.vpc_id == "" ? 1 : 0}'
+    region: cn-beijing
 
 ---
 
@@ -69,6 +71,7 @@ spec:
   forProvider:
     cidrBlock: ${element(var.terway_vswitch_cidrs, count.index)}
     count: '${length(var.terway_vswitch_ids) > 0 ? 0 : length(var.terway_vswitch_cidrs)}'
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpc_id == "" ? join("", alicloud_vpc
@@ -88,6 +91,7 @@ spec:
   forProvider:
     cidrBlock: ${element(var.vswitch_cidrs, count.index)}
     count: '${length(var.vswitch_ids) > 0 ? 0 : length(var.vswitch_cidrs)}'
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpc_id == "" ? join("", alicloud_vpc

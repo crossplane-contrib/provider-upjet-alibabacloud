@@ -49,6 +49,11 @@ type KubernetesPermissionsParameters struct {
 	// +kubebuilder:validation:Optional
 	Permissions []PermissionsParameters `json:"permissions,omitempty" tf:"permissions,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of the Ram user, and it can also be the id of the Ram Role. If you use Ram Role id, you need to set is_ram_role to true during authorization.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1.User
 	// +kubebuilder:validation:Optional
@@ -208,7 +213,7 @@ type KubernetesPermissionsStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type KubernetesPermissions struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

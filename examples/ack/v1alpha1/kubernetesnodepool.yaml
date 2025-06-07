@@ -1,9 +1,19 @@
 ---
-apiversion: ack.alibabacloud.crossplane.io/v1alpha1
+# NAME                                                                                       SYNCED   READY   EXTERNAL-NAME                                                          AGE
+# kubernetesnodepool.ack.alibabacloud.crossplane.io/test-ack-v1alpha1-k8snodepool-1          True     True    c9dc8c7e423d3436fbff66c1730bad496:np5cf3fc31726847a4a3b6556131661690   7m13s
+# managedkubernetes.ack.alibabacloud.crossplane.io/test-ack-v1alpha1-k8snodepool-cluster-1   True     True    c9dc8c7e423d3436fbff66c1730bad496   7m13s
+# vpc.vpc.alibabacloud.crossplane.io/test-ack-v1alpha1-k8snodepool-vpc-1                     True     True    vpc-rj90cgdf7az8efgimyeyf   7m13s
+#vswitch.vpc.alibabacloud.crossplane.io/test-ack-v1alpha1-k8snodepool-vsw-1                  True     True    vsw-rj9oft2k40xulx3ho1zoa   7m13s
+#
+# Running the test may require RAM Quick Authorization
+# Check messages / events from managed resources
+#
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
 kind: KubernetesNodePool
 metadata:
   annotations:
     meta.upbound.io/example-id: test-ack-v1alpha1-k8snodepool-1
+    uptest.upbound.io/timeout: "2400"
   labels:
     testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-1
   name: test-ack-v1alpha1-k8snodepool-1
@@ -14,12 +24,12 @@ spec:
         testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-cluster-1
     instanceTypes:
       - ecs.g6.large
-    keyName: Default
+    #keyName: Default
     labels:
-    - key: test1
-      value: nodepool
-    - key: test2
-      value: nodepool
+    - key: nodepool-orchestrator
+      value: crossplane
+    - key: provider
+      value: aliabacloud
     nodePoolName: test-ack-v1alpha1-k8snodepool-1
     systemDiskCategory: cloud_efficiency
     systemDiskSize: 40
@@ -30,7 +40,7 @@ spec:
     - effect: NoSchedule
       key: tf2
       value: example2
-    vswitchIdSelector:
+    vswitchIdsSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vsw-1
 ---
@@ -39,6 +49,7 @@ kind: ManagedKubernetes
 metadata:
   annotations:
     meta.upbound.io/example-id: test-ack-v1alpha1-k8snodepool-cluster-1
+    uptest.upbound.io/timeout: "2400"
   labels:
     testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-cluster-1
   name: test-ack-v1alpha1-k8snodepool-cluster-1
@@ -47,10 +58,10 @@ spec:
     clusterSpec: ack.pro.small
     enableRrsa: true
     newNatGateway: true
-    podCidr: 10.32.0.0/27
-    serviceCidr: 172.20.0.0/23
+    podCidr: 10.0.0.0/16
+    serviceCidr: 172.16.0.0/20
     slbInternetEnabled: true
-    workerVswitchIdSelector:
+    vswitchIdsSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vsw-1
 ---
@@ -83,3 +94,34 @@ spec:
         testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vpc-1
     vswitchName: test-ack-v1alpha1-k8snodepool-vsw-1
     zoneId: us-west-1a
+---
+# The Role below may be needed if permissions are not yet specified.
+#
+apiVersion: ram.alibabacloud.crossplane.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.crossplane.io/example-id: aliyuncsmanagedautoscalerrole
+  labels:
+    testing.crossplane.io/example-name: aliyuncsmanagedautoscalerrole
+  name: aliyuncsmanagedautoscalerrole
+spec:
+  forProvider:
+    description: aliyuncsmanagedautoscalerrole
+    document: |
+      {
+          "Statement": [
+              {
+                  "Action": "sts:AssumeRole",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "Service": [
+                          "cs.aliyuncs.com",
+                          "ecs.aliyuncs.com"
+                      ]
+                  }
+              }
+          ],
+          "Version": "1"
+      }
+    name: aliyuncsmanagedautoscalerrole

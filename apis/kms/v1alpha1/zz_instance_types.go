@@ -153,18 +153,16 @@ type InstanceInitParameters struct {
 
 	// Instance bind vswitches.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=VswitchRefs
-	// +crossplane:generate:reference:selectorFieldName=VswitchSelector
 	// +listType=set
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchRefs []v1.Reference `json:"vswitchRefs,omitempty" tf:"-"`
+	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchSelector *v1.Selector `json:"vswitchSelector,omitempty" tf:"-"`
+	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
 	// zone id.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -326,19 +324,17 @@ type InstanceParameters struct {
 
 	// Instance bind vswitches.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=VswitchRefs
-	// +crossplane:generate:reference:selectorFieldName=VswitchSelector
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchRefs []v1.Reference `json:"vswitchRefs,omitempty" tf:"-"`
+	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchSelector *v1.Selector `json:"vswitchSelector,omitempty" tf:"-"`
+	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
 	// zone id.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch

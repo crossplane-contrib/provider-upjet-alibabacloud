@@ -17,11 +17,31 @@ type MembershipAttachmentInitParameters struct {
 
 	// The ID of the cluster to which the membership is being attached.
 	// ID of the ACK One fleet cluster
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ackone/v1alpha1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// Reference to a Cluster in ackone to populate clusterId.
+	// +kubebuilder:validation:Optional
+	ClusterIDRef *v1.Reference `json:"clusterIdRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in ackone to populate clusterId.
+	// +kubebuilder:validation:Optional
+	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
 
 	// The ID of the member being attached to the cluster.
 	// ID of the ACK cluster that needs to be managed by ACK One fleet
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ack/v1alpha1.ManagedKubernetes
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	SubClusterID *string `json:"subClusterId,omitempty" tf:"sub_cluster_id,omitempty"`
+
+	// Reference to a ManagedKubernetes in ack to populate subClusterId.
+	// +kubebuilder:validation:Optional
+	SubClusterIDRef *v1.Reference `json:"subClusterIdRef,omitempty" tf:"-"`
+
+	// Selector for a ManagedKubernetes in ack to populate subClusterId.
+	// +kubebuilder:validation:Optional
+	SubClusterIDSelector *v1.Selector `json:"subClusterIdSelector,omitempty" tf:"-"`
 }
 
 type MembershipAttachmentObservation struct {
@@ -42,13 +62,38 @@ type MembershipAttachmentParameters struct {
 
 	// The ID of the cluster to which the membership is being attached.
 	// ID of the ACK One fleet cluster
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ackone/v1alpha1.Cluster
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 
+	// Reference to a Cluster in ackone to populate clusterId.
+	// +kubebuilder:validation:Optional
+	ClusterIDRef *v1.Reference `json:"clusterIdRef,omitempty" tf:"-"`
+
+	// Selector for a Cluster in ackone to populate clusterId.
+	// +kubebuilder:validation:Optional
+	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
+
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of the member being attached to the cluster.
 	// ID of the ACK cluster that needs to be managed by ACK One fleet
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ack/v1alpha1.ManagedKubernetes
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SubClusterID *string `json:"subClusterId,omitempty" tf:"sub_cluster_id,omitempty"`
+
+	// Reference to a ManagedKubernetes in ack to populate subClusterId.
+	// +kubebuilder:validation:Optional
+	SubClusterIDRef *v1.Reference `json:"subClusterIdRef,omitempty" tf:"-"`
+
+	// Selector for a ManagedKubernetes in ack to populate subClusterId.
+	// +kubebuilder:validation:Optional
+	SubClusterIDSelector *v1.Selector `json:"subClusterIdSelector,omitempty" tf:"-"`
 }
 
 // MembershipAttachmentSpec defines the desired state of MembershipAttachment
@@ -83,14 +128,12 @@ type MembershipAttachmentStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type MembershipAttachment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterId) || (has(self.initProvider) && has(self.initProvider.clusterId))",message="spec.forProvider.clusterId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.subClusterId) || (has(self.initProvider) && has(self.initProvider.subClusterId))",message="spec.forProvider.subClusterId is a required parameter"
-	Spec   MembershipAttachmentSpec   `json:"spec"`
-	Status MembershipAttachmentStatus `json:"status,omitempty"`
+	Spec              MembershipAttachmentSpec   `json:"spec"`
+	Status            MembershipAttachmentStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

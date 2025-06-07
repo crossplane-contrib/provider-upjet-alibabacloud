@@ -24,7 +24,9 @@ spec:
   forProvider:
     argocdEnabled: false
     network:
-    - vpcId: foo # replace with vpcId
+    - vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
       vswitches:
       - foo2 # replace with vswitchId
 ---

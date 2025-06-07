@@ -25,7 +25,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_ack_one_cluster":               config.IdentifierFromProvider,
 	"alicloud_ack_one_membership_attachment": config.IdentifierFromProvider,
 
-  // ALB
+	// ALB
 	"alicloud_alb_acl":                     config.IdentifierFromProvider,
 	"alicloud_alb_acl_entry_attachment":    config.IdentifierFromProvider,
 	"alicloud_alb_ascript":                 config.IdentifierFromProvider,

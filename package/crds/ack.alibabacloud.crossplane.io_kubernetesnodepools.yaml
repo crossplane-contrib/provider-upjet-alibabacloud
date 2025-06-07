@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: kubernetesnodepools.ack.alibabacloud.crossplane.io
 spec:
   group: ack.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: KubernetesNodePool
     listKind: KubernetesNodePoolList
     plural: kubernetesnodepools
@@ -85,6 +85,11 @@ spec:
                       Renewal, and is a required value. When PeriodUnit = Month, the
                       value range is {1, 2, 3, 6, 12}. Default value: 1.'
                     type: number
+                  cisEnabled:
+                    description: Whether enable worker node to support cis security
+                      reinforcement, its valid value true or false. Default to false
+                      and apply to AliyunLinux series. Use security_hardening_os instead.
+                    type: boolean
                   clusterId:
                     description: The id of kubernetes cluster.
                     type: string
@@ -739,6 +744,15 @@ spec:
                       you can use the API [RebalanceInstances](~~ 71516 ~~) to balance
                       resources.'
                     type: string
+                  name:
+                    description: (Deprecated since v1.219.0). Field 'name' has been
+                      deprecated from provider version 1.219.0. New field 'node_pool_name'
+                      instead.
+                    type: string
+                  nodeCount:
+                    description: The worker node number of the node pool. From version
+                      1.111.0, node_count is not required.
+                    type: number
                   nodeNameMode:
                     description: Each node name consists of a prefix, its private
                       network IP, and a suffix, separated by commas. The input format
@@ -787,6 +801,9 @@ spec:
                     description: 'Node payment period unit, valid value: Month. Default
                       is Month.'
                     type: string
+                  platform:
+                    description: Operating system release, using image_type instead.
+                    type: string
                   preUserData:
                     description: Node pre custom data, base64-encoded, the script
                       executed before the node is initialized.
@@ -826,6 +843,10 @@ spec:
                     items:
                       type: string
                     type: array
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   resourceGroupId:
                     description: The ID of the resource group
                     type: string
@@ -835,6 +856,22 @@ spec:
                       properties:
                         maxParallelism:
                           description: The maximum number of unusable nodes.
+                          type: number
+                      type: object
+                    type: array
+                  rolloutPolicy:
+                    description: Rollout policy is used to specify the strategy when
+                      the node pool is rolling update. This field works when node
+                      pool updating. Please use rolling_policy to instead it from
+                      provider version 1.185.0. See rollout_policy below.
+                    items:
+                      properties:
+                        maxUnavailable:
+                          description: Maximum number of unavailable nodes during
+                            rolling upgrade. The value of this field should be greater
+                            than 0, and if it's set to a number less than or equal
+                            to 0, the default setting will be used. Please use max_parallelism
+                            to instead it from provider version 1.185.0.
                           type: number
                       type: object
                     type: array
@@ -891,6 +928,84 @@ spec:
                     description: 'Scaling group mode, default value: release. Valid
                       values:'
                     type: string
+                  securityGroupIdRefs:
+                    description: References to SecurityGroup in ecs to populate securityGroupIds.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  securityGroupIdSelector:
+                    description: Selector for a list of SecurityGroup in ecs to populate
+                      securityGroupIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   securityGroupIds:
                     description: Multiple security groups can be configured for a
                       node pool. If both security_group_ids and security_group_id
@@ -994,9 +1109,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: Add tags only for ECS instances. The maximum length
-                      of the tag key is 128 characters. The tag key and value cannot
-                      start with aliyun or acs:, or contain https:// or http://.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   taints:
@@ -1036,7 +1149,12 @@ spec:
                   userData:
                     description: Node custom data, base64-encoded.
                     type: string
-                  vswitchIdRefs:
+                  vswitchIds:
+                    description: The vswitches used by node pool workers.
+                    items:
+                      type: string
+                    type: array
+                  vswitchIdsRefs:
                     description: References to Vswitch in vpc to populate vswitchIds.
                     items:
                       description: A Reference to a named object.
@@ -1073,7 +1191,7 @@ spec:
                       - name
                       type: object
                     type: array
-                  vswitchIdSelector:
+                  vswitchIdsSelector:
                     description: Selector for a list of Vswitch in vpc to populate
                       vswitchIds.
                     properties:
@@ -1114,11 +1232,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  vswitchIds:
-                    description: The vswitches used by node pool workers.
-                    items:
-                      type: string
-                    type: array
                 type: object
               initProvider:
                 description: |-
@@ -1144,6 +1257,11 @@ spec:
                       Renewal, and is a required value. When PeriodUnit = Month, the
                       value range is {1, 2, 3, 6, 12}. Default value: 1.'
                     type: number
+                  cisEnabled:
+                    description: Whether enable worker node to support cis security
+                      reinforcement, its valid value true or false. Default to false
+                      and apply to AliyunLinux series. Use security_hardening_os instead.
+                    type: boolean
                   clusterId:
                     description: The id of kubernetes cluster.
                     type: string
@@ -1798,6 +1916,15 @@ spec:
                       you can use the API [RebalanceInstances](~~ 71516 ~~) to balance
                       resources.'
                     type: string
+                  name:
+                    description: (Deprecated since v1.219.0). Field 'name' has been
+                      deprecated from provider version 1.219.0. New field 'node_pool_name'
+                      instead.
+                    type: string
+                  nodeCount:
+                    description: The worker node number of the node pool. From version
+                      1.111.0, node_count is not required.
+                    type: number
                   nodeNameMode:
                     description: Each node name consists of a prefix, its private
                       network IP, and a suffix, separated by commas. The input format
@@ -1845,6 +1972,9 @@ spec:
                   periodUnit:
                     description: 'Node payment period unit, valid value: Month. Default
                       is Month.'
+                    type: string
+                  platform:
+                    description: Operating system release, using image_type instead.
                     type: string
                   preUserData:
                     description: Node pre custom data, base64-encoded, the script
@@ -1894,6 +2024,22 @@ spec:
                       properties:
                         maxParallelism:
                           description: The maximum number of unusable nodes.
+                          type: number
+                      type: object
+                    type: array
+                  rolloutPolicy:
+                    description: Rollout policy is used to specify the strategy when
+                      the node pool is rolling update. This field works when node
+                      pool updating. Please use rolling_policy to instead it from
+                      provider version 1.185.0. See rollout_policy below.
+                    items:
+                      properties:
+                        maxUnavailable:
+                          description: Maximum number of unavailable nodes during
+                            rolling upgrade. The value of this field should be greater
+                            than 0, and if it's set to a number less than or equal
+                            to 0, the default setting will be used. Please use max_parallelism
+                            to instead it from provider version 1.185.0.
                           type: number
                       type: object
                     type: array
@@ -1950,6 +2096,84 @@ spec:
                     description: 'Scaling group mode, default value: release. Valid
                       values:'
                     type: string
+                  securityGroupIdRefs:
+                    description: References to SecurityGroup in ecs to populate securityGroupIds.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  securityGroupIdSelector:
+                    description: Selector for a list of SecurityGroup in ecs to populate
+                      securityGroupIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   securityGroupIds:
                     description: Multiple security groups can be configured for a
                       node pool. If both security_group_ids and security_group_id
@@ -2053,9 +2277,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: Add tags only for ECS instances. The maximum length
-                      of the tag key is 128 characters. The tag key and value cannot
-                      start with aliyun or acs:, or contain https:// or http://.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   taints:
@@ -2095,7 +2317,12 @@ spec:
                   userData:
                     description: Node custom data, base64-encoded.
                     type: string
-                  vswitchIdRefs:
+                  vswitchIds:
+                    description: The vswitches used by node pool workers.
+                    items:
+                      type: string
+                    type: array
+                  vswitchIdsRefs:
                     description: References to Vswitch in vpc to populate vswitchIds.
                     items:
                       description: A Reference to a named object.
@@ -2132,7 +2359,7 @@ spec:
                       - name
                       type: object
                     type: array
-                  vswitchIdSelector:
+                  vswitchIdsSelector:
                     description: Selector for a list of Vswitch in vpc to populate
                       vswitchIds.
                     properties:
@@ -2173,11 +2400,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  vswitchIds:
-                    description: The vswitches used by node pool workers.
-                    items:
-                      type: string
-                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -2367,6 +2589,11 @@ spec:
                       Renewal, and is a required value. When PeriodUnit = Month, the
                       value range is {1, 2, 3, 6, 12}. Default value: 1.'
                     type: number
+                  cisEnabled:
+                    description: Whether enable worker node to support cis security
+                      reinforcement, its valid value true or false. Default to false
+                      and apply to AliyunLinux series. Use security_hardening_os instead.
+                    type: boolean
                   clusterId:
                     description: The id of kubernetes cluster.
                     type: string
@@ -2856,6 +3083,15 @@ spec:
                       you can use the API [RebalanceInstances](~~ 71516 ~~) to balance
                       resources.'
                     type: string
+                  name:
+                    description: (Deprecated since v1.219.0). Field 'name' has been
+                      deprecated from provider version 1.219.0. New field 'node_pool_name'
+                      instead.
+                    type: string
+                  nodeCount:
+                    description: The worker node number of the node pool. From version
+                      1.111.0, node_count is not required.
+                    type: number
                   nodeNameMode:
                     description: Each node name consists of a prefix, its private
                       network IP, and a suffix, separated by commas. The input format
@@ -2886,6 +3122,9 @@ spec:
                   periodUnit:
                     description: 'Node payment period unit, valid value: Month. Default
                       is Month.'
+                    type: string
+                  platform:
+                    description: Operating system release, using image_type instead.
                     type: string
                   preUserData:
                     description: Node pre custom data, base64-encoded, the script
@@ -2935,6 +3174,22 @@ spec:
                       properties:
                         maxParallelism:
                           description: The maximum number of unusable nodes.
+                          type: number
+                      type: object
+                    type: array
+                  rolloutPolicy:
+                    description: Rollout policy is used to specify the strategy when
+                      the node pool is rolling update. This field works when node
+                      pool updating. Please use rolling_policy to instead it from
+                      provider version 1.185.0. See rollout_policy below.
+                    items:
+                      properties:
+                        maxUnavailable:
+                          description: Maximum number of unavailable nodes during
+                            rolling upgrade. The value of this field should be greater
+                            than 0, and if it's set to a number less than or equal
+                            to 0, the default setting will be used. Please use max_parallelism
+                            to instead it from provider version 1.185.0.
                           type: number
                       type: object
                     type: array
@@ -3097,9 +3352,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: Add tags only for ECS instances. The maximum length
-                      of the tag key is 128 characters. The tag key and value cannot
-                      start with aliyun or acs:, or contain https:// or http://.
+                    description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
                   taints:

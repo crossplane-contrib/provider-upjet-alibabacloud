@@ -174,6 +174,11 @@ type AutoscalingConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	RecycleNodeDeletionEnabled *bool `json:"recycleNodeDeletionEnabled,omitempty" tf:"recycle_node_deletion_enabled,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// Specify whether to allow the scale-in of nodes. Default is true.
 	// +kubebuilder:validation:Optional
 	ScaleDownEnabled *bool `json:"scaleDownEnabled,omitempty" tf:"scale_down_enabled,omitempty"`
@@ -239,7 +244,7 @@ type AutoscalingConfigStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type AutoscalingConfig struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

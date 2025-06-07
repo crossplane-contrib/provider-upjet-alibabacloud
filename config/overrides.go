@@ -5,8 +5,9 @@
 package config
 
 import (
-	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common"
 	"strings"
+
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common"
 
 	"github.com/crossplane/upjet/pkg/config"
 	"github.com/crossplane/upjet/pkg/types"
@@ -112,12 +113,16 @@ func KnownReferences() config.ResourceOption { //nolint:gocyclo
 				}
 			case "vswitch_ids":
 				r.References["vswitch_ids"] = config.Reference{
-					TerraformName:     "alicloud_vswitch",
-					RefFieldName:      "VswitchIDRefs",
-					SelectorFieldName: "VswitchIDSelector",
+					TerraformName: "alicloud_vswitch",
+					// Added s because of ids versus id
+					RefFieldName: "VswitchIDsRefs",
+					// Added s because of ids versus id
+					SelectorFieldName: "VswitchIDsSelector",
 				}
 			case "vswitch_id":
 				r.References["vswitch_id"] = config.Reference{
+					// Implicitly creates VswitchIDRefs and VswitchIDSelector
+					// without s
 					TerraformName: "alicloud_vswitch",
 				}
 			case "ram_roles":

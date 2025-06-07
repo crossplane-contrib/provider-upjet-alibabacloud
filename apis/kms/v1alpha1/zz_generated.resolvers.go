@@ -120,8 +120,8 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
-		References:    mg.Spec.ForProvider.VswitchRefs,
-		Selector:      mg.Spec.ForProvider.VswitchSelector,
+		References:    mg.Spec.ForProvider.VswitchIdsRefs,
+		Selector:      mg.Spec.ForProvider.VswitchIdsSelector,
 		To: reference.To{
 			List:    &v1alpha1.VswitchList{},
 			Managed: &v1alpha1.Vswitch{},
@@ -131,7 +131,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		return errors.Wrap(err, "mg.Spec.ForProvider.VswitchIds")
 	}
 	mg.Spec.ForProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.ForProvider.VswitchRefs = mrsp.ResolvedReferences
+	mg.Spec.ForProvider.VswitchIdsRefs = mrsp.ResolvedReferences
 
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.ZoneIds),
@@ -204,8 +204,8 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
-		References:    mg.Spec.InitProvider.VswitchRefs,
-		Selector:      mg.Spec.InitProvider.VswitchSelector,
+		References:    mg.Spec.InitProvider.VswitchIdsRefs,
+		Selector:      mg.Spec.InitProvider.VswitchIdsSelector,
 		To: reference.To{
 			List:    &v1alpha1.VswitchList{},
 			Managed: &v1alpha1.Vswitch{},
@@ -215,7 +215,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		return errors.Wrap(err, "mg.Spec.InitProvider.VswitchIds")
 	}
 	mg.Spec.InitProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-	mg.Spec.InitProvider.VswitchRefs = mrsp.ResolvedReferences
+	mg.Spec.InitProvider.VswitchIdsRefs = mrsp.ResolvedReferences
 
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ZoneIds),

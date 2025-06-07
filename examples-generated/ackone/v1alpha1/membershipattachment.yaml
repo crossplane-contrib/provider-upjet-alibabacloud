@@ -8,8 +8,13 @@ metadata:
   name: default
 spec:
   forProvider:
-    clusterId: ${alicloud_ack_one_cluster.default.id}
-    subClusterId: ${alicloud_cs_managed_kubernetes.default.id}
+    clusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    subClusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
 
 ---
 
@@ -25,9 +30,12 @@ spec:
   forProvider:
     argocdEnabled: false
     network:
-    - vpcId: ${alicloud_vpc.default.id}
-      vswitches:
-      - ${alicloud_vswitch.default.id}
+    - vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      vswitchesRefs:
+      - name: default
+    region: cn-beijing
 
 ---
 
@@ -51,9 +59,10 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     nodePoolName: ${var.name}
+    region: cn-beijing
     systemDiskCategory: cloud_efficiency
     systemDiskSize: 40
-    vswitchIdRefs:
+    vswitchIdsRefs:
     - name: default
 
 ---
@@ -72,9 +81,10 @@ spec:
     isEnterpriseSecurityGroup: true
     newNatGateway: true
     podCidr: ${cidrsubnet("10.0.0.0/8", 8, 36)}
+    region: cn-beijing
     serviceCidr: ${cidrsubnet("172.16.0.0/16", 4, 7)}
     slbInternetEnabled: true
-    vswitchIdRefs:
+    vswitchIdsRefs:
     - name: default
 
 ---
@@ -90,6 +100,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
+    region: cn-beijing
 
 ---
 
@@ -104,6 +115,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.5
   name: autoscalingconfigs.ack.alibabacloud.crossplane.io
 spec:
   group: ack.alibabacloud.crossplane.io
@@ -11,7 +11,7 @@ spec:
     categories:
     - crossplane
     - managed
-    - alicloud
+    - alibabacloud
     kind: AutoscalingConfig
     listKind: AutoscalingConfigList
     plural: autoscalingconfigs
@@ -185,6 +185,10 @@ spec:
                     description: Should CA delete the K8s node object when recycle
                       node has scaled down successfully. Default is false.
                     type: boolean
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
                   scaleDownEnabled:
                     description: Specify whether to allow the scale-in of nodes. Default
                       is true.

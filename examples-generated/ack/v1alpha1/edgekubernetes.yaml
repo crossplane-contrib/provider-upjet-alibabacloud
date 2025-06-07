@@ -10,7 +10,6 @@ spec:
   forProvider:
     installCloudMonitor: "true"
     isEnterpriseSecurityGroup: "true"
-    namePrefix: ${var.name}
     newNatGateway: "true"
     nodeCidrMask: "24"
     passwordSecretRef:
@@ -18,6 +17,7 @@ spec:
       name: example-secret
       namespace: upbound-system
     podCidr: 10.99.0.0/16
+    region: cn-beijing
     serviceCidr: 172.16.0.0/16
     slbInternetEnabled: "true"
     version: 1.26.3-aliyun.1
@@ -29,7 +29,7 @@ spec:
     workerInstanceTypes:
     - ${data.alicloud_instance_types.default.instance_types.0.id}
     workerNumber: "1"
-    workerVswitchIdRefs:
+    workerVswitchIDsRefs:
     - name: default
 
 ---
@@ -45,6 +45,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -60,6 +61,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

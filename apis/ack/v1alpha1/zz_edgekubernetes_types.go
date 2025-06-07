@@ -110,9 +110,6 @@ type EdgeKubernetesInitParameters struct {
 	// The kubernetes cluster's name. It is unique in one Alicloud account.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The kubernetes cluster name's prefix. It is conflict with name.
-	NamePrefix *string `json:"namePrefix,omitempty" tf:"name_prefix,omitempty"`
-
 	// Whether to create a new nat gateway while creating kubernetes cluster. Default to true. Then openapi in Alibaba Cloud are not all on intranet, So turn this option on is a good choice.
 	NewNATGateway *bool `json:"newNatGateway,omitempty" tf:"new_nat_gateway,omitempty"`
 
@@ -142,7 +139,16 @@ type EdgeKubernetesInitParameters struct {
 	Runtime map[string]*string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
+
+	// Reference to a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+
+	// Selector for a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
@@ -150,7 +156,7 @@ type EdgeKubernetesInitParameters struct {
 	// Whether to create internet load balancer for API Server. Default to true.
 	SlbInternetEnabled *bool `json:"slbInternetEnabled,omitempty" tf:"slb_internet_enabled,omitempty"`
 
-	// Default nil, A map of tags assigned to the kubernetes cluster and work node.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -186,16 +192,16 @@ type EdgeKubernetesInitParameters struct {
 
 	// References to Vswitch in vpc to populate workerVswitchIds.
 	// +kubebuilder:validation:Optional
-	WorkerVswitchIDRefs []v1.Reference `json:"workerVswitchIdRefs,omitempty" tf:"-"`
+	WorkerVswitchIDsRefs []v1.Reference `json:"workerVswitchIDsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate workerVswitchIds.
 	// +kubebuilder:validation:Optional
-	WorkerVswitchIDSelector *v1.Selector `json:"workerVswitchIdSelector,omitempty" tf:"-"`
+	WorkerVswitchIDsSelector *v1.Selector `json:"workerVswitchIDsSelector,omitempty" tf:"-"`
 
 	// The vswitches used by workers.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=WorkerVswitchIDRefs
-	// +crossplane:generate:reference:selectorFieldName=WorkerVswitchIDSelector
+	// +crossplane:generate:reference:refFieldName=WorkerVswitchIDsRefs
+	// +crossplane:generate:reference:selectorFieldName=WorkerVswitchIDsSelector
 	WorkerVswitchIds []*string `json:"workerVswitchIds,omitempty" tf:"worker_vswitch_ids,omitempty"`
 }
 
@@ -261,9 +267,6 @@ type EdgeKubernetesObservation struct {
 	// The kubernetes cluster's name. It is unique in one Alicloud account.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The kubernetes cluster name's prefix. It is conflict with name.
-	NamePrefix *string `json:"namePrefix,omitempty" tf:"name_prefix,omitempty"`
-
 	// Whether to create a new nat gateway while creating kubernetes cluster. Default to true. Then openapi in Alibaba Cloud are not all on intranet, So turn this option on is a good choice.
 	NewNATGateway *bool `json:"newNatGateway,omitempty" tf:"new_nat_gateway,omitempty"`
 
@@ -304,7 +307,7 @@ type EdgeKubernetesObservation struct {
 	// The ID of private load balancer where the current cluster master node is located.
 	SlbIntranet *string `json:"slbIntranet,omitempty" tf:"slb_intranet,omitempty"`
 
-	// Default nil, A map of tags assigned to the kubernetes cluster and work node.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -414,10 +417,6 @@ type EdgeKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The kubernetes cluster name's prefix. It is conflict with name.
-	// +kubebuilder:validation:Optional
-	NamePrefix *string `json:"namePrefix,omitempty" tf:"name_prefix,omitempty"`
-
 	// Whether to create a new nat gateway while creating kubernetes cluster. Default to true. Then openapi in Alibaba Cloud are not all on intranet, So turn this option on is a good choice.
 	// +kubebuilder:validation:Optional
 	NewNATGateway *bool `json:"newNatGateway,omitempty" tf:"new_nat_gateway,omitempty"`
@@ -442,6 +441,11 @@ type EdgeKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	RDSInstances []*string `json:"rdsInstances,omitempty" tf:"rds_instances,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of the resource group,by default these cloud resources are automatically assigned to the default resource group.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -456,8 +460,17 @@ type EdgeKubernetesParameters struct {
 	Runtime map[string]*string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +kubebuilder:validation:Optional
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
+
+	// Reference to a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+
+	// Selector for a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	// +kubebuilder:validation:Optional
@@ -467,7 +480,7 @@ type EdgeKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	SlbInternetEnabled *bool `json:"slbInternetEnabled,omitempty" tf:"slb_internet_enabled,omitempty"`
 
-	// Default nil, A map of tags assigned to the kubernetes cluster and work node.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -514,16 +527,16 @@ type EdgeKubernetesParameters struct {
 
 	// References to Vswitch in vpc to populate workerVswitchIds.
 	// +kubebuilder:validation:Optional
-	WorkerVswitchIDRefs []v1.Reference `json:"workerVswitchIdRefs,omitempty" tf:"-"`
+	WorkerVswitchIDsRefs []v1.Reference `json:"workerVswitchIDsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate workerVswitchIds.
 	// +kubebuilder:validation:Optional
-	WorkerVswitchIDSelector *v1.Selector `json:"workerVswitchIdSelector,omitempty" tf:"-"`
+	WorkerVswitchIDsSelector *v1.Selector `json:"workerVswitchIDsSelector,omitempty" tf:"-"`
 
 	// The vswitches used by workers.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=WorkerVswitchIDRefs
-	// +crossplane:generate:reference:selectorFieldName=WorkerVswitchIDSelector
+	// +crossplane:generate:reference:refFieldName=WorkerVswitchIDsRefs
+	// +crossplane:generate:reference:selectorFieldName=WorkerVswitchIDsSelector
 	// +kubebuilder:validation:Optional
 	WorkerVswitchIds []*string `json:"workerVswitchIds,omitempty" tf:"worker_vswitch_ids,omitempty"`
 }
@@ -706,7 +719,7 @@ type EdgeKubernetesStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type EdgeKubernetes struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

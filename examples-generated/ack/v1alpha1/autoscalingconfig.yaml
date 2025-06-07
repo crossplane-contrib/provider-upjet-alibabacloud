@@ -18,6 +18,7 @@ spec:
     maxGracefulTerminationSec: 14400
     minReplicaCount: 0
     recycleNodeDeletionEnabled: false
+    region: cn-beijing
     scaleDownEnabled: true
     scaleUpFromZero: true
     scalerType: goatscaler
@@ -40,13 +41,13 @@ metadata:
 spec:
   forProvider:
     clusterSpec: ack.pro.small
-    name_prefix: ${var.name}
     newNatGateway: true
     podCidr: ${cidrsubnet("10.0.0.0/8", 8, 36)}
+    region: cn-beijing
     serviceCidr: ${cidrsubnet("172.16.0.0/16", 4, 7)}
     slbInternetEnabled: true
-    workerVswitchIdRefs:
-    - name: default
+    workerVswitchIds:
+    - ${alicloud_vswitch.default.id}
 
 ---
 
@@ -61,6 +62,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
+    region: cn-beijing
     vpcName: ${var.name}
 
 ---
@@ -76,6 +78,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/24
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

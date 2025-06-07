@@ -480,15 +480,15 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 			}
 		}
 	}
-	if in.VswitchRefs != nil {
-		in, out := &in.VswitchRefs, &out.VswitchRefs
+	if in.VswitchIdsRefs != nil {
+		in, out := &in.VswitchIdsRefs, &out.VswitchIdsRefs
 		*out = make([]v1.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.VswitchSelector != nil {
-		in, out := &in.VswitchSelector, &out.VswitchSelector
+	if in.VswitchIdsSelector != nil {
+		in, out := &in.VswitchIdsSelector, &out.VswitchIdsSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
@@ -799,15 +799,15 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 			}
 		}
 	}
-	if in.VswitchRefs != nil {
-		in, out := &in.VswitchRefs, &out.VswitchRefs
+	if in.VswitchIdsRefs != nil {
+		in, out := &in.VswitchIdsRefs, &out.VswitchIdsRefs
 		*out = make([]v1.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.VswitchSelector != nil {
-		in, out := &in.VswitchSelector, &out.VswitchSelector
+	if in.VswitchIdsSelector != nil {
+		in, out := &in.VswitchIdsSelector, &out.VswitchIdsSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}

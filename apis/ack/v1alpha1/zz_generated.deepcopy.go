@@ -630,6 +630,11 @@ func (in *AutoscalingConfigParameters) DeepCopyInto(out *AutoscalingConfigParame
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
 	if in.ScaleDownEnabled != nil {
 		in, out := &in.ScaleDownEnabled, &out.ScaleDownEnabled
 		*out = new(bool)
@@ -1231,11 +1236,6 @@ func (in *EdgeKubernetesInitParameters) DeepCopyInto(out *EdgeKubernetesInitPara
 		*out = new(string)
 		**out = **in
 	}
-	if in.NamePrefix != nil {
-		in, out := &in.NamePrefix, &out.NamePrefix
-		*out = new(string)
-		**out = **in
-	}
 	if in.NewNATGateway != nil {
 		in, out := &in.NewNATGateway, &out.NewNATGateway
 		*out = new(bool)
@@ -1308,6 +1308,16 @@ func (in *EdgeKubernetesInitParameters) DeepCopyInto(out *EdgeKubernetesInitPara
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
 		*out = new(string)
 		**out = **in
+	}
+	if in.SecurityGroupIDRef != nil {
+		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SecurityGroupIDSelector != nil {
+		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceCidr != nil {
 		in, out := &in.ServiceCidr, &out.ServiceCidr
@@ -1393,15 +1403,15 @@ func (in *EdgeKubernetesInitParameters) DeepCopyInto(out *EdgeKubernetesInitPara
 		*out = new(float64)
 		**out = **in
 	}
-	if in.WorkerVswitchIDRefs != nil {
-		in, out := &in.WorkerVswitchIDRefs, &out.WorkerVswitchIDRefs
+	if in.WorkerVswitchIDsRefs != nil {
+		in, out := &in.WorkerVswitchIDsRefs, &out.WorkerVswitchIDsRefs
 		*out = make([]v1.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.WorkerVswitchIDSelector != nil {
-		in, out := &in.WorkerVswitchIDSelector, &out.WorkerVswitchIDSelector
+	if in.WorkerVswitchIDsSelector != nil {
+		in, out := &in.WorkerVswitchIDsSelector, &out.WorkerVswitchIDsSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
@@ -1581,11 +1591,6 @@ func (in *EdgeKubernetesObservation) DeepCopyInto(out *EdgeKubernetesObservation
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.NamePrefix != nil {
-		in, out := &in.NamePrefix, &out.NamePrefix
 		*out = new(string)
 		**out = **in
 	}
@@ -1873,11 +1878,6 @@ func (in *EdgeKubernetesParameters) DeepCopyInto(out *EdgeKubernetesParameters) 
 		*out = new(string)
 		**out = **in
 	}
-	if in.NamePrefix != nil {
-		in, out := &in.NamePrefix, &out.NamePrefix
-		*out = new(string)
-		**out = **in
-	}
 	if in.NewNATGateway != nil {
 		in, out := &in.NewNATGateway, &out.NewNATGateway
 		*out = new(bool)
@@ -1913,6 +1913,11 @@ func (in *EdgeKubernetesParameters) DeepCopyInto(out *EdgeKubernetesParameters) 
 				**out = **in
 			}
 		}
+	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
 	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
@@ -1950,6 +1955,16 @@ func (in *EdgeKubernetesParameters) DeepCopyInto(out *EdgeKubernetesParameters) 
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
 		*out = new(string)
 		**out = **in
+	}
+	if in.SecurityGroupIDRef != nil {
+		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SecurityGroupIDSelector != nil {
+		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceCidr != nil {
 		in, out := &in.ServiceCidr, &out.ServiceCidr
@@ -2035,15 +2050,15 @@ func (in *EdgeKubernetesParameters) DeepCopyInto(out *EdgeKubernetesParameters) 
 		*out = new(float64)
 		**out = **in
 	}
-	if in.WorkerVswitchIDRefs != nil {
-		in, out := &in.WorkerVswitchIDRefs, &out.WorkerVswitchIDRefs
+	if in.WorkerVswitchIDsRefs != nil {
+		in, out := &in.WorkerVswitchIDsRefs, &out.WorkerVswitchIDsRefs
 		*out = make([]v1.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.WorkerVswitchIDSelector != nil {
-		in, out := &in.WorkerVswitchIDSelector, &out.WorkerVswitchIDSelector
+	if in.WorkerVswitchIDsSelector != nil {
+		in, out := &in.WorkerVswitchIDsSelector, &out.WorkerVswitchIDsSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
@@ -3090,6 +3105,11 @@ func (in *KubernetesAddonParameters) DeepCopyInto(out *KubernetesAddonParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
 		*out = new(string)
@@ -3268,6 +3288,16 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.AvailabilityZone != nil {
+		in, out := &in.AvailabilityZone, &out.AvailabilityZone
+		*out = new(string)
+		**out = **in
+	}
+	if in.CPUPolicy != nil {
+		in, out := &in.CPUPolicy, &out.CPUPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ClientCert != nil {
 		in, out := &in.ClientCert, &out.ClientCert
 		*out = new(string)
@@ -3315,6 +3345,11 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ExcludeAutoscalerNodes != nil {
+		in, out := &in.ExcludeAutoscalerNodes, &out.ExcludeAutoscalerNodes
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ForceUpdate != nil {
 		in, out := &in.ForceUpdate, &out.ForceUpdate
 		*out = new(bool)
@@ -3358,6 +3393,11 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 	}
 	if in.KeyName != nil {
 		in, out := &in.KeyName, &out.KeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.KubeConfig != nil {
+		in, out := &in.KubeConfig, &out.KubeConfig
 		*out = new(string)
 		**out = **in
 	}
@@ -3462,11 +3502,6 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
-	if in.NamePrefix != nil {
-		in, out := &in.NamePrefix, &out.NamePrefix
-		*out = new(string)
-		**out = **in
-	}
 	if in.NewNATGateway != nil {
 		in, out := &in.NewNATGateway, &out.NewNATGateway
 		*out = new(bool)
@@ -3479,6 +3514,11 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 	}
 	if in.NodeNameMode != nil {
 		in, out := &in.NodeNameMode, &out.NodeNameMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodePortRange != nil {
+		in, out := &in.NodePortRange, &out.NodePortRange
 		*out = new(string)
 		**out = **in
 	}
@@ -3589,6 +3629,16 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.SecurityGroupIDRef != nil {
+		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SecurityGroupIDSelector != nil {
+		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ServiceAccountIssuer != nil {
 		in, out := &in.ServiceAccountIssuer, &out.ServiceAccountIssuer
 		*out = new(string)
@@ -3620,6 +3670,13 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 			(*out)[key] = outVal
 		}
 	}
+	if in.Taints != nil {
+		in, out := &in.Taints, &out.Taints
+		*out = make([]TaintsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Timezone != nil {
 		in, out := &in.Timezone, &out.Timezone
 		*out = new(string)
@@ -3627,6 +3684,11 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 	}
 	if in.UserCA != nil {
 		in, out := &in.UserCA, &out.UserCA
+		*out = new(string)
+		**out = **in
+	}
+	if in.UserData != nil {
+		in, out := &in.UserData, &out.UserData
 		*out = new(string)
 		**out = **in
 	}
@@ -3640,6 +3702,28 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.VswitchIDRef != nil {
+		in, out := &in.VswitchIDRef, &out.VswitchIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.VswitchIDSelector != nil {
+		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.VswitchIDsRefs != nil {
+		in, out := &in.VswitchIDsRefs, &out.VswitchIDsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.VswitchIDsSelector != nil {
+		in, out := &in.VswitchIDsSelector, &out.VswitchIDsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.VswitchIds != nil {
 		in, out := &in.VswitchIds, &out.VswitchIds
 		*out = make([]*string, len(*in))
@@ -3651,6 +3735,16 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 			}
 		}
 	}
+	if in.WorkerAutoRenew != nil {
+		in, out := &in.WorkerAutoRenew, &out.WorkerAutoRenew
+		*out = new(bool)
+		**out = **in
+	}
+	if in.WorkerAutoRenewPeriod != nil {
+		in, out := &in.WorkerAutoRenewPeriod, &out.WorkerAutoRenewPeriod
+		*out = new(float64)
+		**out = **in
+	}
 	if in.WorkerDataDiskCategory != nil {
 		in, out := &in.WorkerDataDiskCategory, &out.WorkerDataDiskCategory
 		*out = new(string)
@@ -3661,15 +3755,63 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 		*out = new(float64)
 		**out = **in
 	}
+	if in.WorkerDataDisks != nil {
+		in, out := &in.WorkerDataDisks, &out.WorkerDataDisks
+		*out = make([]KubernetesWorkerDataDisksInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.WorkerDiskCategory != nil {
+		in, out := &in.WorkerDiskCategory, &out.WorkerDiskCategory
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskPerformanceLevel != nil {
+		in, out := &in.WorkerDiskPerformanceLevel, &out.WorkerDiskPerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskSize != nil {
+		in, out := &in.WorkerDiskSize, &out.WorkerDiskSize
+		*out = new(float64)
+		**out = **in
+	}
+	if in.WorkerDiskSnapshotPolicyID != nil {
+		in, out := &in.WorkerDiskSnapshotPolicyID, &out.WorkerDiskSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerInstanceChargeType != nil {
+		in, out := &in.WorkerInstanceChargeType, &out.WorkerInstanceChargeType
+		*out = new(string)
+		**out = **in
+	}
 	if in.WorkerInstanceType != nil {
 		in, out := &in.WorkerInstanceType, &out.WorkerInstanceType
 		*out = new(string)
 		**out = **in
 	}
+	if in.WorkerInstanceTypes != nil {
+		in, out := &in.WorkerInstanceTypes, &out.WorkerInstanceTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.WorkerNodes != nil {
 		in, out := &in.WorkerNodes, &out.WorkerNodes
 		*out = make([]KubernetesWorkerNodesInitParameters, len(*in))
 		copy(*out, *in)
+	}
+	if in.WorkerNumber != nil {
+		in, out := &in.WorkerNumber, &out.WorkerNumber
+		*out = new(float64)
+		**out = **in
 	}
 	if in.WorkerNumbers != nil {
 		in, out := &in.WorkerNumbers, &out.WorkerNumbers
@@ -3678,6 +3820,27 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(float64)
+				**out = **in
+			}
+		}
+	}
+	if in.WorkerPeriod != nil {
+		in, out := &in.WorkerPeriod, &out.WorkerPeriod
+		*out = new(float64)
+		**out = **in
+	}
+	if in.WorkerPeriodUnit != nil {
+		in, out := &in.WorkerPeriodUnit, &out.WorkerPeriodUnit
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerVswitchIds != nil {
+		in, out := &in.WorkerVswitchIds, &out.WorkerVswitchIds
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
 				**out = **in
 			}
 		}
@@ -3844,6 +4007,11 @@ func (in *KubernetesNodePoolInitParameters) DeepCopyInto(out *KubernetesNodePool
 	if in.CPUPolicy != nil {
 		in, out := &in.CPUPolicy, &out.CPUPolicy
 		*out = new(string)
+		**out = **in
+	}
+	if in.CisEnabled != nil {
+		in, out := &in.CisEnabled, &out.CisEnabled
+		*out = new(bool)
 		**out = **in
 	}
 	if in.ClusterID != nil {
@@ -4017,6 +4185,16 @@ func (in *KubernetesNodePoolInitParameters) DeepCopyInto(out *KubernetesNodePool
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodeCount != nil {
+		in, out := &in.NodeCount, &out.NodeCount
+		*out = new(float64)
+		**out = **in
+	}
 	if in.NodeNameMode != nil {
 		in, out := &in.NodeNameMode, &out.NodeNameMode
 		*out = new(string)
@@ -4049,6 +4227,11 @@ func (in *KubernetesNodePoolInitParameters) DeepCopyInto(out *KubernetesNodePool
 	}
 	if in.PeriodUnit != nil {
 		in, out := &in.PeriodUnit, &out.PeriodUnit
+		*out = new(string)
+		**out = **in
+	}
+	if in.Platform != nil {
+		in, out := &in.Platform, &out.Platform
 		*out = new(string)
 		**out = **in
 	}
@@ -4092,6 +4275,13 @@ func (in *KubernetesNodePoolInitParameters) DeepCopyInto(out *KubernetesNodePool
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.RolloutPolicy != nil {
+		in, out := &in.RolloutPolicy, &out.RolloutPolicy
+		*out = make([]RolloutPolicyInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.RuntimeName != nil {
 		in, out := &in.RuntimeName, &out.RuntimeName
 		*out = new(string)
@@ -4113,6 +4303,18 @@ func (in *KubernetesNodePoolInitParameters) DeepCopyInto(out *KubernetesNodePool
 		in, out := &in.ScalingPolicy, &out.ScalingPolicy
 		*out = new(string)
 		**out = **in
+	}
+	if in.SecurityGroupIDRefs != nil {
+		in, out := &in.SecurityGroupIDRefs, &out.SecurityGroupIDRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SecurityGroupIDSelector != nil {
+		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIds != nil {
 		in, out := &in.SecurityGroupIds, &out.SecurityGroupIds
@@ -4231,7 +4433,7 @@ func (in *KubernetesNodePoolInitParameters) DeepCopyInto(out *KubernetesNodePool
 	}
 	if in.Taints != nil {
 		in, out := &in.Taints, &out.Taints
-		*out = make([]TaintsInitParameters, len(*in))
+		*out = make([]KubernetesNodePoolTaintsInitParameters, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -4258,18 +4460,6 @@ func (in *KubernetesNodePoolInitParameters) DeepCopyInto(out *KubernetesNodePool
 		*out = new(string)
 		**out = **in
 	}
-	if in.VswitchIDRefs != nil {
-		in, out := &in.VswitchIDRefs, &out.VswitchIDRefs
-		*out = make([]v1.Reference, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.VswitchIDSelector != nil {
-		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.VswitchIds != nil {
 		in, out := &in.VswitchIds, &out.VswitchIds
 		*out = make([]*string, len(*in))
@@ -4280,6 +4470,18 @@ func (in *KubernetesNodePoolInitParameters) DeepCopyInto(out *KubernetesNodePool
 				**out = **in
 			}
 		}
+	}
+	if in.VswitchIdsRefs != nil {
+		in, out := &in.VswitchIdsRefs, &out.VswitchIdsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.VswitchIdsSelector != nil {
+		in, out := &in.VswitchIdsSelector, &out.VswitchIdsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -4341,6 +4543,11 @@ func (in *KubernetesNodePoolObservation) DeepCopyInto(out *KubernetesNodePoolObs
 	if in.CPUPolicy != nil {
 		in, out := &in.CPUPolicy, &out.CPUPolicy
 		*out = new(string)
+		**out = **in
+	}
+	if in.CisEnabled != nil {
+		in, out := &in.CisEnabled, &out.CisEnabled
+		*out = new(bool)
 		**out = **in
 	}
 	if in.ClusterID != nil {
@@ -4494,6 +4701,16 @@ func (in *KubernetesNodePoolObservation) DeepCopyInto(out *KubernetesNodePoolObs
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodeCount != nil {
+		in, out := &in.NodeCount, &out.NodeCount
+		*out = new(float64)
+		**out = **in
+	}
 	if in.NodeNameMode != nil {
 		in, out := &in.NodeNameMode, &out.NodeNameMode
 		*out = new(string)
@@ -4526,6 +4743,11 @@ func (in *KubernetesNodePoolObservation) DeepCopyInto(out *KubernetesNodePoolObs
 	}
 	if in.PeriodUnit != nil {
 		in, out := &in.PeriodUnit, &out.PeriodUnit
+		*out = new(string)
+		**out = **in
+	}
+	if in.Platform != nil {
+		in, out := &in.Platform, &out.Platform
 		*out = new(string)
 		**out = **in
 	}
@@ -4565,6 +4787,13 @@ func (in *KubernetesNodePoolObservation) DeepCopyInto(out *KubernetesNodePoolObs
 	if in.RollingPolicy != nil {
 		in, out := &in.RollingPolicy, &out.RollingPolicy
 		*out = make([]RollingPolicyObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.RolloutPolicy != nil {
+		in, out := &in.RolloutPolicy, &out.RolloutPolicy
+		*out = make([]RolloutPolicyObservation, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -4713,7 +4942,7 @@ func (in *KubernetesNodePoolObservation) DeepCopyInto(out *KubernetesNodePoolObs
 	}
 	if in.Taints != nil {
 		in, out := &in.Taints, &out.Taints
-		*out = make([]TaintsObservation, len(*in))
+		*out = make([]KubernetesNodePoolTaintsObservation, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -4784,6 +5013,11 @@ func (in *KubernetesNodePoolParameters) DeepCopyInto(out *KubernetesNodePoolPara
 	if in.CPUPolicy != nil {
 		in, out := &in.CPUPolicy, &out.CPUPolicy
 		*out = new(string)
+		**out = **in
+	}
+	if in.CisEnabled != nil {
+		in, out := &in.CisEnabled, &out.CisEnabled
+		*out = new(bool)
 		**out = **in
 	}
 	if in.ClusterID != nil {
@@ -4957,6 +5191,16 @@ func (in *KubernetesNodePoolParameters) DeepCopyInto(out *KubernetesNodePoolPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodeCount != nil {
+		in, out := &in.NodeCount, &out.NodeCount
+		*out = new(float64)
+		**out = **in
+	}
 	if in.NodeNameMode != nil {
 		in, out := &in.NodeNameMode, &out.NodeNameMode
 		*out = new(string)
@@ -4992,6 +5236,11 @@ func (in *KubernetesNodePoolParameters) DeepCopyInto(out *KubernetesNodePoolPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.Platform != nil {
+		in, out := &in.Platform, &out.Platform
+		*out = new(string)
+		**out = **in
+	}
 	if in.PreUserData != nil {
 		in, out := &in.PreUserData, &out.PreUserData
 		*out = new(string)
@@ -5020,6 +5269,11 @@ func (in *KubernetesNodePoolParameters) DeepCopyInto(out *KubernetesNodePoolPara
 			}
 		}
 	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -5028,6 +5282,13 @@ func (in *KubernetesNodePoolParameters) DeepCopyInto(out *KubernetesNodePoolPara
 	if in.RollingPolicy != nil {
 		in, out := &in.RollingPolicy, &out.RollingPolicy
 		*out = make([]RollingPolicyParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.RolloutPolicy != nil {
+		in, out := &in.RolloutPolicy, &out.RolloutPolicy
+		*out = make([]RolloutPolicyParameters, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -5053,6 +5314,18 @@ func (in *KubernetesNodePoolParameters) DeepCopyInto(out *KubernetesNodePoolPara
 		in, out := &in.ScalingPolicy, &out.ScalingPolicy
 		*out = new(string)
 		**out = **in
+	}
+	if in.SecurityGroupIDRefs != nil {
+		in, out := &in.SecurityGroupIDRefs, &out.SecurityGroupIDRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SecurityGroupIDSelector != nil {
+		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIds != nil {
 		in, out := &in.SecurityGroupIds, &out.SecurityGroupIds
@@ -5171,7 +5444,7 @@ func (in *KubernetesNodePoolParameters) DeepCopyInto(out *KubernetesNodePoolPara
 	}
 	if in.Taints != nil {
 		in, out := &in.Taints, &out.Taints
-		*out = make([]TaintsParameters, len(*in))
+		*out = make([]KubernetesNodePoolTaintsParameters, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
@@ -5198,18 +5471,6 @@ func (in *KubernetesNodePoolParameters) DeepCopyInto(out *KubernetesNodePoolPara
 		*out = new(string)
 		**out = **in
 	}
-	if in.VswitchIDRefs != nil {
-		in, out := &in.VswitchIDRefs, &out.VswitchIDRefs
-		*out = make([]v1.Reference, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.VswitchIDSelector != nil {
-		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.VswitchIds != nil {
 		in, out := &in.VswitchIds, &out.VswitchIds
 		*out = make([]*string, len(*in))
@@ -5220,6 +5481,18 @@ func (in *KubernetesNodePoolParameters) DeepCopyInto(out *KubernetesNodePoolPara
 				**out = **in
 			}
 		}
+	}
+	if in.VswitchIdsRefs != nil {
+		in, out := &in.VswitchIdsRefs, &out.VswitchIdsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.VswitchIdsSelector != nil {
+		in, out := &in.VswitchIdsSelector, &out.VswitchIdsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -5269,6 +5542,96 @@ func (in *KubernetesNodePoolStatus) DeepCopy() *KubernetesNodePoolStatus {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *KubernetesNodePoolTaintsInitParameters) DeepCopyInto(out *KubernetesNodePoolTaintsInitParameters) {
+	*out = *in
+	if in.Effect != nil {
+		in, out := &in.Effect, &out.Effect
+		*out = new(string)
+		**out = **in
+	}
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new KubernetesNodePoolTaintsInitParameters.
+func (in *KubernetesNodePoolTaintsInitParameters) DeepCopy() *KubernetesNodePoolTaintsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(KubernetesNodePoolTaintsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *KubernetesNodePoolTaintsObservation) DeepCopyInto(out *KubernetesNodePoolTaintsObservation) {
+	*out = *in
+	if in.Effect != nil {
+		in, out := &in.Effect, &out.Effect
+		*out = new(string)
+		**out = **in
+	}
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new KubernetesNodePoolTaintsObservation.
+func (in *KubernetesNodePoolTaintsObservation) DeepCopy() *KubernetesNodePoolTaintsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(KubernetesNodePoolTaintsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *KubernetesNodePoolTaintsParameters) DeepCopyInto(out *KubernetesNodePoolTaintsParameters) {
+	*out = *in
+	if in.Effect != nil {
+		in, out := &in.Effect, &out.Effect
+		*out = new(string)
+		**out = **in
+	}
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new KubernetesNodePoolTaintsParameters.
+func (in *KubernetesNodePoolTaintsParameters) DeepCopy() *KubernetesNodePoolTaintsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(KubernetesNodePoolTaintsParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 	*out = *in
 	if in.APIAudiences != nil {
@@ -5288,6 +5651,16 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.AvailabilityZone != nil {
+		in, out := &in.AvailabilityZone, &out.AvailabilityZone
+		*out = new(string)
+		**out = **in
+	}
+	if in.CPUPolicy != nil {
+		in, out := &in.CPUPolicy, &out.CPUPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.CertificateAuthority != nil {
 		in, out := &in.CertificateAuthority, &out.CertificateAuthority
@@ -5368,6 +5741,11 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ExcludeAutoscalerNodes != nil {
+		in, out := &in.ExcludeAutoscalerNodes, &out.ExcludeAutoscalerNodes
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ForceUpdate != nil {
 		in, out := &in.ForceUpdate, &out.ForceUpdate
 		*out = new(bool)
@@ -5416,6 +5794,11 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 	}
 	if in.KeyName != nil {
 		in, out := &in.KeyName, &out.KeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.KubeConfig != nil {
+		in, out := &in.KubeConfig, &out.KubeConfig
 		*out = new(string)
 		**out = **in
 	}
@@ -5520,11 +5903,6 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.NamePrefix != nil {
-		in, out := &in.NamePrefix, &out.NamePrefix
-		*out = new(string)
-		**out = **in
-	}
 	if in.NewNATGateway != nil {
 		in, out := &in.NewNATGateway, &out.NewNATGateway
 		*out = new(bool)
@@ -5537,6 +5915,11 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 	}
 	if in.NodeNameMode != nil {
 		in, out := &in.NodeNameMode, &out.NodeNameMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodePortRange != nil {
+		in, out := &in.NodePortRange, &out.NodePortRange
 		*out = new(string)
 		**out = **in
 	}
@@ -5676,6 +6059,13 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.Taints != nil {
+		in, out := &in.Taints, &out.Taints
+		*out = make([]TaintsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Timezone != nil {
 		in, out := &in.Timezone, &out.Timezone
 		*out = new(string)
@@ -5683,6 +6073,11 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 	}
 	if in.UserCA != nil {
 		in, out := &in.UserCA, &out.UserCA
+		*out = new(string)
+		**out = **in
+	}
+	if in.UserData != nil {
+		in, out := &in.UserData, &out.UserData
 		*out = new(string)
 		**out = **in
 	}
@@ -5712,6 +6107,16 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 			}
 		}
 	}
+	if in.WorkerAutoRenew != nil {
+		in, out := &in.WorkerAutoRenew, &out.WorkerAutoRenew
+		*out = new(bool)
+		**out = **in
+	}
+	if in.WorkerAutoRenewPeriod != nil {
+		in, out := &in.WorkerAutoRenewPeriod, &out.WorkerAutoRenewPeriod
+		*out = new(float64)
+		**out = **in
+	}
 	if in.WorkerDataDiskCategory != nil {
 		in, out := &in.WorkerDataDiskCategory, &out.WorkerDataDiskCategory
 		*out = new(string)
@@ -5722,10 +6127,53 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.WorkerDataDisks != nil {
+		in, out := &in.WorkerDataDisks, &out.WorkerDataDisks
+		*out = make([]KubernetesWorkerDataDisksObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.WorkerDiskCategory != nil {
+		in, out := &in.WorkerDiskCategory, &out.WorkerDiskCategory
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskPerformanceLevel != nil {
+		in, out := &in.WorkerDiskPerformanceLevel, &out.WorkerDiskPerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskSize != nil {
+		in, out := &in.WorkerDiskSize, &out.WorkerDiskSize
+		*out = new(float64)
+		**out = **in
+	}
+	if in.WorkerDiskSnapshotPolicyID != nil {
+		in, out := &in.WorkerDiskSnapshotPolicyID, &out.WorkerDiskSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerInstanceChargeType != nil {
+		in, out := &in.WorkerInstanceChargeType, &out.WorkerInstanceChargeType
+		*out = new(string)
+		**out = **in
+	}
 	if in.WorkerInstanceType != nil {
 		in, out := &in.WorkerInstanceType, &out.WorkerInstanceType
 		*out = new(string)
 		**out = **in
+	}
+	if in.WorkerInstanceTypes != nil {
+		in, out := &in.WorkerInstanceTypes, &out.WorkerInstanceTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.WorkerNodes != nil {
 		in, out := &in.WorkerNodes, &out.WorkerNodes
@@ -5733,6 +6181,11 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.WorkerNumber != nil {
+		in, out := &in.WorkerNumber, &out.WorkerNumber
+		*out = new(float64)
+		**out = **in
 	}
 	if in.WorkerNumbers != nil {
 		in, out := &in.WorkerNumbers, &out.WorkerNumbers
@@ -5745,10 +6198,31 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 			}
 		}
 	}
+	if in.WorkerPeriod != nil {
+		in, out := &in.WorkerPeriod, &out.WorkerPeriod
+		*out = new(float64)
+		**out = **in
+	}
+	if in.WorkerPeriodUnit != nil {
+		in, out := &in.WorkerPeriodUnit, &out.WorkerPeriodUnit
+		*out = new(string)
+		**out = **in
+	}
 	if in.WorkerRAMRoleName != nil {
 		in, out := &in.WorkerRAMRoleName, &out.WorkerRAMRoleName
 		*out = new(string)
 		**out = **in
+	}
+	if in.WorkerVswitchIds != nil {
+		in, out := &in.WorkerVswitchIds, &out.WorkerVswitchIds
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 }
 
@@ -5782,6 +6256,16 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.AvailabilityZone != nil {
+		in, out := &in.AvailabilityZone, &out.AvailabilityZone
+		*out = new(string)
+		**out = **in
+	}
+	if in.CPUPolicy != nil {
+		in, out := &in.CPUPolicy, &out.CPUPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.ClientCert != nil {
 		in, out := &in.ClientCert, &out.ClientCert
@@ -5830,6 +6314,11 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ExcludeAutoscalerNodes != nil {
+		in, out := &in.ExcludeAutoscalerNodes, &out.ExcludeAutoscalerNodes
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ForceUpdate != nil {
 		in, out := &in.ForceUpdate, &out.ForceUpdate
 		*out = new(bool)
@@ -5873,6 +6362,11 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 	}
 	if in.KeyName != nil {
 		in, out := &in.KeyName, &out.KeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.KubeConfig != nil {
+		in, out := &in.KubeConfig, &out.KubeConfig
 		*out = new(string)
 		**out = **in
 	}
@@ -5977,11 +6471,6 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.NamePrefix != nil {
-		in, out := &in.NamePrefix, &out.NamePrefix
-		*out = new(string)
-		**out = **in
-	}
 	if in.NewNATGateway != nil {
 		in, out := &in.NewNATGateway, &out.NewNATGateway
 		*out = new(bool)
@@ -5994,6 +6483,11 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 	}
 	if in.NodeNameMode != nil {
 		in, out := &in.NodeNameMode, &out.NodeNameMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodePortRange != nil {
+		in, out := &in.NodePortRange, &out.NodePortRange
 		*out = new(string)
 		**out = **in
 	}
@@ -6067,6 +6561,11 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 			}
 		}
 	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -6104,6 +6603,16 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SecurityGroupIDRef != nil {
+		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SecurityGroupIDSelector != nil {
+		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ServiceAccountIssuer != nil {
 		in, out := &in.ServiceAccountIssuer, &out.ServiceAccountIssuer
 		*out = new(string)
@@ -6135,6 +6644,13 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.Taints != nil {
+		in, out := &in.Taints, &out.Taints
+		*out = make([]TaintsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Timezone != nil {
 		in, out := &in.Timezone, &out.Timezone
 		*out = new(string)
@@ -6142,6 +6658,11 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 	}
 	if in.UserCA != nil {
 		in, out := &in.UserCA, &out.UserCA
+		*out = new(string)
+		**out = **in
+	}
+	if in.UserData != nil {
+		in, out := &in.UserData, &out.UserData
 		*out = new(string)
 		**out = **in
 	}
@@ -6155,6 +6676,28 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.VswitchIDRef != nil {
+		in, out := &in.VswitchIDRef, &out.VswitchIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.VswitchIDSelector != nil {
+		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.VswitchIDsRefs != nil {
+		in, out := &in.VswitchIDsRefs, &out.VswitchIDsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.VswitchIDsSelector != nil {
+		in, out := &in.VswitchIDsSelector, &out.VswitchIDsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.VswitchIds != nil {
 		in, out := &in.VswitchIds, &out.VswitchIds
 		*out = make([]*string, len(*in))
@@ -6166,6 +6709,16 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 			}
 		}
 	}
+	if in.WorkerAutoRenew != nil {
+		in, out := &in.WorkerAutoRenew, &out.WorkerAutoRenew
+		*out = new(bool)
+		**out = **in
+	}
+	if in.WorkerAutoRenewPeriod != nil {
+		in, out := &in.WorkerAutoRenewPeriod, &out.WorkerAutoRenewPeriod
+		*out = new(float64)
+		**out = **in
+	}
 	if in.WorkerDataDiskCategory != nil {
 		in, out := &in.WorkerDataDiskCategory, &out.WorkerDataDiskCategory
 		*out = new(string)
@@ -6176,15 +6729,63 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.WorkerDataDisks != nil {
+		in, out := &in.WorkerDataDisks, &out.WorkerDataDisks
+		*out = make([]KubernetesWorkerDataDisksParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.WorkerDiskCategory != nil {
+		in, out := &in.WorkerDiskCategory, &out.WorkerDiskCategory
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskPerformanceLevel != nil {
+		in, out := &in.WorkerDiskPerformanceLevel, &out.WorkerDiskPerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskSize != nil {
+		in, out := &in.WorkerDiskSize, &out.WorkerDiskSize
+		*out = new(float64)
+		**out = **in
+	}
+	if in.WorkerDiskSnapshotPolicyID != nil {
+		in, out := &in.WorkerDiskSnapshotPolicyID, &out.WorkerDiskSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerInstanceChargeType != nil {
+		in, out := &in.WorkerInstanceChargeType, &out.WorkerInstanceChargeType
+		*out = new(string)
+		**out = **in
+	}
 	if in.WorkerInstanceType != nil {
 		in, out := &in.WorkerInstanceType, &out.WorkerInstanceType
 		*out = new(string)
 		**out = **in
 	}
+	if in.WorkerInstanceTypes != nil {
+		in, out := &in.WorkerInstanceTypes, &out.WorkerInstanceTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.WorkerNodes != nil {
 		in, out := &in.WorkerNodes, &out.WorkerNodes
 		*out = make([]KubernetesWorkerNodesParameters, len(*in))
 		copy(*out, *in)
+	}
+	if in.WorkerNumber != nil {
+		in, out := &in.WorkerNumber, &out.WorkerNumber
+		*out = new(float64)
+		**out = **in
 	}
 	if in.WorkerNumbers != nil {
 		in, out := &in.WorkerNumbers, &out.WorkerNumbers
@@ -6193,6 +6794,27 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(float64)
+				**out = **in
+			}
+		}
+	}
+	if in.WorkerPeriod != nil {
+		in, out := &in.WorkerPeriod, &out.WorkerPeriod
+		*out = new(float64)
+		**out = **in
+	}
+	if in.WorkerPeriodUnit != nil {
+		in, out := &in.WorkerPeriodUnit, &out.WorkerPeriodUnit
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerVswitchIds != nil {
+		in, out := &in.WorkerVswitchIds, &out.WorkerVswitchIds
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
 				**out = **in
 			}
 		}
@@ -6347,6 +6969,11 @@ func (in *KubernetesPermissionsParameters) DeepCopyInto(out *KubernetesPermissio
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
 	if in.UID != nil {
 		in, out := &in.UID, &out.UID
 		*out = new(string)
@@ -6440,6 +7067,186 @@ func (in *KubernetesStatus) DeepCopy() *KubernetesStatus {
 		return nil
 	}
 	out := new(KubernetesStatus)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *KubernetesWorkerDataDisksInitParameters) DeepCopyInto(out *KubernetesWorkerDataDisksInitParameters) {
+	*out = *in
+	if in.AutoSnapshotPolicyID != nil {
+		in, out := &in.AutoSnapshotPolicyID, &out.AutoSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Category != nil {
+		in, out := &in.Category, &out.Category
+		*out = new(string)
+		**out = **in
+	}
+	if in.Device != nil {
+		in, out := &in.Device, &out.Device
+		*out = new(string)
+		**out = **in
+	}
+	if in.Encrypted != nil {
+		in, out := &in.Encrypted, &out.Encrypted
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.PerformanceLevel != nil {
+		in, out := &in.PerformanceLevel, &out.PerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.Size != nil {
+		in, out := &in.Size, &out.Size
+		*out = new(string)
+		**out = **in
+	}
+	if in.SnapshotID != nil {
+		in, out := &in.SnapshotID, &out.SnapshotID
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new KubernetesWorkerDataDisksInitParameters.
+func (in *KubernetesWorkerDataDisksInitParameters) DeepCopy() *KubernetesWorkerDataDisksInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(KubernetesWorkerDataDisksInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *KubernetesWorkerDataDisksObservation) DeepCopyInto(out *KubernetesWorkerDataDisksObservation) {
+	*out = *in
+	if in.AutoSnapshotPolicyID != nil {
+		in, out := &in.AutoSnapshotPolicyID, &out.AutoSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Category != nil {
+		in, out := &in.Category, &out.Category
+		*out = new(string)
+		**out = **in
+	}
+	if in.Device != nil {
+		in, out := &in.Device, &out.Device
+		*out = new(string)
+		**out = **in
+	}
+	if in.Encrypted != nil {
+		in, out := &in.Encrypted, &out.Encrypted
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.PerformanceLevel != nil {
+		in, out := &in.PerformanceLevel, &out.PerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.Size != nil {
+		in, out := &in.Size, &out.Size
+		*out = new(string)
+		**out = **in
+	}
+	if in.SnapshotID != nil {
+		in, out := &in.SnapshotID, &out.SnapshotID
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new KubernetesWorkerDataDisksObservation.
+func (in *KubernetesWorkerDataDisksObservation) DeepCopy() *KubernetesWorkerDataDisksObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(KubernetesWorkerDataDisksObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *KubernetesWorkerDataDisksParameters) DeepCopyInto(out *KubernetesWorkerDataDisksParameters) {
+	*out = *in
+	if in.AutoSnapshotPolicyID != nil {
+		in, out := &in.AutoSnapshotPolicyID, &out.AutoSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Category != nil {
+		in, out := &in.Category, &out.Category
+		*out = new(string)
+		**out = **in
+	}
+	if in.Device != nil {
+		in, out := &in.Device, &out.Device
+		*out = new(string)
+		**out = **in
+	}
+	if in.Encrypted != nil {
+		in, out := &in.Encrypted, &out.Encrypted
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.PerformanceLevel != nil {
+		in, out := &in.PerformanceLevel, &out.PerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.Size != nil {
+		in, out := &in.Size, &out.Size
+		*out = new(string)
+		**out = **in
+	}
+	if in.SnapshotID != nil {
+		in, out := &in.SnapshotID, &out.SnapshotID
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new KubernetesWorkerDataDisksParameters.
+func (in *KubernetesWorkerDataDisksParameters) DeepCopy() *KubernetesWorkerDataDisksParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(KubernetesWorkerDataDisksParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -6987,6 +7794,16 @@ func (in *ManagedKubernetesInitParameters) DeepCopyInto(out *ManagedKubernetesIn
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.AvailabilityZone != nil {
+		in, out := &in.AvailabilityZone, &out.AvailabilityZone
+		*out = new(string)
+		**out = **in
+	}
+	if in.CPUPolicy != nil {
+		in, out := &in.CPUPolicy, &out.CPUPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.ClientCert != nil {
 		in, out := &in.ClientCert, &out.ClientCert
 		*out = new(string)
@@ -7060,9 +7877,19 @@ func (in *ManagedKubernetesInitParameters) DeepCopyInto(out *ManagedKubernetesIn
 		*out = new(bool)
 		**out = **in
 	}
+	if in.EnableSSH != nil {
+		in, out := &in.EnableSSH, &out.EnableSSH
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EncryptionProviderKey != nil {
 		in, out := &in.EncryptionProviderKey, &out.EncryptionProviderKey
 		*out = new(string)
+		**out = **in
+	}
+	if in.ExcludeAutoscalerNodes != nil {
+		in, out := &in.ExcludeAutoscalerNodes, &out.ExcludeAutoscalerNodes
+		*out = new(bool)
 		**out = **in
 	}
 	if in.ForceUpdate != nil {
@@ -7075,9 +7902,50 @@ func (in *ManagedKubernetesInitParameters) DeepCopyInto(out *ManagedKubernetesIn
 		*out = new(string)
 		**out = **in
 	}
+	if in.ImageID != nil {
+		in, out := &in.ImageID, &out.ImageID
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstallCloudMonitor != nil {
+		in, out := &in.InstallCloudMonitor, &out.InstallCloudMonitor
+		*out = new(bool)
+		**out = **in
+	}
 	if in.IsEnterpriseSecurityGroup != nil {
 		in, out := &in.IsEnterpriseSecurityGroup, &out.IsEnterpriseSecurityGroup
 		*out = new(bool)
+		**out = **in
+	}
+	if in.KMSEncryptedPassword != nil {
+		in, out := &in.KMSEncryptedPassword, &out.KMSEncryptedPassword
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSEncryptionContext != nil {
+		in, out := &in.KMSEncryptionContext, &out.KMSEncryptionContext
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.KeyName != nil {
+		in, out := &in.KeyName, &out.KeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.KubeConfig != nil {
+		in, out := &in.KubeConfig, &out.KubeConfig
+		*out = new(string)
 		**out = **in
 	}
 	if in.LoadBalancerSpec != nil {
@@ -7114,12 +7982,37 @@ func (in *ManagedKubernetesInitParameters) DeepCopyInto(out *ManagedKubernetesIn
 		*out = new(float64)
 		**out = **in
 	}
+	if in.NodeNameMode != nil {
+		in, out := &in.NodeNameMode, &out.NodeNameMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodePortRange != nil {
+		in, out := &in.NodePortRange, &out.NodePortRange
+		*out = new(string)
+		**out = **in
+	}
 	if in.OperationPolicy != nil {
 		in, out := &in.OperationPolicy, &out.OperationPolicy
 		*out = make([]OperationPolicyInitParameters, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.OsType != nil {
+		in, out := &in.OsType, &out.OsType
+		*out = new(string)
+		**out = **in
+	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.Platform != nil {
+		in, out := &in.Platform, &out.Platform
+		*out = new(string)
+		**out = **in
 	}
 	if in.PodCidr != nil {
 		in, out := &in.PodCidr, &out.PodCidr
@@ -7142,6 +8035,17 @@ func (in *ManagedKubernetesInitParameters) DeepCopyInto(out *ManagedKubernetesIn
 		*out = new(string)
 		**out = **in
 	}
+	if in.RDSInstances != nil {
+		in, out := &in.RDSInstances, &out.RDSInstances
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -7158,10 +8062,36 @@ func (in *ManagedKubernetesInitParameters) DeepCopyInto(out *ManagedKubernetesIn
 			}
 		}
 	}
+	if in.Runtime != nil {
+		in, out := &in.Runtime, &out.Runtime
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.SecurityGroupID != nil {
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
 		*out = new(string)
 		**out = **in
+	}
+	if in.SecurityGroupIDRef != nil {
+		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SecurityGroupIDSelector != nil {
+		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountIssuer != nil {
 		in, out := &in.ServiceAccountIssuer, &out.ServiceAccountIssuer
@@ -7194,6 +8124,13 @@ func (in *ManagedKubernetesInitParameters) DeepCopyInto(out *ManagedKubernetesIn
 			(*out)[key] = outVal
 		}
 	}
+	if in.Taints != nil {
+		in, out := &in.Taints, &out.Taints
+		*out = make([]ManagedKubernetesTaintsInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Timezone != nil {
 		in, out := &in.Timezone, &out.Timezone
 		*out = new(string)
@@ -7204,22 +8141,15 @@ func (in *ManagedKubernetesInitParameters) DeepCopyInto(out *ManagedKubernetesIn
 		*out = new(string)
 		**out = **in
 	}
+	if in.UserData != nil {
+		in, out := &in.UserData, &out.UserData
+		*out = new(string)
+		**out = **in
+	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
 		*out = new(string)
 		**out = **in
-	}
-	if in.VswitchIDRefs != nil {
-		in, out := &in.VswitchIDRefs, &out.VswitchIDRefs
-		*out = make([]v1.Reference, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.VswitchIDSelector != nil {
-		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIds != nil {
 		in, out := &in.VswitchIds, &out.VswitchIds
@@ -7232,6 +8162,28 @@ func (in *ManagedKubernetesInitParameters) DeepCopyInto(out *ManagedKubernetesIn
 			}
 		}
 	}
+	if in.VswitchIdsRefs != nil {
+		in, out := &in.VswitchIdsRefs, &out.VswitchIdsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.VswitchIdsSelector != nil {
+		in, out := &in.VswitchIdsSelector, &out.VswitchIdsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.WorkerAutoRenew != nil {
+		in, out := &in.WorkerAutoRenew, &out.WorkerAutoRenew
+		*out = new(bool)
+		**out = **in
+	}
+	if in.WorkerAutoRenewPeriod != nil {
+		in, out := &in.WorkerAutoRenewPeriod, &out.WorkerAutoRenewPeriod
+		*out = new(float64)
+		**out = **in
+	}
 	if in.WorkerDataDiskCategory != nil {
 		in, out := &in.WorkerDataDiskCategory, &out.WorkerDataDiskCategory
 		*out = new(string)
@@ -7242,15 +8194,63 @@ func (in *ManagedKubernetesInitParameters) DeepCopyInto(out *ManagedKubernetesIn
 		*out = new(float64)
 		**out = **in
 	}
+	if in.WorkerDataDisks != nil {
+		in, out := &in.WorkerDataDisks, &out.WorkerDataDisks
+		*out = make([]ManagedKubernetesWorkerDataDisksInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.WorkerDiskCategory != nil {
+		in, out := &in.WorkerDiskCategory, &out.WorkerDiskCategory
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskPerformanceLevel != nil {
+		in, out := &in.WorkerDiskPerformanceLevel, &out.WorkerDiskPerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskSize != nil {
+		in, out := &in.WorkerDiskSize, &out.WorkerDiskSize
+		*out = new(float64)
+		**out = **in
+	}
+	if in.WorkerDiskSnapshotPolicyID != nil {
+		in, out := &in.WorkerDiskSnapshotPolicyID, &out.WorkerDiskSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerInstanceChargeType != nil {
+		in, out := &in.WorkerInstanceChargeType, &out.WorkerInstanceChargeType
+		*out = new(string)
+		**out = **in
+	}
 	if in.WorkerInstanceType != nil {
 		in, out := &in.WorkerInstanceType, &out.WorkerInstanceType
 		*out = new(string)
 		**out = **in
 	}
+	if in.WorkerInstanceTypes != nil {
+		in, out := &in.WorkerInstanceTypes, &out.WorkerInstanceTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.WorkerNodes != nil {
 		in, out := &in.WorkerNodes, &out.WorkerNodes
 		*out = make([]ManagedKubernetesWorkerNodesInitParameters, len(*in))
 		copy(*out, *in)
+	}
+	if in.WorkerNumber != nil {
+		in, out := &in.WorkerNumber, &out.WorkerNumber
+		*out = new(float64)
+		**out = **in
 	}
 	if in.WorkerNumbers != nil {
 		in, out := &in.WorkerNumbers, &out.WorkerNumbers
@@ -7263,17 +8263,15 @@ func (in *ManagedKubernetesInitParameters) DeepCopyInto(out *ManagedKubernetesIn
 			}
 		}
 	}
-	if in.WorkerVswitchIDRefs != nil {
-		in, out := &in.WorkerVswitchIDRefs, &out.WorkerVswitchIDRefs
-		*out = make([]v1.Reference, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+	if in.WorkerPeriod != nil {
+		in, out := &in.WorkerPeriod, &out.WorkerPeriod
+		*out = new(float64)
+		**out = **in
 	}
-	if in.WorkerVswitchIDSelector != nil {
-		in, out := &in.WorkerVswitchIDSelector, &out.WorkerVswitchIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
+	if in.WorkerPeriodUnit != nil {
+		in, out := &in.WorkerPeriodUnit, &out.WorkerPeriodUnit
+		*out = new(string)
+		**out = **in
 	}
 	if in.WorkerVswitchIds != nil {
 		in, out := &in.WorkerVswitchIds, &out.WorkerVswitchIds
@@ -7437,6 +8435,16 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.AvailabilityZone != nil {
+		in, out := &in.AvailabilityZone, &out.AvailabilityZone
+		*out = new(string)
+		**out = **in
+	}
+	if in.CPUPolicy != nil {
+		in, out := &in.CPUPolicy, &out.CPUPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.CertificateAuthority != nil {
 		in, out := &in.CertificateAuthority, &out.CertificateAuthority
 		*out = make(map[string]*string, len(*in))
@@ -7542,9 +8550,19 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 		*out = new(bool)
 		**out = **in
 	}
+	if in.EnableSSH != nil {
+		in, out := &in.EnableSSH, &out.EnableSSH
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EncryptionProviderKey != nil {
 		in, out := &in.EncryptionProviderKey, &out.EncryptionProviderKey
 		*out = new(string)
+		**out = **in
+	}
+	if in.ExcludeAutoscalerNodes != nil {
+		in, out := &in.ExcludeAutoscalerNodes, &out.ExcludeAutoscalerNodes
+		*out = new(bool)
 		**out = **in
 	}
 	if in.ForceUpdate != nil {
@@ -7562,9 +8580,50 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 		*out = new(string)
 		**out = **in
 	}
+	if in.ImageID != nil {
+		in, out := &in.ImageID, &out.ImageID
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstallCloudMonitor != nil {
+		in, out := &in.InstallCloudMonitor, &out.InstallCloudMonitor
+		*out = new(bool)
+		**out = **in
+	}
 	if in.IsEnterpriseSecurityGroup != nil {
 		in, out := &in.IsEnterpriseSecurityGroup, &out.IsEnterpriseSecurityGroup
 		*out = new(bool)
+		**out = **in
+	}
+	if in.KMSEncryptedPassword != nil {
+		in, out := &in.KMSEncryptedPassword, &out.KMSEncryptedPassword
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSEncryptionContext != nil {
+		in, out := &in.KMSEncryptionContext, &out.KMSEncryptionContext
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.KeyName != nil {
+		in, out := &in.KeyName, &out.KeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.KubeConfig != nil {
+		in, out := &in.KubeConfig, &out.KubeConfig
+		*out = new(string)
 		**out = **in
 	}
 	if in.LoadBalancerSpec != nil {
@@ -7606,12 +8665,32 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 		*out = new(float64)
 		**out = **in
 	}
+	if in.NodeNameMode != nil {
+		in, out := &in.NodeNameMode, &out.NodeNameMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodePortRange != nil {
+		in, out := &in.NodePortRange, &out.NodePortRange
+		*out = new(string)
+		**out = **in
+	}
 	if in.OperationPolicy != nil {
 		in, out := &in.OperationPolicy, &out.OperationPolicy
 		*out = make([]OperationPolicyObservation, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.OsType != nil {
+		in, out := &in.OsType, &out.OsType
+		*out = new(string)
+		**out = **in
+	}
+	if in.Platform != nil {
+		in, out := &in.Platform, &out.Platform
+		*out = new(string)
+		**out = **in
 	}
 	if in.PodCidr != nil {
 		in, out := &in.PodCidr, &out.PodCidr
@@ -7634,6 +8713,17 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 		*out = new(string)
 		**out = **in
 	}
+	if in.RDSInstances != nil {
+		in, out := &in.RDSInstances, &out.RDSInstances
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -7655,6 +8745,22 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 		*out = make([]RrsaMetadataObservation, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Runtime != nil {
+		in, out := &in.Runtime, &out.Runtime
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
 		}
 	}
 	if in.SecurityGroupID != nil {
@@ -7708,6 +8814,13 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 			(*out)[key] = outVal
 		}
 	}
+	if in.Taints != nil {
+		in, out := &in.Taints, &out.Taints
+		*out = make([]ManagedKubernetesTaintsObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Timezone != nil {
 		in, out := &in.Timezone, &out.Timezone
 		*out = new(string)
@@ -7715,6 +8828,11 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 	}
 	if in.UserCA != nil {
 		in, out := &in.UserCA, &out.UserCA
+		*out = new(string)
+		**out = **in
+	}
+	if in.UserData != nil {
+		in, out := &in.UserData, &out.UserData
 		*out = new(string)
 		**out = **in
 	}
@@ -7739,6 +8857,16 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 			}
 		}
 	}
+	if in.WorkerAutoRenew != nil {
+		in, out := &in.WorkerAutoRenew, &out.WorkerAutoRenew
+		*out = new(bool)
+		**out = **in
+	}
+	if in.WorkerAutoRenewPeriod != nil {
+		in, out := &in.WorkerAutoRenewPeriod, &out.WorkerAutoRenewPeriod
+		*out = new(float64)
+		**out = **in
+	}
 	if in.WorkerDataDiskCategory != nil {
 		in, out := &in.WorkerDataDiskCategory, &out.WorkerDataDiskCategory
 		*out = new(string)
@@ -7749,10 +8877,53 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 		*out = new(float64)
 		**out = **in
 	}
+	if in.WorkerDataDisks != nil {
+		in, out := &in.WorkerDataDisks, &out.WorkerDataDisks
+		*out = make([]ManagedKubernetesWorkerDataDisksObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.WorkerDiskCategory != nil {
+		in, out := &in.WorkerDiskCategory, &out.WorkerDiskCategory
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskPerformanceLevel != nil {
+		in, out := &in.WorkerDiskPerformanceLevel, &out.WorkerDiskPerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskSize != nil {
+		in, out := &in.WorkerDiskSize, &out.WorkerDiskSize
+		*out = new(float64)
+		**out = **in
+	}
+	if in.WorkerDiskSnapshotPolicyID != nil {
+		in, out := &in.WorkerDiskSnapshotPolicyID, &out.WorkerDiskSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerInstanceChargeType != nil {
+		in, out := &in.WorkerInstanceChargeType, &out.WorkerInstanceChargeType
+		*out = new(string)
+		**out = **in
+	}
 	if in.WorkerInstanceType != nil {
 		in, out := &in.WorkerInstanceType, &out.WorkerInstanceType
 		*out = new(string)
 		**out = **in
+	}
+	if in.WorkerInstanceTypes != nil {
+		in, out := &in.WorkerInstanceTypes, &out.WorkerInstanceTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.WorkerNodes != nil {
 		in, out := &in.WorkerNodes, &out.WorkerNodes
@@ -7760,6 +8931,11 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.WorkerNumber != nil {
+		in, out := &in.WorkerNumber, &out.WorkerNumber
+		*out = new(float64)
+		**out = **in
 	}
 	if in.WorkerNumbers != nil {
 		in, out := &in.WorkerNumbers, &out.WorkerNumbers
@@ -7771,6 +8947,16 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 				**out = **in
 			}
 		}
+	}
+	if in.WorkerPeriod != nil {
+		in, out := &in.WorkerPeriod, &out.WorkerPeriod
+		*out = new(float64)
+		**out = **in
+	}
+	if in.WorkerPeriodUnit != nil {
+		in, out := &in.WorkerPeriodUnit, &out.WorkerPeriodUnit
+		*out = new(string)
+		**out = **in
 	}
 	if in.WorkerRAMRoleName != nil {
 		in, out := &in.WorkerRAMRoleName, &out.WorkerRAMRoleName
@@ -7831,6 +9017,16 @@ func (in *ManagedKubernetesParameters) DeepCopyInto(out *ManagedKubernetesParame
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.AvailabilityZone != nil {
+		in, out := &in.AvailabilityZone, &out.AvailabilityZone
+		*out = new(string)
+		**out = **in
+	}
+	if in.CPUPolicy != nil {
+		in, out := &in.CPUPolicy, &out.CPUPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.ClientCert != nil {
 		in, out := &in.ClientCert, &out.ClientCert
@@ -7905,9 +9101,19 @@ func (in *ManagedKubernetesParameters) DeepCopyInto(out *ManagedKubernetesParame
 		*out = new(bool)
 		**out = **in
 	}
+	if in.EnableSSH != nil {
+		in, out := &in.EnableSSH, &out.EnableSSH
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EncryptionProviderKey != nil {
 		in, out := &in.EncryptionProviderKey, &out.EncryptionProviderKey
 		*out = new(string)
+		**out = **in
+	}
+	if in.ExcludeAutoscalerNodes != nil {
+		in, out := &in.ExcludeAutoscalerNodes, &out.ExcludeAutoscalerNodes
+		*out = new(bool)
 		**out = **in
 	}
 	if in.ForceUpdate != nil {
@@ -7920,9 +9126,50 @@ func (in *ManagedKubernetesParameters) DeepCopyInto(out *ManagedKubernetesParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.ImageID != nil {
+		in, out := &in.ImageID, &out.ImageID
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstallCloudMonitor != nil {
+		in, out := &in.InstallCloudMonitor, &out.InstallCloudMonitor
+		*out = new(bool)
+		**out = **in
+	}
 	if in.IsEnterpriseSecurityGroup != nil {
 		in, out := &in.IsEnterpriseSecurityGroup, &out.IsEnterpriseSecurityGroup
 		*out = new(bool)
+		**out = **in
+	}
+	if in.KMSEncryptedPassword != nil {
+		in, out := &in.KMSEncryptedPassword, &out.KMSEncryptedPassword
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSEncryptionContext != nil {
+		in, out := &in.KMSEncryptionContext, &out.KMSEncryptionContext
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
+	if in.KeyName != nil {
+		in, out := &in.KeyName, &out.KeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.KubeConfig != nil {
+		in, out := &in.KubeConfig, &out.KubeConfig
+		*out = new(string)
 		**out = **in
 	}
 	if in.LoadBalancerSpec != nil {
@@ -7959,12 +9206,37 @@ func (in *ManagedKubernetesParameters) DeepCopyInto(out *ManagedKubernetesParame
 		*out = new(float64)
 		**out = **in
 	}
+	if in.NodeNameMode != nil {
+		in, out := &in.NodeNameMode, &out.NodeNameMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.NodePortRange != nil {
+		in, out := &in.NodePortRange, &out.NodePortRange
+		*out = new(string)
+		**out = **in
+	}
 	if in.OperationPolicy != nil {
 		in, out := &in.OperationPolicy, &out.OperationPolicy
 		*out = make([]OperationPolicyParameters, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.OsType != nil {
+		in, out := &in.OsType, &out.OsType
+		*out = new(string)
+		**out = **in
+	}
+	if in.PasswordSecretRef != nil {
+		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
+		*out = new(v1.SecretKeySelector)
+		**out = **in
+	}
+	if in.Platform != nil {
+		in, out := &in.Platform, &out.Platform
+		*out = new(string)
+		**out = **in
 	}
 	if in.PodCidr != nil {
 		in, out := &in.PodCidr, &out.PodCidr
@@ -7987,6 +9259,22 @@ func (in *ManagedKubernetesParameters) DeepCopyInto(out *ManagedKubernetesParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.RDSInstances != nil {
+		in, out := &in.RDSInstances, &out.RDSInstances
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -8003,10 +9291,36 @@ func (in *ManagedKubernetesParameters) DeepCopyInto(out *ManagedKubernetesParame
 			}
 		}
 	}
+	if in.Runtime != nil {
+		in, out := &in.Runtime, &out.Runtime
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.SecurityGroupID != nil {
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
 		*out = new(string)
 		**out = **in
+	}
+	if in.SecurityGroupIDRef != nil {
+		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SecurityGroupIDSelector != nil {
+		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceAccountIssuer != nil {
 		in, out := &in.ServiceAccountIssuer, &out.ServiceAccountIssuer
@@ -8039,6 +9353,13 @@ func (in *ManagedKubernetesParameters) DeepCopyInto(out *ManagedKubernetesParame
 			(*out)[key] = outVal
 		}
 	}
+	if in.Taints != nil {
+		in, out := &in.Taints, &out.Taints
+		*out = make([]ManagedKubernetesTaintsParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.Timezone != nil {
 		in, out := &in.Timezone, &out.Timezone
 		*out = new(string)
@@ -8049,22 +9370,15 @@ func (in *ManagedKubernetesParameters) DeepCopyInto(out *ManagedKubernetesParame
 		*out = new(string)
 		**out = **in
 	}
+	if in.UserData != nil {
+		in, out := &in.UserData, &out.UserData
+		*out = new(string)
+		**out = **in
+	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
 		*out = new(string)
 		**out = **in
-	}
-	if in.VswitchIDRefs != nil {
-		in, out := &in.VswitchIDRefs, &out.VswitchIDRefs
-		*out = make([]v1.Reference, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.VswitchIDSelector != nil {
-		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIds != nil {
 		in, out := &in.VswitchIds, &out.VswitchIds
@@ -8077,6 +9391,28 @@ func (in *ManagedKubernetesParameters) DeepCopyInto(out *ManagedKubernetesParame
 			}
 		}
 	}
+	if in.VswitchIdsRefs != nil {
+		in, out := &in.VswitchIdsRefs, &out.VswitchIdsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.VswitchIdsSelector != nil {
+		in, out := &in.VswitchIdsSelector, &out.VswitchIdsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.WorkerAutoRenew != nil {
+		in, out := &in.WorkerAutoRenew, &out.WorkerAutoRenew
+		*out = new(bool)
+		**out = **in
+	}
+	if in.WorkerAutoRenewPeriod != nil {
+		in, out := &in.WorkerAutoRenewPeriod, &out.WorkerAutoRenewPeriod
+		*out = new(float64)
+		**out = **in
+	}
 	if in.WorkerDataDiskCategory != nil {
 		in, out := &in.WorkerDataDiskCategory, &out.WorkerDataDiskCategory
 		*out = new(string)
@@ -8087,15 +9423,63 @@ func (in *ManagedKubernetesParameters) DeepCopyInto(out *ManagedKubernetesParame
 		*out = new(float64)
 		**out = **in
 	}
+	if in.WorkerDataDisks != nil {
+		in, out := &in.WorkerDataDisks, &out.WorkerDataDisks
+		*out = make([]ManagedKubernetesWorkerDataDisksParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.WorkerDiskCategory != nil {
+		in, out := &in.WorkerDiskCategory, &out.WorkerDiskCategory
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskPerformanceLevel != nil {
+		in, out := &in.WorkerDiskPerformanceLevel, &out.WorkerDiskPerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerDiskSize != nil {
+		in, out := &in.WorkerDiskSize, &out.WorkerDiskSize
+		*out = new(float64)
+		**out = **in
+	}
+	if in.WorkerDiskSnapshotPolicyID != nil {
+		in, out := &in.WorkerDiskSnapshotPolicyID, &out.WorkerDiskSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.WorkerInstanceChargeType != nil {
+		in, out := &in.WorkerInstanceChargeType, &out.WorkerInstanceChargeType
+		*out = new(string)
+		**out = **in
+	}
 	if in.WorkerInstanceType != nil {
 		in, out := &in.WorkerInstanceType, &out.WorkerInstanceType
 		*out = new(string)
 		**out = **in
 	}
+	if in.WorkerInstanceTypes != nil {
+		in, out := &in.WorkerInstanceTypes, &out.WorkerInstanceTypes
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.WorkerNodes != nil {
 		in, out := &in.WorkerNodes, &out.WorkerNodes
 		*out = make([]ManagedKubernetesWorkerNodesParameters, len(*in))
 		copy(*out, *in)
+	}
+	if in.WorkerNumber != nil {
+		in, out := &in.WorkerNumber, &out.WorkerNumber
+		*out = new(float64)
+		**out = **in
 	}
 	if in.WorkerNumbers != nil {
 		in, out := &in.WorkerNumbers, &out.WorkerNumbers
@@ -8108,17 +9492,15 @@ func (in *ManagedKubernetesParameters) DeepCopyInto(out *ManagedKubernetesParame
 			}
 		}
 	}
-	if in.WorkerVswitchIDRefs != nil {
-		in, out := &in.WorkerVswitchIDRefs, &out.WorkerVswitchIDRefs
-		*out = make([]v1.Reference, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+	if in.WorkerPeriod != nil {
+		in, out := &in.WorkerPeriod, &out.WorkerPeriod
+		*out = new(float64)
+		**out = **in
 	}
-	if in.WorkerVswitchIDSelector != nil {
-		in, out := &in.WorkerVswitchIDSelector, &out.WorkerVswitchIDSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
+	if in.WorkerPeriodUnit != nil {
+		in, out := &in.WorkerPeriodUnit, &out.WorkerPeriodUnit
+		*out = new(string)
+		**out = **in
 	}
 	if in.WorkerVswitchIds != nil {
 		in, out := &in.WorkerVswitchIds, &out.WorkerVswitchIds
@@ -8185,6 +9567,276 @@ func (in *ManagedKubernetesStatus) DeepCopy() *ManagedKubernetesStatus {
 		return nil
 	}
 	out := new(ManagedKubernetesStatus)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedKubernetesTaintsInitParameters) DeepCopyInto(out *ManagedKubernetesTaintsInitParameters) {
+	*out = *in
+	if in.Effect != nil {
+		in, out := &in.Effect, &out.Effect
+		*out = new(string)
+		**out = **in
+	}
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedKubernetesTaintsInitParameters.
+func (in *ManagedKubernetesTaintsInitParameters) DeepCopy() *ManagedKubernetesTaintsInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedKubernetesTaintsInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedKubernetesTaintsObservation) DeepCopyInto(out *ManagedKubernetesTaintsObservation) {
+	*out = *in
+	if in.Effect != nil {
+		in, out := &in.Effect, &out.Effect
+		*out = new(string)
+		**out = **in
+	}
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedKubernetesTaintsObservation.
+func (in *ManagedKubernetesTaintsObservation) DeepCopy() *ManagedKubernetesTaintsObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedKubernetesTaintsObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedKubernetesTaintsParameters) DeepCopyInto(out *ManagedKubernetesTaintsParameters) {
+	*out = *in
+	if in.Effect != nil {
+		in, out := &in.Effect, &out.Effect
+		*out = new(string)
+		**out = **in
+	}
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedKubernetesTaintsParameters.
+func (in *ManagedKubernetesTaintsParameters) DeepCopy() *ManagedKubernetesTaintsParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedKubernetesTaintsParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedKubernetesWorkerDataDisksInitParameters) DeepCopyInto(out *ManagedKubernetesWorkerDataDisksInitParameters) {
+	*out = *in
+	if in.AutoSnapshotPolicyID != nil {
+		in, out := &in.AutoSnapshotPolicyID, &out.AutoSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Category != nil {
+		in, out := &in.Category, &out.Category
+		*out = new(string)
+		**out = **in
+	}
+	if in.Device != nil {
+		in, out := &in.Device, &out.Device
+		*out = new(string)
+		**out = **in
+	}
+	if in.Encrypted != nil {
+		in, out := &in.Encrypted, &out.Encrypted
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.PerformanceLevel != nil {
+		in, out := &in.PerformanceLevel, &out.PerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.Size != nil {
+		in, out := &in.Size, &out.Size
+		*out = new(string)
+		**out = **in
+	}
+	if in.SnapshotID != nil {
+		in, out := &in.SnapshotID, &out.SnapshotID
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedKubernetesWorkerDataDisksInitParameters.
+func (in *ManagedKubernetesWorkerDataDisksInitParameters) DeepCopy() *ManagedKubernetesWorkerDataDisksInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedKubernetesWorkerDataDisksInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedKubernetesWorkerDataDisksObservation) DeepCopyInto(out *ManagedKubernetesWorkerDataDisksObservation) {
+	*out = *in
+	if in.AutoSnapshotPolicyID != nil {
+		in, out := &in.AutoSnapshotPolicyID, &out.AutoSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Category != nil {
+		in, out := &in.Category, &out.Category
+		*out = new(string)
+		**out = **in
+	}
+	if in.Device != nil {
+		in, out := &in.Device, &out.Device
+		*out = new(string)
+		**out = **in
+	}
+	if in.Encrypted != nil {
+		in, out := &in.Encrypted, &out.Encrypted
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.PerformanceLevel != nil {
+		in, out := &in.PerformanceLevel, &out.PerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.Size != nil {
+		in, out := &in.Size, &out.Size
+		*out = new(string)
+		**out = **in
+	}
+	if in.SnapshotID != nil {
+		in, out := &in.SnapshotID, &out.SnapshotID
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedKubernetesWorkerDataDisksObservation.
+func (in *ManagedKubernetesWorkerDataDisksObservation) DeepCopy() *ManagedKubernetesWorkerDataDisksObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedKubernetesWorkerDataDisksObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ManagedKubernetesWorkerDataDisksParameters) DeepCopyInto(out *ManagedKubernetesWorkerDataDisksParameters) {
+	*out = *in
+	if in.AutoSnapshotPolicyID != nil {
+		in, out := &in.AutoSnapshotPolicyID, &out.AutoSnapshotPolicyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Category != nil {
+		in, out := &in.Category, &out.Category
+		*out = new(string)
+		**out = **in
+	}
+	if in.Device != nil {
+		in, out := &in.Device, &out.Device
+		*out = new(string)
+		**out = **in
+	}
+	if in.Encrypted != nil {
+		in, out := &in.Encrypted, &out.Encrypted
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.PerformanceLevel != nil {
+		in, out := &in.PerformanceLevel, &out.PerformanceLevel
+		*out = new(string)
+		**out = **in
+	}
+	if in.Size != nil {
+		in, out := &in.Size, &out.Size
+		*out = new(string)
+		**out = **in
+	}
+	if in.SnapshotID != nil {
+		in, out := &in.SnapshotID, &out.SnapshotID
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ManagedKubernetesWorkerDataDisksParameters.
+func (in *ManagedKubernetesWorkerDataDisksParameters) DeepCopy() *ManagedKubernetesWorkerDataDisksParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(ManagedKubernetesWorkerDataDisksParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -9082,6 +10734,66 @@ func (in *RollingPolicyParameters) DeepCopy() *RollingPolicyParameters {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RolloutPolicyInitParameters) DeepCopyInto(out *RolloutPolicyInitParameters) {
+	*out = *in
+	if in.MaxUnavailable != nil {
+		in, out := &in.MaxUnavailable, &out.MaxUnavailable
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RolloutPolicyInitParameters.
+func (in *RolloutPolicyInitParameters) DeepCopy() *RolloutPolicyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RolloutPolicyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RolloutPolicyObservation) DeepCopyInto(out *RolloutPolicyObservation) {
+	*out = *in
+	if in.MaxUnavailable != nil {
+		in, out := &in.MaxUnavailable, &out.MaxUnavailable
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RolloutPolicyObservation.
+func (in *RolloutPolicyObservation) DeepCopy() *RolloutPolicyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(RolloutPolicyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RolloutPolicyParameters) DeepCopyInto(out *RolloutPolicyParameters) {
+	*out = *in
+	if in.MaxUnavailable != nil {
+		in, out := &in.MaxUnavailable, &out.MaxUnavailable
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RolloutPolicyParameters.
+func (in *RolloutPolicyParameters) DeepCopy() *RolloutPolicyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RolloutPolicyParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *RrsaMetadataInitParameters) DeepCopyInto(out *RrsaMetadataInitParameters) {
 	*out = *in
 }
@@ -9597,11 +11309,6 @@ func (in *ServerlessKubernetesInitParameters) DeepCopyInto(out *ServerlessKubern
 		*out = new(string)
 		**out = **in
 	}
-	if in.NamePrefix != nil {
-		in, out := &in.NamePrefix, &out.NamePrefix
-		*out = new(string)
-		**out = **in
-	}
 	if in.NewNATGateway != nil {
 		in, out := &in.NewNATGateway, &out.NewNATGateway
 		*out = new(bool)
@@ -9639,6 +11346,16 @@ func (in *ServerlessKubernetesInitParameters) DeepCopyInto(out *ServerlessKubern
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
 		*out = new(string)
 		**out = **in
+	}
+	if in.SecurityGroupIDRef != nil {
+		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SecurityGroupIDSelector != nil {
+		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceCidr != nil {
 		in, out := &in.ServiceCidr, &out.ServiceCidr
@@ -9707,12 +11424,10 @@ func (in *ServerlessKubernetesInitParameters) DeepCopyInto(out *ServerlessKubern
 		*out = new(string)
 		**out = **in
 	}
-	if in.VswitchIDRefs != nil {
-		in, out := &in.VswitchIDRefs, &out.VswitchIDRefs
-		*out = make([]v1.Reference, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+	if in.VswitchIDRef != nil {
+		in, out := &in.VswitchIDRef, &out.VswitchIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
@@ -9729,6 +11444,18 @@ func (in *ServerlessKubernetesInitParameters) DeepCopyInto(out *ServerlessKubern
 				**out = **in
 			}
 		}
+	}
+	if in.VswitchIdsRefs != nil {
+		in, out := &in.VswitchIdsRefs, &out.VswitchIdsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.VswitchIdsSelector != nil {
+		in, out := &in.VswitchIdsSelector, &out.VswitchIdsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
 		in, out := &in.ZoneID, &out.ZoneID
@@ -9980,11 +11707,6 @@ func (in *ServerlessKubernetesObservation) DeepCopyInto(out *ServerlessKubernete
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.NamePrefix != nil {
-		in, out := &in.NamePrefix, &out.NamePrefix
 		*out = new(string)
 		**out = **in
 	}
@@ -10278,11 +12000,6 @@ func (in *ServerlessKubernetesParameters) DeepCopyInto(out *ServerlessKubernetes
 		*out = new(string)
 		**out = **in
 	}
-	if in.NamePrefix != nil {
-		in, out := &in.NamePrefix, &out.NamePrefix
-		*out = new(string)
-		**out = **in
-	}
 	if in.NewNATGateway != nil {
 		in, out := &in.NewNATGateway, &out.NewNATGateway
 		*out = new(bool)
@@ -10298,6 +12015,11 @@ func (in *ServerlessKubernetesParameters) DeepCopyInto(out *ServerlessKubernetes
 	if in.PrivateZone != nil {
 		in, out := &in.PrivateZone, &out.PrivateZone
 		*out = new(bool)
+		**out = **in
+	}
+	if in.Region != nil {
+		in, out := &in.Region, &out.Region
+		*out = new(string)
 		**out = **in
 	}
 	if in.ResourceGroupID != nil {
@@ -10320,6 +12042,16 @@ func (in *ServerlessKubernetesParameters) DeepCopyInto(out *ServerlessKubernetes
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
 		*out = new(string)
 		**out = **in
+	}
+	if in.SecurityGroupIDRef != nil {
+		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SecurityGroupIDSelector != nil {
+		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceCidr != nil {
 		in, out := &in.ServiceCidr, &out.ServiceCidr
@@ -10388,12 +12120,10 @@ func (in *ServerlessKubernetesParameters) DeepCopyInto(out *ServerlessKubernetes
 		*out = new(string)
 		**out = **in
 	}
-	if in.VswitchIDRefs != nil {
-		in, out := &in.VswitchIDRefs, &out.VswitchIDRefs
-		*out = make([]v1.Reference, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+	if in.VswitchIDRef != nil {
+		in, out := &in.VswitchIDRef, &out.VswitchIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
@@ -10410,6 +12140,18 @@ func (in *ServerlessKubernetesParameters) DeepCopyInto(out *ServerlessKubernetes
 				**out = **in
 			}
 		}
+	}
+	if in.VswitchIdsRefs != nil {
+		in, out := &in.VswitchIdsRefs, &out.VswitchIdsRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.VswitchIdsSelector != nil {
+		in, out := &in.VswitchIdsSelector, &out.VswitchIdsSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
 		in, out := &in.ZoneID, &out.ZoneID

@@ -35,6 +35,7 @@ kind: ManagedKubernetes
 metadata:
   annotations:
     meta.upbound.io/example-id: test-ack-v1alpha1-kubernetesaddon-cluster-1
+    uptest.upbound.io/timeout: "2400"
   labels:
     testing.upbound.io/example-name: test-ack-v1alpha1-kubernetesaddon-cluster-1
   name: test-ack-v1alpha1-kubernetesaddon-cluster-1
@@ -45,12 +46,11 @@ spec:
       disabled: false
       name: logtail-ds
     clusterSpec: ack.pro.small
-    # namePrefix: crossplane
     newNatGateway: false
     podCidr: 10.32.0.0/27
     serviceCidr: 172.20.0.0/23
     slbInternetEnabled: true
-    workerVswitchIdSelector:
+    workerVswitchIdsSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-kubernetesaddon-vsw-1
 ---

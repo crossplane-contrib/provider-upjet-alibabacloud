@@ -3,6 +3,8 @@ package common
 type ShortGroup string
 
 const (
+	ACK                 = ShortGroup("ack")
+	ACKONE              = ShortGroup("ackone")
 	ALB                 = ShortGroup("alb")
 	ALIDNS              = ShortGroup("alidns")
 	CDN                 = ShortGroup("cdn")

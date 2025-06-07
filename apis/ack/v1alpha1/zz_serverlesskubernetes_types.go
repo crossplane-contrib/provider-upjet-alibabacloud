@@ -174,9 +174,6 @@ type ServerlessKubernetesInitParameters struct {
 	// The kubernetes cluster's name. It is the only in one Alicloud account.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The kubernetes cluster name's prefix. It is conflict with name.
-	NamePrefix *string `json:"namePrefix,omitempty" tf:"name_prefix,omitempty"`
-
 	// Whether to create a new nat gateway while creating kubernetes cluster. SNAT must be configured when a new VPC is automatically created. Default is true.
 	NewNATGateway *bool `json:"newNatGateway,omitempty" tf:"new_nat_gateway,omitempty"`
 
@@ -193,7 +190,16 @@ type ServerlessKubernetesInitParameters struct {
 	RetainResources []*string `json:"retainResources,omitempty" tf:"retain_resources,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
+
+	// Reference to a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+
+	// Selector for a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// CIDR block of the service network. The specified CIDR block cannot overlap with that of the VPC or those of the ACK clusters that are deployed in the VPC. The CIDR block cannot be modified after the cluster is created.
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
@@ -204,7 +210,7 @@ type ServerlessKubernetesInitParameters struct {
 	// If you use an existing SLS project, you must specify sls_project_name. Only works for Create Operation.
 	SlsProjectName *string `json:"slsProjectName,omitempty" tf:"sls_project_name,omitempty"`
 
-	// Default nil, A map of tags assigned to the kubernetes cluster and work nodes.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -227,21 +233,28 @@ type ServerlessKubernetesInitParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 
 	// (Removed since v1.229.1) The vswitch where new kubernetes cluster will be located. Specify one vswitch's id, if it is not specified, a new VPC and VSwicth will be built. It must be in the zone which availability_zone specified.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 
-	// References to Vswitch in vpc to populate vswitchIds.
+	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRefs []v1.Reference `json:"vswitchIdRefs,omitempty" tf:"-"`
+	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
-	// Selector for a list of Vswitch in vpc to populate vswitchIds.
+	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
 	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The vswitches where new kubernetes cluster will be located.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=VswitchIDRefs
-	// +crossplane:generate:reference:selectorFieldName=VswitchIDSelector
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
+
+	// References to Vswitch in vpc to populate vswitchIds.
+	// +kubebuilder:validation:Optional
+	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Vswitch in vpc to populate vswitchIds.
+	// +kubebuilder:validation:Optional
+	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
 	// When creating a cluster using automatic VPC creation, you need to specify the zone where the VPC is located. Only works for Create Operation.
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
@@ -353,9 +366,6 @@ type ServerlessKubernetesObservation struct {
 	// The kubernetes cluster's name. It is the only in one Alicloud account.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The kubernetes cluster name's prefix. It is conflict with name.
-	NamePrefix *string `json:"namePrefix,omitempty" tf:"name_prefix,omitempty"`
-
 	// Whether to create a new nat gateway while creating kubernetes cluster. SNAT must be configured when a new VPC is automatically created. Default is true.
 	NewNATGateway *bool `json:"newNatGateway,omitempty" tf:"new_nat_gateway,omitempty"`
 
@@ -386,7 +396,7 @@ type ServerlessKubernetesObservation struct {
 	// If you use an existing SLS project, you must specify sls_project_name. Only works for Create Operation.
 	SlsProjectName *string `json:"slsProjectName,omitempty" tf:"sls_project_name,omitempty"`
 
-	// Default nil, A map of tags assigned to the kubernetes cluster and work nodes.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -499,10 +509,6 @@ type ServerlessKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The kubernetes cluster name's prefix. It is conflict with name.
-	// +kubebuilder:validation:Optional
-	NamePrefix *string `json:"namePrefix,omitempty" tf:"name_prefix,omitempty"`
-
 	// Whether to create a new nat gateway while creating kubernetes cluster. SNAT must be configured when a new VPC is automatically created. Default is true.
 	// +kubebuilder:validation:Optional
 	NewNATGateway *bool `json:"newNatGateway,omitempty" tf:"new_nat_gateway,omitempty"`
@@ -515,6 +521,11 @@ type ServerlessKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateZone *bool `json:"privateZone,omitempty" tf:"private_zone,omitempty"`
 
+	// Region is the region you'd like your resource to be created in.
+	// +upjet:crd:field:TFTag=-
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"-"`
+
 	// The ID of the resource group,by default these cloud resources are automatically assigned to the default resource group.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -524,8 +535,17 @@ type ServerlessKubernetesParameters struct {
 	RetainResources []*string `json:"retainResources,omitempty" tf:"retain_resources,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +kubebuilder:validation:Optional
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
+
+	// Reference to a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+
+	// Selector for a SecurityGroup in ecs to populate securityGroupId.
+	// +kubebuilder:validation:Optional
+	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// CIDR block of the service network. The specified CIDR block cannot overlap with that of the VPC or those of the ACK clusters that are deployed in the VPC. The CIDR block cannot be modified after the cluster is created.
 	// +kubebuilder:validation:Optional
@@ -539,7 +559,7 @@ type ServerlessKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	SlsProjectName *string `json:"slsProjectName,omitempty" tf:"sls_project_name,omitempty"`
 
-	// Default nil, A map of tags assigned to the kubernetes cluster and work nodes.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -566,23 +586,30 @@ type ServerlessKubernetesParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 
 	// (Removed since v1.229.1) The vswitch where new kubernetes cluster will be located. Specify one vswitch's id, if it is not specified, a new VPC and VSwicth will be built. It must be in the zone which availability_zone specified.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +kubebuilder:validation:Optional
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 
-	// References to Vswitch in vpc to populate vswitchIds.
+	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRefs []v1.Reference `json:"vswitchIdRefs,omitempty" tf:"-"`
+	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
-	// Selector for a list of Vswitch in vpc to populate vswitchIds.
+	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
 	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The vswitches where new kubernetes cluster will be located.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=VswitchIDRefs
-	// +crossplane:generate:reference:selectorFieldName=VswitchIDSelector
 	// +kubebuilder:validation:Optional
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
+
+	// References to Vswitch in vpc to populate vswitchIds.
+	// +kubebuilder:validation:Optional
+	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Vswitch in vpc to populate vswitchIds.
+	// +kubebuilder:validation:Optional
+	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
 	// When creating a cluster using automatic VPC creation, you need to specify the zone where the VPC is located. Only works for Create Operation.
 	// +kubebuilder:validation:Optional
@@ -642,7 +669,7 @@ type ServerlessKubernetesStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alicloud}
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
 type ServerlessKubernetes struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
