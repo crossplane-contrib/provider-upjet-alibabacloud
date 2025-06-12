@@ -164,6 +164,13 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_privatelink_vpc_endpoint_service_user":     config.IdentifierFromProvider,
 	"alicloud_privatelink_vpc_endpoint_zone":             config.IdentifierFromProvider,
 
+	// Quotas
+	"alicloud_quotas_quota_alarm":           config.IdentifierFromProvider,
+	"alicloud_quotas_quota_application":     config.IdentifierFromProvider,
+	"alicloud_quotas_template_applications": config.IdentifierFromProvider,
+	"alicloud_quotas_template_quota":        config.IdentifierFromProvider,
+	"alicloud_quotas_template_service":      config.IdentifierFromProvider,
+
 	// RAM
 	"alicloud_ram_access_key":              config.IdentifierFromProvider,
 	"alicloud_ram_account_alias":           config.IdentifierFromProvider,

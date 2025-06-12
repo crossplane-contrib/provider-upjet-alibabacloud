@@ -1,0 +1,20 @@
+apiVersion: quotas.alibabacloud.crossplane.io/v1alpha1
+kind: TemplateApplications
+metadata:
+  annotations:
+    meta.upbound.io/example-id: quotas/v1alpha1/templateapplications
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    aliyunUids:
+    - ${alicloud_resource_manager_account.account.id}
+    desireValue: "1"
+    envLanguage: zh
+    noticeType: "0"
+    productCode: quotas
+    quotaActionCode: quotas.label_multi/A
+    quotaCategory: WhiteListLabel
+    reason: example
+    region: cn-beijing

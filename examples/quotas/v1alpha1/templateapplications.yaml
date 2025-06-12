@@ -1,0 +1,24 @@
+---
+#
+# This test requires [account resource directories](https://www.alibabacloud.com/help/en/resource-management/resource-directory/product-overview/resource-directory-overview).
+#
+apiVersion: quotas.alibabacloud.crossplane.io/v1alpha1
+kind: TemplateApplications
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-quotas-v1alpha1-templateapplications
+  labels:
+    testing.upbound.io/example-name: test-quotas-v1alpha1-templateapplication
+  name: test-quotas-v1alpha1-templateapplication
+spec:
+  forProvider:
+    aliyunUids:
+      - "test-account-alias-1" # random number from 10000 to 999999
+    desireValue: 1
+    envLanguage: zh
+    noticeType: 0
+    productCode: quotas
+    quotaActionCode: quotas.label_multi/A
+    quotaCategory: WhiteListLabel
+    reason: test-quotas-v1alpha1-templateapplication
+    region: cn-beijing

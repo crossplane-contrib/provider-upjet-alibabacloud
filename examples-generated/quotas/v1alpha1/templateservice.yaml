@@ -1,0 +1,12 @@
+apiVersion: quotas.alibabacloud.crossplane.io/v1alpha1
+kind: TemplateService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: quotas/v1alpha1/templateservice
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    serviceStatus: "1"

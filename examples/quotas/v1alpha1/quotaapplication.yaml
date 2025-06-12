@@ -1,0 +1,22 @@
+---
+apiVersion: quotas.alibabacloud.crossplane.io/v1alpha1
+kind: QuotaApplication
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-quotas-v1alpha1-quotaapplication
+  labels:
+    testing.upbound.io/example-name: test-quotas-v1alpha1-quotaapplication
+  name: test-quotas-v1alpha1-quotaapplication
+spec:
+  forProvider:
+    desireValue: 1001
+    dimensions:
+      - key: regionId
+        value: cn-hangzhou
+    envLanguage: zh
+    noticeType: 3
+    productCode: gws
+    quotaActionCode: q_desktop-count
+    quotaCategory: CommonQuota
+    reason: 测试
+    region: cn-beijing
