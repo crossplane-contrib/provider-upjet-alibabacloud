@@ -1,0 +1,16 @@
+---
+#
+# This test requires [account resource directories](https://www.alibabacloud.com/help/en/resource-management/resource-directory/product-overview/resource-directory-overview).
+#
+apiVersion: quotas.alibabacloud.crossplane.io/v1alpha1
+kind: TemplateService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-quotas-v1alpha1-templateservice
+  labels:
+    testing.upbound.io/example-name: test-quotas-v1alpha1-templateservice
+  name: test-quotas-v1alpha1-templateservice
+spec:
+  forProvider:
+    region: cn-beijing
+    serviceStatus: 1

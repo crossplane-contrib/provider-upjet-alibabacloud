@@ -15,6 +15,7 @@ const (
 	OSS                 = ShortGroup("oss")
 	POLARDB             = ShortGroup("polardb")
 	PRIVATELINK         = ShortGroup("privatelink")
+	QUOTAS              = ShortGroup("quotas")
 	SLS                 = ShortGroup("sls")
 	Tair                = ShortGroup("tair")
 	VPC                 = ShortGroup("vpc")

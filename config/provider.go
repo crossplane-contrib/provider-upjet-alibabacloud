@@ -20,6 +20,7 @@ import (
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/oss"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/polardb"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/privatelink"
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/quotas"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ram"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/tair"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/vpc"
@@ -73,6 +74,7 @@ func GetProvider() *ujconfig.Provider {
 		oss.Configure,
 		polardb.Configure,
 		privatelink.Configure,
+		quotas.Configure,
 		ram.Configure,
 		tair.Configure,
 		vpc.Configure,

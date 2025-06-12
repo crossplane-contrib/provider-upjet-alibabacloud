@@ -1,0 +1,24 @@
+---
+#
+# This test requires [account resource directories](https://www.alibabacloud.com/help/en/resource-management/resource-directory/product-overview/resource-directory-overview).
+#
+apiVersion: quotas.alibabacloud.crossplane.io/v1alpha1
+kind: TemplateQuota
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-quotas-v1alpha1-templatequota
+  labels:
+    testing.upbound.io/example-name: test-quotas-v1alpha1-templatequota
+  name: test-quotas-v1alpha1-templatequota
+spec:
+  forProvider:
+    desireValue: 1001
+    dimensions:
+      - key: regionId
+        value: cn-hangzhou
+    envLanguage: zh
+    noticeType: 3
+    productCode: gws
+    quotaActionCode: q_desktop-count
+    quotaCategory: CommonQuota
+    region: cn-beijing

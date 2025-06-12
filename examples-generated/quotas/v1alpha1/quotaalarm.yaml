@@ -1,0 +1,19 @@
+apiVersion: quotas.alibabacloud.crossplane.io/v1alpha1
+kind: QuotaAlarm
+metadata:
+  annotations:
+    meta.upbound.io/example-id: quotas/v1alpha1/quotaalarm
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    productCode: gws
+    quotaActionCode: q_desktop-count
+    quotaAlarmName: ${var.name}-${random_integer.default.result}
+    quotaDimensions:
+    - key: regionId
+      value: cn-hangzhou
+    region: cn-beijing
+    thresholdPercent: 80
+    thresholdType: used
