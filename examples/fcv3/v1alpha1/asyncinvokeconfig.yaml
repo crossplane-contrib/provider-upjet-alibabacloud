@@ -1,0 +1,89 @@
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: AsyncInvokeConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/asyncinvokeconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    asyncTask: true
+    destinationConfig:
+    - onFailure:
+      - destination:  "acs:fc:cn-hangzhou:1511928242963727:functions/crossplane-example-for-function-asyncinvokeconfig-20250724-02"
+      onSuccess:
+      - destination:  "acs:fc:cn-hangzhou:1511928242963727:functions/crossplane-example-for-function-asyncinvokeconfig-20250724-02"
+    functionNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: asyncinvokeconfig01
+    maxAsyncEventAgeInSeconds: 1
+    maxAsyncRetryAttempts: 1
+    qualifier: LATEST
+    region: cn-hangzhou
+
+---
+
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/asyncinvokeconfig
+  labels:
+    testing.upbound.io/example-name: asyncinvokeconfig01
+  name: asyncinvokeconfig01
+spec:
+  forProvider:
+    code:
+      - zipFileSecretRef:
+          key: zipFile
+          name: fcv3-function-asyncinvokeconfig-secret
+          namespace: crossplane-system
+    cpu: 0.5
+    diskSize: 512
+    functionName: crossplane-example-for-function-asyncinvokeconfig-20250724-01
+    handler: index.Handler
+    logConfig:
+      - logBeginRule: None
+    memorySize: 512
+    region: cn-hangzhou
+    runtime: python3.9
+
+---
+
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/asyncinvokeconfig
+  labels:
+    testing.upbound.io/example-name: asyncinvokeconfig02
+  name: asyncinvokeconfig02
+spec:
+  forProvider:
+    code:
+      - zipFileSecretRef:
+          key: zipFile
+          name: fcv3-function-asyncinvokeconfig-secret
+          namespace: crossplane-system
+    cpu: 0.5
+    diskSize: 512
+    functionName: crossplane-example-for-function-asyncinvokeconfig-20250724-02
+    handler: index.Handler
+    logConfig:
+      - logBeginRule: None
+    memorySize: 512
+    region: cn-hangzhou
+    runtime: python3.9
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fcv3-function-asyncinvokeconfig-secret
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  zipFile: "UEsDBBQACAAIAAAAAAAAAAAAAAAAAAAAAAAIAAAAaW5kZXgucHmEkEFKxEAQRfd9ig9ZTCJOooIwDMwNXLqXnnQlaalUhU5lRj2KZ/FOXkESGR114bJ/P/7jV4b1xRq1hijtFpM1682cuNgPmgysbRulPT0fRxXnMtwrSPyeCdYRokSLnuMLJTTkbUqEvDMbxm1VdcRD6Tk+T1LW2ldB66knsYdA5iNX17ebm6tN2VnPhcswMPmREPuBacb+CiapLarAj9gT6/H97dVlCNScY3mtYvRkxdZlwDKDEnanPWVLdrdkeXEGlFEazVdfPVHaVeHc3N15CUwppwOJXeK7HshAB8NuOU7J6sP4SRXuH/EvbUfMiqMmDqv5M5FNSfAj/wgAAP//UEsHCPl//NYAAQAArwEAAFBLAQIUABQACAAIAAAAAAD5f/zWAAEAAK8BAAAIAAAAAAAAAAAAAAAAAAAAAABpbmRleC5weVBLBQYAAAAAAQABADYAAAA2AQAAAAA="
+

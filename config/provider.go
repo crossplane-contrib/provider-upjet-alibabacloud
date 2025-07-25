@@ -7,6 +7,7 @@ package config
 import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/fcv3"
 
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ack"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ackone"
@@ -69,6 +70,7 @@ func GetProvider() *ujconfig.Provider {
 		cdn.Configure,
 		cloudmonitorservice.Configure,
 		ecs.Configure,
+		fcv3.Configure,
 		kms.Configure,
 		messageservice.Configure,
 		oss.Configure,

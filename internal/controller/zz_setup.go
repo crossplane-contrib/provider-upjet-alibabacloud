@@ -82,7 +82,16 @@ import (
 	snapshot "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/snapshot"
 	snapshotgroup "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/snapshotgroup"
 	storagecapacityunit "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/ecs/storagecapacityunit"
-	alias "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/alias"
+	alias "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/fcv3/alias"
+	asyncinvokeconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/fcv3/asyncinvokeconfig"
+	concurrencyconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/fcv3/concurrencyconfig"
+	customdomain "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/fcv3/customdomain"
+	function "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/fcv3/function"
+	functionversion "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/fcv3/functionversion"
+	layerversion "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/fcv3/layerversion"
+	provisionconfig "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/fcv3/provisionconfig"
+	trigger "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/fcv3/trigger"
+	aliaskms "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/alias"
 	instancekms "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/instance"
 	key "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/key"
 	secret "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/kms/secret"
@@ -242,6 +251,15 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		snapshotgroup.Setup,
 		storagecapacityunit.Setup,
 		alias.Setup,
+		asyncinvokeconfig.Setup,
+		concurrencyconfig.Setup,
+		customdomain.Setup,
+		function.Setup,
+		functionversion.Setup,
+		layerversion.Setup,
+		provisionconfig.Setup,
+		trigger.Setup,
+		aliaskms.Setup,
 		instancekms.Setup,
 		key.Setup,
 		secret.Setup,

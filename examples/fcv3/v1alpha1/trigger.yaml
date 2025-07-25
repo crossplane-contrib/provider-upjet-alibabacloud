@@ -1,0 +1,61 @@
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Trigger
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/trigger
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: create
+    functionNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: trigger
+    invocationRole: "acs:ram::1511928242963727:role/aliyuncdneventnotificationrole"
+    qualifier: LATEST
+    region: cn-hangzhou
+    sourceArn: acs:cdn:*:1511928242963727
+    triggerConfig: '${jsonencode({ "eventName" : "CachedObjectsPushed", "eventVersion"
+      : "1.0.0", "notes" : "example", "filter" : { "domain" : ["example.com"] } })}'
+    triggerName: crossplane-example-for-function-trigger-20250724
+    triggerType: cdn_events
+
+---
+
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/trigger
+  labels:
+    testing.upbound.io/example-name: trigger
+  name: trigger
+spec:
+  forProvider:
+    code:
+    - zipFileSecretRef:
+        key: zipFile
+        name: fcv3-function-trigger-secret
+        namespace: crossplane-system
+    cpu: 0.5
+    diskSize: 512
+    functionName: crossplane-example-for-function-trigger-20250724
+    handler: index.Handler
+    logConfig:
+    - logBeginRule: None
+    memorySize: 512
+    region: cn-hangzhou
+    runtime: python3.9
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fcv3-function-trigger-secret
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  zipFile: "UEsDBBQACAAIAAAAAAAAAAAAAAAAAAAAAAAIAAAAaW5kZXgucHmEkEFKxEAQRfd9ig9ZTCJOooIwDMwNXLqXnnQlaalUhU5lRj2KZ/FOXkESGR114bJ/P/7jV4b1xRq1hijtFpM1682cuNgPmgysbRulPT0fRxXnMtwrSPyeCdYRokSLnuMLJTTkbUqEvDMbxm1VdcRD6Tk+T1LW2ldB66knsYdA5iNX17ebm6tN2VnPhcswMPmREPuBacb+CiapLarAj9gT6/H97dVlCNScY3mtYvRkxdZlwDKDEnanPWVLdrdkeXEGlFEazVdfPVHaVeHc3N15CUwppwOJXeK7HshAB8NuOU7J6sP4SRXuH/EvbUfMiqMmDqv5M5FNSfAj/wgAAP//UEsHCPl//NYAAQAArwEAAFBLAQIUABQACAAIAAAAAAD5f/zWAAEAAK8BAAAIAAAAAAAAAAAAAAAAAAAAAABpbmRleC5weVBLBQYAAAAAAQABADYAAAA2AQAAAAA="
+

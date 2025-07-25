@@ -1,0 +1,73 @@
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Alias
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/alias
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    aliasName: crossplane-example
+    description: create alias
+    functionNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alias
+    region: cn-hangzhou
+    versionId: "1"
+
+---
+
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: FunctionVersion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/functionversion
+  labels:
+    testing.upbound.io/example-name: alias
+  name: alias
+spec:
+  forProvider:
+    description: version1
+    functionNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alias
+    region: cn-hangzhou
+
+---
+
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/functionversion
+  labels:
+    testing.upbound.io/example-name: alias
+  name: alias
+spec:
+  forProvider:
+    code:
+      - zipFileSecretRef:
+          key: zipFile
+          name: fcv3-function-alias-secret
+          namespace: crossplane-system
+    cpu: 0.5
+    diskSize: 512
+    functionName: crossplane-example-for-function-alias-20250724
+    handler: index.Handler
+    logConfig:
+      - logBeginRule: None
+    memorySize: 512
+    region: cn-hangzhou
+    runtime: python3.9
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fcv3-function-alias-secret
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  zipFile: "UEsDBBQACAAIAAAAAAAAAAAAAAAAAAAAAAAIAAAAaW5kZXgucHmEkEFKxEAQRfd9ig9ZTCJOooIwDMwNXLqXnnQlaalUhU5lRj2KZ/FOXkESGR114bJ/P/7jV4b1xRq1hijtFpM1682cuNgPmgysbRulPT0fRxXnMtwrSPyeCdYRokSLnuMLJTTkbUqEvDMbxm1VdcRD6Tk+T1LW2ldB66knsYdA5iNX17ebm6tN2VnPhcswMPmREPuBacb+CiapLarAj9gT6/H97dVlCNScY3mtYvRkxdZlwDKDEnanPWVLdrdkeXEGlFEazVdfPVHaVeHc3N15CUwppwOJXeK7HshAB8NuOU7J6sP4SRXuH/EvbUfMiqMmDqv5M5FNSfAj/wgAAP//UEsHCPl//NYAAQAArwEAAFBLAQIUABQACAAIAAAAAAD5f/zWAAEAAK8BAAAIAAAAAAAAAAAAAAAAAAAAAABpbmRleC5weVBLBQYAAAAAAQABADYAAAA2AQAAAAA="

@@ -1,0 +1,51 @@
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Trigger
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/trigger
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: create
+    functionNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: function
+    invocationRoleSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alicloud_account
+    qualifier: LATEST
+    region: cn-beijing
+    sourceArn: acs:cdn:*:${data.alicloud_account.current.id}
+    triggerConfig: '${jsonencode({ "eventName" : "CachedObjectsPushed", "eventVersion"
+      : "1.0.0", "notes" : "example", "filter" : { "domain" : ["example.com"] } })}'
+    triggerName: ${var.name}
+    triggerType: cdn_events
+
+---
+
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/trigger
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    code:
+    - zipFileSecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+    cpu: 0.5
+    diskSize: "512"
+    functionName: ${var.name}
+    handler: index.Handler
+    logConfig:
+    - logBeginRule: None
+    memorySize: "512"
+    region: cn-beijing
+    runtime: python3.9

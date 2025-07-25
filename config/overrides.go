@@ -97,7 +97,7 @@ func KnownReferences() config.ResourceOption { //nolint:gocyclo
 			case strings.HasSuffix(k, "role_arn"):
 				r.References[k] = config.Reference{
 					TerraformName: "alicloud_ram_role",
-					Extractor:     common.PathRolaArnExtractor,
+					Extractor:     common.PathRoleArnExtractor,
 				}
 			case strings.HasSuffix(k, "security_group_ids"):
 				r.References[k] = config.Reference{

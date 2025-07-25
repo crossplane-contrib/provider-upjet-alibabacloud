@@ -1,0 +1,89 @@
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: ProvisionConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/provisionconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    alwaysAllocateCpu: "true"
+    alwaysAllocateGpu: "true"
+    functionNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: function
+    qualifier: LATEST
+    region: cn-beijing
+    scheduledActions:
+    - endTime: "2035-10-10T10:10:10Z"
+      name: s1
+      scheduleExpression: cron(0 0 4 * * *)
+      startTime: "2030-10-10T10:10:10Z"
+      target: "0"
+    - endTime: "2035-10-10T10:10:10Z"
+      name: s2
+      scheduleExpression: cron(0 0 6 * * *)
+      startTime: "2030-10-10T10:10:10Z"
+      target: "1"
+    - endTime: 2035-10-10T10:10:10
+      name: s3
+      scheduleExpression: cron(0 0 7 * * *)
+      startTime: 2030-10-10T10:10:10
+      target: "0"
+      timeZone: Asia/Shanghai
+    target: "1"
+    targetTrackingPolicies:
+    - endTime: "2035-10-10T10:10:10Z"
+      maxCapacity: "1"
+      metricTarget: "1"
+      metricType: ProvisionedConcurrencyUtilization
+      minCapacity: "0"
+      name: t1
+      startTime: "2030-10-10T10:10:10Z"
+    - endTime: "2035-10-10T10:10:10Z"
+      maxCapacity: "1"
+      metricTarget: "1"
+      metricType: ProvisionedConcurrencyUtilization
+      minCapacity: "0"
+      name: t2
+      startTime: "2030-10-10T10:10:10Z"
+    - endTime: 2035-10-10T10:10:10
+      maxCapacity: "1"
+      metricTarget: "1"
+      metricType: ProvisionedConcurrencyUtilization
+      minCapacity: "0"
+      name: t3
+      startTime: 2030-10-10T10:10:10
+      timeZone: Asia/Shanghai
+
+---
+
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/provisionconfig
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    code:
+    - zipFileSecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+    cpu: 0.5
+    diskSize: "512"
+    functionName: ${var.name}-${random_integer.default.result}
+    handler: index.handler
+    logConfig:
+    - enableInstanceMetrics: true
+      enableRequestMetrics: true
+      logBeginRule: None
+      logstore: ${var.name}-${random_integer.default.result}
+      project: ${var.name}-${random_integer.default.result}
+    memorySize: "512"
+    region: cn-beijing
+    runtime: python3.10

@@ -1,0 +1,100 @@
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    code:
+    - checksumSecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+      ossBucketNameSecretRef:
+        key: attribute.bucket
+        name: example-oss-bucket
+        namespace: upbound-system
+      ossObjectNameSecretRef:
+        key: attribute.key
+        name: example-oss-bucket-object
+        namespace: upbound-system
+    cpu: "0.5"
+    customRuntimeConfig:
+    - args:
+      - app.py
+      - xx
+      - x
+      command:
+      - python
+      - -c
+      - example
+      healthCheckConfig:
+      - failureThreshold: "3"
+        httpGetUrl: /ready
+        initialDelaySeconds: "1"
+        periodSeconds: "10"
+        successThreshold: "1"
+        timeoutSeconds: "1"
+      port: "9000"
+    description: Create
+    diskSize: "512"
+    environmentVariables:
+      EnvKey: EnvVal
+    functionName: ${var.name}-${random_uuid.default.result}
+    handler: index.handler
+    instanceConcurrency: "2"
+    instanceLifecycleConfig:
+    - initializer:
+      - handler: index.init
+        timeout: "1"
+      preStop:
+      - handler: index.stop
+        timeout: "1"
+    internetAccess: "true"
+    layersSecretRef:
+    - key: example-key
+      name: example-secret
+      namespace: upbound-system
+    logConfig:
+    - logBeginRule: None
+    memorySize: "512"
+    region: cn-beijing
+    runtime: custom.debian10
+    timeout: "3"
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucket: ${var.name}-${random_uuid.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: name}-${random_uuid
+    content: print('hello')
+    key: FCV3Py39.zip
+    region: cn-beijing

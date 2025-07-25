@@ -1,0 +1,2416 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.16.5
+  name: functions.fcv3.alibabacloud.crossplane.io
+spec:
+  group: fcv3.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alibabacloud
+    kind: Function
+    listKind: FunctionList
+    plural: functions
+    singular: function
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Function is the Schema for the Functions API. Provides a Alicloud
+          Function Compute Service V3 (FCV3) Function resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: FunctionSpec defines the desired state of Function
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  code:
+                    description: Function code ZIP package. code and customContainerConfig.
+                      See code below.
+                    items:
+                      properties:
+                        checksumSecretRef:
+                          description: The CRC-64 value of the function code package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        ossBucketNameSecretRef:
+                          description: The name of the OSS Bucket that stores the
+                            function code ZIP package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        ossObjectNameSecretRef:
+                          description: The name of the OSS Object that stores the
+                            function code ZIP package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        zipFileSecretRef:
+                          description: The Base 64 encoding of the function code ZIP
+                            package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      type: object
+                    type: array
+                  cpu:
+                    description: The CPU specification of the function. The unit is
+                      vCPU, which is a multiple of the 0.05 vCPU.
+                    type: number
+                  customContainerConfig:
+                    description: The configuration of the custom container runtime.
+                      After the configuration is successful, the function can use
+                      the custom container image to execute the function. code and
+                      customContainerConfig. See custom_container_config below.
+                    items:
+                      properties:
+                        accelerationType:
+                          description: 'Whether to enable Image acceleration. Default:
+                            The Default value, indicating that image acceleration
+                            is enabled. None: indicates that image acceleration is
+                            disabled. (Obsolete)'
+                          type: string
+                        acrInstanceId:
+                          description: ACR Enterprise version Image Repository ID,
+                            which must be entered when using ACR Enterprise version
+                            image. (Obsolete)
+                          type: string
+                        command:
+                          description: Container startup parameters.
+                          items:
+                            type: string
+                          type: array
+                        entrypoint:
+                          description: Container start command.
+                          items:
+                            type: string
+                          type: array
+                        healthCheckConfig:
+                          description: Function custom health check configuration
+                            See health_check_config below.
+                          items:
+                            properties:
+                              failureThreshold:
+                                description: The health check failure threshold. The
+                                  system considers the health check failure when the
+                                  health check fails. The value range is 1~120. The
+                                  default value is 3.
+                                type: number
+                              httpGetUrl:
+                                description: The URL of the container's custom health
+                                  check.
+                                type: string
+                              initialDelaySeconds:
+                                description: The delay between the start of the container
+                                  and the initiation of the health check. Value range
+                                  0~120. The default value is 0.
+                                type: number
+                              periodSeconds:
+                                description: Health check cycle. The value range is
+                                  1~120. The default value is 3.
+                                type: number
+                              successThreshold:
+                                description: The threshold for the number of successful
+                                  health checks. When the threshold is reached, the
+                                  system considers that the health check is successful.
+                                  The value range is 1~120. The default value is 1.
+                                type: number
+                              timeoutSeconds:
+                                description: Health check timeout. Value range 1~3.
+                                  The default value is 1.
+                                type: number
+                            type: object
+                          type: array
+                        image:
+                          description: The container Image address.
+                          type: string
+                        port:
+                          description: The listening port of the HTTP Server when
+                            the custom container runs.
+                          type: number
+                      type: object
+                    type: array
+                  customDns:
+                    description: Function custom DNS configuration See custom_dns
+                      below.
+                    items:
+                      properties:
+                        dnsOptions:
+                          description: List of configuration items in the resolv.conf
+                            file. Each item corresponds to a key-value pair in the
+                            format of key:value, where the key is required. See dns_options
+                            below.
+                          items:
+                            properties:
+                              name:
+                                description: Configuration Item Name
+                                type: string
+                              value:
+                                description: Configuration Item Value
+                                type: string
+                            type: object
+                          type: array
+                        nameServers:
+                          description: IP Address List of DNS servers
+                          items:
+                            type: string
+                          type: array
+                        searches:
+                          description: DNS search domain list
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  customRuntimeConfig:
+                    description: Customize the runtime configuration. See custom_runtime_config
+                      below.
+                    items:
+                      properties:
+                        args:
+                          description: Instance startup parameters.
+                          items:
+                            type: string
+                          type: array
+                        command:
+                          description: Instance start command.
+                          items:
+                            type: string
+                          type: array
+                        healthCheckConfig:
+                          description: Function custom health check configuration.
+                            See health_check_config below.
+                          items:
+                            properties:
+                              failureThreshold:
+                                description: The health check failure threshold. The
+                                  system considers the health check failure when the
+                                  health check fails. The value range is 1~120. The
+                                  default value is 3.
+                                type: number
+                              httpGetUrl:
+                                description: The URL of the container's custom health
+                                  check.
+                                type: string
+                              initialDelaySeconds:
+                                description: The delay between the start of the container
+                                  and the initiation of the health check. Value range
+                                  0~120. The default value is 0.
+                                type: number
+                              periodSeconds:
+                                description: Health check cycle. The value range is
+                                  1~120. The default value is 3.
+                                type: number
+                              successThreshold:
+                                description: The threshold for the number of successful
+                                  health checks. When the threshold is reached, the
+                                  system considers that the health check is successful.
+                                  The value range is 1~120. The default value is 1.
+                                type: number
+                              timeoutSeconds:
+                                description: Health check timeout. Value range 1~3.
+                                  The default value is 1.
+                                type: number
+                            type: object
+                          type: array
+                        port:
+                          description: The listening port of the HTTP Server.
+                          type: number
+                      type: object
+                    type: array
+                  description:
+                    description: The description of the function. The function compute
+                      system does not use this attribute value, but we recommend that
+                      you set a concise and clear description for the function.
+                    type: string
+                  diskSize:
+                    description: The disk specification of the function, in MB. The
+                      optional value is 512 MB or 10240MB.
+                    type: number
+                  environmentVariables:
+                    additionalProperties:
+                      type: string
+                    description: The environment variable set for the function, you
+                      can get the value of the environment variable in the function.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  functionName:
+                    description: The function name. Consists of uppercase and lowercase
+                      letters, digits (0 to 9), underscores (), and dashes (-). It
+                      must begin with an English letter (a ~ z), (A ~ Z), or an underscore
+                      (). Case sensitive. The length is 1~128 characters.
+                    type: string
+                  gpuConfig:
+                    description: Function GPU configuration. See gpu_config below.
+                    items:
+                      properties:
+                        gpuMemorySize:
+                          description: 'GPU memory specification, unit: MB, multiple
+                            of 1024MB'
+                          type: number
+                        gpuType:
+                          description: GPU card architecture.
+                          type: string
+                      type: object
+                    type: array
+                  handler:
+                    description: 'Function Handler: the call entry for the function
+                      compute system to run your function.'
+                    type: string
+                  instanceConcurrency:
+                    description: Maximum instance concurrency.
+                    type: number
+                  instanceLifecycleConfig:
+                    description: Instance lifecycle callback method configuration.
+                      See instance_lifecycle_config below.
+                    items:
+                      properties:
+                        initializer:
+                          description: Initializer handler method configuration See
+                            initializer below.
+                          items:
+                            properties:
+                              handler:
+                                description: 'Function Handler: the call entry for
+                                  the function compute system to run your function.'
+                                type: string
+                              timeout:
+                                description: The maximum running time of the function,
+                                  in seconds.
+                                type: number
+                            type: object
+                          type: array
+                        preStop:
+                          description: PreStop handler method configuration See pre_stop
+                            below.
+                          items:
+                            properties:
+                              handler:
+                                description: 'Function Handler: the call entry for
+                                  the function compute system to run your function.'
+                                type: string
+                              timeout:
+                                description: The maximum running time of the function,
+                                  in seconds.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  internetAccess:
+                    description: Allow function to access public network
+                    type: boolean
+                  layersSecretRef:
+                    description: The list of layers.
+                    items:
+                      description: A SecretKeySelector is a reference to a secret
+                        key in an arbitrary namespace.
+                      properties:
+                        key:
+                          description: The key to select.
+                          type: string
+                        name:
+                          description: Name of the secret.
+                          type: string
+                        namespace:
+                          description: Namespace of the secret.
+                          type: string
+                      required:
+                      - key
+                      - name
+                      - namespace
+                      type: object
+                    type: array
+                  logConfig:
+                    description: The logs generated by the function are written to
+                      the configured Logstore. See log_config below.
+                    items:
+                      properties:
+                        enableInstanceMetrics:
+                          description: 'After this feature is enabled, you can view
+                            core metrics such as instance-level CPU usage, memory
+                            usage, instance network status, and the number of requests
+                            within an instance. false: The default value, which means
+                            that instance-level metrics are turned off. true: indicates
+                            that instance-level metrics are enabled.'
+                          type: boolean
+                        enableRequestMetrics:
+                          description: 'After this function is enabled, you can view
+                            the time and memory consumed by a call to all functions
+                            under this service. false: indicates that request-level
+                            metrics are turned off. true: The default value, indicating
+                            that request-level metrics are enabled.'
+                          type: boolean
+                        logBeginRule:
+                          description: Log Line First Matching Rules
+                          type: string
+                        logstore:
+                          description: The Logstore name of log service.
+                          type: string
+                        project:
+                          description: The name of the log service Project.
+                          type: string
+                      type: object
+                    type: array
+                  memorySize:
+                    description: The memory specification of the function. The unit
+                      is MB. The memory size is a multiple of 64MB. The minimum value
+                      is 128MB and the maximum value is 32GB. At the same time, the
+                      ratio of cpu to memorySize (calculated by GB) should be between
+                      1:1 and 1:4.
+                    type: number
+                  nasConfig:
+                    description: NAS configuration. After this parameter is configured,
+                      the function can access the specified NAS resource. See nas_config
+                      below.
+                    items:
+                      properties:
+                        groupId:
+                          description: Group ID
+                          type: number
+                        mountPoints:
+                          description: Mount point list See mount_points below.
+                          items:
+                            properties:
+                              enableTls:
+                                description: 'Use transport encryption to mount. Note:
+                                  only general-purpose NAS supports transmission encryption.'
+                                type: boolean
+                              mountDir:
+                                description: Local Mount Directory
+                                type: string
+                              serverAddr:
+                                description: NAS server address
+                                type: string
+                            type: object
+                          type: array
+                        userId:
+                          description: Account ID
+                          type: number
+                      type: object
+                    type: array
+                  ossMountConfig:
+                    description: OSS mount configuration See oss_mount_config below.
+                    items:
+                      properties:
+                        mountPoints:
+                          description: OSS mount point list See mount_points below.
+                          items:
+                            properties:
+                              bucketName:
+                                description: OSS Bucket name
+                                type: string
+                              bucketPath:
+                                description: Path of the mounted OSS Bucket
+                                type: string
+                              endpoint:
+                                description: OSS access endpoint
+                                type: string
+                              mountDir:
+                                description: Local Mount Directory
+                                type: string
+                              readOnly:
+                                description: Read-only
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
+                  role:
+                    description: The user is authorized to the RAM role of function
+                      compute. After the configuration, function compute will assume
+                      this role to generate temporary access credentials. In the function,
+                      you can use the temporary access credentials of the role to
+                      access the specified Alibaba cloud service, such as OSS and
+                      OTS
+                    type: string
+                  roleRef:
+                    description: Reference to a Role in ram to populate role.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  roleSelector:
+                    description: Selector for a Role in ram to populate role.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  runtime:
+                    description: Function runtime type
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  timeout:
+                    description: The maximum running time of the function, in seconds.
+                    type: number
+                  vpcConfig:
+                    description: VPC configuration. After this parameter is configured,
+                      the function can access the specified VPC resources. See vpc_config
+                      below.
+                    items:
+                      properties:
+                        securityGroupId:
+                          description: Security group ID
+                          type: string
+                        securityGroupIdRef:
+                          description: Reference to a SecurityGroup in ecs to populate
+                            securityGroupId.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        securityGroupIdSelector:
+                          description: Selector for a SecurityGroup in ecs to populate
+                            securityGroupId.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        vSwitchRefs:
+                          description: References to Vswitch in vpc to populate vswitchIds.
+                          items:
+                            description: A Reference to a named object.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        vSwitchSelector:
+                          description: Selector for a list of Vswitch in vpc to populate
+                            vswitchIds.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        vpcId:
+                          description: VPC network ID
+                          type: string
+                        vpcIdRef:
+                          description: Reference to a VPC in vpc to populate vpcId.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        vpcIdSelector:
+                          description: Selector for a VPC in vpc to populate vpcId.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        vswitchIds:
+                          description: Switch List
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  code:
+                    description: Function code ZIP package. code and customContainerConfig.
+                      See code below.
+                    items:
+                      properties:
+                        checksumSecretRef:
+                          description: The CRC-64 value of the function code package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        ossBucketNameSecretRef:
+                          description: The name of the OSS Bucket that stores the
+                            function code ZIP package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        ossObjectNameSecretRef:
+                          description: The name of the OSS Object that stores the
+                            function code ZIP package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        zipFileSecretRef:
+                          description: The Base 64 encoding of the function code ZIP
+                            package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      type: object
+                    type: array
+                  cpu:
+                    description: The CPU specification of the function. The unit is
+                      vCPU, which is a multiple of the 0.05 vCPU.
+                    type: number
+                  customContainerConfig:
+                    description: The configuration of the custom container runtime.
+                      After the configuration is successful, the function can use
+                      the custom container image to execute the function. code and
+                      customContainerConfig. See custom_container_config below.
+                    items:
+                      properties:
+                        accelerationType:
+                          description: 'Whether to enable Image acceleration. Default:
+                            The Default value, indicating that image acceleration
+                            is enabled. None: indicates that image acceleration is
+                            disabled. (Obsolete)'
+                          type: string
+                        acrInstanceId:
+                          description: ACR Enterprise version Image Repository ID,
+                            which must be entered when using ACR Enterprise version
+                            image. (Obsolete)
+                          type: string
+                        command:
+                          description: Container startup parameters.
+                          items:
+                            type: string
+                          type: array
+                        entrypoint:
+                          description: Container start command.
+                          items:
+                            type: string
+                          type: array
+                        healthCheckConfig:
+                          description: Function custom health check configuration
+                            See health_check_config below.
+                          items:
+                            properties:
+                              failureThreshold:
+                                description: The health check failure threshold. The
+                                  system considers the health check failure when the
+                                  health check fails. The value range is 1~120. The
+                                  default value is 3.
+                                type: number
+                              httpGetUrl:
+                                description: The URL of the container's custom health
+                                  check.
+                                type: string
+                              initialDelaySeconds:
+                                description: The delay between the start of the container
+                                  and the initiation of the health check. Value range
+                                  0~120. The default value is 0.
+                                type: number
+                              periodSeconds:
+                                description: Health check cycle. The value range is
+                                  1~120. The default value is 3.
+                                type: number
+                              successThreshold:
+                                description: The threshold for the number of successful
+                                  health checks. When the threshold is reached, the
+                                  system considers that the health check is successful.
+                                  The value range is 1~120. The default value is 1.
+                                type: number
+                              timeoutSeconds:
+                                description: Health check timeout. Value range 1~3.
+                                  The default value is 1.
+                                type: number
+                            type: object
+                          type: array
+                        image:
+                          description: The container Image address.
+                          type: string
+                        port:
+                          description: The listening port of the HTTP Server when
+                            the custom container runs.
+                          type: number
+                      type: object
+                    type: array
+                  customDns:
+                    description: Function custom DNS configuration See custom_dns
+                      below.
+                    items:
+                      properties:
+                        dnsOptions:
+                          description: List of configuration items in the resolv.conf
+                            file. Each item corresponds to a key-value pair in the
+                            format of key:value, where the key is required. See dns_options
+                            below.
+                          items:
+                            properties:
+                              name:
+                                description: Configuration Item Name
+                                type: string
+                              value:
+                                description: Configuration Item Value
+                                type: string
+                            type: object
+                          type: array
+                        nameServers:
+                          description: IP Address List of DNS servers
+                          items:
+                            type: string
+                          type: array
+                        searches:
+                          description: DNS search domain list
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  customRuntimeConfig:
+                    description: Customize the runtime configuration. See custom_runtime_config
+                      below.
+                    items:
+                      properties:
+                        args:
+                          description: Instance startup parameters.
+                          items:
+                            type: string
+                          type: array
+                        command:
+                          description: Instance start command.
+                          items:
+                            type: string
+                          type: array
+                        healthCheckConfig:
+                          description: Function custom health check configuration.
+                            See health_check_config below.
+                          items:
+                            properties:
+                              failureThreshold:
+                                description: The health check failure threshold. The
+                                  system considers the health check failure when the
+                                  health check fails. The value range is 1~120. The
+                                  default value is 3.
+                                type: number
+                              httpGetUrl:
+                                description: The URL of the container's custom health
+                                  check.
+                                type: string
+                              initialDelaySeconds:
+                                description: The delay between the start of the container
+                                  and the initiation of the health check. Value range
+                                  0~120. The default value is 0.
+                                type: number
+                              periodSeconds:
+                                description: Health check cycle. The value range is
+                                  1~120. The default value is 3.
+                                type: number
+                              successThreshold:
+                                description: The threshold for the number of successful
+                                  health checks. When the threshold is reached, the
+                                  system considers that the health check is successful.
+                                  The value range is 1~120. The default value is 1.
+                                type: number
+                              timeoutSeconds:
+                                description: Health check timeout. Value range 1~3.
+                                  The default value is 1.
+                                type: number
+                            type: object
+                          type: array
+                        port:
+                          description: The listening port of the HTTP Server.
+                          type: number
+                      type: object
+                    type: array
+                  description:
+                    description: The description of the function. The function compute
+                      system does not use this attribute value, but we recommend that
+                      you set a concise and clear description for the function.
+                    type: string
+                  diskSize:
+                    description: The disk specification of the function, in MB. The
+                      optional value is 512 MB or 10240MB.
+                    type: number
+                  environmentVariables:
+                    additionalProperties:
+                      type: string
+                    description: The environment variable set for the function, you
+                      can get the value of the environment variable in the function.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  functionName:
+                    description: The function name. Consists of uppercase and lowercase
+                      letters, digits (0 to 9), underscores (), and dashes (-). It
+                      must begin with an English letter (a ~ z), (A ~ Z), or an underscore
+                      (). Case sensitive. The length is 1~128 characters.
+                    type: string
+                  gpuConfig:
+                    description: Function GPU configuration. See gpu_config below.
+                    items:
+                      properties:
+                        gpuMemorySize:
+                          description: 'GPU memory specification, unit: MB, multiple
+                            of 1024MB'
+                          type: number
+                        gpuType:
+                          description: GPU card architecture.
+                          type: string
+                      type: object
+                    type: array
+                  handler:
+                    description: 'Function Handler: the call entry for the function
+                      compute system to run your function.'
+                    type: string
+                  instanceConcurrency:
+                    description: Maximum instance concurrency.
+                    type: number
+                  instanceLifecycleConfig:
+                    description: Instance lifecycle callback method configuration.
+                      See instance_lifecycle_config below.
+                    items:
+                      properties:
+                        initializer:
+                          description: Initializer handler method configuration See
+                            initializer below.
+                          items:
+                            properties:
+                              handler:
+                                description: 'Function Handler: the call entry for
+                                  the function compute system to run your function.'
+                                type: string
+                              timeout:
+                                description: The maximum running time of the function,
+                                  in seconds.
+                                type: number
+                            type: object
+                          type: array
+                        preStop:
+                          description: PreStop handler method configuration See pre_stop
+                            below.
+                          items:
+                            properties:
+                              handler:
+                                description: 'Function Handler: the call entry for
+                                  the function compute system to run your function.'
+                                type: string
+                              timeout:
+                                description: The maximum running time of the function,
+                                  in seconds.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  internetAccess:
+                    description: Allow function to access public network
+                    type: boolean
+                  layersSecretRef:
+                    items:
+                      type: string
+                    type: array
+                  logConfig:
+                    description: The logs generated by the function are written to
+                      the configured Logstore. See log_config below.
+                    items:
+                      properties:
+                        enableInstanceMetrics:
+                          description: 'After this feature is enabled, you can view
+                            core metrics such as instance-level CPU usage, memory
+                            usage, instance network status, and the number of requests
+                            within an instance. false: The default value, which means
+                            that instance-level metrics are turned off. true: indicates
+                            that instance-level metrics are enabled.'
+                          type: boolean
+                        enableRequestMetrics:
+                          description: 'After this function is enabled, you can view
+                            the time and memory consumed by a call to all functions
+                            under this service. false: indicates that request-level
+                            metrics are turned off. true: The default value, indicating
+                            that request-level metrics are enabled.'
+                          type: boolean
+                        logBeginRule:
+                          description: Log Line First Matching Rules
+                          type: string
+                        logstore:
+                          description: The Logstore name of log service.
+                          type: string
+                        project:
+                          description: The name of the log service Project.
+                          type: string
+                      type: object
+                    type: array
+                  memorySize:
+                    description: The memory specification of the function. The unit
+                      is MB. The memory size is a multiple of 64MB. The minimum value
+                      is 128MB and the maximum value is 32GB. At the same time, the
+                      ratio of cpu to memorySize (calculated by GB) should be between
+                      1:1 and 1:4.
+                    type: number
+                  nasConfig:
+                    description: NAS configuration. After this parameter is configured,
+                      the function can access the specified NAS resource. See nas_config
+                      below.
+                    items:
+                      properties:
+                        groupId:
+                          description: Group ID
+                          type: number
+                        mountPoints:
+                          description: Mount point list See mount_points below.
+                          items:
+                            properties:
+                              enableTls:
+                                description: 'Use transport encryption to mount. Note:
+                                  only general-purpose NAS supports transmission encryption.'
+                                type: boolean
+                              mountDir:
+                                description: Local Mount Directory
+                                type: string
+                              serverAddr:
+                                description: NAS server address
+                                type: string
+                            type: object
+                          type: array
+                        userId:
+                          description: Account ID
+                          type: number
+                      type: object
+                    type: array
+                  ossMountConfig:
+                    description: OSS mount configuration See oss_mount_config below.
+                    items:
+                      properties:
+                        mountPoints:
+                          description: OSS mount point list See mount_points below.
+                          items:
+                            properties:
+                              bucketName:
+                                description: OSS Bucket name
+                                type: string
+                              bucketPath:
+                                description: Path of the mounted OSS Bucket
+                                type: string
+                              endpoint:
+                                description: OSS access endpoint
+                                type: string
+                              mountDir:
+                                description: Local Mount Directory
+                                type: string
+                              readOnly:
+                                description: Read-only
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  role:
+                    description: The user is authorized to the RAM role of function
+                      compute. After the configuration, function compute will assume
+                      this role to generate temporary access credentials. In the function,
+                      you can use the temporary access credentials of the role to
+                      access the specified Alibaba cloud service, such as OSS and
+                      OTS
+                    type: string
+                  roleRef:
+                    description: Reference to a Role in ram to populate role.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  roleSelector:
+                    description: Selector for a Role in ram to populate role.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  runtime:
+                    description: Function runtime type
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  timeout:
+                    description: The maximum running time of the function, in seconds.
+                    type: number
+                  vpcConfig:
+                    description: VPC configuration. After this parameter is configured,
+                      the function can access the specified VPC resources. See vpc_config
+                      below.
+                    items:
+                      properties:
+                        securityGroupId:
+                          description: Security group ID
+                          type: string
+                        securityGroupIdRef:
+                          description: Reference to a SecurityGroup in ecs to populate
+                            securityGroupId.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        securityGroupIdSelector:
+                          description: Selector for a SecurityGroup in ecs to populate
+                            securityGroupId.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        vSwitchRefs:
+                          description: References to Vswitch in vpc to populate vswitchIds.
+                          items:
+                            description: A Reference to a named object.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        vSwitchSelector:
+                          description: Selector for a list of Vswitch in vpc to populate
+                            vswitchIds.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        vpcId:
+                          description: VPC network ID
+                          type: string
+                        vpcIdRef:
+                          description: Reference to a VPC in vpc to populate vpcId.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        vpcIdSelector:
+                          description: Selector for a VPC in vpc to populate vpcId.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        vswitchIds:
+                          description: Switch List
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.handler is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.handler)
+                || (has(self.initProvider) && has(self.initProvider.handler))'
+            - message: spec.forProvider.runtime is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.runtime)
+                || (has(self.initProvider) && has(self.initProvider.runtime))'
+          status:
+            description: FunctionStatus defines the observed state of Function.
+            properties:
+              atProvider:
+                properties:
+                  code:
+                    description: Function code ZIP package. code and customContainerConfig.
+                      See code below.
+                    items:
+                      properties:
+                        checksumSecretRef:
+                          description: The CRC-64 value of the function code package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        ossBucketNameSecretRef:
+                          description: The name of the OSS Bucket that stores the
+                            function code ZIP package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        ossObjectNameSecretRef:
+                          description: The name of the OSS Object that stores the
+                            function code ZIP package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                        zipFileSecretRef:
+                          description: The Base 64 encoding of the function code ZIP
+                            package.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
+                      type: object
+                    type: array
+                  codeSize:
+                    description: 'The code package size of the function returned by
+                      the system, in byte Example : 1024'
+                    type: number
+                  cpu:
+                    description: The CPU specification of the function. The unit is
+                      vCPU, which is a multiple of the 0.05 vCPU.
+                    type: number
+                  createTime:
+                    description: The creation time of the function.
+                    type: string
+                  customContainerConfig:
+                    description: The configuration of the custom container runtime.
+                      After the configuration is successful, the function can use
+                      the custom container image to execute the function. code and
+                      customContainerConfig. See custom_container_config below.
+                    items:
+                      properties:
+                        accelerationInfo:
+                          description: (Deprecated since v1.242.0) Image Acceleration
+                            Information (Obsolete)
+                          items:
+                            properties:
+                              status:
+                                description: Image Acceleration Status (Deprecated)
+                                type: string
+                            type: object
+                          type: array
+                        accelerationType:
+                          description: 'Whether to enable Image acceleration. Default:
+                            The Default value, indicating that image acceleration
+                            is enabled. None: indicates that image acceleration is
+                            disabled. (Obsolete)'
+                          type: string
+                        acrInstanceId:
+                          description: ACR Enterprise version Image Repository ID,
+                            which must be entered when using ACR Enterprise version
+                            image. (Obsolete)
+                          type: string
+                        command:
+                          description: Container startup parameters.
+                          items:
+                            type: string
+                          type: array
+                        entrypoint:
+                          description: Container start command.
+                          items:
+                            type: string
+                          type: array
+                        healthCheckConfig:
+                          description: Function custom health check configuration
+                            See health_check_config below.
+                          items:
+                            properties:
+                              failureThreshold:
+                                description: The health check failure threshold. The
+                                  system considers the health check failure when the
+                                  health check fails. The value range is 1~120. The
+                                  default value is 3.
+                                type: number
+                              httpGetUrl:
+                                description: The URL of the container's custom health
+                                  check.
+                                type: string
+                              initialDelaySeconds:
+                                description: The delay between the start of the container
+                                  and the initiation of the health check. Value range
+                                  0~120. The default value is 0.
+                                type: number
+                              periodSeconds:
+                                description: Health check cycle. The value range is
+                                  1~120. The default value is 3.
+                                type: number
+                              successThreshold:
+                                description: The threshold for the number of successful
+                                  health checks. When the threshold is reached, the
+                                  system considers that the health check is successful.
+                                  The value range is 1~120. The default value is 1.
+                                type: number
+                              timeoutSeconds:
+                                description: Health check timeout. Value range 1~3.
+                                  The default value is 1.
+                                type: number
+                            type: object
+                          type: array
+                        image:
+                          description: The container Image address.
+                          type: string
+                        port:
+                          description: The listening port of the HTTP Server when
+                            the custom container runs.
+                          type: number
+                        resolvedImageUri:
+                          description: The actual digest version of the deployed Image.
+                            The code version specified by this digest is used when
+                            the function starts.
+                          type: string
+                      type: object
+                    type: array
+                  customDns:
+                    description: Function custom DNS configuration See custom_dns
+                      below.
+                    items:
+                      properties:
+                        dnsOptions:
+                          description: List of configuration items in the resolv.conf
+                            file. Each item corresponds to a key-value pair in the
+                            format of key:value, where the key is required. See dns_options
+                            below.
+                          items:
+                            properties:
+                              name:
+                                description: Configuration Item Name
+                                type: string
+                              value:
+                                description: Configuration Item Value
+                                type: string
+                            type: object
+                          type: array
+                        nameServers:
+                          description: IP Address List of DNS servers
+                          items:
+                            type: string
+                          type: array
+                        searches:
+                          description: DNS search domain list
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  customRuntimeConfig:
+                    description: Customize the runtime configuration. See custom_runtime_config
+                      below.
+                    items:
+                      properties:
+                        args:
+                          description: Instance startup parameters.
+                          items:
+                            type: string
+                          type: array
+                        command:
+                          description: Instance start command.
+                          items:
+                            type: string
+                          type: array
+                        healthCheckConfig:
+                          description: Function custom health check configuration.
+                            See health_check_config below.
+                          items:
+                            properties:
+                              failureThreshold:
+                                description: The health check failure threshold. The
+                                  system considers the health check failure when the
+                                  health check fails. The value range is 1~120. The
+                                  default value is 3.
+                                type: number
+                              httpGetUrl:
+                                description: The URL of the container's custom health
+                                  check.
+                                type: string
+                              initialDelaySeconds:
+                                description: The delay between the start of the container
+                                  and the initiation of the health check. Value range
+                                  0~120. The default value is 0.
+                                type: number
+                              periodSeconds:
+                                description: Health check cycle. The value range is
+                                  1~120. The default value is 3.
+                                type: number
+                              successThreshold:
+                                description: The threshold for the number of successful
+                                  health checks. When the threshold is reached, the
+                                  system considers that the health check is successful.
+                                  The value range is 1~120. The default value is 1.
+                                type: number
+                              timeoutSeconds:
+                                description: Health check timeout. Value range 1~3.
+                                  The default value is 1.
+                                type: number
+                            type: object
+                          type: array
+                        port:
+                          description: The listening port of the HTTP Server.
+                          type: number
+                      type: object
+                    type: array
+                  description:
+                    description: The description of the function. The function compute
+                      system does not use this attribute value, but we recommend that
+                      you set a concise and clear description for the function.
+                    type: string
+                  diskSize:
+                    description: The disk specification of the function, in MB. The
+                      optional value is 512 MB or 10240MB.
+                    type: number
+                  environmentVariables:
+                    additionalProperties:
+                      type: string
+                    description: The environment variable set for the function, you
+                      can get the value of the environment variable in the function.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  functionArn:
+                    description: ARN of function
+                    type: string
+                  functionId:
+                    description: The first ID of the resource
+                    type: string
+                  functionName:
+                    description: The function name. Consists of uppercase and lowercase
+                      letters, digits (0 to 9), underscores (), and dashes (-). It
+                      must begin with an English letter (a ~ z), (A ~ Z), or an underscore
+                      (). Case sensitive. The length is 1~128 characters.
+                    type: string
+                  gpuConfig:
+                    description: Function GPU configuration. See gpu_config below.
+                    items:
+                      properties:
+                        gpuMemorySize:
+                          description: 'GPU memory specification, unit: MB, multiple
+                            of 1024MB'
+                          type: number
+                        gpuType:
+                          description: GPU card architecture.
+                          type: string
+                      type: object
+                    type: array
+                  handler:
+                    description: 'Function Handler: the call entry for the function
+                      compute system to run your function.'
+                    type: string
+                  id:
+                    description: The ID of the resource supplied above.
+                    type: string
+                  instanceConcurrency:
+                    description: Maximum instance concurrency.
+                    type: number
+                  instanceLifecycleConfig:
+                    description: Instance lifecycle callback method configuration.
+                      See instance_lifecycle_config below.
+                    items:
+                      properties:
+                        initializer:
+                          description: Initializer handler method configuration See
+                            initializer below.
+                          items:
+                            properties:
+                              handler:
+                                description: 'Function Handler: the call entry for
+                                  the function compute system to run your function.'
+                                type: string
+                              timeout:
+                                description: The maximum running time of the function,
+                                  in seconds.
+                                type: number
+                            type: object
+                          type: array
+                        preStop:
+                          description: PreStop handler method configuration See pre_stop
+                            below.
+                          items:
+                            properties:
+                              handler:
+                                description: 'Function Handler: the call entry for
+                                  the function compute system to run your function.'
+                                type: string
+                              timeout:
+                                description: The maximum running time of the function,
+                                  in seconds.
+                                type: number
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  internetAccess:
+                    description: Allow function to access public network
+                    type: boolean
+                  lastModifiedTime:
+                    description: Last time the function was Updated
+                    type: string
+                  lastUpdateStatus:
+                    description: The status of the last function update operation.
+                      When the function is created successfully, the value is Successful.
+                      Optional values are Successful, Failed, and InProgress.
+                    type: string
+                  lastUpdateStatusReason:
+                    description: The reason that caused the last function to update
+                      the Operation State to the current value
+                    type: string
+                  lastUpdateStatusReasonCode:
+                    description: Status code of the reason that caused the last function
+                      update operation status to the current value
+                    type: string
+                  logConfig:
+                    description: The logs generated by the function are written to
+                      the configured Logstore. See log_config below.
+                    items:
+                      properties:
+                        enableInstanceMetrics:
+                          description: 'After this feature is enabled, you can view
+                            core metrics such as instance-level CPU usage, memory
+                            usage, instance network status, and the number of requests
+                            within an instance. false: The default value, which means
+                            that instance-level metrics are turned off. true: indicates
+                            that instance-level metrics are enabled.'
+                          type: boolean
+                        enableRequestMetrics:
+                          description: 'After this function is enabled, you can view
+                            the time and memory consumed by a call to all functions
+                            under this service. false: indicates that request-level
+                            metrics are turned off. true: The default value, indicating
+                            that request-level metrics are enabled.'
+                          type: boolean
+                        logBeginRule:
+                          description: Log Line First Matching Rules
+                          type: string
+                        logstore:
+                          description: The Logstore name of log service.
+                          type: string
+                        project:
+                          description: The name of the log service Project.
+                          type: string
+                      type: object
+                    type: array
+                  memorySize:
+                    description: The memory specification of the function. The unit
+                      is MB. The memory size is a multiple of 64MB. The minimum value
+                      is 128MB and the maximum value is 32GB. At the same time, the
+                      ratio of cpu to memorySize (calculated by GB) should be between
+                      1:1 and 1:4.
+                    type: number
+                  nasConfig:
+                    description: NAS configuration. After this parameter is configured,
+                      the function can access the specified NAS resource. See nas_config
+                      below.
+                    items:
+                      properties:
+                        groupId:
+                          description: Group ID
+                          type: number
+                        mountPoints:
+                          description: Mount point list See mount_points below.
+                          items:
+                            properties:
+                              enableTls:
+                                description: 'Use transport encryption to mount. Note:
+                                  only general-purpose NAS supports transmission encryption.'
+                                type: boolean
+                              mountDir:
+                                description: Local Mount Directory
+                                type: string
+                              serverAddr:
+                                description: NAS server address
+                                type: string
+                            type: object
+                          type: array
+                        userId:
+                          description: Account ID
+                          type: number
+                      type: object
+                    type: array
+                  ossMountConfig:
+                    description: OSS mount configuration See oss_mount_config below.
+                    items:
+                      properties:
+                        mountPoints:
+                          description: OSS mount point list See mount_points below.
+                          items:
+                            properties:
+                              bucketName:
+                                description: OSS Bucket name
+                                type: string
+                              bucketPath:
+                                description: Path of the mounted OSS Bucket
+                                type: string
+                              endpoint:
+                                description: OSS access endpoint
+                                type: string
+                              mountDir:
+                                description: Local Mount Directory
+                                type: string
+                              readOnly:
+                                description: Read-only
+                                type: boolean
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                  role:
+                    description: The user is authorized to the RAM role of function
+                      compute. After the configuration, function compute will assume
+                      this role to generate temporary access credentials. In the function,
+                      you can use the temporary access credentials of the role to
+                      access the specified Alibaba cloud service, such as OSS and
+                      OTS
+                    type: string
+                  runtime:
+                    description: Function runtime type
+                    type: string
+                  state:
+                    description: Function Status
+                    type: string
+                  stateReason:
+                    description: The reason why the function is in the current state
+                    type: string
+                  stateReasonCode:
+                    description: The status code of the reason the function is in
+                      the current state.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  timeout:
+                    description: The maximum running time of the function, in seconds.
+                    type: number
+                  tracingConfig:
+                    description: Tracing configuration
+                    items:
+                      properties:
+                        params:
+                          additionalProperties:
+                            type: string
+                          description: Tracing parameters.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        type:
+                          description: The tracing protocol type. Currently, only
+                            Jaeger is supported.
+                          type: string
+                      type: object
+                    type: array
+                  vpcConfig:
+                    description: VPC configuration. After this parameter is configured,
+                      the function can access the specified VPC resources. See vpc_config
+                      below.
+                    items:
+                      properties:
+                        securityGroupId:
+                          description: Security group ID
+                          type: string
+                        vpcId:
+                          description: VPC network ID
+                          type: string
+                        vswitchIds:
+                          description: Switch List
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

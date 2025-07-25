@@ -18,13 +18,14 @@ const (
 	// IdExtractor function in this package.
 	PathIdExtractor                              = SelfPackagePath + ".IdExtractor()"
 	PathAccountNameExtractor                     = SelfPackagePath + ".AccountNameExtractor()"
-	PathRolaArnExtractor                         = SelfPackagePath + ".RoleArnExtractor()"
+	PathRoleArnExtractor                         = SelfPackagePath + ".RoleArnExtractor()"
 	PathDBEndpointIdExtractor                    = SelfPackagePath + ".DBEndpointIdExtractor()"
 	PathAlarmContactGroupNameExtractor           = SelfPackagePath + ".AlarmContactGroupNameExtractor()"
 	PathOssBucketCnameTokenExtractor             = SelfPackagePath + ".OssBucketCnameTokenExtractor()"
 	PathAlidnsRecordDomainExtractor              = SelfPackagePath + ".AlidnsRecordDomainExtractor()"
 	PathOssBucketLocationExtractor               = SelfPackagePath + ".OssBucketLocationExtractor()"
 	PathPrivateLinkVpcEndpointServiceIdExtractor = SelfPackagePath + ".PrivateLinkVpcEndpointServiceIdExtractor()"
+	PathFcv3FunctionArnExtractor                 = SelfPackagePath + ".Fcv3FunctionArnExtractor()"
 )
 
 // IdExtractor extracts id of the
@@ -164,6 +165,22 @@ func PrivateLinkVpcEndpointServiceIdExtractor() reference.ExtractValueFn {
 			return ""
 		}
 		r, err := paved.GetString("status.atProvider.service_id")
+		if err != nil {
+			return ""
+		}
+		return r
+	}
+}
+
+// Fcv3FunctionArnExtractor extracts id of the
+// resources from "status.atProvider.function_arn".
+func Fcv3FunctionArnExtractor() reference.ExtractValueFn {
+	return func(mg xpresource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		r, err := paved.GetString("status.atProvider.function_arn")
 		if err != nil {
 			return ""
 		}

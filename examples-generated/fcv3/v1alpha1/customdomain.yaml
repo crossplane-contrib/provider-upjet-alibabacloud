@@ -1,0 +1,81 @@
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: CustomDomain
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/customdomain
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    authConfig:
+    - authInfo: ${var.auth_config}
+      authType: jwt
+    certConfig:
+    - certName: cert-name
+      certificate: ${var.certificate}
+      privateKeySecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+    customDomainName: ${var.name}
+    protocol: HTTP,HTTPS
+    region: cn-beijing
+    routeConfig:
+    - routes:
+      - functionNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: example
+        methods:
+        - GET
+        - POST
+        - DELETE
+        - HEAD
+        path: /a
+        qualifier: LATEST
+        rewriteConfig:
+        - equalRules:
+          - match: /old
+            replacement: /new
+          - match: /old1
+            replacement: /new1
+          - match: /old2
+            replacement: /new2
+          regexRules:
+          - match: /api/*
+            replacement: $1
+          - match: /api1/*
+            replacement: $1
+          - match: /api2/*
+            replacement: $1
+          wildcardRules:
+          - match: ^/api1/.+?/(.*)
+            replacement: /api/v1/$1
+          - match: ^/api2/.+?/(.*)
+            replacement: /api/v2/$1
+          - match: ^/api2/.+?/(.*)
+            replacement: /api/v3/$1
+      - functionNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: example
+        methods:
+        - GET
+        path: /b
+        qualifier: LATEST
+      - functionNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: example
+        methods:
+        - POST
+        path: /c
+        qualifier: "1"
+    tlsConfig:
+    - cipherSuites:
+      - TLS_RSA_WITH_AES_128_CBC_SHA
+      - TLS_RSA_WITH_AES_256_CBC_SHA
+      - TLS_RSA_WITH_AES_128_GCM_SHA256
+      - TLS_RSA_WITH_AES_256_GCM_SHA384
+      maxVersion: TLSv1.3
+      minVersion: TLSv1.0
+    wafConfig:
+    - enableWaf: "false"

@@ -1,0 +1,122 @@
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    code:
+    - checksumSecretRef:
+        key: checksum
+        name: fcv3-function-secret
+        namespace: crossplane-system
+      ossBucketNameSecretRef:
+        key: ossBucketName
+        name: fcv3-function-secret
+        namespace: crossplane-system
+      ossObjectNameSecretRef:
+        key: ossObjectName
+        name: fcv3-function-secret
+        namespace: crossplane-system
+#    - checksum: 4270285996107335518
+##      ossBucketName: crossplane-example-for-function-20250724
+##      ossObjectName: FCV3Py39.zip
+#      ossBucketNameSelector:
+#        matchLabels:
+#          testing.upbound.io/example-name: function
+#      ossObjectNameSelector:
+#        matchLabels:
+#          testing.upbound.io/example-name: function
+    cpu: 0.5
+    customRuntimeConfig:
+    - args:
+      - app.py
+      - xx
+      - x
+      command:
+      - python
+      - -c
+      - example
+      healthCheckConfig:
+      - failureThreshold: 3
+        httpGetUrl: /ready
+        initialDelaySeconds: 1
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      port: 9000
+    description: Create
+    diskSize: 512
+    environmentVariables:
+      EnvKey: EnvVal
+    functionName: crossplane-example-function-20250724
+    handler: index.handler
+    instanceConcurrency: 2
+    instanceLifecycleConfig:
+    - initializer:
+      - handler: index.init
+        timeout: 1
+      preStop:
+      - handler: index.stop
+        timeout: 1
+    internetAccess: true
+    layersSecretRef:
+    - key: layer1
+      name: fcv3-function-secret
+      namespace: crossplane-system
+    logConfig:
+    - logBeginRule: None
+    memorySize: 512
+    region: cn-beijing
+    runtime: custom.debian10
+    timeout: 3
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    bucket: crossplane-example-for-function-20250724
+    region: cn-beijing
+
+---
+
+apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: function
+    content: print('hello')
+    key: FCV3Py39.zip
+    region: cn-beijing
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fcv3-function-secret
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  checkSum: "4270285996107335518"
+  ossBucketName: "crossplane-example-for-function-20250724"
+  ossObjectName: "FCV3Py39.zip"
+  layer1: "acs:fc:cn-beijing:official:layers/Python39-Aliyun-SDK/versions/3"

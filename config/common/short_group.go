@@ -10,6 +10,7 @@ const (
 	CDN                 = ShortGroup("cdn")
 	CLOUDMONITORSERVICE = ShortGroup("cloudmonitorservice")
 	ECS                 = ShortGroup("ecs")
+	FCV3                = ShortGroup("fcv3")
 	KMS                 = ShortGroup("kms")
 	MessageService      = ShortGroup("messageservice")
 	OSS                 = ShortGroup("oss")

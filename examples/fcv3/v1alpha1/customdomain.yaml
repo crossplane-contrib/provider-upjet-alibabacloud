@@ -1,0 +1,145 @@
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: CustomDomain
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/customdomain
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    authConfig:
+    - authInfo: |
+        {
+          "jwks": {
+            "keys": [
+              {
+                "p": "8AdUVeldoE4LueFuzEF_C8tvJ7NhlkzS58Gz9KJTPXPr5DADSUVLWJCr5OdFE79q513SneT0UhGo-JfQ1lNMoNv5-YZ1AxIo9fZUEPIe-KyX9ttaglpzCAUE3TeKdm5J-_HZQzBPKbyUwJHAILNgB2-4IBZZwK7LAfbmfi9TmFM",
+                "kty": "RSA",
+                "q": "x8m5ydXwC8AAp9I-hOnUAx6yQJz1Nx-jXPCfn--XdHpJuNcuwRQsuUCSRQs_h3SoCI3qZZdzswQnPrtHFxgUJtQFuMj-QZpyMnebDb81rmczl2KPVUtaVDVagJEF6U9Ov3PfrLhvHUEv5u7p6s4Z6maBUaByfFlhEVPv4_ao8Us",
+                "d": "bjIQAKD2e65gwJ38_Sqq_EmLFuMMey3gjDv1bSCHFH8fyONJTq-utrZfvspz6EegRwW2mSHW9kq87hRwIBW9y7ED5N4KG5gHDjyh57BRE0SKv0Dz1igtKLyp-nl8-aHc1DbONwr1d7tZfFt255TxIN8cPTakXOp2Av_ztql_JotVUGK8eHmXNJFlvq5tc180sKWMHNSNsCUhQgcB1TWb_gwcqxdsIWPsLZI491XKeTGQ98J7z5h6R1cTC97lfJZ0vNtJahd2jHd3WfTUDj5-untMKyZpYYak2Vr8xtFz8H6Q5Rsz8uX_7gtEqYH2CMjPdbXcebrnD1igRSJMYiP0lQ",
+                "e": "AQAB",
+                "use": "sig",
+                "qi": "MTCCRu8AcvvjbHms7V_sDFO7wX0YNyvOJAAbuTmHvQbJ0NDeDta-f-hi8cjkMk7Fpk2hej158E5gDyO62UG99wHZSbmHT34MvIdmhQ5mnbL-5KK9rxde0nayO1ebGepD_GJThPAg9iskzeWpCg5X2etNo2bHoG_ZLQGXj2BQ1VM",
+                "dp": "J4_ttKNcTTnP8PlZO81n1VfYoGCOqylKceyZbq76rVxX-yp2wDLtslFWI8qCtjiMtEnglynPo19JzH-pakocjT70us4Qp0rs-W16ebiOpko8WfHZvzaNUzsQjC3FYrPW-fHo74wc4DI3Cm57jmhCYbdmT9OfQ4UL7Oz3HMFMNAU",
+                "alg": "RS256",
+                "dq": "H4-VgvYB-sk1EU3cRIDv1iJWRHDHKBMeaoM0pD5kLalX1hRgNW4rdoRl1vRk79AU720D11Kqm2APlxBctaA_JrcdxEg0KkbsvV45p11KbKeu9b5DKFVECsN27ZJ7XZUCuqnibtWf7_4pRBD_8PDoFShmS2_ORiiUdflNjzSbEas",
+                "n": "u1LWgoomekdOMfB1lEe96OHehd4XRNCbZRm96RqwOYTTc28Sc_U5wKV2umDzolfoI682ct2BNnRRahYgZPhbOCzHYM6i8sRXjz9Ghx3QHw9zrYACtArwQxrTFiejbfzDPGdPrMQg7T8wjtLtkSyDmCzeXpbIdwmxuLyt_ahLfHelr94kEksMDa42V4Fi5bMW4cCLjlEKzBEHGmFdT8UbLPCvpgsM84JK63e5ifdeI9NdadbC8ZMiR--dFCujT7AgRRyMzxgdn2l-nZJ2ZaYzbLUtAW5_U2kfRVkDNa8d1g__2V5zjU6nfLJ1S2MoXMgRgDPeHpEehZVu2kNaSFvDUQ"
+              }
+            ]
+          },
+          "tokenLookup": "header:auth",
+          "claimPassBy": "header:name:name"
+        }
+      authType: jwt
+    certConfig:
+    - certName: cert-name
+      certificate: |
+        -----BEGIN CERTIFICATE-----
+        MIIGRDCCBSygAwIBAgIRAL9RhZ8hf0WaCoNtG8x2OakwDQYJKoZIhvcNAQELBQAw
+        ..................<YOUR_CERTIFICATE>............................
+        smPi9WIsgtRqAEFQ8TmDn5XpNpaYbg==
+        -----END CERTIFICATE-----
+      privateKeySecretRef:
+        key: privateKey
+        name: fcv3-function-customdomain-secret
+        namespace: crossplane-system
+    customDomainName: "luoyu-test.devsapp.net"
+    protocol: HTTP,HTTPS
+    region: cn-hangzhou
+    routeConfig:
+    - routes:
+      - functionName: crossplane-example-for-function-customdomain-20250724
+        methods:
+        - GET
+        - POST
+        - DELETE
+        - HEAD
+        path: /a
+        qualifier: LATEST
+        rewriteConfig:
+        - equalRules:
+          - match: /old
+            replacement: /new
+          - match: /old1
+            replacement: /new1
+          - match: /old2
+            replacement: /new2
+          regexRules:
+          - match: /api/*
+            replacement: $1
+          - match: /api1/*
+            replacement: $1
+          - match: /api2/*
+            replacement: $1
+          wildcardRules:
+          - match: ^/api1/.+?/(.*)
+            replacement: /api/v1/$1
+          - match: ^/api2/.+?/(.*)
+            replacement: /api/v2/$1
+          - match: ^/api2/.+?/(.*)
+            replacement: /api/v3/$1
+      - functionName: crossplane-example-for-function-customdomain-20250724
+        methods:
+        - GET
+        path: /b
+        qualifier: LATEST
+      - functionName: crossplane-example-for-function-customdomain-20250724
+        methods:
+        - POST
+        path: /c
+        qualifier: "1"
+    tlsConfig:
+    - cipherSuites:
+      - TLS_RSA_WITH_AES_128_CBC_SHA
+      - TLS_RSA_WITH_AES_256_CBC_SHA
+      - TLS_RSA_WITH_AES_128_GCM_SHA256
+      - TLS_RSA_WITH_AES_256_GCM_SHA384
+      maxVersion: TLSv1.3
+      minVersion: TLSv1.0
+    wafConfig:
+    - enableWaf: false
+
+---
+
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/customdomain
+  labels:
+    testing.upbound.io/example-name: customdomain
+  name: customdomain
+spec:
+  forProvider:
+    code:
+      - zipFileSecretRef:
+          key: zipFile
+          name: fcv3-function-customdomain-secret
+          namespace: crossplane-system
+    cpu: 0.5
+    diskSize: 512
+    functionName: crossplane-example-for-function-customdomain-20250724
+    handler: index.Handler
+    logConfig:
+      - logBeginRule: None
+    memorySize: 512
+    region: cn-hangzhou
+    runtime: python3.9
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fcv3-function-customdomain-secret
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  zipFile: "UEsDBBQACAAIAAAAAAAAAAAAAAAAAAAAAAAIAAAAaW5kZXgucHmEkEFKxEAQRfd9ig9ZTCJOooIwDMwNXLqXnnQlaalUhU5lRj2KZ/FOXkESGR114bJ/P/7jV4b1xRq1hijtFpM1682cuNgPmgysbRulPT0fRxXnMtwrSPyeCdYRokSLnuMLJTTkbUqEvDMbxm1VdcRD6Tk+T1LW2ldB66knsYdA5iNX17ebm6tN2VnPhcswMPmREPuBacb+CiapLarAj9gT6/H97dVlCNScY3mtYvRkxdZlwDKDEnanPWVLdrdkeXEGlFEazVdfPVHaVeHc3N15CUwppwOJXeK7HshAB8NuOU7J6sP4SRXuH/EvbUfMiqMmDqv5M5FNSfAj/wgAAP//UEsHCPl//NYAAQAArwEAAFBLAQIUABQACAAIAAAAAAD5f/zWAAEAAK8BAAAIAAAAAAAAAAAAAAAAAAAAAABpbmRleC5weVBLBQYAAAAAAQABADYAAAA2AQAAAAA="
+  privateKey: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEowIBAAKCAQEAhsw6kdRFJ2XOQNZynKl2XIjEk12hkJgHIFDQsRNkhYQUoTu9
+    ..................<YOUR_PRIVATE_KEY>............................
+    ST8VIDqyJuE9EMfR/1ffH1Kg2NA6hBgY9wEtnEmykSWMOmHoxctX
+    -----END RSA PRIVATE KEY-----

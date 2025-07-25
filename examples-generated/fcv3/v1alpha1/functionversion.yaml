@@ -1,0 +1,42 @@
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: FunctionVersion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/functionversion
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: version1
+    functionNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: function
+    region: cn-beijing
+
+---
+
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/functionversion
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    code:
+    - zipFileSecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+    cpu: 0.5
+    diskSize: "512"
+    functionName: ${var.name}-${random_uuid.default.result}
+    handler: index.Handler
+    logConfig:
+    - logBeginRule: None
+    memorySize: "512"
+    region: cn-beijing
+    runtime: python3.9

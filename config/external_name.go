@@ -103,6 +103,18 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_security_group":      config.IdentifierFromProvider,
 	"alicloud_security_group_rule": config.IdentifierFromProvider,
 
+	// FCV3
+	"alicloud_fcv3_alias":               config.IdentifierFromProvider,
+	"alicloud_fcv3_async_invoke_config": config.IdentifierFromProvider,
+	"alicloud_fcv3_concurrency_config":  config.IdentifierFromProvider,
+	"alicloud_fcv3_custom_domain":       config.IdentifierFromProvider,
+	"alicloud_fcv3_function":            config.IdentifierFromProvider,
+	"alicloud_fcv3_function_version":    config.IdentifierFromProvider,
+	"alicloud_fcv3_layer_version":       config.IdentifierFromProvider,
+	"alicloud_fcv3_provision_config":    config.IdentifierFromProvider,
+	"alicloud_fcv3_trigger":             config.IdentifierFromProvider,
+	// "alicloud_fcv3_vpc_binding":         config.IdentifierFromProvider,
+
 	// KMS
 	"alicloud_kms_alias":    config.IdentifierFromProvider,
 	"alicloud_kms_instance": config.IdentifierFromProvider,

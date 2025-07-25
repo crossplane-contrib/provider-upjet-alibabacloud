@@ -17,6 +17,7 @@ import (
 	v1alpha1cdn "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/cdn/v1alpha1"
 	v1alpha1cloudmonitorservice "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/cloudmonitorservice/v1alpha1"
 	v1alpha1ecs "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
+	v1alpha1fcv3 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/fcv3/v1alpha1"
 	v1alpha1kms "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/kms/v1alpha1"
 	v1alpha1messageservice "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/messageservice/v1alpha1"
 	v1alpha1oss "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1"
@@ -40,6 +41,7 @@ func init() {
 		v1alpha1cdn.SchemeBuilder.AddToScheme,
 		v1alpha1cloudmonitorservice.SchemeBuilder.AddToScheme,
 		v1alpha1ecs.SchemeBuilder.AddToScheme,
+		v1alpha1fcv3.SchemeBuilder.AddToScheme,
 		v1alpha1kms.SchemeBuilder.AddToScheme,
 		v1alpha1messageservice.SchemeBuilder.AddToScheme,
 		v1alpha1oss.SchemeBuilder.AddToScheme,

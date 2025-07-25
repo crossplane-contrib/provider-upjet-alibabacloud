@@ -1,0 +1,19 @@
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Alias
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/alias
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    additionalVersionWeight:
+      "2": "0.5"
+    aliasName: ${var.name}
+    description: create alias
+    functionNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: cn-beijing
+    versionId: "1"
