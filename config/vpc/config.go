@@ -7,6 +7,14 @@ import (
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
+	p.AddResourceConfigurator("alicloud_route_table", func(r *config.Resource) {
+		// We need to override the default group that upjet generated for
+		// this resource, which would be "vpc"
+		r.ShortGroup = string(common.VPC)
+		r.Kind = "RouteTable"
+		// Delete deprecated fields
+		delete(r.TerraformResource.Schema, "name")
+	})
 	p.AddResourceConfigurator("alicloud_vpc", func(r *config.Resource) {
 		// We need to override the default group that upjet generated for
 		// this resource, which would be "vpc"
@@ -21,9 +29,6 @@ func Configure(p *config.Provider) {
 		// We need to override the default group that upjet generated for
 		// this resource, which would be "vpc"
 		r.ShortGroup = string(common.VPC)
-		r.References["vpc_id"] = config.Reference{
-			TerraformName: "alicloud_vpc",
-		}
 		// Delete deprecated fields
 		delete(r.TerraformResource.Schema, "name")
 		delete(r.TerraformResource.Schema, "availability_zone")

@@ -170,6 +170,7 @@ import (
 	connection "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/connection"
 	instancetair "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/instance"
 	tairinstance "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/tair/tairinstance"
+	routetable "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/routetable"
 	vpc "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/vpc"
 	vswitch "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/vpc/vswitch"
 )
@@ -339,6 +340,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		connection.Setup,
 		instancetair.Setup,
 		tairinstance.Setup,
+		routetable.Setup,
 		vpc.Setup,
 		vswitch.Setup,
 	} {

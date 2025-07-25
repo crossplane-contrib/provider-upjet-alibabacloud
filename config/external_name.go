@@ -209,8 +209,9 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_redis_tair_instance":      config.IdentifierFromProvider,
 
 	// VPC
-	"alicloud_vpc":     config.IdentifierFromProvider,
-	"alicloud_vswitch": config.IdentifierFromProvider,
+	"alicloud_route_table": config.IdentifierFromProvider,
+	"alicloud_vpc":         config.IdentifierFromProvider,
+	"alicloud_vswitch":     config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

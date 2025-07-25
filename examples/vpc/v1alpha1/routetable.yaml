@@ -1,0 +1,32 @@
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: RouteTable
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/routetable
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    associateType: VSwitch
+    description: test-description
+    region: cn-beijing
+    routeTableName: crossplane-example-for-route-table-20250725
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: routetable
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/routetable
+  labels:
+    testing.upbound.io/example-name: routetable
+  name: routetable
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcName: crossplane-example-for-route-table-20250725
