@@ -32,3 +32,6 @@ func (tr *ProvisionConfig) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Trigger) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *VpcBinding) Hub() {}

@@ -113,7 +113,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_fcv3_layer_version":       config.IdentifierFromProvider,
 	"alicloud_fcv3_provision_config":    config.IdentifierFromProvider,
 	"alicloud_fcv3_trigger":             config.IdentifierFromProvider,
-	// "alicloud_fcv3_vpc_binding":         config.IdentifierFromProvider,
+	"alicloud_fcv3_vpc_binding":         config.IdentifierFromProvider,
 
 	// KMS
 	"alicloud_kms_alias":    config.IdentifierFromProvider,
