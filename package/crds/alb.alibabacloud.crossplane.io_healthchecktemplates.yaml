@@ -75,71 +75,98 @@ spec:
               forProvider:
                 properties:
                   dryRun:
-                    description: Whether to precheck the API request.
+                    description: |-
+                      Whether to PreCheck only this request, value:
+                      true: sends a check request and does not create a resource. Check items include whether required parameters, request format, and business restrictions have been filled in. If the check fails, the corresponding error is returned. If the check passes, the error code DryRunOperation is returned.
+                      false (default): Sends a normal request, returns the http_2xx status code after the check, and directly performs the operation.
                     type: boolean
                   healthCheckCodes:
-                    description: 'The HTTP status codes that are used to indicate
-                      whether the backend server passes the health check. Default
-                      value: http_2xx. Valid values: http_2xx, http_3xx, http_4xx,
-                      and http_5xx. NOTE: health_check_codes takes effect only if
-                      health_check_protocol is set to HTTP.'
+                    description: 'The HTTP code of the health check. The default value
+                      is http_2xx. The normal HTTP code for health check. Separate
+                      multiple codes with commas (,). Valid values: http_2xx, http_3xx,
+                      http_4xx, or http_5xx.'
                     items:
                       type: string
                     type: array
                   healthCheckConnectPort:
-                    description: 'The port that is used for health checks. Default
-                      value: 0. Valid values: 0 to 65535.'
+                    description: 'The number of the port that is used for health checks.  Valid
+                      values: 0 to 65535.  Default value: 0. This value indicates
+                      that the backend server is used for health checks.'
                     type: number
                   healthCheckHost:
                     description: 'The domain name that is used for health checks.
-                      NOTE: health_check_host takes effect only if health_check_protocol
-                      is set to HTTP.'
+                      Valid values:  $SERVER_IP (default value): The private IP addresses
+                      of backend servers. If the $_ip parameter is set or the HealthCheckHost
+                      parameter is not set, SLB uses the private IP addresses of backend
+                      servers as the domain names for health checks.  domain: The
+                      domain name must be 1 to 80 characters in length, and can contain
+                      only letters, digits, periods (.),and hyphens (-).'
                     type: string
                   healthCheckHttpVersion:
-                    description: 'The version of the HTTP protocol. Default value:
-                      HTTP1.1. Valid values: HTTP1.0, HTTP1.1. NOTE: health_check_http_version
-                      takes effect only if health_check_protocol is set to HTTP.'
+                    description: 'The version of the HTTP protocol.  Valid values:
+                      HTTP 1.0 and HTTP 1.1.  Default value: HTTP 1.1.'
                     type: string
                   healthCheckInterval:
-                    description: 'The interval at which health checks are performed.
-                      Unit: seconds. Default value: 2. Valid values: 1 to 50.'
+                    description: 'The time interval between two consecutive health
+                      checks.  Valid values: 1 to 50. Unit: seconds.  Default value:
+                      2.'
                     type: number
                   healthCheckMethod:
-                    description: 'The HTTP method that is used for health checks.
-                      Default value: HEAD. Valid values: HEAD, GET. NOTE: health_check_method
-                      takes effect only if health_check_protocol is set to HTTP.'
+                    description: 'The health check method.  Valid values: GET and
+                      HEAD.  Default value: HEAD.'
                     type: string
                   healthCheckPath:
-                    description: 'The URL that is used for health checks. NOTE: health_check_path
-                      takes effect only if health_check_protocol is set to HTTP.'
+                    description: 'The URL that is used for health checks.  The URL
+                      must be 1 to 80 characters in length, and can contain letters,
+                      digits, hyphens (-), forward slashes (/), periods (.), percent
+                      signs (%), question marks (?), number signs (#), and ampersands
+                      (&). The URL can also contain the following extended characters:
+                      _ ; ~ ! ( )* [ ] @ $ ^ : '' , +. The URL must start with a forward
+                      slash (/).'
                     type: string
                   healthCheckProtocol:
-                    description: 'The protocol that is used for health checks. Default
-                      value: HTTP. Valid values: HTTP, TCP.'
+                    description: |-
+                      The protocol used for the health check. Value:
+                      HTTP (default): Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy.
+                      HTTPS: Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy. (Data encryption is more secure than HTTP.)
+                      TCP: Sends a SYN handshake packet to check whether the server port is alive.
+                      gRPC: Check whether the server application is healthy by sending a POST or GET request.
                     type: string
                   healthCheckTemplateName:
-                    description: The name of the health check template. The name must
-                      be 2 to 128 characters in length, and can contain letters, digits,
-                      periods (.), underscores (_), and hyphens (-). The name must
-                      start with a letter.
+                    description: The name of the health check template.  The name
+                      must be 2 to 128 characters in length, and can contain letters,
+                      digits, periods (.), underscores (_), and hyphens (-). The name
+                      must start with a letter.
                     type: string
                   healthCheckTimeout:
-                    description: 'The timeout period of a health check. Default value:
-                      5. Valid values: 1 to 300.'
+                    description: 'The timeout period of a health check response. If
+                      the backend Elastic Compute Service (ECS) instance does not
+                      send an expected response within the specified period of time,
+                      the health check fails.  Valid values: 1 to 300. Unit: seconds.  Default
+                      value: 5.'
                     type: number
                   healthyThreshold:
-                    description: 'The number of times that an unhealthy backend server
+                    description: The number of times that an unhealthy backend server
                       must consecutively pass health checks before it is declared
-                      healthy. Default value: 3. Valid values: 2 to 10.'
+                      healthy (from fail to success).
                     type: number
                   region:
                     description: Region is the region you'd like your resource to
                       be created in.
                     type: string
+                  resourceGroupId:
+                    description: The ID of the resource group
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                   unhealthyThreshold:
-                    description: 'The number of times that a healthy backend server
-                      must consecutively fail health checks before it is declared
-                      unhealthy. Default value: 3. Valid values: 2 to 10.'
+                    description: Specifies the number of times that an healthy backend
+                      server must consecutively fail health checks before it is declared
+                      unhealthy (from success to fail).
                     type: number
                 type: object
               initProvider:
@@ -156,67 +183,94 @@ spec:
                   autoscaler.
                 properties:
                   dryRun:
-                    description: Whether to precheck the API request.
+                    description: |-
+                      Whether to PreCheck only this request, value:
+                      true: sends a check request and does not create a resource. Check items include whether required parameters, request format, and business restrictions have been filled in. If the check fails, the corresponding error is returned. If the check passes, the error code DryRunOperation is returned.
+                      false (default): Sends a normal request, returns the http_2xx status code after the check, and directly performs the operation.
                     type: boolean
                   healthCheckCodes:
-                    description: 'The HTTP status codes that are used to indicate
-                      whether the backend server passes the health check. Default
-                      value: http_2xx. Valid values: http_2xx, http_3xx, http_4xx,
-                      and http_5xx. NOTE: health_check_codes takes effect only if
-                      health_check_protocol is set to HTTP.'
+                    description: 'The HTTP code of the health check. The default value
+                      is http_2xx. The normal HTTP code for health check. Separate
+                      multiple codes with commas (,). Valid values: http_2xx, http_3xx,
+                      http_4xx, or http_5xx.'
                     items:
                       type: string
                     type: array
                   healthCheckConnectPort:
-                    description: 'The port that is used for health checks. Default
-                      value: 0. Valid values: 0 to 65535.'
+                    description: 'The number of the port that is used for health checks.  Valid
+                      values: 0 to 65535.  Default value: 0. This value indicates
+                      that the backend server is used for health checks.'
                     type: number
                   healthCheckHost:
                     description: 'The domain name that is used for health checks.
-                      NOTE: health_check_host takes effect only if health_check_protocol
-                      is set to HTTP.'
+                      Valid values:  $SERVER_IP (default value): The private IP addresses
+                      of backend servers. If the $_ip parameter is set or the HealthCheckHost
+                      parameter is not set, SLB uses the private IP addresses of backend
+                      servers as the domain names for health checks.  domain: The
+                      domain name must be 1 to 80 characters in length, and can contain
+                      only letters, digits, periods (.),and hyphens (-).'
                     type: string
                   healthCheckHttpVersion:
-                    description: 'The version of the HTTP protocol. Default value:
-                      HTTP1.1. Valid values: HTTP1.0, HTTP1.1. NOTE: health_check_http_version
-                      takes effect only if health_check_protocol is set to HTTP.'
+                    description: 'The version of the HTTP protocol.  Valid values:
+                      HTTP 1.0 and HTTP 1.1.  Default value: HTTP 1.1.'
                     type: string
                   healthCheckInterval:
-                    description: 'The interval at which health checks are performed.
-                      Unit: seconds. Default value: 2. Valid values: 1 to 50.'
+                    description: 'The time interval between two consecutive health
+                      checks.  Valid values: 1 to 50. Unit: seconds.  Default value:
+                      2.'
                     type: number
                   healthCheckMethod:
-                    description: 'The HTTP method that is used for health checks.
-                      Default value: HEAD. Valid values: HEAD, GET. NOTE: health_check_method
-                      takes effect only if health_check_protocol is set to HTTP.'
+                    description: 'The health check method.  Valid values: GET and
+                      HEAD.  Default value: HEAD.'
                     type: string
                   healthCheckPath:
-                    description: 'The URL that is used for health checks. NOTE: health_check_path
-                      takes effect only if health_check_protocol is set to HTTP.'
+                    description: 'The URL that is used for health checks.  The URL
+                      must be 1 to 80 characters in length, and can contain letters,
+                      digits, hyphens (-), forward slashes (/), periods (.), percent
+                      signs (%), question marks (?), number signs (#), and ampersands
+                      (&). The URL can also contain the following extended characters:
+                      _ ; ~ ! ( )* [ ] @ $ ^ : '' , +. The URL must start with a forward
+                      slash (/).'
                     type: string
                   healthCheckProtocol:
-                    description: 'The protocol that is used for health checks. Default
-                      value: HTTP. Valid values: HTTP, TCP.'
+                    description: |-
+                      The protocol used for the health check. Value:
+                      HTTP (default): Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy.
+                      HTTPS: Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy. (Data encryption is more secure than HTTP.)
+                      TCP: Sends a SYN handshake packet to check whether the server port is alive.
+                      gRPC: Check whether the server application is healthy by sending a POST or GET request.
                     type: string
                   healthCheckTemplateName:
-                    description: The name of the health check template. The name must
-                      be 2 to 128 characters in length, and can contain letters, digits,
-                      periods (.), underscores (_), and hyphens (-). The name must
-                      start with a letter.
+                    description: The name of the health check template.  The name
+                      must be 2 to 128 characters in length, and can contain letters,
+                      digits, periods (.), underscores (_), and hyphens (-). The name
+                      must start with a letter.
                     type: string
                   healthCheckTimeout:
-                    description: 'The timeout period of a health check. Default value:
-                      5. Valid values: 1 to 300.'
+                    description: 'The timeout period of a health check response. If
+                      the backend Elastic Compute Service (ECS) instance does not
+                      send an expected response within the specified period of time,
+                      the health check fails.  Valid values: 1 to 300. Unit: seconds.  Default
+                      value: 5.'
                     type: number
                   healthyThreshold:
-                    description: 'The number of times that an unhealthy backend server
+                    description: The number of times that an unhealthy backend server
                       must consecutively pass health checks before it is declared
-                      healthy. Default value: 3. Valid values: 2 to 10.'
+                      healthy (from fail to success).
                     type: number
+                  resourceGroupId:
+                    description: The ID of the resource group
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                   unhealthyThreshold:
-                    description: 'The number of times that a healthy backend server
-                      must consecutively fail health checks before it is declared
-                      unhealthy. Default value: 3. Valid values: 2 to 10.'
+                    description: Specifies the number of times that an healthy backend
+                      server must consecutively fail health checks before it is declared
+                      unhealthy (from success to fail).
                     type: number
                 type: object
               managementPolicies:
@@ -397,69 +451,97 @@ spec:
               atProvider:
                 properties:
                   dryRun:
-                    description: Whether to precheck the API request.
+                    description: |-
+                      Whether to PreCheck only this request, value:
+                      true: sends a check request and does not create a resource. Check items include whether required parameters, request format, and business restrictions have been filled in. If the check fails, the corresponding error is returned. If the check passes, the error code DryRunOperation is returned.
+                      false (default): Sends a normal request, returns the http_2xx status code after the check, and directly performs the operation.
                     type: boolean
                   healthCheckCodes:
-                    description: 'The HTTP status codes that are used to indicate
-                      whether the backend server passes the health check. Default
-                      value: http_2xx. Valid values: http_2xx, http_3xx, http_4xx,
-                      and http_5xx. NOTE: health_check_codes takes effect only if
-                      health_check_protocol is set to HTTP.'
+                    description: 'The HTTP code of the health check. The default value
+                      is http_2xx. The normal HTTP code for health check. Separate
+                      multiple codes with commas (,). Valid values: http_2xx, http_3xx,
+                      http_4xx, or http_5xx.'
                     items:
                       type: string
                     type: array
                   healthCheckConnectPort:
-                    description: 'The port that is used for health checks. Default
-                      value: 0. Valid values: 0 to 65535.'
+                    description: 'The number of the port that is used for health checks.  Valid
+                      values: 0 to 65535.  Default value: 0. This value indicates
+                      that the backend server is used for health checks.'
                     type: number
                   healthCheckHost:
                     description: 'The domain name that is used for health checks.
-                      NOTE: health_check_host takes effect only if health_check_protocol
-                      is set to HTTP.'
+                      Valid values:  $SERVER_IP (default value): The private IP addresses
+                      of backend servers. If the $_ip parameter is set or the HealthCheckHost
+                      parameter is not set, SLB uses the private IP addresses of backend
+                      servers as the domain names for health checks.  domain: The
+                      domain name must be 1 to 80 characters in length, and can contain
+                      only letters, digits, periods (.),and hyphens (-).'
                     type: string
                   healthCheckHttpVersion:
-                    description: 'The version of the HTTP protocol. Default value:
-                      HTTP1.1. Valid values: HTTP1.0, HTTP1.1. NOTE: health_check_http_version
-                      takes effect only if health_check_protocol is set to HTTP.'
+                    description: 'The version of the HTTP protocol.  Valid values:
+                      HTTP 1.0 and HTTP 1.1.  Default value: HTTP 1.1.'
                     type: string
                   healthCheckInterval:
-                    description: 'The interval at which health checks are performed.
-                      Unit: seconds. Default value: 2. Valid values: 1 to 50.'
+                    description: 'The time interval between two consecutive health
+                      checks.  Valid values: 1 to 50. Unit: seconds.  Default value:
+                      2.'
                     type: number
                   healthCheckMethod:
-                    description: 'The HTTP method that is used for health checks.
-                      Default value: HEAD. Valid values: HEAD, GET. NOTE: health_check_method
-                      takes effect only if health_check_protocol is set to HTTP.'
+                    description: 'The health check method.  Valid values: GET and
+                      HEAD.  Default value: HEAD.'
                     type: string
                   healthCheckPath:
-                    description: 'The URL that is used for health checks. NOTE: health_check_path
-                      takes effect only if health_check_protocol is set to HTTP.'
+                    description: 'The URL that is used for health checks.  The URL
+                      must be 1 to 80 characters in length, and can contain letters,
+                      digits, hyphens (-), forward slashes (/), periods (.), percent
+                      signs (%), question marks (?), number signs (#), and ampersands
+                      (&). The URL can also contain the following extended characters:
+                      _ ; ~ ! ( )* [ ] @ $ ^ : '' , +. The URL must start with a forward
+                      slash (/).'
                     type: string
                   healthCheckProtocol:
-                    description: 'The protocol that is used for health checks. Default
-                      value: HTTP. Valid values: HTTP, TCP.'
+                    description: |-
+                      The protocol used for the health check. Value:
+                      HTTP (default): Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy.
+                      HTTPS: Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy. (Data encryption is more secure than HTTP.)
+                      TCP: Sends a SYN handshake packet to check whether the server port is alive.
+                      gRPC: Check whether the server application is healthy by sending a POST or GET request.
                     type: string
                   healthCheckTemplateName:
-                    description: The name of the health check template. The name must
-                      be 2 to 128 characters in length, and can contain letters, digits,
-                      periods (.), underscores (_), and hyphens (-). The name must
-                      start with a letter.
+                    description: The name of the health check template.  The name
+                      must be 2 to 128 characters in length, and can contain letters,
+                      digits, periods (.), underscores (_), and hyphens (-). The name
+                      must start with a letter.
                     type: string
                   healthCheckTimeout:
-                    description: 'The timeout period of a health check. Default value:
-                      5. Valid values: 1 to 300.'
+                    description: 'The timeout period of a health check response. If
+                      the backend Elastic Compute Service (ECS) instance does not
+                      send an expected response within the specified period of time,
+                      the health check fails.  Valid values: 1 to 300. Unit: seconds.  Default
+                      value: 5.'
                     type: number
                   healthyThreshold:
-                    description: 'The number of times that an unhealthy backend server
+                    description: The number of times that an unhealthy backend server
                       must consecutively pass health checks before it is declared
-                      healthy. Default value: 3. Valid values: 2 to 10.'
+                      healthy (from fail to success).
                     type: number
                   id:
+                    description: The ID of the resource supplied above.
                     type: string
+                  resourceGroupId:
+                    description: The ID of the resource group
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                   unhealthyThreshold:
-                    description: 'The number of times that a healthy backend server
-                      must consecutively fail health checks before it is declared
-                      unhealthy. Default value: 3. Valid values: 2 to 10.'
+                    description: Specifies the number of times that an healthy backend
+                      server must consecutively fail health checks before it is declared
+                      unhealthy (from success to fail).
                     type: number
                 type: object
               conditions:

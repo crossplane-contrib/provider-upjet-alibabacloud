@@ -270,6 +270,21 @@ spec:
                   desiredSize:
                     description: Number of expected nodes in the node pool.
                     type: string
+                  efloNodeGroup:
+                    description: Lingjun node pool configuration. See eflo_node_group
+                      below.
+                    items:
+                      properties:
+                        clusterId:
+                          description: The ID of the associated Lingjun cluster is
+                            required when creating a Lingjun node pool.
+                          type: string
+                        groupId:
+                          description: When creating a Lingjun node pool, you need
+                            the Lingjun group ID of the associated Lingjun cluster.
+                          type: string
+                      type: object
+                    type: array
                   forceDelete:
                     description: Whether to force deletion.
                     type: boolean
@@ -1014,6 +1029,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   securityHardeningOs:
                     description: |-
                       Alibaba Cloud OS security reinforcement. Default value: false. Value:
@@ -1140,6 +1156,12 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  type:
+                    description: |-
+                      Node pool type, value range:
+                      -'ess': common node pool (including hosting function and auto scaling function).
+                      -'lingjun': Lingjun node pool.
+                    type: string
                   unschedulable:
                     description: Whether the node after expansion can be scheduled.
                     type: boolean
@@ -1442,6 +1464,21 @@ spec:
                   desiredSize:
                     description: Number of expected nodes in the node pool.
                     type: string
+                  efloNodeGroup:
+                    description: Lingjun node pool configuration. See eflo_node_group
+                      below.
+                    items:
+                      properties:
+                        clusterId:
+                          description: The ID of the associated Lingjun cluster is
+                            required when creating a Lingjun node pool.
+                          type: string
+                        groupId:
+                          description: When creating a Lingjun node pool, you need
+                            the Lingjun group ID of the associated Lingjun cluster.
+                          type: string
+                      type: object
+                    type: array
                   forceDelete:
                     description: Whether to force deletion.
                     type: boolean
@@ -2182,6 +2219,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   securityHardeningOs:
                     description: |-
                       Alibaba Cloud OS security reinforcement. Default value: false. Value:
@@ -2308,6 +2346,12 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  type:
+                    description: |-
+                      Node pool type, value range:
+                      -'ess': common node pool (including hosting function and auto scaling function).
+                      -'lingjun': Lingjun node pool.
+                    type: string
                   unschedulable:
                     description: Whether the node after expansion can be scheduled.
                     type: boolean
@@ -2568,11 +2612,6 @@ spec:
             required:
             - forProvider
             type: object
-            x-kubernetes-validations:
-            - message: spec.forProvider.instanceTypes is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceTypes)
-                || (has(self.initProvider) && has(self.initProvider.instanceTypes))'
           status:
             description: KubernetesNodePoolStatus defines the observed state of KubernetesNodePool.
             properties:
@@ -2698,6 +2737,21 @@ spec:
                   desiredSize:
                     description: Number of expected nodes in the node pool.
                     type: string
+                  efloNodeGroup:
+                    description: Lingjun node pool configuration. See eflo_node_group
+                      below.
+                    items:
+                      properties:
+                        clusterId:
+                          description: The ID of the associated Lingjun cluster is
+                            required when creating a Lingjun node pool.
+                          type: string
+                        groupId:
+                          description: When creating a Lingjun node pool, you need
+                            the Lingjun group ID of the associated Lingjun cluster.
+                          type: string
+                      type: object
+                    type: array
                   forceDelete:
                     description: Whether to force deletion.
                     type: boolean
@@ -3257,6 +3311,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   securityHardeningOs:
                     description: |-
                       Alibaba Cloud OS security reinforcement. Default value: false. Value:
@@ -3383,6 +3438,12 @@ spec:
                           type: boolean
                       type: object
                     type: array
+                  type:
+                    description: |-
+                      Node pool type, value range:
+                      -'ess': common node pool (including hosting function and auto scaling function).
+                      -'lingjun': Lingjun node pool.
+                    type: string
                   unschedulable:
                     description: Whether the node after expansion can be scheduled.
                     type: boolean

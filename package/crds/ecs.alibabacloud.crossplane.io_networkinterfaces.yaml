@@ -153,6 +153,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   securityGroupRefs:
                     description: References to SecurityGroup in ecs to populate securityGroupIds.
                     items:
@@ -231,6 +232,12 @@ spec:
                             type: string
                         type: object
                     type: object
+                  sourceDestCheck:
+                    description: 'Indicates whether the source and destination IP
+                      address check feature is enabled. To improve network security,
+                      enable this feature. Default value: false. Valid values: true,
+                      false.'
+                    type: boolean
                   tags:
                     additionalProperties:
                       type: string
@@ -406,6 +413,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   securityGroupRefs:
                     description: References to SecurityGroup in ecs to populate securityGroupIds.
                     items:
@@ -484,6 +492,12 @@ spec:
                             type: string
                         type: object
                     type: object
+                  sourceDestCheck:
+                    description: 'Indicates whether the source and destination IP
+                      address check feature is enabled. To improve network security,
+                      enable this feature. Default value: false. Valid values: true,
+                      false.'
+                    type: boolean
                   tags:
                     additionalProperties:
                       type: string
@@ -823,6 +837,13 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
+                  sourceDestCheck:
+                    description: 'Indicates whether the source and destination IP
+                      address check feature is enabled. To improve network security,
+                      enable this feature. Default value: false. Valid values: true,
+                      false.'
+                    type: boolean
                   status:
                     description: The status of the ENI.
                     type: string

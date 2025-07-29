@@ -27,7 +27,7 @@ type PolicyInitParameters struct {
 	// The policy name. It can be 1 to 128 characters in length and can contain English letters, digits, and dashes (-).
 	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
 
-	// The automatic rotation mechanism of policy versions can delete historical policy versions. The default value is None.
+	// The automatic rotation mechanism of policy versions can delete historical policy versions. The default value is None. Valid values:
 	RotateStrategy *string `json:"rotateStrategy,omitempty" tf:"rotate_strategy,omitempty"`
 
 	// Key-value map of resource tags.
@@ -61,7 +61,7 @@ type PolicyObservation struct {
 	// The policy name. It can be 1 to 128 characters in length and can contain English letters, digits, and dashes (-).
 	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
 
-	// The automatic rotation mechanism of policy versions can delete historical policy versions. The default value is None.
+	// The automatic rotation mechanism of policy versions can delete historical policy versions. The default value is None. Valid values:
 	RotateStrategy *string `json:"rotateStrategy,omitempty" tf:"rotate_strategy,omitempty"`
 
 	// Key-value map of resource tags.
@@ -93,7 +93,7 @@ type PolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
 
-	// The automatic rotation mechanism of policy versions can delete historical policy versions. The default value is None.
+	// The automatic rotation mechanism of policy versions can delete historical policy versions. The default value is None. Valid values:
 	// +kubebuilder:validation:Optional
 	RotateStrategy *string `json:"rotateStrategy,omitempty" tf:"rotate_strategy,omitempty"`
 

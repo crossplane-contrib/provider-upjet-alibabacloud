@@ -440,6 +440,9 @@ spec:
                   lastModifiedTime:
                     description: (Available since v1.234.0) Update time
                     type: string
+                  versionId:
+                    description: Function Version
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

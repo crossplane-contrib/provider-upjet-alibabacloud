@@ -74,15 +74,15 @@ spec:
               forProvider:
                 properties:
                   bindVpcs:
-                    description: Aucillary VPCs used to access this KMS instance.
-                      See bind_vpcs below.
+                    description: Aucillary VPCs used to access this KMS instance See
+                      bind_vpcs below.
                     items:
                       properties:
                         regionId:
-                          description: region id.
+                          description: region id
                           type: string
                         vpcId:
-                          description: VPC ID.
+                          description: VPC ID
                           type: string
                         vpcIdRef:
                           description: Reference to a VPC in vpc to populate vpcId.
@@ -159,10 +159,10 @@ spec:
                               type: object
                           type: object
                         vpcOwnerId:
-                          description: VPC owner root user ID.
+                          description: VPC owner root user ID
                           type: string
                         vswitchId:
-                          description: vswitch id.
+                          description: vswitch id
                           type: string
                         vswitchIdRef:
                           description: Reference to a Vswitch in vpc to populate vswitchId.
@@ -243,6 +243,9 @@ spec:
                   forceDeleteWithoutBackup:
                     description: Whether to force deletion even without backup.
                     type: string
+                  instanceName:
+                    description: The name of the resource
+                    type: string
                   keyNum:
                     description: Maximum number of stored keys. The attribute is valid
                       when the attribute payment_type is Subscription.
@@ -256,15 +259,14 @@ spec:
                       the attribute payment_type is Subscription.
                     type: number
                   paymentType:
-                    description: 'Payment type, valid values:  Subscription: Prepaid.
-                      PayAsYouGo: Postpaid, available since v1.223.2.'
+                    description: 'Payment type,valid values:'
                     type: string
                   period:
                     description: Purchase cycle, in months. The attribute is valid
                       when the attribute payment_type is Subscription.
                     type: number
                   productVersion:
-                    description: KMS Instance commodity type (software/hardware).
+                    description: KMS Instance commodity type (software/hardware)
                     type: string
                   region:
                     description: Region is the region you'd like your resource to
@@ -287,7 +289,7 @@ spec:
                       The attribute is valid when the attribute payment_type is Subscription.
                     type: number
                   vpcId:
-                    description: Instance VPC id.
+                    description: Instance VPC id
                     type: string
                   vpcIdRef:
                     description: Reference to a VPC in vpc to populate vpcId.
@@ -369,7 +371,7 @@ spec:
                       valid when the attribute payment_type is Subscription.
                     type: number
                   vswitchIds:
-                    description: Instance bind vswitches.
+                    description: Instance bind vswitches
                     items:
                       type: string
                     type: array
@@ -453,7 +455,7 @@ spec:
                         type: object
                     type: object
                   zoneIds:
-                    description: zone id.
+                    description: zone id
                     items:
                       type: string
                     type: array
@@ -551,15 +553,15 @@ spec:
                   autoscaler.
                 properties:
                   bindVpcs:
-                    description: Aucillary VPCs used to access this KMS instance.
-                      See bind_vpcs below.
+                    description: Aucillary VPCs used to access this KMS instance See
+                      bind_vpcs below.
                     items:
                       properties:
                         regionId:
-                          description: region id.
+                          description: region id
                           type: string
                         vpcId:
-                          description: VPC ID.
+                          description: VPC ID
                           type: string
                         vpcIdRef:
                           description: Reference to a VPC in vpc to populate vpcId.
@@ -636,10 +638,10 @@ spec:
                               type: object
                           type: object
                         vpcOwnerId:
-                          description: VPC owner root user ID.
+                          description: VPC owner root user ID
                           type: string
                         vswitchId:
-                          description: vswitch id.
+                          description: vswitch id
                           type: string
                         vswitchIdRef:
                           description: Reference to a Vswitch in vpc to populate vswitchId.
@@ -720,6 +722,9 @@ spec:
                   forceDeleteWithoutBackup:
                     description: Whether to force deletion even without backup.
                     type: string
+                  instanceName:
+                    description: The name of the resource
+                    type: string
                   keyNum:
                     description: Maximum number of stored keys. The attribute is valid
                       when the attribute payment_type is Subscription.
@@ -733,15 +738,14 @@ spec:
                       the attribute payment_type is Subscription.
                     type: number
                   paymentType:
-                    description: 'Payment type, valid values:  Subscription: Prepaid.
-                      PayAsYouGo: Postpaid, available since v1.223.2.'
+                    description: 'Payment type,valid values:'
                     type: string
                   period:
                     description: Purchase cycle, in months. The attribute is valid
                       when the attribute payment_type is Subscription.
                     type: number
                   productVersion:
-                    description: KMS Instance commodity type (software/hardware).
+                    description: KMS Instance commodity type (software/hardware)
                     type: string
                   renewPeriod:
                     description: Automatic renewal period, in months. The attribute
@@ -760,7 +764,7 @@ spec:
                       The attribute is valid when the attribute payment_type is Subscription.
                     type: number
                   vpcId:
-                    description: Instance VPC id.
+                    description: Instance VPC id
                     type: string
                   vpcIdRef:
                     description: Reference to a VPC in vpc to populate vpcId.
@@ -842,7 +846,7 @@ spec:
                       valid when the attribute payment_type is Subscription.
                     type: number
                   vswitchIds:
-                    description: Instance bind vswitches.
+                    description: Instance bind vswitches
                     items:
                       type: string
                     type: array
@@ -926,7 +930,7 @@ spec:
                         type: object
                     type: object
                   zoneIds:
-                    description: zone id.
+                    description: zone id
                     items:
                       type: string
                     type: array
@@ -1183,21 +1187,21 @@ spec:
               atProvider:
                 properties:
                   bindVpcs:
-                    description: Aucillary VPCs used to access this KMS instance.
-                      See bind_vpcs below.
+                    description: Aucillary VPCs used to access this KMS instance See
+                      bind_vpcs below.
                     items:
                       properties:
                         regionId:
-                          description: region id.
+                          description: region id
                           type: string
                         vpcId:
-                          description: VPC ID.
+                          description: VPC ID
                           type: string
                         vpcOwnerId:
-                          description: VPC owner root user ID.
+                          description: VPC owner root user ID
                           type: string
                         vswitchId:
-                          description: vswitch id.
+                          description: vswitch id
                           type: string
                       type: object
                     type: array
@@ -1217,7 +1221,7 @@ spec:
                     description: The ID of the resource supplied above.
                     type: string
                   instanceName:
-                    description: The name of the resource.
+                    description: The name of the resource
                     type: string
                   keyNum:
                     description: Maximum number of stored keys. The attribute is valid
@@ -1232,15 +1236,14 @@ spec:
                       the attribute payment_type is Subscription.
                     type: number
                   paymentType:
-                    description: 'Payment type, valid values:  Subscription: Prepaid.
-                      PayAsYouGo: Postpaid, available since v1.223.2.'
+                    description: 'Payment type,valid values:'
                     type: string
                   period:
                     description: Purchase cycle, in months. The attribute is valid
                       when the attribute payment_type is Subscription.
                     type: number
                   productVersion:
-                    description: KMS Instance commodity type (software/hardware).
+                    description: KMS Instance commodity type (software/hardware)
                     type: string
                   renewPeriod:
                     description: Automatic renewal period, in months. The attribute
@@ -1262,7 +1265,7 @@ spec:
                     description: Instance status.
                     type: string
                   vpcId:
-                    description: Instance VPC id.
+                    description: Instance VPC id
                     type: string
                   vpcNum:
                     description: The number of managed accesses. The maximum number
@@ -1270,13 +1273,13 @@ spec:
                       valid when the attribute payment_type is Subscription.
                     type: number
                   vswitchIds:
-                    description: Instance bind vswitches.
+                    description: Instance bind vswitches
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   zoneIds:
-                    description: zone id.
+                    description: zone id
                     items:
                       type: string
                     type: array

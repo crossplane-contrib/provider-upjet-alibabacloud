@@ -50,7 +50,6 @@ spec:
     vpcNum: "7"
     vswitchIdsRefs:
     - name: vswitch-j
-    - name: vswitch
     zoneIdsRefs:
     - name: example
     - name: example

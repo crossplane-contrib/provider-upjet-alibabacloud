@@ -109,8 +109,9 @@ spec:
                     type: string
                   creationOption:
                     description: 'The method that is used to create a cluster. Valid
-                      values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin.
+                      values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin,UpgradeFromPolarDB.
                       NOTE: From version 1.233.0, creation_option can be set to RecoverFromRecyclebin.
+                      From version 1.255.0, creation_option can be set to UpgradeFromPolarDB.
                       Value options can refer to the latest docs CreateDBCluster CreationOption.'
                     type: string
                   dbClusterIpArray:
@@ -213,8 +214,9 @@ spec:
                       Valid values are ON, OFF. Only MySQL supports.
                     type: string
                   hotStandbyCluster:
-                    description: Whether to enable the hot standby cluster. Valid
-                      values are ON, OFF.
+                    description: |-
+                      Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
+                      -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
                     type: string
                   imciSwitch:
                     description: |-
@@ -312,9 +314,8 @@ spec:
                       Default to NotRenewal.
                     type: string
                   resourceGroupId:
-                    description: The ID of resource group which the PolarDB cluster
-                      belongs. If not specified, then it belongs to the default resource
-                      group.
+                    description: '> NOTE: From version 1.250.0, resource_group_id
+                      can be modified.'
                     type: string
                   roleArn:
                     description: The Alibaba Cloud Resource Name (ARN) of the RAM
@@ -532,6 +533,20 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  serverlessRuleCpuEnlargeThreshold:
+                    description: |-
+                      CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
+                      -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
+                    type: number
+                  serverlessRuleCpuShrinkThreshold:
+                    description: 'CPU downscale threshold. Valid values: 10 to 100.
+                      This parameter is valid only for serverless clusters.'
+                    type: number
+                  serverlessRuleMode:
+                    description: 'Elasticity sensitivity. Valid values: normal for
+                      standard and flexible for sensitive. This parameter is valid
+                      only for serverless clusters.'
+                    type: string
                   serverlessSteadySwitch:
                     description: |-
                       Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
@@ -548,6 +563,11 @@ spec:
                       CreationOption is set to MigrationFromRDS, CloneFromRDS, or
                       CloneFromPolarDB.Value options can refer to the latest docs
                       CreateDBCluster SourceResourceId.
+                    type: string
+                  standbyAz:
+                    description: |-
+                      The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
+                      -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
                     type: string
                   storagePayType:
                     description: The billing method of the storage. Valid values Postpaid,
@@ -805,8 +825,9 @@ spec:
                     type: string
                   creationOption:
                     description: 'The method that is used to create a cluster. Valid
-                      values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin.
+                      values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin,UpgradeFromPolarDB.
                       NOTE: From version 1.233.0, creation_option can be set to RecoverFromRecyclebin.
+                      From version 1.255.0, creation_option can be set to UpgradeFromPolarDB.
                       Value options can refer to the latest docs CreateDBCluster CreationOption.'
                     type: string
                   dbClusterIpArray:
@@ -909,8 +930,9 @@ spec:
                       Valid values are ON, OFF. Only MySQL supports.
                     type: string
                   hotStandbyCluster:
-                    description: Whether to enable the hot standby cluster. Valid
-                      values are ON, OFF.
+                    description: |-
+                      Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
+                      -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
                     type: string
                   imciSwitch:
                     description: |-
@@ -1004,9 +1026,8 @@ spec:
                       Default to NotRenewal.
                     type: string
                   resourceGroupId:
-                    description: The ID of resource group which the PolarDB cluster
-                      belongs. If not specified, then it belongs to the default resource
-                      group.
+                    description: '> NOTE: From version 1.250.0, resource_group_id
+                      can be modified.'
                     type: string
                   roleArn:
                     description: The Alibaba Cloud Resource Name (ARN) of the RAM
@@ -1224,6 +1245,20 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  serverlessRuleCpuEnlargeThreshold:
+                    description: |-
+                      CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
+                      -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
+                    type: number
+                  serverlessRuleCpuShrinkThreshold:
+                    description: 'CPU downscale threshold. Valid values: 10 to 100.
+                      This parameter is valid only for serverless clusters.'
+                    type: number
+                  serverlessRuleMode:
+                    description: 'Elasticity sensitivity. Valid values: normal for
+                      standard and flexible for sensitive. This parameter is valid
+                      only for serverless clusters.'
+                    type: string
                   serverlessSteadySwitch:
                     description: |-
                       Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
@@ -1240,6 +1275,11 @@ spec:
                       CreationOption is set to MigrationFromRDS, CloneFromRDS, or
                       CloneFromPolarDB.Value options can refer to the latest docs
                       CreateDBCluster SourceResourceId.
+                    type: string
+                  standbyAz:
+                    description: |-
+                      The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
+                      -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
                     type: string
                   storagePayType:
                     description: The billing method of the storage. Valid values Postpaid,
@@ -1677,8 +1717,9 @@ spec:
                     type: string
                   creationOption:
                     description: 'The method that is used to create a cluster. Valid
-                      values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin.
+                      values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin,UpgradeFromPolarDB.
                       NOTE: From version 1.233.0, creation_option can be set to RecoverFromRecyclebin.
+                      From version 1.255.0, creation_option can be set to UpgradeFromPolarDB.
                       Value options can refer to the latest docs CreateDBCluster CreationOption.'
                     type: string
                   dbClusterIpArray:
@@ -1806,8 +1847,9 @@ spec:
                       Valid values are ON, OFF. Only MySQL supports.
                     type: string
                   hotStandbyCluster:
-                    description: Whether to enable the hot standby cluster. Valid
-                      values are ON, OFF.
+                    description: |-
+                      Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
+                      -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
                     type: string
                   id:
                     description: The PolarDB cluster ID.
@@ -1908,9 +1950,8 @@ spec:
                       Default to NotRenewal.
                     type: string
                   resourceGroupId:
-                    description: The ID of resource group which the PolarDB cluster
-                      belongs. If not specified, then it belongs to the default resource
-                      group.
+                    description: '> NOTE: From version 1.250.0, resource_group_id
+                      can be modified.'
                     type: string
                   roleArn:
                     description: The Alibaba Cloud Resource Name (ARN) of the RAM
@@ -1976,6 +2017,20 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  serverlessRuleCpuEnlargeThreshold:
+                    description: |-
+                      CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
+                      -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
+                    type: number
+                  serverlessRuleCpuShrinkThreshold:
+                    description: 'CPU downscale threshold. Valid values: 10 to 100.
+                      This parameter is valid only for serverless clusters.'
+                    type: number
+                  serverlessRuleMode:
+                    description: 'Elasticity sensitivity. Valid values: normal for
+                      standard and flexible for sensitive. This parameter is valid
+                      only for serverless clusters.'
+                    type: string
                   serverlessSteadySwitch:
                     description: |-
                       Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
@@ -1992,6 +2047,11 @@ spec:
                       CreationOption is set to MigrationFromRDS, CloneFromRDS, or
                       CloneFromPolarDB.Value options can refer to the latest docs
                       CreateDBCluster SourceResourceId.
+                    type: string
+                  standbyAz:
+                    description: |-
+                      The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
+                      -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
                     type: string
                   status:
                     description: (Available since 1.204.1) PolarDB cluster status.

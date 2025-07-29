@@ -34,7 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Role is the Schema for the Roles API. Provides a RAM Role resource.
+        description: Role is the Schema for the Roles API. Provides a Alicloud RAM
+          Role resource.
         properties:
           apiVersion:
             description: |-
@@ -72,29 +73,40 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  assumeRolePolicyDocument:
+                    description: The trust policy that specifies one or more trusted
+                      entities to assume the RAM role. The trusted entities can be
+                      Alibaba Cloud accounts, Alibaba Cloud services, or identity
+                      providers (IdPs).
+                    type: string
                   description:
-                    description: 'Description of the RAM role. This name can have
-                      a string of 1 to 1024 characters. NOTE: The description supports
-                      modification since V1.144.0.'
+                    description: The description of the RAM role.
                     type: string
                   document:
-                    description: Authorization strategy of the RAM role. It is required
-                      when the services and ram_users are not specified.
+                    description: Field document has been deprecated from provider
+                      version 1.252.0. New field assume_role_policy_document instead.
                     type: string
                   force:
-                    description: This parameter is used for resource destroy. Default
-                      value is false.
+                    description: 'Specifies whether to force delete the Role. Default
+                      value: false. Valid values:'
                     type: boolean
                   maxSessionDuration:
-                    description: 'The maximum session duration of the RAM role. Valid
-                      values: 3600 to 43200. Unit: seconds. Default value: 3600. The
-                      default value is used if the parameter is not specified.'
+                    description: 'The maximum session time of the RAM role. Default
+                      value: 3600. Valid values: 3600 to 43200.'
                     type: number
                   name:
-                    description: Name of the RAM role. This name can have a string
-                      of 1 to 64 characters, must contain only alphanumeric characters
-                      or hyphens, such as "-", "_", and must not begin with a hyphen.
+                    description: Field name has been deprecated from provider version
+                      1.252.0. New field role_name instead.
                     type: string
+                  roleName:
+                    description: The name of the RAM role.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               initProvider:
                 description: |-
@@ -109,29 +121,40 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  assumeRolePolicyDocument:
+                    description: The trust policy that specifies one or more trusted
+                      entities to assume the RAM role. The trusted entities can be
+                      Alibaba Cloud accounts, Alibaba Cloud services, or identity
+                      providers (IdPs).
+                    type: string
                   description:
-                    description: 'Description of the RAM role. This name can have
-                      a string of 1 to 1024 characters. NOTE: The description supports
-                      modification since V1.144.0.'
+                    description: The description of the RAM role.
                     type: string
                   document:
-                    description: Authorization strategy of the RAM role. It is required
-                      when the services and ram_users are not specified.
+                    description: Field document has been deprecated from provider
+                      version 1.252.0. New field assume_role_policy_document instead.
                     type: string
                   force:
-                    description: This parameter is used for resource destroy. Default
-                      value is false.
+                    description: 'Specifies whether to force delete the Role. Default
+                      value: false. Valid values:'
                     type: boolean
                   maxSessionDuration:
-                    description: 'The maximum session duration of the RAM role. Valid
-                      values: 3600 to 43200. Unit: seconds. Default value: 3600. The
-                      default value is used if the parameter is not specified.'
+                    description: 'The maximum session time of the RAM role. Default
+                      value: 3600. Valid values: 3600 to 43200.'
                     type: number
                   name:
-                    description: Name of the RAM role. This name can have a string
-                      of 1 to 64 characters, must contain only alphanumeric characters
-                      or hyphens, such as "-", "_", and must not begin with a hyphen.
+                    description: Field name has been deprecated from provider version
+                      1.252.0. New field role_name instead.
                     type: string
+                  roleName:
+                    description: The name of the RAM role.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               managementPolicies:
                 default:
@@ -300,48 +323,59 @@ spec:
             required:
             - forProvider
             type: object
-            x-kubernetes-validations:
-            - message: spec.forProvider.name is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
-                || (has(self.initProvider) && has(self.initProvider.name))'
           status:
             description: RoleStatus defines the observed state of Role.
             properties:
               atProvider:
                 properties:
                   arn:
-                    description: The role arn.
+                    description: The Alibaba Cloud Resource Name (ARN) of the RAM
+                      role.
+                    type: string
+                  assumeRolePolicyDocument:
+                    description: The trust policy that specifies one or more trusted
+                      entities to assume the RAM role. The trusted entities can be
+                      Alibaba Cloud accounts, Alibaba Cloud services, or identity
+                      providers (IdPs).
+                    type: string
+                  createTime:
+                    description: (Available since v1.252.0) The time when the RAM
+                      role was created.
                     type: string
                   description:
-                    description: 'Description of the RAM role. This name can have
-                      a string of 1 to 1024 characters. NOTE: The description supports
-                      modification since V1.144.0.'
+                    description: The description of the RAM role.
                     type: string
                   document:
-                    description: Authorization strategy of the RAM role. It is required
-                      when the services and ram_users are not specified.
+                    description: Field document has been deprecated from provider
+                      version 1.252.0. New field assume_role_policy_document instead.
                     type: string
                   force:
-                    description: This parameter is used for resource destroy. Default
-                      value is false.
+                    description: 'Specifies whether to force delete the Role. Default
+                      value: false. Valid values:'
                     type: boolean
                   id:
-                    description: This ID of this resource. The value is set to role_name.
+                    description: The ID of the resource supplied above.
                     type: string
                   maxSessionDuration:
-                    description: 'The maximum session duration of the RAM role. Valid
-                      values: 3600 to 43200. Unit: seconds. Default value: 3600. The
-                      default value is used if the parameter is not specified.'
+                    description: 'The maximum session time of the RAM role. Default
+                      value: 3600. Valid values: 3600 to 43200.'
                     type: number
                   name:
-                    description: Name of the RAM role. This name can have a string
-                      of 1 to 64 characters, must contain only alphanumeric characters
-                      or hyphens, such as "-", "_", and must not begin with a hyphen.
+                    description: Field name has been deprecated from provider version
+                      1.252.0. New field role_name instead.
                     type: string
                   roleId:
-                    description: The role ID.
+                    description: The ID of the RAM role.
                     type: string
+                  roleName:
+                    description: The name of the RAM role.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                 type: object
               conditions:
                 description: Conditions of the resource.

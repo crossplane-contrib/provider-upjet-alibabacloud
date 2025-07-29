@@ -61,6 +61,7 @@ type NetworkInterfaceInitParameters struct {
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:refFieldName=SecurityGroupRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityGroupSelector
+	// +listType=set
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
@@ -70,6 +71,9 @@ type NetworkInterfaceInitParameters struct {
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
 	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+
+	// Indicates whether the source and destination IP address check feature is enabled. To improve network security, enable this feature. Default value: false. Valid values: true, false.
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
 	// Key-value map of resource tags.
 	// +mapType=granular
@@ -138,7 +142,11 @@ type NetworkInterfaceObservation struct {
 	SecondaryPrivateIPAddressCount *float64 `json:"secondaryPrivateIpAddressCount,omitempty" tf:"secondary_private_ip_address_count,omitempty"`
 
 	// The ID of security group N. The security groups and the ENI must belong to the same VPC. The valid values of N are based on the maximum number of security groups to which an ENI can be added. NOTE: Either security_group_ids or security_groups must be set with valid security group IDs.
+	// +listType=set
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
+
+	// Indicates whether the source and destination IP address check feature is enabled. To improve network security, enable this feature. Default value: false. Valid values: true, false.
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
 	// The status of the ENI.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
@@ -218,6 +226,7 @@ type NetworkInterfaceParameters struct {
 	// +crossplane:generate:reference:refFieldName=SecurityGroupRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityGroupSelector
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
@@ -227,6 +236,10 @@ type NetworkInterfaceParameters struct {
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
 	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+
+	// Indicates whether the source and destination IP address check feature is enabled. To improve network security, enable this feature. Default value: false. Valid values: true, false.
+	// +kubebuilder:validation:Optional
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
 	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional

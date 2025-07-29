@@ -229,6 +229,35 @@ type DataDisksParameters struct {
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 }
 
+type EfloNodeGroupInitParameters struct {
+
+	// The ID of the associated Lingjun cluster is required when creating a Lingjun node pool.
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// When creating a Lingjun node pool, you need the Lingjun group ID of the associated Lingjun cluster.
+	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
+}
+
+type EfloNodeGroupObservation struct {
+
+	// The ID of the associated Lingjun cluster is required when creating a Lingjun node pool.
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// When creating a Lingjun node pool, you need the Lingjun group ID of the associated Lingjun cluster.
+	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
+}
+
+type EfloNodeGroupParameters struct {
+
+	// The ID of the associated Lingjun cluster is required when creating a Lingjun node pool.
+	// +kubebuilder:validation:Optional
+	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// When creating a Lingjun node pool, you need the Lingjun group ID of the associated Lingjun cluster.
+	// +kubebuilder:validation:Optional
+	GroupID *string `json:"groupId,omitempty" tf:"group_id,omitempty"`
+}
+
 type KubeletConfigurationInitParameters struct {
 
 	// Allowed sysctl mode whitelist.
@@ -606,6 +635,9 @@ type KubernetesNodePoolInitParameters struct {
 	// Number of expected nodes in the node pool.
 	DesiredSize *string `json:"desiredSize,omitempty" tf:"desired_size,omitempty"`
 
+	// Lingjun node pool configuration. See eflo_node_group below.
+	EfloNodeGroup []EfloNodeGroupInitParameters `json:"efloNodeGroup,omitempty" tf:"eflo_node_group,omitempty"`
+
 	// Whether to force deletion.
 	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
@@ -748,6 +780,7 @@ type KubernetesNodePoolInitParameters struct {
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:refFieldName=SecurityGroupIDRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityGroupIDSelector
+	// +listType=set
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
 	// Alibaba Cloud OS security reinforcement. Default value: false. Value:
@@ -810,6 +843,11 @@ type KubernetesNodePoolInitParameters struct {
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	TeeConfig []TeeConfigInitParameters `json:"teeConfig,omitempty" tf:"tee_config,omitempty"`
 
+	// Node pool type, value range:
+	// -'ess': common node pool (including hosting function and auto scaling function).
+	// -'lingjun': Lingjun node pool.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+
 	// Whether the node after expansion can be scheduled.
 	Unschedulable *bool `json:"unschedulable,omitempty" tf:"unschedulable,omitempty"`
 
@@ -860,6 +898,9 @@ type KubernetesNodePoolObservation struct {
 
 	// Number of expected nodes in the node pool.
 	DesiredSize *string `json:"desiredSize,omitempty" tf:"desired_size,omitempty"`
+
+	// Lingjun node pool configuration. See eflo_node_group below.
+	EfloNodeGroup []EfloNodeGroupObservation `json:"efloNodeGroup,omitempty" tf:"eflo_node_group,omitempty"`
 
 	// Whether to force deletion.
 	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
@@ -986,6 +1027,7 @@ type KubernetesNodePoolObservation struct {
 	ScalingPolicy *string `json:"scalingPolicy,omitempty" tf:"scaling_policy,omitempty"`
 
 	// Multiple security groups can be configured for a node pool. If both security_group_ids and security_group_id are configured, security_group_ids takes effect. This field cannot be modified.
+	// +listType=set
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
 	// Alibaba Cloud OS security reinforcement. Default value: false. Value:
@@ -1047,6 +1089,11 @@ type KubernetesNodePoolObservation struct {
 
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	TeeConfig []TeeConfigObservation `json:"teeConfig,omitempty" tf:"tee_config,omitempty"`
+
+	// Node pool type, value range:
+	// -'ess': common node pool (including hosting function and auto scaling function).
+	// -'lingjun': Lingjun node pool.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Whether the node after expansion can be scheduled.
 	Unschedulable *bool `json:"unschedulable,omitempty" tf:"unschedulable,omitempty"`
@@ -1112,6 +1159,10 @@ type KubernetesNodePoolParameters struct {
 	// Number of expected nodes in the node pool.
 	// +kubebuilder:validation:Optional
 	DesiredSize *string `json:"desiredSize,omitempty" tf:"desired_size,omitempty"`
+
+	// Lingjun node pool configuration. See eflo_node_group below.
+	// +kubebuilder:validation:Optional
+	EfloNodeGroup []EfloNodeGroupParameters `json:"efloNodeGroup,omitempty" tf:"eflo_node_group,omitempty"`
 
 	// Whether to force deletion.
 	// +kubebuilder:validation:Optional
@@ -1301,6 +1352,7 @@ type KubernetesNodePoolParameters struct {
 	// +crossplane:generate:reference:refFieldName=SecurityGroupIDRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityGroupIDSelector
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
 	// Alibaba Cloud OS security reinforcement. Default value: false. Value:
@@ -1381,6 +1433,12 @@ type KubernetesNodePoolParameters struct {
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	// +kubebuilder:validation:Optional
 	TeeConfig []TeeConfigParameters `json:"teeConfig,omitempty" tf:"tee_config,omitempty"`
+
+	// Node pool type, value range:
+	// -'ess': common node pool (including hosting function and auto scaling function).
+	// -'lingjun': Lingjun node pool.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// Whether the node after expansion can be scheduled.
 	// +kubebuilder:validation:Optional
@@ -1876,9 +1934,8 @@ type KubernetesNodePoolStatus struct {
 type KubernetesNodePool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceTypes) || (has(self.initProvider) && has(self.initProvider.instanceTypes))",message="spec.forProvider.instanceTypes is a required parameter"
-	Spec   KubernetesNodePoolSpec   `json:"spec"`
-	Status KubernetesNodePoolStatus `json:"status,omitempty"`
+	Spec              KubernetesNodePoolSpec   `json:"spec"`
+	Status            KubernetesNodePoolStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

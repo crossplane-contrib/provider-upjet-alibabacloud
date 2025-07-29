@@ -9,18 +9,13 @@ metadata:
 spec:
   forProvider:
     code:
-    - checksumSecretRef:
-        key: example-key
-        name: example-secret
-        namespace: upbound-system
-      ossBucketNameSecretRef:
-        key: attribute.bucket
-        name: example-oss-bucket
-        namespace: upbound-system
-      ossObjectNameSecretRef:
-        key: attribute.key
-        name: example-oss-bucket-object
-        namespace: upbound-system
+    - checksum: "4270285996107335518"
+      ossBucketNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      ossObjectNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
     cpu: "0.5"
     customRuntimeConfig:
     - args:
@@ -54,10 +49,8 @@ spec:
       - handler: index.stop
         timeout: "1"
     internetAccess: "true"
-    layersSecretRef:
-    - key: example-key
-      name: example-secret
-      namespace: upbound-system
+    layerRefs:
+    - name: example
     logConfig:
     - logBeginRule: None
     memorySize: "512"

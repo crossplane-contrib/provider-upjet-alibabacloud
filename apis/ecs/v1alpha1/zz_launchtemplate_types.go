@@ -13,6 +13,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type ImageOptionsInitParameters struct {
+
+	// Specifies whether the instance that uses the image supports logons of the ecs-user user. Default value: false. Valid values: true,false.
+	LoginAsNonRoot *bool `json:"loginAsNonRoot,omitempty" tf:"login_as_non_root,omitempty"`
+}
+
+type ImageOptionsObservation struct {
+
+	// Specifies whether the instance that uses the image supports logons of the ecs-user user. Default value: false. Valid values: true,false.
+	LoginAsNonRoot *bool `json:"loginAsNonRoot,omitempty" tf:"login_as_non_root,omitempty"`
+}
+
+type ImageOptionsParameters struct {
+
+	// Specifies whether the instance that uses the image supports logons of the ecs-user user. Default value: false. Valid values: true,false.
+	// +kubebuilder:validation:Optional
+	LoginAsNonRoot *bool `json:"loginAsNonRoot,omitempty" tf:"login_as_non_root,omitempty"`
+}
+
 type LaunchTemplateDataDisksInitParameters struct {
 
 	// The category of the disk.
@@ -29,6 +48,9 @@ type LaunchTemplateDataDisksInitParameters struct {
 
 	// Encrypted the data in this disk.
 	Encrypted *bool `json:"encrypted,omitempty" tf:"encrypted,omitempty"`
+
+	// The ID of the KMS key used for the data disk.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// The name of the data disk.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -59,6 +81,9 @@ type LaunchTemplateDataDisksObservation struct {
 
 	// Encrypted the data in this disk.
 	Encrypted *bool `json:"encrypted,omitempty" tf:"encrypted,omitempty"`
+
+	// The ID of the KMS key used for the data disk.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// The name of the data disk.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -94,6 +119,10 @@ type LaunchTemplateDataDisksParameters struct {
 	// Encrypted the data in this disk.
 	// +kubebuilder:validation:Optional
 	Encrypted *bool `json:"encrypted,omitempty" tf:"encrypted,omitempty"`
+
+	// The ID of the KMS key used for the data disk.
+	// +kubebuilder:validation:Optional
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// The name of the data disk.
 	// +kubebuilder:validation:Optional
@@ -161,6 +190,9 @@ type LaunchTemplateInitParameters struct {
 
 	// The Image ID.
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// The options of images. See image_options below.
+	ImageOptions []ImageOptionsInitParameters `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
 
 	// Mirror source. Valid values: system, self, others, marketplace, "". Default to: "".
 	ImageOwnerAlias *string `json:"imageOwnerAlias,omitempty" tf:"image_owner_alias,omitempty"`
@@ -466,6 +498,9 @@ type LaunchTemplateObservation struct {
 	// The Image ID.
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
+	// The options of images. See image_options below.
+	ImageOptions []ImageOptionsObservation `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
+
 	// Mirror source. Valid values: system, self, others, marketplace, "". Default to: "".
 	ImageOwnerAlias *string `json:"imageOwnerAlias,omitempty" tf:"image_owner_alias,omitempty"`
 
@@ -636,6 +671,10 @@ type LaunchTemplateParameters struct {
 	// The Image ID.
 	// +kubebuilder:validation:Optional
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// The options of images. See image_options below.
+	// +kubebuilder:validation:Optional
+	ImageOptions []ImageOptionsParameters `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
 
 	// Mirror source. Valid values: system, self, others, marketplace, "". Default to: "".
 	// +kubebuilder:validation:Optional
@@ -845,6 +884,9 @@ type SystemDiskInitParameters struct {
 	// The Iops.
 	Iops *string `json:"iops,omitempty" tf:"iops,omitempty"`
 
+	// The ID of the KMS key to use for the system disk.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
 	// System disk name. The name is a string of 2 to 128 characters. It must begin with an English or a Chinese character. It can contain A-Z, a-z, Chinese characters, numbers, periods (.), colons (:), underscores (_), and hyphens (-).
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -871,6 +913,9 @@ type SystemDiskObservation struct {
 
 	// The Iops.
 	Iops *string `json:"iops,omitempty" tf:"iops,omitempty"`
+
+	// The ID of the KMS key to use for the system disk.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// System disk name. The name is a string of 2 to 128 characters. It must begin with an English or a Chinese character. It can contain A-Z, a-z, Chinese characters, numbers, periods (.), colons (:), underscores (_), and hyphens (-).
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -903,6 +948,10 @@ type SystemDiskParameters struct {
 	// The Iops.
 	// +kubebuilder:validation:Optional
 	Iops *string `json:"iops,omitempty" tf:"iops,omitempty"`
+
+	// The ID of the KMS key to use for the system disk.
+	// +kubebuilder:validation:Optional
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// System disk name. The name is a string of 2 to 128 characters. It must begin with an English or a Chinese character. It can contain A-Z, a-z, Chinese characters, numbers, periods (.), colons (:), underscores (_), and hyphens (-).
 	// +kubebuilder:validation:Optional

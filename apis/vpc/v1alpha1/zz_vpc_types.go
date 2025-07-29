@@ -36,17 +36,21 @@ type VPCInitParameters struct {
 	// The status of ClassicLink function.
 	ClassicLinkEnabled *bool `json:"classicLinkEnabled,omitempty" tf:"classic_link_enabled,omitempty"`
 
-	// The status of VPC DNS Hostname. Valid values: ENABLED, DISABLED.
+	// The status of VPC DNS Hostname
 	DNSHostnameStatus *string `json:"dnsHostnameStatus,omitempty" tf:"dns_hostname_status,omitempty"`
 
 	// The new description of the VPC.
+	// The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Specifies whether to perform a dry run. Valid values:
+	// Whether to PreCheck only this request. Value:
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// Specifies whether to enable IPv6. Valid values:
+	// Whether to enable the IPv6 network segment. Value:
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
+
+	// Force delete vpc or not.
+	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
 	// Allocate VPC from The IPAM address pool by entering a mask.
 	IPv4CidrMask *float64 `json:"ipv4CidrMask,omitempty" tf:"ipv4_cidr_mask,omitempty"`
@@ -72,14 +76,19 @@ type VPCInitParameters struct {
 	// Field 'secondary_cidr_blocks' has been deprecated from provider version 1.185.0 and it will be removed in the future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'. secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block resource cannot be used at the same time.
 	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
-	// Add an additional CIDR block from the IPAM address pool to the VPC by entering a mask.
+	// (Deprecated since v1.248.0) Field 'router_table_id' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
 	SecondaryCidrMask *float64 `json:"secondaryCidrMask,omitempty" tf:"secondary_cidr_mask,omitempty"`
 
 	// The description of the route table.
+	// The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
 	SystemRouteTableDescription *string `json:"systemRouteTableDescription,omitempty" tf:"system_route_table_description,omitempty"`
 
 	// The name of the route table.
+	// The name must be 1 to 128 characters in length and cannot start with http:// or https://.
 	SystemRouteTableName *string `json:"systemRouteTableName,omitempty" tf:"system_route_table_name,omitempty"`
+
+	// Whether the system route table receives propagation routes.
+	SystemRouteTableRoutePropagationEnable *bool `json:"systemRouteTableRoutePropagationEnable,omitempty" tf:"system_route_table_route_propagation_enable,omitempty"`
 
 	// Key-value map of resource tags.
 	// +mapType=granular
@@ -89,6 +98,7 @@ type VPCInitParameters struct {
 	UserCidrs []*string `json:"userCidrs,omitempty" tf:"user_cidrs,omitempty"`
 
 	// The new name of the VPC.
+	// The name must be 1 to 128 characters in length and cannot start with http:// or https://.
 	VPCName *string `json:"vpcName,omitempty" tf:"vpc_name,omitempty"`
 }
 
@@ -103,17 +113,21 @@ type VPCObservation struct {
 	// The creation time of the VPC.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// The status of VPC DNS Hostname. Valid values: ENABLED, DISABLED.
+	// The status of VPC DNS Hostname
 	DNSHostnameStatus *string `json:"dnsHostnameStatus,omitempty" tf:"dns_hostname_status,omitempty"`
 
 	// The new description of the VPC.
+	// The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Specifies whether to perform a dry run. Valid values:
+	// Whether to PreCheck only this request. Value:
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// Specifies whether to enable IPv6. Valid values:
+	// Whether to enable the IPv6 network segment. Value:
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
+
+	// Force delete vpc or not.
+	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
 	// The ID of the resource supplied above.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -139,16 +153,16 @@ type VPCObservation struct {
 	// (Deprecated since v1.119.0). Field 'name' has been deprecated from provider version 1.119.0. New field 'vpc_name' instead.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (Available since v1.240.0) The region ID of the VPC to which the route table belongs.
+	// The ID of the region where the VPC is located.
 	RegionID *string `json:"regionId,omitempty" tf:"region_id,omitempty"`
 
 	// The ID of the resource group to which you want to move the resource.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// The ID of the route table that you want to query.
+	// The ID of the system route table.
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// The router ID of the VPC.
+	// The region ID of the VPC to which the route table belongs.
 	RouterID *string `json:"routerId,omitempty" tf:"router_id,omitempty"`
 
 	// (Deprecated since v1.227.1). Field 'router_table_id' has been deprecated from provider version 1.227.1. New field 'route_table_id' instead.
@@ -157,17 +171,22 @@ type VPCObservation struct {
 	// Field 'secondary_cidr_blocks' has been deprecated from provider version 1.185.0 and it will be removed in the future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'. secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block resource cannot be used at the same time.
 	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
-	// Add an additional CIDR block from the IPAM address pool to the VPC by entering a mask.
+	// (Deprecated since v1.248.0) Field 'router_table_id' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
 	SecondaryCidrMask *float64 `json:"secondaryCidrMask,omitempty" tf:"secondary_cidr_mask,omitempty"`
 
-	// The status of the VPC.
+	// The status of the VPC.   Pending: The VPC is being configured. Available: The VPC is available.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// The description of the route table.
+	// The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
 	SystemRouteTableDescription *string `json:"systemRouteTableDescription,omitempty" tf:"system_route_table_description,omitempty"`
 
 	// The name of the route table.
+	// The name must be 1 to 128 characters in length and cannot start with http:// or https://.
 	SystemRouteTableName *string `json:"systemRouteTableName,omitempty" tf:"system_route_table_name,omitempty"`
+
+	// Whether the system route table receives propagation routes.
+	SystemRouteTableRoutePropagationEnable *bool `json:"systemRouteTableRoutePropagationEnable,omitempty" tf:"system_route_table_route_propagation_enable,omitempty"`
 
 	// Key-value map of resource tags.
 	// +mapType=granular
@@ -177,6 +196,7 @@ type VPCObservation struct {
 	UserCidrs []*string `json:"userCidrs,omitempty" tf:"user_cidrs,omitempty"`
 
 	// The new name of the VPC.
+	// The name must be 1 to 128 characters in length and cannot start with http:// or https://.
 	VPCName *string `json:"vpcName,omitempty" tf:"vpc_name,omitempty"`
 }
 
@@ -190,21 +210,26 @@ type VPCParameters struct {
 	// +kubebuilder:validation:Optional
 	ClassicLinkEnabled *bool `json:"classicLinkEnabled,omitempty" tf:"classic_link_enabled,omitempty"`
 
-	// The status of VPC DNS Hostname. Valid values: ENABLED, DISABLED.
+	// The status of VPC DNS Hostname
 	// +kubebuilder:validation:Optional
 	DNSHostnameStatus *string `json:"dnsHostnameStatus,omitempty" tf:"dns_hostname_status,omitempty"`
 
 	// The new description of the VPC.
+	// The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Specifies whether to perform a dry run. Valid values:
+	// Whether to PreCheck only this request. Value:
 	// +kubebuilder:validation:Optional
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// Specifies whether to enable IPv6. Valid values:
+	// Whether to enable the IPv6 network segment. Value:
 	// +kubebuilder:validation:Optional
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
+
+	// Force delete vpc or not.
+	// +kubebuilder:validation:Optional
+	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
 	// Allocate VPC from The IPAM address pool by entering a mask.
 	// +kubebuilder:validation:Optional
@@ -243,17 +268,23 @@ type VPCParameters struct {
 	// +kubebuilder:validation:Optional
 	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
-	// Add an additional CIDR block from the IPAM address pool to the VPC by entering a mask.
+	// (Deprecated since v1.248.0) Field 'router_table_id' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
 	// +kubebuilder:validation:Optional
 	SecondaryCidrMask *float64 `json:"secondaryCidrMask,omitempty" tf:"secondary_cidr_mask,omitempty"`
 
 	// The description of the route table.
+	// The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
 	// +kubebuilder:validation:Optional
 	SystemRouteTableDescription *string `json:"systemRouteTableDescription,omitempty" tf:"system_route_table_description,omitempty"`
 
 	// The name of the route table.
+	// The name must be 1 to 128 characters in length and cannot start with http:// or https://.
 	// +kubebuilder:validation:Optional
 	SystemRouteTableName *string `json:"systemRouteTableName,omitempty" tf:"system_route_table_name,omitempty"`
+
+	// Whether the system route table receives propagation routes.
+	// +kubebuilder:validation:Optional
+	SystemRouteTableRoutePropagationEnable *bool `json:"systemRouteTableRoutePropagationEnable,omitempty" tf:"system_route_table_route_propagation_enable,omitempty"`
 
 	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
@@ -265,6 +296,7 @@ type VPCParameters struct {
 	UserCidrs []*string `json:"userCidrs,omitempty" tf:"user_cidrs,omitempty"`
 
 	// The new name of the VPC.
+	// The name must be 1 to 128 characters in length and cannot start with http:// or https://.
 	// +kubebuilder:validation:Optional
 	VPCName *string `json:"vpcName,omitempty" tf:"vpc_name,omitempty"`
 }

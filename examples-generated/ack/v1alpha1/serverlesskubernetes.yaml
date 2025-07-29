@@ -8,24 +8,15 @@ metadata:
   name: serverless
 spec:
   forProvider:
-    addons:
-    - name: alb-ingress-controller
-    - name: metrics-server
-    - name: knative
-    - name: arms-prometheus
     clusterSpec: ack.pro.small
     deletionProtection: false
     endpointPublicAccessEnabled: true
-    loadBalancerSpec: slb.s2.small
-    loggingType: SLS
     newNatGateway: true
     region: cn-beijing
     serviceCidr: 172.21.0.0/20
-    serviceDiscoveryTypes:
-    - PrivateZone
     tags:
       k-aa: v-aa
-      k-bb: v-aa
+      k-bb: v-bb
     timeZone: Asia/Shanghai
     vpcIdSelector:
       matchLabels:

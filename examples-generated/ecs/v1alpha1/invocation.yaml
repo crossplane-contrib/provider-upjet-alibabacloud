@@ -74,8 +74,8 @@ metadata:
   name: default
 spec:
   forProvider:
-    name: ${var.name}
     region: cn-beijing
+    securityGroupName: ${var.name}
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

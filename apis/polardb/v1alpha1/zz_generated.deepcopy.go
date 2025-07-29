@@ -1824,6 +1824,21 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 			}
 		}
 	}
+	if in.ServerlessRuleCPUEnlargeThreshold != nil {
+		in, out := &in.ServerlessRuleCPUEnlargeThreshold, &out.ServerlessRuleCPUEnlargeThreshold
+		*out = new(float64)
+		**out = **in
+	}
+	if in.ServerlessRuleCPUShrinkThreshold != nil {
+		in, out := &in.ServerlessRuleCPUShrinkThreshold, &out.ServerlessRuleCPUShrinkThreshold
+		*out = new(float64)
+		**out = **in
+	}
+	if in.ServerlessRuleMode != nil {
+		in, out := &in.ServerlessRuleMode, &out.ServerlessRuleMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.ServerlessSteadySwitch != nil {
 		in, out := &in.ServerlessSteadySwitch, &out.ServerlessSteadySwitch
 		*out = new(string)
@@ -1836,6 +1851,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	}
 	if in.SourceResourceID != nil {
 		in, out := &in.SourceResourceID, &out.SourceResourceID
+		*out = new(string)
+		**out = **in
+	}
+	if in.StandbyAz != nil {
+		in, out := &in.StandbyAz, &out.StandbyAz
 		*out = new(string)
 		**out = **in
 	}
@@ -2285,6 +2305,21 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 			}
 		}
 	}
+	if in.ServerlessRuleCPUEnlargeThreshold != nil {
+		in, out := &in.ServerlessRuleCPUEnlargeThreshold, &out.ServerlessRuleCPUEnlargeThreshold
+		*out = new(float64)
+		**out = **in
+	}
+	if in.ServerlessRuleCPUShrinkThreshold != nil {
+		in, out := &in.ServerlessRuleCPUShrinkThreshold, &out.ServerlessRuleCPUShrinkThreshold
+		*out = new(float64)
+		**out = **in
+	}
+	if in.ServerlessRuleMode != nil {
+		in, out := &in.ServerlessRuleMode, &out.ServerlessRuleMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.ServerlessSteadySwitch != nil {
 		in, out := &in.ServerlessSteadySwitch, &out.ServerlessSteadySwitch
 		*out = new(string)
@@ -2297,6 +2332,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	}
 	if in.SourceResourceID != nil {
 		in, out := &in.SourceResourceID, &out.SourceResourceID
+		*out = new(string)
+		**out = **in
+	}
+	if in.StandbyAz != nil {
+		in, out := &in.StandbyAz, &out.StandbyAz
 		*out = new(string)
 		**out = **in
 	}
@@ -2704,6 +2744,21 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 			}
 		}
 	}
+	if in.ServerlessRuleCPUEnlargeThreshold != nil {
+		in, out := &in.ServerlessRuleCPUEnlargeThreshold, &out.ServerlessRuleCPUEnlargeThreshold
+		*out = new(float64)
+		**out = **in
+	}
+	if in.ServerlessRuleCPUShrinkThreshold != nil {
+		in, out := &in.ServerlessRuleCPUShrinkThreshold, &out.ServerlessRuleCPUShrinkThreshold
+		*out = new(float64)
+		**out = **in
+	}
+	if in.ServerlessRuleMode != nil {
+		in, out := &in.ServerlessRuleMode, &out.ServerlessRuleMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.ServerlessSteadySwitch != nil {
 		in, out := &in.ServerlessSteadySwitch, &out.ServerlessSteadySwitch
 		*out = new(string)
@@ -2716,6 +2771,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.SourceResourceID != nil {
 		in, out := &in.SourceResourceID, &out.SourceResourceID
+		*out = new(string)
+		**out = **in
+	}
+	if in.StandbyAz != nil {
+		in, out := &in.StandbyAz, &out.StandbyAz
 		*out = new(string)
 		**out = **in
 	}

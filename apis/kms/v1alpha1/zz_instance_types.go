@@ -15,10 +15,10 @@ import (
 
 type BindVpcsInitParameters struct {
 
-	// region id.
+	// region id
 	RegionID *string `json:"regionId,omitempty" tf:"region_id,omitempty"`
 
-	// VPC ID.
+	// VPC ID
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.VPC
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
@@ -30,10 +30,10 @@ type BindVpcsInitParameters struct {
 	// +kubebuilder:validation:Optional
 	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
-	// VPC owner root user ID.
+	// VPC owner root user ID
 	VPCOwnerID *string `json:"vpcOwnerId,omitempty" tf:"vpc_owner_id,omitempty"`
 
-	// vswitch id.
+	// vswitch id
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 
@@ -48,26 +48,26 @@ type BindVpcsInitParameters struct {
 
 type BindVpcsObservation struct {
 
-	// region id.
+	// region id
 	RegionID *string `json:"regionId,omitempty" tf:"region_id,omitempty"`
 
-	// VPC ID.
+	// VPC ID
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
-	// VPC owner root user ID.
+	// VPC owner root user ID
 	VPCOwnerID *string `json:"vpcOwnerId,omitempty" tf:"vpc_owner_id,omitempty"`
 
-	// vswitch id.
+	// vswitch id
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 }
 
 type BindVpcsParameters struct {
 
-	// region id.
+	// region id
 	// +kubebuilder:validation:Optional
 	RegionID *string `json:"regionId,omitempty" tf:"region_id,omitempty"`
 
-	// VPC ID.
+	// VPC ID
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.VPC
 	// +kubebuilder:validation:Optional
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
@@ -80,11 +80,11 @@ type BindVpcsParameters struct {
 	// +kubebuilder:validation:Optional
 	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
-	// VPC owner root user ID.
+	// VPC owner root user ID
 	// +kubebuilder:validation:Optional
 	VPCOwnerID *string `json:"vpcOwnerId,omitempty" tf:"vpc_owner_id,omitempty"`
 
-	// vswitch id.
+	// vswitch id
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +kubebuilder:validation:Optional
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
@@ -100,11 +100,14 @@ type BindVpcsParameters struct {
 
 type InstanceInitParameters struct {
 
-	// Aucillary VPCs used to access this KMS instance. See bind_vpcs below.
+	// Aucillary VPCs used to access this KMS instance See bind_vpcs below.
 	BindVpcs []BindVpcsInitParameters `json:"bindVpcs,omitempty" tf:"bind_vpcs,omitempty"`
 
 	// Whether to force deletion even without backup.
 	ForceDeleteWithoutBackup *string `json:"forceDeleteWithoutBackup,omitempty" tf:"force_delete_without_backup,omitempty"`
+
+	// The name of the resource
+	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
 	// Maximum number of stored keys. The attribute is valid when the attribute payment_type is Subscription.
 	KeyNum *float64 `json:"keyNum,omitempty" tf:"key_num,omitempty"`
@@ -115,13 +118,13 @@ type InstanceInitParameters struct {
 	// Instance log capacity. The attribute is valid when the attribute payment_type is Subscription.
 	LogStorage *float64 `json:"logStorage,omitempty" tf:"log_storage,omitempty"`
 
-	// Payment type, valid values:  Subscription: Prepaid. PayAsYouGo: Postpaid, available since v1.223.2.
+	// Payment type,valid values:
 	PaymentType *string `json:"paymentType,omitempty" tf:"payment_type,omitempty"`
 
 	// Purchase cycle, in months. The attribute is valid when the attribute payment_type is Subscription.
 	Period *float64 `json:"period,omitempty" tf:"period,omitempty"`
 
-	// KMS Instance commodity type (software/hardware).
+	// KMS Instance commodity type (software/hardware)
 	ProductVersion *string `json:"productVersion,omitempty" tf:"product_version,omitempty"`
 
 	// Automatic renewal period, in months. The attribute is valid when the attribute payment_type is Subscription.
@@ -136,7 +139,7 @@ type InstanceInitParameters struct {
 	// The computation performance level of the KMS instance. The attribute is valid when the attribute payment_type is Subscription.
 	Spec *float64 `json:"spec,omitempty" tf:"spec,omitempty"`
 
-	// Instance VPC id.
+	// Instance VPC id
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.VPC
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
@@ -151,7 +154,7 @@ type InstanceInitParameters struct {
 	// The number of managed accesses. The maximum number of VPCs that can access this KMS instance. The attribute is valid when the attribute payment_type is Subscription.
 	VPCNum *float64 `json:"vpcNum,omitempty" tf:"vpc_num,omitempty"`
 
-	// Instance bind vswitches.
+	// Instance bind vswitches
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +listType=set
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
@@ -164,7 +167,7 @@ type InstanceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
-	// zone id.
+	// zone id
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("zone_id",false)
 	// +listType=set
@@ -181,7 +184,7 @@ type InstanceInitParameters struct {
 
 type InstanceObservation struct {
 
-	// Aucillary VPCs used to access this KMS instance. See bind_vpcs below.
+	// Aucillary VPCs used to access this KMS instance See bind_vpcs below.
 	BindVpcs []BindVpcsObservation `json:"bindVpcs,omitempty" tf:"bind_vpcs,omitempty"`
 
 	// KMS instance certificate chain in PEM format.
@@ -199,7 +202,7 @@ type InstanceObservation struct {
 	// The ID of the resource supplied above.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The name of the resource.
+	// The name of the resource
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
 	// Maximum number of stored keys. The attribute is valid when the attribute payment_type is Subscription.
@@ -211,13 +214,13 @@ type InstanceObservation struct {
 	// Instance log capacity. The attribute is valid when the attribute payment_type is Subscription.
 	LogStorage *float64 `json:"logStorage,omitempty" tf:"log_storage,omitempty"`
 
-	// Payment type, valid values:  Subscription: Prepaid. PayAsYouGo: Postpaid, available since v1.223.2.
+	// Payment type,valid values:
 	PaymentType *string `json:"paymentType,omitempty" tf:"payment_type,omitempty"`
 
 	// Purchase cycle, in months. The attribute is valid when the attribute payment_type is Subscription.
 	Period *float64 `json:"period,omitempty" tf:"period,omitempty"`
 
-	// KMS Instance commodity type (software/hardware).
+	// KMS Instance commodity type (software/hardware)
 	ProductVersion *string `json:"productVersion,omitempty" tf:"product_version,omitempty"`
 
 	// Automatic renewal period, in months. The attribute is valid when the attribute payment_type is Subscription.
@@ -235,30 +238,34 @@ type InstanceObservation struct {
 	// Instance status.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// Instance VPC id.
+	// Instance VPC id
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
 	// The number of managed accesses. The maximum number of VPCs that can access this KMS instance. The attribute is valid when the attribute payment_type is Subscription.
 	VPCNum *float64 `json:"vpcNum,omitempty" tf:"vpc_num,omitempty"`
 
-	// Instance bind vswitches.
+	// Instance bind vswitches
 	// +listType=set
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
 
-	// zone id.
+	// zone id
 	// +listType=set
 	ZoneIds []*string `json:"zoneIds,omitempty" tf:"zone_ids,omitempty"`
 }
 
 type InstanceParameters struct {
 
-	// Aucillary VPCs used to access this KMS instance. See bind_vpcs below.
+	// Aucillary VPCs used to access this KMS instance See bind_vpcs below.
 	// +kubebuilder:validation:Optional
 	BindVpcs []BindVpcsParameters `json:"bindVpcs,omitempty" tf:"bind_vpcs,omitempty"`
 
 	// Whether to force deletion even without backup.
 	// +kubebuilder:validation:Optional
 	ForceDeleteWithoutBackup *string `json:"forceDeleteWithoutBackup,omitempty" tf:"force_delete_without_backup,omitempty"`
+
+	// The name of the resource
+	// +kubebuilder:validation:Optional
+	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
 	// Maximum number of stored keys. The attribute is valid when the attribute payment_type is Subscription.
 	// +kubebuilder:validation:Optional
@@ -272,7 +279,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	LogStorage *float64 `json:"logStorage,omitempty" tf:"log_storage,omitempty"`
 
-	// Payment type, valid values:  Subscription: Prepaid. PayAsYouGo: Postpaid, available since v1.223.2.
+	// Payment type,valid values:
 	// +kubebuilder:validation:Optional
 	PaymentType *string `json:"paymentType,omitempty" tf:"payment_type,omitempty"`
 
@@ -280,7 +287,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Period *float64 `json:"period,omitempty" tf:"period,omitempty"`
 
-	// KMS Instance commodity type (software/hardware).
+	// KMS Instance commodity type (software/hardware)
 	// +kubebuilder:validation:Optional
 	ProductVersion *string `json:"productVersion,omitempty" tf:"product_version,omitempty"`
 
@@ -305,7 +312,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Spec *float64 `json:"spec,omitempty" tf:"spec,omitempty"`
 
-	// Instance VPC id.
+	// Instance VPC id
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.VPC
 	// +kubebuilder:validation:Optional
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
@@ -322,7 +329,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	VPCNum *float64 `json:"vpcNum,omitempty" tf:"vpc_num,omitempty"`
 
-	// Instance bind vswitches.
+	// Instance bind vswitches
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -336,7 +343,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
-	// zone id.
+	// zone id
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("zone_id",false)
 	// +kubebuilder:validation:Optional

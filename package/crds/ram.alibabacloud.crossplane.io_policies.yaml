@@ -90,9 +90,9 @@ spec:
                       length and can contain English letters, digits, and dashes (-).
                     type: string
                   rotateStrategy:
-                    description: The automatic rotation mechanism of policy versions
+                    description: 'The automatic rotation mechanism of policy versions
                       can delete historical policy versions. The default value is
-                      None.
+                      None. Valid values:'
                     type: string
                   tags:
                     additionalProperties:
@@ -131,9 +131,9 @@ spec:
                       length and can contain English letters, digits, and dashes (-).
                     type: string
                   rotateStrategy:
-                    description: The automatic rotation mechanism of policy versions
+                    description: 'The automatic rotation mechanism of policy versions
                       can delete historical policy versions. The default value is
-                      None.
+                      None. Valid values:'
                     type: string
                   tags:
                     additionalProperties:
@@ -344,9 +344,9 @@ spec:
                       length and can contain English letters, digits, and dashes (-).
                     type: string
                   rotateStrategy:
-                    description: The automatic rotation mechanism of policy versions
+                    description: 'The automatic rotation mechanism of policy versions
                       can delete historical policy versions. The default value is
-                      None.
+                      None. Valid values:'
                     type: string
                   tags:
                     additionalProperties:

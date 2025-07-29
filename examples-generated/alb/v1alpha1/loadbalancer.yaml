@@ -26,11 +26,11 @@ spec:
     zoneMappings:
     - vswitchIdSelector:
         matchLabels:
-          testing.upbound.io/example-name: default
+          testing.upbound.io/example-name: default1
       zoneId: ${data.alicloud_alb_zones.default.zones.0.id}
     - vswitchIdSelector:
         matchLabels:
-          testing.upbound.io/example-name: default
+          testing.upbound.io/example-name: default2
       zoneId: ${data.alicloud_alb_zones.default.zones.1.id}
 
 ---
@@ -57,15 +57,34 @@ metadata:
   annotations:
     meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: default1
+  name: default1
 spec:
   forProvider:
-    cidrBlock: ${format("10.4.%d.0/24", count.index + 1)}
-    count: 2
+    cidrBlock: 10.4.1.0/24
     region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    vswitchName: ${format("${var.name}_%d", count.index + 1)}
-    zoneId: ${data.alicloud_alb_zones.default.zones[count.index].id}
+    vswitchName: ${var.name}_1
+    zoneId: ${data.alicloud_alb_zones.default.zones.0.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: default2
+  name: default2
+spec:
+  forProvider:
+    cidrBlock: 10.4.2.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}_2
+    zoneId: ${data.alicloud_alb_zones.default.zones.1.id}

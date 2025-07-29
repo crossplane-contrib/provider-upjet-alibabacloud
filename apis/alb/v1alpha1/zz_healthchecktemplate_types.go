@@ -15,137 +15,170 @@ import (
 
 type HealthCheckTemplateInitParameters struct {
 
-	// Whether to precheck the API request.
+	// Whether to PreCheck only this request, value:
+	// true: sends a check request and does not create a resource. Check items include whether required parameters, request format, and business restrictions have been filled in. If the check fails, the corresponding error is returned. If the check passes, the error code DryRunOperation is returned.
+	// false (default): Sends a normal request, returns the http_2xx status code after the check, and directly performs the operation.
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// The HTTP status codes that are used to indicate whether the backend server passes the health check. Default value: http_2xx. Valid values: http_2xx, http_3xx, http_4xx, and http_5xx. NOTE: health_check_codes takes effect only if health_check_protocol is set to HTTP.
+	// The HTTP code of the health check. The default value is http_2xx. The normal HTTP code for health check. Separate multiple codes with commas (,). Valid values: http_2xx, http_3xx, http_4xx, or http_5xx.
 	HealthCheckCodes []*string `json:"healthCheckCodes,omitempty" tf:"health_check_codes,omitempty"`
 
-	// The port that is used for health checks. Default value: 0. Valid values: 0 to 65535.
+	// The number of the port that is used for health checks.  Valid values: 0 to 65535.  Default value: 0. This value indicates that the backend server is used for health checks.
 	HealthCheckConnectPort *float64 `json:"healthCheckConnectPort,omitempty" tf:"health_check_connect_port,omitempty"`
 
-	// The version of the HTTP protocol. Default value: HTTP1.1. Valid values: HTTP1.0, HTTP1.1. NOTE: health_check_http_version takes effect only if health_check_protocol is set to HTTP.
+	// The version of the HTTP protocol.  Valid values: HTTP 1.0 and HTTP 1.1.  Default value: HTTP 1.1.
 	HealthCheckHTTPVersion *string `json:"healthCheckHttpVersion,omitempty" tf:"health_check_http_version,omitempty"`
 
-	// The domain name that is used for health checks. NOTE: health_check_host takes effect only if health_check_protocol is set to HTTP.
+	// The domain name that is used for health checks. Valid values:  $SERVER_IP (default value): The private IP addresses of backend servers. If the $_ip parameter is set or the HealthCheckHost parameter is not set, SLB uses the private IP addresses of backend servers as the domain names for health checks.  domain: The domain name must be 1 to 80 characters in length, and can contain only letters, digits, periods (.),and hyphens (-).
 	HealthCheckHost *string `json:"healthCheckHost,omitempty" tf:"health_check_host,omitempty"`
 
-	// The interval at which health checks are performed. Unit: seconds. Default value: 2. Valid values: 1 to 50.
+	// The time interval between two consecutive health checks.  Valid values: 1 to 50. Unit: seconds.  Default value: 2.
 	HealthCheckInterval *float64 `json:"healthCheckInterval,omitempty" tf:"health_check_interval,omitempty"`
 
-	// The HTTP method that is used for health checks. Default value: HEAD. Valid values: HEAD, GET. NOTE: health_check_method takes effect only if health_check_protocol is set to HTTP.
+	// The health check method.  Valid values: GET and HEAD.  Default value: HEAD.
 	HealthCheckMethod *string `json:"healthCheckMethod,omitempty" tf:"health_check_method,omitempty"`
 
-	// The URL that is used for health checks. NOTE: health_check_path takes effect only if health_check_protocol is set to HTTP.
+	// The URL that is used for health checks.  The URL must be 1 to 80 characters in length, and can contain letters, digits, hyphens (-), forward slashes (/), periods (.), percent signs (%), question marks (?), number signs (#), and ampersands (&). The URL can also contain the following extended characters: _ ; ~ ! ( )* [ ] @ $ ^ : ' , +. The URL must start with a forward slash (/).
 	HealthCheckPath *string `json:"healthCheckPath,omitempty" tf:"health_check_path,omitempty"`
 
-	// The protocol that is used for health checks. Default value: HTTP. Valid values: HTTP, TCP.
+	// The protocol used for the health check. Value:
+	// HTTP (default): Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy.
+	// HTTPS: Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy. (Data encryption is more secure than HTTP.)
+	// TCP: Sends a SYN handshake packet to check whether the server port is alive.
+	// gRPC: Check whether the server application is healthy by sending a POST or GET request.
 	HealthCheckProtocol *string `json:"healthCheckProtocol,omitempty" tf:"health_check_protocol,omitempty"`
 
-	// The name of the health check template. The name must be 2 to 128 characters in length, and can contain letters, digits, periods (.), underscores (_), and hyphens (-). The name must start with a letter.
+	// The name of the health check template.  The name must be 2 to 128 characters in length, and can contain letters, digits, periods (.), underscores (_), and hyphens (-). The name must start with a letter.
 	HealthCheckTemplateName *string `json:"healthCheckTemplateName,omitempty" tf:"health_check_template_name,omitempty"`
 
-	// The timeout period of a health check. Default value: 5. Valid values: 1 to 300.
+	// The timeout period of a health check response. If the backend Elastic Compute Service (ECS) instance does not send an expected response within the specified period of time, the health check fails.  Valid values: 1 to 300. Unit: seconds.  Default value: 5.
 	HealthCheckTimeout *float64 `json:"healthCheckTimeout,omitempty" tf:"health_check_timeout,omitempty"`
 
-	// The number of times that an unhealthy backend server must consecutively pass health checks before it is declared healthy. Default value: 3. Valid values: 2 to 10.
+	// The number of times that an unhealthy backend server must consecutively pass health checks before it is declared healthy (from fail to success).
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
-	// The number of times that a healthy backend server must consecutively fail health checks before it is declared unhealthy. Default value: 3. Valid values: 2 to 10.
+	// The ID of the resource group
+	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// Key-value map of resource tags.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Specifies the number of times that an healthy backend server must consecutively fail health checks before it is declared unhealthy (from success to fail).
 	UnhealthyThreshold *float64 `json:"unhealthyThreshold,omitempty" tf:"unhealthy_threshold,omitempty"`
 }
 
 type HealthCheckTemplateObservation struct {
 
-	// Whether to precheck the API request.
+	// Whether to PreCheck only this request, value:
+	// true: sends a check request and does not create a resource. Check items include whether required parameters, request format, and business restrictions have been filled in. If the check fails, the corresponding error is returned. If the check passes, the error code DryRunOperation is returned.
+	// false (default): Sends a normal request, returns the http_2xx status code after the check, and directly performs the operation.
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// The HTTP status codes that are used to indicate whether the backend server passes the health check. Default value: http_2xx. Valid values: http_2xx, http_3xx, http_4xx, and http_5xx. NOTE: health_check_codes takes effect only if health_check_protocol is set to HTTP.
+	// The HTTP code of the health check. The default value is http_2xx. The normal HTTP code for health check. Separate multiple codes with commas (,). Valid values: http_2xx, http_3xx, http_4xx, or http_5xx.
 	HealthCheckCodes []*string `json:"healthCheckCodes,omitempty" tf:"health_check_codes,omitempty"`
 
-	// The port that is used for health checks. Default value: 0. Valid values: 0 to 65535.
+	// The number of the port that is used for health checks.  Valid values: 0 to 65535.  Default value: 0. This value indicates that the backend server is used for health checks.
 	HealthCheckConnectPort *float64 `json:"healthCheckConnectPort,omitempty" tf:"health_check_connect_port,omitempty"`
 
-	// The version of the HTTP protocol. Default value: HTTP1.1. Valid values: HTTP1.0, HTTP1.1. NOTE: health_check_http_version takes effect only if health_check_protocol is set to HTTP.
+	// The version of the HTTP protocol.  Valid values: HTTP 1.0 and HTTP 1.1.  Default value: HTTP 1.1.
 	HealthCheckHTTPVersion *string `json:"healthCheckHttpVersion,omitempty" tf:"health_check_http_version,omitempty"`
 
-	// The domain name that is used for health checks. NOTE: health_check_host takes effect only if health_check_protocol is set to HTTP.
+	// The domain name that is used for health checks. Valid values:  $SERVER_IP (default value): The private IP addresses of backend servers. If the $_ip parameter is set or the HealthCheckHost parameter is not set, SLB uses the private IP addresses of backend servers as the domain names for health checks.  domain: The domain name must be 1 to 80 characters in length, and can contain only letters, digits, periods (.),and hyphens (-).
 	HealthCheckHost *string `json:"healthCheckHost,omitempty" tf:"health_check_host,omitempty"`
 
-	// The interval at which health checks are performed. Unit: seconds. Default value: 2. Valid values: 1 to 50.
+	// The time interval between two consecutive health checks.  Valid values: 1 to 50. Unit: seconds.  Default value: 2.
 	HealthCheckInterval *float64 `json:"healthCheckInterval,omitempty" tf:"health_check_interval,omitempty"`
 
-	// The HTTP method that is used for health checks. Default value: HEAD. Valid values: HEAD, GET. NOTE: health_check_method takes effect only if health_check_protocol is set to HTTP.
+	// The health check method.  Valid values: GET and HEAD.  Default value: HEAD.
 	HealthCheckMethod *string `json:"healthCheckMethod,omitempty" tf:"health_check_method,omitempty"`
 
-	// The URL that is used for health checks. NOTE: health_check_path takes effect only if health_check_protocol is set to HTTP.
+	// The URL that is used for health checks.  The URL must be 1 to 80 characters in length, and can contain letters, digits, hyphens (-), forward slashes (/), periods (.), percent signs (%), question marks (?), number signs (#), and ampersands (&). The URL can also contain the following extended characters: _ ; ~ ! ( )* [ ] @ $ ^ : ' , +. The URL must start with a forward slash (/).
 	HealthCheckPath *string `json:"healthCheckPath,omitempty" tf:"health_check_path,omitempty"`
 
-	// The protocol that is used for health checks. Default value: HTTP. Valid values: HTTP, TCP.
+	// The protocol used for the health check. Value:
+	// HTTP (default): Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy.
+	// HTTPS: Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy. (Data encryption is more secure than HTTP.)
+	// TCP: Sends a SYN handshake packet to check whether the server port is alive.
+	// gRPC: Check whether the server application is healthy by sending a POST or GET request.
 	HealthCheckProtocol *string `json:"healthCheckProtocol,omitempty" tf:"health_check_protocol,omitempty"`
 
-	// The name of the health check template. The name must be 2 to 128 characters in length, and can contain letters, digits, periods (.), underscores (_), and hyphens (-). The name must start with a letter.
+	// The name of the health check template.  The name must be 2 to 128 characters in length, and can contain letters, digits, periods (.), underscores (_), and hyphens (-). The name must start with a letter.
 	HealthCheckTemplateName *string `json:"healthCheckTemplateName,omitempty" tf:"health_check_template_name,omitempty"`
 
-	// The timeout period of a health check. Default value: 5. Valid values: 1 to 300.
+	// The timeout period of a health check response. If the backend Elastic Compute Service (ECS) instance does not send an expected response within the specified period of time, the health check fails.  Valid values: 1 to 300. Unit: seconds.  Default value: 5.
 	HealthCheckTimeout *float64 `json:"healthCheckTimeout,omitempty" tf:"health_check_timeout,omitempty"`
 
-	// The number of times that an unhealthy backend server must consecutively pass health checks before it is declared healthy. Default value: 3. Valid values: 2 to 10.
+	// The number of times that an unhealthy backend server must consecutively pass health checks before it is declared healthy (from fail to success).
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
+	// The ID of the resource supplied above.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The number of times that a healthy backend server must consecutively fail health checks before it is declared unhealthy. Default value: 3. Valid values: 2 to 10.
+	// The ID of the resource group
+	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// Key-value map of resource tags.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Specifies the number of times that an healthy backend server must consecutively fail health checks before it is declared unhealthy (from success to fail).
 	UnhealthyThreshold *float64 `json:"unhealthyThreshold,omitempty" tf:"unhealthy_threshold,omitempty"`
 }
 
 type HealthCheckTemplateParameters struct {
 
-	// Whether to precheck the API request.
+	// Whether to PreCheck only this request, value:
+	// true: sends a check request and does not create a resource. Check items include whether required parameters, request format, and business restrictions have been filled in. If the check fails, the corresponding error is returned. If the check passes, the error code DryRunOperation is returned.
+	// false (default): Sends a normal request, returns the http_2xx status code after the check, and directly performs the operation.
 	// +kubebuilder:validation:Optional
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// The HTTP status codes that are used to indicate whether the backend server passes the health check. Default value: http_2xx. Valid values: http_2xx, http_3xx, http_4xx, and http_5xx. NOTE: health_check_codes takes effect only if health_check_protocol is set to HTTP.
+	// The HTTP code of the health check. The default value is http_2xx. The normal HTTP code for health check. Separate multiple codes with commas (,). Valid values: http_2xx, http_3xx, http_4xx, or http_5xx.
 	// +kubebuilder:validation:Optional
 	HealthCheckCodes []*string `json:"healthCheckCodes,omitempty" tf:"health_check_codes,omitempty"`
 
-	// The port that is used for health checks. Default value: 0. Valid values: 0 to 65535.
+	// The number of the port that is used for health checks.  Valid values: 0 to 65535.  Default value: 0. This value indicates that the backend server is used for health checks.
 	// +kubebuilder:validation:Optional
 	HealthCheckConnectPort *float64 `json:"healthCheckConnectPort,omitempty" tf:"health_check_connect_port,omitempty"`
 
-	// The version of the HTTP protocol. Default value: HTTP1.1. Valid values: HTTP1.0, HTTP1.1. NOTE: health_check_http_version takes effect only if health_check_protocol is set to HTTP.
+	// The version of the HTTP protocol.  Valid values: HTTP 1.0 and HTTP 1.1.  Default value: HTTP 1.1.
 	// +kubebuilder:validation:Optional
 	HealthCheckHTTPVersion *string `json:"healthCheckHttpVersion,omitempty" tf:"health_check_http_version,omitempty"`
 
-	// The domain name that is used for health checks. NOTE: health_check_host takes effect only if health_check_protocol is set to HTTP.
+	// The domain name that is used for health checks. Valid values:  $SERVER_IP (default value): The private IP addresses of backend servers. If the $_ip parameter is set or the HealthCheckHost parameter is not set, SLB uses the private IP addresses of backend servers as the domain names for health checks.  domain: The domain name must be 1 to 80 characters in length, and can contain only letters, digits, periods (.),and hyphens (-).
 	// +kubebuilder:validation:Optional
 	HealthCheckHost *string `json:"healthCheckHost,omitempty" tf:"health_check_host,omitempty"`
 
-	// The interval at which health checks are performed. Unit: seconds. Default value: 2. Valid values: 1 to 50.
+	// The time interval between two consecutive health checks.  Valid values: 1 to 50. Unit: seconds.  Default value: 2.
 	// +kubebuilder:validation:Optional
 	HealthCheckInterval *float64 `json:"healthCheckInterval,omitempty" tf:"health_check_interval,omitempty"`
 
-	// The HTTP method that is used for health checks. Default value: HEAD. Valid values: HEAD, GET. NOTE: health_check_method takes effect only if health_check_protocol is set to HTTP.
+	// The health check method.  Valid values: GET and HEAD.  Default value: HEAD.
 	// +kubebuilder:validation:Optional
 	HealthCheckMethod *string `json:"healthCheckMethod,omitempty" tf:"health_check_method,omitempty"`
 
-	// The URL that is used for health checks. NOTE: health_check_path takes effect only if health_check_protocol is set to HTTP.
+	// The URL that is used for health checks.  The URL must be 1 to 80 characters in length, and can contain letters, digits, hyphens (-), forward slashes (/), periods (.), percent signs (%), question marks (?), number signs (#), and ampersands (&). The URL can also contain the following extended characters: _ ; ~ ! ( )* [ ] @ $ ^ : ' , +. The URL must start with a forward slash (/).
 	// +kubebuilder:validation:Optional
 	HealthCheckPath *string `json:"healthCheckPath,omitempty" tf:"health_check_path,omitempty"`
 
-	// The protocol that is used for health checks. Default value: HTTP. Valid values: HTTP, TCP.
+	// The protocol used for the health check. Value:
+	// HTTP (default): Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy.
+	// HTTPS: Sends a HEAD or GET request to simulate the browser's access behavior to check whether the server application is healthy. (Data encryption is more secure than HTTP.)
+	// TCP: Sends a SYN handshake packet to check whether the server port is alive.
+	// gRPC: Check whether the server application is healthy by sending a POST or GET request.
 	// +kubebuilder:validation:Optional
 	HealthCheckProtocol *string `json:"healthCheckProtocol,omitempty" tf:"health_check_protocol,omitempty"`
 
-	// The name of the health check template. The name must be 2 to 128 characters in length, and can contain letters, digits, periods (.), underscores (_), and hyphens (-). The name must start with a letter.
+	// The name of the health check template.  The name must be 2 to 128 characters in length, and can contain letters, digits, periods (.), underscores (_), and hyphens (-). The name must start with a letter.
 	// +kubebuilder:validation:Optional
 	HealthCheckTemplateName *string `json:"healthCheckTemplateName,omitempty" tf:"health_check_template_name,omitempty"`
 
-	// The timeout period of a health check. Default value: 5. Valid values: 1 to 300.
+	// The timeout period of a health check response. If the backend Elastic Compute Service (ECS) instance does not send an expected response within the specified period of time, the health check fails.  Valid values: 1 to 300. Unit: seconds.  Default value: 5.
 	// +kubebuilder:validation:Optional
 	HealthCheckTimeout *float64 `json:"healthCheckTimeout,omitempty" tf:"health_check_timeout,omitempty"`
 
-	// The number of times that an unhealthy backend server must consecutively pass health checks before it is declared healthy. Default value: 3. Valid values: 2 to 10.
+	// The number of times that an unhealthy backend server must consecutively pass health checks before it is declared healthy (from fail to success).
 	// +kubebuilder:validation:Optional
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
@@ -154,7 +187,16 @@ type HealthCheckTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
-	// The number of times that a healthy backend server must consecutively fail health checks before it is declared unhealthy. Default value: 3. Valid values: 2 to 10.
+	// The ID of the resource group
+	// +kubebuilder:validation:Optional
+	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// Key-value map of resource tags.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Specifies the number of times that an healthy backend server must consecutively fail health checks before it is declared unhealthy (from success to fail).
 	// +kubebuilder:validation:Optional
 	UnhealthyThreshold *float64 `json:"unhealthyThreshold,omitempty" tf:"unhealthy_threshold,omitempty"`
 }

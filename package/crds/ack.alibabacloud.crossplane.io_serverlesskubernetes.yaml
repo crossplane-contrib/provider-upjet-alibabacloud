@@ -99,13 +99,25 @@ spec:
                       type: object
                     type: array
                   clientCert:
-                    description: The path of client certificate, like ~/.kube/client-cert.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-cert.pem) for replace it.
                     type: string
                   clientKey:
-                    description: The path of client key, like ~/.kube/client-key.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_key attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-key.pem) for replace it.
                     type: string
                   clusterCaCert:
-                    description: The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.cluster_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/cluster-ca-cert.pem) for replace it.
                     type: string
                   clusterSpec:
                     description: 'The cluster specifications of serverless kubernetes
@@ -157,7 +169,9 @@ spec:
                       to true, then the cluster will be recreated.
                     type: boolean
                   kubeConfig:
-                    description: The path of kube config, like ~/.kube/config.
+                    description: The path of kube config, like ~/.kube/config. Please
+                      use the attribute output_file of new DataSource alicloud_cs_cluster_credential
+                      to replace it.
                     type: string
                   loadBalancerSpec:
                     description: The cluster api server load balance instance specification,
@@ -647,13 +661,25 @@ spec:
                       type: object
                     type: array
                   clientCert:
-                    description: The path of client certificate, like ~/.kube/client-cert.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-cert.pem) for replace it.
                     type: string
                   clientKey:
-                    description: The path of client key, like ~/.kube/client-key.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_key attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-key.pem) for replace it.
                     type: string
                   clusterCaCert:
-                    description: The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.cluster_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/cluster-ca-cert.pem) for replace it.
                     type: string
                   clusterSpec:
                     description: 'The cluster specifications of serverless kubernetes
@@ -705,7 +731,9 @@ spec:
                       to true, then the cluster will be recreated.
                     type: boolean
                   kubeConfig:
-                    description: The path of kube config, like ~/.kube/config.
+                    description: The path of kube config, like ~/.kube/config. Please
+                      use the attribute output_file of new DataSource alicloud_cs_cluster_credential
+                      to replace it.
                     type: string
                   loadBalancerSpec:
                     description: The cluster api server load balance instance specification,
@@ -1351,13 +1379,25 @@ spec:
                       type: object
                     type: array
                   clientCert:
-                    description: The path of client certificate, like ~/.kube/client-cert.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-cert.pem) for replace it.
                     type: string
                   clientKey:
-                    description: The path of client key, like ~/.kube/client-key.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_key attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-key.pem) for replace it.
                     type: string
                   clusterCaCert:
-                    description: The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.cluster_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/cluster-ca-cert.pem) for replace it.
                     type: string
                   clusterSpec:
                     description: 'The cluster specifications of serverless kubernetes
@@ -1412,7 +1452,9 @@ spec:
                     description: The Cluster ID of the serverless cluster.
                     type: string
                   kubeConfig:
-                    description: The path of kube config, like ~/.kube/config.
+                    description: The path of kube config, like ~/.kube/config. Please
+                      use the attribute output_file of new DataSource alicloud_cs_cluster_credential
+                      to replace it.
                     type: string
                   loadBalancerSpec:
                     description: The cluster api server load balance instance specification,

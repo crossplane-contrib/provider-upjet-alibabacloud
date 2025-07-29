@@ -70,13 +70,13 @@ type EdgeKubernetesInitParameters struct {
 	// The ID of availability zone.
 	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
 	// The cluster specifications of kubernetes cluster,which can be empty. Valid values:
@@ -85,7 +85,7 @@ type EdgeKubernetesInitParameters struct {
 	// Whether to enable cluster deletion protection.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
-	// Default false, when you want to change vpc_id, you have to set this field to true, then the cluster will be recreated.
+	// (Removed) Whether to force the update of kubernetes cluster arguments. Default to false.
 	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
 	// Install cloud monitor agent on ECS. default: true.
@@ -97,7 +97,7 @@ type EdgeKubernetesInitParameters struct {
 	// The keypair of ssh login cluster node, you have to create it first. You have to specify one of password key_name kms_encrypted_password fields.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// The path of kube config, like ~/.kube/config.
+	// The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 
 	// The cluster api server load balance instance specification. For more information on how to select a LB instance specification, see SLB instance overview.
@@ -152,6 +152,9 @@ type EdgeKubernetesInitParameters struct {
 
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
+
+	// Configure whether to save certificate authority data for your cluster to attribute certificate_authority. For cluster security, recommended configuration as true. Will be removed with attribute certificate_authority removed.
+	SkipSetCertificateAuthority *bool `json:"skipSetCertificateAuthority,omitempty" tf:"skip_set_certificate_authority,omitempty"`
 
 	// Whether to create internet load balancer for API Server. Default to true.
 	SlbInternetEnabled *bool `json:"slbInternetEnabled,omitempty" tf:"slb_internet_enabled,omitempty"`
@@ -213,17 +216,17 @@ type EdgeKubernetesObservation struct {
 	// The ID of availability zone.
 	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
 
-	// (Map, Available since v1.105.0) Nested attribute containing certificate authority data for your cluster.
+	// (Map, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.
 	// +mapType=granular
 	CertificateAuthority map[string]*string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
 	// The cluster specifications of kubernetes cluster,which can be empty. Valid values:
@@ -236,7 +239,7 @@ type EdgeKubernetesObservation struct {
 	// Whether to enable cluster deletion protection.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
-	// Default false, when you want to change vpc_id, you have to set this field to true, then the cluster will be recreated.
+	// (Removed) Whether to force the update of kubernetes cluster arguments. Default to false.
 	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
 	// The ID of the container cluster.
@@ -251,7 +254,7 @@ type EdgeKubernetesObservation struct {
 	// The keypair of ssh login cluster node, you have to create it first. You have to specify one of password key_name kms_encrypted_password fields.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// The path of kube config, like ~/.kube/config.
+	// The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 
 	// The cluster api server load balance instance specification. For more information on how to select a LB instance specification, see SLB instance overview.
@@ -297,6 +300,9 @@ type EdgeKubernetesObservation struct {
 
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
+
+	// Configure whether to save certificate authority data for your cluster to attribute certificate_authority. For cluster security, recommended configuration as true. Will be removed with attribute certificate_authority removed.
+	SkipSetCertificateAuthority *bool `json:"skipSetCertificateAuthority,omitempty" tf:"skip_set_certificate_authority,omitempty"`
 
 	// The public ip of load balancer.
 	SlbInternet *string `json:"slbInternet,omitempty" tf:"slb_internet,omitempty"`
@@ -364,15 +370,15 @@ type EdgeKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
@@ -384,7 +390,7 @@ type EdgeKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
-	// Default false, when you want to change vpc_id, you have to set this field to true, then the cluster will be recreated.
+	// (Removed) Whether to force the update of kubernetes cluster arguments. Default to false.
 	// +kubebuilder:validation:Optional
 	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
@@ -400,7 +406,7 @@ type EdgeKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// The path of kube config, like ~/.kube/config.
+	// The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	// +kubebuilder:validation:Optional
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 
@@ -475,6 +481,10 @@ type EdgeKubernetesParameters struct {
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	// +kubebuilder:validation:Optional
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
+
+	// Configure whether to save certificate authority data for your cluster to attribute certificate_authority. For cluster security, recommended configuration as true. Will be removed with attribute certificate_authority removed.
+	// +kubebuilder:validation:Optional
+	SkipSetCertificateAuthority *bool `json:"skipSetCertificateAuthority,omitempty" tf:"skip_set_certificate_authority,omitempty"`
 
 	// Whether to create internet load balancer for API Server. Default to true.
 	// +kubebuilder:validation:Optional

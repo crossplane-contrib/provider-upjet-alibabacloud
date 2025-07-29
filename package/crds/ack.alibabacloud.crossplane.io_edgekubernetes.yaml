@@ -99,13 +99,25 @@ spec:
                     description: The ID of availability zone.
                     type: string
                   clientCert:
-                    description: The path of client certificate, like ~/.kube/client-cert.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-cert.pem) for replace it.
                     type: string
                   clientKey:
-                    description: The path of client key, like ~/.kube/client-key.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_key attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-key.pem) for replace it.
                     type: string
                   clusterCaCert:
-                    description: The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.cluster_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/cluster-ca-cert.pem) for replace it.
                     type: string
                   clusterSpec:
                     description: 'The cluster specifications of kubernetes cluster,which
@@ -115,8 +127,8 @@ spec:
                     description: Whether to enable cluster deletion protection.
                     type: boolean
                   forceUpdate:
-                    description: Default false, when you want to change vpc_id, you
-                      have to set this field to true, then the cluster will be recreated.
+                    description: (Removed) Whether to force the update of kubernetes
+                      cluster arguments. Default to false.
                     type: boolean
                   installCloudMonitor:
                     description: 'Install cloud monitor agent on ECS. default: true.'
@@ -131,7 +143,9 @@ spec:
                       kms_encrypted_password fields.
                     type: string
                   kubeConfig:
-                    description: The path of kube config, like ~/.kube/config.
+                    description: The path of kube config, like ~/.kube/config. Please
+                      use the attribute output_file of new DataSource alicloud_cs_cluster_credential
+                      to replace it.
                     type: string
                   loadBalancerSpec:
                     description: |-
@@ -313,6 +327,12 @@ spec:
                       be duplicated with the VPC CIDR and CIDR used by Kubernetes
                       cluster in VPC, cannot be modified after creation.
                     type: string
+                  skipSetCertificateAuthority:
+                    description: Configure whether to save certificate authority data
+                      for your cluster to attribute certificate_authority. For cluster
+                      security, recommended configuration as true. Will be removed
+                      with attribute certificate_authority removed.
+                    type: boolean
                   slbInternetEnabled:
                     description: Whether to create internet load balancer for API
                       Server. Default to true.
@@ -535,13 +555,25 @@ spec:
                     description: The ID of availability zone.
                     type: string
                   clientCert:
-                    description: The path of client certificate, like ~/.kube/client-cert.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-cert.pem) for replace it.
                     type: string
                   clientKey:
-                    description: The path of client key, like ~/.kube/client-key.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_key attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-key.pem) for replace it.
                     type: string
                   clusterCaCert:
-                    description: The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.cluster_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/cluster-ca-cert.pem) for replace it.
                     type: string
                   clusterSpec:
                     description: 'The cluster specifications of kubernetes cluster,which
@@ -551,8 +583,8 @@ spec:
                     description: Whether to enable cluster deletion protection.
                     type: boolean
                   forceUpdate:
-                    description: Default false, when you want to change vpc_id, you
-                      have to set this field to true, then the cluster will be recreated.
+                    description: (Removed) Whether to force the update of kubernetes
+                      cluster arguments. Default to false.
                     type: boolean
                   installCloudMonitor:
                     description: 'Install cloud monitor agent on ECS. default: true.'
@@ -567,7 +599,9 @@ spec:
                       kms_encrypted_password fields.
                     type: string
                   kubeConfig:
-                    description: The path of kube config, like ~/.kube/config.
+                    description: The path of kube config, like ~/.kube/config. Please
+                      use the attribute output_file of new DataSource alicloud_cs_cluster_credential
+                      to replace it.
                     type: string
                   loadBalancerSpec:
                     description: |-
@@ -745,6 +779,12 @@ spec:
                       be duplicated with the VPC CIDR and CIDR used by Kubernetes
                       cluster in VPC, cannot be modified after creation.
                     type: string
+                  skipSetCertificateAuthority:
+                    description: Configure whether to save certificate authority data
+                      for your cluster to attribute certificate_authority. For cluster
+                      security, recommended configuration as true. Will be removed
+                      with attribute certificate_authority removed.
+                    type: boolean
                   slbInternetEnabled:
                     description: Whether to create internet load balancer for API
                       Server. Default to true.
@@ -1137,18 +1177,32 @@ spec:
                   certificateAuthority:
                     additionalProperties:
                       type: string
-                    description: (Map, Available since v1.105.0) Nested attribute
-                      containing certificate authority data for your cluster.
+                    description: (Map, Deprecated from v1.248.0) Nested attribute
+                      containing certificate authority data for your cluster. Please
+                      use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential
+                      to replace it.
                     type: object
                     x-kubernetes-map-type: granular
                   clientCert:
-                    description: The path of client certificate, like ~/.kube/client-cert.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-cert.pem) for replace it.
                     type: string
                   clientKey:
-                    description: The path of client key, like ~/.kube/client-key.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_key attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-key.pem) for replace it.
                     type: string
                   clusterCaCert:
-                    description: The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.cluster_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/cluster-ca-cert.pem) for replace it.
                     type: string
                   clusterSpec:
                     description: 'The cluster specifications of kubernetes cluster,which
@@ -1164,8 +1218,8 @@ spec:
                     description: Whether to enable cluster deletion protection.
                     type: boolean
                   forceUpdate:
-                    description: Default false, when you want to change vpc_id, you
-                      have to set this field to true, then the cluster will be recreated.
+                    description: (Removed) Whether to force the update of kubernetes
+                      cluster arguments. Default to false.
                     type: boolean
                   id:
                     description: The ID of the container cluster.
@@ -1183,7 +1237,9 @@ spec:
                       kms_encrypted_password fields.
                     type: string
                   kubeConfig:
-                    description: The path of kube config, like ~/.kube/config.
+                    description: The path of kube config, like ~/.kube/config. Please
+                      use the attribute output_file of new DataSource alicloud_cs_cluster_credential
+                      to replace it.
                     type: string
                   loadBalancerSpec:
                     description: |-
@@ -1271,6 +1327,12 @@ spec:
                       be duplicated with the VPC CIDR and CIDR used by Kubernetes
                       cluster in VPC, cannot be modified after creation.
                     type: string
+                  skipSetCertificateAuthority:
+                    description: Configure whether to save certificate authority data
+                      for your cluster to attribute certificate_authority. For cluster
+                      security, recommended configuration as true. Will be removed
+                      with attribute certificate_authority removed.
+                    type: boolean
                   slbInternet:
                     description: The public ip of load balancer.
                     type: string

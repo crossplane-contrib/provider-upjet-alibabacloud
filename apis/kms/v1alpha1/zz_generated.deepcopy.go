@@ -399,6 +399,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
+		*out = new(string)
+		**out = **in
+	}
 	if in.KeyNum != nil {
 		in, out := &in.KeyNum, &out.KeyNum
 		*out = new(float64)
@@ -710,6 +715,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.ForceDeleteWithoutBackup != nil {
 		in, out := &in.ForceDeleteWithoutBackup, &out.ForceDeleteWithoutBackup
+		*out = new(string)
+		**out = **in
+	}
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}

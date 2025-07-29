@@ -78,77 +78,171 @@ spec:
                       See code below.
                     items:
                       properties:
-                        checksumSecretRef:
+                        checksum:
                           description: The CRC-64 value of the function code package.
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
-                        ossBucketNameSecretRef:
+                          type: string
+                        ossBucketName:
                           description: The name of the OSS Bucket that stores the
                             function code ZIP package.
+                          type: string
+                        ossBucketNameRef:
+                          description: Reference to a Bucket in oss to populate ossBucketName.
                           properties:
-                            key:
-                              description: The key to select.
-                              type: string
                             name:
-                              description: Name of the secret.
+                              description: Name of the referenced object.
                               type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
                           required:
-                          - key
                           - name
-                          - namespace
                           type: object
-                        ossObjectNameSecretRef:
+                        ossBucketNameSelector:
+                          description: Selector for a Bucket in oss to populate ossBucketName.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        ossObjectName:
                           description: The name of the OSS Object that stores the
                             function code ZIP package.
+                          type: string
+                        ossObjectNameRef:
+                          description: Reference to a BucketObject in oss to populate
+                            ossObjectName.
                           properties:
-                            key:
-                              description: The key to select.
-                              type: string
                             name:
-                              description: Name of the secret.
+                              description: Name of the referenced object.
                               type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
                           required:
-                          - key
                           - name
-                          - namespace
                           type: object
-                        zipFileSecretRef:
+                        ossObjectNameSelector:
+                          description: Selector for a BucketObject in oss to populate
+                            ossObjectName.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        zipFile:
                           description: The Base 64 encoding of the function code ZIP
                             package.
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
+                          type: string
                       type: object
                     type: array
                   cpu:
@@ -398,26 +492,101 @@ spec:
                   internetAccess:
                     description: Allow function to access public network
                     type: boolean
-                  layersSecretRef:
+                  invocationRestriction:
+                    description: Invocation Restriction Detail See invocation_restriction
+                      below.
+                    items:
+                      properties:
+                        disable:
+                          description: Whether invocation is disabled
+                          type: boolean
+                        reason:
+                          description: Disable Reason
+                          type: string
+                      type: object
+                    type: array
+                  layerRefs:
+                    description: References to LayerVersion in fcv3 to populate layers.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  layerSelector:
+                    description: Selector for a list of LayerVersion in fcv3 to populate
+                      layers.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  layers:
                     description: The list of layers.
                     items:
-                      description: A SecretKeySelector is a reference to a secret
-                        key in an arbitrary namespace.
-                      properties:
-                        key:
-                          description: The key to select.
-                          type: string
-                        name:
-                          description: Name of the secret.
-                          type: string
-                        namespace:
-                          description: Namespace of the secret.
-                          type: string
-                      required:
-                      - key
-                      - name
-                      - namespace
-                      type: object
+                      type: string
                     type: array
                   logConfig:
                     description: The logs generated by the function are written to
@@ -878,77 +1047,171 @@ spec:
                       See code below.
                     items:
                       properties:
-                        checksumSecretRef:
+                        checksum:
                           description: The CRC-64 value of the function code package.
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
-                        ossBucketNameSecretRef:
+                          type: string
+                        ossBucketName:
                           description: The name of the OSS Bucket that stores the
                             function code ZIP package.
+                          type: string
+                        ossBucketNameRef:
+                          description: Reference to a Bucket in oss to populate ossBucketName.
                           properties:
-                            key:
-                              description: The key to select.
-                              type: string
                             name:
-                              description: Name of the secret.
+                              description: Name of the referenced object.
                               type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
                           required:
-                          - key
                           - name
-                          - namespace
                           type: object
-                        ossObjectNameSecretRef:
+                        ossBucketNameSelector:
+                          description: Selector for a Bucket in oss to populate ossBucketName.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        ossObjectName:
                           description: The name of the OSS Object that stores the
                             function code ZIP package.
+                          type: string
+                        ossObjectNameRef:
+                          description: Reference to a BucketObject in oss to populate
+                            ossObjectName.
                           properties:
-                            key:
-                              description: The key to select.
-                              type: string
                             name:
-                              description: Name of the secret.
+                              description: Name of the referenced object.
                               type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
                           required:
-                          - key
                           - name
-                          - namespace
                           type: object
-                        zipFileSecretRef:
+                        ossObjectNameSelector:
+                          description: Selector for a BucketObject in oss to populate
+                            ossObjectName.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        zipFile:
                           description: The Base 64 encoding of the function code ZIP
                             package.
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
+                          type: string
                       type: object
                     type: array
                   cpu:
@@ -1198,7 +1461,99 @@ spec:
                   internetAccess:
                     description: Allow function to access public network
                     type: boolean
-                  layersSecretRef:
+                  invocationRestriction:
+                    description: Invocation Restriction Detail See invocation_restriction
+                      below.
+                    items:
+                      properties:
+                        disable:
+                          description: Whether invocation is disabled
+                          type: boolean
+                        reason:
+                          description: Disable Reason
+                          type: string
+                      type: object
+                    type: array
+                  layerRefs:
+                    description: References to LayerVersion in fcv3 to populate layers.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  layerSelector:
+                    description: Selector for a list of LayerVersion in fcv3 to populate
+                      layers.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  layers:
+                    description: The list of layers.
                     items:
                       type: string
                     type: array
@@ -1825,77 +2180,21 @@ spec:
                       See code below.
                     items:
                       properties:
-                        checksumSecretRef:
+                        checksum:
                           description: The CRC-64 value of the function code package.
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
-                        ossBucketNameSecretRef:
+                          type: string
+                        ossBucketName:
                           description: The name of the OSS Bucket that stores the
                             function code ZIP package.
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
-                        ossObjectNameSecretRef:
+                          type: string
+                        ossObjectName:
                           description: The name of the OSS Object that stores the
                             function code ZIP package.
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
-                        zipFileSecretRef:
+                          type: string
+                        zipFile:
                           description: The Base 64 encoding of the function code ZIP
                             package.
-                          properties:
-                            key:
-                              description: The key to select.
-                              type: string
-                            name:
-                              description: Name of the secret.
-                              type: string
-                            namespace:
-                              description: Namespace of the secret.
-                              type: string
-                          required:
-                          - key
-                          - name
-                          - namespace
-                          type: object
+                          type: string
                       type: object
                     type: array
                   codeSize:
@@ -2176,8 +2475,24 @@ spec:
                   internetAccess:
                     description: Allow function to access public network
                     type: boolean
+                  invocationRestriction:
+                    description: Invocation Restriction Detail See invocation_restriction
+                      below.
+                    items:
+                      properties:
+                        disable:
+                          description: Whether invocation is disabled
+                          type: boolean
+                        lastModifiedTime:
+                          description: Last modified time of invocation restriction
+                          type: string
+                        reason:
+                          description: Disable Reason
+                          type: string
+                      type: object
+                    type: array
                   lastModifiedTime:
-                    description: Last time the function was Updated
+                    description: Last modified time of invocation restriction
                     type: string
                   lastUpdateStatus:
                     description: The status of the last function update operation.
@@ -2192,6 +2507,11 @@ spec:
                     description: Status code of the reason that caused the last function
                       update operation status to the current value
                     type: string
+                  layers:
+                    description: The list of layers.
+                    items:
+                      type: string
+                    type: array
                   logConfig:
                     description: The logs generated by the function are written to
                       the configured Logstore. See log_config below.

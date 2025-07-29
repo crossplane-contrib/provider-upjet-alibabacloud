@@ -8,10 +8,10 @@ metadata:
   name: default
 spec:
   forProvider:
-    installCloudMonitor: "true"
-    isEnterpriseSecurityGroup: "true"
-    newNatGateway: "true"
-    nodeCidrMask: "24"
+    installCloudMonitor: true
+    isEnterpriseSecurityGroup: true
+    newNatGateway: true
+    nodeCidrMask: 24
     passwordSecretRef:
       key: example-key
       name: example-secret
@@ -19,7 +19,8 @@ spec:
     podCidr: 10.99.0.0/16
     region: cn-beijing
     serviceCidr: 172.16.0.0/16
-    slbInternetEnabled: "true"
+    skipSetCertificateAuthority: true
+    slbInternetEnabled: true
     version: 1.26.3-aliyun.1
     workerDataDisks:
     - category: cloud_ssd
@@ -28,7 +29,7 @@ spec:
     workerInstanceChargeType: PostPaid
     workerInstanceTypes:
     - ${data.alicloud_instance_types.default.instance_types.0.id}
-    workerNumber: "1"
+    workerNumber: 1
     workerVswitchIDsRefs:
     - name: default
 

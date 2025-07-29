@@ -9,27 +9,13 @@ metadata:
 spec:
   forProvider:
     code:
-    - checksumSecretRef:
-        key: checksum
-        name: fcv3-function-secret
-        namespace: crossplane-system
-      ossBucketNameSecretRef:
-        key: ossBucketName
-        name: fcv3-function-secret
-        namespace: crossplane-system
-      ossObjectNameSecretRef:
-        key: ossObjectName
-        name: fcv3-function-secret
-        namespace: crossplane-system
-#    - checksum: 4270285996107335518
-##      ossBucketName: crossplane-example-for-function-20250725
-##      ossObjectName: FCV3Py39.zip
-#      ossBucketNameSelector:
-#        matchLabels:
-#          testing.upbound.io/example-name: function
-#      ossObjectNameSelector:
-#        matchLabels:
-#          testing.upbound.io/example-name: function
+    - checksum: "4270285996107335518"
+      ossBucketNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: function
+      ossObjectNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: function
     cpu: 0.5
     customRuntimeConfig:
     - args:
@@ -52,7 +38,7 @@ spec:
     diskSize: 512
     environmentVariables:
       EnvKey: EnvVal
-    functionName: crossplane-example-function-20250725
+    functionName: crossplane-example-function-20250729
     handler: index.handler
     instanceConcurrency: 2
     instanceLifecycleConfig:
@@ -63,10 +49,9 @@ spec:
       - handler: index.stop
         timeout: 1
     internetAccess: true
-    layersSecretRef:
-    - key: layer1
-      name: fcv3-function-secret
-      namespace: crossplane-system
+    layerSelector:
+      matchLabels:
+        testing.upbound.io/example-name: function
     logConfig:
     - logBeginRule: None
     memorySize: 512
@@ -96,7 +81,7 @@ metadata:
   name: function
 spec:
   forProvider:
-    bucket: crossplane-example-for-function-20250725
+    bucket: crossplane-example-for-function-20250729
     region: cn-beijing
 
 ---
@@ -132,7 +117,7 @@ spec:
   forProvider:
     cidrBlock: 10.0.0.0/8
     region: cn-beijing
-    vpcName: crossplane-example-for-function-20250725
+    vpcName: crossplane-example-for-function-20250729
 
 ---
 
@@ -149,7 +134,7 @@ spec:
     cidrBlock: 10.0.1.0/24
     zoneId: cn-beijing-f
     region: cn-beijing
-    vswitchName: crossplane-example-for-function-20250725
+    vswitchName: crossplane-example-for-function-20250729
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: function
@@ -166,20 +151,26 @@ metadata:
 spec:
   forProvider:
     region: cn-beijing
-    securityGroupName: crossplane-example-for-function-20250725
+    securityGroupName: crossplane-example-for-function-20250729
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: function
 
 ---
-apiVersion: v1
-kind: Secret
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: LayerVersion
 metadata:
-  name: fcv3-function-secret
-  namespace: crossplane-system
-type: Opaque
-stringData:
-  checkSum: "4270285996107335518"
-  ossBucketName: "crossplane-example-for-function-20250725"
-  ossObjectName: "FCV3Py39.zip"
-  layer1: "acs:fc:cn-beijing:official:layers/Python39-Aliyun-SDK/versions/3"
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    acl: "0"
+    code:
+      - zipFile: UEsDBBQACAAIAAAAAAAAAAAAAAAAAAAAAAAIAAAAaW5kZXgucHmEkEFKxEAQRfd9ig9ZTCJOooIwDMwNXLqXnnQlaalUhU5lRj2KZ/FOXkESGR114bJ/P/7jV4b1xRq1hijtFpM1682cuNgPmgysbRulPT0fRxXnMtwrSPyeCdYRokSLnuMLJTTkbUqEvDMbxm1VdcRD6Tk+T1LW2ldB66knsYdA5iNX17ebm6tN2VnPhcswMPmREPuBacb+CiapLarAj9gT6/H97dVlCNScY3mtYvRkxdZlwDKDEnanPWVLdrdkeXEGlFEazVdfPVHaVeHc3N15CUwppwOJXeK7HshAB8NuOU7J6sP4SRXuH/EvbUfMiqMmDqv5M5FNSfAj/wgAAP//UEsHCPl//NYAAQAArwEAAFBLAQIUABQACAAIAAAAAAD5f/zWAAEAAK8BAAAIAAAAAAAAAAAAAAAAAAAAAABpbmRleC5weVBLBQYAAAAAAQABADYAAAA2AQAAAAA=
+    description: crossplane-example-for-function-20250729
+    layerName: FC3LayerResouceTest_ZIP_2024SepWed
+    license: Apache2.0
+    region: cn-beijing

@@ -13,29 +13,13 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type ImageOptionsInitParameters struct {
-
-	// Whether to allow the instance logging in with the ecs-user user.
-	LoginAsNonRoot *bool `json:"loginAsNonRoot,omitempty" tf:"login_as_non_root,omitempty"`
-}
-
-type ImageOptionsObservation struct {
-
-	// Whether to allow the instance logging in with the ecs-user user.
-	LoginAsNonRoot *bool `json:"loginAsNonRoot,omitempty" tf:"login_as_non_root,omitempty"`
-}
-
-type ImageOptionsParameters struct {
-
-	// Whether to allow the instance logging in with the ecs-user user.
-	// +kubebuilder:validation:Optional
-	LoginAsNonRoot *bool `json:"loginAsNonRoot,omitempty" tf:"login_as_non_root,omitempty"`
-}
-
 type InstanceDataDisksInitParameters struct {
 
 	// The ID of the automatic snapshot policy applied to the system disk.
 	AutoSnapshotPolicyID *string `json:"autoSnapshotPolicyId,omitempty" tf:"auto_snapshot_policy_id,omitempty"`
+
+	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
+	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
 
 	// The category of the disk:
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
@@ -71,6 +55,9 @@ type InstanceDataDisksInitParameters struct {
 	// The performance level of the ESSD used as data disk:
 	PerformanceLevel *string `json:"performanceLevel,omitempty" tf:"performance_level,omitempty"`
 
+	// The provisioned read/write IOPS of the ESSD AutoPL disk to use as the data disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
 	// The size of the data disk.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
@@ -82,6 +69,9 @@ type InstanceDataDisksObservation struct {
 
 	// The ID of the automatic snapshot policy applied to the system disk.
 	AutoSnapshotPolicyID *string `json:"autoSnapshotPolicyId,omitempty" tf:"auto_snapshot_policy_id,omitempty"`
+
+	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
+	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
 
 	// The category of the disk:
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
@@ -106,6 +96,9 @@ type InstanceDataDisksObservation struct {
 
 	// The performance level of the ESSD used as data disk:
 	PerformanceLevel *string `json:"performanceLevel,omitempty" tf:"performance_level,omitempty"`
+
+	// The provisioned read/write IOPS of the ESSD AutoPL disk to use as the data disk.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
 	// The size of the data disk.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
@@ -120,6 +113,10 @@ type InstanceDataDisksParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoSnapshotPolicyID *string `json:"autoSnapshotPolicyId,omitempty" tf:"auto_snapshot_policy_id,omitempty"`
 
+	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
+	// +kubebuilder:validation:Optional
+	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
+
 	// The category of the disk:
 	// +kubebuilder:validation:Optional
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
@@ -162,6 +159,10 @@ type InstanceDataDisksParameters struct {
 	// +kubebuilder:validation:Optional
 	PerformanceLevel *string `json:"performanceLevel,omitempty" tf:"performance_level,omitempty"`
 
+	// The provisioned read/write IOPS of the ESSD AutoPL disk to use as the data disk.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
 	// The size of the data disk.
 	// +kubebuilder:validation:Optional
 	Size *float64 `json:"size" tf:"size,omitempty"`
@@ -169,6 +170,25 @@ type InstanceDataDisksParameters struct {
 	// The snapshot ID used to initialize the data disk. If the size specified by snapshot is greater that the size of the disk, use the size specified by snapshot as the size of the data disk.
 	// +kubebuilder:validation:Optional
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+}
+
+type InstanceImageOptionsInitParameters struct {
+
+	// Whether to allow the instance logging in with the ecs-user user.
+	LoginAsNonRoot *bool `json:"loginAsNonRoot,omitempty" tf:"login_as_non_root,omitempty"`
+}
+
+type InstanceImageOptionsObservation struct {
+
+	// Whether to allow the instance logging in with the ecs-user user.
+	LoginAsNonRoot *bool `json:"loginAsNonRoot,omitempty" tf:"login_as_non_root,omitempty"`
+}
+
+type InstanceImageOptionsParameters struct {
+
+	// Whether to allow the instance logging in with the ecs-user user.
+	// +kubebuilder:validation:Optional
+	LoginAsNonRoot *bool `json:"loginAsNonRoot,omitempty" tf:"login_as_non_root,omitempty"`
 }
 
 type InstanceInitParameters struct {
@@ -208,7 +228,7 @@ type InstanceInitParameters struct {
 	// Specifies whether to enable the Jumbo Frames feature for the instance. Valid values: true, false.
 	EnableJumboFrame *bool `json:"enableJumboFrame,omitempty" tf:"enable_jumbo_frame,omitempty"`
 
-	// If it is true, the "PrePaid" instance will be change to "PostPaid" and then deleted forcibly.
+	// If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
 	// However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
 	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
@@ -248,7 +268,7 @@ type InstanceInitParameters struct {
 	ImageIDSelector *v1.Selector `json:"imageIdSelector,omitempty" tf:"-"`
 
 	// The options of images. See image_options below.
-	ImageOptions []ImageOptionsInitParameters `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
+	ImageOptions []InstanceImageOptionsInitParameters `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
 
 	// Whether to change instance disks charge type when changing instance charge type.
 	IncludeDataDisks *bool `json:"includeDataDisks,omitempty" tf:"include_data_disks,omitempty"`
@@ -347,6 +367,12 @@ type InstanceInitParameters struct {
 	// Instance private IP address can be specified when you creating new instance. It is valid when vswitch_id is specified. When it is changed, the instance will reboot to make the change take effect.
 	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
 
+	// The ID of the private pool.
+	PrivatePoolOptionsID *string `json:"privatePoolOptionsId,omitempty" tf:"private_pool_options_id,omitempty"`
+
+	// The type of the private pool. Default value: None. Valid values:
+	PrivatePoolOptionsMatchCriteria *string `json:"privatePoolOptionsMatchCriteria,omitempty" tf:"private_pool_options_match_criteria,omitempty"`
+
 	// The number of queues supported by the ERI.
 	QueuePairNumber *float64 `json:"queuePairNumber,omitempty" tf:"queue_pair_number,omitempty"`
 
@@ -402,6 +428,9 @@ type InstanceInitParameters struct {
 	// The ID of the automatic snapshot policy applied to the system disk.
 	SystemDiskAutoSnapshotPolicyID *string `json:"systemDiskAutoSnapshotPolicyId,omitempty" tf:"system_disk_auto_snapshot_policy_id,omitempty"`
 
+	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
+	SystemDiskBurstingEnabled *bool `json:"systemDiskBurstingEnabled,omitempty" tf:"system_disk_bursting_enabled,omitempty"`
+
 	// Valid values are ephemeral_ssd, cloud_efficiency, cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry. only is used to some none I/O optimized instance. Valid values cloud_auto Available since v1.184.0.
 	SystemDiskCategory *string `json:"systemDiskCategory,omitempty" tf:"system_disk_category,omitempty"`
 
@@ -422,6 +451,9 @@ type InstanceInitParameters struct {
 
 	// The performance level of the ESSD used as the system disk, Valid values: PL0, PL1, PL2, PL3, Default to PL1;For more information about ESSD, See Encryption Context.
 	SystemDiskPerformanceLevel *string `json:"systemDiskPerformanceLevel,omitempty" tf:"system_disk_performance_level,omitempty"`
+
+	// The provisioned read/write IOPS of the ESSD AutoPL disk to use as the system disk.
+	SystemDiskProvisionedIops *float64 `json:"systemDiskProvisionedIops,omitempty" tf:"system_disk_provisioned_iops,omitempty"`
 
 	// Size of the system disk, measured in GiB. Value range: [20, 500]. The specified value must be equal to or greater than max{20, Imagesize}. Default value: max{40, ImageSize}.
 	SystemDiskSize *float64 `json:"systemDiskSize,omitempty" tf:"system_disk_size,omitempty"`
@@ -586,7 +618,7 @@ type InstanceObservation struct {
 	// (Available since v1.232.0) The expiration time of the instance.
 	ExpiredTime *string `json:"expiredTime,omitempty" tf:"expired_time,omitempty"`
 
-	// If it is true, the "PrePaid" instance will be change to "PostPaid" and then deleted forcibly.
+	// If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
 	// However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
 	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
@@ -620,7 +652,7 @@ type InstanceObservation struct {
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
 	// The options of images. See image_options below.
-	ImageOptions []ImageOptionsObservation `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
+	ImageOptions []InstanceImageOptionsObservation `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
 
 	// Whether to change instance disks charge type when changing instance charge type.
 	IncludeDataDisks *bool `json:"includeDataDisks,omitempty" tf:"include_data_disks,omitempty"`
@@ -713,6 +745,12 @@ type InstanceObservation struct {
 	// Instance private IP address can be specified when you creating new instance. It is valid when vswitch_id is specified. When it is changed, the instance will reboot to make the change take effect.
 	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
 
+	// The ID of the private pool.
+	PrivatePoolOptionsID *string `json:"privatePoolOptionsId,omitempty" tf:"private_pool_options_id,omitempty"`
+
+	// The type of the private pool. Default value: None. Valid values:
+	PrivatePoolOptionsMatchCriteria *string `json:"privatePoolOptionsMatchCriteria,omitempty" tf:"private_pool_options_match_criteria,omitempty"`
+
 	// The instance public ip.
 	PublicIP *string `json:"publicIp,omitempty" tf:"public_ip,omitempty"`
 
@@ -763,6 +801,9 @@ type InstanceObservation struct {
 	// The ID of the automatic snapshot policy applied to the system disk.
 	SystemDiskAutoSnapshotPolicyID *string `json:"systemDiskAutoSnapshotPolicyId,omitempty" tf:"system_disk_auto_snapshot_policy_id,omitempty"`
 
+	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
+	SystemDiskBurstingEnabled *bool `json:"systemDiskBurstingEnabled,omitempty" tf:"system_disk_bursting_enabled,omitempty"`
+
 	// Valid values are ephemeral_ssd, cloud_efficiency, cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry. only is used to some none I/O optimized instance. Valid values cloud_auto Available since v1.184.0.
 	SystemDiskCategory *string `json:"systemDiskCategory,omitempty" tf:"system_disk_category,omitempty"`
 
@@ -786,6 +827,9 @@ type InstanceObservation struct {
 
 	// The performance level of the ESSD used as the system disk, Valid values: PL0, PL1, PL2, PL3, Default to PL1;For more information about ESSD, See Encryption Context.
 	SystemDiskPerformanceLevel *string `json:"systemDiskPerformanceLevel,omitempty" tf:"system_disk_performance_level,omitempty"`
+
+	// The provisioned read/write IOPS of the ESSD AutoPL disk to use as the system disk.
+	SystemDiskProvisionedIops *float64 `json:"systemDiskProvisionedIops,omitempty" tf:"system_disk_provisioned_iops,omitempty"`
 
 	// Size of the system disk, measured in GiB. Value range: [20, 500]. The specified value must be equal to or greater than max{20, Imagesize}. Default value: max{40, ImageSize}.
 	SystemDiskSize *float64 `json:"systemDiskSize,omitempty" tf:"system_disk_size,omitempty"`
@@ -862,7 +906,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableJumboFrame *bool `json:"enableJumboFrame,omitempty" tf:"enable_jumbo_frame,omitempty"`
 
-	// If it is true, the "PrePaid" instance will be change to "PostPaid" and then deleted forcibly.
+	// If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
 	// However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
 	// +kubebuilder:validation:Optional
 	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
@@ -912,7 +956,7 @@ type InstanceParameters struct {
 
 	// The options of images. See image_options below.
 	// +kubebuilder:validation:Optional
-	ImageOptions []ImageOptionsParameters `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
+	ImageOptions []InstanceImageOptionsParameters `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
 
 	// Whether to change instance disks charge type when changing instance charge type.
 	// +kubebuilder:validation:Optional
@@ -1036,6 +1080,14 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
 
+	// The ID of the private pool.
+	// +kubebuilder:validation:Optional
+	PrivatePoolOptionsID *string `json:"privatePoolOptionsId,omitempty" tf:"private_pool_options_id,omitempty"`
+
+	// The type of the private pool. Default value: None. Valid values:
+	// +kubebuilder:validation:Optional
+	PrivatePoolOptionsMatchCriteria *string `json:"privatePoolOptionsMatchCriteria,omitempty" tf:"private_pool_options_match_criteria,omitempty"`
+
 	// The number of queues supported by the ERI.
 	// +kubebuilder:validation:Optional
 	QueuePairNumber *float64 `json:"queuePairNumber,omitempty" tf:"queue_pair_number,omitempty"`
@@ -1110,6 +1162,10 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	SystemDiskAutoSnapshotPolicyID *string `json:"systemDiskAutoSnapshotPolicyId,omitempty" tf:"system_disk_auto_snapshot_policy_id,omitempty"`
 
+	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
+	// +kubebuilder:validation:Optional
+	SystemDiskBurstingEnabled *bool `json:"systemDiskBurstingEnabled,omitempty" tf:"system_disk_bursting_enabled,omitempty"`
+
 	// Valid values are ephemeral_ssd, cloud_efficiency, cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry. only is used to some none I/O optimized instance. Valid values cloud_auto Available since v1.184.0.
 	// +kubebuilder:validation:Optional
 	SystemDiskCategory *string `json:"systemDiskCategory,omitempty" tf:"system_disk_category,omitempty"`
@@ -1137,6 +1193,10 @@ type InstanceParameters struct {
 	// The performance level of the ESSD used as the system disk, Valid values: PL0, PL1, PL2, PL3, Default to PL1;For more information about ESSD, See Encryption Context.
 	// +kubebuilder:validation:Optional
 	SystemDiskPerformanceLevel *string `json:"systemDiskPerformanceLevel,omitempty" tf:"system_disk_performance_level,omitempty"`
+
+	// The provisioned read/write IOPS of the ESSD AutoPL disk to use as the system disk.
+	// +kubebuilder:validation:Optional
+	SystemDiskProvisionedIops *float64 `json:"systemDiskProvisionedIops,omitempty" tf:"system_disk_provisioned_iops,omitempty"`
 
 	// Size of the system disk, measured in GiB. Value range: [20, 500]. The specified value must be equal to or greater than max{20, Imagesize}. Default value: max{40, ImageSize}.
 	// +kubebuilder:validation:Optional

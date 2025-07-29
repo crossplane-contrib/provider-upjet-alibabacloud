@@ -28,38 +28,86 @@ type AccelerationInfoParameters struct {
 type CodeInitParameters struct {
 
 	// The CRC-64 value of the function code package.
-	ChecksumSecretRef *v1.SecretKeySelector `json:"checksumSecretRef,omitempty" tf:"-"`
+	Checksum *string `json:"checksum,omitempty" tf:"checksum,omitempty"`
 
 	// The name of the OSS Bucket that stores the function code ZIP package.
-	OssBucketNameSecretRef *v1.SecretKeySelector `json:"ossBucketNameSecretRef,omitempty" tf:"-"`
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.Bucket
+	OssBucketName *string `json:"ossBucketName,omitempty" tf:"oss_bucket_name,omitempty"`
+
+	// Reference to a Bucket in oss to populate ossBucketName.
+	// +kubebuilder:validation:Optional
+	OssBucketNameRef *v1.Reference `json:"ossBucketNameRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in oss to populate ossBucketName.
+	// +kubebuilder:validation:Optional
+	OssBucketNameSelector *v1.Selector `json:"ossBucketNameSelector,omitempty" tf:"-"`
 
 	// The name of the OSS Object that stores the function code ZIP package.
-	OssObjectNameSecretRef *v1.SecretKeySelector `json:"ossObjectNameSecretRef,omitempty" tf:"-"`
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.BucketObject
+	OssObjectName *string `json:"ossObjectName,omitempty" tf:"oss_object_name,omitempty"`
+
+	// Reference to a BucketObject in oss to populate ossObjectName.
+	// +kubebuilder:validation:Optional
+	OssObjectNameRef *v1.Reference `json:"ossObjectNameRef,omitempty" tf:"-"`
+
+	// Selector for a BucketObject in oss to populate ossObjectName.
+	// +kubebuilder:validation:Optional
+	OssObjectNameSelector *v1.Selector `json:"ossObjectNameSelector,omitempty" tf:"-"`
 
 	// The Base 64 encoding of the function code ZIP package.
-	ZipFileSecretRef *v1.SecretKeySelector `json:"zipFileSecretRef,omitempty" tf:"-"`
+	ZipFile *string `json:"zipFile,omitempty" tf:"zip_file,omitempty"`
 }
 
 type CodeObservation struct {
+
+	// The CRC-64 value of the function code package.
+	Checksum *string `json:"checksum,omitempty" tf:"checksum,omitempty"`
+
+	// The name of the OSS Bucket that stores the function code ZIP package.
+	OssBucketName *string `json:"ossBucketName,omitempty" tf:"oss_bucket_name,omitempty"`
+
+	// The name of the OSS Object that stores the function code ZIP package.
+	OssObjectName *string `json:"ossObjectName,omitempty" tf:"oss_object_name,omitempty"`
+
+	// The Base 64 encoding of the function code ZIP package.
+	ZipFile *string `json:"zipFile,omitempty" tf:"zip_file,omitempty"`
 }
 
 type CodeParameters struct {
 
 	// The CRC-64 value of the function code package.
 	// +kubebuilder:validation:Optional
-	ChecksumSecretRef *v1.SecretKeySelector `json:"checksumSecretRef,omitempty" tf:"-"`
+	Checksum *string `json:"checksum,omitempty" tf:"checksum,omitempty"`
 
 	// The name of the OSS Bucket that stores the function code ZIP package.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.Bucket
 	// +kubebuilder:validation:Optional
-	OssBucketNameSecretRef *v1.SecretKeySelector `json:"ossBucketNameSecretRef,omitempty" tf:"-"`
+	OssBucketName *string `json:"ossBucketName,omitempty" tf:"oss_bucket_name,omitempty"`
+
+	// Reference to a Bucket in oss to populate ossBucketName.
+	// +kubebuilder:validation:Optional
+	OssBucketNameRef *v1.Reference `json:"ossBucketNameRef,omitempty" tf:"-"`
+
+	// Selector for a Bucket in oss to populate ossBucketName.
+	// +kubebuilder:validation:Optional
+	OssBucketNameSelector *v1.Selector `json:"ossBucketNameSelector,omitempty" tf:"-"`
 
 	// The name of the OSS Object that stores the function code ZIP package.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1.BucketObject
 	// +kubebuilder:validation:Optional
-	OssObjectNameSecretRef *v1.SecretKeySelector `json:"ossObjectNameSecretRef,omitempty" tf:"-"`
+	OssObjectName *string `json:"ossObjectName,omitempty" tf:"oss_object_name,omitempty"`
+
+	// Reference to a BucketObject in oss to populate ossObjectName.
+	// +kubebuilder:validation:Optional
+	OssObjectNameRef *v1.Reference `json:"ossObjectNameRef,omitempty" tf:"-"`
+
+	// Selector for a BucketObject in oss to populate ossObjectName.
+	// +kubebuilder:validation:Optional
+	OssObjectNameSelector *v1.Selector `json:"ossObjectNameSelector,omitempty" tf:"-"`
 
 	// The Base 64 encoding of the function code ZIP package.
 	// +kubebuilder:validation:Optional
-	ZipFileSecretRef *v1.SecretKeySelector `json:"zipFileSecretRef,omitempty" tf:"-"`
+	ZipFile *string `json:"zipFile,omitempty" tf:"zip_file,omitempty"`
 }
 
 type CustomContainerConfigInitParameters struct {
@@ -378,7 +426,23 @@ type FunctionInitParameters struct {
 	// Allow function to access public network
 	InternetAccess *bool `json:"internetAccess,omitempty" tf:"internet_access,omitempty"`
 
-	Layers []*string `json:"layersSecretRef,omitempty" tf:"-"`
+	// Invocation Restriction Detail See invocation_restriction below.
+	InvocationRestriction []InvocationRestrictionInitParameters `json:"invocationRestriction,omitempty" tf:"invocation_restriction,omitempty"`
+
+	// References to LayerVersion in fcv3 to populate layers.
+	// +kubebuilder:validation:Optional
+	LayerRefs []v1.Reference `json:"layerRefs,omitempty" tf:"-"`
+
+	// Selector for a list of LayerVersion in fcv3 to populate layers.
+	// +kubebuilder:validation:Optional
+	LayerSelector *v1.Selector `json:"layerSelector,omitempty" tf:"-"`
+
+	// The list of layers.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/fcv3/v1alpha1.LayerVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.Fcv3LayerVersionArnExtractor()
+	// +crossplane:generate:reference:refFieldName=LayerRefs
+	// +crossplane:generate:reference:selectorFieldName=LayerSelector
+	Layers []*string `json:"layers,omitempty" tf:"layers,omitempty"`
 
 	// The logs generated by the function are written to the configured Logstore. See log_config below.
 	LogConfig []LogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
@@ -424,7 +488,7 @@ type FunctionObservation struct {
 	CPU *float64 `json:"cpu,omitempty" tf:"cpu,omitempty"`
 
 	// Function code ZIP package. code and customContainerConfig. See code below.
-	Code []CodeParameters `json:"code,omitempty" tf:"code,omitempty"`
+	Code []CodeObservation `json:"code,omitempty" tf:"code,omitempty"`
 
 	// The code package size of the function returned by the system, in byte Example : 1024
 	CodeSize *float64 `json:"codeSize,omitempty" tf:"code_size,omitempty"`
@@ -478,7 +542,10 @@ type FunctionObservation struct {
 	// Allow function to access public network
 	InternetAccess *bool `json:"internetAccess,omitempty" tf:"internet_access,omitempty"`
 
-	// Last time the function was Updated
+	// Invocation Restriction Detail See invocation_restriction below.
+	InvocationRestriction []InvocationRestrictionObservation `json:"invocationRestriction,omitempty" tf:"invocation_restriction,omitempty"`
+
+	// Last modified time of invocation restriction
 	LastModifiedTime *string `json:"lastModifiedTime,omitempty" tf:"last_modified_time,omitempty"`
 
 	// The status of the last function update operation. When the function is created successfully, the value is Successful. Optional values are Successful, Failed, and InProgress.
@@ -489,6 +556,9 @@ type FunctionObservation struct {
 
 	// Status code of the reason that caused the last function update operation status to the current value
 	LastUpdateStatusReasonCode *string `json:"lastUpdateStatusReasonCode,omitempty" tf:"last_update_status_reason_code,omitempty"`
+
+	// The list of layers.
+	Layers []*string `json:"layers,omitempty" tf:"layers,omitempty"`
 
 	// The logs generated by the function are written to the configured Logstore. See log_config below.
 	LogConfig []LogConfigObservation `json:"logConfig,omitempty" tf:"log_config,omitempty"`
@@ -590,9 +660,25 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	InternetAccess *bool `json:"internetAccess,omitempty" tf:"internet_access,omitempty"`
 
-	// The list of layers.
+	// Invocation Restriction Detail See invocation_restriction below.
 	// +kubebuilder:validation:Optional
-	LayersSecretRef *[]v1.SecretKeySelector `json:"layersSecretRef,omitempty" tf:"-"`
+	InvocationRestriction []InvocationRestrictionParameters `json:"invocationRestriction,omitempty" tf:"invocation_restriction,omitempty"`
+
+	// References to LayerVersion in fcv3 to populate layers.
+	// +kubebuilder:validation:Optional
+	LayerRefs []v1.Reference `json:"layerRefs,omitempty" tf:"-"`
+
+	// Selector for a list of LayerVersion in fcv3 to populate layers.
+	// +kubebuilder:validation:Optional
+	LayerSelector *v1.Selector `json:"layerSelector,omitempty" tf:"-"`
+
+	// The list of layers.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/fcv3/v1alpha1.LayerVersion
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.Fcv3LayerVersionArnExtractor()
+	// +crossplane:generate:reference:refFieldName=LayerRefs
+	// +crossplane:generate:reference:selectorFieldName=LayerSelector
+	// +kubebuilder:validation:Optional
+	Layers []*string `json:"layers,omitempty" tf:"layers,omitempty"`
 
 	// The logs generated by the function are written to the configured Logstore. See log_config below.
 	// +kubebuilder:validation:Optional
@@ -800,6 +886,38 @@ type InstanceLifecycleConfigParameters struct {
 	// PreStop handler method configuration See pre_stop below.
 	// +kubebuilder:validation:Optional
 	PreStop []PreStopParameters `json:"preStop,omitempty" tf:"pre_stop,omitempty"`
+}
+
+type InvocationRestrictionInitParameters struct {
+
+	// Whether invocation is disabled
+	Disable *bool `json:"disable,omitempty" tf:"disable,omitempty"`
+
+	// Disable Reason
+	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
+}
+
+type InvocationRestrictionObservation struct {
+
+	// Whether invocation is disabled
+	Disable *bool `json:"disable,omitempty" tf:"disable,omitempty"`
+
+	// Last modified time of invocation restriction
+	LastModifiedTime *string `json:"lastModifiedTime,omitempty" tf:"last_modified_time,omitempty"`
+
+	// Disable Reason
+	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
+}
+
+type InvocationRestrictionParameters struct {
+
+	// Whether invocation is disabled
+	// +kubebuilder:validation:Optional
+	Disable *bool `json:"disable,omitempty" tf:"disable,omitempty"`
+
+	// Disable Reason
+	// +kubebuilder:validation:Optional
+	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 }
 
 type LogConfigInitParameters struct {

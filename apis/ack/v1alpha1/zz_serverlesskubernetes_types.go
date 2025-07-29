@@ -125,13 +125,13 @@ type ServerlessKubernetesInitParameters struct {
 	// You can specific network plugin, log component, ingress component and so on. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created.
 	Addons []ServerlessKubernetesAddonsInitParameters `json:"addons,omitempty" tf:"addons,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
 	// The cluster specifications of serverless kubernetes cluster, which can be empty. Valid values:
@@ -159,7 +159,7 @@ type ServerlessKubernetesInitParameters struct {
 	// (Removed since v1.229.1) Default false, when you want to change vpc_id and vswitch_id, you have to set this field to true, then the cluster will be recreated.
 	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
-	// The path of kube config, like ~/.kube/config.
+	// The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 
 	// The cluster api server load balance instance specification, default slb.s2.small. For more information on how to select a LB instance specification, see SLB instance overview. Only works for Create Operation.
@@ -314,13 +314,13 @@ type ServerlessKubernetesObservation struct {
 	// You can specific network plugin, log component, ingress component and so on. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created.
 	Addons []ServerlessKubernetesAddonsObservation `json:"addons,omitempty" tf:"addons,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
 	// The cluster specifications of serverless kubernetes cluster, which can be empty. Valid values:
@@ -351,7 +351,7 @@ type ServerlessKubernetesObservation struct {
 	// The Cluster ID of the serverless cluster.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The path of kube config, like ~/.kube/config.
+	// The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 
 	// The cluster api server load balance instance specification, default slb.s2.small. For more information on how to select a LB instance specification, see SLB instance overview. Only works for Create Operation.
@@ -444,15 +444,15 @@ type ServerlessKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	Addons []ServerlessKubernetesAddonsParameters `json:"addons,omitempty" tf:"addons,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
@@ -489,7 +489,7 @@ type ServerlessKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
-	// The path of kube config, like ~/.kube/config.
+	// The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	// +kubebuilder:validation:Optional
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 

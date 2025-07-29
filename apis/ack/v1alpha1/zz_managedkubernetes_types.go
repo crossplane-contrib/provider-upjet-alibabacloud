@@ -13,6 +13,54 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AuditLogConfigInitParameters struct {
+
+	// Whether to enable audit logging. Valid values: true, false.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The SLS project to which the Logstore storing the cluster audit logs belongs.
+	SlsProjectName *string `json:"slsProjectName,omitempty" tf:"sls_project_name,omitempty"`
+}
+
+type AuditLogConfigObservation struct {
+
+	// Whether to enable audit logging. Valid values: true, false.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The SLS project to which the Logstore storing the cluster audit logs belongs.
+	SlsProjectName *string `json:"slsProjectName,omitempty" tf:"sls_project_name,omitempty"`
+}
+
+type AuditLogConfigParameters struct {
+
+	// Whether to enable audit logging. Valid values: true, false.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The SLS project to which the Logstore storing the cluster audit logs belongs.
+	// +kubebuilder:validation:Optional
+	SlsProjectName *string `json:"slsProjectName,omitempty" tf:"sls_project_name,omitempty"`
+}
+
+type AutoModeInitParameters struct {
+
+	// Whether to enable auto mode. Valid values: true, false. Only ACK managed Pro clusters support Auto Mode.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type AutoModeObservation struct {
+
+	// Whether to enable auto mode. Valid values: true, false. Only ACK managed Pro clusters support Auto Mode.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type AutoModeParameters struct {
+
+	// Whether to enable auto mode. Valid values: true, false. Only ACK managed Pro clusters support Auto Mode.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
 type ClusterAutoUpgradeInitParameters struct {
 
 	// The automatic cluster upgrade channel. Valid values: patch, stable, rapid.
@@ -177,19 +225,25 @@ type ManagedKubernetesInitParameters struct {
 	// The addon you want to install in cluster. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created.
 	Addons []ManagedKubernetesAddonsInitParameters `json:"addons,omitempty" tf:"addons,omitempty"`
 
+	// Audit log configuration. See audit_log_config below.
+	AuditLogConfig []AuditLogConfigInitParameters `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
+
+	// Auto mode cluster configuration. See auto_mode below.
+	AutoMode []AutoModeInitParameters `json:"autoMode,omitempty" tf:"auto_mode,omitempty"`
+
 	// (Removed since v1.212.0) The Zone where new kubernetes cluster will be located. If it is not be specified, the vswitch_ids should be set, its value will be vswitch's zone.
 	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
 
 	// (Removed since v1.212.0) Kubelet cpu policy. For Kubernetes 1.12.6 and later, its valid value is either static or none. Default to none.
 	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
 	// Cluster local domain name, Default to cluster.local. A domain name consists of one or more sections separated by a decimal point (.), each of which is up to 63 characters long, and can be lowercase, numerals, and underscores (-), and must be lowercase or numerals at the beginning and end.
@@ -227,8 +281,8 @@ type ManagedKubernetesInitParameters struct {
 	// (Removed since v1.212.0) Enable login to the node through SSH. Default to false.
 	EnableSSH *bool `json:"enableSsh,omitempty" tf:"enable_ssh,omitempty"`
 
-	// The disk encryption key.
-	// disk encryption key, only in ack-pro
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
 	EncryptionProviderKey *string `json:"encryptionProviderKey,omitempty" tf:"encryption_provider_key,omitempty"`
 
 	// (Removed since v1.212.0) Exclude autoscaler nodes from worker_nodes. Default to false.
@@ -259,7 +313,7 @@ type ManagedKubernetesInitParameters struct {
 	// (Removed since v1.212.0) The keypair of ssh login cluster node, you have to create it first. You have to specify one of password key_name kms_encrypted_password fields. From ersion 1.109.1, It is not necessary in the professional managed cluster.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. You can set some file paths to save kube_config information, but this way is cumbersome. Since version 1.105.0, we've written it to tf state file. About its use，see export attribute certificate_authority. From version 1.187.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kube_config.
+	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 
 	// The cluster api server load balancer instance specification. For more information on how to select a LB instance specification, see SLB instance overview. Only works for Create Operation. The spec will not take effect because the charge of the load balancer has been changed to PayByCLCU.
@@ -268,7 +322,7 @@ type ManagedKubernetesInitParameters struct {
 	// (Removed) A list of one element containing information about the associated log store. See log_config below.
 	LogConfig []ManagedKubernetesLogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
-	// The cluster maintenance window，effective only in the professional managed cluster. Managed node pool will use it. See maintenance_window below.
+	// The cluster maintenance window. Managed node pool will use it. See maintenance_window below.
 	MaintenanceWindow []MaintenanceWindowInitParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
 
 	// The kubernetes cluster's name. It is unique in one Alicloud account.
@@ -286,7 +340,7 @@ type ManagedKubernetesInitParameters struct {
 	// (Removed since v1.212.0) The service port range of nodes, valid values: 30000 to 65535. Default to 30000-32767.
 	NodePortRange *string `json:"nodePortRange,omitempty" tf:"node_port_range,omitempty"`
 
-	// The cluster automatic operation policy. See operation_policy below.
+	// The cluster automatic operation policy, only works when maintenance_window is enabled. See operation_policy below.
 	OperationPolicy []OperationPolicyInitParameters `json:"operationPolicy,omitempty" tf:"operation_policy,omitempty"`
 
 	// (Removed since v1.212.0) The operating system of the nodes that run pods, its valid value is either Linux or Windows. Default to Linux.
@@ -303,6 +357,9 @@ type ManagedKubernetesInitParameters struct {
 
 	// - [Terway Specific] The vswitches for the pod network when using Terway. It is recommended that pod_vswitch_ids is not belong to vswitch_ids but must be in same availability zones. Only works for Create Operation.
 	PodVswitchIds []*string `json:"podVswitchIds,omitempty" tf:"pod_vswitch_ids,omitempty"`
+
+	// The profile of cluster. Valid values:
+	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 
 	// Proxy mode is option of kube-proxy. options: iptables|ipvs. default: ipvs.
 	ProxyMode *string `json:"proxyMode,omitempty" tf:"proxy_mode,omitempty"`
@@ -337,6 +394,9 @@ type ManagedKubernetesInitParameters struct {
 
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
+
+	// Configure whether to save certificate authority data for your cluster to attribute certificate_authority. For cluster security, recommended configuration as true. Will be removed with attribute certificate_authority removed.
+	SkipSetCertificateAuthority *bool `json:"skipSetCertificateAuthority,omitempty" tf:"skip_set_certificate_authority,omitempty"`
 
 	// Whether to create internet load balancer for API Server. Default to true. Only works for Create Operation.
 	SlbInternetEnabled *bool `json:"slbInternetEnabled,omitempty" tf:"slb_internet_enabled,omitempty"`
@@ -468,23 +528,29 @@ type ManagedKubernetesObservation struct {
 	// The addon you want to install in cluster. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created.
 	Addons []ManagedKubernetesAddonsObservation `json:"addons,omitempty" tf:"addons,omitempty"`
 
+	// Audit log configuration. See audit_log_config below.
+	AuditLogConfig []AuditLogConfigObservation `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
+
+	// Auto mode cluster configuration. See auto_mode below.
+	AutoMode []AutoModeObservation `json:"autoMode,omitempty" tf:"auto_mode,omitempty"`
+
 	// (Removed since v1.212.0) The Zone where new kubernetes cluster will be located. If it is not be specified, the vswitch_ids should be set, its value will be vswitch's zone.
 	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
 
 	// (Removed since v1.212.0) Kubelet cpu policy. For Kubernetes 1.12.6 and later, its valid value is either static or none. Default to none.
 	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
 
-	// (Available since v1.105.0) Nested attribute containing certificate authority data for your cluster.
+	// (Map, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.
 	// +mapType=granular
 	CertificateAuthority map[string]*string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
 	// Cluster local domain name, Default to cluster.local. A domain name consists of one or more sections separated by a decimal point (.), each of which is up to 63 characters long, and can be lowercase, numerals, and underscores (-), and must be lowercase or numerals at the beginning and end.
@@ -526,8 +592,8 @@ type ManagedKubernetesObservation struct {
 	// (Removed since v1.212.0) Enable login to the node through SSH. Default to false.
 	EnableSSH *bool `json:"enableSsh,omitempty" tf:"enable_ssh,omitempty"`
 
-	// The disk encryption key.
-	// disk encryption key, only in ack-pro
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
 	EncryptionProviderKey *string `json:"encryptionProviderKey,omitempty" tf:"encryption_provider_key,omitempty"`
 
 	// (Removed since v1.212.0) Exclude autoscaler nodes from worker_nodes. Default to false.
@@ -561,7 +627,7 @@ type ManagedKubernetesObservation struct {
 	// (Removed since v1.212.0) The keypair of ssh login cluster node, you have to create it first. You have to specify one of password key_name kms_encrypted_password fields. From ersion 1.109.1, It is not necessary in the professional managed cluster.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. You can set some file paths to save kube_config information, but this way is cumbersome. Since version 1.105.0, we've written it to tf state file. About its use，see export attribute certificate_authority. From version 1.187.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kube_config.
+	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 
 	// The cluster api server load balancer instance specification. For more information on how to select a LB instance specification, see SLB instance overview. Only works for Create Operation. The spec will not take effect because the charge of the load balancer has been changed to PayByCLCU.
@@ -570,7 +636,7 @@ type ManagedKubernetesObservation struct {
 	// (Removed) A list of one element containing information about the associated log store. See log_config below.
 	LogConfig []ManagedKubernetesLogConfigObservation `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
-	// The cluster maintenance window，effective only in the professional managed cluster. Managed node pool will use it. See maintenance_window below.
+	// The cluster maintenance window. Managed node pool will use it. See maintenance_window below.
 	MaintenanceWindow []MaintenanceWindowObservation `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
 
 	// The ID of nat gateway used to launch kubernetes cluster.
@@ -591,7 +657,7 @@ type ManagedKubernetesObservation struct {
 	// (Removed since v1.212.0) The service port range of nodes, valid values: 30000 to 65535. Default to 30000-32767.
 	NodePortRange *string `json:"nodePortRange,omitempty" tf:"node_port_range,omitempty"`
 
-	// The cluster automatic operation policy. See operation_policy below.
+	// The cluster automatic operation policy, only works when maintenance_window is enabled. See operation_policy below.
 	OperationPolicy []OperationPolicyObservation `json:"operationPolicy,omitempty" tf:"operation_policy,omitempty"`
 
 	// (Removed since v1.212.0) The operating system of the nodes that run pods, its valid value is either Linux or Windows. Default to Linux.
@@ -605,6 +671,9 @@ type ManagedKubernetesObservation struct {
 
 	// - [Terway Specific] The vswitches for the pod network when using Terway. It is recommended that pod_vswitch_ids is not belong to vswitch_ids but must be in same availability zones. Only works for Create Operation.
 	PodVswitchIds []*string `json:"podVswitchIds,omitempty" tf:"pod_vswitch_ids,omitempty"`
+
+	// The profile of cluster. Valid values:
+	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 
 	// Proxy mode is option of kube-proxy. options: iptables|ipvs. default: ipvs.
 	ProxyMode *string `json:"proxyMode,omitempty" tf:"proxy_mode,omitempty"`
@@ -633,6 +702,9 @@ type ManagedKubernetesObservation struct {
 
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
+
+	// Configure whether to save certificate authority data for your cluster to attribute certificate_authority. For cluster security, recommended configuration as true. Will be removed with attribute certificate_authority removed.
+	SkipSetCertificateAuthority *bool `json:"skipSetCertificateAuthority,omitempty" tf:"skip_set_certificate_authority,omitempty"`
 
 	// The ID of APIServer load balancer.
 	SlbID *string `json:"slbId,omitempty" tf:"slb_id,omitempty"`
@@ -743,6 +815,14 @@ type ManagedKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	Addons []ManagedKubernetesAddonsParameters `json:"addons,omitempty" tf:"addons,omitempty"`
 
+	// Audit log configuration. See audit_log_config below.
+	// +kubebuilder:validation:Optional
+	AuditLogConfig []AuditLogConfigParameters `json:"auditLogConfig,omitempty" tf:"audit_log_config,omitempty"`
+
+	// Auto mode cluster configuration. See auto_mode below.
+	// +kubebuilder:validation:Optional
+	AutoMode []AutoModeParameters `json:"autoMode,omitempty" tf:"auto_mode,omitempty"`
+
 	// (Removed since v1.212.0) The Zone where new kubernetes cluster will be located. If it is not be specified, the vswitch_ids should be set, its value will be vswitch's zone.
 	// +kubebuilder:validation:Optional
 	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
@@ -751,15 +831,15 @@ type ManagedKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
@@ -809,8 +889,8 @@ type ManagedKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableSSH *bool `json:"enableSsh,omitempty" tf:"enable_ssh,omitempty"`
 
-	// The disk encryption key.
-	// disk encryption key, only in ack-pro
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
 	// +kubebuilder:validation:Optional
 	EncryptionProviderKey *string `json:"encryptionProviderKey,omitempty" tf:"encryption_provider_key,omitempty"`
 
@@ -851,7 +931,7 @@ type ManagedKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. You can set some file paths to save kube_config information, but this way is cumbersome. Since version 1.105.0, we've written it to tf state file. About its use，see export attribute certificate_authority. From version 1.187.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kube_config.
+	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	// +kubebuilder:validation:Optional
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 
@@ -863,7 +943,7 @@ type ManagedKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	LogConfig []ManagedKubernetesLogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
-	// The cluster maintenance window，effective only in the professional managed cluster. Managed node pool will use it. See maintenance_window below.
+	// The cluster maintenance window. Managed node pool will use it. See maintenance_window below.
 	// +kubebuilder:validation:Optional
 	MaintenanceWindow []MaintenanceWindowParameters `json:"maintenanceWindow,omitempty" tf:"maintenance_window,omitempty"`
 
@@ -887,7 +967,7 @@ type ManagedKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	NodePortRange *string `json:"nodePortRange,omitempty" tf:"node_port_range,omitempty"`
 
-	// The cluster automatic operation policy. See operation_policy below.
+	// The cluster automatic operation policy, only works when maintenance_window is enabled. See operation_policy below.
 	// +kubebuilder:validation:Optional
 	OperationPolicy []OperationPolicyParameters `json:"operationPolicy,omitempty" tf:"operation_policy,omitempty"`
 
@@ -910,6 +990,10 @@ type ManagedKubernetesParameters struct {
 	// - [Terway Specific] The vswitches for the pod network when using Terway. It is recommended that pod_vswitch_ids is not belong to vswitch_ids but must be in same availability zones. Only works for Create Operation.
 	// +kubebuilder:validation:Optional
 	PodVswitchIds []*string `json:"podVswitchIds,omitempty" tf:"pod_vswitch_ids,omitempty"`
+
+	// The profile of cluster. Valid values:
+	// +kubebuilder:validation:Optional
+	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
 
 	// Proxy mode is option of kube-proxy. options: iptables|ipvs. default: ipvs.
 	// +kubebuilder:validation:Optional
@@ -957,6 +1041,10 @@ type ManagedKubernetesParameters struct {
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	// +kubebuilder:validation:Optional
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
+
+	// Configure whether to save certificate authority data for your cluster to attribute certificate_authority. For cluster security, recommended configuration as true. Will be removed with attribute certificate_authority removed.
+	// +kubebuilder:validation:Optional
+	SkipSetCertificateAuthority *bool `json:"skipSetCertificateAuthority,omitempty" tf:"skip_set_certificate_authority,omitempty"`
 
 	// Whether to create internet load balancer for API Server. Default to true. Only works for Create Operation.
 	// +kubebuilder:validation:Optional

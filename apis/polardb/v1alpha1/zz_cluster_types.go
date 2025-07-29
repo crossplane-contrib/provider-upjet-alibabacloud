@@ -39,7 +39,7 @@ type ClusterInitParameters struct {
 	// -> NOTE: You can set this parameter to Basic only when DBType is set to MySQL and DBVersion is set to 5.6, 5.7, or 8.0. You can set this parameter to Archive only when DBType is set to MySQL and DBVersion is set to 8.0. From version 1.188.0, creation_category can be set to NormalMultimaster. From version 1.203.0, creation_category can be set to SENormal.
 	CreationCategory *string `json:"creationCategory,omitempty" tf:"creation_category,omitempty"`
 
-	// The method that is used to create a cluster. Valid values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin. NOTE: From version 1.233.0, creation_option can be set to RecoverFromRecyclebin. Value options can refer to the latest docs CreateDBCluster CreationOption.
+	// The method that is used to create a cluster. Valid values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin,UpgradeFromPolarDB. NOTE: From version 1.233.0, creation_option can be set to RecoverFromRecyclebin. From version 1.255.0, creation_option can be set to UpgradeFromPolarDB. Value options can refer to the latest docs CreateDBCluster CreationOption.
 	CreationOption *string `json:"creationOption,omitempty" tf:"creation_option,omitempty"`
 
 	// db_cluster_ip_array defines how users can send requests to your API. See db_cluster_ip_array below.
@@ -98,7 +98,8 @@ type ClusterInitParameters struct {
 	// Indicates whether the hot standby feature is enabled. Valid values are ON, OFF. Only MySQL supports.
 	HotReplicaMode *string `json:"hotReplicaMode,omitempty" tf:"hot_replica_mode,omitempty"`
 
-	// Whether to enable the hot standby cluster. Valid values are ON, OFF.
+	// Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
+	// -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
 	HotStandbyCluster *string `json:"hotStandbyCluster,omitempty" tf:"hot_standby_cluster,omitempty"`
 
 	// Specifies whether to enable the In-Memory Column Index (IMCI) feature. Valid values are ON, OFF.
@@ -165,7 +166,7 @@ type ClusterInitParameters struct {
 	// Valid values are AutoRenewal, Normal, NotRenewal, Default to NotRenewal.
 	RenewalStatus *string `json:"renewalStatus,omitempty" tf:"renewal_status,omitempty"`
 
-	// The ID of resource group which the PolarDB cluster belongs. If not specified, then it belongs to the default resource group.
+	// > NOTE: From version 1.250.0, resource_group_id can be modified.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
 	// The Alibaba Cloud Resource Name (ARN) of the RAM role. A RAM role is a virtual identity that you can create within your Alibaba Cloud account. For more information see RAM role overview.
@@ -223,6 +224,16 @@ type ClusterInitParameters struct {
 	// +listType=set
 	SecurityIps []*string `json:"securityIps,omitempty" tf:"security_ips,omitempty"`
 
+	// CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
+	// -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
+	ServerlessRuleCPUEnlargeThreshold *float64 `json:"serverlessRuleCpuEnlargeThreshold,omitempty" tf:"serverless_rule_cpu_enlarge_threshold,omitempty"`
+
+	// CPU downscale threshold. Valid values: 10 to 100. This parameter is valid only for serverless clusters.
+	ServerlessRuleCPUShrinkThreshold *float64 `json:"serverlessRuleCpuShrinkThreshold,omitempty" tf:"serverless_rule_cpu_shrink_threshold,omitempty"`
+
+	// Elasticity sensitivity. Valid values: normal for standard and flexible for sensitive. This parameter is valid only for serverless clusters.
+	ServerlessRuleMode *string `json:"serverlessRuleMode,omitempty" tf:"serverless_rule_mode,omitempty"`
+
 	// Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
 	// -> NOTE: When serverless_steady_switch is ON and serverless_type is SteadyServerless, parameters scale_min, scale_max, scale_ro_num_min and scale_ro_num_max are all required.
 	ServerlessSteadySwitch *string `json:"serverlessSteadySwitch,omitempty" tf:"serverless_steady_switch,omitempty"`
@@ -232,6 +243,10 @@ type ClusterInitParameters struct {
 
 	// The ID of the source RDS instance or the ID of the source PolarDB cluster. This parameter is required only when CreationOption is set to MigrationFromRDS, CloneFromRDS, or CloneFromPolarDB.Value options can refer to the latest docs CreateDBCluster SourceResourceId.
 	SourceResourceID *string `json:"sourceResourceId,omitempty" tf:"source_resource_id,omitempty"`
+
+	// The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
+	// -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
+	StandbyAz *string `json:"standbyAz,omitempty" tf:"standby_az,omitempty"`
 
 	// The billing method of the storage. Valid values Postpaid, Prepaid.
 	StoragePayType *string `json:"storagePayType,omitempty" tf:"storage_pay_type,omitempty"`
@@ -326,7 +341,7 @@ type ClusterObservation struct {
 	// -> NOTE: You can set this parameter to Basic only when DBType is set to MySQL and DBVersion is set to 5.6, 5.7, or 8.0. You can set this parameter to Archive only when DBType is set to MySQL and DBVersion is set to 8.0. From version 1.188.0, creation_category can be set to NormalMultimaster. From version 1.203.0, creation_category can be set to SENormal.
 	CreationCategory *string `json:"creationCategory,omitempty" tf:"creation_category,omitempty"`
 
-	// The method that is used to create a cluster. Valid values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin. NOTE: From version 1.233.0, creation_option can be set to RecoverFromRecyclebin. Value options can refer to the latest docs CreateDBCluster CreationOption.
+	// The method that is used to create a cluster. Valid values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin,UpgradeFromPolarDB. NOTE: From version 1.233.0, creation_option can be set to RecoverFromRecyclebin. From version 1.255.0, creation_option can be set to UpgradeFromPolarDB. Value options can refer to the latest docs CreateDBCluster CreationOption.
 	CreationOption *string `json:"creationOption,omitempty" tf:"creation_option,omitempty"`
 
 	// db_cluster_ip_array defines how users can send requests to your API. See db_cluster_ip_array below.
@@ -388,7 +403,8 @@ type ClusterObservation struct {
 	// Indicates whether the hot standby feature is enabled. Valid values are ON, OFF. Only MySQL supports.
 	HotReplicaMode *string `json:"hotReplicaMode,omitempty" tf:"hot_replica_mode,omitempty"`
 
-	// Whether to enable the hot standby cluster. Valid values are ON, OFF.
+	// Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
+	// -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
 	HotStandbyCluster *string `json:"hotStandbyCluster,omitempty" tf:"hot_standby_cluster,omitempty"`
 
 	// The PolarDB cluster ID.
@@ -461,7 +477,7 @@ type ClusterObservation struct {
 	// Valid values are AutoRenewal, Normal, NotRenewal, Default to NotRenewal.
 	RenewalStatus *string `json:"renewalStatus,omitempty" tf:"renewal_status,omitempty"`
 
-	// The ID of resource group which the PolarDB cluster belongs. If not specified, then it belongs to the default resource group.
+	// > NOTE: From version 1.250.0, resource_group_id can be modified.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
 	// The Alibaba Cloud Resource Name (ARN) of the RAM role. A RAM role is a virtual identity that you can create within your Alibaba Cloud account. For more information see RAM role overview.
@@ -498,6 +514,16 @@ type ClusterObservation struct {
 	// +listType=set
 	SecurityIps []*string `json:"securityIps,omitempty" tf:"security_ips,omitempty"`
 
+	// CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
+	// -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
+	ServerlessRuleCPUEnlargeThreshold *float64 `json:"serverlessRuleCpuEnlargeThreshold,omitempty" tf:"serverless_rule_cpu_enlarge_threshold,omitempty"`
+
+	// CPU downscale threshold. Valid values: 10 to 100. This parameter is valid only for serverless clusters.
+	ServerlessRuleCPUShrinkThreshold *float64 `json:"serverlessRuleCpuShrinkThreshold,omitempty" tf:"serverless_rule_cpu_shrink_threshold,omitempty"`
+
+	// Elasticity sensitivity. Valid values: normal for standard and flexible for sensitive. This parameter is valid only for serverless clusters.
+	ServerlessRuleMode *string `json:"serverlessRuleMode,omitempty" tf:"serverless_rule_mode,omitempty"`
+
 	// Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
 	// -> NOTE: When serverless_steady_switch is ON and serverless_type is SteadyServerless, parameters scale_min, scale_max, scale_ro_num_min and scale_ro_num_max are all required.
 	ServerlessSteadySwitch *string `json:"serverlessSteadySwitch,omitempty" tf:"serverless_steady_switch,omitempty"`
@@ -507,6 +533,10 @@ type ClusterObservation struct {
 
 	// The ID of the source RDS instance or the ID of the source PolarDB cluster. This parameter is required only when CreationOption is set to MigrationFromRDS, CloneFromRDS, or CloneFromPolarDB.Value options can refer to the latest docs CreateDBCluster SourceResourceId.
 	SourceResourceID *string `json:"sourceResourceId,omitempty" tf:"source_resource_id,omitempty"`
+
+	// The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
+	// -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
+	StandbyAz *string `json:"standbyAz,omitempty" tf:"standby_az,omitempty"`
 
 	// (Available since 1.204.1) PolarDB cluster status.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
@@ -591,7 +621,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	CreationCategory *string `json:"creationCategory,omitempty" tf:"creation_category,omitempty"`
 
-	// The method that is used to create a cluster. Valid values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin. NOTE: From version 1.233.0, creation_option can be set to RecoverFromRecyclebin. Value options can refer to the latest docs CreateDBCluster CreationOption.
+	// The method that is used to create a cluster. Valid values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin,UpgradeFromPolarDB. NOTE: From version 1.233.0, creation_option can be set to RecoverFromRecyclebin. From version 1.255.0, creation_option can be set to UpgradeFromPolarDB. Value options can refer to the latest docs CreateDBCluster CreationOption.
 	// +kubebuilder:validation:Optional
 	CreationOption *string `json:"creationOption,omitempty" tf:"creation_option,omitempty"`
 
@@ -667,7 +697,8 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	HotReplicaMode *string `json:"hotReplicaMode,omitempty" tf:"hot_replica_mode,omitempty"`
 
-	// Whether to enable the hot standby cluster. Valid values are ON, OFF.
+	// Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
+	// -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
 	// +kubebuilder:validation:Optional
 	HotStandbyCluster *string `json:"hotStandbyCluster,omitempty" tf:"hot_standby_cluster,omitempty"`
 
@@ -757,7 +788,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	RenewalStatus *string `json:"renewalStatus,omitempty" tf:"renewal_status,omitempty"`
 
-	// The ID of resource group which the PolarDB cluster belongs. If not specified, then it belongs to the default resource group.
+	// > NOTE: From version 1.250.0, resource_group_id can be modified.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
@@ -826,6 +857,19 @@ type ClusterParameters struct {
 	// +listType=set
 	SecurityIps []*string `json:"securityIps,omitempty" tf:"security_ips,omitempty"`
 
+	// CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
+	// -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
+	// +kubebuilder:validation:Optional
+	ServerlessRuleCPUEnlargeThreshold *float64 `json:"serverlessRuleCpuEnlargeThreshold,omitempty" tf:"serverless_rule_cpu_enlarge_threshold,omitempty"`
+
+	// CPU downscale threshold. Valid values: 10 to 100. This parameter is valid only for serverless clusters.
+	// +kubebuilder:validation:Optional
+	ServerlessRuleCPUShrinkThreshold *float64 `json:"serverlessRuleCpuShrinkThreshold,omitempty" tf:"serverless_rule_cpu_shrink_threshold,omitempty"`
+
+	// Elasticity sensitivity. Valid values: normal for standard and flexible for sensitive. This parameter is valid only for serverless clusters.
+	// +kubebuilder:validation:Optional
+	ServerlessRuleMode *string `json:"serverlessRuleMode,omitempty" tf:"serverless_rule_mode,omitempty"`
+
 	// Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
 	// -> NOTE: When serverless_steady_switch is ON and serverless_type is SteadyServerless, parameters scale_min, scale_max, scale_ro_num_min and scale_ro_num_max are all required.
 	// +kubebuilder:validation:Optional
@@ -838,6 +882,11 @@ type ClusterParameters struct {
 	// The ID of the source RDS instance or the ID of the source PolarDB cluster. This parameter is required only when CreationOption is set to MigrationFromRDS, CloneFromRDS, or CloneFromPolarDB.Value options can refer to the latest docs CreateDBCluster SourceResourceId.
 	// +kubebuilder:validation:Optional
 	SourceResourceID *string `json:"sourceResourceId,omitempty" tf:"source_resource_id,omitempty"`
+
+	// The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
+	// -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
+	// +kubebuilder:validation:Optional
+	StandbyAz *string `json:"standbyAz,omitempty" tf:"standby_az,omitempty"`
 
 	// The billing method of the storage. Valid values Postpaid, Prepaid.
 	// +kubebuilder:validation:Optional

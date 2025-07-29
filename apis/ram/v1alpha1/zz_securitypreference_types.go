@@ -15,84 +15,146 @@ import (
 
 type SecurityPreferenceInitParameters struct {
 
-	// Specifies whether RAM users can change their passwords. Valid values: true and false
+	// Whether to allow RAM users to manage their own passwords. Value:
 	AllowUserToChangePassword *bool `json:"allowUserToChangePassword,omitempty" tf:"allow_user_to_change_password,omitempty"`
 
-	// Specifies whether RAM users can manage their AccessKey pairs. Valid values: true and false
+	// Whether to allow RAM users to log on using a passkey. Value:
+	AllowUserToLoginWithPasskey *bool `json:"allowUserToLoginWithPasskey,omitempty" tf:"allow_user_to_login_with_passkey,omitempty"`
+
+	// Whether to allow RAM users to manage their own access keys. Value:
 	AllowUserToManageAccessKeys *bool `json:"allowUserToManageAccessKeys,omitempty" tf:"allow_user_to_manage_access_keys,omitempty"`
 
-	// Specifies whether RAM users can manage their MFA devices. Valid values: true and false
+	// Whether to allow RAM users to manage multi-factor authentication devices. Value:
 	AllowUserToManageMfaDevices *bool `json:"allowUserToManageMfaDevices,omitempty" tf:"allow_user_to_manage_mfa_devices,omitempty"`
 
-	// Specifies whether to remember the MFA devices for seven days. Valid values: true and false
+	// Whether to allow RAM users to independently manage the binding and unbinding of personal DingTalk. Value:
+	AllowUserToManagePersonalDingTalk *bool `json:"allowUserToManagePersonalDingTalk,omitempty" tf:"allow_user_to_manage_personal_ding_talk,omitempty"`
+
+	// Whether to save the verification status of a RAM user after logging in using multi-factor authentication. The validity period is 7 days. Value:
 	EnableSaveMfaTicket *bool `json:"enableSaveMfaTicket,omitempty" tf:"enable_save_mfa_ticket,omitempty"`
 
+	// Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
 	// Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
 	EnforceMfaForLogin *bool `json:"enforceMfaForLogin,omitempty" tf:"enforce_mfa_for_login,omitempty"`
 
-	// The subnet mask that specifies the IP addresses from which you can log on to the Alibaba Cloud Management Console. This parameter takes effect on password-based logon and single sign-on (SSO). However, this parameter does not take effect on API calls that are authenticated by using AccessKey pairs.NOTE: You can specify up to 25 subnet masks. The total length of the subnet masks can be a maximum of 512 characters.
+	// The login mask. The logon mask determines which IP addresses are affected by the logon console, including password logon and single sign-on (SSO), but API calls made using the access key are not affected.
 	LoginNetworkMasks *string `json:"loginNetworkMasks,omitempty" tf:"login_network_masks,omitempty"`
 
-	// The validity period of the logon session of RAM users. Valid values: 6 to 24. Unit: hours. Default value: 6.
+	// The validity period of the logon session of RAM users.
+	// Valid values: 1 to 24. Unit: hours.
+	// Default value: 6.
 	LoginSessionDuration *float64 `json:"loginSessionDuration,omitempty" tf:"login_session_duration,omitempty"`
+
+	// MFA must be used during logon (replace the original EnforceMFAForLogin parameter, the original parameter is still valid, we recommend that you update it to a new parameter). Value:
+	MfaOperationForLogin *string `json:"mfaOperationForLogin,omitempty" tf:"mfa_operation_for_login,omitempty"`
+
+	// Whether MFA is verified twice during abnormal logon. Value:
+	OperationForRiskLogin *string `json:"operationForRiskLogin,omitempty" tf:"operation_for_risk_login,omitempty"`
+
+	// Means of multi-factor authentication. Value:
+	// +listType=set
+	VerificationTypes []*string `json:"verificationTypes,omitempty" tf:"verification_types,omitempty"`
 }
 
 type SecurityPreferenceObservation struct {
 
-	// Specifies whether RAM users can change their passwords. Valid values: true and false
+	// Whether to allow RAM users to manage their own passwords. Value:
 	AllowUserToChangePassword *bool `json:"allowUserToChangePassword,omitempty" tf:"allow_user_to_change_password,omitempty"`
 
-	// Specifies whether RAM users can manage their AccessKey pairs. Valid values: true and false
+	// Whether to allow RAM users to log on using a passkey. Value:
+	AllowUserToLoginWithPasskey *bool `json:"allowUserToLoginWithPasskey,omitempty" tf:"allow_user_to_login_with_passkey,omitempty"`
+
+	// Whether to allow RAM users to manage their own access keys. Value:
 	AllowUserToManageAccessKeys *bool `json:"allowUserToManageAccessKeys,omitempty" tf:"allow_user_to_manage_access_keys,omitempty"`
 
-	// Specifies whether RAM users can manage their MFA devices. Valid values: true and false
+	// Whether to allow RAM users to manage multi-factor authentication devices. Value:
 	AllowUserToManageMfaDevices *bool `json:"allowUserToManageMfaDevices,omitempty" tf:"allow_user_to_manage_mfa_devices,omitempty"`
 
-	// Specifies whether to remember the MFA devices for seven days. Valid values: true and false
+	// Whether to allow RAM users to independently manage the binding and unbinding of personal DingTalk. Value:
+	AllowUserToManagePersonalDingTalk *bool `json:"allowUserToManagePersonalDingTalk,omitempty" tf:"allow_user_to_manage_personal_ding_talk,omitempty"`
+
+	// Whether to save the verification status of a RAM user after logging in using multi-factor authentication. The validity period is 7 days. Value:
 	EnableSaveMfaTicket *bool `json:"enableSaveMfaTicket,omitempty" tf:"enable_save_mfa_ticket,omitempty"`
 
+	// Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
 	// Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
 	EnforceMfaForLogin *bool `json:"enforceMfaForLogin,omitempty" tf:"enforce_mfa_for_login,omitempty"`
 
-	// The ID is set as RamSecurityPreference.
+	// The ID of the resource supplied above. The value is formulated as Alibaba Account ID.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The subnet mask that specifies the IP addresses from which you can log on to the Alibaba Cloud Management Console. This parameter takes effect on password-based logon and single sign-on (SSO). However, this parameter does not take effect on API calls that are authenticated by using AccessKey pairs.NOTE: You can specify up to 25 subnet masks. The total length of the subnet masks can be a maximum of 512 characters.
+	// The login mask. The logon mask determines which IP addresses are affected by the logon console, including password logon and single sign-on (SSO), but API calls made using the access key are not affected.
 	LoginNetworkMasks *string `json:"loginNetworkMasks,omitempty" tf:"login_network_masks,omitempty"`
 
-	// The validity period of the logon session of RAM users. Valid values: 6 to 24. Unit: hours. Default value: 6.
+	// The validity period of the logon session of RAM users.
+	// Valid values: 1 to 24. Unit: hours.
+	// Default value: 6.
 	LoginSessionDuration *float64 `json:"loginSessionDuration,omitempty" tf:"login_session_duration,omitempty"`
+
+	// MFA must be used during logon (replace the original EnforceMFAForLogin parameter, the original parameter is still valid, we recommend that you update it to a new parameter). Value:
+	MfaOperationForLogin *string `json:"mfaOperationForLogin,omitempty" tf:"mfa_operation_for_login,omitempty"`
+
+	// Whether MFA is verified twice during abnormal logon. Value:
+	OperationForRiskLogin *string `json:"operationForRiskLogin,omitempty" tf:"operation_for_risk_login,omitempty"`
+
+	// Means of multi-factor authentication. Value:
+	// +listType=set
+	VerificationTypes []*string `json:"verificationTypes,omitempty" tf:"verification_types,omitempty"`
 }
 
 type SecurityPreferenceParameters struct {
 
-	// Specifies whether RAM users can change their passwords. Valid values: true and false
+	// Whether to allow RAM users to manage their own passwords. Value:
 	// +kubebuilder:validation:Optional
 	AllowUserToChangePassword *bool `json:"allowUserToChangePassword,omitempty" tf:"allow_user_to_change_password,omitempty"`
 
-	// Specifies whether RAM users can manage their AccessKey pairs. Valid values: true and false
+	// Whether to allow RAM users to log on using a passkey. Value:
+	// +kubebuilder:validation:Optional
+	AllowUserToLoginWithPasskey *bool `json:"allowUserToLoginWithPasskey,omitempty" tf:"allow_user_to_login_with_passkey,omitempty"`
+
+	// Whether to allow RAM users to manage their own access keys. Value:
 	// +kubebuilder:validation:Optional
 	AllowUserToManageAccessKeys *bool `json:"allowUserToManageAccessKeys,omitempty" tf:"allow_user_to_manage_access_keys,omitempty"`
 
-	// Specifies whether RAM users can manage their MFA devices. Valid values: true and false
+	// Whether to allow RAM users to manage multi-factor authentication devices. Value:
 	// +kubebuilder:validation:Optional
 	AllowUserToManageMfaDevices *bool `json:"allowUserToManageMfaDevices,omitempty" tf:"allow_user_to_manage_mfa_devices,omitempty"`
 
-	// Specifies whether to remember the MFA devices for seven days. Valid values: true and false
+	// Whether to allow RAM users to independently manage the binding and unbinding of personal DingTalk. Value:
+	// +kubebuilder:validation:Optional
+	AllowUserToManagePersonalDingTalk *bool `json:"allowUserToManagePersonalDingTalk,omitempty" tf:"allow_user_to_manage_personal_ding_talk,omitempty"`
+
+	// Whether to save the verification status of a RAM user after logging in using multi-factor authentication. The validity period is 7 days. Value:
 	// +kubebuilder:validation:Optional
 	EnableSaveMfaTicket *bool `json:"enableSaveMfaTicket,omitempty" tf:"enable_save_mfa_ticket,omitempty"`
 
+	// Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
 	// Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
 	// +kubebuilder:validation:Optional
 	EnforceMfaForLogin *bool `json:"enforceMfaForLogin,omitempty" tf:"enforce_mfa_for_login,omitempty"`
 
-	// The subnet mask that specifies the IP addresses from which you can log on to the Alibaba Cloud Management Console. This parameter takes effect on password-based logon and single sign-on (SSO). However, this parameter does not take effect on API calls that are authenticated by using AccessKey pairs.NOTE: You can specify up to 25 subnet masks. The total length of the subnet masks can be a maximum of 512 characters.
+	// The login mask. The logon mask determines which IP addresses are affected by the logon console, including password logon and single sign-on (SSO), but API calls made using the access key are not affected.
 	// +kubebuilder:validation:Optional
 	LoginNetworkMasks *string `json:"loginNetworkMasks,omitempty" tf:"login_network_masks,omitempty"`
 
-	// The validity period of the logon session of RAM users. Valid values: 6 to 24. Unit: hours. Default value: 6.
+	// The validity period of the logon session of RAM users.
+	// Valid values: 1 to 24. Unit: hours.
+	// Default value: 6.
 	// +kubebuilder:validation:Optional
 	LoginSessionDuration *float64 `json:"loginSessionDuration,omitempty" tf:"login_session_duration,omitempty"`
+
+	// MFA must be used during logon (replace the original EnforceMFAForLogin parameter, the original parameter is still valid, we recommend that you update it to a new parameter). Value:
+	// +kubebuilder:validation:Optional
+	MfaOperationForLogin *string `json:"mfaOperationForLogin,omitempty" tf:"mfa_operation_for_login,omitempty"`
+
+	// Whether MFA is verified twice during abnormal logon. Value:
+	// +kubebuilder:validation:Optional
+	OperationForRiskLogin *string `json:"operationForRiskLogin,omitempty" tf:"operation_for_risk_login,omitempty"`
+
+	// Means of multi-factor authentication. Value:
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	VerificationTypes []*string `json:"verificationTypes,omitempty" tf:"verification_types,omitempty"`
 }
 
 // SecurityPreferenceSpec defines the desired state of SecurityPreference

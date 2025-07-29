@@ -15,70 +15,106 @@ import (
 
 type RoleInitParameters struct {
 
-	// Description of the RAM role. This name can have a string of 1 to 1024 characters. NOTE: The description supports modification since V1.144.0.
+	// The trust policy that specifies one or more trusted entities to assume the RAM role. The trusted entities can be Alibaba Cloud accounts, Alibaba Cloud services, or identity providers (IdPs).
+	AssumeRolePolicyDocument *string `json:"assumeRolePolicyDocument,omitempty" tf:"assume_role_policy_document,omitempty"`
+
+	// The description of the RAM role.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Authorization strategy of the RAM role. It is required when the services and ram_users are not specified.
+	// Field document has been deprecated from provider version 1.252.0. New field assume_role_policy_document instead.
 	Document *string `json:"document,omitempty" tf:"document,omitempty"`
 
-	// This parameter is used for resource destroy. Default value is false.
+	// Specifies whether to force delete the Role. Default value: false. Valid values:
 	Force *bool `json:"force,omitempty" tf:"force,omitempty"`
 
-	// The maximum session duration of the RAM role. Valid values: 3600 to 43200. Unit: seconds. Default value: 3600. The default value is used if the parameter is not specified.
+	// The maximum session time of the RAM role. Default value: 3600. Valid values: 3600 to 43200.
 	MaxSessionDuration *float64 `json:"maxSessionDuration,omitempty" tf:"max_session_duration,omitempty"`
 
-	// Name of the RAM role. This name can have a string of 1 to 64 characters, must contain only alphanumeric characters or hyphens, such as "-", "_", and must not begin with a hyphen.
+	// Field name has been deprecated from provider version 1.252.0. New field role_name instead.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The name of the RAM role.
+	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
+
+	// Key-value map of resource tags.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type RoleObservation struct {
 
-	// The role arn.
+	// The Alibaba Cloud Resource Name (ARN) of the RAM role.
 	Arn *string `json:"arn,omitempty" tf:"arn,omitempty"`
 
-	// Description of the RAM role. This name can have a string of 1 to 1024 characters. NOTE: The description supports modification since V1.144.0.
+	// The trust policy that specifies one or more trusted entities to assume the RAM role. The trusted entities can be Alibaba Cloud accounts, Alibaba Cloud services, or identity providers (IdPs).
+	AssumeRolePolicyDocument *string `json:"assumeRolePolicyDocument,omitempty" tf:"assume_role_policy_document,omitempty"`
+
+	// (Available since v1.252.0) The time when the RAM role was created.
+	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// The description of the RAM role.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Authorization strategy of the RAM role. It is required when the services and ram_users are not specified.
+	// Field document has been deprecated from provider version 1.252.0. New field assume_role_policy_document instead.
 	Document *string `json:"document,omitempty" tf:"document,omitempty"`
 
-	// This parameter is used for resource destroy. Default value is false.
+	// Specifies whether to force delete the Role. Default value: false. Valid values:
 	Force *bool `json:"force,omitempty" tf:"force,omitempty"`
 
-	// This ID of this resource. The value is set to role_name.
+	// The ID of the resource supplied above.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The maximum session duration of the RAM role. Valid values: 3600 to 43200. Unit: seconds. Default value: 3600. The default value is used if the parameter is not specified.
+	// The maximum session time of the RAM role. Default value: 3600. Valid values: 3600 to 43200.
 	MaxSessionDuration *float64 `json:"maxSessionDuration,omitempty" tf:"max_session_duration,omitempty"`
 
-	// Name of the RAM role. This name can have a string of 1 to 64 characters, must contain only alphanumeric characters or hyphens, such as "-", "_", and must not begin with a hyphen.
+	// Field name has been deprecated from provider version 1.252.0. New field role_name instead.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The role ID.
+	// The ID of the RAM role.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
+
+	// The name of the RAM role.
+	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
+
+	// Key-value map of resource tags.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type RoleParameters struct {
 
-	// Description of the RAM role. This name can have a string of 1 to 1024 characters. NOTE: The description supports modification since V1.144.0.
+	// The trust policy that specifies one or more trusted entities to assume the RAM role. The trusted entities can be Alibaba Cloud accounts, Alibaba Cloud services, or identity providers (IdPs).
+	// +kubebuilder:validation:Optional
+	AssumeRolePolicyDocument *string `json:"assumeRolePolicyDocument,omitempty" tf:"assume_role_policy_document,omitempty"`
+
+	// The description of the RAM role.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Authorization strategy of the RAM role. It is required when the services and ram_users are not specified.
+	// Field document has been deprecated from provider version 1.252.0. New field assume_role_policy_document instead.
 	// +kubebuilder:validation:Optional
 	Document *string `json:"document,omitempty" tf:"document,omitempty"`
 
-	// This parameter is used for resource destroy. Default value is false.
+	// Specifies whether to force delete the Role. Default value: false. Valid values:
 	// +kubebuilder:validation:Optional
 	Force *bool `json:"force,omitempty" tf:"force,omitempty"`
 
-	// The maximum session duration of the RAM role. Valid values: 3600 to 43200. Unit: seconds. Default value: 3600. The default value is used if the parameter is not specified.
+	// The maximum session time of the RAM role. Default value: 3600. Valid values: 3600 to 43200.
 	// +kubebuilder:validation:Optional
 	MaxSessionDuration *float64 `json:"maxSessionDuration,omitempty" tf:"max_session_duration,omitempty"`
 
-	// Name of the RAM role. This name can have a string of 1 to 64 characters, must contain only alphanumeric characters or hyphens, such as "-", "_", and must not begin with a hyphen.
+	// Field name has been deprecated from provider version 1.252.0. New field role_name instead.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The name of the RAM role.
+	// +kubebuilder:validation:Optional
+	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
+
+	// Key-value map of resource tags.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 // RoleSpec defines the desired state of Role
@@ -108,7 +144,7 @@ type RoleStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Role is the Schema for the Roles API. Provides a RAM Role resource.
+// Role is the Schema for the Roles API. Provides a Alicloud RAM Role resource.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -117,9 +153,8 @@ type RoleStatus struct {
 type Role struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
-	Spec   RoleSpec   `json:"spec"`
-	Status RoleStatus `json:"status,omitempty"`
+	Spec              RoleSpec   `json:"spec"`
+	Status            RoleStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

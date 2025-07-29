@@ -2316,6 +2316,27 @@ func (in *HealthCheckTemplateInitParameters) DeepCopyInto(out *HealthCheckTempla
 		*out = new(float64)
 		**out = **in
 	}
+	if in.ResourceGroupID != nil {
+		in, out := &in.ResourceGroupID, &out.ResourceGroupID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.UnhealthyThreshold != nil {
 		in, out := &in.UnhealthyThreshold, &out.UnhealthyThreshold
 		*out = new(float64)
@@ -2439,6 +2460,27 @@ func (in *HealthCheckTemplateObservation) DeepCopyInto(out *HealthCheckTemplateO
 		*out = new(string)
 		**out = **in
 	}
+	if in.ResourceGroupID != nil {
+		in, out := &in.ResourceGroupID, &out.ResourceGroupID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.UnhealthyThreshold != nil {
 		in, out := &in.UnhealthyThreshold, &out.UnhealthyThreshold
 		*out = new(float64)
@@ -2529,6 +2571,27 @@ func (in *HealthCheckTemplateParameters) DeepCopyInto(out *HealthCheckTemplatePa
 		in, out := &in.Region, &out.Region
 		*out = new(string)
 		**out = **in
+	}
+	if in.ResourceGroupID != nil {
+		in, out := &in.ResourceGroupID, &out.ResourceGroupID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.UnhealthyThreshold != nil {
 		in, out := &in.UnhealthyThreshold, &out.UnhealthyThreshold

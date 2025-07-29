@@ -74,39 +74,63 @@ spec:
               forProvider:
                 properties:
                   allowUserToChangePassword:
-                    description: 'Specifies whether RAM users can change their passwords.
-                      Valid values: true and false'
+                    description: 'Whether to allow RAM users to manage their own passwords.
+                      Value:'
+                    type: boolean
+                  allowUserToLoginWithPasskey:
+                    description: 'Whether to allow RAM users to log on using a passkey.
+                      Value:'
                     type: boolean
                   allowUserToManageAccessKeys:
-                    description: 'Specifies whether RAM users can manage their AccessKey
-                      pairs. Valid values: true and false'
+                    description: 'Whether to allow RAM users to manage their own access
+                      keys. Value:'
                     type: boolean
                   allowUserToManageMfaDevices:
-                    description: 'Specifies whether RAM users can manage their MFA
-                      devices. Valid values: true and false'
+                    description: 'Whether to allow RAM users to manage multi-factor
+                      authentication devices. Value:'
+                    type: boolean
+                  allowUserToManagePersonalDingTalk:
+                    description: 'Whether to allow RAM users to independently manage
+                      the binding and unbinding of personal DingTalk. Value:'
                     type: boolean
                   enableSaveMfaTicket:
-                    description: 'Specifies whether to remember the MFA devices for
-                      seven days. Valid values: true and false'
+                    description: 'Whether to save the verification status of a RAM
+                      user after logging in using multi-factor authentication. The
+                      validity period is 7 days. Value:'
                     type: boolean
                   enforceMfaForLogin:
-                    description: 'Specifies whether MFA is required for all RAM users
-                      when they log on to the Alibaba Cloud Management Console by
-                      using usernames and passwords. Valid values: true and false'
+                    description: |-
+                      Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
+                      Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
                     type: boolean
                   loginNetworkMasks:
-                    description: 'The subnet mask that specifies the IP addresses
-                      from which you can log on to the Alibaba Cloud Management Console.
-                      This parameter takes effect on password-based logon and single
-                      sign-on (SSO). However, this parameter does not take effect
-                      on API calls that are authenticated by using AccessKey pairs.NOTE:
-                      You can specify up to 25 subnet masks. The total length of the
-                      subnet masks can be a maximum of 512 characters.'
+                    description: The login mask. The logon mask determines which IP
+                      addresses are affected by the logon console, including password
+                      logon and single sign-on (SSO), but API calls made using the
+                      access key are not affected.
                     type: string
                   loginSessionDuration:
-                    description: 'The validity period of the logon session of RAM
-                      users. Valid values: 6 to 24. Unit: hours. Default value: 6.'
+                    description: |-
+                      The validity period of the logon session of RAM users.
+                      Valid values: 1 to 24. Unit: hours.
+                      Default value: 6.
                     type: number
+                  mfaOperationForLogin:
+                    description: 'MFA must be used during logon (replace the original
+                      EnforceMFAForLogin parameter, the original parameter is still
+                      valid, we recommend that you update it to a new parameter).
+                      Value:'
+                    type: string
+                  operationForRiskLogin:
+                    description: 'Whether MFA is verified twice during abnormal logon.
+                      Value:'
+                    type: string
+                  verificationTypes:
+                    description: 'Means of multi-factor authentication. Value:'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                 type: object
               initProvider:
                 description: |-
@@ -122,39 +146,63 @@ spec:
                   autoscaler.
                 properties:
                   allowUserToChangePassword:
-                    description: 'Specifies whether RAM users can change their passwords.
-                      Valid values: true and false'
+                    description: 'Whether to allow RAM users to manage their own passwords.
+                      Value:'
+                    type: boolean
+                  allowUserToLoginWithPasskey:
+                    description: 'Whether to allow RAM users to log on using a passkey.
+                      Value:'
                     type: boolean
                   allowUserToManageAccessKeys:
-                    description: 'Specifies whether RAM users can manage their AccessKey
-                      pairs. Valid values: true and false'
+                    description: 'Whether to allow RAM users to manage their own access
+                      keys. Value:'
                     type: boolean
                   allowUserToManageMfaDevices:
-                    description: 'Specifies whether RAM users can manage their MFA
-                      devices. Valid values: true and false'
+                    description: 'Whether to allow RAM users to manage multi-factor
+                      authentication devices. Value:'
+                    type: boolean
+                  allowUserToManagePersonalDingTalk:
+                    description: 'Whether to allow RAM users to independently manage
+                      the binding and unbinding of personal DingTalk. Value:'
                     type: boolean
                   enableSaveMfaTicket:
-                    description: 'Specifies whether to remember the MFA devices for
-                      seven days. Valid values: true and false'
+                    description: 'Whether to save the verification status of a RAM
+                      user after logging in using multi-factor authentication. The
+                      validity period is 7 days. Value:'
                     type: boolean
                   enforceMfaForLogin:
-                    description: 'Specifies whether MFA is required for all RAM users
-                      when they log on to the Alibaba Cloud Management Console by
-                      using usernames and passwords. Valid values: true and false'
+                    description: |-
+                      Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
+                      Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
                     type: boolean
                   loginNetworkMasks:
-                    description: 'The subnet mask that specifies the IP addresses
-                      from which you can log on to the Alibaba Cloud Management Console.
-                      This parameter takes effect on password-based logon and single
-                      sign-on (SSO). However, this parameter does not take effect
-                      on API calls that are authenticated by using AccessKey pairs.NOTE:
-                      You can specify up to 25 subnet masks. The total length of the
-                      subnet masks can be a maximum of 512 characters.'
+                    description: The login mask. The logon mask determines which IP
+                      addresses are affected by the logon console, including password
+                      logon and single sign-on (SSO), but API calls made using the
+                      access key are not affected.
                     type: string
                   loginSessionDuration:
-                    description: 'The validity period of the logon session of RAM
-                      users. Valid values: 6 to 24. Unit: hours. Default value: 6.'
+                    description: |-
+                      The validity period of the logon session of RAM users.
+                      Valid values: 1 to 24. Unit: hours.
+                      Default value: 6.
                     type: number
+                  mfaOperationForLogin:
+                    description: 'MFA must be used during logon (replace the original
+                      EnforceMFAForLogin parameter, the original parameter is still
+                      valid, we recommend that you update it to a new parameter).
+                      Value:'
+                    type: string
+                  operationForRiskLogin:
+                    description: 'Whether MFA is verified twice during abnormal logon.
+                      Value:'
+                    type: string
+                  verificationTypes:
+                    description: 'Means of multi-factor authentication. Value:'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                 type: object
               managementPolicies:
                 default:
@@ -329,42 +377,67 @@ spec:
               atProvider:
                 properties:
                   allowUserToChangePassword:
-                    description: 'Specifies whether RAM users can change their passwords.
-                      Valid values: true and false'
+                    description: 'Whether to allow RAM users to manage their own passwords.
+                      Value:'
+                    type: boolean
+                  allowUserToLoginWithPasskey:
+                    description: 'Whether to allow RAM users to log on using a passkey.
+                      Value:'
                     type: boolean
                   allowUserToManageAccessKeys:
-                    description: 'Specifies whether RAM users can manage their AccessKey
-                      pairs. Valid values: true and false'
+                    description: 'Whether to allow RAM users to manage their own access
+                      keys. Value:'
                     type: boolean
                   allowUserToManageMfaDevices:
-                    description: 'Specifies whether RAM users can manage their MFA
-                      devices. Valid values: true and false'
+                    description: 'Whether to allow RAM users to manage multi-factor
+                      authentication devices. Value:'
+                    type: boolean
+                  allowUserToManagePersonalDingTalk:
+                    description: 'Whether to allow RAM users to independently manage
+                      the binding and unbinding of personal DingTalk. Value:'
                     type: boolean
                   enableSaveMfaTicket:
-                    description: 'Specifies whether to remember the MFA devices for
-                      seven days. Valid values: true and false'
+                    description: 'Whether to save the verification status of a RAM
+                      user after logging in using multi-factor authentication. The
+                      validity period is 7 days. Value:'
                     type: boolean
                   enforceMfaForLogin:
-                    description: 'Specifies whether MFA is required for all RAM users
-                      when they log on to the Alibaba Cloud Management Console by
-                      using usernames and passwords. Valid values: true and false'
+                    description: |-
+                      Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
+                      Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
                     type: boolean
                   id:
-                    description: The ID is set as RamSecurityPreference.
+                    description: The ID of the resource supplied above. The value
+                      is formulated as Alibaba Account ID.
                     type: string
                   loginNetworkMasks:
-                    description: 'The subnet mask that specifies the IP addresses
-                      from which you can log on to the Alibaba Cloud Management Console.
-                      This parameter takes effect on password-based logon and single
-                      sign-on (SSO). However, this parameter does not take effect
-                      on API calls that are authenticated by using AccessKey pairs.NOTE:
-                      You can specify up to 25 subnet masks. The total length of the
-                      subnet masks can be a maximum of 512 characters.'
+                    description: The login mask. The logon mask determines which IP
+                      addresses are affected by the logon console, including password
+                      logon and single sign-on (SSO), but API calls made using the
+                      access key are not affected.
                     type: string
                   loginSessionDuration:
-                    description: 'The validity period of the logon session of RAM
-                      users. Valid values: 6 to 24. Unit: hours. Default value: 6.'
+                    description: |-
+                      The validity period of the logon session of RAM users.
+                      Valid values: 1 to 24. Unit: hours.
+                      Default value: 6.
                     type: number
+                  mfaOperationForLogin:
+                    description: 'MFA must be used during logon (replace the original
+                      EnforceMFAForLogin parameter, the original parameter is still
+                      valid, we recommend that you update it to a new parameter).
+                      Value:'
+                    type: string
+                  operationForRiskLogin:
+                    description: 'Whether MFA is verified twice during abnormal logon.
+                      Value:'
+                    type: string
+                  verificationTypes:
+                    description: 'Means of multi-factor authentication. Value:'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                 type: object
               conditions:
                 description: Conditions of the resource.

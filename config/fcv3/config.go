@@ -13,6 +13,10 @@ func Configure(p *config.Provider) {
 		r.References["function_name"] = config.Reference{
 			TerraformName: "alicloud_fcv3_function",
 		}
+		r.References["version_id"] = config.Reference{
+			TerraformName: "alicloud_fcv3_function_version",
+			Extractor:     common.PathFcv3FunctionVersionIdExtractor,
+		}
 	})
 	p.AddResourceConfigurator("alicloud_fcv3_async_invoke_config", func(r *config.Resource) {
 		r.ShortGroup = string(common.FCV3)
@@ -61,6 +65,12 @@ func Configure(p *config.Provider) {
 		}
 		r.References["role"] = config.Reference{
 			TerraformName: "alicloud_ram_role",
+		}
+		r.References["layers"] = config.Reference{
+			TerraformName:     "alicloud_fcv3_layer_version",
+			RefFieldName:      "LayerRefs",
+			SelectorFieldName: "LayerSelector",
+			Extractor:         common.PathFcv3LayerVersionArnExtractor,
 		}
 		r.References["vpc_config.vpc_id"] = config.Reference{
 			TerraformName: "alicloud_vpc",

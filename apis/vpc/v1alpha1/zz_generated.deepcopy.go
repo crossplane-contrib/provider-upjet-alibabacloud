@@ -435,6 +435,11 @@ func (in *VPCInitParameters) DeepCopyInto(out *VPCInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ForceDelete != nil {
+		in, out := &in.ForceDelete, &out.ForceDelete
+		*out = new(bool)
+		**out = **in
+	}
 	if in.IPv4CidrMask != nil {
 		in, out := &in.IPv4CidrMask, &out.IPv4CidrMask
 		*out = new(float64)
@@ -494,6 +499,11 @@ func (in *VPCInitParameters) DeepCopyInto(out *VPCInitParameters) {
 	if in.SystemRouteTableName != nil {
 		in, out := &in.SystemRouteTableName, &out.SystemRouteTableName
 		*out = new(string)
+		**out = **in
+	}
+	if in.SystemRouteTableRoutePropagationEnable != nil {
+		in, out := &in.SystemRouteTableRoutePropagationEnable, &out.SystemRouteTableRoutePropagationEnable
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Tags != nil {
@@ -610,6 +620,11 @@ func (in *VPCObservation) DeepCopyInto(out *VPCObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ForceDelete != nil {
+		in, out := &in.ForceDelete, &out.ForceDelete
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -708,6 +723,11 @@ func (in *VPCObservation) DeepCopyInto(out *VPCObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SystemRouteTableRoutePropagationEnable != nil {
+		in, out := &in.SystemRouteTableRoutePropagationEnable, &out.SystemRouteTableRoutePropagationEnable
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]*string, len(*in))
@@ -785,6 +805,11 @@ func (in *VPCParameters) DeepCopyInto(out *VPCParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ForceDelete != nil {
+		in, out := &in.ForceDelete, &out.ForceDelete
+		*out = new(bool)
+		**out = **in
+	}
 	if in.IPv4CidrMask != nil {
 		in, out := &in.IPv4CidrMask, &out.IPv4CidrMask
 		*out = new(float64)
@@ -849,6 +874,11 @@ func (in *VPCParameters) DeepCopyInto(out *VPCParameters) {
 	if in.SystemRouteTableName != nil {
 		in, out := &in.SystemRouteTableName, &out.SystemRouteTableName
 		*out = new(string)
+		**out = **in
+	}
+	if in.SystemRouteTableRoutePropagationEnable != nil {
+		in, out := &in.SystemRouteTableRoutePropagationEnable, &out.SystemRouteTableRoutePropagationEnable
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Tags != nil {

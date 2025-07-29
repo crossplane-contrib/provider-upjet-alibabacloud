@@ -105,13 +105,13 @@ type KubernetesInitParameters struct {
 	// (Removed since v1.212.0) Kubelet cpu policy. For Kubernetes 1.12.6 and later, its valid value is either static or none. Default to none.
 	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
 	// Cluster local domain name, Default to cluster.local. A domain name consists of one or more sections separated by a decimal point (.), each of which is up to 63 characters long, and can be lowercase, numerals, and underscores (-), and must be lowercase or numerals at the beginning and end.
@@ -158,7 +158,7 @@ type KubernetesInitParameters struct {
 	// The keypair of ssh login cluster node, you have to create it first. You have to specify one of password key_name kms_encrypted_password fields.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. You can set some file paths to save kube_config information, but this way is cumbersome. Since version 1.105.0, we've written it to tf state file. About its use，see export attribute certificate_authority. From version 1.187.0+, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kube_config.
+	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 
 	// The cluster api server load balancer instance specification. For more information on how to select a LB instance specification, see SLB instance overview. Only works for Create Operation. The spec will not take effect because the charge of the load balancer has been changed to PayByCLCU.
@@ -287,6 +287,9 @@ type KubernetesInitParameters struct {
 
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
+
+	// Configure whether to save certificate authority data for your cluster to attribute certificate_authority.For cluster security, recommended configuration as true. Will be removed with attribute certificate_authority removed.
+	SkipSetCertificateAuthority *bool `json:"skipSetCertificateAuthority,omitempty" tf:"skip_set_certificate_authority,omitempty"`
 
 	// Whether to create internet load balancer for API Server. Default to true. Only works for Create Operation.
 	SlbInternetEnabled *bool `json:"slbInternetEnabled,omitempty" tf:"slb_internet_enabled,omitempty"`
@@ -434,17 +437,17 @@ type KubernetesObservation struct {
 	// (Removed since v1.212.0) Kubelet cpu policy. For Kubernetes 1.12.6 and later, its valid value is either static or none. Default to none.
 	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
 
-	// (Map, Available since v1.105.0) Nested attribute containing certificate authority data for your cluster.
+	// (Map, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.
 	// +mapType=granular
 	CertificateAuthority map[string]*string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
 	// Cluster local domain name, Default to cluster.local. A domain name consists of one or more sections separated by a decimal point (.), each of which is up to 63 characters long, and can be lowercase, numerals, and underscores (-), and must be lowercase or numerals at the beginning and end.
@@ -498,7 +501,7 @@ type KubernetesObservation struct {
 	// The keypair of ssh login cluster node, you have to create it first. You have to specify one of password key_name kms_encrypted_password fields.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. You can set some file paths to save kube_config information, but this way is cumbersome. Since version 1.105.0, we've written it to tf state file. About its use，see export attribute certificate_authority. From version 1.187.0+, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kube_config.
+	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 
 	// The cluster api server load balancer instance specification. For more information on how to select a LB instance specification, see SLB instance overview. Only works for Create Operation. The spec will not take effect because the charge of the load balancer has been changed to PayByCLCU.
@@ -603,6 +606,9 @@ type KubernetesObservation struct {
 
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
+
+	// Configure whether to save certificate authority data for your cluster to attribute certificate_authority.For cluster security, recommended configuration as true. Will be removed with attribute certificate_authority removed.
+	SkipSetCertificateAuthority *bool `json:"skipSetCertificateAuthority,omitempty" tf:"skip_set_certificate_authority,omitempty"`
 
 	// The ID of APIServer load balancer.
 	SlbID *string `json:"slbId,omitempty" tf:"slb_id,omitempty"`
@@ -720,15 +726,15 @@ type KubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
 
-	// The path of client certificate, like ~/.kube/client-cert.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
 
-	// The path of client key, like ~/.kube/client-key.pem.
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
 
-	// The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.
 	// +kubebuilder:validation:Optional
 	ClusterCACert *string `json:"clusterCaCert,omitempty" tf:"cluster_ca_cert,omitempty"`
 
@@ -790,7 +796,7 @@ type KubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. You can set some file paths to save kube_config information, but this way is cumbersome. Since version 1.105.0, we've written it to tf state file. About its use，see export attribute certificate_authority. From version 1.187.0+, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kube_config.
+	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	// +kubebuilder:validation:Optional
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
 
@@ -958,6 +964,10 @@ type KubernetesParameters struct {
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	// +kubebuilder:validation:Optional
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
+
+	// Configure whether to save certificate authority data for your cluster to attribute certificate_authority.For cluster security, recommended configuration as true. Will be removed with attribute certificate_authority removed.
+	// +kubebuilder:validation:Optional
+	SkipSetCertificateAuthority *bool `json:"skipSetCertificateAuthority,omitempty" tf:"skip_set_certificate_authority,omitempty"`
 
 	// Whether to create internet load balancer for API Server. Default to true. Only works for Create Operation.
 	// +kubebuilder:validation:Optional

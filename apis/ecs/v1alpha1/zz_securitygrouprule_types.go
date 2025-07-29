@@ -110,6 +110,9 @@ type SecurityGroupRuleObservation struct {
 	// The ID of the Security Group.
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
 
+	// The ID of the Security Group Rule.
+	SecurityGroupRuleID *string `json:"securityGroupRuleId,omitempty" tf:"security_group_rule_id,omitempty"`
+
 	// The Alibaba Cloud user account Id of the target security group when security groups are authorized across accounts.  This parameter is invalid if cidr_ip has already been set.
 	SourceGroupOwnerAccount *string `json:"sourceGroupOwnerAccount,omitempty" tf:"source_group_owner_account,omitempty"`
 

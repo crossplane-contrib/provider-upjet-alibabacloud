@@ -8,10 +8,10 @@ package v1alpha1
 
 import (
 	"context"
-	v1alpha11 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
-	v1alpha13 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1"
-	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1"
-	v1alpha12 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1"
+	v1alpha12 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/oss/v1alpha1"
+	v1alpha11 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1"
+	v1alpha13 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1"
 	common "github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
@@ -42,6 +42,22 @@ func (mg *Alias) ResolveReferences(ctx context.Context, c client.Reader) error {
 	mg.Spec.ForProvider.FunctionNameRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VersionID),
+		Extract:      common.Fcv3FunctionVersionIdExtractor(),
+		Reference:    mg.Spec.ForProvider.VersionIDRef,
+		Selector:     mg.Spec.ForProvider.VersionIDSelector,
+		To: reference.To{
+			List:    &FunctionVersionList{},
+			Managed: &FunctionVersion{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.VersionID")
+	}
+	mg.Spec.ForProvider.VersionID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.VersionIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FunctionName),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.InitProvider.FunctionNameRef,
@@ -56,6 +72,22 @@ func (mg *Alias) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	mg.Spec.InitProvider.FunctionName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.FunctionNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VersionID),
+		Extract:      common.Fcv3FunctionVersionIdExtractor(),
+		Reference:    mg.Spec.InitProvider.VersionIDRef,
+		Selector:     mg.Spec.InitProvider.VersionIDSelector,
+		To: reference.To{
+			List:    &FunctionVersionList{},
+			Managed: &FunctionVersion{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.VersionID")
+	}
+	mg.Spec.InitProvider.VersionID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.VersionIDRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -283,14 +315,66 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	var mrsp reference.MultiResolutionResponse
 	var err error
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Code); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Code[i3].OssBucketName),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.Code[i3].OssBucketNameRef,
+			Selector:     mg.Spec.ForProvider.Code[i3].OssBucketNameSelector,
+			To: reference.To{
+				List:    &v1alpha1.BucketList{},
+				Managed: &v1alpha1.Bucket{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Code[i3].OssBucketName")
+		}
+		mg.Spec.ForProvider.Code[i3].OssBucketName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Code[i3].OssBucketNameRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Code); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Code[i3].OssObjectName),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.Code[i3].OssObjectNameRef,
+			Selector:     mg.Spec.ForProvider.Code[i3].OssObjectNameSelector,
+			To: reference.To{
+				List:    &v1alpha1.BucketObjectList{},
+				Managed: &v1alpha1.BucketObject{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Code[i3].OssObjectName")
+		}
+		mg.Spec.ForProvider.Code[i3].OssObjectName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Code[i3].OssObjectNameRef = rsp.ResolvedReference
+
+	}
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Layers),
+		Extract:       common.Fcv3LayerVersionArnExtractor(),
+		References:    mg.Spec.ForProvider.LayerRefs,
+		Selector:      mg.Spec.ForProvider.LayerSelector,
+		To: reference.To{
+			List:    &LayerVersionList{},
+			Managed: &LayerVersion{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Layers")
+	}
+	mg.Spec.ForProvider.Layers = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.LayerRefs = mrsp.ResolvedReferences
+
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Role),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.ForProvider.RoleRef,
 		Selector:     mg.Spec.ForProvider.RoleSelector,
 		To: reference.To{
-			List:    &v1alpha1.RoleList{},
-			Managed: &v1alpha1.Role{},
+			List:    &v1alpha11.RoleList{},
+			Managed: &v1alpha11.Role{},
 		},
 	})
 	if err != nil {
@@ -306,8 +390,8 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			Reference:    mg.Spec.ForProvider.VPCConfig[i3].SecurityGroupIDRef,
 			Selector:     mg.Spec.ForProvider.VPCConfig[i3].SecurityGroupIDSelector,
 			To: reference.To{
-				List:    &v1alpha11.SecurityGroupList{},
-				Managed: &v1alpha11.SecurityGroup{},
+				List:    &v1alpha12.SecurityGroupList{},
+				Managed: &v1alpha12.SecurityGroup{},
 			},
 		})
 		if err != nil {
@@ -324,8 +408,8 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			Reference:    mg.Spec.ForProvider.VPCConfig[i3].VPCIDRef,
 			Selector:     mg.Spec.ForProvider.VPCConfig[i3].VPCIDSelector,
 			To: reference.To{
-				List:    &v1alpha12.VPCList{},
-				Managed: &v1alpha12.VPC{},
+				List:    &v1alpha13.VPCList{},
+				Managed: &v1alpha13.VPC{},
 			},
 		})
 		if err != nil {
@@ -342,8 +426,8 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			References:    mg.Spec.ForProvider.VPCConfig[i3].VSwitchIDRefs,
 			Selector:      mg.Spec.ForProvider.VPCConfig[i3].VSwitchIDSelector,
 			To: reference.To{
-				List:    &v1alpha12.VswitchList{},
-				Managed: &v1alpha12.Vswitch{},
+				List:    &v1alpha13.VswitchList{},
+				Managed: &v1alpha13.Vswitch{},
 			},
 		})
 		if err != nil {
@@ -353,14 +437,66 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		mg.Spec.ForProvider.VPCConfig[i3].VSwitchIDRefs = mrsp.ResolvedReferences
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Code); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Code[i3].OssBucketName),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.Code[i3].OssBucketNameRef,
+			Selector:     mg.Spec.InitProvider.Code[i3].OssBucketNameSelector,
+			To: reference.To{
+				List:    &v1alpha1.BucketList{},
+				Managed: &v1alpha1.Bucket{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Code[i3].OssBucketName")
+		}
+		mg.Spec.InitProvider.Code[i3].OssBucketName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Code[i3].OssBucketNameRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Code); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Code[i3].OssObjectName),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.Code[i3].OssObjectNameRef,
+			Selector:     mg.Spec.InitProvider.Code[i3].OssObjectNameSelector,
+			To: reference.To{
+				List:    &v1alpha1.BucketObjectList{},
+				Managed: &v1alpha1.BucketObject{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Code[i3].OssObjectName")
+		}
+		mg.Spec.InitProvider.Code[i3].OssObjectName = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Code[i3].OssObjectNameRef = rsp.ResolvedReference
+
+	}
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Layers),
+		Extract:       common.Fcv3LayerVersionArnExtractor(),
+		References:    mg.Spec.InitProvider.LayerRefs,
+		Selector:      mg.Spec.InitProvider.LayerSelector,
+		To: reference.To{
+			List:    &LayerVersionList{},
+			Managed: &LayerVersion{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Layers")
+	}
+	mg.Spec.InitProvider.Layers = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.LayerRefs = mrsp.ResolvedReferences
+
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Role),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.InitProvider.RoleRef,
 		Selector:     mg.Spec.InitProvider.RoleSelector,
 		To: reference.To{
-			List:    &v1alpha1.RoleList{},
-			Managed: &v1alpha1.Role{},
+			List:    &v1alpha11.RoleList{},
+			Managed: &v1alpha11.Role{},
 		},
 	})
 	if err != nil {
@@ -376,8 +512,8 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			Reference:    mg.Spec.InitProvider.VPCConfig[i3].SecurityGroupIDRef,
 			Selector:     mg.Spec.InitProvider.VPCConfig[i3].SecurityGroupIDSelector,
 			To: reference.To{
-				List:    &v1alpha11.SecurityGroupList{},
-				Managed: &v1alpha11.SecurityGroup{},
+				List:    &v1alpha12.SecurityGroupList{},
+				Managed: &v1alpha12.SecurityGroup{},
 			},
 		})
 		if err != nil {
@@ -394,8 +530,8 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			Reference:    mg.Spec.InitProvider.VPCConfig[i3].VPCIDRef,
 			Selector:     mg.Spec.InitProvider.VPCConfig[i3].VPCIDSelector,
 			To: reference.To{
-				List:    &v1alpha12.VPCList{},
-				Managed: &v1alpha12.VPC{},
+				List:    &v1alpha13.VPCList{},
+				Managed: &v1alpha13.VPC{},
 			},
 		})
 		if err != nil {
@@ -412,8 +548,8 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			References:    mg.Spec.InitProvider.VPCConfig[i3].VSwitchIDRefs,
 			Selector:      mg.Spec.InitProvider.VPCConfig[i3].VSwitchIDSelector,
 			To: reference.To{
-				List:    &v1alpha12.VswitchList{},
-				Managed: &v1alpha12.Vswitch{},
+				List:    &v1alpha13.VswitchList{},
+				Managed: &v1alpha13.Vswitch{},
 			},
 		})
 		if err != nil {
@@ -483,8 +619,8 @@ func (mg *LayerVersion) ResolveReferences(ctx context.Context, c client.Reader) 
 			Reference:    mg.Spec.ForProvider.Code[i3].OssBucketNameRef,
 			Selector:     mg.Spec.ForProvider.Code[i3].OssBucketNameSelector,
 			To: reference.To{
-				List:    &v1alpha13.BucketList{},
-				Managed: &v1alpha13.Bucket{},
+				List:    &v1alpha1.BucketList{},
+				Managed: &v1alpha1.Bucket{},
 			},
 		})
 		if err != nil {
@@ -501,8 +637,8 @@ func (mg *LayerVersion) ResolveReferences(ctx context.Context, c client.Reader) 
 			Reference:    mg.Spec.ForProvider.Code[i3].OssObjectNameRef,
 			Selector:     mg.Spec.ForProvider.Code[i3].OssObjectNameSelector,
 			To: reference.To{
-				List:    &v1alpha13.BucketObjectList{},
-				Managed: &v1alpha13.BucketObject{},
+				List:    &v1alpha1.BucketObjectList{},
+				Managed: &v1alpha1.BucketObject{},
 			},
 		})
 		if err != nil {
@@ -519,8 +655,8 @@ func (mg *LayerVersion) ResolveReferences(ctx context.Context, c client.Reader) 
 			Reference:    mg.Spec.InitProvider.Code[i3].OssBucketNameRef,
 			Selector:     mg.Spec.InitProvider.Code[i3].OssBucketNameSelector,
 			To: reference.To{
-				List:    &v1alpha13.BucketList{},
-				Managed: &v1alpha13.Bucket{},
+				List:    &v1alpha1.BucketList{},
+				Managed: &v1alpha1.Bucket{},
 			},
 		})
 		if err != nil {
@@ -537,8 +673,8 @@ func (mg *LayerVersion) ResolveReferences(ctx context.Context, c client.Reader) 
 			Reference:    mg.Spec.InitProvider.Code[i3].OssObjectNameRef,
 			Selector:     mg.Spec.InitProvider.Code[i3].OssObjectNameSelector,
 			To: reference.To{
-				List:    &v1alpha13.BucketObjectList{},
-				Managed: &v1alpha13.BucketObject{},
+				List:    &v1alpha1.BucketObjectList{},
+				Managed: &v1alpha1.BucketObject{},
 			},
 		})
 		if err != nil {
@@ -623,8 +759,8 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 		Reference:    mg.Spec.ForProvider.InvocationRoleRef,
 		Selector:     mg.Spec.ForProvider.InvocationRoleSelector,
 		To: reference.To{
-			List:    &v1alpha1.RoleList{},
-			Managed: &v1alpha1.Role{},
+			List:    &v1alpha11.RoleList{},
+			Managed: &v1alpha11.Role{},
 		},
 	})
 	if err != nil {
@@ -655,8 +791,8 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 		Reference:    mg.Spec.InitProvider.InvocationRoleRef,
 		Selector:     mg.Spec.InitProvider.InvocationRoleSelector,
 		To: reference.To{
-			List:    &v1alpha1.RoleList{},
-			Managed: &v1alpha1.Role{},
+			List:    &v1alpha11.RoleList{},
+			Managed: &v1alpha11.Role{},
 		},
 	})
 	if err != nil {
@@ -697,8 +833,8 @@ func (mg *VpcBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
-			List:    &v1alpha12.VPCList{},
-			Managed: &v1alpha12.VPC{},
+			List:    &v1alpha13.VPCList{},
+			Managed: &v1alpha13.VPC{},
 		},
 	})
 	if err != nil {
@@ -729,8 +865,8 @@ func (mg *VpcBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
-			List:    &v1alpha12.VPCList{},
-			Managed: &v1alpha12.VPC{},
+			List:    &v1alpha13.VPCList{},
+			Managed: &v1alpha13.VPC{},
 		},
 	})
 	if err != nil {

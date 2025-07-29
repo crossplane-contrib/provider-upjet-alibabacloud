@@ -74,8 +74,8 @@ spec:
               forProvider:
                 properties:
                   accessLogRecordCustomizedHeadersEnabled:
-                    description: Access Log Whether to Enable Carry Custom Header
-                      Field.
+                    description: 'Access Log Whether to Enable Carry Custom Header
+                      Field. Valid values: true, false. Default Value: false.'
                     type: boolean
                   accessLogTracingConfig:
                     description: Xtrace Configuration Information. See access_log_tracing_config
@@ -83,14 +83,15 @@ spec:
                     items:
                       properties:
                         tracingEnabled:
-                          description: Xtrace Function.
+                          description: 'Xtrace Function. Valid values: true, false.
+                            Default Value: false.'
                           type: boolean
                         tracingSample:
-                          description: 'Xtrace Sampling Rate. Value: 1~10000 **.>
-                            tracingenabled **True When Effective.'
+                          description: 'Xtrace Sampling Rate. Value: 1~10000. tracingenabled
+                            valued True When Effective.'
                           type: number
                         tracingType:
-                          description: Xtrace Type Value Is **Zipkin * *.
+                          description: Xtrace Type Value Is Zipkin.
                           type: string
                       type: object
                     type: array
@@ -217,7 +218,8 @@ spec:
                             type: object
                           type: array
                         type:
-                          description: Action Type
+                          description: 'The action type. Value: ForwardGroup, indicating
+                            forwarding to the server group.'
                           type: string
                       type: object
                     type: array
@@ -235,7 +237,7 @@ spec:
                     type: boolean
                   idleTimeout:
                     description: 'Specify the Connection Idle Timeout Value: 1 to
-                      60 miao.'
+                      60 seconds.'
                     type: number
                   listenerDescription:
                     description: Set the IP Address of the Listened Description. Length
@@ -347,7 +349,7 @@ spec:
                     type: string
                   requestTimeout:
                     description: 'The Specified Request Timeout Time. Value: 1~180
-                      Seconds. Default Value: 60 miao. If the Timeout Time Within
+                      Seconds. Default Value: 60 seconds. If the Timeout Time Within
                       the Back-End Server Has Not Answered the SLB Will Give up Waiting,
                       the Client Returns the HTTP 504 Error Code.'
                     type: number
@@ -488,7 +490,11 @@ spec:
                             instance. Value:'
                           type: boolean
                         xForwardedForClientSourceIpsTrusted:
-                          description: Specify the trusted proxy IP.
+                          description: Specify the trusted proxy IP. Application-oriented
+                            load balancing ALB will traverse the X-Forwarded-For from
+                            back to front, and select the first IP that is not in
+                            the trusted IP list as the real client IP, which will
+                            be used for the source IP speed limit.
                           type: string
                         xForwardedForClientSrcPortEnabled:
                           description: Indicates Whether the X-Forwarded-Client-Port
@@ -540,8 +546,8 @@ spec:
                   autoscaler.
                 properties:
                   accessLogRecordCustomizedHeadersEnabled:
-                    description: Access Log Whether to Enable Carry Custom Header
-                      Field.
+                    description: 'Access Log Whether to Enable Carry Custom Header
+                      Field. Valid values: true, false. Default Value: false.'
                     type: boolean
                   accessLogTracingConfig:
                     description: Xtrace Configuration Information. See access_log_tracing_config
@@ -549,14 +555,15 @@ spec:
                     items:
                       properties:
                         tracingEnabled:
-                          description: Xtrace Function.
+                          description: 'Xtrace Function. Valid values: true, false.
+                            Default Value: false.'
                           type: boolean
                         tracingSample:
-                          description: 'Xtrace Sampling Rate. Value: 1~10000 **.>
-                            tracingenabled **True When Effective.'
+                          description: 'Xtrace Sampling Rate. Value: 1~10000. tracingenabled
+                            valued True When Effective.'
                           type: number
                         tracingType:
-                          description: Xtrace Type Value Is **Zipkin * *.
+                          description: Xtrace Type Value Is Zipkin.
                           type: string
                       type: object
                     type: array
@@ -683,7 +690,8 @@ spec:
                             type: object
                           type: array
                         type:
-                          description: Action Type
+                          description: 'The action type. Value: ForwardGroup, indicating
+                            forwarding to the server group.'
                           type: string
                       type: object
                     type: array
@@ -701,7 +709,7 @@ spec:
                     type: boolean
                   idleTimeout:
                     description: 'Specify the Connection Idle Timeout Value: 1 to
-                      60 miao.'
+                      60 seconds.'
                     type: number
                   listenerDescription:
                     description: Set the IP Address of the Listened Description. Length
@@ -809,7 +817,7 @@ spec:
                     type: array
                   requestTimeout:
                     description: 'The Specified Request Timeout Time. Value: 1~180
-                      Seconds. Default Value: 60 miao. If the Timeout Time Within
+                      Seconds. Default Value: 60 seconds. If the Timeout Time Within
                       the Back-End Server Has Not Answered the SLB Will Give up Waiting,
                       the Client Returns the HTTP 504 Error Code.'
                     type: number
@@ -950,7 +958,11 @@ spec:
                             instance. Value:'
                           type: boolean
                         xForwardedForClientSourceIpsTrusted:
-                          description: Specify the trusted proxy IP.
+                          description: Specify the trusted proxy IP. Application-oriented
+                            load balancing ALB will traverse the X-Forwarded-For from
+                            back to front, and select the first IP that is not in
+                            the trusted IP list as the real client IP, which will
+                            be used for the source IP speed limit.
                           type: string
                         xForwardedForClientSrcPortEnabled:
                           description: Indicates Whether the X-Forwarded-Client-Port
@@ -1174,8 +1186,8 @@ spec:
               atProvider:
                 properties:
                   accessLogRecordCustomizedHeadersEnabled:
-                    description: Access Log Whether to Enable Carry Custom Header
-                      Field.
+                    description: 'Access Log Whether to Enable Carry Custom Header
+                      Field. Valid values: true, false. Default Value: false.'
                     type: boolean
                   accessLogTracingConfig:
                     description: Xtrace Configuration Information. See access_log_tracing_config
@@ -1183,14 +1195,15 @@ spec:
                     items:
                       properties:
                         tracingEnabled:
-                          description: Xtrace Function.
+                          description: 'Xtrace Function. Valid values: true, false.
+                            Default Value: false.'
                           type: boolean
                         tracingSample:
-                          description: 'Xtrace Sampling Rate. Value: 1~10000 **.>
-                            tracingenabled **True When Effective.'
+                          description: 'Xtrace Sampling Rate. Value: 1~10000. tracingenabled
+                            valued True When Effective.'
                           type: number
                         tracingType:
-                          description: Xtrace Type Value Is **Zipkin * *.
+                          description: Xtrace Type Value Is Zipkin.
                           type: string
                       type: object
                     type: array
@@ -1241,7 +1254,8 @@ spec:
                             type: object
                           type: array
                         type:
-                          description: Action Type
+                          description: 'The action type. Value: ForwardGroup, indicating
+                            forwarding to the server group.'
                           type: string
                       type: object
                     type: array
@@ -1262,7 +1276,7 @@ spec:
                     type: string
                   idleTimeout:
                     description: 'Specify the Connection Idle Timeout Value: 1 to
-                      60 miao.'
+                      60 seconds.'
                     type: number
                   listenerDescription:
                     description: Set the IP Address of the Listened Description. Length
@@ -1296,7 +1310,7 @@ spec:
                     type: array
                   requestTimeout:
                     description: 'The Specified Request Timeout Time. Value: 1~180
-                      Seconds. Default Value: 60 miao. If the Timeout Time Within
+                      Seconds. Default Value: 60 seconds. If the Timeout Time Within
                       the Back-End Server Has Not Answered the SLB Will Give up Waiting,
                       the Client Returns the HTTP 504 Error Code.'
                     type: number
@@ -1361,7 +1375,11 @@ spec:
                             instance. Value:'
                           type: boolean
                         xForwardedForClientSourceIpsTrusted:
-                          description: Specify the trusted proxy IP.
+                          description: Specify the trusted proxy IP. Application-oriented
+                            load balancing ALB will traverse the X-Forwarded-For from
+                            back to front, and select the first IP that is not in
+                            the trusted IP list as the real client IP, which will
+                            be used for the source IP speed limit.
                           type: string
                         xForwardedForClientSrcPortEnabled:
                           description: Indicates Whether the X-Forwarded-Client-Port

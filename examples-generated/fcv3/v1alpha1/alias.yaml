@@ -16,4 +16,6 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     region: cn-beijing
-    versionId: "1"
+    versionIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

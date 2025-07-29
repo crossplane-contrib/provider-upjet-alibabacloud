@@ -101,6 +101,10 @@ spec:
                           description: The ID of the automatic snapshot policy applied
                             to the system disk.
                           type: string
+                        burstingEnabled:
+                          description: 'Specifies whether to enable the performance
+                            burst feature for the system disk. Valid values:'
+                          type: boolean
                         category:
                           description: 'The category of the disk:'
                           type: string
@@ -206,6 +210,10 @@ spec:
                           description: 'The performance level of the ESSD used as
                             data disk:'
                           type: string
+                        provisionedIops:
+                          description: The provisioned read/write IOPS of the ESSD
+                            AutoPL disk to use as the data disk.
+                          type: number
                         size:
                           description: The size of the data disk.
                           type: number
@@ -247,7 +255,7 @@ spec:
                     type: boolean
                   forceDelete:
                     description: |-
-                      If it is true, the "PrePaid" instance will be change to "PostPaid" and then deleted forcibly.
+                      If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
                       However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
                     type: boolean
                   hostName:
@@ -720,6 +728,13 @@ spec:
                       When it is changed, the instance will reboot to make the change
                       take effect.
                     type: string
+                  privatePoolOptionsId:
+                    description: The ID of the private pool.
+                    type: string
+                  privatePoolOptionsMatchCriteria:
+                    description: 'The type of the private pool. Default value: None.
+                      Valid values:'
+                    type: string
                   queuePairNumber:
                     description: The number of queues supported by the ERI.
                     type: number
@@ -878,6 +893,10 @@ spec:
                     description: The ID of the automatic snapshot policy applied to
                       the system disk.
                     type: string
+                  systemDiskBurstingEnabled:
+                    description: 'Specifies whether to enable the performance burst
+                      feature for the system disk. Valid values:'
+                    type: boolean
                   systemDiskCategory:
                     description: Valid values are ephemeral_ssd, cloud_efficiency,
                       cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry.
@@ -912,6 +931,10 @@ spec:
                       disk, Valid values: PL0, PL1, PL2, PL3, Default to PL1;For more
                       information about ESSD, See Encryption Context.'
                     type: string
+                  systemDiskProvisionedIops:
+                    description: The provisioned read/write IOPS of the ESSD AutoPL
+                      disk to use as the system disk.
+                    type: number
                   systemDiskSize:
                     description: 'Size of the system disk, measured in GiB. Value
                       range: [20, 500]. The specified value must be equal to or greater
@@ -1143,6 +1166,10 @@ spec:
                           description: The ID of the automatic snapshot policy applied
                             to the system disk.
                           type: string
+                        burstingEnabled:
+                          description: 'Specifies whether to enable the performance
+                            burst feature for the system disk. Valid values:'
+                          type: boolean
                         category:
                           description: 'The category of the disk:'
                           type: string
@@ -1248,6 +1275,10 @@ spec:
                           description: 'The performance level of the ESSD used as
                             data disk:'
                           type: string
+                        provisionedIops:
+                          description: The provisioned read/write IOPS of the ESSD
+                            AutoPL disk to use as the data disk.
+                          type: number
                         size:
                           description: The size of the data disk.
                           type: number
@@ -1289,7 +1320,7 @@ spec:
                     type: boolean
                   forceDelete:
                     description: |-
-                      If it is true, the "PrePaid" instance will be change to "PostPaid" and then deleted forcibly.
+                      If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
                       However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
                     type: boolean
                   hostName:
@@ -1762,6 +1793,13 @@ spec:
                       When it is changed, the instance will reboot to make the change
                       take effect.
                     type: string
+                  privatePoolOptionsId:
+                    description: The ID of the private pool.
+                    type: string
+                  privatePoolOptionsMatchCriteria:
+                    description: 'The type of the private pool. Default value: None.
+                      Valid values:'
+                    type: string
                   queuePairNumber:
                     description: The number of queues supported by the ERI.
                     type: number
@@ -1916,6 +1954,10 @@ spec:
                     description: The ID of the automatic snapshot policy applied to
                       the system disk.
                     type: string
+                  systemDiskBurstingEnabled:
+                    description: 'Specifies whether to enable the performance burst
+                      feature for the system disk. Valid values:'
+                    type: boolean
                   systemDiskCategory:
                     description: Valid values are ephemeral_ssd, cloud_efficiency,
                       cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry.
@@ -1950,6 +1992,10 @@ spec:
                       disk, Valid values: PL0, PL1, PL2, PL3, Default to PL1;For more
                       information about ESSD, See Encryption Context.'
                     type: string
+                  systemDiskProvisionedIops:
+                    description: The provisioned read/write IOPS of the ESSD AutoPL
+                      disk to use as the system disk.
+                    type: number
                   systemDiskSize:
                     description: 'Size of the system disk, measured in GiB. Value
                       range: [20, 500]. The specified value must be equal to or greater
@@ -2347,6 +2393,10 @@ spec:
                           description: The ID of the automatic snapshot policy applied
                             to the system disk.
                           type: string
+                        burstingEnabled:
+                          description: 'Specifies whether to enable the performance
+                            burst feature for the system disk. Valid values:'
+                          type: boolean
                         category:
                           description: 'The category of the disk:'
                           type: string
@@ -2378,6 +2428,10 @@ spec:
                           description: 'The performance level of the ESSD used as
                             data disk:'
                           type: string
+                        provisionedIops:
+                          description: The provisioned read/write IOPS of the ESSD
+                            AutoPL disk to use as the data disk.
+                          type: number
                         size:
                           description: The size of the data disk.
                           type: number
@@ -2427,7 +2481,7 @@ spec:
                     type: string
                   forceDelete:
                     description: |-
-                      If it is true, the "PrePaid" instance will be change to "PostPaid" and then deleted forcibly.
+                      If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
                       However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
                     type: boolean
                   hostName:
@@ -2674,6 +2728,13 @@ spec:
                       When it is changed, the instance will reboot to make the change
                       take effect.
                     type: string
+                  privatePoolOptionsId:
+                    description: The ID of the private pool.
+                    type: string
+                  privatePoolOptionsMatchCriteria:
+                    description: 'The type of the private pool. Default value: None.
+                      Valid values:'
+                    type: string
                   publicIp:
                     description: The instance public ip.
                     type: string
@@ -2757,6 +2818,10 @@ spec:
                     description: The ID of the automatic snapshot policy applied to
                       the system disk.
                     type: string
+                  systemDiskBurstingEnabled:
+                    description: 'Specifies whether to enable the performance burst
+                      feature for the system disk. Valid values:'
+                    type: boolean
                   systemDiskCategory:
                     description: Valid values are ephemeral_ssd, cloud_efficiency,
                       cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry.
@@ -2794,6 +2859,10 @@ spec:
                       disk, Valid values: PL0, PL1, PL2, PL3, Default to PL1;For more
                       information about ESSD, See Encryption Context.'
                     type: string
+                  systemDiskProvisionedIops:
+                    description: The provisioned read/write IOPS of the ESSD AutoPL
+                      disk to use as the system disk.
+                    type: number
                   systemDiskSize:
                     description: 'Size of the system disk, measured in GiB. Value
                       range: [20, 500]. The specified value must be equal to or greater

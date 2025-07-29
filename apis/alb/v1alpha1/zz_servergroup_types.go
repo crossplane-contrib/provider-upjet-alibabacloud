@@ -451,7 +451,7 @@ type ServersInitParameters struct {
 	// The type of the backend server. You can specify at most 200 servers in each call. Default values:
 	ServerType *string `json:"serverType,omitempty" tf:"server_type,omitempty"`
 
-	// The weight of the backend server. Valid values: 0 to 100. Default value: 100. If the value is set to 0, no requests are forwarded to the server. You can specify at most 200 servers in each call.
+	// The weight of the backend server. Valid values: 0 to 100. Default value: 0. If the value is set to 0, no requests are forwarded to the server. You can specify at most 200 servers in each call.
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
@@ -481,7 +481,7 @@ type ServersObservation struct {
 	// The addition status of the backend server. Value:
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// The weight of the backend server. Valid values: 0 to 100. Default value: 100. If the value is set to 0, no requests are forwarded to the server. You can specify at most 200 servers in each call.
+	// The weight of the backend server. Valid values: 0 to 100. Default value: 0. If the value is set to 0, no requests are forwarded to the server. You can specify at most 200 servers in each call.
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
@@ -531,7 +531,7 @@ type ServersParameters struct {
 	// +kubebuilder:validation:Optional
 	ServerType *string `json:"serverType" tf:"server_type,omitempty"`
 
-	// The weight of the backend server. Valid values: 0 to 100. Default value: 100. If the value is set to 0, no requests are forwarded to the server. You can specify at most 200 servers in each call.
+	// The weight of the backend server. Valid values: 0 to 100. Default value: 0. If the value is set to 0, no requests are forwarded to the server. You can specify at most 200 servers in each call.
 	// +kubebuilder:validation:Optional
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }

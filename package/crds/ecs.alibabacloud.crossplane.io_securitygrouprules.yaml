@@ -734,6 +734,9 @@ spec:
                   securityGroupId:
                     description: The ID of the Security Group.
                     type: string
+                  securityGroupRuleId:
+                    description: The ID of the Security Group Rule.
+                    type: string
                   sourceGroupOwnerAccount:
                     description: The Alibaba Cloud user account Id of the target security
                       group when security groups are authorized across accounts.  This

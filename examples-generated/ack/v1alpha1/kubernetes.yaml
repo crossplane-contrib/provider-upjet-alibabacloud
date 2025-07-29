@@ -10,14 +10,14 @@ spec:
   forProvider:
     clusterDomain: cluster.local
     customSan: www.terraform.io
-    deletionProtection: "false"
+    deletionProtection: false
     dynamic:
       addons:
       - content:
         - config: ${jsonencode(lookup(addons.value, "config", var.cluster_addons))}
           name: ${lookup(addons.value, "name", var.cluster_addons)}
         for_each: ${var.cluster_addons}
-    installCloudMonitor: "true"
+    installCloudMonitor: true
     masterDiskCategory: cloud_essd
     masterInstanceTypes:
     - ${data.alicloud_instance_types.cloud_essd.0.instance_types.0.id}
@@ -26,7 +26,7 @@ spec:
     masterVswitchIdsSelector:
       matchLabels:
         testing.upbound.io/example-name: vswitch_ids) > 0 ? split(",", join(",", var
-    newNatGateway: "true"
+    newNatGateway: true
     osType: Linux
     passwordSecretRef:
       key: example-key
@@ -41,6 +41,7 @@ spec:
     region: cn-beijing
     resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     serviceCidr: 172.18.0.0/16
+    skipSetCertificateAuthority: true
     timezone: Asia/Shanghai
 
 ---

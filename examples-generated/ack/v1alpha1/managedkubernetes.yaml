@@ -31,12 +31,12 @@ spec:
     clusterSpec: ack.pro.small
     name: ${var.name}
     newNatGateway: true
-    nodeCidrMask: ${var.node_cidr_mask}
     podVswitchIds: '${length(var.terway_vswitch_ids) > 0 ? split(",", join(",", var.terway_vswitch_ids))
       : length(var.terway_vswitch_cidrs) < 1 ? [] : split(",", join(",", alicloud_vswitch.terway_vswitches.*.id))}'
     proxyMode: ${var.proxy_mode}
     region: cn-beijing
     serviceCidr: ${var.service_cidr}
+    skipSetCertificateAuthority: true
     vswitchIdsSelector:
       matchLabels:
         testing.upbound.io/example-name: vswitch_ids) > 0 ? split(",", join(",", var

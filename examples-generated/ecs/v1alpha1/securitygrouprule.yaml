@@ -10,7 +10,7 @@ spec:
   forProvider:
     cidrIp: 0.0.0.0/0
     ipProtocol: tcp
-    nicType: internet
+    nicType: intranet
     policy: accept
     portRange: 1/65535
     priority: 1
@@ -32,5 +32,5 @@ metadata:
   name: default
 spec:
   forProvider:
-    name: default
     region: cn-beijing
+    securityGroupName: default

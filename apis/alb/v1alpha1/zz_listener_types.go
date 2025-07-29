@@ -15,39 +15,39 @@ import (
 
 type AccessLogTracingConfigInitParameters struct {
 
-	// Xtrace Function.
+	// Xtrace Function. Valid values: true, false. Default Value: false.
 	TracingEnabled *bool `json:"tracingEnabled,omitempty" tf:"tracing_enabled,omitempty"`
 
-	// Xtrace Sampling Rate. Value: 1~10000 **.> tracingenabled **True When Effective.
+	// Xtrace Sampling Rate. Value: 1~10000. tracingenabled valued True When Effective.
 	TracingSample *float64 `json:"tracingSample,omitempty" tf:"tracing_sample,omitempty"`
 
-	// Xtrace Type Value Is **Zipkin * *.
+	// Xtrace Type Value Is Zipkin.
 	TracingType *string `json:"tracingType,omitempty" tf:"tracing_type,omitempty"`
 }
 
 type AccessLogTracingConfigObservation struct {
 
-	// Xtrace Function.
+	// Xtrace Function. Valid values: true, false. Default Value: false.
 	TracingEnabled *bool `json:"tracingEnabled,omitempty" tf:"tracing_enabled,omitempty"`
 
-	// Xtrace Sampling Rate. Value: 1~10000 **.> tracingenabled **True When Effective.
+	// Xtrace Sampling Rate. Value: 1~10000. tracingenabled valued True When Effective.
 	TracingSample *float64 `json:"tracingSample,omitempty" tf:"tracing_sample,omitempty"`
 
-	// Xtrace Type Value Is **Zipkin * *.
+	// Xtrace Type Value Is Zipkin.
 	TracingType *string `json:"tracingType,omitempty" tf:"tracing_type,omitempty"`
 }
 
 type AccessLogTracingConfigParameters struct {
 
-	// Xtrace Function.
+	// Xtrace Function. Valid values: true, false. Default Value: false.
 	// +kubebuilder:validation:Optional
 	TracingEnabled *bool `json:"tracingEnabled" tf:"tracing_enabled,omitempty"`
 
-	// Xtrace Sampling Rate. Value: 1~10000 **.> tracingenabled **True When Effective.
+	// Xtrace Sampling Rate. Value: 1~10000. tracingenabled valued True When Effective.
 	// +kubebuilder:validation:Optional
 	TracingSample *float64 `json:"tracingSample,omitempty" tf:"tracing_sample,omitempty"`
 
-	// Xtrace Type Value Is **Zipkin * *.
+	// Xtrace Type Value Is Zipkin.
 	// +kubebuilder:validation:Optional
 	TracingType *string `json:"tracingType,omitempty" tf:"tracing_type,omitempty"`
 }
@@ -95,7 +95,7 @@ type DefaultActionsInitParameters struct {
 	// Forwarding Action Configurations See forward_group_config below.
 	ForwardGroupConfig []ForwardGroupConfigInitParameters `json:"forwardGroupConfig,omitempty" tf:"forward_group_config,omitempty"`
 
-	// Action Type
+	// The action type. Value: ForwardGroup, indicating forwarding to the server group.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -104,7 +104,7 @@ type DefaultActionsObservation struct {
 	// Forwarding Action Configurations See forward_group_config below.
 	ForwardGroupConfig []ForwardGroupConfigObservation `json:"forwardGroupConfig,omitempty" tf:"forward_group_config,omitempty"`
 
-	// Action Type
+	// The action type. Value: ForwardGroup, indicating forwarding to the server group.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -114,7 +114,7 @@ type DefaultActionsParameters struct {
 	// +kubebuilder:validation:Optional
 	ForwardGroupConfig []ForwardGroupConfigParameters `json:"forwardGroupConfig,omitempty" tf:"forward_group_config,omitempty"`
 
-	// Action Type
+	// The action type. Value: ForwardGroup, indicating forwarding to the server group.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -140,7 +140,7 @@ type ForwardGroupConfigParameters struct {
 
 type ListenerInitParameters struct {
 
-	// Access Log Whether to Enable Carry Custom Header Field.
+	// Access Log Whether to Enable Carry Custom Header Field. Valid values: true, false. Default Value: false.
 	AccessLogRecordCustomizedHeadersEnabled *bool `json:"accessLogRecordCustomizedHeadersEnabled,omitempty" tf:"access_log_record_customized_headers_enabled,omitempty"`
 
 	// Xtrace Configuration Information. See access_log_tracing_config below.
@@ -167,7 +167,7 @@ type ListenerInitParameters struct {
 	// Whether to Enable HTTP/2 Features. Valid Values: True Or False. Default Value: TRUE.
 	Http2Enabled *bool `json:"http2Enabled,omitempty" tf:"http2_enabled,omitempty"`
 
-	// Specify the Connection Idle Timeout Value: 1 to 60 miao.
+	// Specify the Connection Idle Timeout Value: 1 to 60 seconds.
 	IdleTimeout *float64 `json:"idleTimeout,omitempty" tf:"idle_timeout,omitempty"`
 
 	// Set the IP Address of the Listened Description. Length Is from 2 to 256 Characters.
@@ -194,7 +194,7 @@ type ListenerInitParameters struct {
 	// Configuration Associated with the QuIC Listening See quic_config below.
 	QuicConfig []QuicConfigInitParameters `json:"quicConfig,omitempty" tf:"quic_config,omitempty"`
 
-	// The Specified Request Timeout Time. Value: 1~180 Seconds. Default Value: 60 miao. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
+	// The Specified Request Timeout Time. Value: 1~180 Seconds. Default Value: 60 seconds. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
 	RequestTimeout *float64 `json:"requestTimeout,omitempty" tf:"request_timeout,omitempty"`
 
 	// Security Policy
@@ -222,7 +222,7 @@ type ListenerInitParameters struct {
 
 type ListenerObservation struct {
 
-	// Access Log Whether to Enable Carry Custom Header Field.
+	// Access Log Whether to Enable Carry Custom Header Field. Valid values: true, false. Default Value: false.
 	AccessLogRecordCustomizedHeadersEnabled *bool `json:"accessLogRecordCustomizedHeadersEnabled,omitempty" tf:"access_log_record_customized_headers_enabled,omitempty"`
 
 	// Xtrace Configuration Information. See access_log_tracing_config below.
@@ -252,7 +252,7 @@ type ListenerObservation struct {
 	// The ID of the resource supplied above.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Specify the Connection Idle Timeout Value: 1 to 60 miao.
+	// Specify the Connection Idle Timeout Value: 1 to 60 seconds.
 	IdleTimeout *float64 `json:"idleTimeout,omitempty" tf:"idle_timeout,omitempty"`
 
 	// Set the IP Address of the Listened Description. Length Is from 2 to 256 Characters.
@@ -270,7 +270,7 @@ type ListenerObservation struct {
 	// Configuration Associated with the QuIC Listening See quic_config below.
 	QuicConfig []QuicConfigObservation `json:"quicConfig,omitempty" tf:"quic_config,omitempty"`
 
-	// The Specified Request Timeout Time. Value: 1~180 Seconds. Default Value: 60 miao. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
+	// The Specified Request Timeout Time. Value: 1~180 Seconds. Default Value: 60 seconds. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
 	RequestTimeout *float64 `json:"requestTimeout,omitempty" tf:"request_timeout,omitempty"`
 
 	// Security Policy
@@ -289,7 +289,7 @@ type ListenerObservation struct {
 
 type ListenerParameters struct {
 
-	// Access Log Whether to Enable Carry Custom Header Field.
+	// Access Log Whether to Enable Carry Custom Header Field. Valid values: true, false. Default Value: false.
 	// +kubebuilder:validation:Optional
 	AccessLogRecordCustomizedHeadersEnabled *bool `json:"accessLogRecordCustomizedHeadersEnabled,omitempty" tf:"access_log_record_customized_headers_enabled,omitempty"`
 
@@ -325,7 +325,7 @@ type ListenerParameters struct {
 	// +kubebuilder:validation:Optional
 	Http2Enabled *bool `json:"http2Enabled,omitempty" tf:"http2_enabled,omitempty"`
 
-	// Specify the Connection Idle Timeout Value: 1 to 60 miao.
+	// Specify the Connection Idle Timeout Value: 1 to 60 seconds.
 	// +kubebuilder:validation:Optional
 	IdleTimeout *float64 `json:"idleTimeout,omitempty" tf:"idle_timeout,omitempty"`
 
@@ -363,7 +363,7 @@ type ListenerParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
-	// The Specified Request Timeout Time. Value: 1~180 Seconds. Default Value: 60 miao. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
+	// The Specified Request Timeout Time. Value: 1~180 Seconds. Default Value: 60 seconds. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
 	// +kubebuilder:validation:Optional
 	RequestTimeout *float64 `json:"requestTimeout,omitempty" tf:"request_timeout,omitempty"`
 
@@ -491,7 +491,7 @@ type XForwardedForConfigInitParameters struct {
 	// Whether to use the X-Forwarded-Client-Ip header to obtain the source IP address of the server load balancer instance. Value:
 	XForwardedForClientSourceIpsEnabled *bool `json:"xForwardedForClientSourceIpsEnabled,omitempty" tf:"x_forwarded_for_client_source_ips_enabled,omitempty"`
 
-	// Specify the trusted proxy IP.
+	// Specify the trusted proxy IP. Application-oriented load balancing ALB will traverse the X-Forwarded-For from back to front, and select the first IP that is not in the trusted IP list as the real client IP, which will be used for the source IP speed limit.
 	XForwardedForClientSourceIpsTrusted *string `json:"xForwardedForClientSourceIpsTrusted,omitempty" tf:"x_forwarded_for_client_source_ips_trusted,omitempty"`
 
 	// Indicates Whether the X-Forwarded-Client-Port Header Field Is Used to Obtain Access to Server Load Balancer Instances to the Client, and Those of the Ports.
@@ -545,7 +545,7 @@ type XForwardedForConfigObservation struct {
 	// Whether to use the X-Forwarded-Client-Ip header to obtain the source IP address of the server load balancer instance. Value:
 	XForwardedForClientSourceIpsEnabled *bool `json:"xForwardedForClientSourceIpsEnabled,omitempty" tf:"x_forwarded_for_client_source_ips_enabled,omitempty"`
 
-	// Specify the trusted proxy IP.
+	// Specify the trusted proxy IP. Application-oriented load balancing ALB will traverse the X-Forwarded-For from back to front, and select the first IP that is not in the trusted IP list as the real client IP, which will be used for the source IP speed limit.
 	XForwardedForClientSourceIpsTrusted *string `json:"xForwardedForClientSourceIpsTrusted,omitempty" tf:"x_forwarded_for_client_source_ips_trusted,omitempty"`
 
 	// Indicates Whether the X-Forwarded-Client-Port Header Field Is Used to Obtain Access to Server Load Balancer Instances to the Client, and Those of the Ports.
@@ -608,7 +608,7 @@ type XForwardedForConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	XForwardedForClientSourceIpsEnabled *bool `json:"xForwardedForClientSourceIpsEnabled,omitempty" tf:"x_forwarded_for_client_source_ips_enabled,omitempty"`
 
-	// Specify the trusted proxy IP.
+	// Specify the trusted proxy IP. Application-oriented load balancing ALB will traverse the X-Forwarded-For from back to front, and select the first IP that is not in the trusted IP list as the real client IP, which will be used for the source IP speed limit.
 	// +kubebuilder:validation:Optional
 	XForwardedForClientSourceIpsTrusted *string `json:"xForwardedForClientSourceIpsTrusted,omitempty" tf:"x_forwarded_for_client_source_ips_trusted,omitempty"`
 

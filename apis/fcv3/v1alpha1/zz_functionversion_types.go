@@ -47,6 +47,9 @@ type FunctionVersionObservation struct {
 
 	// (Available since v1.234.0) Update time
 	LastModifiedTime *string `json:"lastModifiedTime,omitempty" tf:"last_modified_time,omitempty"`
+
+	// Function Version
+	VersionID *string `json:"versionId,omitempty" tf:"version_id,omitempty"`
 }
 
 type FunctionVersionParameters struct {

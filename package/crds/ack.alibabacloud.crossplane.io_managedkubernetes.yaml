@@ -104,19 +104,56 @@ spec:
                     items:
                       type: string
                     type: array
+                  auditLogConfig:
+                    description: Audit log configuration. See audit_log_config below.
+                    items:
+                      properties:
+                        enabled:
+                          description: 'Whether to enable audit logging. Valid values:
+                            true, false.'
+                          type: boolean
+                        slsProjectName:
+                          description: The SLS project to which the Logstore storing
+                            the cluster audit logs belongs.
+                          type: string
+                      type: object
+                    type: array
+                  autoMode:
+                    description: Auto mode cluster configuration. See auto_mode below.
+                    items:
+                      properties:
+                        enabled:
+                          description: 'Whether to enable auto mode. Valid values:
+                            true, false. Only ACK managed Pro clusters support Auto
+                            Mode.'
+                          type: boolean
+                      type: object
+                    type: array
                   availabilityZone:
                     description: (Removed since v1.212.0) The Zone where new kubernetes
                       cluster will be located. If it is not be specified, the vswitch_ids
                       should be set, its value will be vswitch's zone.
                     type: string
                   clientCert:
-                    description: The path of client certificate, like ~/.kube/client-cert.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-cert.pem) for replace it.
                     type: string
                   clientKey:
-                    description: The path of client key, like ~/.kube/client-key.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_key attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-key.pem) for replace it.
                     type: string
                   clusterCaCert:
-                    description: The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.cluster_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/cluster-ca-cert.pem) for replace it.
                     type: string
                   clusterDomain:
                     description: |-
@@ -190,8 +227,8 @@ spec:
                     type: boolean
                   encryptionProviderKey:
                     description: |-
-                      The disk encryption key.
-                      disk encryption key, only in ack-pro
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
                     type: string
                   excludeAutoscalerNodes:
                     description: (Removed since v1.212.0) Exclude autoscaler nodes
@@ -242,12 +279,8 @@ spec:
                     x-kubernetes-map-type: granular
                   kubeConfig:
                     description: (Removed since v1.212.0) The path of kube config,
-                      like ~/.kube/config. You can set some file paths to save kube_config
-                      information, but this way is cumbersome. Since version 1.105.0,
-                      we've written it to tf state file. About its use，see export
-                      attribute certificate_authority. From version 1.187.0, new DataSource
-                      alicloud_cs_cluster_credential is recommended to manage cluster's
-                      kube_config.
+                      like ~/.kube/config. Please use the attribute output_file of
+                      new DataSource alicloud_cs_cluster_credential to replace it.
                     type: string
                   loadBalancerSpec:
                     description: The cluster api server load balancer instance specification.
@@ -272,9 +305,8 @@ spec:
                       type: object
                     type: array
                   maintenanceWindow:
-                    description: The cluster maintenance window，effective only in
-                      the professional managed cluster. Managed node pool will use
-                      it. See maintenance_window below.
+                    description: The cluster maintenance window. Managed node pool
+                      will use it. See maintenance_window below.
                     items:
                       properties:
                         duration:
@@ -324,8 +356,8 @@ spec:
                       of nodes, valid values: 30000 to 65535. Default to 30000-32767.'
                     type: string
                   operationPolicy:
-                    description: The cluster automatic operation policy. See operation_policy
-                      below.
+                    description: The cluster automatic operation policy, only works
+                      when maintenance_window is enabled. See operation_policy below.
                     items:
                       properties:
                         clusterAutoUpgrade:
@@ -386,6 +418,9 @@ spec:
                     items:
                       type: string
                     type: array
+                  profile:
+                    description: 'The profile of cluster. Valid values:'
+                    type: string
                   proxyMode:
                     description: 'Proxy mode is option of kube-proxy. options: iptables|ipvs.
                       default: ipvs.'
@@ -516,6 +551,12 @@ spec:
                       be duplicated with the VPC CIDR and CIDR used by Kubernetes
                       cluster in VPC, cannot be modified after creation.
                     type: string
+                  skipSetCertificateAuthority:
+                    description: Configure whether to save certificate authority data
+                      for your cluster to attribute certificate_authority. For cluster
+                      security, recommended configuration as true. Will be removed
+                      with attribute certificate_authority removed.
+                    type: boolean
                   slbInternetEnabled:
                     description: Whether to create internet load balancer for API
                       Server. Default to true. Only works for Create Operation.
@@ -849,19 +890,56 @@ spec:
                     items:
                       type: string
                     type: array
+                  auditLogConfig:
+                    description: Audit log configuration. See audit_log_config below.
+                    items:
+                      properties:
+                        enabled:
+                          description: 'Whether to enable audit logging. Valid values:
+                            true, false.'
+                          type: boolean
+                        slsProjectName:
+                          description: The SLS project to which the Logstore storing
+                            the cluster audit logs belongs.
+                          type: string
+                      type: object
+                    type: array
+                  autoMode:
+                    description: Auto mode cluster configuration. See auto_mode below.
+                    items:
+                      properties:
+                        enabled:
+                          description: 'Whether to enable auto mode. Valid values:
+                            true, false. Only ACK managed Pro clusters support Auto
+                            Mode.'
+                          type: boolean
+                      type: object
+                    type: array
                   availabilityZone:
                     description: (Removed since v1.212.0) The Zone where new kubernetes
                       cluster will be located. If it is not be specified, the vswitch_ids
                       should be set, its value will be vswitch's zone.
                     type: string
                   clientCert:
-                    description: The path of client certificate, like ~/.kube/client-cert.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-cert.pem) for replace it.
                     type: string
                   clientKey:
-                    description: The path of client key, like ~/.kube/client-key.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_key attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-key.pem) for replace it.
                     type: string
                   clusterCaCert:
-                    description: The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.cluster_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/cluster-ca-cert.pem) for replace it.
                     type: string
                   clusterDomain:
                     description: |-
@@ -935,8 +1013,8 @@ spec:
                     type: boolean
                   encryptionProviderKey:
                     description: |-
-                      The disk encryption key.
-                      disk encryption key, only in ack-pro
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
                     type: string
                   excludeAutoscalerNodes:
                     description: (Removed since v1.212.0) Exclude autoscaler nodes
@@ -987,12 +1065,8 @@ spec:
                     x-kubernetes-map-type: granular
                   kubeConfig:
                     description: (Removed since v1.212.0) The path of kube config,
-                      like ~/.kube/config. You can set some file paths to save kube_config
-                      information, but this way is cumbersome. Since version 1.105.0,
-                      we've written it to tf state file. About its use，see export
-                      attribute certificate_authority. From version 1.187.0, new DataSource
-                      alicloud_cs_cluster_credential is recommended to manage cluster's
-                      kube_config.
+                      like ~/.kube/config. Please use the attribute output_file of
+                      new DataSource alicloud_cs_cluster_credential to replace it.
                     type: string
                   loadBalancerSpec:
                     description: The cluster api server load balancer instance specification.
@@ -1017,9 +1091,8 @@ spec:
                       type: object
                     type: array
                   maintenanceWindow:
-                    description: The cluster maintenance window，effective only in
-                      the professional managed cluster. Managed node pool will use
-                      it. See maintenance_window below.
+                    description: The cluster maintenance window. Managed node pool
+                      will use it. See maintenance_window below.
                     items:
                       properties:
                         duration:
@@ -1069,8 +1142,8 @@ spec:
                       of nodes, valid values: 30000 to 65535. Default to 30000-32767.'
                     type: string
                   operationPolicy:
-                    description: The cluster automatic operation policy. See operation_policy
-                      below.
+                    description: The cluster automatic operation policy, only works
+                      when maintenance_window is enabled. See operation_policy below.
                     items:
                       properties:
                         clusterAutoUpgrade:
@@ -1131,6 +1204,9 @@ spec:
                     items:
                       type: string
                     type: array
+                  profile:
+                    description: 'The profile of cluster. Valid values:'
+                    type: string
                   proxyMode:
                     description: 'Proxy mode is option of kube-proxy. options: iptables|ipvs.
                       default: ipvs.'
@@ -1257,6 +1333,12 @@ spec:
                       be duplicated with the VPC CIDR and CIDR used by Kubernetes
                       cluster in VPC, cannot be modified after creation.
                     type: string
+                  skipSetCertificateAuthority:
+                    description: Configure whether to save certificate authority data
+                      for your cluster to attribute certificate_authority. For cluster
+                      security, recommended configuration as true. Will be removed
+                      with attribute certificate_authority removed.
+                    type: boolean
                   slbInternetEnabled:
                     description: Whether to create internet load balancer for API
                       Server. Default to true. Only works for Create Operation.
@@ -1749,6 +1831,31 @@ spec:
                     items:
                       type: string
                     type: array
+                  auditLogConfig:
+                    description: Audit log configuration. See audit_log_config below.
+                    items:
+                      properties:
+                        enabled:
+                          description: 'Whether to enable audit logging. Valid values:
+                            true, false.'
+                          type: boolean
+                        slsProjectName:
+                          description: The SLS project to which the Logstore storing
+                            the cluster audit logs belongs.
+                          type: string
+                      type: object
+                    type: array
+                  autoMode:
+                    description: Auto mode cluster configuration. See auto_mode below.
+                    items:
+                      properties:
+                        enabled:
+                          description: 'Whether to enable auto mode. Valid values:
+                            true, false. Only ACK managed Pro clusters support Auto
+                            Mode.'
+                          type: boolean
+                      type: object
+                    type: array
                   availabilityZone:
                     description: (Removed since v1.212.0) The Zone where new kubernetes
                       cluster will be located. If it is not be specified, the vswitch_ids
@@ -1757,18 +1864,32 @@ spec:
                   certificateAuthority:
                     additionalProperties:
                       type: string
-                    description: (Available since v1.105.0) Nested attribute containing
-                      certificate authority data for your cluster.
+                    description: (Map, Deprecated from v1.248.0) Nested attribute
+                      containing certificate authority data for your cluster. Please
+                      use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential
+                      to replace it.
                     type: object
                     x-kubernetes-map-type: granular
                   clientCert:
-                    description: The path of client certificate, like ~/.kube/client-cert.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-cert.pem) for replace it.
                     type: string
                   clientKey:
-                    description: The path of client key, like ~/.kube/client-key.pem.
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.client_key attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/client-key.pem) for replace it.
                     type: string
                   clusterCaCert:
-                    description: The path of cluster ca certificate, like ~/.kube/cluster-ca-cert.pem
+                    description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                      is recommended to manage cluster's kubeconfig, you can also
+                      save the certificate_authority.cluster_cert attribute content
+                      of new DataSource alicloud_cs_cluster_credential to an appropriate
+                      path(like ~/.kube/cluster-ca-cert.pem) for replace it.
                     type: string
                   clusterDomain:
                     description: |-
@@ -1848,8 +1969,8 @@ spec:
                     type: boolean
                   encryptionProviderKey:
                     description: |-
-                      The disk encryption key.
-                      disk encryption key, only in ack-pro
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
                     type: string
                   excludeAutoscalerNodes:
                     description: (Removed since v1.212.0) Exclude autoscaler nodes
@@ -1903,12 +2024,8 @@ spec:
                     x-kubernetes-map-type: granular
                   kubeConfig:
                     description: (Removed since v1.212.0) The path of kube config,
-                      like ~/.kube/config. You can set some file paths to save kube_config
-                      information, but this way is cumbersome. Since version 1.105.0,
-                      we've written it to tf state file. About its use，see export
-                      attribute certificate_authority. From version 1.187.0, new DataSource
-                      alicloud_cs_cluster_credential is recommended to manage cluster's
-                      kube_config.
+                      like ~/.kube/config. Please use the attribute output_file of
+                      new DataSource alicloud_cs_cluster_credential to replace it.
                     type: string
                   loadBalancerSpec:
                     description: The cluster api server load balancer instance specification.
@@ -1933,9 +2050,8 @@ spec:
                       type: object
                     type: array
                   maintenanceWindow:
-                    description: The cluster maintenance window，effective only in
-                      the professional managed cluster. Managed node pool will use
-                      it. See maintenance_window below.
+                    description: The cluster maintenance window. Managed node pool
+                      will use it. See maintenance_window below.
                     items:
                       properties:
                         duration:
@@ -1988,8 +2104,8 @@ spec:
                       of nodes, valid values: 30000 to 65535. Default to 30000-32767.'
                     type: string
                   operationPolicy:
-                    description: The cluster automatic operation policy. See operation_policy
-                      below.
+                    description: The cluster automatic operation policy, only works
+                      when maintenance_window is enabled. See operation_policy below.
                     items:
                       properties:
                         clusterAutoUpgrade:
@@ -2030,6 +2146,9 @@ spec:
                     items:
                       type: string
                     type: array
+                  profile:
+                    description: 'The profile of cluster. Valid values:'
+                    type: string
                   proxyMode:
                     description: 'Proxy mode is option of kube-proxy. options: iptables|ipvs.
                       default: ipvs.'
@@ -2103,6 +2222,12 @@ spec:
                       be duplicated with the VPC CIDR and CIDR used by Kubernetes
                       cluster in VPC, cannot be modified after creation.
                     type: string
+                  skipSetCertificateAuthority:
+                    description: Configure whether to save certificate authority data
+                      for your cluster to attribute certificate_authority. For cluster
+                      security, recommended configuration as true. Will be removed
+                      with attribute certificate_authority removed.
+                    type: boolean
                   slbId:
                     description: The ID of APIServer load balancer.
                     type: string

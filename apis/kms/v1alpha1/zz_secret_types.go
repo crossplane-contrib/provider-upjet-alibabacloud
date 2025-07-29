@@ -54,19 +54,19 @@ type SecretInitParameters struct {
 	// The content of the secret policy. The value is in the JSON format. The value can be up to 32,768 bytes in length. For more information, see How to use it.
 	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 
-	// Specifies the recovery period of the secret if you do not forcibly delete it. Default value: 30. NOTE:  If force_delete_without_recovery is set to true, recovery_window_in_days will be ignored.
+	// Specifies the recovery period of the secret if you do not forcibly delete it. Unit: Days. Default value: 30. Valid values: 7 to 30. NOTE:  If force_delete_without_recovery is set to true, recovery_window_in_days will be ignored.
 	RecoveryWindowInDays *float64 `json:"recoveryWindowInDays,omitempty" tf:"recovery_window_in_days,omitempty"`
 
-	// The interval for automatic rotation.
+	// The interval for automatic rotation. For more information, see How to use it.
 	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
 
-	// The data of the secret. NOTE: From version 1.204.1, attribute secret_data updating diff will be ignored when secret_type is not Generic.
+	// The data of the secret. NOTE: From version 1.204.1, secret_data updating diff will be ignored when secret_type is not Generic.
 	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
 
 	// The type of the secret value. Default value: text. Valid values: text, binary.
 	SecretDataType *string `json:"secretDataType,omitempty" tf:"secret_data_type,omitempty"`
 
-	// The name of the secret.
+	// The name of the secret. For more information, see How to use it.
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
 	// The type of the secret. Valid values:
@@ -118,16 +118,16 @@ type SecretObservation struct {
 	// The content of the secret policy. The value is in the JSON format. The value can be up to 32,768 bytes in length. For more information, see How to use it.
 	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 
-	// Specifies the recovery period of the secret if you do not forcibly delete it. Default value: 30. NOTE:  If force_delete_without_recovery is set to true, recovery_window_in_days will be ignored.
+	// Specifies the recovery period of the secret if you do not forcibly delete it. Unit: Days. Default value: 30. Valid values: 7 to 30. NOTE:  If force_delete_without_recovery is set to true, recovery_window_in_days will be ignored.
 	RecoveryWindowInDays *float64 `json:"recoveryWindowInDays,omitempty" tf:"recovery_window_in_days,omitempty"`
 
-	// The interval for automatic rotation.
+	// The interval for automatic rotation. For more information, see How to use it.
 	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
 
 	// The type of the secret value. Default value: text. Valid values: text, binary.
 	SecretDataType *string `json:"secretDataType,omitempty" tf:"secret_data_type,omitempty"`
 
-	// The name of the secret.
+	// The name of the secret. For more information, see How to use it.
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 
 	// The type of the secret. Valid values:
@@ -193,7 +193,7 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 
-	// Specifies the recovery period of the secret if you do not forcibly delete it. Default value: 30. NOTE:  If force_delete_without_recovery is set to true, recovery_window_in_days will be ignored.
+	// Specifies the recovery period of the secret if you do not forcibly delete it. Unit: Days. Default value: 30. Valid values: 7 to 30. NOTE:  If force_delete_without_recovery is set to true, recovery_window_in_days will be ignored.
 	// +kubebuilder:validation:Optional
 	RecoveryWindowInDays *float64 `json:"recoveryWindowInDays,omitempty" tf:"recovery_window_in_days,omitempty"`
 
@@ -202,11 +202,11 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
-	// The interval for automatic rotation.
+	// The interval for automatic rotation. For more information, see How to use it.
 	// +kubebuilder:validation:Optional
 	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
 
-	// The data of the secret. NOTE: From version 1.204.1, attribute secret_data updating diff will be ignored when secret_type is not Generic.
+	// The data of the secret. NOTE: From version 1.204.1, secret_data updating diff will be ignored when secret_type is not Generic.
 	// +kubebuilder:validation:Optional
 	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
 
@@ -214,7 +214,7 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	SecretDataType *string `json:"secretDataType,omitempty" tf:"secret_data_type,omitempty"`
 
-	// The name of the secret.
+	// The name of the secret. For more information, see How to use it.
 	// +kubebuilder:validation:Optional
 	SecretName *string `json:"secretName,omitempty" tf:"secret_name,omitempty"`
 

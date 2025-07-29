@@ -108,6 +108,9 @@ spec:
                         encrypted:
                           description: Encrypted the data in this disk.
                           type: boolean
+                        kmsKeyId:
+                          description: The ID of the KMS key used for the data disk.
+                          type: string
                         name:
                           description: The name of the data disk.
                           type: string
@@ -240,6 +243,17 @@ spec:
                   imageId:
                     description: The Image ID.
                     type: string
+                  imageOptions:
+                    description: The options of images. See image_options below.
+                    items:
+                      properties:
+                        loginAsNonRoot:
+                          description: 'Specifies whether the instance that uses the
+                            image supports logons of the ecs-user user. Default value:
+                            false. Valid values: true,false.'
+                          type: boolean
+                      type: object
+                    type: array
                   imageOwnerAlias:
                     description: 'Mirror source. Valid values: system, self, others,
                       marketplace, "". Default to: "".'
@@ -769,6 +783,10 @@ spec:
                         iops:
                           description: The Iops.
                           type: string
+                        kmsKeyId:
+                          description: The ID of the KMS key to use for the system
+                            disk.
+                          type: string
                         name:
                           description: System disk name. The name is a string of 2
                             to 128 characters. It must begin with an English or a
@@ -1022,6 +1040,9 @@ spec:
                         encrypted:
                           description: Encrypted the data in this disk.
                           type: boolean
+                        kmsKeyId:
+                          description: The ID of the KMS key used for the data disk.
+                          type: string
                         name:
                           description: The name of the data disk.
                           type: string
@@ -1154,6 +1175,17 @@ spec:
                   imageId:
                     description: The Image ID.
                     type: string
+                  imageOptions:
+                    description: The options of images. See image_options below.
+                    items:
+                      properties:
+                        loginAsNonRoot:
+                          description: 'Specifies whether the instance that uses the
+                            image supports logons of the ecs-user user. Default value:
+                            false. Valid values: true,false.'
+                          type: boolean
+                      type: object
+                    type: array
                   imageOwnerAlias:
                     description: 'Mirror source. Valid values: system, self, others,
                       marketplace, "". Default to: "".'
@@ -1679,6 +1711,10 @@ spec:
                         iops:
                           description: The Iops.
                           type: string
+                        kmsKeyId:
+                          description: The ID of the KMS key to use for the system
+                            disk.
+                          type: string
                         name:
                           description: System disk name. The name is a string of 2
                             to 128 characters. It must begin with an English or a
@@ -2091,6 +2127,9 @@ spec:
                         encrypted:
                           description: Encrypted the data in this disk.
                           type: boolean
+                        kmsKeyId:
+                          description: The ID of the KMS key used for the data disk.
+                          type: string
                         name:
                           description: The name of the data disk.
                           type: string
@@ -2151,6 +2190,17 @@ spec:
                   imageId:
                     description: The Image ID.
                     type: string
+                  imageOptions:
+                    description: The options of images. See image_options below.
+                    items:
+                      properties:
+                        loginAsNonRoot:
+                          description: 'Specifies whether the instance that uses the
+                            image supports logons of the ecs-user user. Default value:
+                            false. Valid values: true,false.'
+                          type: boolean
+                      type: object
+                    type: array
                   imageOwnerAlias:
                     description: 'Mirror source. Valid values: system, self, others,
                       marketplace, "". Default to: "".'
@@ -2302,6 +2352,10 @@ spec:
                           type: boolean
                         iops:
                           description: The Iops.
+                          type: string
+                        kmsKeyId:
+                          description: The ID of the KMS key to use for the system
+                            disk.
                           type: string
                         name:
                           description: System disk name. The name is a string of 2
