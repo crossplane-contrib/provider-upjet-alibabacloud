@@ -40,6 +40,8 @@ type AliasInitParameters struct {
 	// The version that the alias points
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/fcv3/v1alpha1.FunctionVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.Fcv3FunctionVersionIdExtractor()
+	// +crossplane:generate:reference:refFieldName=VersionIDRef
+	// +crossplane:generate:reference:selectorFieldName=VersionIDSelector
 	VersionID *string `json:"versionId,omitempty" tf:"version_id,omitempty"`
 
 	// Reference to a FunctionVersion in fcv3 to populate versionId.
@@ -115,6 +117,8 @@ type AliasParameters struct {
 	// The version that the alias points
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/fcv3/v1alpha1.FunctionVersion
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common.Fcv3FunctionVersionIdExtractor()
+	// +crossplane:generate:reference:refFieldName=VersionIDRef
+	// +crossplane:generate:reference:selectorFieldName=VersionIDSelector
 	// +kubebuilder:validation:Optional
 	VersionID *string `json:"versionId,omitempty" tf:"version_id,omitempty"`
 
