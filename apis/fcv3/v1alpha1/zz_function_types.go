@@ -1090,16 +1090,16 @@ type VPCConfigInitParameters struct {
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VSwitchRefs []v1.Reference `json:"vSwitchRefs,omitempty" tf:"-"`
+	VSwitchIDRefs []v1.Reference `json:"vSwitchIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VSwitchSelector *v1.Selector `json:"vSwitchSelector,omitempty" tf:"-"`
+	VSwitchIDSelector *v1.Selector `json:"vSwitchIdSelector,omitempty" tf:"-"`
 
 	// Switch List
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=VSwitchRefs
-	// +crossplane:generate:reference:selectorFieldName=VSwitchSelector
+	// +crossplane:generate:reference:refFieldName=VSwitchIDRefs
+	// +crossplane:generate:reference:selectorFieldName=VSwitchIDSelector
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
 }
 
@@ -1145,16 +1145,16 @@ type VPCConfigParameters struct {
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VSwitchRefs []v1.Reference `json:"vSwitchRefs,omitempty" tf:"-"`
+	VSwitchIDRefs []v1.Reference `json:"vSwitchIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VSwitchSelector *v1.Selector `json:"vSwitchSelector,omitempty" tf:"-"`
+	VSwitchIDSelector *v1.Selector `json:"vSwitchIdSelector,omitempty" tf:"-"`
 
 	// Switch List
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=VSwitchRefs
-	// +crossplane:generate:reference:selectorFieldName=VSwitchSelector
+	// +crossplane:generate:reference:refFieldName=VSwitchIDRefs
+	// +crossplane:generate:reference:selectorFieldName=VSwitchIDSelector
 	// +kubebuilder:validation:Optional
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
 }

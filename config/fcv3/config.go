@@ -70,8 +70,8 @@ func Configure(p *config.Provider) {
 		}
 		r.References["vpc_config.vswitch_ids"] = config.Reference{
 			TerraformName:     "alicloud_vswitch",
-			RefFieldName:      "VSwitchRefs",
-			SelectorFieldName: "VSwitchSelector",
+			RefFieldName:      "VSwitchIDRefs",
+			SelectorFieldName: "VSwitchIDSelector",
 		}
 	})
 	p.AddResourceConfigurator("alicloud_fcv3_function_version", func(r *config.Resource) {

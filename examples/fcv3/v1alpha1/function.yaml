@@ -22,7 +22,7 @@ spec:
         name: fcv3-function-secret
         namespace: crossplane-system
 #    - checksum: 4270285996107335518
-##      ossBucketName: crossplane-example-for-function-20250724
+##      ossBucketName: crossplane-example-for-function-20250725
 ##      ossObjectName: FCV3Py39.zip
 #      ossBucketNameSelector:
 #        matchLabels:
@@ -52,7 +52,7 @@ spec:
     diskSize: 512
     environmentVariables:
       EnvKey: EnvVal
-    functionName: crossplane-example-function-20250724
+    functionName: crossplane-example-function-20250725
     handler: index.handler
     instanceConcurrency: 2
     instanceLifecycleConfig:
@@ -73,6 +73,16 @@ spec:
     region: cn-beijing
     runtime: custom.debian10
     timeout: 3
+    vpcConfig:
+    - vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: function
+      vSwitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: function
+      securityGroupIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: function
 
 ---
 
@@ -86,7 +96,7 @@ metadata:
   name: function
 spec:
   forProvider:
-    bucket: crossplane-example-for-function-20250724
+    bucket: crossplane-example-for-function-20250725
     region: cn-beijing
 
 ---
@@ -109,6 +119,59 @@ spec:
     region: cn-beijing
 
 ---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    cidrBlock: 10.0.0.0/8
+    region: cn-beijing
+    vpcName: crossplane-example-for-function-20250725
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    cidrBlock: 10.0.1.0/24
+    zoneId: cn-beijing-f
+    region: cn-beijing
+    vswitchName: crossplane-example-for-function-20250725
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: function
+
+---
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    region: cn-beijing
+    securityGroupName: crossplane-example-for-function-20250725
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: function
+
+---
 apiVersion: v1
 kind: Secret
 metadata:
@@ -117,6 +180,6 @@ metadata:
 type: Opaque
 stringData:
   checkSum: "4270285996107335518"
-  ossBucketName: "crossplane-example-for-function-20250724"
+  ossBucketName: "crossplane-example-for-function-20250725"
   ossObjectName: "FCV3Py39.zip"
   layer1: "acs:fc:cn-beijing:official:layers/Python39-Aliyun-SDK/versions/3"

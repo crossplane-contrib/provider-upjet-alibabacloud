@@ -339,8 +339,8 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.VPCConfig[i3].VswitchIds),
 			Extract:       reference.ExternalName(),
-			References:    mg.Spec.ForProvider.VPCConfig[i3].VSwitchRefs,
-			Selector:      mg.Spec.ForProvider.VPCConfig[i3].VSwitchSelector,
+			References:    mg.Spec.ForProvider.VPCConfig[i3].VSwitchIDRefs,
+			Selector:      mg.Spec.ForProvider.VPCConfig[i3].VSwitchIDSelector,
 			To: reference.To{
 				List:    &v1alpha12.VswitchList{},
 				Managed: &v1alpha12.Vswitch{},
@@ -350,7 +350,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			return errors.Wrap(err, "mg.Spec.ForProvider.VPCConfig[i3].VswitchIds")
 		}
 		mg.Spec.ForProvider.VPCConfig[i3].VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-		mg.Spec.ForProvider.VPCConfig[i3].VSwitchRefs = mrsp.ResolvedReferences
+		mg.Spec.ForProvider.VPCConfig[i3].VSwitchIDRefs = mrsp.ResolvedReferences
 
 	}
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
@@ -409,8 +409,8 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.VPCConfig[i3].VswitchIds),
 			Extract:       reference.ExternalName(),
-			References:    mg.Spec.InitProvider.VPCConfig[i3].VSwitchRefs,
-			Selector:      mg.Spec.InitProvider.VPCConfig[i3].VSwitchSelector,
+			References:    mg.Spec.InitProvider.VPCConfig[i3].VSwitchIDRefs,
+			Selector:      mg.Spec.InitProvider.VPCConfig[i3].VSwitchIDSelector,
 			To: reference.To{
 				List:    &v1alpha12.VswitchList{},
 				Managed: &v1alpha12.Vswitch{},
@@ -420,7 +420,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 			return errors.Wrap(err, "mg.Spec.InitProvider.VPCConfig[i3].VswitchIds")
 		}
 		mg.Spec.InitProvider.VPCConfig[i3].VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
-		mg.Spec.InitProvider.VPCConfig[i3].VSwitchRefs = mrsp.ResolvedReferences
+		mg.Spec.InitProvider.VPCConfig[i3].VSwitchIDRefs = mrsp.ResolvedReferences
 
 	}
 

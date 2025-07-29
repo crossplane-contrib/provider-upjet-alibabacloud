@@ -6333,15 +6333,15 @@ func (in *VPCConfigInitParameters) DeepCopyInto(out *VPCConfigInitParameters) {
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.VSwitchRefs != nil {
-		in, out := &in.VSwitchRefs, &out.VSwitchRefs
+	if in.VSwitchIDRefs != nil {
+		in, out := &in.VSwitchIDRefs, &out.VSwitchIDRefs
 		*out = make([]v1.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.VSwitchSelector != nil {
-		in, out := &in.VSwitchSelector, &out.VSwitchSelector
+	if in.VSwitchIDSelector != nil {
+		in, out := &in.VSwitchIDSelector, &out.VSwitchIDSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
@@ -6437,15 +6437,15 @@ func (in *VPCConfigParameters) DeepCopyInto(out *VPCConfigParameters) {
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.VSwitchRefs != nil {
-		in, out := &in.VSwitchRefs, &out.VSwitchRefs
+	if in.VSwitchIDRefs != nil {
+		in, out := &in.VSwitchIDRefs, &out.VSwitchIDRefs
 		*out = make([]v1.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.VSwitchSelector != nil {
-		in, out := &in.VSwitchSelector, &out.VSwitchSelector
+	if in.VSwitchIDSelector != nil {
+		in, out := &in.VSwitchIDSelector, &out.VSwitchIDSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
