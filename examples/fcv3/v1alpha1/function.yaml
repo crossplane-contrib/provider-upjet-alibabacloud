@@ -173,4 +173,6 @@ spec:
     description: crossplane-example-for-function-20250729
     layerName: FC3LayerResouceTest_ZIP_2024SepWed
     license: Apache2.0
+    compatibleRuntime:
+    - custom.debian10
     region: cn-beijing

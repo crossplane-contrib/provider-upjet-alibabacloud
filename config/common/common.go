@@ -27,6 +27,7 @@ const (
 	PathPrivateLinkVpcEndpointServiceIdExtractor = SelfPackagePath + ".PrivateLinkVpcEndpointServiceIdExtractor()"
 	PathFcv3FunctionArnExtractor                 = SelfPackagePath + ".Fcv3FunctionArnExtractor()"
 	PathFcv3FunctionVersionIdExtractor           = SelfPackagePath + ".Fcv3FunctionVersionIdExtractor()"
+	PathFcv3FunctionVersionFunctionNameExtractor = SelfPackagePath + ".Fcv3FunctionVersionFunctionNameExtractor()"
 	PathFcv3LayerVersionArnExtractor             = SelfPackagePath + ".Fcv3LayerVersionArnExtractor()"
 )
 
@@ -47,7 +48,7 @@ func IdExtractor() reference.ExtractValueFn {
 }
 
 // AccountNameExtractor extracts id of the
-// resources from "status.atProvider.account_name".
+// resources from "status.atProvider.accountName".
 func AccountNameExtractor() reference.ExtractValueFn {
 	return func(mg xpresource.Managed) string {
 		paved, err := fieldpath.PaveObject(mg)
@@ -63,7 +64,7 @@ func AccountNameExtractor() reference.ExtractValueFn {
 }
 
 // RoleArnExtractor extracts id of the
-// resources from "status.atProvider.account_name".
+// resources from "status.atProvider.arn".
 func RoleArnExtractor() reference.ExtractValueFn {
 	return func(mg xpresource.Managed) string {
 		paved, err := fieldpath.PaveObject(mg)
@@ -79,7 +80,7 @@ func RoleArnExtractor() reference.ExtractValueFn {
 }
 
 // DBEndpointIdExtractor extracts id of the
-// resources from "status.atProvider.account_name".
+// resources from "status.atProvider.dbEndpointId".
 func DBEndpointIdExtractor() reference.ExtractValueFn {
 	return func(mg xpresource.Managed) string {
 		paved, err := fieldpath.PaveObject(mg)
@@ -95,7 +96,7 @@ func DBEndpointIdExtractor() reference.ExtractValueFn {
 }
 
 // AlarmContactGroupNameExtractor extracts id of the
-// resources from "status.atProvider.account_name".
+// resources from "status.atProvider.alarmContactGroupName".
 func AlarmContactGroupNameExtractor() reference.ExtractValueFn {
 	return func(mg xpresource.Managed) string {
 		paved, err := fieldpath.PaveObject(mg)
@@ -159,14 +160,14 @@ func OssBucketLocationExtractor() reference.ExtractValueFn {
 }
 
 // PrivateLinkVpcEndpointServiceIdExtractor extracts id of the
-// resources from "status.atProvider.service_id".
+// resources from "status.atProvider.serviceId".
 func PrivateLinkVpcEndpointServiceIdExtractor() reference.ExtractValueFn {
 	return func(mg xpresource.Managed) string {
 		paved, err := fieldpath.PaveObject(mg)
 		if err != nil {
 			return ""
 		}
-		r, err := paved.GetString("status.atProvider.service_id")
+		r, err := paved.GetString("status.atProvider.serviceId")
 		if err != nil {
 			return ""
 		}
@@ -175,14 +176,14 @@ func PrivateLinkVpcEndpointServiceIdExtractor() reference.ExtractValueFn {
 }
 
 // Fcv3FunctionArnExtractor extracts id of the
-// resources from "status.atProvider.function_arn".
+// resources from "status.atProvider.functionArn".
 func Fcv3FunctionArnExtractor() reference.ExtractValueFn {
 	return func(mg xpresource.Managed) string {
 		paved, err := fieldpath.PaveObject(mg)
 		if err != nil {
 			return ""
 		}
-		r, err := paved.GetString("status.atProvider.function_arn")
+		r, err := paved.GetString("status.atProvider.functionArn")
 		if err != nil {
 			return ""
 		}
@@ -191,14 +192,30 @@ func Fcv3FunctionArnExtractor() reference.ExtractValueFn {
 }
 
 // Fcv3FunctionVersionIdExtractor extracts id of the
-// resources from "status.atProvider.version_id".
+// resources from "status.atProvider.versionId".
 func Fcv3FunctionVersionIdExtractor() reference.ExtractValueFn {
 	return func(mg xpresource.Managed) string {
 		paved, err := fieldpath.PaveObject(mg)
 		if err != nil {
 			return ""
 		}
-		r, err := paved.GetString("status.atProvider.version_id")
+		r, err := paved.GetString("status.atProvider.versionId")
+		if err != nil {
+			return ""
+		}
+		return r
+	}
+}
+
+// Fcv3FunctionVersionFunctionNameExtractor extracts id of the
+// resources from "status.atProvider.functionName".
+func Fcv3FunctionVersionFunctionNameExtractor() reference.ExtractValueFn {
+	return func(mg xpresource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		r, err := paved.GetString("status.atProvider.functionName")
 		if err != nil {
 			return ""
 		}
@@ -207,14 +224,14 @@ func Fcv3FunctionVersionIdExtractor() reference.ExtractValueFn {
 }
 
 // Fcv3LayerVersionArnExtractor extracts arn of the
-// resources from "status.atProvider.layer_version_arn".
+// resources from "status.atProvider.layerVersionArn".
 func Fcv3LayerVersionArnExtractor() reference.ExtractValueFn {
 	return func(mg xpresource.Managed) string {
 		paved, err := fieldpath.PaveObject(mg)
 		if err != nil {
 			return ""
 		}
-		r, err := paved.GetString("status.atProvider.layer_version_arn")
+		r, err := paved.GetString("status.atProvider.layerVersionArn")
 		if err != nil {
 			return ""
 		}

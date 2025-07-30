@@ -11,9 +11,13 @@ spec:
     asyncTask: true
     destinationConfig:
     - onFailure:
-      - destination:  "acs:fc:cn-hangzhou:1511928242963727:functions/crossplane-example-for-function-asyncinvokeconfig-20250724-02"
+      - destinationSelector:
+          matchLabels:
+            testing.upbound.io/example-name: asyncinvokeconfig02
       onSuccess:
-      - destination:  "acs:fc:cn-hangzhou:1511928242963727:functions/crossplane-example-for-function-asyncinvokeconfig-20250724-02"
+      - destinationSelector:
+          matchLabels:
+            testing.upbound.io/example-name: asyncinvokeconfig02
     functionNameSelector:
       matchLabels:
         testing.upbound.io/example-name: asyncinvokeconfig01

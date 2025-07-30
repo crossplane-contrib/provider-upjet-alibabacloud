@@ -14,10 +14,8 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_fcv3_function",
 		}
 		r.References["version_id"] = config.Reference{
-			TerraformName:     "alicloud_fcv3_function_version",
-			Extractor:         common.PathFcv3FunctionVersionIdExtractor,
-			RefFieldName:      "VersionIDRef",
-			SelectorFieldName: "VersionIDSelector",
+			TerraformName: "alicloud_fcv3_function_version",
+			Extractor:     common.PathFcv3FunctionVersionIdExtractor,
 		}
 	})
 	p.AddResourceConfigurator("alicloud_fcv3_async_invoke_config", func(r *config.Resource) {
