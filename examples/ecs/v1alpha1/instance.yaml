@@ -11,7 +11,7 @@ spec:
     region: cn-zhangjiakou
     availabilityZone: cn-zhangjiakou-a
     dataDisks:
-    - category: cloud_efficiency
+    - category: cloud_essd
       description: disk2
       encrypted: true
 #      kmsKeyId: ${alicloud_kms_key.key.id}
@@ -19,7 +19,7 @@ spec:
       size: 20
     imageId: ubuntu_18_04_64_20G_alibase_20190624.vhd
     instanceName: crossplane-example
-    instanceType: ecs.n4.large
+    instanceType: ecs.gn6v-c8g1.2xlarge
     internetMaxBandwidthOut: 10
     securityGroupSelector:
       matchLabels:

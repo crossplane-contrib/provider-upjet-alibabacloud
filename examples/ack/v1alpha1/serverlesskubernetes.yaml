@@ -16,6 +16,7 @@ metadata:
   name: test-ack-v1alpha1-serverlessk8s-1
 spec:
   forProvider:
+    region: us-west-1
     addons:
       - name: alb-ingress-controller
       - name: metrics-server
@@ -53,6 +54,7 @@ spec:
   forProvider:
     cidrBlock: 10.2.0.0/21
     vpcName: test-ack-v1alpha1-serverlessk8s-vpc-1
+    region: us-west-1
 ---
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: Vswitch
@@ -70,3 +72,4 @@ spec:
         testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-vpc-1
     vswitchName: test-ack-v1alpha1-serverlessk8s-vsw-1
     zoneId: us-west-1a
+    region: us-west-1

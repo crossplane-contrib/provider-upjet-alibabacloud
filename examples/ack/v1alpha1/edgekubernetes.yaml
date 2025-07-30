@@ -23,6 +23,7 @@ metadata:
 spec:
   deletionPolicy: Delete
   forProvider:
+    region: us-west-1
     installCloudMonitor: false
     isEnterpriseSecurityGroup: true
     newNatGateway: true
@@ -30,7 +31,7 @@ spec:
     passwordSecretRef:
       key: password
       name: example-secret
-      namespace: upbound-system
+      namespace: crossplane-system
     podCidr: 10.99.0.0/16
     serviceCidr: 172.16.0.0/16
     slbInternetEnabled: false
@@ -43,7 +44,7 @@ spec:
     workerInstanceTypes:
       - ecs.g6.large
     workerNumber: 1
-    workerVswitchIdsSelector:
+    workerVswitchIDsSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-edge-k8s-vsw-1
 ---
@@ -60,6 +61,7 @@ spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
     vpcName: test-ack-v1alpha1-edge-k8s-vpc-1
+    region: us-west-1
 ---
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: Vswitch
@@ -78,3 +80,14 @@ spec:
         testing.upbound.io/example-name: test-ack-v1alpha1-edge-k8s-vpc-1
     vswitchName: test-ack-v1alpha1-edge-k8s-vsw-1
     zoneId: us-west-1a
+    region: us-west-1
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: example-secret
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  password: "VeryStr0ngP@ssw0rd123!"

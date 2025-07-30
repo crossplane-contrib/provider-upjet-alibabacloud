@@ -29,6 +29,7 @@ spec:
     config: '{}'
     name: logtail-ds
     version: v1.6.0.0-aliyun
+    region: us-west-1
 ---
 apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
 kind: ManagedKubernetes
@@ -41,6 +42,7 @@ metadata:
   name: test-ack-v1alpha1-kubernetesaddon-cluster-1
 spec:
   forProvider:
+    region: us-west-1
     addons:
     - config: '{ "IngressDashboardEnabled":"true" }'
       disabled: false
@@ -50,7 +52,7 @@ spec:
     podCidr: 10.32.0.0/27
     serviceCidr: 172.20.0.0/23
     slbInternetEnabled: true
-    workerVswitchIdsSelector:
+    vswitchIdsSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-kubernetesaddon-vsw-1
 ---
@@ -64,6 +66,7 @@ metadata:
   name: test-ack-v1alpha1-kubernetesaddon-vpc-1
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 10.4.0.0/16
     vpcName: test-ack-v1alpha1-kubernetesaddon-vpc-1
 ---
@@ -77,6 +80,7 @@ metadata:
   name: test-ack-v1alpha1-kubernetesaddon-vsw-1
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 10.4.0.0/24
     vpcIdSelector:
       matchLabels:

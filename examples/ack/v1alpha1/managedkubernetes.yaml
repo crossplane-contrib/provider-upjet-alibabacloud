@@ -10,6 +10,7 @@ metadata:
   name: test-ack-v1alpha1-mk8s-1
 spec:
   forProvider:
+    region: us-west-1
     clusterSpec: ack.pro.small
     newNatGateway: true
     podCidr: 10.0.0.0/16
@@ -31,6 +32,7 @@ spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
     vpcName: test-ack-v1alpha1-mk8s-vpc-1
+    region: us-west-1
 ---
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: Vswitch
@@ -48,3 +50,4 @@ spec:
         testing.upbound.io/example-name: test-ack-v1alpha1-mk8s-vpc-1
     vswitchName: test-ack-v1alpha1-mk8s-vswitch-1
     zoneId: us-west-1b
+    region: us-west-1
