@@ -71,6 +71,42 @@ spec:
 
 ---
 
+apiVersion: fcv3.alibabacloud.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/functionwithmcp
+  labels:
+    testing.upbound.io/example-name: functionwithmcp
+  name: functionwithmcp
+spec:
+  forProvider:
+    code:
+      - zipFile: "UEsDBBQACAAIAAAAAAAAAAAAAAAAAAAAAAAIAAAAaW5kZXgucHmEkEFKxEAQRfd9ig9ZTCJOooIwDMwNXLqXnnQlaalUhU5lRj2KZ/FOXkESGR114bJ/P/7jV4b1xRq1hijtFpM1682cuNgPmgysbRulPT0fRxXnMtwrSPyeCdYRokSLnuMLJTTkbUqEvDMbxm1VdcRD6Tk+T1LW2ldB66knsYdA5iNX17ebm6tN2VnPhcswMPmREPuBacb+CiapLarAj9gT6/H97dVlCNScY3mtYvRkxdZlwDKDEnanPWVLdrdkeXEGlFEazVdfPVHaVeHc3N15CUwppwOJXeK7HshAB8NuOU7J6sP4SRXuH/EvbUfMiqMmDqv5M5FNSfAj/wgAAP//UEsHCPl//NYAAQAArwEAAFBLAQIUABQACAAIAAAAAAD5f/zWAAEAAK8BAAAIAAAAAAAAAAAAAAAAAAAAAABpbmRleC5weVBLBQYAAAAAAQABADYAAAA2AQAAAAA="
+    cpu: 0.5
+    diskSize: 512
+    functionName: crossplane-example-for-function-trigger-20250724
+    handler: index.Handler
+    logConfig:
+      - logBeginRule: None
+    memorySize: 512
+    region: cn-hangzhou
+    runtime: python3.9
+    environmentVariables:
+      TestEnvKey: "TestEnvVal"
+    instanceLifecycleConfig:
+    - initializer:
+      - timeout: 3
+        handler: "index.init"
+      preStop:
+      - timeout: 3
+        handler: "index.stop"
+    sessionAffinityConfig: "{\\\"sessionConcurrencyPerInstance\\\":20,\\\"sseEndpointPath\\\":\\\"sse\\\"}"
+    instanceIsolationMode: "SHARE"
+    sessionAffinity: "MCP_SSE"
+
+---
+
 apiVersion: oss.alibabacloud.crossplane.io/v1alpha1
 kind: Bucket
 metadata:

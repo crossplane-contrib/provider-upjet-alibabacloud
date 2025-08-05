@@ -420,6 +420,9 @@ type FunctionInitParameters struct {
 	// Maximum instance concurrency.
 	InstanceConcurrency *float64 `json:"instanceConcurrency,omitempty" tf:"instance_concurrency,omitempty"`
 
+	// Instance isolation mode
+	InstanceIsolationMode *string `json:"instanceIsolationMode,omitempty" tf:"instance_isolation_mode,omitempty"`
+
 	// Instance lifecycle callback method configuration. See instance_lifecycle_config below.
 	InstanceLifecycleConfig []InstanceLifecycleConfigInitParameters `json:"instanceLifecycleConfig,omitempty" tf:"instance_lifecycle_config,omitempty"`
 
@@ -470,6 +473,12 @@ type FunctionInitParameters struct {
 
 	// Function runtime type
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// The affinity policy of the function compute call request. To implement the request affinity of the MCP SSE protocol, set it to MCP_SSE. If Cookie affinity is used, it can be set to GENERATED_COOKIE. If Header affinity is used, it can be set to HEADER_FIELD. If it is not set or set to NONE, the affinity effect is not set, and the request is routed according to the default scheduling policy of the function calculation system.
+	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+
+	// When you set the sessionAffinity affinity type, you need to set the relevant affinity configuration. For example, the MCP_SSE affinity needs to fill in the mcpssessionaffinityconfig configuration. The Cookie affinity needs to be filled with the CookieSessionAffinityConfig configuration, and the Header Field affinity needs to be filled with the HeaderFieldSessionAffinityConfig configuration.
+	SessionAffinityConfig *string `json:"sessionAffinityConfig,omitempty" tf:"session_affinity_config,omitempty"`
 
 	// Key-value map of resource tags.
 	// +mapType=granular
@@ -536,6 +545,9 @@ type FunctionObservation struct {
 	// Maximum instance concurrency.
 	InstanceConcurrency *float64 `json:"instanceConcurrency,omitempty" tf:"instance_concurrency,omitempty"`
 
+	// Instance isolation mode
+	InstanceIsolationMode *string `json:"instanceIsolationMode,omitempty" tf:"instance_isolation_mode,omitempty"`
+
 	// Instance lifecycle callback method configuration. See instance_lifecycle_config below.
 	InstanceLifecycleConfig []InstanceLifecycleConfigObservation `json:"instanceLifecycleConfig,omitempty" tf:"instance_lifecycle_config,omitempty"`
 
@@ -577,6 +589,12 @@ type FunctionObservation struct {
 
 	// Function runtime type
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// The affinity policy of the function compute call request. To implement the request affinity of the MCP SSE protocol, set it to MCP_SSE. If Cookie affinity is used, it can be set to GENERATED_COOKIE. If Header affinity is used, it can be set to HEADER_FIELD. If it is not set or set to NONE, the affinity effect is not set, and the request is routed according to the default scheduling policy of the function calculation system.
+	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+
+	// When you set the sessionAffinity affinity type, you need to set the relevant affinity configuration. For example, the MCP_SSE affinity needs to fill in the mcpssessionaffinityconfig configuration. The Cookie affinity needs to be filled with the CookieSessionAffinityConfig configuration, and the Header Field affinity needs to be filled with the HeaderFieldSessionAffinityConfig configuration.
+	SessionAffinityConfig *string `json:"sessionAffinityConfig,omitempty" tf:"session_affinity_config,omitempty"`
 
 	// Function Status
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
@@ -652,6 +670,10 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceConcurrency *float64 `json:"instanceConcurrency,omitempty" tf:"instance_concurrency,omitempty"`
 
+	// Instance isolation mode
+	// +kubebuilder:validation:Optional
+	InstanceIsolationMode *string `json:"instanceIsolationMode,omitempty" tf:"instance_isolation_mode,omitempty"`
+
 	// Instance lifecycle callback method configuration. See instance_lifecycle_config below.
 	// +kubebuilder:validation:Optional
 	InstanceLifecycleConfig []InstanceLifecycleConfigParameters `json:"instanceLifecycleConfig,omitempty" tf:"instance_lifecycle_config,omitempty"`
@@ -717,6 +739,14 @@ type FunctionParameters struct {
 	// Function runtime type
 	// +kubebuilder:validation:Optional
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// The affinity policy of the function compute call request. To implement the request affinity of the MCP SSE protocol, set it to MCP_SSE. If Cookie affinity is used, it can be set to GENERATED_COOKIE. If Header affinity is used, it can be set to HEADER_FIELD. If it is not set or set to NONE, the affinity effect is not set, and the request is routed according to the default scheduling policy of the function calculation system.
+	// +kubebuilder:validation:Optional
+	SessionAffinity *string `json:"sessionAffinity,omitempty" tf:"session_affinity,omitempty"`
+
+	// When you set the sessionAffinity affinity type, you need to set the relevant affinity configuration. For example, the MCP_SSE affinity needs to fill in the mcpssessionaffinityconfig configuration. The Cookie affinity needs to be filled with the CookieSessionAffinityConfig configuration, and the Header Field affinity needs to be filled with the HeaderFieldSessionAffinityConfig configuration.
+	// +kubebuilder:validation:Optional
+	SessionAffinityConfig *string `json:"sessionAffinityConfig,omitempty" tf:"session_affinity_config,omitempty"`
 
 	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
@@ -1169,7 +1199,7 @@ type TracingConfigInitParameters struct {
 
 type TracingConfigObservation struct {
 
-	// Tracing parameters.
+	// Tracing parameters
 	// +mapType=granular
 	Params map[string]*string `json:"params,omitempty" tf:"params,omitempty"`
 

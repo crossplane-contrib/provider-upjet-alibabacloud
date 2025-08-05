@@ -452,6 +452,9 @@ spec:
                   instanceConcurrency:
                     description: Maximum instance concurrency.
                     type: number
+                  instanceIsolationMode:
+                    description: Instance isolation mode
+                    type: string
                   instanceLifecycleConfig:
                     description: Instance lifecycle callback method configuration.
                       See instance_lifecycle_config below.
@@ -771,6 +774,24 @@ spec:
                     type: object
                   runtime:
                     description: Function runtime type
+                    type: string
+                  sessionAffinity:
+                    description: The affinity policy of the function compute call
+                      request. To implement the request affinity of the MCP SSE protocol,
+                      set it to MCP_SSE. If Cookie affinity is used, it can be set
+                      to GENERATED_COOKIE. If Header affinity is used, it can be set
+                      to HEADER_FIELD. If it is not set or set to NONE, the affinity
+                      effect is not set, and the request is routed according to the
+                      default scheduling policy of the function calculation system.
+                    type: string
+                  sessionAffinityConfig:
+                    description: When you set the sessionAffinity affinity type, you
+                      need to set the relevant affinity configuration. For example,
+                      the MCP_SSE affinity needs to fill in the mcpssessionaffinityconfig
+                      configuration. The Cookie affinity needs to be filled with the
+                      CookieSessionAffinityConfig configuration, and the Header Field
+                      affinity needs to be filled with the HeaderFieldSessionAffinityConfig
+                      configuration.
                     type: string
                   tags:
                     additionalProperties:
@@ -1421,6 +1442,9 @@ spec:
                   instanceConcurrency:
                     description: Maximum instance concurrency.
                     type: number
+                  instanceIsolationMode:
+                    description: Instance isolation mode
+                    type: string
                   instanceLifecycleConfig:
                     description: Instance lifecycle callback method configuration.
                       See instance_lifecycle_config below.
@@ -1736,6 +1760,24 @@ spec:
                     type: object
                   runtime:
                     description: Function runtime type
+                    type: string
+                  sessionAffinity:
+                    description: The affinity policy of the function compute call
+                      request. To implement the request affinity of the MCP SSE protocol,
+                      set it to MCP_SSE. If Cookie affinity is used, it can be set
+                      to GENERATED_COOKIE. If Header affinity is used, it can be set
+                      to HEADER_FIELD. If it is not set or set to NONE, the affinity
+                      effect is not set, and the request is routed according to the
+                      default scheduling policy of the function calculation system.
+                    type: string
+                  sessionAffinityConfig:
+                    description: When you set the sessionAffinity affinity type, you
+                      need to set the relevant affinity configuration. For example,
+                      the MCP_SSE affinity needs to fill in the mcpssessionaffinityconfig
+                      configuration. The Cookie affinity needs to be filled with the
+                      CookieSessionAffinityConfig configuration, and the Header Field
+                      affinity needs to be filled with the HeaderFieldSessionAffinityConfig
+                      configuration.
                     type: string
                   tags:
                     additionalProperties:
@@ -2435,6 +2477,9 @@ spec:
                   instanceConcurrency:
                     description: Maximum instance concurrency.
                     type: number
+                  instanceIsolationMode:
+                    description: Instance isolation mode
+                    type: string
                   instanceLifecycleConfig:
                     description: Instance lifecycle callback method configuration.
                       See instance_lifecycle_config below.
@@ -2618,6 +2663,24 @@ spec:
                   runtime:
                     description: Function runtime type
                     type: string
+                  sessionAffinity:
+                    description: The affinity policy of the function compute call
+                      request. To implement the request affinity of the MCP SSE protocol,
+                      set it to MCP_SSE. If Cookie affinity is used, it can be set
+                      to GENERATED_COOKIE. If Header affinity is used, it can be set
+                      to HEADER_FIELD. If it is not set or set to NONE, the affinity
+                      effect is not set, and the request is routed according to the
+                      default scheduling policy of the function calculation system.
+                    type: string
+                  sessionAffinityConfig:
+                    description: When you set the sessionAffinity affinity type, you
+                      need to set the relevant affinity configuration. For example,
+                      the MCP_SSE affinity needs to fill in the mcpssessionaffinityconfig
+                      configuration. The Cookie affinity needs to be filled with the
+                      CookieSessionAffinityConfig configuration, and the Header Field
+                      affinity needs to be filled with the HeaderFieldSessionAffinityConfig
+                      configuration.
+                    type: string
                   state:
                     description: Function Status
                     type: string
@@ -2644,7 +2707,7 @@ spec:
                         params:
                           additionalProperties:
                             type: string
-                          description: Tracing parameters.
+                          description: Tracing parameters
                           type: object
                           x-kubernetes-map-type: granular
                         type:

@@ -2434,6 +2434,11 @@ func (in *FunctionInitParameters) DeepCopyInto(out *FunctionInitParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.InstanceIsolationMode != nil {
+		in, out := &in.InstanceIsolationMode, &out.InstanceIsolationMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.InstanceLifecycleConfig != nil {
 		in, out := &in.InstanceLifecycleConfig, &out.InstanceLifecycleConfig
 		*out = make([]InstanceLifecycleConfigInitParameters, len(*in))
@@ -2519,6 +2524,16 @@ func (in *FunctionInitParameters) DeepCopyInto(out *FunctionInitParameters) {
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime
+		*out = new(string)
+		**out = **in
+	}
+	if in.SessionAffinity != nil {
+		in, out := &in.SessionAffinity, &out.SessionAffinity
+		*out = new(string)
+		**out = **in
+	}
+	if in.SessionAffinityConfig != nil {
+		in, out := &in.SessionAffinityConfig, &out.SessionAffinityConfig
 		*out = new(string)
 		**out = **in
 	}
@@ -2703,6 +2718,11 @@ func (in *FunctionObservation) DeepCopyInto(out *FunctionObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.InstanceIsolationMode != nil {
+		in, out := &in.InstanceIsolationMode, &out.InstanceIsolationMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.InstanceLifecycleConfig != nil {
 		in, out := &in.InstanceLifecycleConfig, &out.InstanceLifecycleConfig
 		*out = make([]InstanceLifecycleConfigObservation, len(*in))
@@ -2786,6 +2806,16 @@ func (in *FunctionObservation) DeepCopyInto(out *FunctionObservation) {
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime
+		*out = new(string)
+		**out = **in
+	}
+	if in.SessionAffinity != nil {
+		in, out := &in.SessionAffinity, &out.SessionAffinity
+		*out = new(string)
+		**out = **in
+	}
+	if in.SessionAffinityConfig != nil {
+		in, out := &in.SessionAffinityConfig, &out.SessionAffinityConfig
 		*out = new(string)
 		**out = **in
 	}
@@ -2935,6 +2965,11 @@ func (in *FunctionParameters) DeepCopyInto(out *FunctionParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.InstanceIsolationMode != nil {
+		in, out := &in.InstanceIsolationMode, &out.InstanceIsolationMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.InstanceLifecycleConfig != nil {
 		in, out := &in.InstanceLifecycleConfig, &out.InstanceLifecycleConfig
 		*out = make([]InstanceLifecycleConfigParameters, len(*in))
@@ -3025,6 +3060,16 @@ func (in *FunctionParameters) DeepCopyInto(out *FunctionParameters) {
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime
+		*out = new(string)
+		**out = **in
+	}
+	if in.SessionAffinity != nil {
+		in, out := &in.SessionAffinity, &out.SessionAffinity
+		*out = new(string)
+		**out = **in
+	}
+	if in.SessionAffinityConfig != nil {
+		in, out := &in.SessionAffinityConfig, &out.SessionAffinityConfig
 		*out = new(string)
 		**out = **in
 	}

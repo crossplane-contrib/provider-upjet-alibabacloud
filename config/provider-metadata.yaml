@@ -234,22 +234,22 @@ resources:
             - $ terraform import alicloud_actiontrail_history_delivery_job.example <id>
     alicloud_actiontrail_trail:
         subCategory: Actiontrail
-        description: Provides Alibaba Cloud ActionTrail Trail Resource
+        description: Provides a Alicloud Actiontrail Trail resource.
         name: alicloud_actiontrail_trail
         title: alicloud_actiontrail_trail
         examples:
-            - name: example
+            - name: default
               manifest: |-
                 {
-                  "sls_project_arn": "acs:log:${data.alicloud_regions.example.regions.0.id}:${data.alicloud_account.example.id}:project/${alicloud_log_project.example.project_name}",
-                  "sls_write_role_arn": "${data.alicloud_ram_roles.example.roles.0.arn}",
+                  "sls_project_arn": "acs:log:${data.alicloud_regions.default.regions.0.id}:${data.alicloud_account.default.id}:project/${alicloud_log_project.default.project_name}",
+                  "sls_write_role_arn": "${data.alicloud_ram_roles.default.roles.0.arn}",
                   "trail_name": "${var.name}"
                 }
               references:
-                sls_write_role_arn: data.alicloud_ram_roles.example.roles.0.arn
+                sls_write_role_arn: data.alicloud_ram_roles.default.roles.0.arn
                 trail_name: var.name
               dependencies:
-                alicloud_log_project.example: |-
+                alicloud_log_project.default: |-
                     {
                       "description": "tf actiontrail example",
                       "project_name": "${var.name}-${random_integer.default.result}"
@@ -260,22 +260,31 @@ resources:
                       "min": 10000
                     }
         argumentDocs:
-            event_rw: '- (Optional) Indicates whether the event is a read or a write event. Valid values: Read, Write, and All. Default to Write.'
-            id: '- The id of ActionTrail Trail. The value is the same as trail_name.'
-            is_organization_trail: '- (Optional, ForceNew) Specifies whether to create a multi-account trail. Valid values:true: Create a multi-account trail.false: Create a single-account trail. It is the default value.'
-            mns_topic_arn: '- (Optional, Deprecated from v1.118.0) Field mns_topic_arn has been deprecated from version 1.118.0.'
-            name: '- (Optional, ForceNew, Deprecated from v1.95.0) Field name has been deprecated from version 1.95.0. Use trail_name instead.'
-            oss_bucket_name: '- (Optional) The OSS bucket to which the trail delivers logs. Ensure that this is an existing OSS bucket.'
-            oss_key_prefix: '- (Optional) The prefix of the specified OSS bucket name. This parameter can be left empty.'
-            oss_write_role_arn: '- (Optional) The unique ARN of the Oss role.'
-            role_name: '- (Optional, Deprecated from v1.118.0) Field name has been deprecated from version 1.118.0.'
-            sls_project_arn: '- (Optional) The unique ARN of the Log Service project. Ensure that sls_project_arn is valid .'
-            sls_write_role_arn: '- (Optional) The unique ARN of the Log Service role.'
-            status: '- (Optional) The status of ActionTrail Trail. After creation, tracking is turned on by default, and you can set the status value to Disable to turn off tracking. Valid values: Enable, Disable. Default to Enable.'
-            trail_name: '- (Optional, ForceNew) The name of the trail to be created, which must be unique for an account.'
-            trail_region: '- (Optional) The regions to which the trail is applied. Default to All.'
+            create_time: '- (Available since v1.256.0) The time when the trail was created.'
+            event_rw: '- (Optional) The read/write type of the events to be delivered. Default value: All. Valid values: Read, Write, All.'
+            "false": ': Creates a single-account trail.'
+            id: '- The ID of the resource supplied above.'
+            is_organization_trail: '- (Optional, ForceNew, Bool) Specifies whether to create a multi-account trail. Default value: false. Valid values:'
+            max_compute_project_arn: '- (Optional, Available since v1.256.0) The ARN of the MaxCompute project to which you want to deliver events.'
+            max_compute_write_role_arn: '- (Optional, Available since v1.256.0) The ARN of the role that is assumed by ActionTrail to deliver events to the MaxCompute project.'
+            mns_topic_arn: '- (Deprecated since v1.118.0) Field mns_topic_arn has been deprecated from provider version 1.118.0.'
+            name: '- (Optional, ForceNew, Deprecated since v1.95.0) Field name has been deprecated from provider version 1.95.0. New field trail_name instead.'
+            oss_bucket_name: '- (Optional) The OSS bucket to which the trail delivers logs.'
+            oss_key_prefix: '- (Optional) The prefix of the file name in the OSS bucket to which the trail delivers logs.'
+            oss_write_role_arn: '- (Optional) The name of the RAM role that the user allows ActionTrail to access OSS service.'
+            region_id: '- (Available since v1.256.0) The home region of the trail.'
+            role_name: '- (Deprecated since v1.118.0) Field role_name has been deprecated from provider version 1.118.0.'
+            sls_project_arn: '- (Optional) The ARN of the Simple Log Service project to which the trail delivers logs.'
+            sls_write_role_arn: '- (Optional) The ARN of the role that ActionTrail assumes to deliver operation events to the Simple Log Service project.'
+            status: '- (Optional) The status of the trail. Default value: Enable. Valid values: Enable, Disable.'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Trail.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Trail.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Trail.'
+            trail_name: '- (Optional, ForceNew, Available since v1.95.0) The name of the trail to be created.'
+            trail_region: '- (Optional) The region of the trail.'
+            "true": ': Creates a multi-account trail.'
         importStatements:
-            - $ terraform import alicloud_actiontrail_trail.default abc12345678
+            - $ terraform import alicloud_actiontrail_trail.example <id>
     alicloud_adb_account:
         subCategory: AnalyticDB for MySQL (ADB)
         description: Provides a ADB account resource.
@@ -309,7 +318,7 @@ resources:
             account_description: '- (Optional) Account description. It cannot begin with https://. It must start with a Chinese character or English letter. It can include Chinese and English characters, underlines (_), hyphens (-), and numbers. The length may be 2-256 characters.'
             account_name: '- (Required, ForceNew) Operation account requiring a uniqueness check. It may consist of lower case letters, numbers, and underlines, and must start with a letter and have no more than 16 characters.'
             account_password: '- (Optional) Operation password. It may consist of letters, digits, or underlines, with a length of 6 to 32 characters. You have to specify one of account_password and kms_encrypted_password fields.'
-            account_type: '- (Optional, ForceNew) The type of the database account. Default Value: Super. Valid values:'
+            account_type: '- (Optional, ForceNew, Removed since provider version 1.81.0) The type of the database account. Default Value: Super. Valid values:'
             db_cluster_id: '- (Required, ForceNew) The Id of cluster in which account belongs.'
             id: '- The current account resource ID. Composed of instance ID and account name with format <instance_id>:<name>.'
             kms_encrypted_password: '- (Optional) An KMS encrypts password used to a db account. If the account_password is filled in, this field will be ignored.'
@@ -13269,7 +13278,7 @@ resources:
             gateway_name: '- (Required) The name of the gateway. The name must be 1 to 60 characters in length and can contain letters, digits, periods (.), underscores (_), and hyphens (-). It must start with a letter.'
             id: '- The resource ID in terraform of Gateway.'
             location: '- (Required, ForceNew) The location of the gateway. Valid values: Cloud, On_Premise.'
-            payment_type: '- (Optional, ForceNew) The Payment type of gateway. Valid values: PayAsYouGo, Subscription. NOTE: From version 1.233.0, payment_type can be set to Subscription.'
+            payment_type: '- (Optional, ForceNew) The Payment type of gateway. Valid values: PayAsYouGo, Subscription. NOTE: Since version 1.233.0, payment_type can be set to Subscription, but even after the gateway is created by Terraform, you still need to make purchases on the console.'
             public_network_bandwidth: '- (Optional, Int) The public bandwidth of the gateway. Default value: 5. Valid values: 5 to 200. NOTE: public_network_bandwidth is only valid when location is Cloud. If payment_type is set to Subscription, public_network_bandwidth cannot be modified.'
             reason_detail: '- (Optional) The detailed reason why you want to delete the gateway.'
             reason_type: '- (Optional) The type of the reason why you want to delete the gateway.'
@@ -28264,7 +28273,7 @@ resources:
             data_disk.size: '- (Optional, Int) Data disk size'
             hostname: '- (Required, ForceNew) Node hostname'
             id: '- The ID of the resource supplied above.The value is formulated as <cluster_id>:<node_group_id>:<node_id>.'
-            login_password: '- (Required) Node login password'
+            login_password: '- (Optional) Node login password'
             node_group_id: '- (Optional, ForceNew, Computed) Node group ID'
             node_id: '- (Optional, ForceNew, Computed) Node ID'
             timeouts.create: '- (Defaults to 3605 mins) Used when create the Node Group Attachment.'
@@ -31432,6 +31441,41 @@ resources:
             websocket: '- (Optional) Whether to enable Websocket, default is enabled. Value range:'
         importStatements:
             - $ terraform import alicloud_esa_network_optimization.example <site_id>:<config_id>
+    alicloud_esa_origin_ca_certificate:
+        subCategory: ESA
+        description: Provides a Alicloud ESA Origin Ca Certificate resource.
+        name: alicloud_esa_origin_ca_certificate
+        title: alicloud_esa_origin_ca_certificate
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "certificate": "-----BEGIN CERTIFICATE-----\nMIIDRTCCAi2gAwIBAgIUHRPTIPKP2zN9on/NCzBe0BV68UUwDQYJKoZIhvcNAQEF\nBQAwMzEPMA0GA1UEAwwGU1NMZXllMRMwEQYDVQQKDApTU0xleWUgSW5jMQswCQYD\nVQQGEwJDTjAeFw0yNTA3MzAwODQzMDBaFw0yNTEyMzEwODQwMDBaMGQxCzAJBgNV\nBAYTAkNOMQ8wDQYDVQQIDAbljJfkuqwxEDAOBgNVBAcMB0JlaWppbmcxGzAZBgNV\nBAoMEuenkeaKgOaciemZkOWFrOWPuDEVMBMGA1UEAwwMZ29zaXRlY2RuLmNuMIIB\nIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtu2oW3t2bj9LsFnXj1C2EmaR\nJYJwNgHsTBKl3DxeL2+Ext0qN2Z+UgTqYM1c1HOdwN9x13pnAVe4PmiLAkxpp/4u\n5gKsH1+6p3aXFUk0NvEoLXfESoQpyvoB0o/8oryxNs3+iUfvAk+a7IKAr99a1P9F\nTkpyE6t+dgSLYhHc49ZRdYImmZcYQLmpygYOwWBdv6hlQUFi/tvX16fRZ0GgyUOK\n7xsTWG6qUhPJyLRtj9zn+0khgh5DJhfJQ4KTWZMX63UPiIx7sPu9sR+TPWqJsEuq\nVipxouMys+NNMjDtn55+PE6/sDbkvULHeFUglGMZ9qHcl3ej31zmkhu6bmvNcQID\nAQABoyAwHjALBgNVHREEBDACggAwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0B\nAQUFAAOCAQEAF6J9TdaDYQ96EaWvb2ttQ6jNrDe4k3t1cdfhPEWMJzxZFxoDBYZ2\nAl9vB2JICEsGDkCwpqYz2UXJsGnq2rHjUxouYo1568K/loownWjwdCgdLGbQpnXY\nQeqPSTRLT71ikH+RqCpoYxcN63i3j9oYWm9KoD5F4arcqlLrEUZ1TqW5csGSY1h6\n2HmGPsINl9KCxwUS+76dxsdHIqLFx0qdnD6S5vmd0sin33jdYhj9ltp0KvhEgMvS\nXMuzECVRvI4MZxebf7gkV3EByqV6XvazBSxuMhplygpAaLra11yV1M/m9wzVwlnS\nS2GNvRkNym9WnH0IQ0kn9hS8hj52Nh12JQ==\n-----END CERTIFICATE-----",
+                  "name": "example",
+                  "site_id": "${alicloud_esa_site.example.id}"
+                }
+              references:
+                site_id: alicloud_esa_site.example.id
+              dependencies:
+                alicloud_esa_site.example: |-
+                    {
+                      "access_type": "NS",
+                      "coverage": "overseas",
+                      "instance_id": "${data.alicloud_esa_sites.default.sites.0.instance_id}",
+                      "site_name": "bcd.com"
+                    }
+        argumentDocs:
+            certificate: '- (Required, ForceNew) Certificate content.'
+            create_time: '- Creation time.'
+            id: '- The ID of the resource supplied above.The value is formulated as <site_id>:<origin_ca_certificate_id>.'
+            name: '- (Optional, ForceNew) The certificate name.'
+            origin_ca_certificate_id: '- OriginCaCertificate Id'
+            site_id: '- (Required, ForceNew, Int) Site Id'
+            status: '- Certificate status.'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Origin Ca Certificate.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Origin Ca Certificate.'
+        importStatements:
+            - $ terraform import alicloud_esa_origin_ca_certificate.example <site_id>:<origin_ca_certificate_id>
     alicloud_esa_origin_client_certificate:
         subCategory: ESA
         description: Provides a Alicloud ESA Origin Client Certificate resource.
@@ -31590,6 +31634,37 @@ resources:
             version: '- (Optional) The signature version to be transmitted when the source station is AWS S3.'
         importStatements:
             - $ terraform import alicloud_esa_origin_pool.example <site_id>:<origin_pool_id>
+    alicloud_esa_origin_protection:
+        subCategory: ESA
+        description: Provides a Alicloud ESA Origin Protection resource.
+        name: alicloud_esa_origin_protection
+        title: alicloud_esa_origin_protection
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "origin_converge": "on",
+                  "site_id": "${alicloud_esa_site.default.id}"
+                }
+              references:
+                site_id: alicloud_esa_site.default.id
+              dependencies:
+                alicloud_esa_site.default: |-
+                    {
+                      "access_type": "NS",
+                      "coverage": "overseas",
+                      "instance_id": "${data.alicloud_esa_sites.default.sites.0.instance_id}",
+                      "site_name": "chenxin0116.site"
+                    }
+        argumentDocs:
+            id: '- The ID of the resource supplied above.'
+            origin_converge: '- (Optional) The IP convergence status.'
+            site_id: '- (Required, ForceNew, Int) Site Id'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Origin Protection.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Origin Protection.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Origin Protection.'
+        importStatements:
+            - $ terraform import alicloud_esa_origin_protection.example <id>
     alicloud_esa_origin_rule:
         subCategory: ESA
         description: Provides a Alicloud ESA Origin Rule resource.
@@ -32297,6 +32372,43 @@ resources:
             url_path: '- (Optional)'
         importStatements:
             - $ terraform import alicloud_esa_site_delivery_task.example <site_id>:<task_name>
+    alicloud_esa_site_origin_client_certificate:
+        subCategory: ESA
+        description: Provides a Alicloud ESA Site Origin Client Certificate resource.
+        name: alicloud_esa_site_origin_client_certificate
+        title: alicloud_esa_site_origin_client_certificate
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "certificate": "-----BEGIN CERTIFICATE-----\nMIICQTCCAaoCCQCFfdyqahygLzANBgkqhkiG9w0BAQUFADBlMQswCQYDVQQGEwJj\nbjEQMA4GA1UECAwHYmVpamluZzEQMA4GA1UEBwwHYmVpamluZzERMA8GA1UECgwI\nYWxpY2xvdWQxEDAOBgNVBAsMB2FsaWJhYmExDTALBgNVBAMMBHRlc3QwHhcNMjAw\nODA2MTAwMDAyWhcNMzAwODA0MTAwMDAyWjBlMQswCQYDVQQGEwJjbjEQMA4GA1UE\nCAwHYmVpamluZzEQMA4GA1UEBwwHYmVpamluZzERMA8GA1UECgwIYWxpY2xvdWQx\nEDAOBgNVBAsMB2FsaWJhYmExDTALBgNVBAMMBHRlc3QwgZ8wDQYJKoZIhvcNAQEB\nBQADgY0AMIGJAoGBAL7t2CmRCJ8irM5Too2QVGNm0xk6g3v+KE1/8Gthw+EtBKRw\n859SxM/+q8fS73rkadgWICgre5YZCj1oIG6hrBEUo0Fr1mklXJVtqYFZMFD8XGx+\niur2Mk1Hs5YDd/G8PGDDISS/SqyeHXNo6SPJSXEVjAOIXFnX9EcCP9IAEK5tAgMB\nAAEwDQYJKoZIhvcNAQEFBQADgYEAavYdM9s5jLFP9/ZPCrsRuRsjSJpe5y9VZL+1\n+Ebbw16V0xMYaqODyFH1meLRW/A4xUs15Ny2vLYOW15Mriif7Sixty3HUedBFa4l\ny6/gQ+mBEeZYzMaTTFgyzEZDMsfZxwV9GKfhOzAmK3jZ2LDpHIhnlJN4WwVf0lME\npCPDN7g=\n-----END CERTIFICATE-----\n",
+                  "private_key": "-----BEGIN RSA PRIVATE KEY-----\nMIICXAIBAAKBgQC+7dgpkQifIqzOU6KNkFRjZtMZOoN7/ihNf/BrYcPhLQSkcPOf\nUsTP/qvH0u965GnYFiAoK3uWGQo9aCBuoawRFKNBa9ZpJVyVbamBWTBQ/Fxsforq\n9jJNR7OWA3fxvDxgwyEkv0qsnh1zaOkjyUlxFYwDiFxZ1/RHAj/SABCubQIDAQAB\nAoGADiobBUprN1MdOtldj98LQ6yXMKH0qzg5yTYaofzIyWXLmF+A02sSitO77sEp\nXxae+5b4n8JKEuKcrd2RumNoHmN47iLQ0M2eodjUQ96kzm5Esq6nln62/NF5KLuK\nJDw63nTsg6K0O+gQZv4SYjZAL3cswSmeQmvmcoNgArfcaoECQQDgYy6S91ZIUsLx\n6BB3tW+x7APYnvKysYbcKUEP8AutZSo4hdMfPQkOD0LwP5dWsrNippDWjNDiPZmt\nVKuZDoDdAkEA2dPxy1eQeJsRYTZmTWIuh3UY9xlL3G9skcSOM4LbFidroHWW9UDJ\nJDSSEMH2+/4quYTdPr28cj7RCjqL0brC0QJABXDCL1QJ5oUDLwRWaeCfTawQR89K\nySRexbXGWxGR5uleBbLQ9J/xOUMLd3HDRJnemZS6TElrwyCFOlukMXjVjQJBALr5\nQC0opmu/vzVQepOl2QaQrrM7VXCLfAfLTbxNcD0d7TY4eTFfQMgBD/euZpB65LWF\npFs8hcsSvGApTObjhmECQEydB1zzjU6kH171XlXCtRFnbORu2IB7rMsDP2CBPHyR\ntYBjBNVHIUGcmrMVFX4LeMuvvmUyzwfgLmLchHxbDP8=\n-----END RSA PRIVATE KEY-----\n",
+                  "site_id": "${alicloud_esa_site.default.id}",
+                  "site_origin_client_certificate_name": "exampleCertificate"
+                }
+              references:
+                site_id: alicloud_esa_site.default.id
+              dependencies:
+                alicloud_esa_site.default: |-
+                    {
+                      "access_type": "NS",
+                      "coverage": "overseas",
+                      "instance_id": "${data.alicloud_esa_sites.default.sites.0.instance_id}",
+                      "site_name": "chenxin0116.site"
+                    }
+        argumentDocs:
+            certificate: '- (Required, ForceNew) The certificate content.'
+            create_time: '- The time when the certificate was created.'
+            id: '- The ID of the resource supplied above.The value is formulated as <site_id>:<site_origin_client_certificate_id>.'
+            private_key: '- (Required, ForceNew) The private key of the certificate.'
+            site_id: '- (Required, ForceNew, Int) Site ID.'
+            site_origin_client_certificate_id: '- The certificate ID on ESA.'
+            site_origin_client_certificate_name: '- (Optional, ForceNew) The certificate name.'
+            status: '- The status of the certificate.'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Site Origin Client Certificate.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Site Origin Client Certificate.'
+        importStatements:
+            - $ terraform import alicloud_esa_site_origin_client_certificate.example <site_id>:<site_origin_client_certificate_id>
     alicloud_esa_version:
         subCategory: ESA
         description: Provides a Alicloud ESA Site Version resource.
@@ -37481,6 +37593,7 @@ resources:
             id: '- The ID of the resource supplied above.'
             initial_delay_seconds: '- (Optional, Int) The delay between the start of the container and the initiation of the health check. Value range 0~120. The default value is 0.'
             instance_concurrency: '- (Optional, Computed, Int) Maximum instance concurrency.'
+            instance_isolation_mode: '- (Optional, Available since v1.256.0) Instance isolation mode'
             instance_lifecycle_config: '- (Optional, List) Instance lifecycle callback method configuration. See instance_lifecycle_config below.'
             instance_lifecycle_config.initializer: '- (Optional, List) Initializer handler method configuration See initializer below.'
             instance_lifecycle_config.pre_stop: '- (Optional, List) PreStop handler method configuration See pre_stop below.'
@@ -37502,19 +37615,21 @@ resources:
             memory_size: '- (Optional, Computed, Int) The memory specification of the function. The unit is MB. The memory size is a multiple of 64MB. The minimum value is 128MB and the maximum value is 32GB. At the same time, the ratio of cpu to memorySize (calculated by GB) should be between 1:1 and 1:4.'
             mount_dir: '- (Optional) Local Mount Directory'
             name: '- (Optional) Configuration Item Name'
-            nas_config: '- (Optional, List) NAS configuration. After this parameter is configured, the function can access the specified NAS resource. See nas_config below.'
+            nas_config: '- (Optional, Computed, List) NAS configuration. After this parameter is configured, the function can access the specified NAS resource. See nas_config below.'
             nas_config.group_id: '- (Optional, Computed, Int) Group ID'
             nas_config.mount_points: '- (Optional, List) Mount point list See mount_points below.'
             nas_config.user_id: '- (Optional, Computed, Int) Account ID'
-            oss_mount_config: '- (Optional, List) OSS mount configuration See oss_mount_config below.'
+            oss_mount_config: '- (Optional, Computed, List) OSS mount configuration See oss_mount_config below.'
             oss_mount_config.mount_points: '- (Optional, List) OSS mount point list See mount_points below.'
-            params: '- Tracing parameters.'
+            params: '- Tracing parameters'
             period_seconds: '- (Optional, Int) Health check cycle. The value range is 1~120. The default value is 3.'
             read_only: '- (Optional) Read-only'
             resolved_image_uri: '- The actual digest version of the deployed Image. The code version specified by this digest is used when the function starts.'
             role: '- (Optional) The user is authorized to the RAM role of function compute. After the configuration, function compute will assume this role to generate temporary access credentials. In the function, you can use the temporary access credentials of the role to access the specified Alibaba cloud service, such as OSS and OTS'
             runtime: '- (Required) Function runtime type'
             server_addr: '- (Optional) NAS server address'
+            session_affinity: '- (Optional, Available since v1.256.0) The affinity policy of the function compute call request. To implement the request affinity of the MCP SSE protocol, set it to MCP_SSE. If Cookie affinity is used, it can be set to GENERATED_COOKIE. If Header affinity is used, it can be set to HEADER_FIELD. If it is not set or set to NONE, the affinity effect is not set, and the request is routed according to the default scheduling policy of the function calculation system.'
+            session_affinity_config: '- (Optional, Available since v1.256.0) When you set the sessionAffinity affinity type, you need to set the relevant affinity configuration. For example, the MCP_SSE affinity needs to fill in the mcpssessionaffinityconfig configuration. The Cookie affinity needs to be filled with the CookieSessionAffinityConfig configuration, and the Header Field affinity needs to be filled with the HeaderFieldSessionAffinityConfig configuration.'
             state: '- Function Status'
             state_reason: '- The reason why the function is in the current state'
             state_reason_code: '- The status code of the reason the function is in the current state.'
@@ -37529,7 +37644,7 @@ resources:
             tracing_config: '- Tracing configuration'
             type: '- The tracing protocol type. Currently, only Jaeger is supported.'
             value: '- (Optional) Configuration Item Value'
-            vpc_config: '- (Optional, List) VPC configuration. After this parameter is configured, the function can access the specified VPC resources. See vpc_config below.'
+            vpc_config: '- (Optional, Computed, List) VPC configuration. After this parameter is configured, the function can access the specified VPC resources. See vpc_config below.'
             vpc_config.security_group_id: '- (Optional) Security group ID'
             vpc_config.vpc_id: '- (Optional) VPC network ID'
             vpc_config.vswitch_ids: '- (Optional, List) Switch List'
@@ -48512,15 +48627,16 @@ resources:
         argumentDocs:
             access_group_name: '- (Optional, ForceNew) The name of the permission group.'
             access_group_type: '- (Optional, ForceNew) Permission group types, including Vpc.'
-            create_time: '- Creation time.'
+            create_time: '- (Available since v1.218.0) Creation time.'
             description: '- (Optional) Permission group description information.'
             file_system_type: '- (Optional, ForceNew, Computed) File system type. Value:'
             id: '- The ID of the resource supplied above.The value is formulated as <access_group_name>:<file_system_type>.'
-            name: '- (Deprecated since v1.218.0). Field ''name'' has been deprecated from provider version 1.218.0. New field ''access_group_name'' instead.'
+            name: '- (Deprecated since v1.218.0) Field ''name'' has been deprecated from provider version 1.218.0. New field ''access_group_name'' instead.'
+            region_id: '- (Available since v1.256.0) The region ID.'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Access Group.'
             timeouts.delete: '- (Defaults to 5 mins) Used when delete the Access Group.'
             timeouts.update: '- (Defaults to 5 mins) Used when update the Access Group.'
-            type: '- (Deprecated since v1.218.0). Field ''type'' has been deprecated from provider version 1.218.0. New field ''access_group_type'' instead.'
+            type: '- (Deprecated since v1.218.0) Field ''type'' has been deprecated from provider version 1.218.0. New field ''access_group_type'' instead.'
         importStatements:
             - $ terraform import alicloud_nas_access_group.example <access_group_name>:<file_system_type>
     alicloud_nas_access_point:
@@ -48655,6 +48771,7 @@ resources:
             id: '- The ID of the resource supplied above.The value is formulated as <access_group_name>:<file_system_type>:<access_rule_id>.'
             ipv6_source_cidr_ip: '- (Optional, Available since v1.218.0) Ipv6SourceCidrIp.'
             priority: '- (Optional, Computed) Priority.'
+            region_id: '- (Available since v1.256.0) The region ID.'
             rw_access_type: '- (Optional, Computed) RWAccess.'
             source_cidr_ip: '- (Optional) SourceCidrIp.'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Access Rule.'
@@ -64743,6 +64860,145 @@ resources:
             vpn_gateway_id: '- (Required, ForceNew) The ID of the VPN gateway.'
         importStatements:
             - $ terraform import alicloud_ssl_vpn_server.example vss-abc123456
+    alicloud_star_rocks_instance:
+        subCategory: Star Rocks
+        description: Provides a Alicloud Star Rocks Instance resource.
+        name: alicloud_star_rocks_instance
+        title: alicloud_star_rocks_instance
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "admin_password": "1qaz@QAZ",
+                  "auto_renew": false,
+                  "backend_node_groups": [
+                    {
+                      "cu": "8",
+                      "disk_number": "1",
+                      "local_storage_instance_type": "null",
+                      "resident_node_number": "3",
+                      "spec_type": "standard",
+                      "storage_performance_level": "pl1",
+                      "storage_size": "100",
+                      "zone_id": "cn-hangzhou-i"
+                    }
+                  ],
+                  "cluster_zone_id": "cn-hangzhou-i",
+                  "duration": "1",
+                  "encrypted": false,
+                  "frontend_node_groups": [
+                    {
+                      "cu": "8",
+                      "disk_number": "1",
+                      "local_storage_instance_type": "null",
+                      "resident_node_number": "3",
+                      "spec_type": "standard",
+                      "storage_performance_level": "pl1",
+                      "storage_size": "100",
+                      "zone_id": "cn-hangzhou-i"
+                    }
+                  ],
+                  "instance_name": "create-instance-1",
+                  "kms_key_id": "123",
+                  "observer_node_groups": [
+                    {
+                      "cu": "8",
+                      "disk_number": "1",
+                      "local_storage_instance_type": "null",
+                      "resident_node_number": "1",
+                      "spec_type": "standard",
+                      "storage_performance_level": "pl1",
+                      "storage_size": "100",
+                      "zone_id": "cn-hangzhou-h"
+                    }
+                  ],
+                  "oss_accessing_role_name": "AliyunEMRStarRocksAccessingOSSRole",
+                  "package_type": "official",
+                  "pay_type": "postPaid",
+                  "pricing_cycle": "Month",
+                  "promotion_option_no": "123",
+                  "run_mode": "shared_data",
+                  "version": "3.3",
+                  "vpc_id": "${alicloud_vpc.defaultB21JUD.id}",
+                  "vswitches": [
+                    {
+                      "vswitch_id": "${alicloud_vswitch.default106DkE.id}",
+                      "zone_id": "cn-hangzhou-i"
+                    }
+                  ]
+                }
+              references:
+                vpc_id: alicloud_vpc.defaultB21JUD.id
+                vswitches.vswitch_id: alicloud_vswitch.default106DkE.id
+              dependencies:
+                alicloud_vpc.defaultB21JUD: |-
+                    {
+                      "cidr_block": "172.16.0.0/12"
+                    }
+                alicloud_vswitch.default106DkE: |-
+                    {
+                      "cidr_block": "172.16.1.0/24",
+                      "vpc_id": "${alicloud_vpc.defaultB21JUD.id}",
+                      "vswitch_name": "sr-example",
+                      "zone_id": "cn-hangzhou-i"
+                    }
+        argumentDocs:
+            admin_password: '- (Required) Password of admin user.'
+            auto_renew: '- (Optional) Whether to enable automatic renewal. This is only meaningful when payType is set to PrePaid. Disabled by default.'
+            backend_node_groups: '- (Optional, ForceNew, List) BackendNodeGroups See backend_node_groups below.'
+            backend_node_groups.cu: '- (Optional, ForceNew, Int) Number of CUs. CU (Compute Unit) is the basic measurement unit of the service, where 1 CU = 1 CPU core + 4 GiB memory.'
+            backend_node_groups.disk_number: '- (Optional, ForceNew, Int) The number of disks.'
+            backend_node_groups.local_storage_instance_type: '- (Optional, ForceNew) Local SSD instance specifications.'
+            backend_node_groups.resident_node_number: '- (Optional, ForceNew, Int) Resident node number of node group.'
+            backend_node_groups.spec_type: '- (Optional, ForceNew) Compute group specification types include the following:'
+            backend_node_groups.storage_performance_level: '- (Optional, ForceNew) Performance levels of cloud disks include the following values:'
+            backend_node_groups.storage_size: '- (Optional, ForceNew, Int) Storage size, measured in GiB.'
+            backend_node_groups.zone_id: '- (Optional, ForceNew) Zone ID.'
+            cluster_zone_id: '- (Required) ZoneId of instance.'
+            create_time: '- The creation time of the instance.'
+            duration: '- (Optional, Int) Duration of purchase. It is only meaningful when payType is set to PrePaid.'
+            encrypted: '- (Optional, ForceNew) Whether encrypted'
+            frontend_node_groups: '- (Optional, ForceNew, List) FrontendNodeGroups See frontend_node_groups below.'
+            frontend_node_groups.cu: '- (Optional, ForceNew, Int) Number of CUs. CU (Compute Unit) is the basic measurement unit of the service, where 1 CU = 1 CPU core + 4 GiB memory.'
+            frontend_node_groups.disk_number: '- (Optional, ForceNew, Int) DiskNumber'
+            frontend_node_groups.local_storage_instance_type: '- (Optional, ForceNew) Local SSD instance specifications.'
+            frontend_node_groups.resident_node_number: '- (Optional, ForceNew, Int) Resident node number of node group.'
+            frontend_node_groups.spec_type: '- (Optional, ForceNew) Compute group specification types include the following:'
+            frontend_node_groups.storage_performance_level: '- (Optional, ForceNew) Performance levels of cloud disks include the following values:'
+            frontend_node_groups.storage_size: '- (Optional, ForceNew, Int) Storage size, measured in GiB.'
+            frontend_node_groups.zone_id: '- (Optional, ForceNew) Zone ID.'
+            id: '- The ID of the resource supplied above.'
+            instance_name: '- (Required) The name of the instance.'
+            kms_key_id: '- (Optional, ForceNew) KmsKeyId'
+            observer_node_groups: '- (Optional, ForceNew, List) ObserverNodeGroups See observer_node_groups below.'
+            observer_node_groups.cu: '- (Optional, ForceNew, Int) Number of CUs. CU (Compute Unit) is the basic measurement unit of the service, where 1 CU = 1 CPU core + 4 GiB memory.'
+            observer_node_groups.disk_number: '- (Optional, ForceNew, Int) DiskNumber'
+            observer_node_groups.local_storage_instance_type: '- (Optional, ForceNew) Local SSD instance specifications.'
+            observer_node_groups.resident_node_number: '- (Optional, ForceNew, Int) Resident node number of node group.'
+            observer_node_groups.spec_type: '- (Optional, ForceNew) Compute group specification types include the following:'
+            observer_node_groups.storage_performance_level: '- (Optional, ForceNew) Performance levels of cloud disks include the following values:'
+            observer_node_groups.storage_size: '- (Optional, ForceNew, Int) Storage size, measured in GiB.'
+            observer_node_groups.zone_id: '- (Optional, ForceNew) Zone ID.'
+            oss_accessing_role_name: '- (Optional) Role name used for password-free access to OSS.'
+            package_type: '- (Required, ForceNew) The package type of the instance:'
+            pay_type: '- (Required, ForceNew) The pay type of the instance:'
+            pricing_cycle: '- (Optional) The duration unit for purchasing:'
+            promotion_option_no: '- (Optional) Promotion'
+            region_id: '- The region ID of the instance.'
+            resource_group_id: '- (Optional, Computed) ResourceGroupId'
+            run_mode: '- (Required, ForceNew) The run mode of the instance:'
+            status: '- The status of the instance.'
+            tags: '- (Optional, Map) Tag list of the instance.'
+            timeouts.create: '- (Defaults to 20 mins) Used when create the Instance.'
+            timeouts.delete: '- (Defaults to 10 mins) Used when delete the Instance.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Instance.'
+            version: '- (Required, ForceNew) The version of the instance.'
+            vpc_id: '- (Required, ForceNew) The VPC ID of the instance.'
+            vswitches: '- (Optional, ForceNew, List) The VSwitches info of the instance. See vswitches below.'
+            vswitches.vswitch_id: '- (Required, ForceNew) ID of VSwitch.'
+            vswitches.zone_id: '- (Optional, ForceNew) Zone ID of VSwitch.'
+        importStatements:
+            - $ terraform import alicloud_star_rocks_instance.example <id>
     alicloud_tag_associated_rule:
         subCategory: TAG
         description: Provides a Alicloud TAG Associated Rule resource.
