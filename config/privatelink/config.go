@@ -38,6 +38,13 @@ func Configure(p *config.Provider) {
 		r.References["service_id"] = config.Reference{
 			TerraformName: "alicloud_privatelink_vpc_endpoint_service",
 		}
+		// Currently only alb is supported caused by the limitation of crossplane. More load balancer types if want to
+		// be supported, there are two ways:
+		// 1. waiting for crossplane supports querying and filtering the specified resource, see https://github.com/crossplane/crossplane/blob/main/design/design-doc-observe-only-resources.md#querying-and-filtering
+		// 2. implement a new kind, like VpcEndpointServiceResourceSlb, VpcEndpointServiceResourceNlb and so on.
+		r.References["resource_id"] = config.Reference{
+			TerraformName: "alicloud_alb_load_balancer",
+		}
 	})
 	p.AddResourceConfigurator("alicloud_privatelink_vpc_endpoint_service_user", func(r *config.Resource) {
 		r.ShortGroup = string(common.PRIVATELINK)

@@ -8,8 +8,9 @@ package v1alpha1
 
 import (
 	"context"
+	v1alpha12 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/alb/v1alpha1"
 	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
-	v1alpha12 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1"
+	v1alpha13 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ram/v1alpha1"
 	v1alpha11 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
@@ -205,6 +206,22 @@ func (mg *VpcEndpointServiceResource) ResolveReferences(ctx context.Context, c c
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResourceID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ResourceIDRef,
+		Selector:     mg.Spec.ForProvider.ResourceIDSelector,
+		To: reference.To{
+			List:    &v1alpha12.LoadBalancerList{},
+			Managed: &v1alpha12.LoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ResourceID")
+	}
+	mg.Spec.ForProvider.ResourceID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ResourceIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceID),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.ForProvider.ServiceIDRef,
@@ -219,6 +236,22 @@ func (mg *VpcEndpointServiceResource) ResolveReferences(ctx context.Context, c c
 	}
 	mg.Spec.ForProvider.ServiceID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ServiceIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourceID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.ResourceIDRef,
+		Selector:     mg.Spec.InitProvider.ResourceIDSelector,
+		To: reference.To{
+			List:    &v1alpha12.LoadBalancerList{},
+			Managed: &v1alpha12.LoadBalancer{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ResourceID")
+	}
+	mg.Spec.InitProvider.ResourceID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ResourceIDRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceID),
@@ -268,8 +301,8 @@ func (mg *VpcEndpointServiceUser) ResolveReferences(ctx context.Context, c clien
 		Reference:    mg.Spec.ForProvider.UserIDRef,
 		Selector:     mg.Spec.ForProvider.UserIDSelector,
 		To: reference.To{
-			List:    &v1alpha12.UserList{},
-			Managed: &v1alpha12.User{},
+			List:    &v1alpha13.UserList{},
+			Managed: &v1alpha13.User{},
 		},
 	})
 	if err != nil {
@@ -300,8 +333,8 @@ func (mg *VpcEndpointServiceUser) ResolveReferences(ctx context.Context, c clien
 		Reference:    mg.Spec.InitProvider.UserIDRef,
 		Selector:     mg.Spec.InitProvider.UserIDSelector,
 		To: reference.To{
-			List:    &v1alpha12.UserList{},
-			Managed: &v1alpha12.User{},
+			List:    &v1alpha13.UserList{},
+			Managed: &v1alpha13.User{},
 		},
 	})
 	if err != nil {

@@ -9,7 +9,9 @@ metadata:
 spec:
   forProvider:
     region: cn-beijing
-    resourceId: ${alicloud_slb_load_balancer.example.id}
+    resourceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
     resourceType: slb
     serviceIdSelector:
       matchLabels:

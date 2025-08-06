@@ -1158,6 +1158,16 @@ func (in *VpcEndpointServiceResourceInitParameters) DeepCopyInto(out *VpcEndpoin
 		*out = new(string)
 		**out = **in
 	}
+	if in.ResourceIDRef != nil {
+		in, out := &in.ResourceIDRef, &out.ResourceIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ResourceIDSelector != nil {
+		in, out := &in.ResourceIDSelector, &out.ResourceIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ResourceType != nil {
 		in, out := &in.ResourceType, &out.ResourceType
 		*out = new(string)
@@ -1294,6 +1304,16 @@ func (in *VpcEndpointServiceResourceParameters) DeepCopyInto(out *VpcEndpointSer
 		in, out := &in.ResourceID, &out.ResourceID
 		*out = new(string)
 		**out = **in
+	}
+	if in.ResourceIDRef != nil {
+		in, out := &in.ResourceIDRef, &out.ResourceIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ResourceIDSelector != nil {
+		in, out := &in.ResourceIDSelector, &out.ResourceIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ResourceType != nil {
 		in, out := &in.ResourceType, &out.ResourceType
