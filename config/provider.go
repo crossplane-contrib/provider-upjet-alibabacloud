@@ -16,13 +16,16 @@ import (
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/cdn"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/cloudmonitorservice"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ecs"
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/eip"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/kms"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/messageservice"
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/natgateway"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/oss"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/polardb"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/privatelink"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/quotas"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ram"
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/slb"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/tair"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/vpc"
 	"github.com/crossplane/upjet/pkg/registry/reference"
@@ -70,14 +73,17 @@ func GetProvider() *ujconfig.Provider {
 		cdn.Configure,
 		cloudmonitorservice.Configure,
 		ecs.Configure,
+		eip.Configure,
 		fcv3.Configure,
 		kms.Configure,
 		messageservice.Configure,
+		natgateway.Configure,
 		oss.Configure,
 		polardb.Configure,
 		privatelink.Configure,
 		quotas.Configure,
 		ram.Configure,
+		slb.Configure,
 		tair.Configure,
 		vpc.Configure,
 	} {
