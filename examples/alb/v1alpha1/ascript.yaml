@@ -73,11 +73,15 @@ spec:
     - vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: for-ascript-1
-      zoneId: cn-hangzhou-h
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-ascript-1
     - vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: for-ascript-2
-      zoneId: cn-hangzhou-g
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-ascript-2
 
 ---
 

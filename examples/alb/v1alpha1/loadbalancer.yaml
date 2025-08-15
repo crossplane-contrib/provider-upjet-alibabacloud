@@ -27,11 +27,15 @@ spec:
     - vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: for-loadbalancer-1
-      zoneId: cn-beijing-f
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-loadbalancer-1
     - vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: for-loadbalancer-2
-      zoneId: cn-beijing-g
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: for-loadbalancer-2
 
 ---
 

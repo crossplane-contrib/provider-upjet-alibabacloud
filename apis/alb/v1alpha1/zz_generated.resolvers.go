@@ -10,6 +10,7 @@ import (
 	"context"
 	v1alpha11 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/ecs/v1alpha1"
 	v1alpha1 "github.com/crossplane-contrib/provider-upjet-alibabacloud/apis/vpc/v1alpha1"
+	common "github.com/crossplane-contrib/provider-upjet-alibabacloud/config/common"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
@@ -333,6 +334,24 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		mg.Spec.ForProvider.ZoneMappings[i3].VswitchIDRef = rsp.ResolvedReference
 
 	}
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ZoneMappings); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ZoneMappings[i3].ZoneID),
+			Extract:      common.VSwitchZoneIdExtractor(),
+			Reference:    mg.Spec.ForProvider.ZoneMappings[i3].ZoneIDRef,
+			Selector:     mg.Spec.ForProvider.ZoneMappings[i3].ZoneIDSelector,
+			To: reference.To{
+				List:    &v1alpha1.VswitchList{},
+				Managed: &v1alpha1.Vswitch{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.ZoneMappings[i3].ZoneID")
+		}
+		mg.Spec.ForProvider.ZoneMappings[i3].ZoneID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.ZoneMappings[i3].ZoneIDRef = rsp.ResolvedReference
+
+	}
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
 		Extract:      reference.ExternalName(),
@@ -365,6 +384,24 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		}
 		mg.Spec.InitProvider.ZoneMappings[i3].VswitchID = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.ZoneMappings[i3].VswitchIDRef = rsp.ResolvedReference
+
+	}
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ZoneMappings); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ZoneMappings[i3].ZoneID),
+			Extract:      common.VSwitchZoneIdExtractor(),
+			Reference:    mg.Spec.InitProvider.ZoneMappings[i3].ZoneIDRef,
+			Selector:     mg.Spec.InitProvider.ZoneMappings[i3].ZoneIDSelector,
+			To: reference.To{
+				List:    &v1alpha1.VswitchList{},
+				Managed: &v1alpha1.Vswitch{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.ZoneMappings[i3].ZoneID")
+		}
+		mg.Spec.InitProvider.ZoneMappings[i3].ZoneID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.ZoneMappings[i3].ZoneIDRef = rsp.ResolvedReference
 
 	}
 

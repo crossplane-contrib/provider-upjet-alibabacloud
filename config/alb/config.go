@@ -26,6 +26,14 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_alb_listener",
 		}
 	})
+	p.AddResourceConfigurator("alicloud_alb_load_balancer", func(r *config.Resource) {
+		r.ShortGroup = string(common.ALB)
+		r.Kind = "LoadBalancer"
+		r.References["zone_mappings.zone_id"] = config.Reference{
+			TerraformName: "alicloud_vswitch",
+			Extractor:     common.PathVSwitchZoneIdExtractor,
+		}
+	})
 	p.AddResourceConfigurator("alicloud_alb_listener", func(r *config.Resource) {
 		r.ShortGroup = string(common.ALB)
 		r.Kind = "Listener"

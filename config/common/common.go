@@ -29,6 +29,7 @@ const (
 	PathFcv3FunctionVersionIdExtractor           = SelfPackagePath + ".Fcv3FunctionVersionIdExtractor()"
 	PathFcv3FunctionVersionFunctionNameExtractor = SelfPackagePath + ".Fcv3FunctionVersionFunctionNameExtractor()"
 	PathFcv3LayerVersionArnExtractor             = SelfPackagePath + ".Fcv3LayerVersionArnExtractor()"
+	PathVSwitchZoneIdExtractor                   = SelfPackagePath + ".VSwitchZoneIdExtractor()"
 )
 
 // IdExtractor extracts id of the
@@ -232,6 +233,22 @@ func Fcv3LayerVersionArnExtractor() reference.ExtractValueFn {
 			return ""
 		}
 		r, err := paved.GetString("status.atProvider.layerVersionArn")
+		if err != nil {
+			return ""
+		}
+		return r
+	}
+}
+
+// VSwitchZoneIdExtractor extracts arn of the
+// resources from "status.atProvider.zoneId".
+func VSwitchZoneIdExtractor() reference.ExtractValueFn {
+	return func(mg xpresource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		r, err := paved.GetString("status.atProvider.zoneId")
 		if err != nil {
 			return ""
 		}

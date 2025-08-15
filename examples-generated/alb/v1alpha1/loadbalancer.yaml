@@ -27,11 +27,15 @@ spec:
     - vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: default1
-      zoneId: ${data.alicloud_alb_zones.default.zones.0.id}
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: alicloud_alb_zones
     - vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: default2
-      zoneId: ${data.alicloud_alb_zones.default.zones.1.id}
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: alicloud_alb_zones
 
 ---
 

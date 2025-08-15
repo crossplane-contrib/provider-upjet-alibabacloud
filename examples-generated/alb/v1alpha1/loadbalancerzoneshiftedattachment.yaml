@@ -44,15 +44,21 @@ spec:
     - vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: alb_example_tf_j
-      zoneId: cn-beijing-j
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     - vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: alb_example_tf_k
-      zoneId: cn-beijing-k
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
     - vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: defaultDSY0JJ
-      zoneId: cn-beijing-f
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example
 
 ---
 
