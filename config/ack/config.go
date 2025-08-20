@@ -31,6 +31,7 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "ack"
 		r.ShortGroup = string(common.ACK)
 		r.Kind = "EdgeKubernetes"
+		r.UseAsync = true
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{
 				// name_prefix - (Optional) The kubernetes cluster name's prefix.
@@ -186,6 +187,7 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "ack"
 		r.ShortGroup = string(common.ACK)
 		r.Kind = "ManagedKubernetes"
+		r.UseAsync = true
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{
 				// name_prefix - (Optional) The kubernetes cluster name's prefix.
@@ -243,6 +245,7 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "ack"
 		r.ShortGroup = string(common.ACK)
 		r.Kind = "ServerlessKubernetes"
+		r.UseAsync = true
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{
 				// Ensure deletion is not blocked

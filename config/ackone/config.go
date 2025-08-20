@@ -12,6 +12,7 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "ackone"
 		r.ShortGroup = string(common.ACKONE)
 		r.Kind = "Cluster"
+		r.UseAsync = true
 		r.References["vpc_id"] = config.Reference{
 			TerraformName: "alicloud_vpc",
 		}

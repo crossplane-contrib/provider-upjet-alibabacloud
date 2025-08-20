@@ -11,16 +11,16 @@ spec:
     region: cn-hangzhou
     instanceClass: tair.rdb.2g
     instanceType: tair_rdb
-    paymentType: Subscription
-    period: 1
+    paymentType: PayAsYouGo
+#    period: 1
     shardCount: 2
     tairInstanceName: crossplane_example
     vpcIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: for-tairinstance
     vswitchIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: for-tairinstance
     zoneId: cn-hangzhou-g
 
 ---
@@ -31,8 +31,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: tair/v1alpha1/tairinstance
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: for-tairinstance
+  name: for-tairinstance
 spec:
   forProvider:
     region: cn-hangzhou
@@ -47,14 +47,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: tair/v1alpha1/tairinstance
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: for-tairinstance
+  name: for-tairinstance
 spec:
   forProvider:
     region: cn-hangzhou
     cidrBlock: 10.4.1.0/24
     vpcIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: for-tairinstance
     vswitchName: crossplane_example
     zoneId: cn-hangzhou-g

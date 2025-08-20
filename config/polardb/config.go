@@ -55,6 +55,7 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_vswitch",
 			Extractor:     common.PathIdExtractor,
 		}
+		r.UseAsync = true
 	})
 	p.AddResourceConfigurator("alicloud_polardb_cluster_endpoint", func(r *config.Resource) {
 		// We need to override the default group that upjet generated for

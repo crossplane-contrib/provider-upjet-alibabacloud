@@ -44,8 +44,8 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.2.0/24
-    vpcIdsSelector:
+    vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ackone-v1alpha1-cluster-1-vpc
     vswitchName: test-ackone-v1alpha1-cluster-1-vswitch
-    zoneId: us-west-1a
+    zoneId: cn-beijing-h

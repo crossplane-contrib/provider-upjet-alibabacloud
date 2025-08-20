@@ -34,6 +34,7 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("alicloud_kvstore_instance", func(r *config.Resource) {
 		r.ShortGroup = string(common.Tair)
 		r.Kind = "Instance"
+		r.UseAsync = true
 		r.References["security_group_id"] = config.Reference{
 			TerraformName: "alicloud_security_group",
 			Extractor:     common.PathIdExtractor,
@@ -53,6 +54,7 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("alicloud_redis_tair_instance", func(r *config.Resource) {
 		r.ShortGroup = string(common.Tair)
 		r.Kind = "TairInstance"
+		r.UseAsync = true
 		r.References["security_group_id"] = config.Reference{
 			TerraformName: "alicloud_security_group",
 			Extractor:     common.PathIdExtractor,

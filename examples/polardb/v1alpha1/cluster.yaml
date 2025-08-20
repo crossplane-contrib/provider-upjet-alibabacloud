@@ -24,7 +24,7 @@ spec:
     payType: PostPaid
     vswitchIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: for-polardb-cluster
 
 ---
 
@@ -34,8 +34,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: polardb/v1alpha1/cluster
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: for-polardb-cluster
+  name: for-polardb-cluster
 spec:
   forProvider:
     region: cn-hangzhou
@@ -50,14 +50,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: polardb/v1alpha1/cluster
   labels:
-    testing.upbound.io/example-name: default
-  name: default
+    testing.upbound.io/example-name: for-polardb-cluster
+  name: for-polardb-cluster
 spec:
   forProvider:
     region: cn-hangzhou
-    cidrBlock: 172.16.0.0/24
+    cidrBlock: 172.16.1.0/24
     vpcIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: default
+        testing.upbound.io/example-name: for-polardb-cluster
     vswitchName: crossplane-example
     zoneId: cn-hangzhou-i
