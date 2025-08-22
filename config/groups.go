@@ -211,6 +211,7 @@ var GroupMap = map[string]GroupKindCalculator{
 	"alicloud_ram_saml_provider":           ReplaceGroupWords("ram", 1),
 
 	// SLB - Server Load Balancer resources
+	"alicloud_slb_acl":           ReplaceGroupWords("slb", 1),
 	"alicloud_slb_load_balancer": ReplaceGroupWords("slb", 1),
 
 	// TAIR - Redis Tair resources

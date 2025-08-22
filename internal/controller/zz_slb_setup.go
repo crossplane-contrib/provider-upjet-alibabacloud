@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
+	acl "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/slb/acl"
 	loadbalancer "github.com/crossplane-contrib/provider-upjet-alibabacloud/internal/controller/slb/loadbalancer"
 )
 
@@ -16,6 +17,7 @@ import (
 // the supplied manager.
 func Setup_slb(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		acl.Setup,
 		loadbalancer.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

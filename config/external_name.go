@@ -202,6 +202,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_ram_user_policy_attachment":  config.IdentifierFromProvider,
 
 	// SLB
+	"alicloud_slb_acl":           config.IdentifierFromProvider,
 	"alicloud_slb_load_balancer": config.IdentifierFromProvider,
 
 	// Tair

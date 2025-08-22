@@ -1,0 +1,13 @@
+apiVersion: slb.alibabacloud.crossplane.io/v1alpha1
+kind: ACL
+metadata:
+  annotations:
+    meta.upbound.io/example-id: slb/v1alpha1/acl
+  labels:
+    testing.upbound.io/example-name: acl
+  name: acl
+spec:
+  forProvider:
+    ipVersion: ipv4
+    name: terraformslbaclconfig
+    region: cn-beijing
