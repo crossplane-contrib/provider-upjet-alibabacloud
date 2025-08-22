@@ -62,10 +62,10 @@ ifeq (-,$(findstring -,$(VERSION)))
 endif
 BUILD_ONLY ?= false
 STORE_PACKAGES ?= ""
-batch-process:
+batch-process: $(UP)
 	@$(INFO) Batch processing smaller provider packages for: "$(SUBPACKAGES)"
 	@mkdir -p "$(XPKG_OUTPUT_DIR)/$(PLATFORM)" && \
-	$(GO) run github.com/crossplane/upjet/cmd/upjet batch --smaller-providers "$$(tr ' ' ',' <<< "$(SUBPACKAGES)")" \
+	$(UP) xpkg batch --smaller-providers "$$(tr ' ' ',' <<< "$(SUBPACKAGES)")" \
 		--verbose \
 		--family-base-image $(BUILD_REGISTRY)/$(PROJECT_NAME) \
 		--platform $(BATCH_PLATFORMS) \

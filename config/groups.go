@@ -210,6 +210,9 @@ var GroupMap = map[string]GroupKindCalculator{
 	"alicloud_ram_security_preference":     ReplaceGroupWords("ram", 1),
 	"alicloud_ram_saml_provider":           ReplaceGroupWords("ram", 1),
 
+	// SLB - Server Load Balancer resources
+	"alicloud_slb_load_balancer": ReplaceGroupWords("slb", 1),
+
 	// TAIR - Redis Tair resources
 	"alicloud_kvstore_account":          ReplaceGroupWords("tair", 1),
 	"alicloud_kvstore_audit_log_config": ReplaceGroupWords("tair", 1),
@@ -218,8 +221,9 @@ var GroupMap = map[string]GroupKindCalculator{
 	"alicloud_redis_tair_instance":      ReplaceGroupWords("tair", 2),
 
 	// VPC - Virtual Private Cloud resources
-	"alicloud_vpc":     ReplaceGroupWords("vpc", 0),
-	"alicloud_vswitch": ReplaceGroupWords("vpc", 0),
+	"alicloud_route_table": ReplaceGroupWords("vpc", 0),
+	"alicloud_vpc":         ReplaceGroupWords("vpc", 0),
+	"alicloud_vswitch":     ReplaceGroupWords("vpc", 0),
 }
 
 // GroupKindOverrides overrides the group and kind of the resource if it matches

@@ -8,6 +8,7 @@ import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/fcv3"
+	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/slb"
 
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ack"
 	"github.com/crossplane-contrib/provider-upjet-alibabacloud/config/ackone"
@@ -80,6 +81,7 @@ func GetProvider() *ujconfig.Provider {
 		privatelink.Configure,
 		quotas.Configure,
 		ram.Configure,
+		slb.Configure,
 		tair.Configure,
 		vpc.Configure,
 	} {

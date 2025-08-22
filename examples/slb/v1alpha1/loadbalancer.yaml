@@ -1,0 +1,55 @@
+apiVersion: slb.alibabacloud.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: slb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: load_balancer
+  name: load-balancer
+spec:
+  forProvider:
+    addressType: intranet
+    instanceChargeType: PayBySpec
+    loadBalancerName: crossplane-example-for-slb-load_balancer
+    loadBalancerSpec: slb.s2.small
+    region: cn-beijing
+    tags:
+      info: create for internet
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: load_balancer
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: slb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: load_balancer
+  name: load-balancer
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcName: crossplane-example-for-slb-load_balancer
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: slb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: load_balancer
+  name: load-balancer
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/21
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: load_balancer
+    vswitchName: crossplane-example-for-slb-load_balancer
+    zoneId: cn-beijing-h

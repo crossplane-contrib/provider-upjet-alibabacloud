@@ -98,6 +98,26 @@ spec:
 
 ---
 
+apiVersion: slb.alibabacloud.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointzone
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    addressType: intranet
+    loadBalancerName: ${var.name}
+    loadBalancerSpec: slb.s2.small
+    region: cn-beijing
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: VPC
 metadata:

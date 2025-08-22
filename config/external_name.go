@@ -201,6 +201,9 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_ram_user_group_attachment":   config.IdentifierFromProvider,
 	"alicloud_ram_user_policy_attachment":  config.IdentifierFromProvider,
 
+	// SLB
+	"alicloud_slb_load_balancer": config.IdentifierFromProvider,
+
 	// Tair
 	"alicloud_kvstore_account":          config.IdentifierFromProvider,
 	"alicloud_kvstore_audit_log_config": config.IdentifierFromProvider,
