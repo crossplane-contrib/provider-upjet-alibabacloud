@@ -259,7 +259,7 @@ spec:
                       the attribute payment_type is Subscription.
                     type: number
                   paymentType:
-                    description: 'Payment type,valid values:'
+                    description: 'Payment type, valid values:'
                     type: string
                   period:
                     description: Purchase cycle, in months. The attribute is valid
@@ -280,6 +280,9 @@ spec:
                     description: 'Renewal options. Valid values: AutoRenewal, ManualRenewal.
                       The attribute is valid when the attribute payment_type is Subscription.'
                     type: string
+                  renewalPeriodUnit:
+                    description: 'Automatic renewal period unit, valid value:'
+                    type: string
                   secretNum:
                     description: Maximum number of Secrets. The attribute is valid
                       when the attribute payment_type is Subscription.
@@ -288,8 +291,15 @@ spec:
                     description: The computation performance level of the KMS instance.
                       The attribute is valid when the attribute payment_type is Subscription.
                     type: number
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                   vpcId:
-                    description: Instance VPC id
+                    description: The ID of the virtual private cloud (VPC) that is
+                      associated with the KMS instance.
                     type: string
                   vpcIdRef:
                     description: Reference to a VPC in vpc to populate vpcId.
@@ -738,7 +748,7 @@ spec:
                       the attribute payment_type is Subscription.
                     type: number
                   paymentType:
-                    description: 'Payment type,valid values:'
+                    description: 'Payment type, valid values:'
                     type: string
                   period:
                     description: Purchase cycle, in months. The attribute is valid
@@ -755,6 +765,9 @@ spec:
                     description: 'Renewal options. Valid values: AutoRenewal, ManualRenewal.
                       The attribute is valid when the attribute payment_type is Subscription.'
                     type: string
+                  renewalPeriodUnit:
+                    description: 'Automatic renewal period unit, valid value:'
+                    type: string
                   secretNum:
                     description: Maximum number of Secrets. The attribute is valid
                       when the attribute payment_type is Subscription.
@@ -763,8 +776,15 @@ spec:
                     description: The computation performance level of the KMS instance.
                       The attribute is valid when the attribute payment_type is Subscription.
                     type: number
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                   vpcId:
-                    description: Instance VPC id
+                    description: The ID of the virtual private cloud (VPC) that is
+                      associated with the KMS instance.
                     type: string
                   vpcIdRef:
                     description: Reference to a VPC in vpc to populate vpcId.
@@ -1236,7 +1256,7 @@ spec:
                       the attribute payment_type is Subscription.
                     type: number
                   paymentType:
-                    description: 'Payment type,valid values:'
+                    description: 'Payment type, valid values:'
                     type: string
                   period:
                     description: Purchase cycle, in months. The attribute is valid
@@ -1253,6 +1273,9 @@ spec:
                     description: 'Renewal options. Valid values: AutoRenewal, ManualRenewal.
                       The attribute is valid when the attribute payment_type is Subscription.'
                     type: string
+                  renewalPeriodUnit:
+                    description: 'Automatic renewal period unit, valid value:'
+                    type: string
                   secretNum:
                     description: Maximum number of Secrets. The attribute is valid
                       when the attribute payment_type is Subscription.
@@ -1264,8 +1287,15 @@ spec:
                   status:
                     description: Instance status.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                   vpcId:
-                    description: Instance VPC id
+                    description: The ID of the virtual private cloud (VPC) that is
+                      associated with the KMS instance.
                     type: string
                   vpcNum:
                     description: The number of managed accesses. The maximum number

@@ -9,7 +9,10 @@ metadata:
 spec:
   forProvider:
     code:
-    - checksum: "4270285996107335518"
+    - checksumSecretRef:
+        key: checksum
+        name: example-secret
+        namespace: crossplane-system
       ossBucketNameSelector:
         matchLabels:
           testing.upbound.io/example-name: function
@@ -101,7 +104,7 @@ spec:
       preStop:
       - timeout: 3
         handler: "index.stop"
-    sessionAffinityConfig: "{\\\"sessionConcurrencyPerInstance\\\":20,\\\"sseEndpointPath\\\":\\\"sse\\\"}"
+    sessionAffinityConfig: "{\"sessionConcurrencyPerInstance\":20,\"sseEndpointPath\":\"sse\"}"
     instanceIsolationMode: "SHARE"
     sessionAffinity: "MCP_SSE"
 
@@ -117,7 +120,7 @@ metadata:
   name: function
 spec:
   forProvider:
-    bucket: crossplane-example-for-function-20250729
+    bucket: crossplane-example-for-function-20251024
     region: cn-beijing
 
 ---
@@ -212,3 +215,13 @@ spec:
     compatibleRuntime:
     - custom.debian10
     region: cn-beijing
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: example-secret
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  checksum: "4270285996107335518"

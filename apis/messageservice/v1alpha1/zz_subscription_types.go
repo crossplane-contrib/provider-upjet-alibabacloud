@@ -62,6 +62,19 @@ type SubscriptionInitParameters struct {
 	// The Push type of Subscription. The Valid values: http, queue, mpush, alisms and email.
 	PushType *string `json:"pushType,omitempty" tf:"push_type,omitempty"`
 
+	// The STS RoleArn.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.RoleArnExtractor()
+	StsRoleArn *string `json:"stsRoleArn,omitempty" tf:"sts_role_arn,omitempty"`
+
+	// Reference to a Role in ram to populate stsRoleArn.
+	// +kubebuilder:validation:Optional
+	StsRoleArnRef *v1.Reference `json:"stsRoleArnRef,omitempty" tf:"-"`
+
+	// Selector for a Role in ram to populate stsRoleArn.
+	// +kubebuilder:validation:Optional
+	StsRoleArnSelector *v1.Selector `json:"stsRoleArnSelector,omitempty" tf:"-"`
+
 	// Two topics subscription on a single account in the same topic cannot have the same name. A topic subscription name must start with an English letter or a digit, and can contain English letters, digits, and hyphens, with the length not exceeding 255 characters.
 	SubscriptionName *string `json:"subscriptionName,omitempty" tf:"subscription_name,omitempty"`
 
@@ -105,6 +118,9 @@ type SubscriptionObservation struct {
 	// The Push type of Subscription. The Valid values: http, queue, mpush, alisms and email.
 	PushType *string `json:"pushType,omitempty" tf:"push_type,omitempty"`
 
+	// The STS RoleArn.
+	StsRoleArn *string `json:"stsRoleArn,omitempty" tf:"sts_role_arn,omitempty"`
+
 	// Two topics subscription on a single account in the same topic cannot have the same name. A topic subscription name must start with an English letter or a digit, and can contain English letters, digits, and hyphens, with the length not exceeding 255 characters.
 	SubscriptionName *string `json:"subscriptionName,omitempty" tf:"subscription_name,omitempty"`
 
@@ -142,6 +158,20 @@ type SubscriptionParameters struct {
 	// +upjet:crd:field:TFTag=-
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
+
+	// The STS RoleArn.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.RoleArnExtractor()
+	// +kubebuilder:validation:Optional
+	StsRoleArn *string `json:"stsRoleArn,omitempty" tf:"sts_role_arn,omitempty"`
+
+	// Reference to a Role in ram to populate stsRoleArn.
+	// +kubebuilder:validation:Optional
+	StsRoleArnRef *v1.Reference `json:"stsRoleArnRef,omitempty" tf:"-"`
+
+	// Selector for a Role in ram to populate stsRoleArn.
+	// +kubebuilder:validation:Optional
+	StsRoleArnSelector *v1.Selector `json:"stsRoleArnSelector,omitempty" tf:"-"`
 
 	// Two topics subscription on a single account in the same topic cannot have the same name. A topic subscription name must start with an English letter or a digit, and can contain English letters, digits, and hyphens, with the length not exceeding 255 characters.
 	// +kubebuilder:validation:Optional

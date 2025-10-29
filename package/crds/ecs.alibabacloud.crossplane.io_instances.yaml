@@ -751,9 +751,9 @@ spec:
                     description: The Id of resource group which the instance belongs.
                     type: string
                   roleName:
-                    description: Instance RAM role name. The name is provided and
-                      maintained by RAM. You can use alicloud_ram_role to create a
-                      new one.
+                    description: 'The name of the Resource Access Management (RAM)
+                      role. NOTE: From version 1.250.0, If you want to use role_name,
+                      We recommend you to use the resource alicloud_ecs_ram_role_attachment.'
                     type: string
                   secondaryPrivateIpAddressCount:
                     description: 'The number of private IP addresses to be automatically
@@ -1812,9 +1812,9 @@ spec:
                     description: The Id of resource group which the instance belongs.
                     type: string
                   roleName:
-                    description: Instance RAM role name. The name is provided and
-                      maintained by RAM. You can use alicloud_ram_role to create a
-                      new one.
+                    description: 'The name of the Resource Access Management (RAM)
+                      role. NOTE: From version 1.250.0, If you want to use role_name,
+                      We recommend you to use the resource alicloud_ecs_ram_role_attachment.'
                     type: string
                   secondaryPrivateIpAddressCount:
                     description: 'The number of private IP addresses to be automatically
@@ -2750,9 +2750,9 @@ spec:
                     description: The Id of resource group which the instance belongs.
                     type: string
                   roleName:
-                    description: Instance RAM role name. The name is provided and
-                      maintained by RAM. You can use alicloud_ram_role to create a
-                      new one.
+                    description: 'The name of the Resource Access Management (RAM)
+                      role. NOTE: From version 1.250.0, If you want to use role_name,
+                      We recommend you to use the resource alicloud_ecs_ram_role_attachment.'
                     type: string
                   secondaryPrivateIpAddressCount:
                     description: 'The number of private IP addresses to be automatically

@@ -444,6 +444,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RenewalPeriodUnit != nil {
+		in, out := &in.RenewalPeriodUnit, &out.RenewalPeriodUnit
+		*out = new(string)
+		**out = **in
+	}
 	if in.SecretNum != nil {
 		in, out := &in.SecretNum, &out.SecretNum
 		*out = new(float64)
@@ -453,6 +458,22 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		in, out := &in.Spec, &out.Spec
 		*out = new(float64)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.VPCID != nil {
 		in, out := &in.VPCID, &out.VPCID
@@ -644,6 +665,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RenewalPeriodUnit != nil {
+		in, out := &in.RenewalPeriodUnit, &out.RenewalPeriodUnit
+		*out = new(string)
+		**out = **in
+	}
 	if in.SecretNum != nil {
 		in, out := &in.SecretNum, &out.SecretNum
 		*out = new(float64)
@@ -658,6 +684,22 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		in, out := &in.Status, &out.Status
 		*out = new(string)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.VPCID != nil {
 		in, out := &in.VPCID, &out.VPCID
@@ -768,6 +810,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RenewalPeriodUnit != nil {
+		in, out := &in.RenewalPeriodUnit, &out.RenewalPeriodUnit
+		*out = new(string)
+		**out = **in
+	}
 	if in.SecretNum != nil {
 		in, out := &in.SecretNum, &out.SecretNum
 		*out = new(float64)
@@ -777,6 +824,22 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		in, out := &in.Spec, &out.Spec
 		*out = new(float64)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.VPCID != nil {
 		in, out := &in.VPCID, &out.VPCID

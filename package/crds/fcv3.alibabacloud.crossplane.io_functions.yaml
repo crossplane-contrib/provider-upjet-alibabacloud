@@ -78,9 +78,23 @@ spec:
                       See code below.
                     items:
                       properties:
-                        checksum:
+                        checksumSecretRef:
                           description: The CRC-64 value of the function code package.
-                          type: string
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                         ossBucketName:
                           description: The name of the OSS Bucket that stores the
                             function code ZIP package.
@@ -465,6 +479,11 @@ spec:
                             initializer below.
                           items:
                             properties:
+                              command:
+                                description: Instance start command.
+                                items:
+                                  type: string
+                                type: array
                               handler:
                                 description: 'Function Handler: the call entry for
                                   the function compute system to run your function.'
@@ -690,6 +709,9 @@ spec:
                     description: Region is the region you'd like your resource to
                       be created in.
                     type: string
+                  resourceGroupId:
+                    description: Resource Group ID.
+                    type: string
                   role:
                     description: The user is authorized to the RAM role of function
                       compute. After the configuration, function compute will assume
@@ -773,7 +795,7 @@ spec:
                         type: object
                     type: object
                   runtime:
-                    description: Function runtime type
+                    description: Function runtime type.
                     type: string
                   sessionAffinity:
                     description: The affinity policy of the function compute call
@@ -1068,9 +1090,23 @@ spec:
                       See code below.
                     items:
                       properties:
-                        checksum:
+                        checksumSecretRef:
                           description: The CRC-64 value of the function code package.
-                          type: string
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: Name of the secret.
+                              type: string
+                            namespace:
+                              description: Namespace of the secret.
+                              type: string
+                          required:
+                          - key
+                          - name
+                          - namespace
+                          type: object
                         ossBucketName:
                           description: The name of the OSS Bucket that stores the
                             function code ZIP package.
@@ -1455,6 +1491,11 @@ spec:
                             initializer below.
                           items:
                             properties:
+                              command:
+                                description: Instance start command.
+                                items:
+                                  type: string
+                                type: array
                               handler:
                                 description: 'Function Handler: the call entry for
                                   the function compute system to run your function.'
@@ -1676,6 +1717,9 @@ spec:
                           type: array
                       type: object
                     type: array
+                  resourceGroupId:
+                    description: Resource Group ID.
+                    type: string
                   role:
                     description: The user is authorized to the RAM role of function
                       compute. After the configuration, function compute will assume
@@ -1759,7 +1803,7 @@ spec:
                         type: object
                     type: object
                   runtime:
-                    description: Function runtime type
+                    description: Function runtime type.
                     type: string
                   sessionAffinity:
                     description: The affinity policy of the function compute call
@@ -2222,9 +2266,6 @@ spec:
                       See code below.
                     items:
                       properties:
-                        checksum:
-                          description: The CRC-64 value of the function code package.
-                          type: string
                         ossBucketName:
                           description: The name of the OSS Bucket that stores the
                             function code ZIP package.
@@ -2490,6 +2531,11 @@ spec:
                             initializer below.
                           items:
                             properties:
+                              command:
+                                description: Instance start command.
+                                items:
+                                  type: string
+                                type: array
                               handler:
                                 description: 'Function Handler: the call entry for
                                   the function compute system to run your function.'
@@ -2652,6 +2698,9 @@ spec:
                           type: array
                       type: object
                     type: array
+                  resourceGroupId:
+                    description: Resource Group ID.
+                    type: string
                   role:
                     description: The user is authorized to the RAM role of function
                       compute. After the configuration, function compute will assume
@@ -2661,7 +2710,7 @@ spec:
                       OTS
                     type: string
                   runtime:
-                    description: Function runtime type
+                    description: Function runtime type.
                     type: string
                   sessionAffinity:
                     description: The affinity policy of the function compute call

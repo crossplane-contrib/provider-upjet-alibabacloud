@@ -13,20 +13,57 @@ spec:
         testing.upbound.io/example-name: default
     coolDownDuration: 10m
     daemonsetEvictionForNodes: false
-    expander: least-waste
+    expander: priority
     gpuUtilizationThreshold: "0.5"
     maxGracefulTerminationSec: 14400
     minReplicaCount: 0
+    priorities:
+      "10": |-
+        ${join(",", [
+              alicloud_cs_kubernetes_node_pool.default[0].scaling_group_id,
+              alicloud_cs_kubernetes_node_pool.default[1].scaling_group_id,
+            ])}
+      "20": ${alicloud_cs_kubernetes_node_pool.default[2].scaling_group_id}
     recycleNodeDeletionEnabled: false
     region: cn-beijing
     scaleDownEnabled: true
     scaleUpFromZero: true
-    scalerType: goatscaler
+    scalerType: cluster-autoscaler
     scanInterval: 30s
     skipNodesWithLocalStorage: false
     skipNodesWithSystemPods: true
     unneededDuration: 10m
     utilizationThreshold: "0.5"
+
+---
+
+apiVersion: ack.alibabacloud.crossplane.io/v1alpha1
+kind: KubernetesNodePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/autoscalingconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    clusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    count: 3
+    imageType: AliyunLinux3
+    instanceTypes:
+    - ${data.alicloud_instance_types.default.instance_types.0.id}
+    nodePoolName: ${format("%s-%d", var.name, count.index)}
+    region: cn-beijing
+    scalingConfig:
+    - enable: true
+      maxSize: 10
+      minSize: 0
+    systemDiskCategory: cloud_essd
+    systemDiskSize: 40
+    vswitchIdsRefs:
+    - name: default
 
 ---
 

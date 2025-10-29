@@ -36,7 +36,7 @@ type VPCEndpointServiceInitParameters struct {
 	// The description of the endpoint service.
 	ServiceDescription *string `json:"serviceDescription,omitempty" tf:"service_description,omitempty"`
 
-	// Service resource type, value:
+	// The service resource type. Value:
 	ServiceResourceType *string `json:"serviceResourceType,omitempty" tf:"service_resource_type,omitempty"`
 
 	// Specifies whether to enable IPv6 for the endpoint service. Valid values:
@@ -73,7 +73,7 @@ type VPCEndpointServiceObservation struct {
 	// The payer of the endpoint service. Valid values:
 	Payer *string `json:"payer,omitempty" tf:"payer,omitempty"`
 
-	// (Available since v1.235.0) The ID of the region to which the endpoint service belongs.
+	// The ID of the region to which the endpoint service belongs.
 	RegionID *string `json:"regionId,omitempty" tf:"region_id,omitempty"`
 
 	// The resource group ID.
@@ -88,7 +88,7 @@ type VPCEndpointServiceObservation struct {
 	// The domain name of the endpoint service.
 	ServiceDomain *string `json:"serviceDomain,omitempty" tf:"service_domain,omitempty"`
 
-	// Service resource type, value:
+	// The service resource type. Value:
 	ServiceResourceType *string `json:"serviceResourceType,omitempty" tf:"service_resource_type,omitempty"`
 
 	// Specifies whether to enable IPv6 for the endpoint service. Valid values:
@@ -143,7 +143,7 @@ type VPCEndpointServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	ServiceDescription *string `json:"serviceDescription,omitempty" tf:"service_description,omitempty"`
 
-	// Service resource type, value:
+	// The service resource type. Value:
 	// +kubebuilder:validation:Optional
 	ServiceResourceType *string `json:"serviceResourceType,omitempty" tf:"service_resource_type,omitempty"`
 

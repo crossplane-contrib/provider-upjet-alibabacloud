@@ -21,7 +21,7 @@ func (mg *Function) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Function
 func (tr *Function) GetConnectionDetailsMapping() map[string]string {
-	return nil
+	return map[string]string{"code[*].checksum": "code[*].checksumSecretRef"}
 }
 
 // GetObservation of this Function

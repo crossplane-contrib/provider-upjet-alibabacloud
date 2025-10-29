@@ -8,6 +8,7 @@ package v1alpha1
 
 import (
 	"context"
+	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	errors "github.com/pkg/errors"
@@ -64,6 +65,22 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.StsRoleArn),
+		Extract:      common.RoleArnExtractor(),
+		Reference:    mg.Spec.ForProvider.StsRoleArnRef,
+		Selector:     mg.Spec.ForProvider.StsRoleArnSelector,
+		To: reference.To{
+			List:    &v1alpha1.RoleList{},
+			Managed: &v1alpha1.Role{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.StsRoleArn")
+	}
+	mg.Spec.ForProvider.StsRoleArn = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.StsRoleArnRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TopicName),
 		Extract:      common.IdExtractor(),
 		Reference:    mg.Spec.ForProvider.TopicNameRef,
@@ -78,6 +95,22 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	}
 	mg.Spec.ForProvider.TopicName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.TopicNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.StsRoleArn),
+		Extract:      common.RoleArnExtractor(),
+		Reference:    mg.Spec.InitProvider.StsRoleArnRef,
+		Selector:     mg.Spec.InitProvider.StsRoleArnSelector,
+		To: reference.To{
+			List:    &v1alpha1.RoleList{},
+			Managed: &v1alpha1.Role{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.StsRoleArn")
+	}
+	mg.Spec.InitProvider.StsRoleArn = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.StsRoleArnRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TopicName),

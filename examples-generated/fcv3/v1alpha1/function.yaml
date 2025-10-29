@@ -9,7 +9,10 @@ metadata:
 spec:
   forProvider:
     code:
-    - checksum: "4270285996107335518"
+    - checksumSecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
       ossBucketNameSelector:
         matchLabels:
           testing.upbound.io/example-name: default

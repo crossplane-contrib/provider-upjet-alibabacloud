@@ -179,7 +179,7 @@ type LaunchTemplateInitParameters struct {
 	// Whether to enable access to instance metadata. Valid values:
 	HTTPEndpoint *string `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
 
-	// The HTTP PUT response hop limit required for instance metadata requests.
+	// The HTTP PUT response hop limit required for instance metadata requests. NOTE: From version 1.260.0, http_put_response_hop_limit can be modified.
 	HTTPPutResponseHopLimit *float64 `json:"httpPutResponseHopLimit,omitempty" tf:"http_put_response_hop_limit,omitempty"`
 
 	// Whether to use the hardened mode (IMDSv2) when accessing instance metadata. Valid values:
@@ -484,7 +484,7 @@ type LaunchTemplateObservation struct {
 	// Whether to enable access to instance metadata. Valid values:
 	HTTPEndpoint *string `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
 
-	// The HTTP PUT response hop limit required for instance metadata requests.
+	// The HTTP PUT response hop limit required for instance metadata requests. NOTE: From version 1.260.0, http_put_response_hop_limit can be modified.
 	HTTPPutResponseHopLimit *float64 `json:"httpPutResponseHopLimit,omitempty" tf:"http_put_response_hop_limit,omitempty"`
 
 	// Whether to use the hardened mode (IMDSv2) when accessing instance metadata. Valid values:
@@ -656,7 +656,7 @@ type LaunchTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	HTTPEndpoint *string `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
 
-	// The HTTP PUT response hop limit required for instance metadata requests.
+	// The HTTP PUT response hop limit required for instance metadata requests. NOTE: From version 1.260.0, http_put_response_hop_limit can be modified.
 	// +kubebuilder:validation:Optional
 	HTTPPutResponseHopLimit *float64 `json:"httpPutResponseHopLimit,omitempty" tf:"http_put_response_hop_limit,omitempty"`
 

@@ -4287,6 +4287,21 @@ func (in *ElasticityAssuranceInitParameters) DeepCopyInto(out *ElasticityAssuran
 		*out = new(string)
 		**out = **in
 	}
+	if in.AutoRenew != nil {
+		in, out := &in.AutoRenew, &out.AutoRenew
+		*out = new(bool)
+		**out = **in
+	}
+	if in.AutoRenewPeriod != nil {
+		in, out := &in.AutoRenewPeriod, &out.AutoRenewPeriod
+		*out = new(float64)
+		**out = **in
+	}
+	if in.AutoRenewPeriodUnit != nil {
+		in, out := &in.AutoRenewPeriodUnit, &out.AutoRenewPeriodUnit
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -4417,6 +4432,21 @@ func (in *ElasticityAssuranceObservation) DeepCopyInto(out *ElasticityAssuranceO
 		*out = new(string)
 		**out = **in
 	}
+	if in.AutoRenew != nil {
+		in, out := &in.AutoRenew, &out.AutoRenew
+		*out = new(bool)
+		**out = **in
+	}
+	if in.AutoRenewPeriod != nil {
+		in, out := &in.AutoRenewPeriod, &out.AutoRenewPeriod
+		*out = new(float64)
+		**out = **in
+	}
+	if in.AutoRenewPeriodUnit != nil {
+		in, out := &in.AutoRenewPeriodUnit, &out.AutoRenewPeriodUnit
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -4475,6 +4505,11 @@ func (in *ElasticityAssuranceObservation) DeepCopyInto(out *ElasticityAssuranceO
 	}
 	if in.PrivatePoolOptionsName != nil {
 		in, out := &in.PrivatePoolOptionsName, &out.PrivatePoolOptionsName
+		*out = new(string)
+		**out = **in
+	}
+	if in.RegionID != nil {
+		in, out := &in.RegionID, &out.RegionID
 		*out = new(string)
 		**out = **in
 	}
@@ -4547,6 +4582,21 @@ func (in *ElasticityAssuranceParameters) DeepCopyInto(out *ElasticityAssurancePa
 	*out = *in
 	if in.AssuranceTimes != nil {
 		in, out := &in.AssuranceTimes, &out.AssuranceTimes
+		*out = new(string)
+		**out = **in
+	}
+	if in.AutoRenew != nil {
+		in, out := &in.AutoRenew, &out.AutoRenew
+		*out = new(bool)
+		**out = **in
+	}
+	if in.AutoRenewPeriod != nil {
+		in, out := &in.AutoRenewPeriod, &out.AutoRenewPeriod
+		*out = new(float64)
+		**out = **in
+	}
+	if in.AutoRenewPeriodUnit != nil {
+		in, out := &in.AutoRenewPeriodUnit, &out.AutoRenewPeriodUnit
 		*out = new(string)
 		**out = **in
 	}

@@ -523,6 +523,22 @@ func (in *AutoscalingConfigInitParameters) DeepCopyInto(out *AutoscalingConfigIn
 		*out = new(float64)
 		**out = **in
 	}
+	if in.Priorities != nil {
+		in, out := &in.Priorities, &out.Priorities
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.RecycleNodeDeletionEnabled != nil {
 		in, out := &in.RecycleNodeDeletionEnabled, &out.RecycleNodeDeletionEnabled
 		*out = new(bool)
@@ -655,6 +671,22 @@ func (in *AutoscalingConfigObservation) DeepCopyInto(out *AutoscalingConfigObser
 		*out = new(float64)
 		**out = **in
 	}
+	if in.Priorities != nil {
+		in, out := &in.Priorities, &out.Priorities
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.RecycleNodeDeletionEnabled != nil {
 		in, out := &in.RecycleNodeDeletionEnabled, &out.RecycleNodeDeletionEnabled
 		*out = new(bool)
@@ -759,6 +791,22 @@ func (in *AutoscalingConfigParameters) DeepCopyInto(out *AutoscalingConfigParame
 		in, out := &in.MinReplicaCount, &out.MinReplicaCount
 		*out = new(float64)
 		**out = **in
+	}
+	if in.Priorities != nil {
+		in, out := &in.Priorities, &out.Priorities
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.RecycleNodeDeletionEnabled != nil {
 		in, out := &in.RecycleNodeDeletionEnabled, &out.RecycleNodeDeletionEnabled

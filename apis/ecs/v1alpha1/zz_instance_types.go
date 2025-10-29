@@ -382,7 +382,7 @@ type InstanceInitParameters struct {
 	// The Id of resource group which the instance belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// Instance RAM role name. The name is provided and maintained by RAM. You can use alicloud_ram_role to create a new one.
+	// The name of the Resource Access Management (RAM) role. NOTE: From version 1.250.0, If you want to use role_name, We recommend you to use the resource alicloud_ecs_ram_role_attachment.
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
 	// The number of private IP addresses to be automatically assigned from within the CIDR block of the vswitch. NOTE: To assign secondary private IP addresses, you must specify secondary_private_ips or secondary_private_ip_address_count but not both.
@@ -763,7 +763,7 @@ type InstanceObservation struct {
 	// The Id of resource group which the instance belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// Instance RAM role name. The name is provided and maintained by RAM. You can use alicloud_ram_role to create a new one.
+	// The name of the Resource Access Management (RAM) role. NOTE: From version 1.250.0, If you want to use role_name, We recommend you to use the resource alicloud_ecs_ram_role_attachment.
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
 	// The number of private IP addresses to be automatically assigned from within the CIDR block of the vswitch. NOTE: To assign secondary private IP addresses, you must specify secondary_private_ips or secondary_private_ip_address_count but not both.
@@ -1105,7 +1105,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// Instance RAM role name. The name is provided and maintained by RAM. You can use alicloud_ram_role to create a new one.
+	// The name of the Resource Access Management (RAM) role. NOTE: From version 1.250.0, If you want to use role_name, We recommend you to use the resource alicloud_ecs_ram_role_attachment.
 	// +kubebuilder:validation:Optional
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 

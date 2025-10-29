@@ -47,13 +47,6 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_fcv3_function",
 		}
 	})
-	p.AddResourceConfigurator("alicloud_fcv3_concurrency_config", func(r *config.Resource) {
-		r.ShortGroup = string(common.FCV3)
-		r.Kind = "ConcurrencyConfig"
-		r.References["function_name"] = config.Reference{
-			TerraformName: "alicloud_fcv3_function",
-		}
-	})
 	p.AddResourceConfigurator("alicloud_fcv3_function", func(r *config.Resource) {
 		r.ShortGroup = string(common.FCV3)
 		r.Kind = "Function"

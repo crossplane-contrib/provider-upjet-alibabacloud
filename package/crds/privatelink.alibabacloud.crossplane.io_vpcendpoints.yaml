@@ -74,7 +74,7 @@ spec:
               forProvider:
                 properties:
                   addressIpVersion:
-                    description: The IP address version.
+                    description: 'The IP address version. Valid values:'
                     type: string
                   dryRun:
                     description: 'Specifies whether to perform only a dry run, without
@@ -379,7 +379,7 @@ spec:
                   autoscaler.
                 properties:
                   addressIpVersion:
-                    description: The IP address version.
+                    description: 'The IP address version. Valid values:'
                     type: string
                   dryRun:
                     description: 'Specifies whether to perform only a dry run, without
@@ -839,7 +839,7 @@ spec:
               atProvider:
                 properties:
                   addressIpVersion:
-                    description: The IP address version.
+                    description: 'The IP address version. Valid values:'
                     type: string
                   bandwidth:
                     description: 'The bandwidth of the endpoint connection.  1024

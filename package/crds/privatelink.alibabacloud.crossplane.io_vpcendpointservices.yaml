@@ -102,7 +102,7 @@ spec:
                     description: The description of the endpoint service.
                     type: string
                   serviceResourceType:
-                    description: 'Service resource type, value:'
+                    description: 'The service resource type. Value:'
                     type: string
                   serviceSupportIpv6:
                     description: 'Specifies whether to enable IPv6 for the endpoint
@@ -158,7 +158,7 @@ spec:
                     description: The description of the endpoint service.
                     type: string
                   serviceResourceType:
-                    description: 'Service resource type, value:'
+                    description: 'The service resource type. Value:'
                     type: string
                   serviceSupportIpv6:
                     description: 'Specifies whether to enable IPv6 for the endpoint
@@ -373,8 +373,8 @@ spec:
                     description: 'The payer of the endpoint service. Valid values:'
                     type: string
                   regionId:
-                    description: (Available since v1.235.0) The ID of the region to
-                      which the endpoint service belongs.
+                    description: The ID of the region to which the endpoint service
+                      belongs.
                     type: string
                   resourceGroupId:
                     description: The resource group ID.
@@ -389,7 +389,7 @@ spec:
                     description: The domain name of the endpoint service.
                     type: string
                   serviceResourceType:
-                    description: 'Service resource type, value:'
+                    description: 'The service resource type. Value:'
                     type: string
                   serviceSupportIpv6:
                     description: 'Specifies whether to enable IPv6 for the endpoint

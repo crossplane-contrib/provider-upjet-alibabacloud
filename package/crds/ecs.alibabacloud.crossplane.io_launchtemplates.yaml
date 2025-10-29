@@ -233,8 +233,9 @@ spec:
                       values:'
                     type: string
                   httpPutResponseHopLimit:
-                    description: The HTTP PUT response hop limit required for instance
-                      metadata requests.
+                    description: 'The HTTP PUT response hop limit required for instance
+                      metadata requests. NOTE: From version 1.260.0, http_put_response_hop_limit
+                      can be modified.'
                     type: number
                   httpTokens:
                     description: 'Whether to use the hardened mode (IMDSv2) when accessing
@@ -1165,8 +1166,9 @@ spec:
                       values:'
                     type: string
                   httpPutResponseHopLimit:
-                    description: The HTTP PUT response hop limit required for instance
-                      metadata requests.
+                    description: 'The HTTP PUT response hop limit required for instance
+                      metadata requests. NOTE: From version 1.260.0, http_put_response_hop_limit
+                      can be modified.'
                     type: number
                   httpTokens:
                     description: 'Whether to use the hardened mode (IMDSv2) when accessing
@@ -2178,8 +2180,9 @@ spec:
                       values:'
                     type: string
                   httpPutResponseHopLimit:
-                    description: The HTTP PUT response hop limit required for instance
-                      metadata requests.
+                    description: 'The HTTP PUT response hop limit required for instance
+                      metadata requests. NOTE: From version 1.260.0, http_put_response_hop_limit
+                      can be modified.'
                     type: number
                   httpTokens:
                     description: 'Whether to use the hardened mode (IMDSv2) when accessing

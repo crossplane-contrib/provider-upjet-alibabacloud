@@ -15,7 +15,7 @@ import (
 
 type VpcEndpointInitParameters struct {
 
-	// The IP address version.
+	// The IP address version. Valid values:
 	AddressIPVersion *string `json:"addressIpVersion,omitempty" tf:"address_ip_version,omitempty"`
 
 	// Specifies whether to perform only a dry run, without performing the actual request. Valid values:
@@ -91,7 +91,7 @@ type VpcEndpointInitParameters struct {
 
 type VpcEndpointObservation struct {
 
-	// The IP address version.
+	// The IP address version. Valid values:
 	AddressIPVersion *string `json:"addressIpVersion,omitempty" tf:"address_ip_version,omitempty"`
 
 	// The bandwidth of the endpoint connection.  1024 to 10240. Unit: Mbit/s.
@@ -162,7 +162,7 @@ type VpcEndpointObservation struct {
 
 type VpcEndpointParameters struct {
 
-	// The IP address version.
+	// The IP address version. Valid values:
 	// +kubebuilder:validation:Optional
 	AddressIPVersion *string `json:"addressIpVersion,omitempty" tf:"address_ip_version,omitempty"`
 

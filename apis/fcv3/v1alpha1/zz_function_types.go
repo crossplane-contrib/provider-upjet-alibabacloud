@@ -28,7 +28,7 @@ type AccelerationInfoParameters struct {
 type CodeInitParameters struct {
 
 	// The CRC-64 value of the function code package.
-	Checksum *string `json:"checksum,omitempty" tf:"checksum,omitempty"`
+	ChecksumSecretRef *v1.SecretKeySelector `json:"checksumSecretRef,omitempty" tf:"-"`
 
 	// The name of the OSS Bucket that stores the function code ZIP package.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
@@ -60,9 +60,6 @@ type CodeInitParameters struct {
 
 type CodeObservation struct {
 
-	// The CRC-64 value of the function code package.
-	Checksum *string `json:"checksum,omitempty" tf:"checksum,omitempty"`
-
 	// The name of the OSS Bucket that stores the function code ZIP package.
 	OssBucketName *string `json:"ossBucketName,omitempty" tf:"oss_bucket_name,omitempty"`
 
@@ -77,7 +74,7 @@ type CodeParameters struct {
 
 	// The CRC-64 value of the function code package.
 	// +kubebuilder:validation:Optional
-	Checksum *string `json:"checksum,omitempty" tf:"checksum,omitempty"`
+	ChecksumSecretRef *v1.SecretKeySelector `json:"checksumSecretRef,omitempty" tf:"-"`
 
 	// The name of the OSS Bucket that stores the function code ZIP package.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
@@ -459,6 +456,9 @@ type FunctionInitParameters struct {
 	// OSS mount configuration See oss_mount_config below.
 	OssMountConfig []OssMountConfigInitParameters `json:"ossMountConfig,omitempty" tf:"oss_mount_config,omitempty"`
 
+	// Resource Group ID.
+	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
 	// The user is authorized to the RAM role of function compute. After the configuration, function compute will assume this role to generate temporary access credentials. In the function, you can use the temporary access credentials of the role to access the specified Alibaba cloud service, such as OSS and OTS
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
@@ -471,7 +471,7 @@ type FunctionInitParameters struct {
 	// +kubebuilder:validation:Optional
 	RoleSelector *v1.Selector `json:"roleSelector,omitempty" tf:"-"`
 
-	// Function runtime type
+	// Function runtime type.
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The affinity policy of the function compute call request. To implement the request affinity of the MCP SSE protocol, set it to MCP_SSE. If Cookie affinity is used, it can be set to GENERATED_COOKIE. If Header affinity is used, it can be set to HEADER_FIELD. If it is not set or set to NONE, the affinity effect is not set, and the request is routed according to the default scheduling policy of the function calculation system.
@@ -584,10 +584,13 @@ type FunctionObservation struct {
 	// OSS mount configuration See oss_mount_config below.
 	OssMountConfig []OssMountConfigObservation `json:"ossMountConfig,omitempty" tf:"oss_mount_config,omitempty"`
 
+	// Resource Group ID.
+	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
 	// The user is authorized to the RAM role of function compute. After the configuration, function compute will assume this role to generate temporary access credentials. In the function, you can use the temporary access credentials of the role to access the specified Alibaba cloud service, such as OSS and OTS
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// Function runtime type
+	// Function runtime type.
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The affinity policy of the function compute call request. To implement the request affinity of the MCP SSE protocol, set it to MCP_SSE. If Cookie affinity is used, it can be set to GENERATED_COOKIE. If Header affinity is used, it can be set to HEADER_FIELD. If it is not set or set to NONE, the affinity effect is not set, and the request is routed according to the default scheduling policy of the function calculation system.
@@ -723,6 +726,10 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
+	// Resource Group ID.
+	// +kubebuilder:validation:Optional
+	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
 	// The user is authorized to the RAM role of function compute. After the configuration, function compute will assume this role to generate temporary access credentials. In the function, you can use the temporary access credentials of the role to access the specified Alibaba cloud service, such as OSS and OTS
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
 	// +kubebuilder:validation:Optional
@@ -736,7 +743,7 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	RoleSelector *v1.Selector `json:"roleSelector,omitempty" tf:"-"`
 
-	// Function runtime type
+	// Function runtime type.
 	// +kubebuilder:validation:Optional
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
@@ -862,6 +869,9 @@ type HealthCheckConfigParameters struct {
 
 type InitializerInitParameters struct {
 
+	// Instance start command.
+	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
+
 	// Function Handler: the call entry for the function compute system to run your function.
 	Handler *string `json:"handler,omitempty" tf:"handler,omitempty"`
 
@@ -871,6 +881,9 @@ type InitializerInitParameters struct {
 
 type InitializerObservation struct {
 
+	// Instance start command.
+	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
+
 	// Function Handler: the call entry for the function compute system to run your function.
 	Handler *string `json:"handler,omitempty" tf:"handler,omitempty"`
 
@@ -879,6 +892,10 @@ type InitializerObservation struct {
 }
 
 type InitializerParameters struct {
+
+	// Instance start command.
+	// +kubebuilder:validation:Optional
+	Command []*string `json:"command,omitempty" tf:"command,omitempty"`
 
 	// Function Handler: the call entry for the function compute system to run your function.
 	// +kubebuilder:validation:Optional

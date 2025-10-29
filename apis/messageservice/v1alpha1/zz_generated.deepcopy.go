@@ -961,6 +961,21 @@ func (in *SubscriptionInitParameters) DeepCopyInto(out *SubscriptionInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.StsRoleArn != nil {
+		in, out := &in.StsRoleArn, &out.StsRoleArn
+		*out = new(string)
+		**out = **in
+	}
+	if in.StsRoleArnRef != nil {
+		in, out := &in.StsRoleArnRef, &out.StsRoleArnRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StsRoleArnSelector != nil {
+		in, out := &in.StsRoleArnSelector, &out.StsRoleArnSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SubscriptionName != nil {
 		in, out := &in.SubscriptionName, &out.SubscriptionName
 		*out = new(string)
@@ -1070,6 +1085,11 @@ func (in *SubscriptionObservation) DeepCopyInto(out *SubscriptionObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.StsRoleArn != nil {
+		in, out := &in.StsRoleArn, &out.StsRoleArn
+		*out = new(string)
+		**out = **in
+	}
 	if in.SubscriptionName != nil {
 		in, out := &in.SubscriptionName, &out.SubscriptionName
 		*out = new(string)
@@ -1131,6 +1151,21 @@ func (in *SubscriptionParameters) DeepCopyInto(out *SubscriptionParameters) {
 		in, out := &in.Region, &out.Region
 		*out = new(string)
 		**out = **in
+	}
+	if in.StsRoleArn != nil {
+		in, out := &in.StsRoleArn, &out.StsRoleArn
+		*out = new(string)
+		**out = **in
+	}
+	if in.StsRoleArnRef != nil {
+		in, out := &in.StsRoleArnRef, &out.StsRoleArnRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StsRoleArnSelector != nil {
+		in, out := &in.StsRoleArnSelector, &out.StsRoleArnSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SubscriptionName != nil {
 		in, out := &in.SubscriptionName, &out.SubscriptionName

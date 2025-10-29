@@ -29,13 +29,13 @@ type AutoscalingConfigInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
 
-	// The cool down duration. Default is 10m. If the delay (cooldown) value is set too long, there could be complaints that the Horizontal Pod Autoscaler is not responsive to workload changes. However, if the delay value is set too short, the scale of the replicas set may keep thrashing as usual.
+	// Specify the time interval between detecting a scale-in requirement (when the threshold is reached) and actually executing the scale-in operation (reducing the number of Pods). Default is 10m. If the delay (cooldown) value is set too long, there could be complaints that the Horizontal Pod Autoscaler is not responsive to workload changes. However, if the delay value is set too short, the scale of the replicas set may keep thrashing as usual.
 	CoolDownDuration *string `json:"coolDownDuration,omitempty" tf:"cool_down_duration,omitempty"`
 
 	// If true DaemonSet pods will be  terminated from nodes. Default is false.
 	DaemonsetEvictionForNodes *bool `json:"daemonsetEvictionForNodes,omitempty" tf:"daemonset_eviction_for_nodes,omitempty"`
 
-	// The policy for selecting which node pool to scale. Valid values: least-waste, random, priority. For more information on these policies, see Configure auto scaling
+	// The policy for selecting which node pool to scale. Valid values: least-waste, random, priority. For scaler type goatscaler, only the least-waste expander is currently supported. For more information on these policies, see Configure auto scaling
 	Expander *string `json:"expander,omitempty" tf:"expander,omitempty"`
 
 	// The scale-in threshold for GPU instance. Default is 0.5.
@@ -47,6 +47,10 @@ type AutoscalingConfigInitParameters struct {
 	// Minimum number of replicas that a replica set or replication controller should have to allow their pods deletion in scale down. Default is 0.
 	MinReplicaCount *float64 `json:"minReplicaCount,omitempty" tf:"min_replica_count,omitempty"`
 
+	// Priority settings for autoscaling node pool scaling groups. This parameter only takes effect when expander is set to priority. Only supports scaler type cluster-autoscaler. Uses key-value pairs where the key is the priority value, and the value is a comma-separated list of scaling group IDs. High numerical values indicate higher priority.
+	// +mapType=granular
+	Priorities map[string]*string `json:"priorities,omitempty" tf:"priorities,omitempty"`
+
 	// Should CA delete the K8s node object when recycle node has scaled down successfully. Default is false.
 	RecycleNodeDeletionEnabled *bool `json:"recycleNodeDeletionEnabled,omitempty" tf:"recycle_node_deletion_enabled,omitempty"`
 
@@ -56,7 +60,7 @@ type AutoscalingConfigInitParameters struct {
 	// Should CA scale up when there 0 ready nodes. Default is true.
 	ScaleUpFromZero *bool `json:"scaleUpFromZero,omitempty" tf:"scale_up_from_zero,omitempty"`
 
-	// The type of autoscaler. Valid values: cluster-autoscaler, goatscaler. For cluster version 1.22 and below, we only support cluster-autoscaler.
+	// The type of autoscaler. Valid values: cluster-autoscaler, goatscaler. For cluster version 1.22 and below, we only support cluster-autoscaler. When switching from cluster-autoscaler to goatscaler, all configuration parameters will be automatically migrated.
 	ScalerType *string `json:"scalerType,omitempty" tf:"scaler_type,omitempty"`
 
 	// The interval at which the cluster is reevaluated for scaling. Default is 30s.
@@ -68,10 +72,10 @@ type AutoscalingConfigInitParameters struct {
 	// If true cluster autoscaler will never delete nodes with pods from kube-system (except for DaemonSet or mirror pods). Default is true.
 	SkipNodesWithSystemPods *bool `json:"skipNodesWithSystemPods,omitempty" tf:"skip_nodes_with_system_pods,omitempty"`
 
-	// The unneeded duration. Default is 10m.
+	// Specify the time interval during which autoscaler does not perform scale-in operations after the most recent scale-out completion. Nodes added through scale-out can only be considered for scale-in after the period has elapsed. Default is 10m.
 	UnneededDuration *string `json:"unneededDuration,omitempty" tf:"unneeded_duration,omitempty"`
 
-	// The scale-in threshold. Default is 0.5.
+	// The scale-in a threshold. Default is 0.5.
 	UtilizationThreshold *string `json:"utilizationThreshold,omitempty" tf:"utilization_threshold,omitempty"`
 }
 
@@ -80,13 +84,13 @@ type AutoscalingConfigObservation struct {
 	// The id of kubernetes cluster.
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 
-	// The cool down duration. Default is 10m. If the delay (cooldown) value is set too long, there could be complaints that the Horizontal Pod Autoscaler is not responsive to workload changes. However, if the delay value is set too short, the scale of the replicas set may keep thrashing as usual.
+	// Specify the time interval between detecting a scale-in requirement (when the threshold is reached) and actually executing the scale-in operation (reducing the number of Pods). Default is 10m. If the delay (cooldown) value is set too long, there could be complaints that the Horizontal Pod Autoscaler is not responsive to workload changes. However, if the delay value is set too short, the scale of the replicas set may keep thrashing as usual.
 	CoolDownDuration *string `json:"coolDownDuration,omitempty" tf:"cool_down_duration,omitempty"`
 
 	// If true DaemonSet pods will be  terminated from nodes. Default is false.
 	DaemonsetEvictionForNodes *bool `json:"daemonsetEvictionForNodes,omitempty" tf:"daemonset_eviction_for_nodes,omitempty"`
 
-	// The policy for selecting which node pool to scale. Valid values: least-waste, random, priority. For more information on these policies, see Configure auto scaling
+	// The policy for selecting which node pool to scale. Valid values: least-waste, random, priority. For scaler type goatscaler, only the least-waste expander is currently supported. For more information on these policies, see Configure auto scaling
 	Expander *string `json:"expander,omitempty" tf:"expander,omitempty"`
 
 	// The scale-in threshold for GPU instance. Default is 0.5.
@@ -101,6 +105,10 @@ type AutoscalingConfigObservation struct {
 	// Minimum number of replicas that a replica set or replication controller should have to allow their pods deletion in scale down. Default is 0.
 	MinReplicaCount *float64 `json:"minReplicaCount,omitempty" tf:"min_replica_count,omitempty"`
 
+	// Priority settings for autoscaling node pool scaling groups. This parameter only takes effect when expander is set to priority. Only supports scaler type cluster-autoscaler. Uses key-value pairs where the key is the priority value, and the value is a comma-separated list of scaling group IDs. High numerical values indicate higher priority.
+	// +mapType=granular
+	Priorities map[string]*string `json:"priorities,omitempty" tf:"priorities,omitempty"`
+
 	// Should CA delete the K8s node object when recycle node has scaled down successfully. Default is false.
 	RecycleNodeDeletionEnabled *bool `json:"recycleNodeDeletionEnabled,omitempty" tf:"recycle_node_deletion_enabled,omitempty"`
 
@@ -110,7 +118,7 @@ type AutoscalingConfigObservation struct {
 	// Should CA scale up when there 0 ready nodes. Default is true.
 	ScaleUpFromZero *bool `json:"scaleUpFromZero,omitempty" tf:"scale_up_from_zero,omitempty"`
 
-	// The type of autoscaler. Valid values: cluster-autoscaler, goatscaler. For cluster version 1.22 and below, we only support cluster-autoscaler.
+	// The type of autoscaler. Valid values: cluster-autoscaler, goatscaler. For cluster version 1.22 and below, we only support cluster-autoscaler. When switching from cluster-autoscaler to goatscaler, all configuration parameters will be automatically migrated.
 	ScalerType *string `json:"scalerType,omitempty" tf:"scaler_type,omitempty"`
 
 	// The interval at which the cluster is reevaluated for scaling. Default is 30s.
@@ -122,10 +130,10 @@ type AutoscalingConfigObservation struct {
 	// If true cluster autoscaler will never delete nodes with pods from kube-system (except for DaemonSet or mirror pods). Default is true.
 	SkipNodesWithSystemPods *bool `json:"skipNodesWithSystemPods,omitempty" tf:"skip_nodes_with_system_pods,omitempty"`
 
-	// The unneeded duration. Default is 10m.
+	// Specify the time interval during which autoscaler does not perform scale-in operations after the most recent scale-out completion. Nodes added through scale-out can only be considered for scale-in after the period has elapsed. Default is 10m.
 	UnneededDuration *string `json:"unneededDuration,omitempty" tf:"unneeded_duration,omitempty"`
 
-	// The scale-in threshold. Default is 0.5.
+	// The scale-in a threshold. Default is 0.5.
 	UtilizationThreshold *string `json:"utilizationThreshold,omitempty" tf:"utilization_threshold,omitempty"`
 }
 
@@ -146,7 +154,7 @@ type AutoscalingConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
 
-	// The cool down duration. Default is 10m. If the delay (cooldown) value is set too long, there could be complaints that the Horizontal Pod Autoscaler is not responsive to workload changes. However, if the delay value is set too short, the scale of the replicas set may keep thrashing as usual.
+	// Specify the time interval between detecting a scale-in requirement (when the threshold is reached) and actually executing the scale-in operation (reducing the number of Pods). Default is 10m. If the delay (cooldown) value is set too long, there could be complaints that the Horizontal Pod Autoscaler is not responsive to workload changes. However, if the delay value is set too short, the scale of the replicas set may keep thrashing as usual.
 	// +kubebuilder:validation:Optional
 	CoolDownDuration *string `json:"coolDownDuration,omitempty" tf:"cool_down_duration,omitempty"`
 
@@ -154,7 +162,7 @@ type AutoscalingConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	DaemonsetEvictionForNodes *bool `json:"daemonsetEvictionForNodes,omitempty" tf:"daemonset_eviction_for_nodes,omitempty"`
 
-	// The policy for selecting which node pool to scale. Valid values: least-waste, random, priority. For more information on these policies, see Configure auto scaling
+	// The policy for selecting which node pool to scale. Valid values: least-waste, random, priority. For scaler type goatscaler, only the least-waste expander is currently supported. For more information on these policies, see Configure auto scaling
 	// +kubebuilder:validation:Optional
 	Expander *string `json:"expander,omitempty" tf:"expander,omitempty"`
 
@@ -169,6 +177,11 @@ type AutoscalingConfigParameters struct {
 	// Minimum number of replicas that a replica set or replication controller should have to allow their pods deletion in scale down. Default is 0.
 	// +kubebuilder:validation:Optional
 	MinReplicaCount *float64 `json:"minReplicaCount,omitempty" tf:"min_replica_count,omitempty"`
+
+	// Priority settings for autoscaling node pool scaling groups. This parameter only takes effect when expander is set to priority. Only supports scaler type cluster-autoscaler. Uses key-value pairs where the key is the priority value, and the value is a comma-separated list of scaling group IDs. High numerical values indicate higher priority.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Priorities map[string]*string `json:"priorities,omitempty" tf:"priorities,omitempty"`
 
 	// Should CA delete the K8s node object when recycle node has scaled down successfully. Default is false.
 	// +kubebuilder:validation:Optional
@@ -187,7 +200,7 @@ type AutoscalingConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	ScaleUpFromZero *bool `json:"scaleUpFromZero,omitempty" tf:"scale_up_from_zero,omitempty"`
 
-	// The type of autoscaler. Valid values: cluster-autoscaler, goatscaler. For cluster version 1.22 and below, we only support cluster-autoscaler.
+	// The type of autoscaler. Valid values: cluster-autoscaler, goatscaler. For cluster version 1.22 and below, we only support cluster-autoscaler. When switching from cluster-autoscaler to goatscaler, all configuration parameters will be automatically migrated.
 	// +kubebuilder:validation:Optional
 	ScalerType *string `json:"scalerType,omitempty" tf:"scaler_type,omitempty"`
 
@@ -203,11 +216,11 @@ type AutoscalingConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	SkipNodesWithSystemPods *bool `json:"skipNodesWithSystemPods,omitempty" tf:"skip_nodes_with_system_pods,omitempty"`
 
-	// The unneeded duration. Default is 10m.
+	// Specify the time interval during which autoscaler does not perform scale-in operations after the most recent scale-out completion. Nodes added through scale-out can only be considered for scale-in after the period has elapsed. Default is 10m.
 	// +kubebuilder:validation:Optional
 	UnneededDuration *string `json:"unneededDuration,omitempty" tf:"unneeded_duration,omitempty"`
 
-	// The scale-in threshold. Default is 0.5.
+	// The scale-in a threshold. Default is 0.5.
 	// +kubebuilder:validation:Optional
 	UtilizationThreshold *string `json:"utilizationThreshold,omitempty" tf:"utilization_threshold,omitempty"`
 }

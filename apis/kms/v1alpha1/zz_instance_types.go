@@ -118,7 +118,7 @@ type InstanceInitParameters struct {
 	// Instance log capacity. The attribute is valid when the attribute payment_type is Subscription.
 	LogStorage *float64 `json:"logStorage,omitempty" tf:"log_storage,omitempty"`
 
-	// Payment type,valid values:
+	// Payment type, valid values:
 	PaymentType *string `json:"paymentType,omitempty" tf:"payment_type,omitempty"`
 
 	// Purchase cycle, in months. The attribute is valid when the attribute payment_type is Subscription.
@@ -133,13 +133,20 @@ type InstanceInitParameters struct {
 	// Renewal options. Valid values: AutoRenewal, ManualRenewal. The attribute is valid when the attribute payment_type is Subscription.
 	RenewStatus *string `json:"renewStatus,omitempty" tf:"renew_status,omitempty"`
 
+	// Automatic renewal period unit, valid value:
+	RenewalPeriodUnit *string `json:"renewalPeriodUnit,omitempty" tf:"renewal_period_unit,omitempty"`
+
 	// Maximum number of Secrets. The attribute is valid when the attribute payment_type is Subscription.
 	SecretNum *float64 `json:"secretNum,omitempty" tf:"secret_num,omitempty"`
 
 	// The computation performance level of the KMS instance. The attribute is valid when the attribute payment_type is Subscription.
 	Spec *float64 `json:"spec,omitempty" tf:"spec,omitempty"`
 
-	// Instance VPC id
+	// Key-value map of resource tags.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// The ID of the virtual private cloud (VPC) that is associated with the KMS instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.VPC
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
@@ -214,7 +221,7 @@ type InstanceObservation struct {
 	// Instance log capacity. The attribute is valid when the attribute payment_type is Subscription.
 	LogStorage *float64 `json:"logStorage,omitempty" tf:"log_storage,omitempty"`
 
-	// Payment type,valid values:
+	// Payment type, valid values:
 	PaymentType *string `json:"paymentType,omitempty" tf:"payment_type,omitempty"`
 
 	// Purchase cycle, in months. The attribute is valid when the attribute payment_type is Subscription.
@@ -229,6 +236,9 @@ type InstanceObservation struct {
 	// Renewal options. Valid values: AutoRenewal, ManualRenewal. The attribute is valid when the attribute payment_type is Subscription.
 	RenewStatus *string `json:"renewStatus,omitempty" tf:"renew_status,omitempty"`
 
+	// Automatic renewal period unit, valid value:
+	RenewalPeriodUnit *string `json:"renewalPeriodUnit,omitempty" tf:"renewal_period_unit,omitempty"`
+
 	// Maximum number of Secrets. The attribute is valid when the attribute payment_type is Subscription.
 	SecretNum *float64 `json:"secretNum,omitempty" tf:"secret_num,omitempty"`
 
@@ -238,7 +248,11 @@ type InstanceObservation struct {
 	// Instance status.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// Instance VPC id
+	// Key-value map of resource tags.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// The ID of the virtual private cloud (VPC) that is associated with the KMS instance.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
 	// The number of managed accesses. The maximum number of VPCs that can access this KMS instance. The attribute is valid when the attribute payment_type is Subscription.
@@ -279,7 +293,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	LogStorage *float64 `json:"logStorage,omitempty" tf:"log_storage,omitempty"`
 
-	// Payment type,valid values:
+	// Payment type, valid values:
 	// +kubebuilder:validation:Optional
 	PaymentType *string `json:"paymentType,omitempty" tf:"payment_type,omitempty"`
 
@@ -304,6 +318,10 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	RenewStatus *string `json:"renewStatus,omitempty" tf:"renew_status,omitempty"`
 
+	// Automatic renewal period unit, valid value:
+	// +kubebuilder:validation:Optional
+	RenewalPeriodUnit *string `json:"renewalPeriodUnit,omitempty" tf:"renewal_period_unit,omitempty"`
+
 	// Maximum number of Secrets. The attribute is valid when the attribute payment_type is Subscription.
 	// +kubebuilder:validation:Optional
 	SecretNum *float64 `json:"secretNum,omitempty" tf:"secret_num,omitempty"`
@@ -312,7 +330,12 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Spec *float64 `json:"spec,omitempty" tf:"spec,omitempty"`
 
-	// Instance VPC id
+	// Key-value map of resource tags.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// The ID of the virtual private cloud (VPC) that is associated with the KMS instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.VPC
 	// +kubebuilder:validation:Optional
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`

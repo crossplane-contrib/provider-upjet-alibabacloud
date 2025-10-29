@@ -153,11 +153,14 @@ spec:
                         type: object
                     type: object
                   coolDownDuration:
-                    description: The cool down duration. Default is 10m. If the delay
-                      (cooldown) value is set too long, there could be complaints
-                      that the Horizontal Pod Autoscaler is not responsive to workload
-                      changes. However, if the delay value is set too short, the scale
-                      of the replicas set may keep thrashing as usual.
+                    description: Specify the time interval between detecting a scale-in
+                      requirement (when the threshold is reached) and actually executing
+                      the scale-in operation (reducing the number of Pods). Default
+                      is 10m. If the delay (cooldown) value is set too long, there
+                      could be complaints that the Horizontal Pod Autoscaler is not
+                      responsive to workload changes. However, if the delay value
+                      is set too short, the scale of the replicas set may keep thrashing
+                      as usual.
                     type: string
                   daemonsetEvictionForNodes:
                     description: If true DaemonSet pods will be  terminated from nodes.
@@ -165,8 +168,9 @@ spec:
                     type: boolean
                   expander:
                     description: 'The policy for selecting which node pool to scale.
-                      Valid values: least-waste, random, priority. For more information
-                      on these policies, see Configure auto scaling'
+                      Valid values: least-waste, random, priority. For scaler type
+                      goatscaler, only the least-waste expander is currently supported.
+                      For more information on these policies, see Configure auto scaling'
                     type: string
                   gpuUtilizationThreshold:
                     description: The scale-in threshold for GPU instance. Default
@@ -181,6 +185,17 @@ spec:
                       replication controller should have to allow their pods deletion
                       in scale down. Default is 0.
                     type: number
+                  priorities:
+                    additionalProperties:
+                      type: string
+                    description: Priority settings for autoscaling node pool scaling
+                      groups. This parameter only takes effect when expander is set
+                      to priority. Only supports scaler type cluster-autoscaler. Uses
+                      key-value pairs where the key is the priority value, and the
+                      value is a comma-separated list of scaling group IDs. High numerical
+                      values indicate higher priority.
+                    type: object
+                    x-kubernetes-map-type: granular
                   recycleNodeDeletionEnabled:
                     description: Should CA delete the K8s node object when recycle
                       node has scaled down successfully. Default is false.
@@ -200,7 +215,9 @@ spec:
                   scalerType:
                     description: 'The type of autoscaler. Valid values: cluster-autoscaler,
                       goatscaler. For cluster version 1.22 and below, we only support
-                      cluster-autoscaler.'
+                      cluster-autoscaler. When switching from cluster-autoscaler to
+                      goatscaler, all configuration parameters will be automatically
+                      migrated.'
                     type: string
                   scanInterval:
                     description: The interval at which the cluster is reevaluated
@@ -217,10 +234,13 @@ spec:
                       Default is true.
                     type: boolean
                   unneededDuration:
-                    description: The unneeded duration. Default is 10m.
+                    description: Specify the time interval during which autoscaler
+                      does not perform scale-in operations after the most recent scale-out
+                      completion. Nodes added through scale-out can only be considered
+                      for scale-in after the period has elapsed. Default is 10m.
                     type: string
                   utilizationThreshold:
-                    description: The scale-in threshold. Default is 0.5.
+                    description: The scale-in a threshold. Default is 0.5.
                     type: string
                 type: object
               initProvider:
@@ -316,11 +336,14 @@ spec:
                         type: object
                     type: object
                   coolDownDuration:
-                    description: The cool down duration. Default is 10m. If the delay
-                      (cooldown) value is set too long, there could be complaints
-                      that the Horizontal Pod Autoscaler is not responsive to workload
-                      changes. However, if the delay value is set too short, the scale
-                      of the replicas set may keep thrashing as usual.
+                    description: Specify the time interval between detecting a scale-in
+                      requirement (when the threshold is reached) and actually executing
+                      the scale-in operation (reducing the number of Pods). Default
+                      is 10m. If the delay (cooldown) value is set too long, there
+                      could be complaints that the Horizontal Pod Autoscaler is not
+                      responsive to workload changes. However, if the delay value
+                      is set too short, the scale of the replicas set may keep thrashing
+                      as usual.
                     type: string
                   daemonsetEvictionForNodes:
                     description: If true DaemonSet pods will be  terminated from nodes.
@@ -328,8 +351,9 @@ spec:
                     type: boolean
                   expander:
                     description: 'The policy for selecting which node pool to scale.
-                      Valid values: least-waste, random, priority. For more information
-                      on these policies, see Configure auto scaling'
+                      Valid values: least-waste, random, priority. For scaler type
+                      goatscaler, only the least-waste expander is currently supported.
+                      For more information on these policies, see Configure auto scaling'
                     type: string
                   gpuUtilizationThreshold:
                     description: The scale-in threshold for GPU instance. Default
@@ -344,6 +368,17 @@ spec:
                       replication controller should have to allow their pods deletion
                       in scale down. Default is 0.
                     type: number
+                  priorities:
+                    additionalProperties:
+                      type: string
+                    description: Priority settings for autoscaling node pool scaling
+                      groups. This parameter only takes effect when expander is set
+                      to priority. Only supports scaler type cluster-autoscaler. Uses
+                      key-value pairs where the key is the priority value, and the
+                      value is a comma-separated list of scaling group IDs. High numerical
+                      values indicate higher priority.
+                    type: object
+                    x-kubernetes-map-type: granular
                   recycleNodeDeletionEnabled:
                     description: Should CA delete the K8s node object when recycle
                       node has scaled down successfully. Default is false.
@@ -359,7 +394,9 @@ spec:
                   scalerType:
                     description: 'The type of autoscaler. Valid values: cluster-autoscaler,
                       goatscaler. For cluster version 1.22 and below, we only support
-                      cluster-autoscaler.'
+                      cluster-autoscaler. When switching from cluster-autoscaler to
+                      goatscaler, all configuration parameters will be automatically
+                      migrated.'
                     type: string
                   scanInterval:
                     description: The interval at which the cluster is reevaluated
@@ -376,10 +413,13 @@ spec:
                       Default is true.
                     type: boolean
                   unneededDuration:
-                    description: The unneeded duration. Default is 10m.
+                    description: Specify the time interval during which autoscaler
+                      does not perform scale-in operations after the most recent scale-out
+                      completion. Nodes added through scale-out can only be considered
+                      for scale-in after the period has elapsed. Default is 10m.
                     type: string
                   utilizationThreshold:
-                    description: The scale-in threshold. Default is 0.5.
+                    description: The scale-in a threshold. Default is 0.5.
                     type: string
                 type: object
               managementPolicies:
@@ -558,11 +598,14 @@ spec:
                     description: The id of kubernetes cluster.
                     type: string
                   coolDownDuration:
-                    description: The cool down duration. Default is 10m. If the delay
-                      (cooldown) value is set too long, there could be complaints
-                      that the Horizontal Pod Autoscaler is not responsive to workload
-                      changes. However, if the delay value is set too short, the scale
-                      of the replicas set may keep thrashing as usual.
+                    description: Specify the time interval between detecting a scale-in
+                      requirement (when the threshold is reached) and actually executing
+                      the scale-in operation (reducing the number of Pods). Default
+                      is 10m. If the delay (cooldown) value is set too long, there
+                      could be complaints that the Horizontal Pod Autoscaler is not
+                      responsive to workload changes. However, if the delay value
+                      is set too short, the scale of the replicas set may keep thrashing
+                      as usual.
                     type: string
                   daemonsetEvictionForNodes:
                     description: If true DaemonSet pods will be  terminated from nodes.
@@ -570,8 +613,9 @@ spec:
                     type: boolean
                   expander:
                     description: 'The policy for selecting which node pool to scale.
-                      Valid values: least-waste, random, priority. For more information
-                      on these policies, see Configure auto scaling'
+                      Valid values: least-waste, random, priority. For scaler type
+                      goatscaler, only the least-waste expander is currently supported.
+                      For more information on these policies, see Configure auto scaling'
                     type: string
                   gpuUtilizationThreshold:
                     description: The scale-in threshold for GPU instance. Default
@@ -589,6 +633,17 @@ spec:
                       replication controller should have to allow their pods deletion
                       in scale down. Default is 0.
                     type: number
+                  priorities:
+                    additionalProperties:
+                      type: string
+                    description: Priority settings for autoscaling node pool scaling
+                      groups. This parameter only takes effect when expander is set
+                      to priority. Only supports scaler type cluster-autoscaler. Uses
+                      key-value pairs where the key is the priority value, and the
+                      value is a comma-separated list of scaling group IDs. High numerical
+                      values indicate higher priority.
+                    type: object
+                    x-kubernetes-map-type: granular
                   recycleNodeDeletionEnabled:
                     description: Should CA delete the K8s node object when recycle
                       node has scaled down successfully. Default is false.
@@ -604,7 +659,9 @@ spec:
                   scalerType:
                     description: 'The type of autoscaler. Valid values: cluster-autoscaler,
                       goatscaler. For cluster version 1.22 and below, we only support
-                      cluster-autoscaler.'
+                      cluster-autoscaler. When switching from cluster-autoscaler to
+                      goatscaler, all configuration parameters will be automatically
+                      migrated.'
                     type: string
                   scanInterval:
                     description: The interval at which the cluster is reevaluated
@@ -621,10 +678,13 @@ spec:
                       Default is true.
                     type: boolean
                   unneededDuration:
-                    description: The unneeded duration. Default is 10m.
+                    description: Specify the time interval during which autoscaler
+                      does not perform scale-in operations after the most recent scale-out
+                      completion. Nodes added through scale-out can only be considered
+                      for scale-in after the period has elapsed. Default is 10m.
                     type: string
                   utilizationThreshold:
-                    description: The scale-in threshold. Default is 0.5.
+                    description: The scale-in a threshold. Default is 0.5.
                     type: string
                 type: object
               conditions:
