@@ -76,6 +76,15 @@ spec:
                     required:
                     - path
                     type: object
+                  providerArn:
+                    description: ProviderARN of IdP (optional, used for OIDC authentication)
+                    type: string
+                  region:
+                    description: Region of the IdP (optional, used for OIDC authentication)
+                    type: string
+                  roleArn:
+                    description: RoleARN of RAM role (optional, used for OIDC authentication)
+                    type: string
                   secretRef:
                     description: |-
                       A SecretRef is a reference to a secret key that contains the credentials

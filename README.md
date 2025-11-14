@@ -9,6 +9,126 @@ make submodules
 make generate
 ```
 
+## Authentication
+
+The provider supports two authentication methods:
+
+### 1. Traditional Authentication (Access Key)
+
+Set up authentication using Alibaba Cloud Access Keys by creating a ProviderConfig with a secret reference:
+
+```yaml
+apiVersion: alibabacloud.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: example-creds
+      namespace: crossplane-system
+      key: credentials
+```
+
+The secret should contain a JSON with access_key, secret_key, and region:
+
+```json
+{
+  "access_key": "YOUR_ACCESS_KEY",
+  "secret_key": "YOUR_SECRET_KEY",
+  "region": "cn-hangzhou"
+}
+```
+
+### 2. OIDC Authentication
+
+For enhanced security, the provider supports OpenID Connect (OIDC) authentication using Projected Service Account Tokens (PSAT).
+
+To use OIDC authentication:
+
+1. **Set up OIDC Provider in Alibaba Cloud RAM**
+
+   First, create an OIDC provider in Alibaba Cloud RAM console that matches your identity provider's issuer URL. For example:
+   - Provider name: `example-oidc-provider`
+   - Issuer URL: `https://your-identity-provider.example.com`
+   - Audience: `acs:ram::1234567890123456:oidc-provider/example-oidc-provider`
+
+   > **Important**: The issuer URL configured in Alibaba Cloud must exactly match the `iss` claim in the OIDC tokens that will be presented to Alibaba Cloud STS API.
+
+2. **Create a Service Account** (if using Kubernetes service account tokens)
+
+   ```yaml
+   apiVersion: v1
+   kind: ServiceAccount
+   metadata:
+     name: provider-alibabacloud
+     namespace: crossplane-system
+   ```
+
+3. **Configure the Provider with DeploymentRuntimeConfig**
+
+   Create a DeploymentRuntimeConfig to mount the PSAT token:
+
+   ```yaml
+   apiVersion: pkg.crossplane.io/v1beta1
+   kind: DeploymentRuntimeConfig
+   metadata:
+     name: alibaba-provider-oidc
+   spec:
+     deploymentTemplate:
+       spec:
+         selector: {}
+         template:
+           spec:
+             serviceAccountName: provider-alibabacloud
+             volumes:
+               - name: oidc-token
+                 projected:
+                   sources:
+                   - serviceAccountToken:
+                       path: token
+                       expirationSeconds: 3600
+                       audience: acs:ram::1234567890123456:oidc-provider/example-oidc-provider
+             containers:
+               - name: package-runtime
+                 volumeMounts:
+                   - name: oidc-token
+                     mountPath: /var/run/secrets/upbound.io/provider
+                     readOnly: true
+                 env:
+                   - name: PSAT_TOKEN_PATH
+                     value: /var/run/secrets/upbound.io/provider/token
+   ```
+
+   Then reference it in your Provider:
+
+   ```yaml
+   apiVersion: pkg.crossplane.io/v1
+   kind: Provider
+   metadata:
+     name: provider-alibabacloud
+   spec:
+     package: xpkg.upbound.io/crossplane-contrib/provider-alibabacloud:v1.2.0
+     runtimeConfigRef:
+       name: alibaba-provider-oidc
+   ```
+
+4. **Create a ProviderConfig with OIDC parameters**
+
+   ```yaml
+   apiVersion: alibabacloud.crossplane.io/v1beta1
+   kind: ProviderConfig
+   metadata:
+     name: oidc-example
+   spec:
+     credentials:
+       source: InjectedIdentity
+       region: "eu-central-1"
+       providerArn: acs:ram::1234567890123456:oidc-provider/example-oidc-provider
+       roleArn: acs:ram::1234567890123456:role/example-oidc-role
+   ```
+
 ## Test
 
 Add an environment variable to set the credentials for the target Alibaba
@@ -33,7 +153,7 @@ export UPTEST_CLOUD_CREDENTIALS='{
 
 Identify the version to be released by increasing the minor version by one. For example, if the provider's latest version is v1.1.0, the new version will be v1.2.0.
 
-According to the semantic versioning specification, a version number is represented as MAJOR.MINOR.PATCH. For 1.2.0 : MAJOR=1, MINOR=2, PATCH=0 
+According to the semantic versioning specification, a version number is represented as MAJOR.MINOR.PATCH. For 1.2.0 : MAJOR=1, MINOR=2, PATCH=0
 
 ### Create Release Branch
 
@@ -68,7 +188,7 @@ Upbound marketplace [here](https://marketplace.upbound.io/providers/crossplane-c
 ### Add Release Notes
 
 Go [here](https://github.com/crossplane-contrib/provider-upjet-alibabacloud) and
-click on releases on the left side. 
+click on releases on the left side.
 
 On the releases page, click on "Draft New Release".
 - As target select your release branch that you created above

@@ -22,6 +22,18 @@ type ProviderCredentials struct {
 	// +kubebuilder:validation:Enum=None;Secret;InjectedIdentity;Environment;Filesystem
 	Source xpv1.CredentialsSource `json:"source"`
 
+	// Region of the IdP (optional, used for OIDC authentication)
+	// +optional
+	Region string `json:"region,omitempty"`
+
+	// ProviderARN of IdP (optional, used for OIDC authentication)
+	// +optional
+	ProviderARN string `json:"providerArn,omitempty"`
+
+	// RoleARN of RAM role (optional, used for OIDC authentication)
+	// +optional
+	RoleARN string `json:"roleArn,omitempty"`
+
 	xpv1.CommonCredentialSelectors `json:",inline"`
 }
 
