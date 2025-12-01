@@ -81,15 +81,15 @@ func (m *OIDCCredentialCacheMap) getCache(configName string) *OIDCCredentialCach
 	defer m.mu.Unlock()
 
 	// Double-check after acquiring write lock
-	if cache, exists := m.caches[configName]; exists {
-		return cache
+	if existingCache, exists := m.caches[configName]; exists {
+		return existingCache
 	}
 
-	cache = &OIDCCredentialCache{
+	newCache := &OIDCCredentialCache{
 		creds: make(map[string]string),
 	}
-	m.caches[configName] = cache
-	return cache
+	m.caches[configName] = newCache
+	return newCache
 }
 
 type OIDCCredentialCache struct {
@@ -133,6 +133,7 @@ func readOIDCToken() (string, error) {
 		tokenPath = defaultTokenPath
 	}
 
+	// #nosec G304 -- tokenPath is controlled by PSAT_TOKEN_PATH env var or default constant
 	data, err := os.ReadFile(tokenPath)
 	if err != nil {
 		return "", errors.Wrap(err, errReadOIDCToken)
@@ -251,40 +252,59 @@ func extractAndUnmarshalCredentials(ctx context.Context, c client.Client, config
 	}
 
 	// Check if OIDC authentication is configured
-	if pc.Spec.Credentials.Region != "" && pc.Spec.Credentials.ProviderARN != "" && pc.Spec.Credentials.RoleARN != "" {
-		// Validate that the source is set appropriately for OIDC
-		if pc.Spec.Credentials.Source != v1.CredentialsSourceInjectedIdentity {
-			return creds, errors.Errorf("invalid credentials source %q for OIDC authentication, must be %q",
-				pc.Spec.Credentials.Source, v1.CredentialsSourceInjectedIdentity)
-		}
-
-		// Get or create cache for this ProviderConfig
-		cache := oidcCredentialCaches.getCache(configRef.Name)
-
-		// Use OIDC authentication with per-ProviderConfig caching
-		if cache.isValid() {
-			// Return cached credentials
-			return cache.getCredentials(), nil
-		}
-
-		// Read OIDC token and assume role
-		token, err := readOIDCToken()
-		if err != nil {
-			return creds, errors.Wrapf(err, "failed to read OIDC token for ProviderConfig %q", configRef.Name)
-		}
-
-		creds, expiration, err := assumeRoleWithOIDC(token, pc.Spec.Credentials.RoleARN, pc.Spec.Credentials.ProviderARN, pc.Spec.Credentials.Region)
-		if err != nil {
-			return creds, errors.Wrapf(err, "OIDC authentication failed for ProviderConfig %q with role %q",
-				configRef.Name, pc.Spec.Credentials.RoleARN)
-		}
-
-		// Cache the credentials
-		cache.setCredentials(creds, expiration)
-		return creds, nil
+	if isOIDCConfigured(pc) {
+		return extractOIDCCredentials(configRef, pc)
 	}
 
 	// Use standard credential extraction
+	return extractStandardCredentials(ctx, c, pc)
+}
+
+// isOIDCConfigured checks if OIDC authentication is configured in the ProviderConfig
+func isOIDCConfigured(pc *v1beta1.ProviderConfig) bool {
+	return pc.Spec.Credentials.Region != "" &&
+		pc.Spec.Credentials.ProviderARN != "" &&
+		pc.Spec.Credentials.RoleARN != ""
+}
+
+// extractOIDCCredentials handles OIDC-based credential extraction
+func extractOIDCCredentials(configRef *v1.Reference, pc *v1beta1.ProviderConfig) (map[string]string, error) {
+	creds := map[string]string{}
+
+	// Validate that the source is set appropriately for OIDC
+	if pc.Spec.Credentials.Source != v1.CredentialsSourceInjectedIdentity {
+		return creds, errors.Errorf("invalid credentials source %q for OIDC authentication, must be %q",
+			pc.Spec.Credentials.Source, v1.CredentialsSourceInjectedIdentity)
+	}
+
+	// Get or create cache for this ProviderConfig
+	cache := oidcCredentialCaches.getCache(configRef.Name)
+
+	// Use OIDC authentication with per-ProviderConfig caching
+	if cache.isValid() {
+		return cache.getCredentials(), nil
+	}
+
+	// Read OIDC token and assume role
+	token, err := readOIDCToken()
+	if err != nil {
+		return creds, errors.Wrapf(err, "failed to read OIDC token for ProviderConfig %q", configRef.Name)
+	}
+
+	oidcCreds, expiration, err := assumeRoleWithOIDC(token, pc.Spec.Credentials.RoleARN, pc.Spec.Credentials.ProviderARN, pc.Spec.Credentials.Region)
+	if err != nil {
+		return creds, errors.Wrapf(err, "OIDC authentication failed for ProviderConfig %q with role %q",
+			configRef.Name, pc.Spec.Credentials.RoleARN)
+	}
+
+	// Cache the credentials
+	cache.setCredentials(oidcCreds, expiration)
+	return oidcCreds, nil
+}
+
+// extractStandardCredentials handles standard credential extraction from secrets
+func extractStandardCredentials(ctx context.Context, c client.Client, pc *v1beta1.ProviderConfig) (map[string]string, error) {
+	creds := map[string]string{}
 	data, err := resource.CommonCredentialExtractor(ctx, pc.Spec.Credentials.Source, c, pc.Spec.Credentials.CommonCredentialSelectors)
 	if err != nil {
 		return creds, errors.Wrap(err, errExtractCredentials)
