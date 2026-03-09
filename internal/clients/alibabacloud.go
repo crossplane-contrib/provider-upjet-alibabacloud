@@ -39,21 +39,19 @@ const (
 	errUnmarshalCredentials = "cannot unmarshal alicloud credentials as JSON"
 
 	// OIDC error messages
-	errOIDCTokenPathNotSet = "PSAT_TOKEN_PATH environment variable not set"
-	errReadOIDCToken       = "cannot read OIDC token from file"
-	errAssumeRoleWithOIDC  = "cannot assume role with OIDC"
-	errInvalidOIDCConfig   = "invalid OIDC configuration: missing required fields"
-	errMarshalCredentials  = "cannot marshal credentials"
-	errParseExpiration     = "cannot parse expiration timestamp"
-	errFetchCredentials    = "cannot fetch new credentials"
-	errValidateCredentials = "cannot validate existing credentials"
+	errReadOIDCToken      = "cannot read OIDC token from file"
+	errAssumeRoleWithOIDC = "cannot assume role with OIDC"
 
 	// OIDC constants
 	defaultTokenPath       = "/var/run/secrets/upbound.io/provider/token"
 	defaultSessionName     = "crossplane-oidc-session"
+	defaultRegion          = "cn-hangzhou"
 	defaultDurationSeconds = 3600 // 1 hour
-	minimumValidityMinutes = 5    // Minimum validity period in minutes
 )
+
+// credentialsSourceWebIdentity is the source value for OIDC/WebIdentity authentication.
+// xpv1.CredentialsSource is a string type, so we define the constant here.
+const credentialsSourceWebIdentity v1.CredentialsSource = "WebIdentity"
 
 var (
 	oidcCredentialCaches = &OIDCCredentialCacheMap{
@@ -92,14 +90,15 @@ func (m *OIDCCredentialCacheMap) getCache(configName string) *OIDCCredentialCach
 	return newCache
 }
 
+// OIDCCredentialCache caches temporary credentials obtained via OIDC token exchange
 type OIDCCredentialCache struct {
 	creds      map[string]string
 	expiration time.Time
 	mu         sync.RWMutex
 }
 
-// isValid checks if the cached credentials are still valid and not about to expire
-// Returns true if credentials are valid for at least 5 minutes
+// isValid checks if the cached credentials are still valid and not about to expire.
+// Returns true if credentials are valid for at least 5 minutes.
 func (c *OIDCCredentialCache) isValid() bool {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
@@ -107,7 +106,7 @@ func (c *OIDCCredentialCache) isValid() bool {
 	return time.Now().Add(5 * time.Minute).Before(c.expiration)
 }
 
-// getCredentials returns the cached credentials
+// getCredentials returns a copy of the cached credentials
 func (c *OIDCCredentialCache) getCredentials() map[string]string {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
@@ -126,7 +125,8 @@ func (c *OIDCCredentialCache) setCredentials(creds map[string]string, expiration
 	c.expiration = expiration
 }
 
-// readOIDCToken reads the OIDC token from the file specified by PSAT_TOKEN_PATH
+// readOIDCToken reads the OIDC token from the file specified by PSAT_TOKEN_PATH env var.
+// Falls back to defaultTokenPath if the env var is not set.
 func readOIDCToken() (string, error) {
 	tokenPath := os.Getenv("PSAT_TOKEN_PATH")
 	if tokenPath == "" {
@@ -142,9 +142,9 @@ func readOIDCToken() (string, error) {
 	return string(data), nil
 }
 
-// assumeRoleWithOIDC exchanges the OIDC token for temporary credentials
-func assumeRoleWithOIDC(token, roleArn, providerArn, region string) (map[string]string, time.Time, error) {
-	client, err := sts.NewClientWithAccessKey(region, "", "")
+// assumeRoleWithOIDC exchanges the OIDC token for temporary STS credentials
+func assumeRoleWithOIDC(token, roleArn, providerArn, region, sessionName string) (map[string]string, time.Time, error) {
+	stsClient, err := sts.NewClientWithAccessKey(region, "", "")
 	if err != nil {
 		return nil, time.Time{}, errors.Wrap(err, errAssumeRoleWithOIDC)
 	}
@@ -154,10 +154,10 @@ func assumeRoleWithOIDC(token, roleArn, providerArn, region string) (map[string]
 	request.RoleArn = roleArn
 	request.OIDCProviderArn = providerArn
 	request.OIDCToken = token
-	request.RoleSessionName = defaultSessionName
+	request.RoleSessionName = sessionName
 	request.DurationSeconds = requests.NewInteger(defaultDurationSeconds)
 
-	response, err := client.AssumeRoleWithOIDC(request)
+	response, err := stsClient.AssumeRoleWithOIDC(request)
 	if err != nil {
 		return nil, time.Time{}, errors.Wrap(err, errAssumeRoleWithOIDC)
 	}
@@ -244,6 +244,7 @@ func getRegion(obj runtime.Object, creds map[string]string) (string, error) {
 	}
 	return r, err
 }
+
 func extractAndUnmarshalCredentials(ctx context.Context, c client.Client, configRef *v1.Reference) (map[string]string, error) {
 	pc := &v1beta1.ProviderConfig{}
 	creds := map[string]string{}
@@ -251,7 +252,7 @@ func extractAndUnmarshalCredentials(ctx context.Context, c client.Client, config
 		return creds, errors.Wrap(err, errGetProviderConfig)
 	}
 
-	// Check if OIDC authentication is configured
+	// Check if OIDC/WebIdentity authentication is configured
 	if isOIDCConfigured(pc) {
 		return extractOIDCCredentials(configRef, pc)
 	}
@@ -260,41 +261,51 @@ func extractAndUnmarshalCredentials(ctx context.Context, c client.Client, config
 	return extractStandardCredentials(ctx, c, pc)
 }
 
-// isOIDCConfigured checks if OIDC authentication is configured in the ProviderConfig
+// isOIDCConfigured returns true when the ProviderConfig is set up for OIDC/WebIdentity auth
 func isOIDCConfigured(pc *v1beta1.ProviderConfig) bool {
-	return pc.Spec.Credentials.Region != "" &&
-		pc.Spec.Credentials.ProviderARN != "" &&
-		pc.Spec.Credentials.RoleARN != ""
+	return pc.Spec.Credentials.Source == credentialsSourceWebIdentity &&
+		pc.Spec.Credentials.OIDC != nil &&
+		pc.Spec.Credentials.OIDC.RoleARN != "" &&
+		pc.Spec.Credentials.OIDC.ProviderARN != ""
 }
 
-// extractOIDCCredentials handles OIDC-based credential extraction
+// extractOIDCCredentials handles OIDC/WebIdentity-based credential extraction with caching
 func extractOIDCCredentials(configRef *v1.Reference, pc *v1beta1.ProviderConfig) (map[string]string, error) {
 	creds := map[string]string{}
 
-	// Validate that the source is set appropriately for OIDC
-	if pc.Spec.Credentials.Source != v1.CredentialsSourceInjectedIdentity {
-		return creds, errors.Errorf("invalid credentials source %q for OIDC authentication, must be %q",
-			pc.Spec.Credentials.Source, v1.CredentialsSourceInjectedIdentity)
+	opts := pc.Spec.Credentials.OIDC
+
+	// Resolve region: use the configured value or fall back to the default STS region
+	region := opts.Region
+	if region == "" {
+		region = defaultRegion
+	}
+
+	// Resolve session name
+	sessionName := opts.RoleSessionName
+	if sessionName == "" {
+		sessionName = defaultSessionName
 	}
 
 	// Get or create cache for this ProviderConfig
 	cache := oidcCredentialCaches.getCache(configRef.Name)
 
-	// Use OIDC authentication with per-ProviderConfig caching
+	// Return cached credentials if they are still valid
 	if cache.isValid() {
 		return cache.getCredentials(), nil
 	}
 
-	// Read OIDC token and assume role
+	// Read the OIDC token from disk
 	token, err := readOIDCToken()
 	if err != nil {
 		return creds, errors.Wrapf(err, "failed to read OIDC token for ProviderConfig %q", configRef.Name)
 	}
 
-	oidcCreds, expiration, err := assumeRoleWithOIDC(token, pc.Spec.Credentials.RoleARN, pc.Spec.Credentials.ProviderARN, pc.Spec.Credentials.Region)
+	// Exchange the OIDC token for temporary STS credentials
+	oidcCreds, expiration, err := assumeRoleWithOIDC(token, opts.RoleARN, opts.ProviderARN, region, sessionName)
 	if err != nil {
 		return creds, errors.Wrapf(err, "OIDC authentication failed for ProviderConfig %q with role %q",
-			configRef.Name, pc.Spec.Credentials.RoleARN)
+			configRef.Name, opts.RoleARN)
 	}
 
 	// Cache the credentials
@@ -302,7 +313,7 @@ func extractOIDCCredentials(configRef *v1.Reference, pc *v1beta1.ProviderConfig)
 	return oidcCreds, nil
 }
 
-// extractStandardCredentials handles standard credential extraction from secrets
+// extractStandardCredentials handles standard credential extraction from secrets or other sources
 func extractStandardCredentials(ctx context.Context, c client.Client, pc *v1beta1.ProviderConfig) (map[string]string, error) {
 	creds := map[string]string{}
 	data, err := resource.CommonCredentialExtractor(ctx, pc.Spec.Credentials.Source, c, pc.Spec.Credentials.CommonCredentialSelectors)
@@ -314,6 +325,7 @@ func extractStandardCredentials(ctx context.Context, c client.Client, pc *v1beta
 	}
 	return creds, nil
 }
+
 func getUserAgent() string {
 	// user agent formats as "crossplane/<CROSSPLANE_VERSION> <PROJECT_NAME>/<PROJECT_VERSION>"
 	return fmt.Sprintf("crossplane/%s provider-upjet-alibabacloud/%s", version.CrossplaneVersion, version.ProviderVersion)

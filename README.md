@@ -109,7 +109,7 @@ To use OIDC authentication:
    metadata:
      name: provider-alibabacloud
    spec:
-     package: xpkg.upbound.io/crossplane-contrib/provider-alibabacloud:v1.2.0
+     package: xpkg.crossplane.io/crossplane-contrib/provider-alibabacloud:v1.2.0
      runtimeConfigRef:
        name: alibaba-provider-oidc
    ```
@@ -123,10 +123,10 @@ To use OIDC authentication:
      name: oidc-example
    spec:
      credentials:
-       source: InjectedIdentity
-       region: "eu-central-1"
-       providerArn: acs:ram::1234567890123456:oidc-provider/example-oidc-provider
-       roleArn: acs:ram::1234567890123456:role/example-oidc-role
+       source: WebIdentity
+       oidc:
+         roleArn: acs:ram::1234567890123456:role/example-oidc-role
+         providerArn: acs:ram::1234567890123456:oidc-provider/example-oidc-provider
    ```
 
 ## Test

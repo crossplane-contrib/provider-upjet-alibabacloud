@@ -42,18 +42,24 @@ kind: Provider
 metadata:
   name: provider-alibabacloud
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-alibabacloud:v1.2.0
+  package: xpkg.crossplane.io/crossplane-contrib/provider-alibabacloud:v1.2.0
   runtimeConfigRef:
     name: alibaba-provider-oidc
 ---
-# ProviderConfig using OIDC authentication
+# ProviderConfig using OIDC/WebIdentity authentication
 apiVersion: alibabacloud.crossplane.io/v1beta1
 kind: ProviderConfig
 metadata:
   name: oidc-example
 spec:
   credentials:
-    source: InjectedIdentity
-    region: "eu-central-1"
-    providerArn: acs:ram::1234567890123456:oidc-provider/example-oidc-provider
-    roleArn: acs:ram::1234567890123456:role/example-oidc-role
+    source: WebIdentity
+    oidc:
+      # roleArn is the ARN of the Alibaba Cloud RAM role to assume.
+      roleArn: acs:ram::1234567890123456:role/example-oidc-role
+      # providerArn is the ARN of the OIDC provider registered in Alibaba Cloud RAM.
+      providerArn: acs:ram::1234567890123456:oidc-provider/example-oidc-provider
+      # region is used only for the STS AssumeRoleWithOIDC API call.
+      # It does NOT affect the region of managed resources (set via spec.forProvider.region).
+      # Defaults to cn-hangzhou if not specified.
+      # region: cn-hangzhou

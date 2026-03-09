@@ -184,7 +184,7 @@ func TestOIDCCredentialCacheThreadSafety(t *testing.T) {
 }
 
 func TestConstants(t *testing.T) {
-	// Test that our constants are defined
+	// Test that our constants are defined with the expected values
 	tests := []struct {
 		name     string
 		expected string
@@ -199,6 +199,11 @@ func TestConstants(t *testing.T) {
 			name:     "defaultSessionName",
 			expected: "crossplane-oidc-session",
 			actual:   defaultSessionName,
+		},
+		{
+			name:     "defaultRegion",
+			expected: "cn-hangzhou",
+			actual:   defaultRegion,
 		},
 	}
 

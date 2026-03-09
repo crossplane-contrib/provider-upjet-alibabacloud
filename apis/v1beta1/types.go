@@ -10,6 +10,32 @@ import (
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+// OIDCOptions defines the options for OIDC/WebIdentity authentication
+// using Alibaba Cloud RAM AssumeRoleWithOIDC.
+type OIDCOptions struct {
+	// RoleARN is the ARN of the RAM role to assume via OIDC.
+	// Example: acs:ram::1234567890123456:role/example-oidc-role
+	// +kubebuilder:validation:Required
+	RoleARN string `json:"roleArn"`
+
+	// ProviderARN is the ARN of the OIDC provider registered in Alibaba Cloud RAM.
+	// Example: acs:ram::1234567890123456:oidc-provider/example-oidc-provider
+	// +kubebuilder:validation:Required
+	ProviderARN string `json:"providerArn"`
+
+	// Region is the Alibaba Cloud region used for the STS AssumeRoleWithOIDC API call.
+	// This is only required for the credential exchange and does not affect the region
+	// of managed resources (which is taken from spec.forProvider.region).
+	// If not set, defaults to cn-hangzhou.
+	// +optional
+	Region string `json:"region,omitempty"`
+
+	// RoleSessionName is the identifier for the assumed role session.
+	// Defaults to "crossplane-oidc-session".
+	// +optional
+	RoleSessionName string `json:"roleSessionName,omitempty"`
+}
+
 // A ProviderConfigSpec defines the desired state of a ProviderConfig.
 type ProviderConfigSpec struct {
 	// Credentials required to authenticate to this provider.
@@ -19,20 +45,13 @@ type ProviderConfigSpec struct {
 // ProviderCredentials required to authenticate.
 type ProviderCredentials struct {
 	// Source of the provider credentials.
-	// +kubebuilder:validation:Enum=None;Secret;InjectedIdentity;Environment;Filesystem
+	// +kubebuilder:validation:Enum=None;Secret;InjectedIdentity;Environment;Filesystem;WebIdentity
 	Source xpv1.CredentialsSource `json:"source"`
 
-	// Region of the IdP (optional, used for OIDC authentication)
+	// OIDC defines the options for OIDC/WebIdentity-based authentication using
+	// Alibaba Cloud RAM AssumeRoleWithOIDC. Required when source is WebIdentity.
 	// +optional
-	Region string `json:"region,omitempty"`
-
-	// ProviderARN of IdP (optional, used for OIDC authentication)
-	// +optional
-	ProviderARN string `json:"providerArn,omitempty"`
-
-	// RoleARN of RAM role (optional, used for OIDC authentication)
-	// +optional
-	RoleARN string `json:"roleArn,omitempty"`
+	OIDC *OIDCOptions `json:"oidc,omitempty"`
 
 	xpv1.CommonCredentialSelectors `json:",inline"`
 }

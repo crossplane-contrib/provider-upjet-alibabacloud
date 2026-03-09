@@ -76,15 +76,37 @@ spec:
                     required:
                     - path
                     type: object
-                  providerArn:
-                    description: ProviderARN of IdP (optional, used for OIDC authentication)
-                    type: string
-                  region:
-                    description: Region of the IdP (optional, used for OIDC authentication)
-                    type: string
-                  roleArn:
-                    description: RoleARN of RAM role (optional, used for OIDC authentication)
-                    type: string
+                  oidc:
+                    description: |-
+                      OIDC defines the options for OIDC/WebIdentity-based authentication using
+                      Alibaba Cloud RAM AssumeRoleWithOIDC. Required when source is WebIdentity.
+                    properties:
+                      providerArn:
+                        description: |-
+                          ProviderARN is the ARN of the OIDC provider registered in Alibaba Cloud RAM.
+                          Example: acs:ram::1234567890123456:oidc-provider/example-oidc-provider
+                        type: string
+                      region:
+                        description: |-
+                          Region is the Alibaba Cloud region used for the STS AssumeRoleWithOIDC API call.
+                          This is only required for the credential exchange and does not affect the region
+                          of managed resources (which is taken from spec.forProvider.region).
+                          If not set, defaults to cn-hangzhou.
+                        type: string
+                      roleArn:
+                        description: |-
+                          RoleARN is the ARN of the RAM role to assume via OIDC.
+                          Example: acs:ram::1234567890123456:role/example-oidc-role
+                        type: string
+                      roleSessionName:
+                        description: |-
+                          RoleSessionName is the identifier for the assumed role session.
+                          Defaults to "crossplane-oidc-session".
+                        type: string
+                    required:
+                    - providerArn
+                    - roleArn
+                    type: object
                   secretRef:
                     description: |-
                       A SecretRef is a reference to a secret key that contains the credentials
@@ -112,6 +134,7 @@ spec:
                     - InjectedIdentity
                     - Environment
                     - Filesystem
+                    - WebIdentity
                     type: string
                 required:
                 - source
