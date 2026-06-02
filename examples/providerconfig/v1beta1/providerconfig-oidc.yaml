@@ -1,0 +1,65 @@
+---
+# Service Account for OIDC authentication
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: provider-alibabacloud
+  namespace: crossplane-system
+---
+# DeploymentRuntimeConfig for mounting OIDC token
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: alibaba-provider-oidc
+spec:
+  deploymentTemplate:
+    spec:
+      selector: {}
+      template:
+        spec:
+          serviceAccountName: provider-alibabacloud
+          volumes:
+            - name: oidc-token
+              projected:
+                sources:
+                - serviceAccountToken:
+                    path: token
+                    expirationSeconds: 3600
+                    audience: acs:ram::1234567890123456:oidc-provider/example-oidc-provider
+          containers:
+            - name: package-runtime
+              volumeMounts:
+                - name: oidc-token
+                  mountPath: /var/run/secrets/upbound.io/provider
+                  readOnly: true
+              env:
+                - name: PSAT_TOKEN_PATH
+                  value: /var/run/secrets/upbound.io/provider/token
+---
+# Provider with RuntimeConfig reference
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-alibabacloud
+spec:
+  package: xpkg.crossplane.io/crossplane-contrib/provider-alibabacloud:v1.2.0
+  runtimeConfigRef:
+    name: alibaba-provider-oidc
+---
+# ProviderConfig using OIDC/WebIdentity authentication
+apiVersion: alibabacloud.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: oidc-example
+spec:
+  credentials:
+    source: WebIdentity
+    oidc:
+      # roleArn is the ARN of the Alibaba Cloud RAM role to assume.
+      roleArn: acs:ram::1234567890123456:role/example-oidc-role
+      # providerArn is the ARN of the OIDC provider registered in Alibaba Cloud RAM.
+      providerArn: acs:ram::1234567890123456:oidc-provider/example-oidc-provider
+      # region is used only for the STS AssumeRoleWithOIDC API call.
+      # It does NOT affect the region of managed resources (set via spec.forProvider.region).
+      # Defaults to cn-hangzhou if not specified.
+      # region: cn-hangzhou
