@@ -25,6 +25,15 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_ack_one_cluster":               config.IdentifierFromProvider,
 	"alicloud_ack_one_membership_attachment": config.IdentifierFromProvider,
 
+	// AliKafka
+	"alicloud_alikafka_instance":                       config.IdentifierFromProvider,
+	"alicloud_alikafka_topic":                          config.IdentifierFromProvider,
+	"alicloud_alikafka_consumer_group":                 config.IdentifierFromProvider,
+	"alicloud_alikafka_sasl_user":                      config.IdentifierFromProvider,
+	"alicloud_alikafka_sasl_acl":                       config.IdentifierFromProvider,
+	"alicloud_alikafka_instance_allowed_ip_attachment": config.IdentifierFromProvider,
+	"alicloud_alikafka_scheduled_scaling_rule":         config.IdentifierFromProvider,
+
 	// ALB
 	"alicloud_alb_acl":                     config.IdentifierFromProvider,
 	"alicloud_alb_acl_entry_attachment":    config.IdentifierFromProvider,

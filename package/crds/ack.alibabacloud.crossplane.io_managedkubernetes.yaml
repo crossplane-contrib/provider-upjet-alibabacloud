@@ -590,6 +590,21 @@ spec:
                     description: Cluster timezone, works for control plane and Worker
                       nodes.
                     type: string
+                  upgradePolicy:
+                    description: |-
+                      Configuration block for cluster upgrade operations. See upgrade_policy below.
+                      -> NOTE: This parameter only applies during resource update.
+                    items:
+                      properties:
+                        controlPlaneOnly:
+                          description: 'Whether to upgrade only the control plane
+                            without upgrading worker nodes. Valid values: true, false.
+                            When set to true, only the cluster control plane components
+                            will be upgraded, and worker nodes will remain at their
+                            current version. Default is false.'
+                          type: boolean
+                      type: object
+                    type: array
                   userCa:
                     description: The path of customized CA cert, you can use this
                       CA to sign client certs to connect your cluster.
@@ -1372,6 +1387,21 @@ spec:
                     description: Cluster timezone, works for control plane and Worker
                       nodes.
                     type: string
+                  upgradePolicy:
+                    description: |-
+                      Configuration block for cluster upgrade operations. See upgrade_policy below.
+                      -> NOTE: This parameter only applies during resource update.
+                    items:
+                      properties:
+                        controlPlaneOnly:
+                          description: 'Whether to upgrade only the control plane
+                            without upgrading worker nodes. Valid values: true, false.
+                            When set to true, only the cluster control plane components
+                            will be upgraded, and worker nodes will remain at their
+                            current version. Default is false.'
+                          type: boolean
+                      type: object
+                    type: array
                   userCa:
                     description: The path of customized CA cert, you can use this
                       CA to sign client certs to connect your cluster.
@@ -2271,6 +2301,21 @@ spec:
                     description: Cluster timezone, works for control plane and Worker
                       nodes.
                     type: string
+                  upgradePolicy:
+                    description: |-
+                      Configuration block for cluster upgrade operations. See upgrade_policy below.
+                      -> NOTE: This parameter only applies during resource update.
+                    items:
+                      properties:
+                        controlPlaneOnly:
+                          description: 'Whether to upgrade only the control plane
+                            without upgrading worker nodes. Valid values: true, false.
+                            When set to true, only the cluster control plane components
+                            will be upgraded, and worker nodes will remain at their
+                            current version. Default is false.'
+                          type: boolean
+                      type: object
+                    type: array
                   userCa:
                     description: The path of customized CA cert, you can use this
                       CA to sign client certs to connect your cluster.

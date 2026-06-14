@@ -343,7 +343,8 @@ type InstanceInitParameters struct {
 	// +mapType=granular
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
-	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid.
+	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
+	// -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.KeyPair
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
@@ -467,7 +468,7 @@ type InstanceInitParameters struct {
 	// The stop mode of the pay-as-you-go instance. Valid values: StopCharging,KeepCharging, Not-applicable. Default value: If the prerequisites required for enabling the economical mode are met, and you have enabled this mode in the ECS console, the default value is StopCharging. For more information, see "Enable the economical mode" in Economical mode. Otherwise, the default value is KeepCharging. Note: Not-applicable: Economical mode is not applicable to the instance.`
 	StoppedMode *string `json:"stoppedMode,omitempty" tf:"stopped_mode,omitempty"`
 
-	// The ID of the automatic snapshot policy applied to the system disk.
+	// The ID of the automatic snapshot policy applied to the system disk. NOTE: If you want to use system_disk_auto_snapshot_policy_id, We recommend you to use the resource alicloud_ecs_auto_snapshot_policy_attachment.
 	SystemDiskAutoSnapshotPolicyID *string `json:"systemDiskAutoSnapshotPolicyId,omitempty" tf:"system_disk_auto_snapshot_policy_id,omitempty"`
 
 	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
@@ -730,7 +731,8 @@ type InstanceObservation struct {
 	// +mapType=granular
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
-	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid.
+	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
+	// -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
 	// The ID of the launch template. For more information, see DescribeLaunchTemplates.To use a launch template to create an instance, you must use the launch_template_id or launch_template_name parameter to specify the launch template.
@@ -843,7 +845,7 @@ type InstanceObservation struct {
 	// The stop mode of the pay-as-you-go instance. Valid values: StopCharging,KeepCharging, Not-applicable. Default value: If the prerequisites required for enabling the economical mode are met, and you have enabled this mode in the ECS console, the default value is StopCharging. For more information, see "Enable the economical mode" in Economical mode. Otherwise, the default value is KeepCharging. Note: Not-applicable: Economical mode is not applicable to the instance.`
 	StoppedMode *string `json:"stoppedMode,omitempty" tf:"stopped_mode,omitempty"`
 
-	// The ID of the automatic snapshot policy applied to the system disk.
+	// The ID of the automatic snapshot policy applied to the system disk. NOTE: If you want to use system_disk_auto_snapshot_policy_id, We recommend you to use the resource alicloud_ecs_auto_snapshot_policy_attachment.
 	SystemDiskAutoSnapshotPolicyID *string `json:"systemDiskAutoSnapshotPolicyId,omitempty" tf:"system_disk_auto_snapshot_policy_id,omitempty"`
 
 	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
@@ -1047,7 +1049,8 @@ type InstanceParameters struct {
 	// +mapType=granular
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
-	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid.
+	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
+	// -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.KeyPair
 	// +kubebuilder:validation:Optional
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
@@ -1207,7 +1210,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	StoppedMode *string `json:"stoppedMode,omitempty" tf:"stopped_mode,omitempty"`
 
-	// The ID of the automatic snapshot policy applied to the system disk.
+	// The ID of the automatic snapshot policy applied to the system disk. NOTE: If you want to use system_disk_auto_snapshot_policy_id, We recommend you to use the resource alicloud_ecs_auto_snapshot_policy_attachment.
 	// +kubebuilder:validation:Optional
 	SystemDiskAutoSnapshotPolicyID *string `json:"systemDiskAutoSnapshotPolicyId,omitempty" tf:"system_disk_auto_snapshot_policy_id,omitempty"`
 

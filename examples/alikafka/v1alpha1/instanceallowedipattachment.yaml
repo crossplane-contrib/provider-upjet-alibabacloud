@@ -1,0 +1,98 @@
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: InstanceAllowedIPAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/instanceallowedipattachment
+  labels:
+    testing.upbound.io/example-name: instanceallowedipattachment
+  name: instanceallowedipattachment
+spec:
+  forProvider:
+    region: cn-beijing
+    allowedType: vpc
+    portRange: 9092/9092
+    allowedIp: 114.237.9.78/32
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instanceallowedipattachment
+
+---
+
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/instanceallowedipattachment
+  labels:
+    testing.upbound.io/example-name: instanceallowedipattachment
+  name: instanceallowedipattachment
+spec:
+  forProvider:
+    region: cn-beijing
+    name: crossplane-example-for-alikafka-ipattachment
+    partitionNum: 50
+    diskType: 1
+    diskSize: 500
+    deployType: 5
+    ioMax: 20
+    specType: professional
+    serviceVersion: 2.2.0
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instanceallowedipattachment
+    securityGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instanceallowedipattachment
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/instanceallowedipattachment
+  labels:
+    testing.upbound.io/example-name: instanceallowedipattachment
+  name: instanceallowedipattachment
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instanceallowedipattachment
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/instanceallowedipattachment
+  labels:
+    testing.upbound.io/example-name: instanceallowedipattachment
+  name: instanceallowedipattachment
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcName: crossplane-example-for-alikafka-ipattachment
+    cidrBlock: 10.4.0.0/16
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/instanceallowedipattachment
+  labels:
+    testing.upbound.io/example-name: instanceallowedipattachment
+  name: instanceallowedipattachment
+spec:
+  forProvider:
+    region: cn-beijing
+    vswitchName: crossplane-example-for-alikafka-ipattachment
+    cidrBlock: 10.4.0.0/24
+    zoneId: cn-beijing-h
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: instanceallowedipattachment

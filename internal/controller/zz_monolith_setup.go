@@ -40,6 +40,13 @@ import (
 	instance "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alidns/instance"
 	monitorconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alidns/monitorconfig"
 	record "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alidns/record"
+	consumergroup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alikafka/consumergroup"
+	instancealikafka "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alikafka/instance"
+	instanceallowedipattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alikafka/instanceallowedipattachment"
+	saslacl "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alikafka/saslacl"
+	sasluser "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alikafka/sasluser"
+	scheduledscalingrule "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alikafka/scheduledscalingrule"
+	topic "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alikafka/topic"
 	domaincdn "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cdn/domain"
 	domainconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cdn/domainconfig"
 	fctrigger "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cdn/fctrigger"
@@ -113,7 +120,7 @@ import (
 	endpointacl "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/messageservice/endpointacl"
 	queue "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/messageservice/queue"
 	subscription "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/messageservice/subscription"
-	topic "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/messageservice/topic"
+	topicmessageservice "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/messageservice/topic"
 	application "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/oos/application"
 	applicationgroup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/oos/applicationgroup"
 	defaultpatchbaseline "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/oos/defaultpatchbaseline"
@@ -236,6 +243,13 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instance.Setup,
 		monitorconfig.Setup,
 		record.Setup,
+		consumergroup.Setup,
+		instancealikafka.Setup,
+		instanceallowedipattachment.Setup,
+		saslacl.Setup,
+		sasluser.Setup,
+		scheduledscalingrule.Setup,
+		topic.Setup,
 		domaincdn.Setup,
 		domainconfig.Setup,
 		fctrigger.Setup,
@@ -309,7 +323,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		endpointacl.Setup,
 		queue.Setup,
 		subscription.Setup,
-		topic.Setup,
+		topicmessageservice.Setup,
 		application.Setup,
 		applicationgroup.Setup,
 		defaultpatchbaseline.Setup,

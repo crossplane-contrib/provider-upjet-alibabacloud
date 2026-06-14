@@ -15,6 +15,7 @@ import (
 	"github.com/crossplane-contrib/provider-alibabacloud/config/ackone"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/alb"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/alidns"
+	"github.com/crossplane-contrib/provider-alibabacloud/config/alikafka"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/cdn"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/cloudmonitorservice"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/cr"
@@ -72,6 +73,7 @@ func GetProvider() *ujconfig.Provider {
 		ack.Configure,
 		ackone.Configure,
 		alb.Configure,
+		alikafka.Configure,
 		alidns.Configure,
 		cdn.Configure,
 		cloudmonitorservice.Configure,

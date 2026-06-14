@@ -1139,6 +1139,11 @@ func (in *EeInstanceInitParameters) DeepCopyInto(out *EeInstanceInitParameters) 
 			(*out)[key] = outVal
 		}
 	}
+	if in.NamespaceQuota != nil {
+		in, out := &in.NamespaceQuota, &out.NamespaceQuota
+		*out = new(float64)
+		**out = **in
+	}
 	if in.PasswordSecretRef != nil {
 		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
 		*out = new(v1.SecretKeySelector)
@@ -1164,9 +1169,19 @@ func (in *EeInstanceInitParameters) DeepCopyInto(out *EeInstanceInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.RepoQuota != nil {
+		in, out := &in.RepoQuota, &out.RepoQuota
+		*out = new(float64)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
+		**out = **in
+	}
+	if in.VPCQuota != nil {
+		in, out := &in.VPCQuota, &out.VPCQuota
+		*out = new(float64)
 		**out = **in
 	}
 }
@@ -1289,6 +1304,11 @@ func (in *EeInstanceObservation) DeepCopyInto(out *EeInstanceObservation) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.NamespaceQuota != nil {
+		in, out := &in.NamespaceQuota, &out.NamespaceQuota
+		*out = new(float64)
+		**out = **in
+	}
 	if in.PaymentType != nil {
 		in, out := &in.PaymentType, &out.PaymentType
 		*out = new(string)
@@ -1314,6 +1334,11 @@ func (in *EeInstanceObservation) DeepCopyInto(out *EeInstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RepoQuota != nil {
+		in, out := &in.RepoQuota, &out.RepoQuota
+		*out = new(float64)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -1322,6 +1347,11 @@ func (in *EeInstanceObservation) DeepCopyInto(out *EeInstanceObservation) {
 	if in.Status != nil {
 		in, out := &in.Status, &out.Status
 		*out = new(string)
+		**out = **in
+	}
+	if in.VPCQuota != nil {
+		in, out := &in.VPCQuota, &out.VPCQuota
+		*out = new(float64)
 		**out = **in
 	}
 }
@@ -1385,6 +1415,11 @@ func (in *EeInstanceParameters) DeepCopyInto(out *EeInstanceParameters) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.NamespaceQuota != nil {
+		in, out := &in.NamespaceQuota, &out.NamespaceQuota
+		*out = new(float64)
+		**out = **in
+	}
 	if in.PasswordSecretRef != nil {
 		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
 		*out = new(v1.SecretKeySelector)
@@ -1415,9 +1450,19 @@ func (in *EeInstanceParameters) DeepCopyInto(out *EeInstanceParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RepoQuota != nil {
+		in, out := &in.RepoQuota, &out.RepoQuota
+		*out = new(float64)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
+		**out = **in
+	}
+	if in.VPCQuota != nil {
+		in, out := &in.VPCQuota, &out.VPCQuota
+		*out = new(float64)
 		**out = **in
 	}
 }

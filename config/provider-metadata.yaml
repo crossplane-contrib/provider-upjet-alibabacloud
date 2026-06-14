@@ -3195,7 +3195,7 @@ resources:
             - $ terraform import alicloud_aligreen_oss_stock_task.example <id>
     alicloud_alikafka_consumer_group:
         subCategory: AliKafka
-        description: Provides a Alicloud Alikafka Consumer Group resource.
+        description: Provides a Alicloud AliKafka Consumer Group resource.
         name: alicloud_alikafka_consumer_group
         title: alicloud_alikafka_consumer_group
         examples:
@@ -3203,50 +3203,25 @@ resources:
               manifest: |-
                 {
                   "consumer_id": "${var.name}",
-                  "instance_id": "${alicloud_alikafka_instance.default.id}"
+                  "instance_id": "${data.alicloud_alikafka_instances.default.instances.0.id}"
                 }
               references:
                 consumer_id: var.name
-                instance_id: alicloud_alikafka_instance.default.id
-              dependencies:
-                alicloud_alikafka_instance.default: |-
-                    {
-                      "deploy_type": "5",
-                      "disk_size": "500",
-                      "disk_type": "1",
-                      "io_max": "20",
-                      "name": "${var.name}-${random_integer.default.result}",
-                      "partition_num": "50",
-                      "security_group": "${alicloud_security_group.default.id}",
-                      "vswitch_id": "${alicloud_vswitch.default.id}"
-                    }
-                alicloud_security_group.default: |-
-                    {
-                      "vpc_id": "${alicloud_vpc.default.id}"
-                    }
-                alicloud_vpc.default: |-
-                    {
-                      "cidr_block": "172.16.0.0/12"
-                    }
-                alicloud_vswitch.default: |-
-                    {
-                      "cidr_block": "172.16.0.0/24",
-                      "vpc_id": "${alicloud_vpc.default.id}",
-                      "zone_id": "${data.alicloud_zones.default.zones[0].id}"
-                    }
-                random_integer.default: |-
-                    {
-                      "max": 99999,
-                      "min": 10000
-                    }
+                instance_id: data.alicloud_alikafka_instances.default.instances.0.id
         argumentDocs:
-            consumer_id: '- (Required, ForceNew) ID of the consumer group. The length cannot exceed 64 characters.'
-            description: '- (Optional, ForceNew, Available in v1.157.0+) The description of the resource.'
-            id: '- The key of the resource supplied above. The value is formulated as <instance_id>:<consumer_id>.'
+            consumer_id: '- (Required, ForceNew) ID of the consumer group.'
+            create_time: '- (Available since v1.268.0) The timestamp of when the group was created.'
+            description: '- (Deprecated since v1.268.0) Field description has been deprecated from provider version 1.268.0. New field remark instead.'
+            id: '- The ID of the resource supplied above.The value is formulated as <instance_id>:<consumer_id>.'
             instance_id: '- (Required, ForceNew) ID of the ALIKAFKA Instance that owns the groups.'
-            tags: '- (Optional, Available in v1.63.0+) A mapping of tags to assign to the resource.'
+            region_id: '- (Available since v1.268.0) The region ID.'
+            remark: '- (Optional, ForceNew, Available since v1.268.0) The remark of the resource.'
+            tags: '- (Optional, Available since v1.63.0) A mapping of tags to assign to the resource.'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Consumer Group.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Consumer Group.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Consumer Group.'
         importStatements:
-            - $ terraform import alicloud_alikafka_consumer_group.group alikafka_post-cn-123455abc:consumerId
+            - $ terraform import alicloud_alikafka_consumer_group.example <instance_id>:<consumer_id>
     alicloud_alikafka_instance:
         subCategory: AliKafka
         description: Provides a Alicloud AliKafka Instance resource.
@@ -3595,6 +3570,95 @@ resources:
             username: '- (Required, ForceNew) The name of the SASL user. The length should between 1 to 64 characters. The characters can only contain a-z, A-Z, 0-9, _ and -.'
         importStatements:
             - terraform import alicloud_alikafka_sasl_user.example <instance_id>:<username>
+    alicloud_alikafka_scheduled_scaling_rule:
+        subCategory: AliKafka
+        description: Provides a Alicloud Alikafka Scheduled Scaling Rule resource.
+        name: alicloud_alikafka_scheduled_scaling_rule
+        title: alicloud_alikafka_scheduled_scaling_rule
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "duration_minutes": "100",
+                  "enable": false,
+                  "first_scheduled_time": "1769578000000",
+                  "instance_id": "${alicloud_alikafka_instance.default.id}",
+                  "repeat_type": "Weekly",
+                  "reserved_pub_flow": "200",
+                  "reserved_sub_flow": "200",
+                  "rule_name": "${var.name}",
+                  "schedule_type": "repeat",
+                  "time_zone": "GMT+8",
+                  "weekly_types": [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday"
+                  ]
+                }
+              references:
+                instance_id: alicloud_alikafka_instance.default.id
+                rule_name: var.name
+              dependencies:
+                alicloud_alikafka_instance.default: |-
+                    {
+                      "config": "{\"enable.acl\":\"true\"}",
+                      "deploy_type": "4",
+                      "instance_type": "alikafka_serverless",
+                      "security_group": "${alicloud_security_group.default.id}",
+                      "serverless_config": [
+                        {
+                          "reserved_publish_capacity": 60,
+                          "reserved_subscribe_capacity": 60
+                        }
+                      ],
+                      "service_version": "3.3.1",
+                      "spec_type": "normal",
+                      "vswitch_id": "${alicloud_vswitch.default.id}"
+                    }
+                alicloud_security_group.default: |-
+                    {
+                      "vpc_id": "${alicloud_vpc.default.id}"
+                    }
+                alicloud_vpc.default: |-
+                    {
+                      "cidr_block": "10.4.0.0/16",
+                      "vpc_name": "${var.name}"
+                    }
+                alicloud_vswitch.default: |-
+                    {
+                      "cidr_block": "10.4.0.0/24",
+                      "vpc_id": "${alicloud_vpc.default.id}",
+                      "vswitch_name": "${var.name}",
+                      "zone_id": "${data.alicloud_zones.default.zones.0.id}"
+                    }
+        argumentDocs:
+            at: ': Scheduled only once.'
+            duration_minutes: '- (Required, ForceNew, Int) The duration (unit: minutes) of a scheduled elastic task.'
+            enable: |-
+                - (Optional, Bool) Enables or disables the scheduled task policy. Valid values:
+                -true: Enables the policy.
+                -false: Disables the policy.
+            first_scheduled_time: '- (Required, ForceNew, Int) The time when the scheduled policy starts to execute.'
+            id: '- The ID of the resource supplied above. The value is formulated as <instance_id>:<rule_name>.'
+            instance_id: '- (Required, ForceNew) The instance ID.'
+            repeat: ': Scheduled repeatedly.'
+            repeat_type: |-
+                - (Optional, ForceNew) When schedule_type is repeat, the parameter is required. Valid values:
+                -Daily: Daily scheduled task.
+                -Weekly: Weekly scheduled task.
+            reserved_pub_flow: '- (Required, ForceNew, Int) The scheduled elastic reserved production specification (unit: MB/s).'
+            reserved_sub_flow: '- (Required, ForceNew, Int) The scheduled elastic reserved consumption specification (unit: MB/s).'
+            rule_name: '- (Required, ForceNew) The name of the scheduled policy rule.'
+            schedule_type: '- (Required, ForceNew) The schedule type. Valid values:'
+            time_zone: '- (Required, ForceNew) The time zone (Coordinated Universal Time).'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Scheduled Scaling Rule.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Scheduled Scaling Rule.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Scheduled Scaling Rule.'
+            weekly_types: '- (Optional, ForceNew, List) The weekly types. Supports execution on multiple days. When repeat_type is set to Weekly, you need to input this parameter. Valid values: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday.'
+        importStatements:
+            - $ terraform import alicloud_alikafka_scheduled_scaling_rule.example <instance_id>:<rule_name>
     alicloud_alikafka_topic:
         subCategory: AliKafka
         description: Provides a Alicloud Alikafka Topic resource.
@@ -9315,7 +9379,7 @@ resources:
             publish_cidr_route: '- (Optional) Specifies whether to allow the system to automatically add a route that points to the CIDR block to the route table of the transit router.'
             publish_cidr_route.true: (default)
             timeouts.create: '- (Defaults to 5 mins) Used when create the Transit Router Cidr.'
-            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Transit Router Cidr.'
+            timeouts.delete: '- (Defaults to 20 mins) Used when delete the Transit Router Cidr.'
             timeouts.update: '- (Defaults to 5 mins) Used when update the Transit Router Cidr.'
             transit_router_cidr_id: '- The ID of the CIDR block.'
             transit_router_cidr_name: |-
@@ -11638,6 +11702,50 @@ resources:
             timeouts.update: '- (Defaults to 5 mins) Used when update the Instance Member.'
         importStatements:
             - $terraform import alicloud_cloud_firewall_instance_member.example <id>
+    alicloud_cloud_firewall_instance_v2:
+        subCategory: Cloud Firewall
+        description: Provides a Alicloud Cloud Firewall Instance V2 resource.
+        name: alicloud_cloud_firewall_instance_v2
+        title: alicloud_cloud_firewall_instance_v2
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "payment_type": "PayAsYouGo",
+                  "product_code": "cfw",
+                  "product_type": "cfw_elasticity_public_cn",
+                  "spec": "payg_version"
+                }
+        argumentDocs:
+            AutoRenewal: ': Auto renewal.'
+            M: ': Month.'
+            ManualRenewal: ': Manual renewal.'
+            NotRenewal: ': No renewal any longer. After you specify this value, Alibaba Cloud stop sending notification of instance expiry, and only gives a brief reminder on the third day before the instance expiry.'
+            "Y": ': Year.'
+            cfw_log: '- (Optional, Bool) Whether to use log audit. Valid values:'
+            create_time: '- The creation time.'
+            end_time: '- The end time.'
+            "false": ': Disabled.'
+            id: '- The ID of the resource supplied above.'
+            modify_type: '- (Optional) The type of modification. Valid values: Upgrade, Downgrade. NOTE: The modify_type is required when you execute an update operation.'
+            payment_type: '- (Required, ForceNew) The payment type of the resource. Valid values: PayAsYouGo, Subscription.'
+            period: '- (Optional) The prepaid period. NOTE: If payment_type is set to Subscription, period is required.'
+            product_code: '- (Required, ForceNew) The product code. Valid values: cfw.'
+            product_type: '- (Required, ForceNew) The product type. Valid values: cfw_elasticity_public_cn, cfw_elasticity_public_intl, cfw_sub_public_cn, cfw_sub_public_intl.'
+            release_time: '- The release time.'
+            renewal_duration: '- (Optional, Int) The auto-renewal duration. NOTE: renewal_duration takes effect only if payment_type is set to Subscription, and renewal_status is set to AutoRenewal.'
+            renewal_duration_unit: '- (Optional) The unit of the auto-renewal period. Valid values:'
+            renewal_status: '- (Optional) Whether to renew an instance automatically or not.'
+            sdl: '- (Optional, Bool) Data leakage protection status. Valid values: true, false.'
+            spec: '- (Required, ForceNew) The edition of the Cloud Firewall instance. Valid values: payg_version, premium_version, enterprise_version,ultimate_version.'
+            status: '- The status of Cloud Firewall Instance.'
+            timeouts.create: '- (Defaults to 10 mins) Used when create the Instance V2.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Instance V2.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Instance V2.'
+            "true": ': Enabled.'
+            user_status: '- The user status of Cloud Firewall Instance.'
+        importStatements:
+            - $ terraform import alicloud_cloud_firewall_instance_v2.example <id>
     alicloud_cloud_firewall_ips_config:
         subCategory: Cloud Firewall
         description: Provides a Alicloud Cloud Firewall IPS Config resource.
@@ -12249,6 +12357,76 @@ resources:
             zh: ': Chinese.'
         importStatements:
             - $terraform import alicloud_cloud_firewall_vpc_firewall.example <id>
+    alicloud_cloud_firewall_vpc_firewall_acl_engine_mode:
+        subCategory: Cloud Firewall
+        description: Provides a Alicloud Cloud Firewall Vpc Firewall Acl Engine Mode resource.
+        name: alicloud_cloud_firewall_vpc_firewall_acl_engine_mode
+        title: alicloud_cloud_firewall_vpc_firewall_acl_engine_mode
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "member_uid": "1511928242963727",
+                  "strict_mode": "0",
+                  "vpc_firewall_id": "${alicloud_cen_instance.cen.id}"
+                }
+              references:
+                vpc_firewall_id: alicloud_cen_instance.cen.id
+              dependencies:
+                alicloud_cen_instance.cen: |-
+                    {
+                      "cen_instance_name": "yqc-example-CenInstance001",
+                      "description": "yqc-example001"
+                    }
+                alicloud_cen_transit_router.TR: |-
+                    {
+                      "cen_id": "${alicloud_cen_instance.cen.id}"
+                    }
+                alicloud_cen_transit_router_vpc_attachment.tr-vpc1: |-
+                    {
+                      "auto_publish_route_enabled": true,
+                      "cen_id": "${alicloud_cen_instance.cen.id}",
+                      "transit_router_attachment_description": "111",
+                      "transit_router_id": "${alicloud_cen_transit_router.TR.transit_router_id}",
+                      "transit_router_vpc_attachment_name": "example",
+                      "vpc_id": "${alicloud_vpc.vpc1.id}",
+                      "zone_mappings": [
+                        {
+                          "vswitch_id": "${alicloud_vswitch.vpc1vsw1.id}",
+                          "zone_id": "${alicloud_vswitch.vpc1vsw1.zone_id}"
+                        },
+                        {
+                          "vswitch_id": "${alicloud_vswitch.vpc1vsw2.id}",
+                          "zone_id": "${alicloud_vswitch.vpc1vsw2.zone_id}"
+                        }
+                      ]
+                    }
+                alicloud_vpc.vpc1: |-
+                    {
+                      "cidr_block": "172.16.0.0/12",
+                      "vpc_name": "yqc-vpc-example-001"
+                    }
+                alicloud_vswitch.vpc1vsw1: |-
+                    {
+                      "cidr_block": "172.16.1.0/24",
+                      "vpc_id": "${alicloud_vpc.vpc1.id}",
+                      "zone_id": "cn-hangzhou-h"
+                    }
+                alicloud_vswitch.vpc1vsw2: |-
+                    {
+                      "cidr_block": "172.16.2.0/24",
+                      "vpc_id": "${alicloud_vpc.vpc1.id}",
+                      "zone_id": "cn-hangzhou-i"
+                    }
+        argumentDocs:
+            id: '- The ID of the resource supplied above.'
+            member_uid: '- (Optional, ForceNew) The ID of member account.'
+            strict_mode: '- (Required, Int) The mode of the ACL engine. Possible values are 0, 1.'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Vpc Firewall Acl Engine Mode.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Vpc Firewall Acl Engine Mode.'
+            vpc_firewall_id: '- (Required, ForceNew) The ID of the VPC firewall.'
+        importStatements:
+            - $ terraform import alicloud_cloud_firewall_vpc_firewall_acl_engine_mode.example <vpc_firewall_id>
     alicloud_cloud_firewall_vpc_firewall_cen:
         subCategory: Cloud Firewall
         description: Provides a Alicloud Cloud Firewall Vpc Firewall Cen resource.
@@ -12392,6 +12570,38 @@ resources:
             vpc_firewall_id: '- (Required, ForceNew) The ID of the VPC firewall instance. Valid values:'
         importStatements:
             - $ terraform import alicloud_cloud_firewall_vpc_firewall_control_policy.example <vpc_firewall_id>:<acl_uuid>
+    alicloud_cloud_firewall_vpc_firewall_ips_config:
+        subCategory: Cloud Firewall
+        description: Provides a Alicloud Cloud Firewall Vpc Firewall Ips Config resource.
+        name: alicloud_cloud_firewall_vpc_firewall_ips_config
+        title: alicloud_cloud_firewall_vpc_firewall_ips_config
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "basic_rules": "0",
+                  "enable_all_patch": "0",
+                  "lang": "cn-shenzhen",
+                  "member_uid": "1094685339207557",
+                  "rule_class": "0",
+                  "run_mode": "0",
+                  "vpc_firewall_id": "vfw-tr-bb81adb2d8184bc290a5"
+                }
+        argumentDocs:
+            "0": ': Off.'
+            "1": ': on.'
+            basic_rules: '- (Required, Int) Base rule switch. Value:'
+            enable_all_patch: '- (Required, Int) Virtual patch switch. Value:'
+            id: '- The ID of the resource supplied above.'
+            lang: '- (Optional) Language'
+            member_uid: '- (Optional) MemberUid'
+            rule_class: '- (Optional) IPS rule Group'
+            run_mode: '- (Required, Int) IPS defense mode. Value:'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Vpc Firewall Ips Config.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Vpc Firewall Ips Config.'
+            vpc_firewall_id: '- (Required, ForceNew) The ID of the VPC firewall instance. Value:'
+        importStatements:
+            - $ terraform import alicloud_cloud_firewall_vpc_firewall_ips_config.example <id>
     alicloud_cloud_monitor_service_basic_public:
         subCategory: Cloud Monitor Service
         description: Provides a Alicloud Cloud Monitor Service Basic Public resource.
@@ -16236,12 +16446,14 @@ resources:
             instance_type: '- (Required) The Value configuration of the Group 1 attribute of Container Mirror Service Enterprise Edition. Valid values:'
             kms_encrypted_password: '- (Optional, Available since v1.132.0) An KMS encrypts password used to an instance. If the password is filled in, this field will be ignored.'
             kms_encryption_context: '- (Optional, MapString, Available since v1.132.0) An KMS encryption context used to decrypt kms_encrypted_password before creating or updating instance with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.'
+            namespace_quota: '- (Optional, Int, Available since v1.268.0) The number of additional namespaces to purchase. The value is an integral multiple of 5.'
             password: '- (Optional) Login password, 8-32 digits, must contain at least two letters, symbols, or numbers'
             payment_type: '- (Required, ForceNew) Payment type, value:'
             period: '- (Optional, Int) Prepaid cycle. The unit is Monthly, please enter an integer multiple of 12 for annual paid products.'
             region_id: '- RegionId'
             renew_period: '- (Optional, ForceNew, Int) Automatic renewal cycle, in months.'
             renewal_status: '- (Optional, ForceNew, Computed) Automatic renewal status, value:'
+            repo_quota: '- (Optional, Int, Available since v1.268.0) The number of additional repositories to purchase. The value is an integral multiple of 1000.'
             resource_group_id: '- (Optional, Computed, Available since v1.235.0) The ID of the resource group'
             status: '- Instance Status'
             timeouts.create: '- (Defaults to 6 mins) Used when create the Instance.'
@@ -16249,6 +16461,7 @@ resources:
             timeouts.update: '- (Defaults to 5 mins) Used when update the Instance.'
             "true": ': Use the default OSS Bucket.'
             type: '- Domain Type'
+            vpc_quota: '- (Optional, Int, Available since v1.268.0) The number of VPC access controls.'
         importStatements:
             - $ terraform import alicloud_cr_ee_instance.example <id>
     alicloud_cr_ee_namespace:
@@ -18100,6 +18313,115 @@ resources:
                       "vpc_id": "${alicloud_vpc.default.id}",
                       "zone_id": "${element(var.availability_zone, count.index)}"
                     }
+            - name: upgrade_nodepool
+              manifest: |-
+                {
+                  "cluster_id": "${alicloud_cs_managed_kubernetes.default.id}",
+                  "desired_size": 2,
+                  "image_id": "aliyun_3_x64_20G_container_optimized_alibase_20250629.vhd",
+                  "instance_types": [
+                    "ecs.c6.xlarge"
+                  ],
+                  "node_pool_name": "upgrade_nodepool",
+                  "rolling_policy": [
+                    {
+                      "batch_interval": 1,
+                      "max_parallelism": 1,
+                      "pause_policy": "NotPause"
+                    }
+                  ],
+                  "runtime_name": "containerd",
+                  "runtime_version": "1.6.39",
+                  "system_disk_category": "cloud_efficiency",
+                  "system_disk_size": 40,
+                  "upgrade_policy": [
+                    {
+                      "image_id": "aliyun_3_x64_20G_container_optimized_alibase_20250629.vhd",
+                      "kubernetes_version": "${alicloud_cs_managed_kubernetes.default.version}",
+                      "runtime": "containerd",
+                      "runtime_version": "1.6.39",
+                      "use_replace": true
+                    }
+                  ],
+                  "vswitch_ids": "${split(\",\", join(\",\", alicloud_vswitch.vswitches.*.id))}"
+                }
+              references:
+                cluster_id: alicloud_cs_managed_kubernetes.default.id
+                upgrade_policy.kubernetes_version: alicloud_cs_managed_kubernetes.default.version
+              dependencies:
+                alicloud_cs_managed_kubernetes.default: |-
+                    {
+                      "auto_mode": [
+                        {
+                          "enabled": true
+                        }
+                      ],
+                      "cluster_spec": "${var.cluster_spec}",
+                      "control_plane_log_components": [
+                        "apiserver",
+                        "kcm",
+                        "scheduler",
+                        "ccm"
+                      ],
+                      "dynamic": {
+                        "addons": [
+                          {
+                            "content": [
+                              {
+                                "config": "${lookup(addons.value, \"config\", var.cluster_addons)}",
+                                "disabled": "${lookup(addons.value, \"disabled\", var.cluster_addons)}",
+                                "name": "${lookup(addons.value, \"name\", var.cluster_addons)}"
+                              }
+                            ],
+                            "for_each": "${var.cluster_addons}"
+                          }
+                        ]
+                      },
+                      "enable_rrsa": true,
+                      "maintenance_window": [
+                        {
+                          "duration": "3h",
+                          "enable": true,
+                          "maintenance_time": "2025-07-07T00:00:00.000+08:00",
+                          "weekly_period": "Monday"
+                        }
+                      ],
+                      "name": "${local.k8s_name_terway}",
+                      "new_nat_gateway": true,
+                      "operation_policy": [
+                        {
+                          "cluster_auto_upgrade": [
+                            {
+                              "channel": "stable",
+                              "enabled": true
+                            }
+                          ]
+                        }
+                      ],
+                      "pod_vswitch_ids": "${split(\",\", join(\",\", alicloud_vswitch.terway_vswitches.*.id))}",
+                      "service_cidr": "10.11.0.0/16",
+                      "slb_internet_enabled": true,
+                      "vswitch_ids": "${split(\",\", join(\",\", alicloud_vswitch.vswitches.*.id))}"
+                    }
+                alicloud_vpc.default: |-
+                    {
+                      "cidr_block": "172.16.0.0/12",
+                      "vpc_name": "${local.new_vpc_name}"
+                    }
+                alicloud_vswitch.terway_vswitches: |-
+                    {
+                      "cidr_block": "${element(var.terway_vswitch_cidrs, count.index)}",
+                      "count": "${length(var.terway_vswitch_ids) \u003e 0 ? 0 : length(var.terway_vswitch_cidrs)}",
+                      "vpc_id": "${alicloud_vpc.default.id}",
+                      "zone_id": "${element(var.availability_zone, count.index)}"
+                    }
+                alicloud_vswitch.vswitches: |-
+                    {
+                      "cidr_block": "${element(var.node_vswitch_cidrs, count.index)}",
+                      "count": "${length(var.node_vswitch_ids) \u003e 0 ? 0 : length(var.node_vswitch_cidrs)}",
+                      "vpc_id": "${alicloud_vpc.default.id}",
+                      "zone_id": "${element(var.availability_zone, count.index)}"
+                    }
         argumentDocs:
             AliyunLinux: ': Alinux2 image.'
             AliyunLinux3: ': Alinux3 image.'
@@ -18110,7 +18432,10 @@ resources:
             CentOS: ': CentOS image.'
             ContainerOS: ': container-optimized image.'
             Custom: ：Custom image.
+            EveryBatch: ': Pause after each batch is completed.'
+            FirstBatch: ': Pause after the first batch is completed.'
             NoSpot: ': Non-preemptible instance.'
+            NotPause: ': Do not pause during the upgrade process.'
             PL0: ': maximum random read/write IOPS 10000 for a single disk.'
             PL1: ': maximum random read/write IOPS 50000 for a single disk.'
             PL2: ': highest random read/write IOPS 100000 for a single disk.'
@@ -18120,18 +18445,17 @@ resources:
             Ubuntu: ': Ubuntu image.'
             Windows: ': Windows image.'
             WindowsCore: ': WindowsCore image.'
-            auto_mode: '- (Optional, ForceNew, Computed, List, Available since v1.266.0) Whether to enable auto mode. When enabled, the system will automatically manage the node pool with optimized default configurations. Note: When auto_mode is enabled, many parameters will be automatically set to default values and cannot be modified. See auto_mode.enable below for details. See auto_mode below.'
+            auto_mode: '- (Optional, ForceNew, Computed, Set, Available since v1.266.0) Whether to enable auto mode. When enabled, the system will automatically manage the node pool with optimized default configurations. Note: When auto_mode is enabled, many parameters will be automatically set to default values and cannot be modified. See auto_mode.enable below for details. See auto_mode below.'
             auto_mode.data_disks: ': can be specified during creation and modified afterward. If not specified during creation, default data disk configuration will be used (120GB size, supports cloud_auto, cloud_essd, cloud_ssd types). When specified, can configure size, category, categories, performance_level, provisioned_iops, bursting_enabled'
-            auto_mode.enabled: '- (Optional, ForceNew, Available since v1.266.0) Whether to enable auto mode. Valid values:'
+            auto_mode.enabled: '- (Optional, ForceNew) Whether to enable auto mode. Valid values:'
             auto_mode.instance_patterns: ': has default instance specification configuration (4-16 CPU cores, 8-32GB memory, etc.), can be specified during creation and modified afterward. Note: instance_patterns and instance_types are mutually exclusive - you can only specify one of them.'
             auto_mode.instance_types: ': can be specified during creation and modified afterward. Note: instance_types and instance_patterns are mutually exclusive - you can only specify one of them.'
-            auto_mode.kubelet_configuration: ':  can be specified during creation and modified afterward'
-            auto_mode.labels: ': can be specified during creation and modified afterward'
+            auto_mode.labels: ': can be specified during creation and modified afterward (in Node Kubernetes Config)'
             auto_mode.resource_group_id: ': can be specified during creation and modified afterward'
             auto_mode.scaling_config.max_size: ': default 50, can be specified during creation and modified afterward'
             auto_mode.scaling_config.min_size: ': default 0, can be specified during creation and modified afterward'
             auto_mode.tags: ': can be modified during creation and modified afterward'
-            auto_mode.taints: ': can be specified during creation and modified afterward'
+            auto_mode.taints: ': can be specified during creation and modified afterward (in Node Kubernetes Config)'
             auto_mode.vswitch_ids: ': can be modified during creation and modified afterward'
             auto_renew: '- (Optional) Whether to enable automatic renewal for nodes in the node pool takes effect only when instance_charge_type is set to PrePaid. Default value: false. Valid values:'
             auto_renew_period: '- (Optional, Int) The automatic renewal period of nodes in the node pool takes effect only when you select Prepaid and Automatic Renewal, and is a required value. When PeriodUnit = Month, the value range is {1, 2, 3, 6, 12}. Default value: 1.'
@@ -18164,7 +18488,7 @@ resources:
             data_disks.snapshot_id: '- (Optional) The ID of the snapshot that you want to use to create data disk N. Valid values of N: 1 to 16. If you specify this parameter, DataDisk.N.Size is ignored. The size of the disk is the same as the size of the specified snapshot. If you specify a snapshot that is created on or before July 15, 2013, the operation fails and InvalidSnapshot.TooOld is returned.'
             deployment_set_id: '- (Optional, ForceNew) The deployment set of node pool. Specify the deploymentSet to ensure that the nodes in the node pool can be distributed on different physical machines.'
             desired_size: '- (Optional) Number of expected nodes in the node pool.'
-            eflo_node_group: '- (Optional, List, Available since v1.252.0) Lingjun node pool configuration. See eflo_node_group below.'
+            eflo_node_group: '- (Optional, Set, Available since v1.252.0) Lingjun node pool configuration. See eflo_node_group below.'
             eflo_node_group.cluster_id: '- (Optional, Available since v1.252.0) The ID of the associated Lingjun cluster is required when creating a Lingjun node pool.'
             eflo_node_group.group_id: '- (Optional) When creating a Lingjun node pool, you need the Lingjun group ID of the associated Lingjun cluster.'
             elastic_ephemeral_disk_premium: ': premium elastic ephemeral disk.'
@@ -18173,12 +18497,12 @@ resources:
             "false": ': Do not renew automatically.'
             force_delete: '- (Optional) Whether to force deletion.'
             format_disk: '- (Optional, Available since v1.127.0) After you select this check box, if data disks have been attached to the specified ECS instances and the file system of the last data disk is uninitialized, the system automatically formats the last data disk to ext4 and mounts the data disk to /var/lib/docker and /var/lib/kubelet. The original data on the disk will be cleared. Make sure that you back up data in advance. If no data disk is mounted on the ECS instance, no new data disk will be purchased. Default is false.'
-            id: '- The ID of the resource supplied above.The value is formulated as <cluster_id>:<node_pool_id>.'
+            id: '- The ID of the resource supplied above. The value is formulated as <cluster_id>:<node_pool_id>.'
             image_id: '- (Optional, Computed) The custom image ID. The system-provided image is used by default.'
             image_type: '- (Optional, Computed, Available since v1.236.0) The operating system image type and the platform parameter can be selected from the following values:'
             install_cloud_monitor: '- (Optional) Whether to install cloud monitoring on the ECS node. After installation, you can view the monitoring information of the created ECS instance in the cloud monitoring console and recommend enable it. Default value: false. Valid values:'
             instance_charge_type: '- (Optional, Computed) Node payment type. Valid values: PostPaid, PrePaid, default is PostPaid. If value is PrePaid, the arguments period, period_unit, auto_renew and auto_renew_period are required.'
-            instance_metadata_options: '- (Optional, ForceNew, Computed, List, Available since v1.266.0) ECS instance metadata access configuration. See instance_metadata_options below.'
+            instance_metadata_options: '- (Optional, ForceNew, Computed, Set, Available since v1.266.0) ECS instance metadata access configuration. See instance_metadata_options below.'
             instance_metadata_options.http_tokens: '- (Optional, ForceNew, Available since v1.266.0) ECS instance metadata access mode configuration. Value range:'
             instance_patterns: '- (Optional, List, Available since v1.266.0) Instance property configuration. See instance_patterns below.'
             instance_patterns.cores: '- (Optional, Int, Available since v1.266.0) The number of vCPU cores of the instance type. Example value: 8.'
@@ -18200,7 +18524,7 @@ resources:
             key_name: '- (Optional) The name of the key pair. When the node pool is a managed node pool, only key_name is supported.'
             kms_encrypted_password: '- (Optional, Available since v1.177.0) An KMS encrypts password used to a cs kubernetes. You have to specify one of password key_name kms_encrypted_password fields.'
             kms_encryption_context: '- (Optional, Available since v1.177.0) An KMS encryption context used to decrypt kms_encrypted_password before creating or updating a cs kubernetes with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.'
-            kubelet_configuration: '- (Optional, List) Kubelet configuration parameters for worker nodes. See kubelet_configuration below. More information in Kubelet Configuration. See kubelet_configuration below.'
+            kubelet_configuration: '- (Optional, Set) Kubelet configuration parameters for worker nodes. See kubelet_configuration below. More information in Kubelet Configuration. See kubelet_configuration below.'
             kubelet_configuration.allowed_unsafe_sysctls: '- (Optional, List) Allowed sysctl mode whitelist.'
             kubelet_configuration.cluster_dns: '- (Optional, List, Available since v1.242.0) The list of IP addresses of the cluster DNS servers.'
             kubelet_configuration.container_log_max_files: '- (Optional) The maximum number of log files that can exist in each container.'
@@ -18232,19 +18556,19 @@ resources:
             kubelet_configuration.server_tls_bootstrap: '- (Optional, Available since v1.266.0) Used to enable the kubelet server certificate signing and rotation via CSR.'
             kubelet_configuration.system_reserved: '- (Optional, Map) Same as systemReserved. The set of ResourceName=ResourceQuantity (e.g. cpu=200m,memory=150G) pairs that describe resources reserved for non-kubernetes components. Currently, only cpu and memory are supported. See compute resources for more details.'
             kubelet_configuration.topology_manager_policy: '- (Optional, Available since v1.242.0) Name of the Topology Manager policy used.'
-            kubelet_configuration.tracing: '- (Optional, List) OpenTelemetry tracks the configuration information for client settings versioning. See tracing below.'
+            kubelet_configuration.tracing: '- (Optional, Set) OpenTelemetry tracks the configuration information for client settings versioning. See tracing below.'
             labels: '- (Optional, List) A List of Kubernetes labels to assign to the nodes . Only labels that are applied with the ACK API are managed by this argument. Detailed below. More information in Labels. See labels below.'
             labels.key: '- (Required) The label key.'
             labels.value: '- (Optional) The label value.'
             limits: '- (Optional, Map, Available since v1.242.0) Memory resource limit.'
             login_as_non_root: '- (Optional, ForceNew) Whether the ECS instance is logged on as a ecs-user user. Valid value: true and false.'
-            management: '- (Optional, Computed, List) Managed node pool configuration. See management below.'
+            management: '- (Optional, Computed, Set) Managed node pool configuration. See management below.'
             management.auto_repair: '- (Optional, Computed) Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired.'
-            management.auto_repair_policy: '- (Optional, Computed, List) Automatic repair node policy. See auto_repair_policy below.'
+            management.auto_repair_policy: '- (Optional, Computed, Set) Automatic repair node policy. See auto_repair_policy below.'
             management.auto_upgrade: '- (Optional, Computed) Specifies whether to enable auto update. Valid values: true: enables auto update. false: disables auto update.'
-            management.auto_upgrade_policy: '- (Optional, Computed, List) The auto update policy. See auto_upgrade_policy below.'
+            management.auto_upgrade_policy: '- (Optional, Computed, Set) The auto update policy. See auto_upgrade_policy below.'
             management.auto_vul_fix: '- (Optional, Computed) Specifies whether to automatically patch CVE vulnerabilities. Valid values: true, false.'
-            management.auto_vul_fix_policy: '- (Optional, Computed, List) The auto CVE patching policy. See auto_vul_fix_policy below.'
+            management.auto_vul_fix_policy: '- (Optional, Computed, Set) The auto CVE patching policy. See auto_vul_fix_policy below.'
             management.enable: '- (Optional, Computed) Specifies whether to enable the managed node pool feature. Valid values: true: enables the managed node pool feature. false: disables the managed node pool feature. Other parameters in this section take effect only when you specify enable=true.'
             management.max_unavailable: '- (Optional, Int) Maximum number of unavailable nodes. Default value: 1. Value range:[1,1000].'
             management.surge: '- (Optional, Int, Deprecated since v1.219.0) Number of additional nodes. You have to specify one of surge, surge_percentage.'
@@ -18264,7 +18588,7 @@ resources:
             period_unit: '- (Optional) Node payment period unit, valid value: Month. Default is Month.'
             platform: '- (Optional, Computed, Deprecated since v1.145.0) Operating system release, using image_type instead.'
             pre_user_data: '- (Optional, Available since v1.232.0) Node pre custom data, base64-encoded, the script executed before the node is initialized.'
-            private_pool_options: '- (Optional, List) Private node pool configuration. See private_pool_options below.'
+            private_pool_options: '- (Optional, Set) Private node pool configuration. See private_pool_options below.'
             private_pool_options.private_pool_options_id: '- (Optional) The ID of the private node pool.'
             private_pool_options.private_pool_options_match_criteria: '- (Optional) The type of private node pool. This parameter specifies the type of the private pool that you want to use to create instances. A private node pool is generated when an elasticity assurance or a capacity reservation service takes effect. The system selects a private node pool to launch instances. Valid values: Open: specifies an open private node pool. The system selects an open private node pool to launch instances. If no matching open private node pool is available, the resources in the public node pool are used. Target: specifies a private node pool. The system uses the resources of the specified private node pool to launch instances. If the specified private node pool is unavailable, instances cannot be started. None: no private node pool is used. The resources of private node pools are not used to launch the instances.'
             ram_role_name: '- (Optional, ForceNew, Computed, Available since v1.242.0) The name of the Worker RAM role.'
@@ -18273,14 +18597,17 @@ resources:
             release: ': in the standard mode, scaling is performed by creating and releasing ECS instances based on the usage of the application resource value.'
             resource_group_id: '- (Optional, Computed) The ID of the resource group'
             restart_node: '- (Optional, Computed) Whether to allow node restart.'
-            rolling_policy: '- (Optional, List) Rotary configuration. See rolling_policy below.'
-            rolling_policy.max_parallelism: '- (Optional, Int) The maximum number of unusable nodes.'
+            rolling_policy: '- (Optional, Set) Rotary configuration. See rolling_policy below.'
+            rolling_policy.batch_interval: '- (Optional, Int, Available since v1.269.0) The upgrade interval time between batches, in minutes. This parameter only takes effect when pause_policy is set to NotPause.'
+            rolling_policy.max_parallelism: '- (Optional, Int) The maximum number of nodes that can be upgraded in parallel per batch when updating nodes in the node pool.'
+            rolling_policy.node_names: '- (Optional, List, Available since v1.269.0) Specify the list of nodes to be upgraded.'
+            rolling_policy.pause_policy: '- (Optional, Available since v1.269.0) The auto-pause policy during node upgrade. Valid values:'
             rollout_policy: '- (Optional, Deprecated since 1.185.0) Rollout policy is used to specify the strategy when the node pool is rolling update. This field works when node pool updating. Please use rolling_policy to instead it from provider version 1.185.0. See rollout_policy below.'
             rollout_policy.max_unavailable: '- (Optional, Deprecated since 1.185.0) Maximum number of unavailable nodes during rolling upgrade. The value of this field should be greater than 0, and if it''s set to a number less than or equal to 0, the default setting will be used. Please use max_parallelism to instead it from provider version 1.185.0.'
             runtime_name: '- (Optional, Computed) The runtime name of containers. If not set, the cluster runtime will be used as the node pool runtime. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container.'
             runtime_version: '- (Optional, Computed) The runtime version of containers. If not set, the cluster runtime will be used as the node pool runtime.'
             sampling_rate_per_million: '- (Optional) Number of samples to be collected per million span.'
-            scaling_config: '- (Optional, Computed, List) Automatic scaling configuration. See scaling_config below.'
+            scaling_config: '- (Optional, Computed, Set) Automatic scaling configuration. See scaling_config below.'
             scaling_config.eip_bandwidth: '- (Optional, Int) Peak EIP bandwidth. Its valid value range [1~500] in Mbps. It works if is_bond_eip=true. Default to 5.'
             scaling_config.eip_internet_charge_type: '- (Optional) EIP billing type. PayByBandwidth: Charged at fixed bandwidth. PayByTraffic: Billed as used traffic. Default: PayByBandwidth. It works if is_bond_eip=true, conflict with internet_charge_type. EIP and public network IP can only choose one.'
             scaling_config.enable: '- (Optional) Whether to enable automatic scaling. Value:'
@@ -18291,7 +18618,7 @@ resources:
             scaling_group_id: '- The ID of the scaling group.'
             scaling_policy: '- (Optional, Computed) Scaling group mode, default value: release. Valid values:'
             security_group_id: '- (Optional, ForceNew, Computed, Deprecated since v1.145.0) The security group ID of the node pool. This field has been replaced by security_group_ids, please use the security_group_ids field instead.'
-            security_group_ids: '- (Optional, ForceNew, Computed, Set) Multiple security groups can be configured for a node pool. If both security_group_ids and security_group_id are configured, security_group_ids takes effect. This field cannot be modified.'
+            security_group_ids: '- (Optional, ForceNew, Computed, List) Multiple security groups can be configured for a node pool. If both security_group_ids and security_group_id are configured, security_group_ids takes effect. This field cannot be modified.'
             security_hardening_os: |-
                 - (Optional, ForceNew) Alibaba Cloud OS security reinforcement. Default value: false. Value:
                 -true: enable Alibaba Cloud OS security reinforcement.
@@ -18319,7 +18646,7 @@ resources:
             taints.effect: '- (Optional) The scheduling policy.'
             taints.key: '- (Required) The key of a taint.'
             taints.value: '- (Optional) The value of a taint.'
-            tee_config: '- (Optional, ForceNew, Computed, List) The configuration about confidential computing for the cluster. See tee_config below.'
+            tee_config: '- (Optional, ForceNew, Computed, Set) The configuration about confidential computing for the cluster. See tee_config below.'
             tee_config.tee_enable: '- (Optional, ForceNew) Specifies whether to enable confidential computing for the cluster.'
             timeouts.create: '- (Defaults to 90 mins) Used when create the Nodepool.'
             timeouts.delete: '- (Defaults to 60 mins) Used when delete the Nodepool.'
@@ -18331,6 +18658,12 @@ resources:
                 -'lingjun': Lingjun node pool.
             unschedulable: '- (Optional) Whether the node after expansion can be scheduled.'
             update_nodes: '- (Optional) Synchronously update node labels and taints.'
+            upgrade_policy: '- (Optional, Set, Available since v1.269.0) Configuration block for node pool upgrade operations. This is a transient parameter that triggers node pool upgrades when specified. Once the upgrade completes, this block should be removed from your configuration to prevent unintended re-upgrades on subsequent applies. See upgrade_policy below.'
+            upgrade_policy.image_id: '- (Optional, Available since v1.269.0) Node system Image ID'
+            upgrade_policy.kubernetes_version: '- (Optional, Available since v1.269.0) Node Kubernetes version'
+            upgrade_policy.runtime: '- (Optional, Available since v1.269.0) Node runtime type'
+            upgrade_policy.runtime_version: '- (Optional, Available since v1.269.0) Node Runtime Version'
+            upgrade_policy.use_replace: '- (Optional, Available since v1.269.0) Whether to use replacement disk upgrade'
             user_data: '- (Optional) Node custom data, base64-encoded.'
             vswitch_ids: '- (Optional, List) The vswitches used by node pool workers.'
             vul_level: '- (Optional, Computed) The severity levels of vulnerabilities that is allowed to automatically patch. Multiple severity levels are separated by commas (,).'
@@ -18854,9 +19187,13 @@ resources:
             timeouts.delete: '- (Defaults to 60 mins) Used when terminating the kubernetes cluster.'
             timeouts.update: '- (Defaults to 60 mins) Used when activating the kubernetes cluster when necessary during update.'
             timezone: '- (Optional, Available since v1.103.2) Cluster timezone, works for control plane and Worker nodes.'
+            upgrade_policy: |-
+                - (Optional, Set, Available since v1.269.0) Configuration block for cluster upgrade operations. See upgrade_policy below.
+                -> NOTE: This parameter only applies during resource update.
             user_ca: '- (Optional) The path of customized CA cert, you can use this CA to sign client certs to connect your cluster.'
             user_data: '- (Removed since v1.212.0) Custom data that can execute on nodes. For more information, see Prepare user data.'
             version: '- (Optional, Available since 1.70.1) Desired Kubernetes version. If you do not specify a value, the latest available version at resource creation is used and no upgrades will occur except you set a higher version number. The value must be configured and increased to upgrade the version when desired. Downgrades are not supported by ACK. Do not specify if cluster auto upgrade is enabled, see cluster_auto_upgrade for more information.'
+            version.control_plane_only: '- (Optional) Whether to upgrade only the control plane without upgrading worker nodes. Valid values: true, false. When set to true, only the cluster control plane components will be upgraded, and worker nodes will remain at their current version. Default is false.'
             vpc_id: '- The ID of VPC where the current cluster is located.'
             vswitch_ids: |-
                 - (Optional, Available since v1.241.0) The vSwitches of the control plane.
@@ -23316,7 +23653,7 @@ resources:
             - $ terraform import alicloud_drds_instance.example drds-abc123456
     alicloud_drds_polardbx_instance:
         subCategory: Distributed Relational Database Service (DRDS)
-        description: Provides a Alicloud DRDS Polardbx Instance resource.
+        description: Provides a Alicloud Distributed Relational Database Service (DRDS) Polardbx Instance resource.
         name: alicloud_drds_polardbx_instance
         title: alicloud_drds_polardbx_instance
         examples:
@@ -23350,25 +23687,34 @@ resources:
                       "zone_id": "${data.alicloud_zones.default.zones.0.id}"
                     }
         argumentDocs:
+            1azone: ': Single zone.'
+            3azones: ': three available areas;'
             cn_class: '- (Required, ForceNew) Compute node specifications.'
-            cn_node_count: '- (Required) Number of computing nodes.'
-            create_time: '- The creation time of the resource.'
+            cn_node_count: '- (Required, Int) Number of computing nodes.'
+            create_time: '- The creation time of the resource'
+            description: '- (Optional, Available since v1.268.0) Instance remarks'
             dn_class: '- (Required, ForceNew) Storage node specifications.'
-            dn_node_count: '- (Required) The number of storage nodes.'
+            dn_node_count: '- (Required, Int) The number of storage nodes.'
+            engine_version: '- (Optional, ForceNew, Computed, Available since v1.268.0) Engine version, default 5.7'
+            "false": ': No'
             id: '- The ID of the resource supplied above.'
+            is_read_db_instance: '- (Optional, Available since v1.268.0) Whether the instance is read-only.'
+            primary_db_instance_name: '- (Optional, Available since v1.268.0) If the instance is a read-only instance, you must specify the primary instance.'
             primary_zone: '- (Required, ForceNew) Primary Availability Zone.'
+            region_id: '- The region ID of the resource'
             resource_group_id: '- (Optional, Computed) The resource group ID can be empty. This parameter is not supported for the time being.'
             secondary_zone: '- (Optional, ForceNew) Secondary availability zone.'
-            status: '- The status of the resource.'
+            status: '- The status of the resource'
             tertiary_zone: '- (Optional, ForceNew) Third Availability Zone.'
-            timeouts.create: '- (Defaults to 5 mins) Used when create the Polardbx Instance.'
-            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Polardbx Instance.'
-            timeouts.update: '- (Defaults to 5 mins) Used when update the Polardbx Instance.'
+            timeouts.create: '- (Defaults to 61 mins) Used when create the Polardbx Instance.'
+            timeouts.delete: '- (Defaults to 61 mins) Used when delete the Polardbx Instance.'
+            timeouts.update: '- (Defaults to 61 mins) Used when update the Polardbx Instance.'
             topology_type: '- (Required, ForceNew) Topology type:'
+            "true": ': Yes'
             vpc_id: '- (Required, ForceNew) The VPC ID.'
             vswitch_id: '- (Required, ForceNew) The ID of the virtual switch.'
         importStatements:
-            - $ terraform import alicloud_drds_polardb_x_instance.example <id>
+            - $ terraform import alicloud_drds_polardbx_instance.example <id>
     alicloud_dts_consumer_channel:
         subCategory: Data Transmission Service (DTS)
         description: Provides a Alicloud DTS Consumer Channel resource.
@@ -35484,7 +35830,7 @@ resources:
                     }
                 alicloud_security_group.default: |-
                     {
-                      "name": "${local.name}",
+                      "security_group_name": "${local.name}",
                       "vpc_id": "${alicloud_vpc.default.id}"
                     }
                 alicloud_vpc.default: |-
@@ -35647,6 +35993,7 @@ resources:
                 data in the volume.
             mount_propagation: '- (Optional, Available since 1.232.0) The mount propagation settings of volume N. Mount propagation enables volumes mounted on one container to be shared among other containers within the same pod or across distinct pods residing on the same node. Valid values: None, HostToCotainer, Bidirectional.'
             name: '- (Optional) The name of the mounted volume.'
+            override: '- (Optional, Available since v1.268.0) Specifies whether to overwrite the data. Valid values: true, false.'
             path: '- (Optional) The relative file path.'
             port: '- (Optional, ForceNew) The port number. Valid values: 1 to 65535.'
             protocol: '- (Optional, ForceNew) Valid values: TCP and UDP.'
@@ -37010,6 +37357,122 @@ resources:
             linked_external_source: '- (Optional) Specifies whether to connect to an external data source. Default value: false.'
         importStatements:
             - $ terraform import alicloud_event_bridge_event_source.example <event_source_name>
+    alicloud_event_bridge_event_source_v2:
+        subCategory: Event Bridge
+        description: Provides a Alicloud Event Bridge Event Source V2 resource.
+        name: alicloud_event_bridge_event_source_v2
+        title: alicloud_event_bridge_event_source_v2
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "description": "${var.name}",
+                  "event_bus_name": "${alicloud_event_bridge_event_bus.default.event_bus_name}",
+                  "event_source_name": "${var.name}-${random_integer.default.result}",
+                  "linked_external_source": true,
+                  "source_http_event_parameters": [
+                    {
+                      "method": [
+                        "GET",
+                        "POST",
+                        "DELETE"
+                      ],
+                      "referer": [
+                        "www.aliyun.com",
+                        "www.alicloud.com",
+                        "www.taobao.com"
+                      ],
+                      "security_config": "referer",
+                      "type": "HTTP"
+                    }
+                  ]
+                }
+              references:
+                description: var.name
+                event_bus_name: alicloud_event_bridge_event_bus.default.event_bus_name
+              dependencies:
+                alicloud_event_bridge_event_bus.default: |-
+                    {
+                      "event_bus_name": "${var.name}-${random_integer.default.result}"
+                    }
+                random_integer.default: |-
+                    {
+                      "max": 99999,
+                      "min": 10000
+                    }
+        argumentDocs:
+            CONSUME_FROM_FIRST_OFFSET: ': starts consumption from the earliest point.'
+            CONSUME_FROM_LAST_OFFSET: ': starts consumption from the latest point.'
+            CONSUME_FROM_TIMESTAMP: |-
+                : starts consumption from the specified time point.
+                Default value: CONSUME_FROM_LAST_OFFSET.
+            description: '- (Optional) The detail describe of event source'
+            event_bus_name: '- (Required, ForceNew) Name of the bus associated with the event source'
+            event_source_name: '- (Required, ForceNew) The code name of event source'
+            id: '- The ID of the resource supplied above.'
+            linked_external_source: '- (Optional, Bool) Whether to connect to an external data source'
+            public_web_hook_url: '- The public network request URL.'
+            source_http_event_parameters: '- (Optional, Set) The request parameter SourceHttpEventParameters. See source_http_event_parameters below.'
+            source_http_event_parameters.ip: '- (Optional, List) IP segment security configuration. This parameter must be set only when the SecurityConfig value is ip. You can enter an IP address segment or IP address.'
+            source_http_event_parameters.method: '- (Optional, List) The HTTP request method supported by the generated Webhook. Multiple choices are available, with the following options:'
+            source_http_event_parameters.referer: '- (Optional, List) Security domain name configuration. This parameter must be set only when SecurityConfig is set to referer. You can fill in the domain name.'
+            source_http_event_parameters.security_config: '- (Optional) Select the type of security configuration. The optional range is as follows:'
+            source_http_event_parameters.type: '- (Optional) The protocol type supported by the generated Webhook. The value description is as follows:'
+            source_kafka_parameters: '- (Optional, Set) Kafka event source parameter. See source_kafka_parameters below.'
+            source_kafka_parameters.consumer_group: '- (Optional) The Group ID of the consumer who subscribes to the Topic.'
+            source_kafka_parameters.instance_id: '- (Optional) The instance ID.'
+            source_kafka_parameters.network: '- (Optional) Network configuration: Default (Default network) and public network (self-built network).'
+            source_kafka_parameters.offset_reset: '- (Optional) Consumption sites.'
+            source_kafka_parameters.region_id: '- (Optional, ForceNew) The region ID.'
+            source_kafka_parameters.security_group_id: '- (Optional) The ID of the security group.'
+            source_kafka_parameters.topic: '- (Optional) The topic name.'
+            source_kafka_parameters.vpc_id: '- (Optional) The VPC ID.'
+            source_kafka_parameters.vswitch_ids: '- (Optional) The vSwitch ID.'
+            source_mns_parameters: '- (Optional, Set) Lightweight message queue (formerly MNS) event source parameter. See source_mns_parameters below.'
+            source_mns_parameters.is_base64_decode: '- (Optional) Whether to enable Base64 decoding. By default, it is selected, that is, Base64 decoding is enabled.'
+            source_mns_parameters.queue_name: '- (Optional) The name of the Queue of the lightweight message Queue (formerly MNS).'
+            source_mns_parameters.region_id: '- (Optional) The region of the lightweight message queue (formerly MNS).'
+            source_oss_event_parameters: '- (Optional, Set) OSS event source parameters See source_oss_event_parameters below.'
+            source_oss_event_parameters.event_types: '- (Optional, ForceNew, List) OSS event type list.'
+            source_oss_event_parameters.match_rules: '- (Optional, ForceNew, List) Matching rules. The event source will deliver OSS events that meet the matching requirements to the bus.'
+            source_oss_event_parameters.sts_role_arn: '- (Optional) The ARN of the role. EventBridge will use this role to create MNS resources and deliver events to the corresponding bus.'
+            source_rabbit_mq_parameters: '- (Optional, Set) The request parameter SourceRabbitMQParameters. See source_rabbit_mq_parameters below.'
+            source_rabbit_mq_parameters.instance_id: '- (Optional) The ID of the RabbitMQ instance. For more information, see Usage Restrictions (~~ 163289 ~~).'
+            source_rabbit_mq_parameters.queue_name: '- (Optional) The name of the Queue of the RabbitMQ instance. For more information, see Usage Restrictions (~~ 163289 ~~).'
+            source_rabbit_mq_parameters.region_id: '- (Optional) The region of the RabbitMQ instance.'
+            source_rabbit_mq_parameters.virtual_host_name: '- (Optional) The name of the Vhost of the RabbitMQ instance. For more information, see Usage Restrictions (~~ 163289 ~~).'
+            source_rocketmq_parameters: '- (Optional, Set) The request parameter SourceRocketMQParameters. See source_rocketmq_parameters below.'
+            source_rocketmq_parameters.auth_type: '- (Optional) ACL or not.'
+            source_rocketmq_parameters.group_id: '- (Optional) The Group ID of the RocketMQ version of message queue.'
+            source_rocketmq_parameters.instance_endpoint: '- (Optional) Instance access point.'
+            source_rocketmq_parameters.instance_id: '- (Optional) The ID of the RocketMQ instance. For more information, see Usage Restrictions (~~ 163289 ~~).'
+            source_rocketmq_parameters.instance_network: '- (Optional) Instance network.'
+            source_rocketmq_parameters.instance_password: '- (Optional) The instance password.'
+            source_rocketmq_parameters.instance_security_group_id: '- (Optional) The ID of the security group.'
+            source_rocketmq_parameters.instance_type: '- (Optional) The instance type. Only CLOUD_4 (4.0 instance on the cloud), CLOUD_5 (5.0 instance on the cloud), and SELF_BUILT (user-created MQ).'
+            source_rocketmq_parameters.instance_username: '- (Optional) The instance user name.'
+            source_rocketmq_parameters.instance_vpc_id: '- (Optional) The ID of the VPC.'
+            source_rocketmq_parameters.instance_vswitch_ids: '- (Optional) The vSwitch ID.'
+            source_rocketmq_parameters.offset: '- (Optional) The consumption point of the message. The value description is as follows:'
+            source_rocketmq_parameters.region_id: '- (Optional) The region of the RocketMQ instance.'
+            source_rocketmq_parameters.tag: '- (Optional) The filter label of the message.'
+            source_rocketmq_parameters.timestamp: '- (Optional, Float) The timestamp. This parameter is valid only when the value of the Offset parameter is CONSUME_FROM_TIMESTAMP.'
+            source_rocketmq_parameters.topic: '- (Optional) The Topic name of the RocketMQ instance. For more information, see Usage Restrictions (~~ 163289 ~~).'
+            source_scheduled_event_parameters: '- (Optional, Set) Time event source parameter. See source_scheduled_event_parameters below.'
+            source_scheduled_event_parameters.schedule: '- (Optional) Cron expression'
+            source_scheduled_event_parameters.time_zone: '- (Optional) The Cron execution time zone.'
+            source_scheduled_event_parameters.user_data: '- (Optional) JSON string'
+            source_sls_parameters: '- (Optional, ForceNew, Set) The request parameter SourceSLSParameters. See source_sls_parameters below.'
+            source_sls_parameters.consume_position: '- (Optional, ForceNew) Start consumption point, which can be the earliest or latest point corresponding to begin and end respectively, or start consumption from a specified time, measured in seconds.'
+            source_sls_parameters.log_store: '- (Optional, ForceNew) The logstore of log service SLS.'
+            source_sls_parameters.project: '- (Optional, ForceNew) The log project of log service SLS.'
+            source_sls_parameters.role_name: '- (Optional, ForceNew) When authorizing event bus EventBridge to use this role to read SLS log content, the following conditions must be met: when creating the role used by the service in the RAM console, you need to select Alibaba Cloud Service and event bus for trusted service ". For the permissions policy of this role, see custom event source log service SLS.'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Event Source V2.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Event Source V2.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Event Source V2.'
+            vpc_web_hook_url: '- The intranet request URL.'
+        importStatements:
+            - $ terraform import alicloud_event_bridge_event_source_v2.example <id>
     alicloud_event_bridge_rule:
         subCategory: Event Bridge
         description: Provides a Alicloud Event Bridge Rule resource.
@@ -43398,7 +43861,7 @@ resources:
             - $ terraform import alicloud_gpdb_instance.example <id>
     alicloud_gpdb_jdbc_data_source:
         subCategory: AnalyticDB for PostgreSQL (GPDB)
-        description: Provides a Alicloud GPDB Jdbc Data Source resource.
+        description: Provides a Alicloud AnalyticDB for PostgreSQL (GPDB) Jdbc Data Source resource.
         name: alicloud_gpdb_jdbc_data_source
         title: alicloud_gpdb_jdbc_data_source
         examples:
@@ -43422,6 +43885,7 @@ resources:
                       "account_description": "example_001",
                       "account_name": "example_001",
                       "account_password": "example_001",
+                      "account_type": "Normal",
                       "db_instance_id": "${alicloud_gpdb_instance.defaulttuqTmM.id}"
                     }
                 alicloud_gpdb_external_data_service.defaultRXkfKL: |-
@@ -43572,7 +44036,7 @@ resources:
             - $ terraform import alicloud_gpdb_remote_adb_data_source.example <local_db_instance_id>:<remote_adb_data_source_id>
     alicloud_gpdb_streaming_data_service:
         subCategory: AnalyticDB for PostgreSQL (GPDB)
-        description: Provides a Alicloud GPDB Streaming Data Service resource.
+        description: Provides a Alicloud AnalyticDB for PostgreSQL (GPDB) Streaming Data Service resource.
         name: alicloud_gpdb_streaming_data_service
         title: alicloud_gpdb_streaming_data_service
         examples:
@@ -43620,7 +44084,7 @@ resources:
             create_time: '- Create time'
             db_instance_id: '- (Required, ForceNew) The ID of the associated instance.'
             id: '- The ID of the resource supplied above.The value is formulated as <db_instance_id>:<service_id>.'
-            service_description: '- (Optional) The creation time of the resource'
+            service_description: '- (Optional) The description of the service.'
             service_id: '- Service ID'
             service_name: '- (Required, ForceNew) Service Name'
             service_spec: '- (Required) Resource Specifications'
@@ -44280,22 +44744,18 @@ resources:
             - name: example
               manifest: |-
                 {
-                  "ha_vip_id": "${alicloud_havip.example.id}",
+                  "ha_vip_id": "${alicloud_vpc_ha_vip.example.id}",
                   "instance_id": "${alicloud_instance.example.id}"
                 }
               references:
-                ha_vip_id: alicloud_havip.example.id
+                ha_vip_id: alicloud_vpc_ha_vip.example.id
                 instance_id: alicloud_instance.example.id
               dependencies:
-                alicloud_havip.example: |-
-                    {
-                      "description": "${var.name}",
-                      "vswitch_id": "${alicloud_vswitch.example.id}"
-                    }
                 alicloud_instance.example: |-
                     {
                       "availability_zone": "${data.alicloud_zones.default.zones.0.id}",
                       "image_id": "${data.alicloud_images.example.images.0.id}",
+                      "instance_charge_type": "PostPaid",
                       "instance_name": "${var.name}",
                       "instance_type": "${data.alicloud_instance_types.example.instance_types.0.id}",
                       "internet_charge_type": "PayByTraffic",
@@ -44303,20 +44763,25 @@ resources:
                       "security_groups": [
                         "${alicloud_security_group.example.id}"
                       ],
-                      "system_disk_category": "cloud_efficiency",
+                      "system_disk_category": "cloud_essd",
                       "user_data": "echo 'net.ipv4.ip_forward=1'\u003e\u003e /etc/sysctl.conf",
                       "vswitch_id": "${alicloud_vswitch.example.id}"
                     }
                 alicloud_security_group.example: |-
                     {
                       "description": "${var.name}",
-                      "name": "${var.name}",
+                      "security_group_name": "${var.name}",
                       "vpc_id": "${alicloud_vpc.example.id}"
                     }
                 alicloud_vpc.example: |-
                     {
                       "cidr_block": "10.4.0.0/16",
                       "vpc_name": "${var.name}"
+                    }
+                alicloud_vpc_ha_vip.example: |-
+                    {
+                      "description": "${var.name}",
+                      "vswitch_id": "${alicloud_vswitch.example.id}"
                     }
                 alicloud_vswitch.example: |-
                     {
@@ -45046,34 +45511,38 @@ resources:
                     }
         argumentDocs:
             RuleType: ': TRANSITION: the backup retention time. The minimum value is 1 and the maximum value is 364635, in days.'
-            STANDARD: ': The general backup policy. This type of policy applies to backups other than Elastic Compute Service (ECS) instance backup.'
-            UDM_ECS_ONLY: ': The ECS instance backup policy. This type of policy applies only to ECS instance backup.'
             advanced_retention_type: '- (Optional) Valid values: annually, MONTHLY, and WEEKLY:- annually: the first backup of each year. - MONTHLY: The first backup of the month. - WEEKLY: The first backup of the week. - DAILY: The first backup of the day.'
             create_time: '- Policy creation time'
             id: '- The ID of the resource supplied above.'
+            key: '- (Optional, Available since v1.268.0) The tag key.'
+            operator: '- (Optional, Available since v1.268.0) Tag matching rules, support EQUAL: Match tag key and tag value. NOT: matches the tag key, but does NOT match the tag value.'
             policy_description: '- (Optional) The policy description.'
             policy_name: '- (Optional) Policy Name'
-            policy_type: '- (Optional, ForceNew, Available since v1.243.0) The policy type. Valid values:'
-            retention: '- (Optional, Int) Retention time, in days.'
-            rule_id: '- Rule ID.'
-            rules: '- (Optional, Set) A list of policy rules See rules below.'
-            rules.archive_days: '- (Optional, Computed, Int) This parameter is required only when the value of RuleType is **TRANSITION. The minimum value is 30, and the Retention-ArchiveDays needs to be greater than or equal to 60.'
-            rules.backup_type: '- (Optional) This parameter is required only when the RuleType value is **BACKUP. Backup Type.'
-            rules.keep_latest_snapshots: '- (Optional, Int) This parameter is required only when RuleType is set to BACKUP.'
-            rules.replication_region_id: '- (Optional) Only when the RuleType value is.'
-            rules.retention: '- (Optional, Int) This parameter is required only when the value of RuleType is TRANSITION or **REPLICATION.'
+            policy_type: '- (Optional, ForceNew, Computed, Available since v1.243.0) The policy type. The UDM_ECS_ONLY and STANDARD types are supported. The policy with PolicyType = UDM_ECS_ONLY can only be used for ECS instances. The policy with PolicyType = STANDARD can only be used for data sources other than ECS instances.'
+            retention: '- (Optional, Int) Retention time, in days'
+            rule_id: '- Rule ID'
+            rules: '- (Optional, List) A list of policy rules See rules below.'
+            rules.archive_days: '- (Optional, Computed, Int) This parameter is required only when the value of RuleType is **TRANSITION. The minimum value is 30, and the Retention-ArchiveDays needs to be greater than or equal to 60'
+            rules.backup_type: '- (Optional) This parameter is required only when the RuleType value is **BACKUP. Backup Type'
+            rules.data_source_filters: '- (Optional, List, Available since v1.268.0) This parameter is required only when the value of RuleType is TAG. See data_source_filters below.'
+            rules.keep_latest_snapshots: '- (Optional, Int) This parameter is required only when RuleType is set to BACKUP'
+            rules.replication_region_id: '- (Optional) Only when the RuleType value is'
+            rules.retention: '- (Optional, Int) This parameter is required only when the value of RuleType is TRANSITION or REPLICATION.'
             rules.retention_rules: '- (Optional, List) This parameter is required only when the value of RuleType is TRANSITION. See retention_rules below.'
-            rules.rule_type: '- (Required) Rule Type.'
+            rules.rule_type: '- (Required) Rule Type'
             rules.schedule: '- (Optional) This parameter is required only if you set the RuleType parameter to BACKUP. This parameter specifies the backup schedule settings. Format: I|{startTime}|{interval}. The system runs the first backup job at a point in time that is specified in the {startTime} parameter and the subsequent backup jobs at an interval that is specified in the {interval} parameter. The system does not run a backup job before the specified point in time. Each backup job, except the first one, starts only after the previous backup job is complete. For example, I|1631685600|P1D specifies that the system runs the first backup job at 14:00:00 on September 15, 2021 and the subsequent backup jobs once a day.  *   startTime: the time at which the system starts to run a backup job. The time must follow the UNIX time format. Unit: seconds. *   interval: the interval at which the system runs a backup job. The interval must follow the ISO 8601 standard. For example, PT1H specifies an interval of one hour. P1D specifies an interval of one day.'
-            rules.vault_id: '- (Optional) Vault ID.'
+            rules.tag_filters: '- (Optional, List, Available since v1.268.0) This parameter is required only when the value of RuleType is TAG. Resource label filtering rules. See tag_filters below.'
+            rules.vault_id: '- (Optional) Vault ID'
+            source_type: '- (Optional, Available since v1.268.0) The data source type. Value range: UDM_ECS: indicates that the ECS machine is backed up. This data source type is supported only when PolicyType is set to UDM_ECS_ONLY. OSS: indicates an OSS backup. This data source type is supported only when the PolicyType value is STANDARD. NAS: indicates an Alibaba Cloud NAS backup. This data source type is supported only when the PolicyType value is STANDARD. ECS_FILE: indicates an ECS file backup. This data source type is supported only when the PolicyType value is STANDARD. OTS: indicates the Tablestore backup. This data source type is supported only when the PolicyType value is STANDARD.'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Policy.'
             timeouts.delete: '- (Defaults to 5 mins) Used when delete the Policy.'
             timeouts.update: '- (Defaults to 5 mins) Used when update the Policy.'
+            value: '- (Optional, Available since v1.268.0) The label value, which is empty and represents any value.'
         importStatements:
             - $ terraform import alicloud_hbr_policy.example <id>
     alicloud_hbr_policy_binding:
         subCategory: Hybrid Backup Recovery (HBR)
-        description: Provides a Alicloud HBR Policy Binding resource.
+        description: Provides a Alicloud Hybrid Backup Recovery (HBR) Policy Binding resource.
         name: alicloud_hbr_policy_binding
         title: alicloud_hbr_policy_binding
         examples:
@@ -45126,26 +45595,26 @@ resources:
             File: ': indicates a local File backup.'
             NAS: ': indicates an Alibaba Cloud NAS Backup. When you bind a file system to a policy, Cloud Backup automatically creates a mount point for the file system. If you no longer need the mount point, delete it manually.'
             OSS: ': indicates an OSS backup.'
-            OTS: ': (Available since v1.260.1) indicates the Tablestore backup.'
+            OTS: ': indicates the Tablestore backup.'
             UDM_ECS: ': indicates the ECS instance backup.'
-            advanced_options: '- (Optional, ForceNew, List) Backup Advanced Options See advanced_options below.'
-            advanced_options.udm_detail: '- (Optional, ForceNew, List) ECS Backup Advanced options. See udm_detail below.'
+            advanced_options: '- (Optional, ForceNew, Computed, List) Backup Advanced Options See advanced_options below.'
+            advanced_options.udm_detail: '- (Optional, ForceNew, Computed, List) ECS Backup Advanced options See udm_detail below.'
             create_time: '- The creation time of the resource'
             cross_account_role_name: '- (Optional, ForceNew, Available since v1.230.0) Valid only when CrossAccountType = CROSS_ACCOUNT, indicating the name of the cross-account authorization role of the data source, and the management account uses this role to access the data source.'
-            cross_account_type: '- (Optional, ForceNew, Available since v1.230.0) Cross-account type, supported'
+            cross_account_type: '- (Optional, ForceNew, Computed, Available since v1.230.0) Cross-account type, supported'
             cross_account_user_id: '- (Optional, ForceNew, Int, Available since v1.230.0) Valid only when CrossAccountType = CROSS_ACCOUNT, indicating the ID of the actual account to which the data source belongs.'
             data_source_id: '- (Optional, ForceNew, Computed) The data source ID.'
-            destination_kms_key_id: '- (Optional) Custom KMS key ID of encrypted copy.'
+            destination_kms_key_id: '- (Optional) Custom KMS key ID of encrypted copy'
             disabled: '- (Optional) Whether the policy is effective for the data source.'
             disk_id_list: '- (Optional, List) The list of backup disks. If it is empty, all disks are backed up.'
             exclude: '- (Optional) This parameter is required only when the value of SourceType is ECS_FILE or File. Indicates a file type that does not need to be backed up. All files of this type are not backed up. A maximum of 255 characters is supported.'
-            exclude_disk_id_list: '- (Optional, List) List of cloud disk IDs that are not backed up.'
+            exclude_disk_id_list: '- (Optional, List) List of cloud disk IDs that are not backed up'
             id: '- The ID of the resource supplied above.The value is formulated as <policy_id>:<source_type>:<data_source_id>.'
             include: '- (Optional) This parameter is required only when the value of SourceType is ECS_FILE or File. Indicates the file types to be backed up, and all files of these types are backed up. A maximum of 255 characters is supported.'
             policy_binding_description: '- (Optional) Resource Description'
             policy_id: '- (Optional, ForceNew, Computed) The policy ID.'
             source: '- (Optional) When SourceType is OSS, a prefix is specified to be backed up. If it is not specified, the entire root directory of the Bucket is backed up.'
-            source_type: '- (Optional, ForceNew, Computed) Data source type, value range:'
+            source_type: '- (Optional, ForceNew, Computed, Available since v1.260.1) Data source type, value range:'
             speed_limit: '- (Optional) This parameter is required only when the value of SourceType is ECS_FILE or File. Indicates backup flow control. The format is {start}{end}{bandwidth}. Multiple flow control configurations use partitioning, and no overlap in configuration time is allowed. start: start hour. end: end of hour. bandwidth: limit rate, in KB/s.'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Policy Binding.'
             timeouts.delete: '- (Defaults to 5 mins) Used when delete the Policy Binding.'
@@ -46112,7 +46581,9 @@ resources:
             ipv6_address_count: '- (Optional, ForceNew, Available since v1.193.0) The number of IPv6 addresses to randomly generate for the primary ENI. Valid values: 1 to 10. NOTE: You cannot specify both the ipv6_addresses and ipv6_address_count parameters.'
             ipv6_addresses: '- (Optional, Available since v1.193.0) A list of IPv6 address to be assigned to the primary ENI. Support up to 10. NOTE: From version 1.241.0, ipv6_addresses can be modified.'
             is_outdated: '- (Optional) Whether to use outdated instance type.'
-            key_name: '- (Optional, ForceNew) The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid.'
+            key_name: |-
+                - (Optional) The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
+                -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
             kms_encrypted_password: '- (Optional, Available since v1.57.1) An KMS encrypts password used to an instance. If the password is filled in, this field will be ignored. When it is changed, the instance will reboot to make the change take effect.'
             kms_encryption_context: '- (Optional, MapString, Available since v1.57.1) An KMS encryption context used to decrypt kms_encrypted_password before creating or updating an instance with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set. When it is changed, the instance will reboot to make the change take effect.'
             launch_template_id: '- (Optional, ForceNew, Available since v1.213.1) The ID of the launch template. For more information, see DescribeLaunchTemplates.To use a launch template to create an instance, you must use the launch_template_id or launch_template_name parameter to specify the launch template.'
@@ -46161,7 +46632,7 @@ resources:
             status: '- (Optional 1.85.0) The instance status. Valid values: ["Running", "Stopped"]. You can control the instance start and stop through this parameter. Default to Running.'
             stopped_mode: '- (Optional, Available since v1.170.0) The stop mode of the pay-as-you-go instance. Valid values: StopCharging,KeepCharging, Not-applicable. Default value: If the prerequisites required for enabling the economical mode are met, and you have enabled this mode in the ECS console, the default value is StopCharging. For more information, see "Enable the economical mode" in Economical mode. Otherwise, the default value is KeepCharging. Note: Not-applicable: Economical mode is not applicable to the instance.`'
             subnet_id: '- (Removed since v1.210.0) The ID of the subnet. NOTE: Field subnet_id has been removed from provider version 1.210.0.'
-            system_disk_auto_snapshot_policy_id: '- (Optional, Available since v1.73.0, Modifiable in 1.169.0) The ID of the automatic snapshot policy applied to the system disk.'
+            system_disk_auto_snapshot_policy_id: '- (Optional, Available since v1.73.0, Modifiable in 1.169.0) The ID of the automatic snapshot policy applied to the system disk. NOTE: If you want to use system_disk_auto_snapshot_policy_id, We recommend you to use the resource alicloud_ecs_auto_snapshot_policy_attachment.'
             system_disk_bursting_enabled: '- (Optional, Bool, Available since v1.250.0) Specifies whether to enable the performance burst feature for the system disk. Valid values:'
             system_disk_category: '- (Optional, ForceNew) Valid values are ephemeral_ssd, cloud_efficiency, cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry. only is used to some none I/O optimized instance. Valid values cloud_auto Available since v1.184.0.'
             system_disk_description: '- (Optional, Available since v1.101.0) The description of the system disk. The description must be 2 to 256 characters in length and cannot start with http:// or https://.'
@@ -50973,12 +51444,12 @@ resources:
                     }
                   ],
                   "vswitch_id": "${alicloud_vswitch.default.id}",
-                  "zone_id": "${local.zone_id}"
+                  "zone_id": "${alicloud_vswitch.default.zone_id}"
                 }
               references:
                 name: var.name
                 vswitch_id: alicloud_vswitch.default.id
-                zone_id: local.zone_id
+                zone_id: alicloud_vswitch.default.zone_id
               dependencies:
                 alicloud_vpc.default: |-
                     {
@@ -50990,7 +51461,7 @@ resources:
                       "cidr_block": "172.17.3.0/24",
                       "vpc_id": "${alicloud_vpc.default.id}",
                       "vswitch_name": "${var.name}",
-                      "zone_id": "${local.zone_id}"
+                      "zone_id": "${data.alicloud_mongodb_zones.default.zones.1.id}"
                     }
         argumentDocs:
             "0": ': All backup sets are immediately deleted when the instance is released.'
@@ -51041,6 +51512,9 @@ resources:
             node_description: '- The description of the Config Server node.'
             node_id: '- The ID of the mongo node.'
             order_type: '- (Optional, Available since v1.134.0) The type of configuration changes performed. Default value: DOWNGRADE. Valid values:'
+            parameters: '- (Optional, Set, Available since v1.268.0) Set of parameters needs to be set after mongodb instance was launched. See parameters below.'
+            parameters.name: '- (Required) The name of the parameter.'
+            parameters.value: '- (Required) The value of the parameter.'
             period: '- (Optional, Int) The duration that you will buy DB instance (in month). It is valid when instance_charge_type is PrePaid. Default value: 1. Valid values: [1~9], 12, 24, 36.'
             port: '- The port number that is used to connect to the mongo node.'
             protocol_type: '- (Optional, ForceNew, Available since v1.161.0) The type of the access protocol. Valid values: mongodb or dynamodb.'
@@ -51623,7 +52097,7 @@ resources:
             - $ terraform import alicloud_mse_znode.example <cluster_id>:<path>
     alicloud_nas_access_group:
         subCategory: File Storage (NAS)
-        description: Provides a Alicloud NAS Access Group resource.
+        description: Provides a Alicloud File Storage (NAS) Access Group resource.
         name: alicloud_nas_access_group
         title: alicloud_nas_access_group
         examples:
@@ -51646,8 +52120,8 @@ resources:
             access_group_type: '- (Optional, ForceNew) Permission group types, including Vpc.'
             create_time: '- (Available since v1.218.0) Creation time.'
             description: '- (Optional) Permission group description information.'
-            file_system_type: '- (Optional, ForceNew, Computed) File system type. Value:'
-            id: '- The ID of the resource supplied above.The value is formulated as <access_group_name>:<file_system_type>.'
+            file_system_type: '- (Optional, ForceNew, Computed) File system type.'
+            id: '- The ID of the resource supplied above. The value is formulated as <access_group_name>:<file_system_type>.'
             name: '- (Deprecated since v1.218.0) Field ''name'' has been deprecated from provider version 1.218.0. New field ''access_group_name'' instead.'
             region_id: '- (Available since v1.256.0) The region ID.'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Access Group.'
@@ -60416,11 +60890,12 @@ resources:
                   "enable_save_mfa_ticket": false
                 }
         argumentDocs:
+            ;: 'to separate them, for example: 192.168.0.0/16;10.0.0.0/8.'
             allow_user_to_change_password: '- (Optional, Computed) Whether to allow RAM users to manage their own passwords. Value:'
-            allow_user_to_login_with_passkey: '- (Optional, Available since v1.248.0) Whether to allow RAM users to log on using a passkey. Value:'
+            allow_user_to_login_with_passkey: '- (Optional, Computed, Available since v1.248.0) Whether to allow RAM users to log on using a passkey. Value:'
             allow_user_to_manage_access_keys: '- (Optional, Computed) Whether to allow RAM users to manage their own access keys. Value:'
             allow_user_to_manage_mfa_devices: '- (Optional, Computed) Whether to allow RAM users to manage multi-factor authentication devices. Value:'
-            allow_user_to_manage_personal_ding_talk: '- (Optional, Available since v1.248.0) Whether to allow RAM users to independently manage the binding and unbinding of personal DingTalk. Value:'
+            allow_user_to_manage_personal_ding_talk: '- (Optional, Computed, Available since v1.248.0) Whether to allow RAM users to independently manage the binding and unbinding of personal DingTalk. Value:'
             enable_save_mfa_ticket: '- (Optional, Computed) Whether to save the verification status of a RAM user after logging in using multi-factor authentication. The validity period is 7 days. Value:'
             enforce_mfa_for_login: |-
                 - (Optional, Deprecated since v1.248.0) Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
@@ -60432,6 +60907,8 @@ resources:
                 - (Optional, Computed, Int) The validity period of the logon session of RAM users.
                 Valid values: 1 to 24. Unit: hours.
                 Default value: 6.
+            max_idle_days_for_access_keys: '- (Optional, Computed, Int, Available since v1.268.0) The maximum idle time (in days) of an access key for a RAM user. After the access key is not used for this period, it is automatically disabled on the next day. Possible values are 90, 180, 365, 730. Defaults to 730.'
+            max_idle_days_for_users: '- (Optional, Computed, Int, Available since v1.268.0) The maximum idle time (days) of the RAM user. If the RAM user has the console logon enabled, the console logon will be automatically disabled on the next day after the continuous logon time (excluding SSO logon time) reaches this time. Possible values are 90, 180, 365, 730. Defaults to 730.'
             mfa_operation_for_login: '- (Optional, Computed, Available since v1.248.0) MFA must be used during logon (replace the original EnforceMFAForLogin parameter, the original parameter is still valid, we recommend that you update it to a new parameter). Value:'
             operation_for_risk_login: '- (Optional, Computed, Available since v1.248.0) Whether MFA is verified twice during abnormal logon. Value:'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Security Preference.'
@@ -60642,6 +61119,69 @@ resources:
             type: '- (Optional, ForceNew, Deprecated from v1.120.0) The attribute has been deprecated from 1.120.0 and using account_type instead.'
         importStatements:
             - $ terraform import alicloud_rds_account.example <db_instance_id>:<account_name>
+    alicloud_rds_ai_instance:
+        subCategory: Rds Ai
+        description: Provides a Alicloud Rds Ai Instance resource.
+        name: alicloud_rds_ai_instance
+        title: alicloud_rds_ai_instance
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "app_name": "${var.name}",
+                  "app_type": "supabase",
+                  "db_instance_name": "${alicloud_db_instance.default.id}"
+                }
+              references:
+                app_name: var.name
+                db_instance_name: alicloud_db_instance.default.id
+              dependencies:
+                alicloud_db_instance.default: |-
+                    {
+                      "db_instance_storage_type": "general_essd",
+                      "engine": "PostgreSQL",
+                      "engine_version": "17.0",
+                      "instance_name": "${var.name}",
+                      "instance_storage": 100,
+                      "instance_type": "pg.n2.1c.1m",
+                      "vswitch_id": "${data.alicloud_vswitches.default.ids.0}"
+                    }
+        argumentDocs:
+            "0": ': Closed'
+            "1": ': Open'
+            app_name: '- (Required, ForceNew) The name of the new AI application.'
+            app_type: '- (Required, ForceNew) Application type. Currently, only supabase is supported.'
+            auth_config_list: '- (Optional, Set) Authentication information list. See auth_config_list below.'
+            auth_config_list.name: '- (Optional) The configuration item name. For more information, see How to use it.'
+            auth_config_list.value: '- (Optional) The value of the configuration item.'
+            ca_type: '- (Optional) The type of the certificate. Currently, only custom is supported. A custom certificate is used.'
+            dashboard_password: |-
+                - (Optional) Supabase Dashboard password.
+                The password must be 8 to 32 characters in length and contain three or more characters: uppercase letters, lowercase letters, numbers, and underscores (_).
+            database_password: |-
+                - (Optional) The RDS Database access password.
+                The password must be 8 to 32 characters in length and contain three or more characters: uppercase letters, lowercase letters, numbers, and underscores (_).
+            db_instance_name: |-
+                - (Optional, ForceNew) The ID of the RDS PostgreSQL database instance accessed by the AI application.
+                supports only newly purchased empty RDS PostgreSQL instances. The major version is 17, and the minor version is 20250630 or later.>
+            "false": '(default): No.'
+            id: '- The ID of the resource supplied above.'
+            initialize_with_existing_data: '- (Optional, Bool) Whether to recover from existing PG data. Valid values:'
+            public_endpoint_enabled: '- (Optional, Bool) Whether to enable the public network connection address. Valid values:'
+            public_network_access_enabled: '- (Optional, Bool) Whether to enable the public network NAT gateway. Valid values:'
+            server_cert: '- (Optional) Customize the certificate content.'
+            server_key: '- (Optional) The certificate private key.'
+            ssl_enabled: '- (Optional, Int) Enable or disable SSL. Valid values:'
+            status: '- (Optional) The status of the instance. Valid values: Running, Stopped.'
+            storage_config_list: '- (Optional, Set) A list of storage configurations. See storage_config_list below.'
+            storage_config_list.name: '- (Optional) The configuration item name. For more information, see How to use it.'
+            storage_config_list.value: '- (Optional) The value of the configuration item.'
+            timeouts.create: '- (Defaults to 20 mins) Used when create the Instance.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Instance.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Instance.'
+            "true": ': Yes.'
+        importStatements:
+            - $ terraform import alicloud_rds_ai_instance.example <id>
     alicloud_rds_backup:
         subCategory: RDS
         description: Provides a Alicloud RDS Backup resource.
@@ -63102,15 +63642,16 @@ resources:
             create_time: '- The create time of resource share.'
             id: '- The ID of the resource supplied above.'
             permission_names: '- (Optional, List, Available since v1.261.0) Share permission name. When it is empty, the system automatically binds the default permissions associated with the resource type. For more information, see Permission Library.'
+            resource_arns: '- (Optional, List, Available since v1.268.0) ResourceArns'
             resource_group_id: '- (Optional, Computed, Available since v1.261.0) The ID of the resource group'
             resource_share_name: '- (Required) The name of resource share.'
             resource_share_owner: '- The owner of resource share,  Self and OtherAccounts.'
-            resources: '- (Optional, List, Available since v1.261.0) List of shared resources. Note: The parameter is immutable after resource creation. It only applies during resource creation and has no effect when modified post-creation. See resources below.'
+            resources: '- (Optional, List, Available since v1.261.0) List of shared resources. See resources below.'
             resources.resource_id: '- (Optional, Available since v1.261.0) The ID of the shared resource.'
-            resources.resource_type: '- (Optional, Available since v1.261.0) Shared resource type. For the types of resources that support sharing, see Cloud services that support sharing.'
+            resources.resource_type: '- (Optional) Shared resource type.'
             status: '- The status of resource share.  Active,Deleted and Deleting.'
             tags: '- (Optional, Map, Available since v1.261.0) The tag of the resource'
-            targets: '- (Optional, List, Available since v1.261.0) Resource user.'
+            targets: '- (Optional, List) Resource user.'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Resource Share.'
             timeouts.delete: '- (Defaults to 10 mins) Used when delete the Resource Share.'
             timeouts.update: '- (Defaults to 5 mins) Used when update the Resource Share.'
@@ -63229,18 +63770,14 @@ resources:
                       "min": 10000
                     }
         argumentDocs:
-            KMSInstance: .
-            PrefixList: and Image.
-            PublicIpAddressPool: .
-            ROSTemplate: and ServiceCatalogPortfolio.
-            Snapshot: .
-            VSwitch: .
-            create_time: '- (Available since v1.259.0) The time when the shared resource was associated with the resource share.'
+            create_time: '- The time when the shared resource was associated with the resource share.'
             id: '- The ID of the resource supplied above.The value is formulated as <resource_share_id>:<resource_id>:<resource_type>.'
-            resource_id: '- (Required, ForceNew) The ID of the shared resource.'
+            permission_name: '- (Optional, Available since v1.268.0) The name of a permission. If you do not configure this parameter, the system automatically associates the default permission for the specified resource type with the resource share.'
+            resource_arn: '- (Optional, ForceNew, Available since v1.268.0) Associated resource ARN.'
+            resource_id: '- (Optional, ForceNew, Computed) The ID of the shared resource.'
             resource_share_id: '- (Required, ForceNew) The ID of the resource share.'
-            resource_type: '- (Required, ForceNew) The type of the shared resource. Valid values:'
-            status: '- The status of the Shared Resource.'
+            resource_type: '- (Optional, ForceNew, Computed) The type of the shared resource.'
+            status: '- The association status.'
             timeouts.create: '- (Defaults to 10 mins) Used when create the Shared Resource.'
             timeouts.delete: '- (Defaults to 10 mins) Used when delete the Shared Resource.'
         importStatements:
@@ -66095,7 +66632,7 @@ resources:
             inner_access_policy: '- (Optional, Available since v1.55.3) The internal access control policy of the security group. Valid values:'
             name: '- (Optional, Deprecated since v1.239.0) Field name has been deprecated from provider version 1.239.0. New field security_group_name instead.'
             normal: ': Basic security group.'
-            resource_group_id: '- (Optional, Available since v1.58.0) The ID of the resource group to which the security group belongs. NOTE: From version 1.115.0, resource_group_id can be modified.'
+            resource_group_id: '- (Optional, Computed, Available since v1.58.0) The ID of the resource group to which the security group belongs. NOTE: From version 1.115.0, resource_group_id can be modified.'
             security_group_name: '- (Optional, Available since v1.239.0) The name of the security group. The name must be 2 to 128 characters in length. The name must start with a letter and cannot start with http:// or https://. The name can contain Unicode characters under the Decimal Number category and the categories whose names contain Letter. The name can also contain colons (:), underscores (_), periods (.), and hyphens (-).'
             security_group_type: '- (Optional, ForceNew, Available since v1.58.0) The type of the security group. Default value: normal. Valid values:'
             tags: '- (Optional, Map) A mapping of tags to assign to the resource.'
@@ -68798,15 +69335,15 @@ resources:
                       "name": "${var.project_name}"
                     }
         argumentDocs:
-            group_attribute: '- (Optional, ForceNew, List) Properties of machine groups. For details, please refer to the groupAttribute parameter description in the following table. See group_attribute below.'
-            group_attribute.external_name: '- (Optional, ForceNew) The external management system identification on which the machine group depends.'
+            group_attribute: '- (Optional, ForceNew, Set) Properties of machine groups. For details, please refer to the groupAttribute parameter description in the following table. See group_attribute below.'
+            group_attribute.external_name: '- (Optional, ForceNew) The identifier of the external management system on which the machine group depends. This parameter is empty by default.'
             group_attribute.group_topic: '- (Optional, ForceNew) The log topic of the machine group.'
-            group_name: '- (Required, ForceNew) Machine Group name'
-            group_type: '- (Optional, ForceNew) Machine group type, optional value is empty.'
-            id: '- The ID of the resource supplied above.The value is formulated as <project_name>:<group_name>.'
-            machine_identify_type: '- (Required, ForceNew) Machine identification type.'
+            group_name: '- (Required, ForceNew) The name of the machine group. The name must meet the following requirements:'
+            group_type: '- (Optional, ForceNew) The type of the machine group. Set the value to an empty string.'
+            id: '- The ID of the resource supplied above. The value is formulated as <project_name>:<group_name>.'
+            machine_identify_type: '- (Required, ForceNew) The identifier type of the machine group. Valid values:'
             machine_list: '- (Required, ForceNew, List) The identification information of the machine group.'
-            project_name: '- (Required, ForceNew) Project name'
+            project_name: '- (Required, ForceNew) The name of the project.'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Machine Group.'
             timeouts.delete: '- (Defaults to 5 mins) Used when delete the Machine Group.'
         importStatements:
@@ -69253,28 +69790,43 @@ resources:
             ECC_256: ': The signature algorithm is Sha256WithECDSA.'
             ECC_384: ': The corresponding signature algorithm is Sha256WithECDSA.'
             ECC_512: ': The signature algorithm is Sha256WithECDSA.'
+            ROOT: ': A root CA certificate.'
             RSA_1024: ': The corresponding signature algorithm is Sha256WithRSA.'
             RSA_2048: ': The corresponding signature algorithm is Sha256WithRSA.'
             RSA_4096: ': The corresponding signature algorithm is Sha256WithRSA.'
             SM2_256: |-
                 : The corresponding signature algorithm is SM3WithSM2.
-                The encryption algorithm of the root CA certificate must be the same as the certificate algorithm of the private Root CA you purchased. Example: If the certificate algorithm selected when you purchase a private Root CA is RSA, the key algorithm of the root CA certificate must be RSA_1024, RSA_2048, or RSA_4096.
-            algorithm: '- (Optional, ForceNew) The key algorithm type of the root CA certificate. The key algorithm is expressed using the ''_< key length>'' format. Value:'
+                -> NOTE: If certificate_type is set to SUB_ROOT, algorithm is required.
+            SUB_ROOT: ': A subordinate CA certificate.'
+            algorithm: '- (Optional, ForceNew) The key algorithm type of the CA certificate. The key algorithm is in the _ format. Valid values:'
             alias_name: '- (Optional, Available since v1.266.0) A custom alias for the certificate, used to define a user-friendly name.'
+            certificate_type: '- (Optional, ForceNew, Available since v1.269.0) The type of the CA certificate. Default value: ROOT. Valid values:'
             common_name: '- (Required, ForceNew) The common name or abbreviation of the organization. Support the use of Chinese, English characters.'
             country_code: '- (Optional, ForceNew) The code of the country or region in which the organization is located, using a two-digit capital abbreviation. For example, CN represents China and US represents the United States.'
+            crl_day: '- (Optional, ForceNew, Int, Available since v1.269.0) The validity period for the CRL, in days. Valid values: 1 to 365. Note: crl_day takes effect only if certificate_type is set to SUB_ROOT.'
+            enable_crl: '- (Optional, Available since v1.269.0) This setting turns the Certificate Revocation List (CRL) service on or off. Valid values:'
+            extended_key_usages: '- (Optional, List, Available since v1.269.0) The extended key usages. Note: extended_key_usages takes effect only if certificate_type is set to SUB_ROOT.'
+            "false": |-
+                : No.
+                -> NOTE: enable_crl takes effect only if certificate_type is set to SUB_ROOT.
             id: '- The ID of the resource supplied above.'
             locality: '- (Required, ForceNew) Name of the city where the organization is located. Support the use of Chinese, English characters.'
-            organization: '- (Required, ForceNew) The name of the organization (corresponding to your enterprise or company) associated with the root CA certificate. Support the use of Chinese, English characters.'
+            organization: '- (Required, ForceNew) The name of the organization (corresponding to your enterprise or company) associated with the CA certificate. Support the use of Chinese, English characters.'
             organization_unit: '- (Required, ForceNew) The name of the department or branch under the organization. Support the use of Chinese, English characters.'
+            parent_identifier: |-
+                - (Optional, ForceNew, Available since v1.269.0) The unique identifier of the root CA certificate.
+                -> NOTE: If certificate_type is set to SUB_ROOT, parent_identifier is required.
+            path_len_constraint: '- (Optional, Int, Available since v1.269.0) The certificate path length. Default value: 0. Note: path_len_constraint takes effect only if certificate_type is set to SUB_ROOT.'
             resource_group_id: '- (Optional, Available since v1.266.0) A resource property field representing the resource group.'
             state: '- (Required, ForceNew)  The name of the province, municipality, or autonomous region in which the organization is located. Support the use of Chinese, English characters.'
             status: '- The status of the CA certificate.'
             tags: '- (Optional, Map, Available since v1.266.0) The tag of the resource.'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Pca Certificate.'
             timeouts.delete: '- (Defaults to 5 mins) Used when delete the Pca Certificate.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Pca Certificate.'
+            "true": ': Yes.'
             years: |-
-                - (Required, ForceNew, Int) The validity period of the root CA certificate, in years.
+                - (Required, ForceNew, Int) The validity period of the CA certificate, in years.
                 -> NOTE:  It is recommended to set to 5 to 10 years.
         importStatements:
             - $ terraform import alicloud_ssl_certificates_service_pca_certificate.example <id>
@@ -70357,13 +70909,22 @@ resources:
                   "vul_switch": "1"
                 }
         argumentDocs:
+            "0": ': Off.'
             "1": ': Postpaid instance'
-            AGENTLESS: ': AGENTLESS detection module'
-            CSPM: ': Cloud platform configuration check module'
-            CTDR: ': threat analysis and response module'
-            POST_HOST: ': Host and container security module'
-            SERVERLESS: :Serverless asset module
-            VUL: ': vulnerability repair module'
+            "3": ': Enterprise Edition'
+            "5": ': Advanced Edition'
+            "6": ': Antivirus Edition'
+            "7": ': Flagship Edition'
+            AGENTLESS: ': Agentless Detection Module.'
+            ANTI_RANSOMWARE: ': Anti-Ransomware Management.'
+            CSPM: ': Cloud Security Posture Management Module.'
+            CTDR: ': Threat Analysis and Response Module.'
+            CTDR_STORAGE: ': Log Management Module.'
+            POST_HOST: ': Host and Container Security Module.'
+            RASP: ': Application Protection Module.'
+            SDK: ': Malicious File Detection SDK Module.'
+            SERVERLESS: ': Serverless Security Module.'
+            VUL: ': Vulnerability Repair Module.'
             buy_number: '- (Optional) Number of servers.'
             container_image_scan: '- (Optional, Deprecated since v1.247.0) Container Image security scan. Interval type, value interval:[0,200000].'
             container_image_scan_new: '- (Optional, Available since v1.212.0) Container Image security scan. Interval type, value interval:[0,200000].'
@@ -70375,7 +70936,22 @@ resources:
             payment_type: '- (Required, ForceNew) The payment type of the resource'
             period: '- (Optional, Int) Prepaid cycle. The unit is Monthly, please enter an integer multiple of 12 for annual paid products.'
             post_paid_flag: '- (Optional, Int, Available since v1.247.0) Post-paid signage. Value:'
-            post_pay_module_switch: '- (Optional, JsonString, Available since v1.247.0) Pay-as-you-go module switch mapping, in JsonString format. Valid values:'
+            post_paid_host_auto_bind: '- (Optional, Int, Available since v1.269.0) Automatic binding switch for new assets in host and container protection. Valid values:'
+            post_paid_host_auto_bind_version: '- (Optional, Int, Available since v1.269.0) The version that is automatically bound to the host and container protection of a pay-as-you-go instance. Valid values:'
+            post_pay_module_switch: '- (Optional, JsonString, Available since v1.247.0, Deprecated since v1.269.0) The switch status of the pay-as-you-go module. The value is a JSON string. Valid values:'
+            post_pay_module_switch_obj: '- (Optional, Set, Available since v1.269.0) Pay-as-you-go module switch. See post_pay_module_switch_obj below.'
+            post_pay_module_switch_obj.agentless: '- (Optional, Int, Available since v1.269.0) Agentless Detection Module. Valid values:'
+            post_pay_module_switch_obj.anti_ransomware: '- (Optional, Int, Available since v1.269.0) Anti-Ransomware Module. Valid values:'
+            post_pay_module_switch_obj.basic_service: '- (Optional, Int, Available since v1.269.0) Basic service module. Valid values:'
+            post_pay_module_switch_obj.cspm: '- (Optional, Int, Available since v1.269.0) Cloud Security Configuration Check Module. Valid values:'
+            post_pay_module_switch_obj.ctdr: '- (Optional, Int, Available since v1.269.0) Threat Analysis and Response Module. Valid values:'
+            post_pay_module_switch_obj.ctdr_storage: '- (Optional, Int, Available since v1.269.0) Log Management Module. Valid values:'
+            post_pay_module_switch_obj.post_host: '- (Optional, Int, Available since v1.269.0) Host and Container Security Module. Valid values:'
+            post_pay_module_switch_obj.rasp: '- (Optional, Int, Available since v1.269.0) Application Protection Module. Valid values:'
+            post_pay_module_switch_obj.sdk: '- (Optional, Int, Available since v1.269.0) Malicious File Detection SDK Module. Valid values:'
+            post_pay_module_switch_obj.serverless: '- (Optional, Int, Available since v1.269.0) Serverless Security Module. Valid values:'
+            post_pay_module_switch_obj.vul: '- (Optional, Int, Available since v1.269.0) Vulnerability Repair Module. Valid values:'
+            post_pay_module_switch_obj.web_lock: '- (Optional, Int, Available since v1.269.0) File Tamper Protection Module. Valid values:'
             rasp_count: '- (Optional, Available since v1.212.0) Number of application protection licenses. Interval type, value interval:[1,100000000].'
             renew_period: '- (Optional, Computed, Int) Automatic renewal cycle, in months.'
             renewal_period_unit: '- (Optional, Computed) Automatic renewal period unit, value:'
@@ -70524,7 +71100,7 @@ resources:
         argumentDocs:
             "0": ': disabled.'
             "1": ': enabled.'
-            all_key_prefix: '- (Optional, Computed) Indicates whether the prefixes of all objects are matched.'
+            all_key_prefix: '- (Optional, Computed) Specifies whether to match the prefixes of all objects.'
             bucket_name_list: '- (Required, List) The names of the buckets.'
             decompress_max_file_count: '- (Optional, Int, Available since v1.255.0) The maximum number of objects that can be extracted during decompression. Valid values: 1 to 1000. If the maximum number of objects that can be extracted is reached, the decompression operation immediately ends and the detection of extracted objects is not affected.'
             decompress_max_layer: '- (Optional, Int, Available since v1.255.0) The maximum number of decompression levels when multi-level packages are decompressed. Valid values: 1 to 5. If the maximum number of decompression levels is reached, the decompression operation immediately ends and the detection of extracted objects is not affected.'
@@ -70862,7 +71438,7 @@ resources:
             router_id: '- The region ID of the VPC to which the route table belongs.'
             router_table_id: '- (Deprecated since v1.227.1). Field ''router_table_id'' has been deprecated from provider version 1.227.1. New field ''route_table_id'' instead.'
             secondary_cidr_blocks: '- (Optional, Computed, List, Deprecated since v1.185.0) Field ''secondary_cidr_blocks'' has been deprecated from provider version 1.185.0 and it will be removed in the future version. Please use the new resource ''alicloud_vpc_ipv4_cidr_block''. secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block resource cannot be used at the same time.'
-            secondary_cidr_mask: '- (Deprecated since v1.248.0) Field ''router_table_id'' has been deprecated from provider version 1.248.0. New resource ''alicloud_vpc_ipv4_cidr_block'' instead.'
+            secondary_cidr_mask: '- (Deprecated since v1.248.0) Field ''secondary_cidr_mask'' has been deprecated from provider version 1.248.0. New resource ''alicloud_vpc_ipv4_cidr_block'' instead.'
             status: '- The status of the VPC.   Pending: The VPC is being configured. Available: The VPC is available.'
             system_route_table_description: |-
                 - (Optional) The description of the route table.
@@ -74368,57 +74944,80 @@ resources:
             "0": ': indicates closed.'
             "1": ': indicates open.'
             account_identifier: ': indicates account extraction.'
+            all_block: ': sets the action of all rules to Block.'
+            all_monitor: ': sets the action of all rules to Monitor.'
+            all_off: ': disables all rules.'
+            all_on: ': enables all rules.'
+            base64: ': indicates Base64 decoding.'
+            block: ': blocks requests.'
             cc: ': indicates CC protection.'
             code: '- (Optional, Int) Required. Specifies the response code.'
-            config: '- (Required, List) Rule configuration content, in JSON format, constructed with a series of parameters.'
+            comment: ': indicates comment decoding (enabled by default and cannot be canceled).'
+            config: '- (Required, Set) Rule configuration content, in JSON format, constructed with a series of parameters.'
             config.abroad_regions: '- (Optional) The regions outside China from which you want to block requests. Separate multiple region codes with commas (,). You can call the DescribeIpAbroadCountryInfos operation to query the countries and regions outside China that can be blocked.'
-            config.account_identifiers: '- (Optional, Set) The policies for account extraction. Up to five policies are supported. Each policy is a JSON string. For more information, see accountIdentifiers description. See account_identifiers below.'
-            config.bypass_regular_rules: '- (Optional, Set) The list of regular rule IDs that are not detected. The value is in the ["XX1", "XX2",...] format. This parameter is required only when the module to which the whitelist applies is set to specific regular rules in basic protection (BypassTags is set to regular_rule).'
-            config.bypass_regular_types: '- (Optional, Set) The regular rule type is not detected. This parameter is configured only when the whitelist module is configured as the Web application regular type (the value of the BypassTags parameter is regular_type). Value:'
-            config.bypass_tags: '- (Optional, Set) The modules to which the whitelist applies. The value is in the ["XX1", "XX2",...] format. Valid values:'
+            config.account_identifiers: '- (Optional, List) The policies for account extraction. Up to five policies are supported. Each policy is a JSON string. For more information, see accountIdentifiers description. See account_identifiers below.'
+            config.auto_update: '- (Optional, Available since v1.269.0) Whether the new Web core protection rules are automatically updated. Values:'
+            config.bypass_regular_rules: '- (Optional, List) The list of regular rule IDs that are not detected. The value is in the ["XX1", "XX2",...] format. This parameter is required only when the module to which the whitelist applies is set to specific regular rules in basic protection (BypassTags is set to regular_rule).'
+            config.bypass_regular_types: '- (Optional, List) The regular rule type is not detected. This parameter is configured only when the whitelist module is configured as the Web application regular type (the value of the BypassTags parameter is regular_type). Value:'
+            config.bypass_tags: '- (Optional, List) The modules to which the whitelist applies. The value is in the ["XX1", "XX2",...] format. Valid values:'
             config.cc_effect: '- (Optional) Set the effective range of the speed limit. This information is configured only when ccStatus is set to 1. Value:'
             config.cc_status: '- (Optional, Int) Whether to open the speed limit. Value:'
             config.cn_regions: '- (Optional) The regions in China from which you want to block requests. If you specify "CN", requests from the Chinese mainland (excluding Hong Kong, Macao, and Taiwan) are blocked. Separate multiple regions with commas (,). For more information about region codes, see Description of region codes in China.'
-            config.conditions: '- (Optional, Set) The traffic characteristics of ACL, which are described in JSON format. You can enter up to five matching conditions. For specific configuration information, see detailed configuration of conditions. See conditions below.'
-            config.gray_config: '- (Optional, List, Available since v1.262.0) The canary release configuration for the rule. The value is a JSON. This parameter is required only when you set GrayStatus to 1. See gray_config below.'
+            config.codec_list: '- (Optional, List, Available since v1.269.0) The type to enable decoding. Value:'
+            config.conditions: '- (Optional, List) The traffic characteristics of ACL, which are described in JSON format. You can enter up to five matching conditions. For specific configuration information, see detailed configuration of conditions. See conditions below.'
+            config.gray_config: '- (Optional, Set, Available since v1.262.0) The canary release configuration for the rule. The value is a JSON. This parameter is required only when you set GrayStatus to 1. See gray_config below.'
             config.gray_status: '- (Optional, Int, Available since v1.262.0) Specifies whether to enable canary release for the rule. Valid values:'
             config.mode: '- (Optional, Int) The HTTP flood protection mode. Valid values:'
             config.protocol: '- (Optional) The protocol type of the cached page address. Valid values: http, https.'
-            config.rate_limit: '- (Optional, List) The detailed speed limit configuration, which is described in the JSON string format. This information is configured only when CcStatus is set to 1. For specific configuration information, see detailed configuration of Ratelimit. See rate_limit below.'
-            config.remote_addr: '- (Optional, Set) The IP addresses that you want to add to the blacklist. Specify the value of this parameter in the ["ip1","ip2",...] format.'
+            config.rate_limit: '- (Optional, Set) The detailed speed limit configuration, which is described in the JSON string format. This information is configured only when CcStatus is set to 1. For specific configuration information, see detailed configuration of Ratelimit. See rate_limit below.'
+            config.remote_addr: '- (Optional, List) The IP addresses that you want to add to the blacklist. Specify the value of this parameter in the ["ip1","ip2",...] format.'
             config.rule_action: '- (Optional) Protection rule action. Value:'
             config.throttle_threhold: '- (Optional, Int) The throttling threshold. Valid values:'
             config.throttle_type: '- (Optional) The throttling method. Valid values:'
-            config.time_config: '- (Optional, Computed, List, Available since v1.262.0) The scheduled rule configuration. The value is a JSON.  See time_config below.'
+            config.time_config: '- (Optional, Computed, Set, Available since v1.262.0) The scheduled rule configuration. The value is a JSON.  See time_config below.'
             config.ua: '- (Optional) The User-Agent string that is allowed for access to the address.'
             config.url: '- (Optional) The address of the cached page.'
+            config.waf_base_config: '- (Optional, List, Available since v1.269.0) The configuration of the Web core protection rules to be modified. See waf_base_config below.'
             cookie: ': Custom cookie. If you select this value, you must specify the cookie in the GraySubKey parameter.'
             count: '- (Optional, Int) The threshold for the number of occurrences. When the number of occurrences of the specified HTTP status code exceeds this threshold, the protection rule is triggered. Valid values: 2 to 50000. You can specify Count or Ratio. You cannot specify the two parameters at the same time.'
             custom: ': user-defined.'
             custom_acl: ': indicates a custom rule.'
             cycle: ': The rule is effective periodically.'
             day: '- (Optional) The time period of each day when the rule is effective. It includes the start time start and end time end. You can specify multiple time periods.'
-            day_periods: '- (Optional, Set) The time period of each day when the rule is effective.  See day_periods below.'
+            day_periods: '- (Optional, List) The time period of each day when the rule is effective.  See day_periods below.'
             decode_type: '- (Optional) The authentication mode. Valid values:'
+            default: ': restores the default settings.'
             defense_origin: '- (Optional, ForceNew) Sources of protection. Value:'
             defense_scene: '- (Required, ForceNew) The WAF protection scenario to be created.'
             defense_type: '- (Required, ForceNew) The protection rule type. Value:'
             dlp: ': Indicates information leakage protection.'
             end: '- (Optional, Int) The end time of the rule. This is a UNIX timestamp in milliseconds.'
+            "false": ': Automatic updates are turned off.'
+            form: ': indicates Form parsing.'
+            graphql: ': indicates GraphQL parsing.'
             gray_rate: '- (Optional, Int) The percentage of traffic for which the canary release takes effect. The value must be in the range of 1 to 100.'
             gray_sub_key: '- (Optional) The sub-feature of the statistical object. This parameter is required when you set the GrayTarget parameter to cookie, header, or queryarg.'
             gray_target: '- (Optional) The type of the canary release object. Valid values:'
+            gzip: ': indicates Gzip decompression.'
             header: ': Custom header. If you select this value, you must specify the header in the GraySubKey parameter.'
-            id: '- The ID of the resource supplied above.The value is formulated as <instance_id>:<defense_type>:<rule_id>.'
+            hex: ': indicates Hex decoding (enabled by default and cannot be canceled).'
+            html: ': indicates HTML entity decoding.'
+            id: '- The ID of the resource supplied above. The value is formulated as <instance_id>:<defense_type>:<rule_id>.'
             instance_id: '- (Required, ForceNew) The ID of the Web Application Firewall (WAF) instance.'
             interval: |-
                 - (Optional, Int) The statistical period, in seconds. This parameter specifies the period during which access counts are collected, and works with the Threshold parameter.
                 Valid values: 1 to 1800 seconds.
             ip_blacklist: ': indicates the IP address blacklist.'
+            java: ': indicates Java deserialization decoding.'
+            json: ': indicates JSON parsing.'
             key: '- (Optional) The field from which you want to extract account information. Valid values: Query-Arg, Cookie-Exact, Post-Arg, Header.'
+            monitor: ': places requests in observation mode.'
+            multipart: ': indicates Multipart parsing.'
+            oct: ': indicates OCT decoding (enabled by default and cannot be canceled).'
             op_value: '- (Optional) Logical character. Value:'
             period: ': The rule is effective within a specific time period.'
             permanent: '(default): The rule is always effective.'
+            php: ': indicates PHP serialization decoding.'
             position: '- (Optional) The field that stores the decoded account information.'
             priority: '- (Optional, Int) The priority of the current extraction configuration. Each traffic can match at most one extraction policy. Valid values: [0,20]. A smaller value indicates a higher priority. The priority value must be unique.'
             queryarg: ': Custom parameter. If you select this value, you must specify the custom parameter in the GraySubKey parameter.'
@@ -74426,12 +75025,16 @@ resources:
             region_block: ': indicates that the region is blocked.'
             remote_addr: '(default): IP address.'
             resource: ': indicates the rule of the protected object dimension.'
-            rule_id: '- The protection rule ID.'
+            rule_action: '- (Optional, Available since v1.269.0) Web core protection rule action. Valid values:'
+            rule_batch_operation_config: '- (Optional, Available since v1.269.0) The batch operation on rules. If this parameter is not empty, the RuleDetail parameter must be empty. Valid values:'
+            rule_detail: '- (Optional, List, Available since v1.269.0) The configuration of the Web core protection rules to be modified. See rule_detail below.'
+            rule_id: '- (Optional, Available since v1.269.0) The ID of the core Web protection rule.'
             rule_name: '- (Optional, Computed) The rule name.'
             rule_status: '- (Optional, Int) Protection rule status.'
+            rule_type: '- (Optional, Available since v1.269.0) The type of the rule. Valid values:'
             spike_throttle: ': indicates peak current limit.'
             start: '- (Optional, Int) The start time of the rule. This is a UNIX timestamp in milliseconds.'
-            status: '- (Optional, List) Response code frequency setting. The description is in the JSON string format. See status below.'
+            status: '- (Optional, Set) Response code frequency setting. The description is in the JSON string format. See status below.'
             sub_key: '- (Optional) The child match field.'
             system: ': Automatically generated by the system.'
             tamperproof: ': Indicates that the web page is tamper-proof.'
@@ -74439,18 +75042,24 @@ resources:
             template: '(default): indicates the template protection rule.'
             template_id: '- (Optional, ForceNew, Int) The protection template ID of the protection rule to be created.'
             threshold: '- (Optional, Int) The maximum number of requests that can be sent from a statistical object.'
-            time_periods: '- (Optional, Set) The time period during which the rule is effective. This parameter is required when you set the TimeScope parameter to period. A maximum of five time periods can be set. See time_periods below.'
+            time_periods: '- (Optional, List) The time period during which the rule is effective. This parameter is required when you set the TimeScope parameter to period. A maximum of five time periods can be set. See time_periods below.'
             time_scope: '- (Optional, Computed) The effective period of the rule. Valid values:'
             time_zone: '- (Optional, Computed, Int) The time zone in which the rule is effective. The default value is 8. The value must be in the range of - 12 to 12. 0 indicates UTC. 8 indicates UTC+8. -8 indicates UTC-8.'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Defense Rule.'
             timeouts.delete: '- (Defaults to 5 mins) Used when delete the Defense Rule.'
             timeouts.update: '- (Defaults to 5 mins) Used when update the Defense Rule.'
+            "true": ': indicates that automatic update is enabled.'
             ttl: |-
                 - (Optional, Int) The period of time during which you want the specified action to be valid. Unit: seconds.
                 Valid values: 60 to 86400.
+            url: ': URL decoding (enabled by default and cannot be canceled).'
+            utf7: ': indicates UTF-7 decoding.'
             values: '- (Optional) Match the content and fill in the corresponding content as needed.'
-            week_time_periods: '- (Optional, Set) The periodic time period during which the rule is effective. This parameter is required when you set the TimeScope parameter to cycle. A maximum of five time periods can be set. See week_time_periods below.'
+            waf_base: ': (Available since v1.269.0) indicates new web core protection.'
+            waf_codec: ': (Available since v1.269.0) indicates decode setting.'
+            week_time_periods: '- (Optional, List) The periodic time period during which the rule is effective. This parameter is required when you set the TimeScope parameter to cycle. A maximum of five time periods can be set. See week_time_periods below.'
             whitelist: ': indicates the whitelist.'
+            xml: ': indicates XML parsing.'
         importStatements:
             - $ terraform import alicloud_wafv3_defense_rule.example <instance_id>:<defense_type>:<rule_id>
     alicloud_wafv3_defense_template:
@@ -74478,10 +75087,8 @@ resources:
         argumentDocs:
             "0": ': disabled.'
             "1": ': enabled.'
-            antiscan: ': indicates scan protection.'
             cc: ': indicates CC protection.'
             custom_acl: ': indicates a custom rule.'
-            custom_response: ': indicates a custom response.'
             defense_scene: '- (Required, ForceNew) The WAF protection scenario to be created. Valid values:'
             defense_template_id: '- Template ID'
             defense_template_name: '- (Required) The name of the protection rule template.'
@@ -74502,7 +75109,7 @@ resources:
             timeouts.create: '- (Defaults to 5 mins) Used when create the Defense Template.'
             timeouts.delete: '- (Defaults to 5 mins) Used when delete the Defense Template.'
             timeouts.update: '- (Defaults to 5 mins) Used when update the Defense Template.'
-            waf_group: ': indicates basic protection.'
+            waf_base: ': (Available since v1.269.0) indicates new web core protection.'
             whitelist: ': indicates the whitelist.'
         importStatements:
             - $ terraform import alicloud_wafv3_defense_template.example <instance_id>:<defense_template_id>
@@ -74623,10 +75230,15 @@ resources:
                 - (Optional, Int) Connection timeout duration. Unit: seconds.
                 Value range: 1~3600. Default value: 5.
             redirect.focus_http_backend: '- (Optional) Specifies whether to enable force redirect from HTTPS to HTTP for back-to-origin requests. This parameter is available only if you specify HttpsPorts. Valid values:'
+            redirect.http2_origin: '- (Optional, Available since v1.269.0) Specifies whether to enable HTTP/2 for back-to-origin traffic. Valid values:'
+            redirect.http2_origin_max_concurrency: '- (Optional, Int, Available since v1.269.0) The maximum number of concurrent HTTP/2 back-to-origin requests. Valid values: 1 to 512. Default value: 128.'
             redirect.keepalive: '- (Optional) Specifies whether to enable the persistent connection feature. Valid values:'
             redirect.keepalive_requests: '- (Optional, Computed, Int) The number of reused persistent connections. Valid values: 60 to 1000. Default value: 1000'
             redirect.keepalive_timeout: '- (Optional, Computed, Int) Idle long connection timeout, value range: 1~60, default 15, unit: seconds.'
             redirect.loadbalance: '- (Required) The load balancing algorithm that you want to use to forward requests to the origin server. Valid values:'
+            redirect.max_body_size: |-
+                - (Optional, Int, Available since v1.269.0) The maximum size of a request body. Valid values: 2 to 10. Default value: 2. Unit: GB.
+                -> NOTE: This parameter is supported only by the Ultimate edition.
             redirect.read_timeout: '- (Optional, Int) The timeout period of write connections. Unit: seconds. Valid values: 1 to 3600. Default value: 120.'
             redirect.request_headers: |-
                 - (Optional, List) The traffic marking field and value of the domain name, which is used to mark the traffic processed by WAF.

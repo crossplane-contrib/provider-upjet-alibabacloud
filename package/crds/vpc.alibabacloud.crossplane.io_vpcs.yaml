@@ -137,7 +137,7 @@ spec:
                       type: string
                     type: array
                   secondaryCidrMask:
-                    description: (Deprecated since v1.248.0) Field 'router_table_id'
+                    description: (Deprecated since v1.248.0) Field 'secondary_cidr_mask'
                       has been deprecated from provider version 1.248.0. New resource
                       'alicloud_vpc_ipv4_cidr_block' instead.
                     type: number
@@ -245,7 +245,7 @@ spec:
                       type: string
                     type: array
                   secondaryCidrMask:
-                    description: (Deprecated since v1.248.0) Field 'router_table_id'
+                    description: (Deprecated since v1.248.0) Field 'secondary_cidr_mask'
                       has been deprecated from provider version 1.248.0. New resource
                       'alicloud_vpc_ipv4_cidr_block' instead.
                     type: number
@@ -546,7 +546,7 @@ spec:
                       type: string
                     type: array
                   secondaryCidrMask:
-                    description: (Deprecated since v1.248.0) Field 'router_table_id'
+                    description: (Deprecated since v1.248.0) Field 'secondary_cidr_mask'
                       has been deprecated from provider version 1.248.0. New resource
                       'alicloud_vpc_ipv4_cidr_block' instead.
                     type: number

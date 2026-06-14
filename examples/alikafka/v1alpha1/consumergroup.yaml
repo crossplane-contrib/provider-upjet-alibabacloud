@@ -1,0 +1,96 @@
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: ConsumerGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/consumergroup
+  labels:
+    testing.upbound.io/example-name: consumergroup
+  name: consumergroup
+spec:
+  forProvider:
+    region: cn-beijing
+    consumerId: crossplane-example-consumer-group
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: consumergroup
+
+---
+
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/consumergroup
+  labels:
+    testing.upbound.io/example-name: consumergroup
+  name: consumergroup
+spec:
+  forProvider:
+    region: cn-beijing
+    name: crossplane-example-for-alikafka-consumergroup
+    partitionNum: 50
+    diskType: 1
+    diskSize: 500
+    deployType: 5
+    ioMax: 20
+    specType: professional
+    serviceVersion: 2.2.0
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: consumergroup
+    securityGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: consumergroup
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/consumergroup
+  labels:
+    testing.upbound.io/example-name: consumergroup
+  name: consumergroup
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: consumergroup
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/consumergroup
+  labels:
+    testing.upbound.io/example-name: consumergroup
+  name: consumergroup
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcName: crossplane-example-for-alikafka-consumergroup
+    cidrBlock: 172.16.0.0/12
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/consumergroup
+  labels:
+    testing.upbound.io/example-name: consumergroup
+  name: consumergroup
+spec:
+  forProvider:
+    region: cn-beijing
+    vswitchName: crossplane-example-for-alikafka-consumergroup
+    cidrBlock: 172.16.0.0/24
+    zoneId: cn-beijing-h
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: consumergroup

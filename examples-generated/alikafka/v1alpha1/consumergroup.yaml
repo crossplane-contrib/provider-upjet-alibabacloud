@@ -1,0 +1,15 @@
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: ConsumerGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/consumergroup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    consumerId: ${var.name}
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alicloud_alikafka_instances
+    region: cn-beijing

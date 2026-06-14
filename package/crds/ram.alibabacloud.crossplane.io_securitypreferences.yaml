@@ -115,6 +115,19 @@ spec:
                       Valid values: 1 to 24. Unit: hours.
                       Default value: 6.
                     type: number
+                  maxIdleDaysForAccessKeys:
+                    description: The maximum idle time (in days) of an access key
+                      for a RAM user. After the access key is not used for this period,
+                      it is automatically disabled on the next day. Possible values
+                      are 90, 180, 365, 730. Defaults to 730.
+                    type: number
+                  maxIdleDaysForUsers:
+                    description: The maximum idle time (days) of the RAM user. If
+                      the RAM user has the console logon enabled, the console logon
+                      will be automatically disabled on the next day after the continuous
+                      logon time (excluding SSO logon time) reaches this time. Possible
+                      values are 90, 180, 365, 730. Defaults to 730.
+                    type: number
                   mfaOperationForLogin:
                     description: 'MFA must be used during logon (replace the original
                       EnforceMFAForLogin parameter, the original parameter is still
@@ -186,6 +199,19 @@ spec:
                       The validity period of the logon session of RAM users.
                       Valid values: 1 to 24. Unit: hours.
                       Default value: 6.
+                    type: number
+                  maxIdleDaysForAccessKeys:
+                    description: The maximum idle time (in days) of an access key
+                      for a RAM user. After the access key is not used for this period,
+                      it is automatically disabled on the next day. Possible values
+                      are 90, 180, 365, 730. Defaults to 730.
+                    type: number
+                  maxIdleDaysForUsers:
+                    description: The maximum idle time (days) of the RAM user. If
+                      the RAM user has the console logon enabled, the console logon
+                      will be automatically disabled on the next day after the continuous
+                      logon time (excluding SSO logon time) reaches this time. Possible
+                      values are 90, 180, 365, 730. Defaults to 730.
                     type: number
                   mfaOperationForLogin:
                     description: 'MFA must be used during logon (replace the original
@@ -421,6 +447,19 @@ spec:
                       The validity period of the logon session of RAM users.
                       Valid values: 1 to 24. Unit: hours.
                       Default value: 6.
+                    type: number
+                  maxIdleDaysForAccessKeys:
+                    description: The maximum idle time (in days) of an access key
+                      for a RAM user. After the access key is not used for this period,
+                      it is automatically disabled on the next day. Possible values
+                      are 90, 180, 365, 730. Defaults to 730.
+                    type: number
+                  maxIdleDaysForUsers:
+                    description: The maximum idle time (days) of the RAM user. If
+                      the RAM user has the console logon enabled, the console logon
+                      will be automatically disabled on the next day after the continuous
+                      logon time (excluding SSO logon time) reaches this time. Possible
+                      values are 90, 180, 365, 730. Defaults to 730.
                     type: number
                   mfaOperationForLogin:
                     description: 'MFA must be used during logon (replace the original

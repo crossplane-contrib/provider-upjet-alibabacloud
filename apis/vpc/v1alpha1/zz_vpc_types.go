@@ -76,7 +76,7 @@ type VPCInitParameters struct {
 	// Field 'secondary_cidr_blocks' has been deprecated from provider version 1.185.0 and it will be removed in the future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'. secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block resource cannot be used at the same time.
 	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
-	// (Deprecated since v1.248.0) Field 'router_table_id' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
+	// (Deprecated since v1.248.0) Field 'secondary_cidr_mask' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
 	SecondaryCidrMask *float64 `json:"secondaryCidrMask,omitempty" tf:"secondary_cidr_mask,omitempty"`
 
 	// The description of the route table.
@@ -171,7 +171,7 @@ type VPCObservation struct {
 	// Field 'secondary_cidr_blocks' has been deprecated from provider version 1.185.0 and it will be removed in the future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'. secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block resource cannot be used at the same time.
 	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
-	// (Deprecated since v1.248.0) Field 'router_table_id' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
+	// (Deprecated since v1.248.0) Field 'secondary_cidr_mask' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
 	SecondaryCidrMask *float64 `json:"secondaryCidrMask,omitempty" tf:"secondary_cidr_mask,omitempty"`
 
 	// The status of the VPC.   Pending: The VPC is being configured. Available: The VPC is available.
@@ -268,7 +268,7 @@ type VPCParameters struct {
 	// +kubebuilder:validation:Optional
 	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
-	// (Deprecated since v1.248.0) Field 'router_table_id' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
+	// (Deprecated since v1.248.0) Field 'secondary_cidr_mask' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
 	// +kubebuilder:validation:Optional
 	SecondaryCidrMask *float64 `json:"secondaryCidrMask,omitempty" tf:"secondary_cidr_mask,omitempty"`
 

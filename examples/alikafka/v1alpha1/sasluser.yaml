@@ -1,0 +1,112 @@
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: SaslUser
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/sasluser
+  labels:
+    testing.upbound.io/example-name: sasluser
+  name: sasluser
+spec:
+  forProvider:
+    region: cn-beijing
+    username: crossplane-example-sasl-user
+    passwordSecretRef:
+      key: password
+      name: alikafka-sasl-user-password
+      namespace: upbound-system
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sasluser
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: alikafka-sasl-user-password
+  namespace: upbound-system
+type: Opaque
+stringData:
+  password: Crossplane123
+
+---
+
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/sasluser
+  labels:
+    testing.upbound.io/example-name: sasluser
+  name: sasluser
+spec:
+  forProvider:
+    region: cn-beijing
+    name: crossplane-example-for-alikafka-sasluser
+    config: '{"enable.acl":"true"}'
+    partitionNum: 50
+    diskType: 1
+    diskSize: 500
+    deployType: 5
+    ioMax: 20
+    specType: professional
+    serviceVersion: 2.2.0
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sasluser
+    securityGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sasluser
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/sasluser
+  labels:
+    testing.upbound.io/example-name: sasluser
+  name: sasluser
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sasluser
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/sasluser
+  labels:
+    testing.upbound.io/example-name: sasluser
+  name: sasluser
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcName: crossplane-example-for-alikafka-sasluser
+    cidrBlock: 10.4.0.0/16
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/sasluser
+  labels:
+    testing.upbound.io/example-name: sasluser
+  name: sasluser
+spec:
+  forProvider:
+    region: cn-beijing
+    vswitchName: crossplane-example-for-alikafka-sasluser
+    cidrBlock: 10.4.0.0/24
+    zoneId: cn-beijing-h
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sasluser

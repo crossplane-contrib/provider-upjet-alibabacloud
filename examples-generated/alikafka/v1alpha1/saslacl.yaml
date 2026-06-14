@@ -1,0 +1,146 @@
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: SaslACL
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    aclOperationType: Write
+    aclResourceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    aclResourcePatternType: LITERAL
+    aclResourceType: Topic
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    usernameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    config: '{"enable.acl":"true"}'
+    deployType: "5"
+    diskSize: "500"
+    diskType: "1"
+    ioMax: "20"
+    name: ${var.name}-${random_integer.default.result}
+    partitionNum: 50
+    region: cn-beijing
+    securityGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    serviceVersion: 2.2.0
+    specType: professional
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: SaslUser
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    passwordSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    region: cn-beijing
+    username: ${var.name}
+
+---
+
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    remark: topic-remark
+    topic: example-topic
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    region: cn-beijing
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

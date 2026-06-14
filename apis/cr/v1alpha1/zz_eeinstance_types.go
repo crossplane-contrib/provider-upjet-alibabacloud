@@ -52,6 +52,9 @@ type EeInstanceInitParameters struct {
 	// +mapType=granular
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
+	// The number of additional namespaces to purchase. The value is an integral multiple of 5.
+	NamespaceQuota *float64 `json:"namespaceQuota,omitempty" tf:"namespace_quota,omitempty"`
+
 	// Login password, 8-32 digits, must contain at least two letters, symbols, or numbers
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
@@ -67,8 +70,14 @@ type EeInstanceInitParameters struct {
 	// Automatic renewal status, value:
 	RenewalStatus *string `json:"renewalStatus,omitempty" tf:"renewal_status,omitempty"`
 
+	// The number of additional repositories to purchase. The value is an integral multiple of 1000.
+	RepoQuota *float64 `json:"repoQuota,omitempty" tf:"repo_quota,omitempty"`
+
 	// The ID of the resource group
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// The number of VPC access controls.
+	VPCQuota *float64 `json:"vpcQuota,omitempty" tf:"vpc_quota,omitempty"`
 }
 
 type EeInstanceObservation struct {
@@ -110,6 +119,9 @@ type EeInstanceObservation struct {
 	// +mapType=granular
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
+	// The number of additional namespaces to purchase. The value is an integral multiple of 5.
+	NamespaceQuota *float64 `json:"namespaceQuota,omitempty" tf:"namespace_quota,omitempty"`
+
 	// Payment type, value:
 	PaymentType *string `json:"paymentType,omitempty" tf:"payment_type,omitempty"`
 
@@ -125,11 +137,17 @@ type EeInstanceObservation struct {
 	// Automatic renewal status, value:
 	RenewalStatus *string `json:"renewalStatus,omitempty" tf:"renewal_status,omitempty"`
 
+	// The number of additional repositories to purchase. The value is an integral multiple of 1000.
+	RepoQuota *float64 `json:"repoQuota,omitempty" tf:"repo_quota,omitempty"`
+
 	// The ID of the resource group
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
 	// Instance Status
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// The number of VPC access controls.
+	VPCQuota *float64 `json:"vpcQuota,omitempty" tf:"vpc_quota,omitempty"`
 }
 
 type EeInstanceParameters struct {
@@ -163,6 +181,10 @@ type EeInstanceParameters struct {
 	// +mapType=granular
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
+	// The number of additional namespaces to purchase. The value is an integral multiple of 5.
+	// +kubebuilder:validation:Optional
+	NamespaceQuota *float64 `json:"namespaceQuota,omitempty" tf:"namespace_quota,omitempty"`
+
 	// Login password, 8-32 digits, must contain at least two letters, symbols, or numbers
 	// +kubebuilder:validation:Optional
 	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
@@ -188,9 +210,17 @@ type EeInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	RenewalStatus *string `json:"renewalStatus,omitempty" tf:"renewal_status,omitempty"`
 
+	// The number of additional repositories to purchase. The value is an integral multiple of 1000.
+	// +kubebuilder:validation:Optional
+	RepoQuota *float64 `json:"repoQuota,omitempty" tf:"repo_quota,omitempty"`
+
 	// The ID of the resource group
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// The number of VPC access controls.
+	// +kubebuilder:validation:Optional
+	VPCQuota *float64 `json:"vpcQuota,omitempty" tf:"vpc_quota,omitempty"`
 }
 
 type InstanceEndpointsInitParameters struct {
