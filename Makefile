@@ -22,7 +22,7 @@ export TERRAFORM_PROVIDER_REPO ?= https://github.com/aliyun/terraform-provider-a
 export TERRAFORM_PROVIDER_VERSION ?= 1.281.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-alicloud
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://releases.hashicorp.com/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/$(TERRAFORM_PROVIDER_VERSION)
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-alicloud_v1.267.0
+export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-alicloud_v1.281.0
 export TERRAFORM_DOCS_PATH ?= website/docs/r
 
 
