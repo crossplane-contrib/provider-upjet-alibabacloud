@@ -4,15 +4,15 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
     instanceRefs:
-    - name: example
+    - name: default
     keyPairNameSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: default
     region: cn-beijing
 
 ---
@@ -23,11 +23,11 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
-    keyPairName: tf-example-${random_integer.default.result}
+    keyPairName: ${var.name}-${random_integer.default.result}
     region: cn-beijing
 
 ---
@@ -38,23 +38,27 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
-    availabilityZone: ${data.alicloud_zones.example.zones.0.id}
+    availabilityZone: ${data.alicloud_instance_types.default.instance_types.0.availability_zones.0}
     imageIdSelector:
       matchLabels:
         testing.upbound.io/example-name: alicloud_images
-    instanceName: terraform-example
-    instanceType: ${data.alicloud_instance_types.example.instance_types.0.id}
-    internetChargeType: PayByBandwidth
+    instanceChargeType: PostPaid
+    instanceName: ${var.name}
+    instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
+    internetChargeType: PayByTraffic
+    internetMaxBandwidthOut: "10"
     region: cn-beijing
-    securityGroupRefs:
-    - name: example
+    securityGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    systemDiskCategory: cloud_efficiency
     vswitchIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: default
 
 ---
 
@@ -64,15 +68,15 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
-    name: terraform-example
+    name: ${var.name}
     region: cn-beijing
     vpcIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: default
 
 ---
 
@@ -82,13 +86,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
-    cidrBlock: 172.17.3.0/24
+    cidrBlock: 192.168.0.0/16
     region: cn-beijing
-    vpcName: terraform-example
+    vpcName: ${var.name}
 
 ---
 
@@ -98,14 +102,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ecs/v1alpha1/keypairattachment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
-    cidrBlock: 172.17.3.0/24
+    cidrBlock: 192.168.192.0/24
     region: cn-beijing
     vpcIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
-    vswitchName: terraform-example
-    zoneId: ${data.alicloud_zones.example.zones.0.id}
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

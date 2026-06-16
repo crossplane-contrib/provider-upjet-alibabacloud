@@ -33,7 +33,13 @@ type TairInstanceInitParameters struct {
 	// The time when to change the configurations. Default value: Immediately. Valid values: Immediately (The configurations are immediately changed), MaintainTime (The configurations are changed within the maintenance window).
 	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
 
-	// Database version. Default value: 1.0.
+	// The custom key ID. You can call DescribeEncryptionKeyList to obtain it.
+	EncryptionKey *string `json:"encryptionKey,omitempty" tf:"encryption_key,omitempty"`
+
+	// The encryption algorithm. The default value is AES-CTR-256.
+	EncryptionName *string `json:"encryptionName,omitempty" tf:"encryption_name,omitempty"`
+
+	// The database version. Default value: 1.0. The valid values depend on the Tair instance series:
 	EngineVersion *string `json:"engineVersion,omitempty" tf:"engine_version,omitempty"`
 
 	// Specifies whether to forcefully change the configurations of the instance. Default value: true. Valid values: false (The system does not forcefully change the configurations), true (The system forcefully changes the configurations).
@@ -96,6 +102,19 @@ type TairInstanceInitParameters struct {
 	// The ID of the resource group to which the instance belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
+	// The Alibaba Cloud Resource Name (ARN) of the role to be authorized. After authorization, you can use the related Key Management Service (KMS) features. Format: acs:ram::$accountID:role/$roleName.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.RoleArnExtractor()
+	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+
+	// Reference to a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+
+	// Selector for a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
+
 	// Modifies SSL encryption configurations. Valid values: 1. Disable (The SSL encryption is disabled) 2. Enable (The SSL encryption is enabled)  3. Update (The SSL certificate is updated)
 	SSLEnabled *string `json:"sslEnabled,omitempty" tf:"ssl_enabled,omitempty"`
 
@@ -142,6 +161,9 @@ type TairInstanceInitParameters struct {
 
 	// The name of the resource.
 	TairInstanceName *string `json:"tairInstanceName,omitempty" tf:"tair_instance_name,omitempty"`
+
+	// Specifies whether to enable Transparent Data Encryption (TDE). Valid value: enabled.
+	TdeStatus *string `json:"tdeStatus,omitempty" tf:"tde_status,omitempty"`
 
 	// The VPC authentication mode. Valid values: Open (enables password authentication), Close (disables password authentication and enables password-free access).
 	VPCAuthMode *string `json:"vpcAuthMode,omitempty" tf:"vpc_auth_mode,omitempty"`
@@ -205,7 +227,13 @@ type TairInstanceObservation struct {
 	// The time when to change the configurations. Default value: Immediately. Valid values: Immediately (The configurations are immediately changed), MaintainTime (The configurations are changed within the maintenance window).
 	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
 
-	// Database version. Default value: 1.0.
+	// The custom key ID. You can call DescribeEncryptionKeyList to obtain it.
+	EncryptionKey *string `json:"encryptionKey,omitempty" tf:"encryption_key,omitempty"`
+
+	// The encryption algorithm. The default value is AES-CTR-256.
+	EncryptionName *string `json:"encryptionName,omitempty" tf:"encryption_name,omitempty"`
+
+	// The database version. Default value: 1.0. The valid values depend on the Tair instance series:
 	EngineVersion *string `json:"engineVersion,omitempty" tf:"engine_version,omitempty"`
 
 	// Specifies whether to forcefully change the configurations of the instance. Default value: true. Valid values: false (The system does not forcefully change the configurations), true (The system forcefully changes the configurations).
@@ -277,6 +305,9 @@ type TairInstanceObservation struct {
 	// The ID of the resource group to which the instance belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
+	// The Alibaba Cloud Resource Name (ARN) of the role to be authorized. After authorization, you can use the related Key Management Service (KMS) features. Format: acs:ram::$accountID:role/$roleName.
+	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+
 	// Modifies SSL encryption configurations. Valid values: 1. Disable (The SSL encryption is disabled) 2. Enable (The SSL encryption is enabled)  3. Update (The SSL certificate is updated)
 	SSLEnabled *string `json:"sslEnabled,omitempty" tf:"ssl_enabled,omitempty"`
 
@@ -320,6 +351,9 @@ type TairInstanceObservation struct {
 	// The name of the resource.
 	TairInstanceName *string `json:"tairInstanceName,omitempty" tf:"tair_instance_name,omitempty"`
 
+	// Specifies whether to enable Transparent Data Encryption (TDE). Valid value: enabled.
+	TdeStatus *string `json:"tdeStatus,omitempty" tf:"tde_status,omitempty"`
+
 	// The VPC authentication mode. Valid values: Open (enables password authentication), Close (disables password authentication and enables password-free access).
 	VPCAuthMode *string `json:"vpcAuthMode,omitempty" tf:"vpc_auth_mode,omitempty"`
 
@@ -359,7 +393,15 @@ type TairInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
 
-	// Database version. Default value: 1.0.
+	// The custom key ID. You can call DescribeEncryptionKeyList to obtain it.
+	// +kubebuilder:validation:Optional
+	EncryptionKey *string `json:"encryptionKey,omitempty" tf:"encryption_key,omitempty"`
+
+	// The encryption algorithm. The default value is AES-CTR-256.
+	// +kubebuilder:validation:Optional
+	EncryptionName *string `json:"encryptionName,omitempty" tf:"encryption_name,omitempty"`
+
+	// The database version. Default value: 1.0. The valid values depend on the Tair instance series:
 	// +kubebuilder:validation:Optional
 	EngineVersion *string `json:"engineVersion,omitempty" tf:"engine_version,omitempty"`
 
@@ -448,6 +490,20 @@ type TairInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
+	// The Alibaba Cloud Resource Name (ARN) of the role to be authorized. After authorization, you can use the related Key Management Service (KMS) features. Format: acs:ram::$accountID:role/$roleName.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.RoleArnExtractor()
+	// +kubebuilder:validation:Optional
+	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
+
+	// Reference to a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+
+	// Selector for a Role in ram to populate roleArn.
+	// +kubebuilder:validation:Optional
+	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
+
 	// Modifies SSL encryption configurations. Valid values: 1. Disable (The SSL encryption is disabled) 2. Enable (The SSL encryption is enabled)  3. Update (The SSL certificate is updated)
 	// +kubebuilder:validation:Optional
 	SSLEnabled *string `json:"sslEnabled,omitempty" tf:"ssl_enabled,omitempty"`
@@ -506,6 +562,10 @@ type TairInstanceParameters struct {
 	// The name of the resource.
 	// +kubebuilder:validation:Optional
 	TairInstanceName *string `json:"tairInstanceName,omitempty" tf:"tair_instance_name,omitempty"`
+
+	// Specifies whether to enable Transparent Data Encryption (TDE). Valid value: enabled.
+	// +kubebuilder:validation:Optional
+	TdeStatus *string `json:"tdeStatus,omitempty" tf:"tde_status,omitempty"`
 
 	// The VPC authentication mode. Valid values: Open (enables password authentication), Close (disables password authentication and enables password-free access).
 	// +kubebuilder:validation:Optional

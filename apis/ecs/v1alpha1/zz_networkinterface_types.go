@@ -15,6 +15,9 @@ import (
 
 type NetworkInterfaceInitParameters struct {
 
+	// Specifies whether to release the ENI when the associated instance is released. Valid values: true, false.
+	DeleteOnRelease *bool `json:"deleteOnRelease,omitempty" tf:"delete_on_release,omitempty"`
+
 	// The description of the ENI. The description must be 2 to 256 characters in length and cannot start with http:// or https://.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -94,6 +97,9 @@ type NetworkInterfaceInitParameters struct {
 
 type NetworkInterfaceObservation struct {
 
+	// Specifies whether to release the ENI when the associated instance is released. Valid values: true, false.
+	DeleteOnRelease *bool `json:"deleteOnRelease,omitempty" tf:"delete_on_release,omitempty"`
+
 	// The description of the ENI. The description must be 2 to 256 characters in length and cannot start with http:// or https://.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -160,6 +166,10 @@ type NetworkInterfaceObservation struct {
 }
 
 type NetworkInterfaceParameters struct {
+
+	// Specifies whether to release the ENI when the associated instance is released. Valid values: true, false.
+	// +kubebuilder:validation:Optional
+	DeleteOnRelease *bool `json:"deleteOnRelease,omitempty" tf:"delete_on_release,omitempty"`
 
 	// The description of the ENI. The description must be 2 to 256 characters in length and cannot start with http:// or https://.
 	// +kubebuilder:validation:Optional

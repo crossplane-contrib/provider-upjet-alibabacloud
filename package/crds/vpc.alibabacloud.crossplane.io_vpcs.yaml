@@ -105,10 +105,12 @@ spec:
                       contains IPv4 addresses.
                     type: string
                   ipv6CidrBlock:
-                    description: The IPv6 CIDR block of the default VPC.
+                    description: The IPv6 CIDR block of the default VPC. Please use
+                      the new resource alicloud_vpc_ipv6_cidr_block.
                     type: string
                   ipv6Isp:
-                    description: 'The IPv6 address segment type of the VPC. Value:'
+                    description: 'The IPv6 address segment type of the VPC. Please
+                      use the new resource alicloud_vpc_ipv6_cidr_block. Value:'
                     type: string
                   isDefault:
                     description: 'Specifies whether to create the default VPC in the
@@ -137,7 +139,7 @@ spec:
                       type: string
                     type: array
                   secondaryCidrMask:
-                    description: (Deprecated since v1.248.0) Field 'router_table_id'
+                    description: (Deprecated since v1.248.0) Field 'secondary_cidr_mask'
                       has been deprecated from provider version 1.248.0. New resource
                       'alicloud_vpc_ipv4_cidr_block' instead.
                     type: number
@@ -217,10 +219,12 @@ spec:
                       contains IPv4 addresses.
                     type: string
                   ipv6CidrBlock:
-                    description: The IPv6 CIDR block of the default VPC.
+                    description: The IPv6 CIDR block of the default VPC. Please use
+                      the new resource alicloud_vpc_ipv6_cidr_block.
                     type: string
                   ipv6Isp:
-                    description: 'The IPv6 address segment type of the VPC. Value:'
+                    description: 'The IPv6 address segment type of the VPC. Please
+                      use the new resource alicloud_vpc_ipv6_cidr_block. Value:'
                     type: string
                   isDefault:
                     description: 'Specifies whether to create the default VPC in the
@@ -245,7 +249,7 @@ spec:
                       type: string
                     type: array
                   secondaryCidrMask:
-                    description: (Deprecated since v1.248.0) Field 'router_table_id'
+                    description: (Deprecated since v1.248.0) Field 'secondary_cidr_mask'
                       has been deprecated from provider version 1.248.0. New resource
                       'alicloud_vpc_ipv4_cidr_block' instead.
                     type: number
@@ -490,23 +494,27 @@ spec:
                       contains IPv4 addresses.
                     type: string
                   ipv6CidrBlock:
-                    description: The IPv6 CIDR block of the default VPC.
+                    description: The IPv6 CIDR block of the default VPC. Please use
+                      the new resource alicloud_vpc_ipv6_cidr_block.
                     type: string
                   ipv6CidrBlocks:
                     description: The IPv6 CIDR block information of the VPC.
                     items:
                       properties:
                         ipv6CidrBlock:
-                          description: The IPv6 CIDR block of the default VPC.
+                          description: The IPv6 CIDR block of the default VPC. Please
+                            use the new resource alicloud_vpc_ipv6_cidr_block.
                           type: string
                         ipv6Isp:
                           description: 'The IPv6 address segment type of the VPC.
+                            Please use the new resource alicloud_vpc_ipv6_cidr_block.
                             Value:'
                           type: string
                       type: object
                     type: array
                   ipv6Isp:
-                    description: 'The IPv6 address segment type of the VPC. Value:'
+                    description: 'The IPv6 address segment type of the VPC. Please
+                      use the new resource alicloud_vpc_ipv6_cidr_block. Value:'
                     type: string
                   isDefault:
                     description: 'Specifies whether to create the default VPC in the
@@ -546,7 +554,7 @@ spec:
                       type: string
                     type: array
                   secondaryCidrMask:
-                    description: (Deprecated since v1.248.0) Field 'router_table_id'
+                    description: (Deprecated since v1.248.0) Field 'secondary_cidr_mask'
                       has been deprecated from provider version 1.248.0. New resource
                       'alicloud_vpc_ipv4_cidr_block' instead.
                     type: number

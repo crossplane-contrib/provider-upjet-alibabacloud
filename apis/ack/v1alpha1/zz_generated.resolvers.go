@@ -12,6 +12,7 @@ import (
 	v1alpha12 "github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1"
 	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -402,6 +403,24 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mg.Spec.ForProvider.SecurityGroupIds = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.SecurityGroupIDRefs = mrsp.ResolvedReferences
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.UpgradePolicy); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.UpgradePolicy[i3].KubernetesVersion),
+			Extract:      resource.ExtractParamPath("version", false),
+			Reference:    mg.Spec.ForProvider.UpgradePolicy[i3].KubernetesVersionRef,
+			Selector:     mg.Spec.ForProvider.UpgradePolicy[i3].KubernetesVersionSelector,
+			To: reference.To{
+				List:    &ManagedKubernetesList{},
+				Managed: &ManagedKubernetes{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.UpgradePolicy[i3].KubernetesVersion")
+		}
+		mg.Spec.ForProvider.UpgradePolicy[i3].KubernetesVersion = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.UpgradePolicy[i3].KubernetesVersionRef = rsp.ResolvedReference
+
+	}
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
@@ -466,6 +485,24 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mg.Spec.InitProvider.SecurityGroupIds = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.InitProvider.SecurityGroupIDRefs = mrsp.ResolvedReferences
 
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.UpgradePolicy); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.UpgradePolicy[i3].KubernetesVersion),
+			Extract:      resource.ExtractParamPath("version", false),
+			Reference:    mg.Spec.InitProvider.UpgradePolicy[i3].KubernetesVersionRef,
+			Selector:     mg.Spec.InitProvider.UpgradePolicy[i3].KubernetesVersionSelector,
+			To: reference.To{
+				List:    &ManagedKubernetesList{},
+				Managed: &ManagedKubernetes{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.UpgradePolicy[i3].KubernetesVersion")
+		}
+		mg.Spec.InitProvider.UpgradePolicy[i3].KubernetesVersion = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.UpgradePolicy[i3].KubernetesVersionRef = rsp.ResolvedReference
+
+	}
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.VswitchIds),
 		Extract:       reference.ExternalName(),

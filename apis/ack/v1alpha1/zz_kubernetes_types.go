@@ -254,7 +254,7 @@ type KubernetesInitParameters struct {
 	// +kubebuilder:validation:Optional
 	PodVswitchIdsSelector *v1.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
 
-	// Proxy mode is option of kube-proxy. options: iptables | ipvs. default: ipvs.
+	// kube-proxy proxy mode. Default: ipvs. Options: iptables, ipvs, nftables.
 	ProxyMode *string `json:"proxyMode,omitempty" tf:"proxy_mode,omitempty"`
 
 	// RDS instance list, You can choose which RDS instances whitelist to add instances to.
@@ -582,7 +582,7 @@ type KubernetesObservation struct {
 	// - [Terway Specific] The vswitches for the pod network when using Terway. It is recommended that pod_vswitch_ids is not belong to worker_vswitch_ids and master_vswitch_ids but must be in same availability zones. Only works for Create Operation.
 	PodVswitchIds []*string `json:"podVswitchIds,omitempty" tf:"pod_vswitch_ids,omitempty"`
 
-	// Proxy mode is option of kube-proxy. options: iptables | ipvs. default: ipvs.
+	// kube-proxy proxy mode. Default: ipvs. Options: iptables, ipvs, nftables.
 	ProxyMode *string `json:"proxyMode,omitempty" tf:"proxy_mode,omitempty"`
 
 	// RDS instance list, You can choose which RDS instances whitelist to add instances to.
@@ -918,7 +918,7 @@ type KubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	PodVswitchIdsSelector *v1.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
 
-	// Proxy mode is option of kube-proxy. options: iptables | ipvs. default: ipvs.
+	// kube-proxy proxy mode. Default: ipvs. Options: iptables, ipvs, nftables.
 	// +kubebuilder:validation:Optional
 	ProxyMode *string `json:"proxyMode,omitempty" tf:"proxy_mode,omitempty"`
 

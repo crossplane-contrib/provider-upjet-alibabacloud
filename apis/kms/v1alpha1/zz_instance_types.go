@@ -103,6 +103,9 @@ type InstanceInitParameters struct {
 	// Aucillary VPCs used to access this KMS instance See bind_vpcs below.
 	BindVpcs []BindVpcsInitParameters `json:"bindVpcs,omitempty" tf:"bind_vpcs,omitempty"`
 
+	// Specifies whether to enable deletion protection. Default value: false. Valid values:
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// Whether to force deletion even without backup.
 	ForceDeleteWithoutBackup *string `json:"forceDeleteWithoutBackup,omitempty" tf:"force_delete_without_backup,omitempty"`
 
@@ -200,6 +203,9 @@ type InstanceObservation struct {
 	// The creation time of the resource.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Specifies whether to enable deletion protection. Default value: false. Valid values:
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// (Available since v1.233.1) Instance expiration time.
 	EndDate *string `json:"endDate,omitempty" tf:"end_date,omitempty"`
 
@@ -272,6 +278,10 @@ type InstanceParameters struct {
 	// Aucillary VPCs used to access this KMS instance See bind_vpcs below.
 	// +kubebuilder:validation:Optional
 	BindVpcs []BindVpcsParameters `json:"bindVpcs,omitempty" tf:"bind_vpcs,omitempty"`
+
+	// Specifies whether to enable deletion protection. Default value: false. Valid values:
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Whether to force deletion even without backup.
 	// +kubebuilder:validation:Optional

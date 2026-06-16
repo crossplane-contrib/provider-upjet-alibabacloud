@@ -18,10 +18,10 @@ type IPv6CidrBlocksInitParameters struct {
 
 type IPv6CidrBlocksObservation struct {
 
-	// The IPv6 CIDR block of the default VPC.
+	// The IPv6 CIDR block of the default VPC. Please use the new resource alicloud_vpc_ipv6_cidr_block.
 	IPv6CidrBlock *string `json:"ipv6CidrBlock,omitempty" tf:"ipv6_cidr_block,omitempty"`
 
-	// The IPv6 address segment type of the VPC. Value:
+	// The IPv6 address segment type of the VPC. Please use the new resource alicloud_vpc_ipv6_cidr_block. Value:
 	IPv6Isp *string `json:"ipv6Isp,omitempty" tf:"ipv6_isp,omitempty"`
 }
 
@@ -58,10 +58,10 @@ type VPCInitParameters struct {
 	// The ID of the IP Address Manager (IPAM) pool that contains IPv4 addresses.
 	IPv4IpamPoolID *string `json:"ipv4IpamPoolId,omitempty" tf:"ipv4_ipam_pool_id,omitempty"`
 
-	// The IPv6 CIDR block of the default VPC.
+	// The IPv6 CIDR block of the default VPC. Please use the new resource alicloud_vpc_ipv6_cidr_block.
 	IPv6CidrBlock *string `json:"ipv6CidrBlock,omitempty" tf:"ipv6_cidr_block,omitempty"`
 
-	// The IPv6 address segment type of the VPC. Value:
+	// The IPv6 address segment type of the VPC. Please use the new resource alicloud_vpc_ipv6_cidr_block. Value:
 	IPv6Isp *string `json:"ipv6Isp,omitempty" tf:"ipv6_isp,omitempty"`
 
 	// Specifies whether to create the default VPC in the specified region. Valid values:
@@ -76,7 +76,7 @@ type VPCInitParameters struct {
 	// Field 'secondary_cidr_blocks' has been deprecated from provider version 1.185.0 and it will be removed in the future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'. secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block resource cannot be used at the same time.
 	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
-	// (Deprecated since v1.248.0) Field 'router_table_id' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
+	// (Deprecated since v1.248.0) Field 'secondary_cidr_mask' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
 	SecondaryCidrMask *float64 `json:"secondaryCidrMask,omitempty" tf:"secondary_cidr_mask,omitempty"`
 
 	// The description of the route table.
@@ -138,13 +138,13 @@ type VPCObservation struct {
 	// The ID of the IP Address Manager (IPAM) pool that contains IPv4 addresses.
 	IPv4IpamPoolID *string `json:"ipv4IpamPoolId,omitempty" tf:"ipv4_ipam_pool_id,omitempty"`
 
-	// The IPv6 CIDR block of the default VPC.
+	// The IPv6 CIDR block of the default VPC. Please use the new resource alicloud_vpc_ipv6_cidr_block.
 	IPv6CidrBlock *string `json:"ipv6CidrBlock,omitempty" tf:"ipv6_cidr_block,omitempty"`
 
 	// The IPv6 CIDR block information of the VPC.
 	IPv6CidrBlocks []IPv6CidrBlocksObservation `json:"ipv6CidrBlocks,omitempty" tf:"ipv6_cidr_blocks,omitempty"`
 
-	// The IPv6 address segment type of the VPC. Value:
+	// The IPv6 address segment type of the VPC. Please use the new resource alicloud_vpc_ipv6_cidr_block. Value:
 	IPv6Isp *string `json:"ipv6Isp,omitempty" tf:"ipv6_isp,omitempty"`
 
 	// Specifies whether to create the default VPC in the specified region. Valid values:
@@ -171,7 +171,7 @@ type VPCObservation struct {
 	// Field 'secondary_cidr_blocks' has been deprecated from provider version 1.185.0 and it will be removed in the future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'. secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block resource cannot be used at the same time.
 	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
-	// (Deprecated since v1.248.0) Field 'router_table_id' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
+	// (Deprecated since v1.248.0) Field 'secondary_cidr_mask' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
 	SecondaryCidrMask *float64 `json:"secondaryCidrMask,omitempty" tf:"secondary_cidr_mask,omitempty"`
 
 	// The status of the VPC.   Pending: The VPC is being configured. Available: The VPC is available.
@@ -239,11 +239,11 @@ type VPCParameters struct {
 	// +kubebuilder:validation:Optional
 	IPv4IpamPoolID *string `json:"ipv4IpamPoolId,omitempty" tf:"ipv4_ipam_pool_id,omitempty"`
 
-	// The IPv6 CIDR block of the default VPC.
+	// The IPv6 CIDR block of the default VPC. Please use the new resource alicloud_vpc_ipv6_cidr_block.
 	// +kubebuilder:validation:Optional
 	IPv6CidrBlock *string `json:"ipv6CidrBlock,omitempty" tf:"ipv6_cidr_block,omitempty"`
 
-	// The IPv6 address segment type of the VPC. Value:
+	// The IPv6 address segment type of the VPC. Please use the new resource alicloud_vpc_ipv6_cidr_block. Value:
 	// +kubebuilder:validation:Optional
 	IPv6Isp *string `json:"ipv6Isp,omitempty" tf:"ipv6_isp,omitempty"`
 
@@ -268,7 +268,7 @@ type VPCParameters struct {
 	// +kubebuilder:validation:Optional
 	SecondaryCidrBlocks []*string `json:"secondaryCidrBlocks,omitempty" tf:"secondary_cidr_blocks,omitempty"`
 
-	// (Deprecated since v1.248.0) Field 'router_table_id' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
+	// (Deprecated since v1.248.0) Field 'secondary_cidr_mask' has been deprecated from provider version 1.248.0. New resource 'alicloud_vpc_ipv4_cidr_block' instead.
 	// +kubebuilder:validation:Optional
 	SecondaryCidrMask *float64 `json:"secondaryCidrMask,omitempty" tf:"secondary_cidr_mask,omitempty"`
 

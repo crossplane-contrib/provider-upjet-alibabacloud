@@ -960,9 +960,25 @@ spec:
                     description: Rotary configuration. See rolling_policy below.
                     items:
                       properties:
+                        batchInterval:
+                          description: The upgrade interval time between batches,
+                            in minutes. This parameter only takes effect when pause_policy
+                            is set to NotPause.
+                          type: string
                         maxParallelism:
-                          description: The maximum number of unusable nodes.
+                          description: The maximum number of nodes that can be upgraded
+                            in parallel per batch when updating nodes in the node
+                            pool.
                           type: number
+                        nodeNames:
+                          description: Specify the list of nodes to be upgraded.
+                          items:
+                            type: string
+                          type: array
+                        pausePolicy:
+                          description: 'The auto-pause policy during node upgrade.
+                            Valid values:'
+                          type: string
                       type: object
                     type: array
                   rolloutPolicy:
@@ -1259,6 +1275,108 @@ spec:
                   updateNodes:
                     description: Synchronously update node labels and taints.
                     type: boolean
+                  upgradePolicy:
+                    description: Configuration block for node pool upgrade operations.
+                      This is a transient parameter that triggers node pool upgrades
+                      when specified. Once the upgrade completes, this block should
+                      be removed from your configuration to prevent unintended re-upgrades
+                      on subsequent applies. See upgrade_policy below.
+                    items:
+                      properties:
+                        imageId:
+                          description: Node system Image ID
+                          type: string
+                        kubernetesVersion:
+                          description: Node Kubernetes version
+                          type: string
+                        kubernetesVersionRef:
+                          description: Reference to a ManagedKubernetes in ack to
+                            populate kubernetesVersion.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        kubernetesVersionSelector:
+                          description: Selector for a ManagedKubernetes in ack to
+                            populate kubernetesVersion.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        runtime:
+                          description: Node runtime type
+                          type: string
+                        runtimeVersion:
+                          description: Node Runtime Version
+                          type: string
+                        useReplace:
+                          description: 'Whether to use replacement disk upgrade. Valid
+                            values:'
+                          type: boolean
+                      type: object
+                    type: array
                   userData:
                     description: Node custom data, base64-encoded.
                     type: string
@@ -2241,9 +2359,25 @@ spec:
                     description: Rotary configuration. See rolling_policy below.
                     items:
                       properties:
+                        batchInterval:
+                          description: The upgrade interval time between batches,
+                            in minutes. This parameter only takes effect when pause_policy
+                            is set to NotPause.
+                          type: string
                         maxParallelism:
-                          description: The maximum number of unusable nodes.
+                          description: The maximum number of nodes that can be upgraded
+                            in parallel per batch when updating nodes in the node
+                            pool.
                           type: number
+                        nodeNames:
+                          description: Specify the list of nodes to be upgraded.
+                          items:
+                            type: string
+                          type: array
+                        pausePolicy:
+                          description: 'The auto-pause policy during node upgrade.
+                            Valid values:'
+                          type: string
                       type: object
                     type: array
                   rolloutPolicy:
@@ -2540,6 +2674,108 @@ spec:
                   updateNodes:
                     description: Synchronously update node labels and taints.
                     type: boolean
+                  upgradePolicy:
+                    description: Configuration block for node pool upgrade operations.
+                      This is a transient parameter that triggers node pool upgrades
+                      when specified. Once the upgrade completes, this block should
+                      be removed from your configuration to prevent unintended re-upgrades
+                      on subsequent applies. See upgrade_policy below.
+                    items:
+                      properties:
+                        imageId:
+                          description: Node system Image ID
+                          type: string
+                        kubernetesVersion:
+                          description: Node Kubernetes version
+                          type: string
+                        kubernetesVersionRef:
+                          description: Reference to a ManagedKubernetes in ack to
+                            populate kubernetesVersion.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        kubernetesVersionSelector:
+                          description: Selector for a ManagedKubernetes in ack to
+                            populate kubernetesVersion.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        runtime:
+                          description: Node runtime type
+                          type: string
+                        runtimeVersion:
+                          description: Node Runtime Version
+                          type: string
+                        useReplace:
+                          description: 'Whether to use replacement disk upgrade. Valid
+                            values:'
+                          type: boolean
+                      type: object
+                    type: array
                   userData:
                     description: Node custom data, base64-encoded.
                     type: string
@@ -2961,8 +3197,8 @@ spec:
                       new data disk will be purchased. Default is false.
                     type: boolean
                   id:
-                    description: The ID of the resource supplied above.The value is
-                      formulated as <cluster_id>:<node_pool_id>.
+                    description: The ID of the resource supplied above. The value
+                      is formulated as <cluster_id>:<node_pool_id>.
                     type: string
                   imageId:
                     description: The custom image ID. The system-provided image is
@@ -3499,9 +3735,25 @@ spec:
                     description: Rotary configuration. See rolling_policy below.
                     items:
                       properties:
+                        batchInterval:
+                          description: The upgrade interval time between batches,
+                            in minutes. This parameter only takes effect when pause_policy
+                            is set to NotPause.
+                          type: string
                         maxParallelism:
-                          description: The maximum number of unusable nodes.
+                          description: The maximum number of nodes that can be upgraded
+                            in parallel per batch when updating nodes in the node
+                            pool.
                           type: number
+                        nodeNames:
+                          description: Specify the list of nodes to be upgraded.
+                          items:
+                            type: string
+                          type: array
+                        pausePolicy:
+                          description: 'The auto-pause policy during node upgrade.
+                            Valid values:'
+                          type: string
                       type: object
                     type: array
                   rolloutPolicy:
@@ -3723,12 +3975,38 @@ spec:
                   updateNodes:
                     description: Synchronously update node labels and taints.
                     type: boolean
+                  upgradePolicy:
+                    description: Configuration block for node pool upgrade operations.
+                      This is a transient parameter that triggers node pool upgrades
+                      when specified. Once the upgrade completes, this block should
+                      be removed from your configuration to prevent unintended re-upgrades
+                      on subsequent applies. See upgrade_policy below.
+                    items:
+                      properties:
+                        imageId:
+                          description: Node system Image ID
+                          type: string
+                        kubernetesVersion:
+                          description: Node Kubernetes version
+                          type: string
+                        runtime:
+                          description: Node runtime type
+                          type: string
+                        runtimeVersion:
+                          description: Node Runtime Version
+                          type: string
+                        useReplace:
+                          description: 'Whether to use replacement disk upgrade. Valid
+                            values:'
+                          type: boolean
+                      type: object
+                    type: array
                   userData:
                     description: Node custom data, base64-encoded.
                     type: string
                   vpcId:
-                    description: The ID of the resource supplied above.The value is
-                      formulated as <cluster_id>:<node_pool_id>.
+                    description: The ID of the resource supplied above. The value
+                      is formulated as <cluster_id>:<node_pool_id>.
                     type: string
                   vswitchIds:
                     description: The vswitches used by node pool workers.

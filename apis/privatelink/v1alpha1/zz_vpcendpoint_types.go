@@ -24,7 +24,7 @@ type VpcEndpointInitParameters struct {
 	// The description of the endpoint.
 	EndpointDescription *string `json:"endpointDescription,omitempty" tf:"endpoint_description,omitempty"`
 
-	// The endpoint type.
+	// The type of the endpoint. Valid values:
 	EndpointType *string `json:"endpointType,omitempty" tf:"endpoint_type,omitempty"`
 
 	// RAM access policies. For more information about policy definitions, see Alibaba Cloud-access control (RAM) official guidance.
@@ -115,7 +115,7 @@ type VpcEndpointObservation struct {
 	// The domain name of the endpoint.
 	EndpointDomain *string `json:"endpointDomain,omitempty" tf:"endpoint_domain,omitempty"`
 
-	// The endpoint type.
+	// The type of the endpoint. Valid values:
 	EndpointType *string `json:"endpointType,omitempty" tf:"endpoint_type,omitempty"`
 
 	// The ID of the resource supplied above.
@@ -174,7 +174,7 @@ type VpcEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	EndpointDescription *string `json:"endpointDescription,omitempty" tf:"endpoint_description,omitempty"`
 
-	// The endpoint type.
+	// The type of the endpoint. Valid values:
 	// +kubebuilder:validation:Optional
 	EndpointType *string `json:"endpointType,omitempty" tf:"endpoint_type,omitempty"`
 

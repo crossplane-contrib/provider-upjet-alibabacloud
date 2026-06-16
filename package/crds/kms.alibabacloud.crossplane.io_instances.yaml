@@ -240,6 +240,10 @@ spec:
                           type: object
                       type: object
                     type: array
+                  deletionProtection:
+                    description: 'Specifies whether to enable deletion protection.
+                      Default value: false. Valid values:'
+                    type: boolean
                   forceDeleteWithoutBackup:
                     description: Whether to force deletion even without backup.
                     type: string
@@ -730,6 +734,10 @@ spec:
                           type: object
                       type: object
                     type: array
+                  deletionProtection:
+                    description: 'Specifies whether to enable deletion protection.
+                      Default value: false. Valid values:'
+                    type: boolean
                   forceDeleteWithoutBackup:
                     description: Whether to force deletion even without backup.
                     type: string
@@ -1233,6 +1241,10 @@ spec:
                   createTime:
                     description: The creation time of the resource.
                     type: string
+                  deletionProtection:
+                    description: 'Specifies whether to enable deletion protection.
+                      Default value: false. Valid values:'
+                    type: boolean
                   endDate:
                     description: (Available since v1.233.1) Instance expiration time.
                     type: string

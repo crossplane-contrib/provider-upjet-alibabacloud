@@ -476,7 +476,8 @@ spec:
               atProvider:
                 properties:
                   canUpgrade:
-                    description: Is the addon ready for upgrade.
+                    description: (Deprecated since v1.273.0) Is the addon ready for
+                      upgrade.
                     type: boolean
                   cleanupCloudResources:
                     description: 'Whether to clean up cloud resources when deleting.
@@ -507,7 +508,8 @@ spec:
                     description: The name of addon.
                     type: string
                   nextVersion:
-                    description: The version which addon can be upgraded to.
+                    description: (Deprecated since v1.273.0) The version which addon
+                      can be upgraded to.
                     type: string
                   required:
                     description: Is it a mandatory addon to be installed.

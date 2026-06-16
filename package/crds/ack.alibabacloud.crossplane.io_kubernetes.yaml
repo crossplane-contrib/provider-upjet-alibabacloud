@@ -524,8 +524,8 @@ spec:
                         type: object
                     type: object
                   proxyMode:
-                    description: 'Proxy mode is option of kube-proxy. options: iptables
-                      | ipvs. default: ipvs.'
+                    description: 'kube-proxy proxy mode. Default: ipvs. Options: iptables,
+                      ipvs, nftables.'
                     type: string
                   rdsInstances:
                     description: RDS instance list, You can choose which RDS instances
@@ -1468,8 +1468,8 @@ spec:
                         type: object
                     type: object
                   proxyMode:
-                    description: 'Proxy mode is option of kube-proxy. options: iptables
-                      | ipvs. default: ipvs.'
+                    description: 'kube-proxy proxy mode. Default: ipvs. Options: iptables,
+                      ipvs, nftables.'
                     type: string
                   rdsInstances:
                     description: RDS instance list, You can choose which RDS instances
@@ -2434,8 +2434,8 @@ spec:
                       type: string
                     type: array
                   proxyMode:
-                    description: 'Proxy mode is option of kube-proxy. options: iptables
-                      | ipvs. default: ipvs.'
+                    description: 'kube-proxy proxy mode. Default: ipvs. Options: iptables,
+                      ipvs, nftables.'
                     type: string
                   rdsInstances:
                     description: RDS instance list, You can choose which RDS instances

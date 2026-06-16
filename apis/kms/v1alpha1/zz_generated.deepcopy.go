@@ -394,6 +394,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ForceDeleteWithoutBackup != nil {
 		in, out := &in.ForceDeleteWithoutBackup, &out.ForceDeleteWithoutBackup
 		*out = new(string)
@@ -605,6 +610,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EndDate != nil {
 		in, out := &in.EndDate, &out.EndDate
 		*out = new(string)
@@ -754,6 +764,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
 	}
 	if in.ForceDeleteWithoutBackup != nil {
 		in, out := &in.ForceDeleteWithoutBackup, &out.ForceDeleteWithoutBackup

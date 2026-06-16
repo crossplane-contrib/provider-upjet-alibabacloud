@@ -1046,6 +1046,11 @@ func (in *VswitchInitParameters) DeepCopyInto(out *VswitchInitParameters) {
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.VPCIPv6CidrBlock != nil {
+		in, out := &in.VPCIPv6CidrBlock, &out.VPCIPv6CidrBlock
+		*out = new(string)
+		**out = **in
+	}
 	if in.VswitchName != nil {
 		in, out := &in.VswitchName, &out.VswitchName
 		*out = new(string)
@@ -1169,6 +1174,11 @@ func (in *VswitchObservation) DeepCopyInto(out *VswitchObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.VPCIPv6CidrBlock != nil {
+		in, out := &in.VPCIPv6CidrBlock, &out.VPCIPv6CidrBlock
+		*out = new(string)
+		**out = **in
+	}
 	if in.VswitchName != nil {
 		in, out := &in.VswitchName, &out.VswitchName
 		*out = new(string)
@@ -1254,6 +1264,11 @@ func (in *VswitchParameters) DeepCopyInto(out *VswitchParameters) {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.VPCIPv6CidrBlock != nil {
+		in, out := &in.VPCIPv6CidrBlock, &out.VPCIPv6CidrBlock
+		*out = new(string)
+		**out = **in
 	}
 	if in.VswitchName != nil {
 		in, out := &in.VswitchName, &out.VswitchName

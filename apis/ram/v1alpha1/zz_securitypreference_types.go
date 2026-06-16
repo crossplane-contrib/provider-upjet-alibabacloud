@@ -45,6 +45,12 @@ type SecurityPreferenceInitParameters struct {
 	// Default value: 6.
 	LoginSessionDuration *float64 `json:"loginSessionDuration,omitempty" tf:"login_session_duration,omitempty"`
 
+	// The maximum idle time (in days) of an access key for a RAM user. After the access key is not used for this period, it is automatically disabled on the next day. Possible values are 90, 180, 365, 730. Defaults to 730.
+	MaxIdleDaysForAccessKeys *float64 `json:"maxIdleDaysForAccessKeys,omitempty" tf:"max_idle_days_for_access_keys,omitempty"`
+
+	// The maximum idle time (days) of the RAM user. If the RAM user has the console logon enabled, the console logon will be automatically disabled on the next day after the continuous logon time (excluding SSO logon time) reaches this time. Possible values are 90, 180, 365, 730. Defaults to 730.
+	MaxIdleDaysForUsers *float64 `json:"maxIdleDaysForUsers,omitempty" tf:"max_idle_days_for_users,omitempty"`
+
 	// MFA must be used during logon (replace the original EnforceMFAForLogin parameter, the original parameter is still valid, we recommend that you update it to a new parameter). Value:
 	MfaOperationForLogin *string `json:"mfaOperationForLogin,omitempty" tf:"mfa_operation_for_login,omitempty"`
 
@@ -90,6 +96,12 @@ type SecurityPreferenceObservation struct {
 	// Valid values: 1 to 24. Unit: hours.
 	// Default value: 6.
 	LoginSessionDuration *float64 `json:"loginSessionDuration,omitempty" tf:"login_session_duration,omitempty"`
+
+	// The maximum idle time (in days) of an access key for a RAM user. After the access key is not used for this period, it is automatically disabled on the next day. Possible values are 90, 180, 365, 730. Defaults to 730.
+	MaxIdleDaysForAccessKeys *float64 `json:"maxIdleDaysForAccessKeys,omitempty" tf:"max_idle_days_for_access_keys,omitempty"`
+
+	// The maximum idle time (days) of the RAM user. If the RAM user has the console logon enabled, the console logon will be automatically disabled on the next day after the continuous logon time (excluding SSO logon time) reaches this time. Possible values are 90, 180, 365, 730. Defaults to 730.
+	MaxIdleDaysForUsers *float64 `json:"maxIdleDaysForUsers,omitempty" tf:"max_idle_days_for_users,omitempty"`
 
 	// MFA must be used during logon (replace the original EnforceMFAForLogin parameter, the original parameter is still valid, we recommend that you update it to a new parameter). Value:
 	MfaOperationForLogin *string `json:"mfaOperationForLogin,omitempty" tf:"mfa_operation_for_login,omitempty"`
@@ -142,6 +154,14 @@ type SecurityPreferenceParameters struct {
 	// Default value: 6.
 	// +kubebuilder:validation:Optional
 	LoginSessionDuration *float64 `json:"loginSessionDuration,omitempty" tf:"login_session_duration,omitempty"`
+
+	// The maximum idle time (in days) of an access key for a RAM user. After the access key is not used for this period, it is automatically disabled on the next day. Possible values are 90, 180, 365, 730. Defaults to 730.
+	// +kubebuilder:validation:Optional
+	MaxIdleDaysForAccessKeys *float64 `json:"maxIdleDaysForAccessKeys,omitempty" tf:"max_idle_days_for_access_keys,omitempty"`
+
+	// The maximum idle time (days) of the RAM user. If the RAM user has the console logon enabled, the console logon will be automatically disabled on the next day after the continuous logon time (excluding SSO logon time) reaches this time. Possible values are 90, 180, 365, 730. Defaults to 730.
+	// +kubebuilder:validation:Optional
+	MaxIdleDaysForUsers *float64 `json:"maxIdleDaysForUsers,omitempty" tf:"max_idle_days_for_users,omitempty"`
 
 	// MFA must be used during logon (replace the original EnforceMFAForLogin parameter, the original parameter is still valid, we recommend that you update it to a new parameter). Value:
 	// +kubebuilder:validation:Optional

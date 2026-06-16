@@ -15,7 +15,7 @@ import (
 
 type BucketObjectInitParameters struct {
 
-	// The canned ACL to apply. Defaults to "private".
+	// The canned ACL to apply. Defaults to private.
 	ACL *string `json:"acl,omitempty" tf:"acl,omitempty"`
 
 	// The name of the bucket to put the file in.
@@ -66,6 +66,12 @@ type BucketObjectInitParameters struct {
 	// The name of the object once it is in the bucket.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Updating only this attribute (or object_worm_retain_until_date) calls PutObjectRetention and does not re-upload the object.
+	ObjectWormMode *string `json:"objectWormMode,omitempty" tf:"object_worm_mode,omitempty"`
+
+	// The UTC time at which the object retention expires, in ISO8601 format with millisecond precision (for example 2026-09-30T00:00:00.000Z). Must be set together with object_worm_mode.
+	ObjectWormRetainUntilDate *string `json:"objectWormRetainUntilDate,omitempty" tf:"object_worm_retain_until_date,omitempty"`
+
 	// Specifies server-side encryption of the object in OSS. Valid values are AES256, KMS. Default value is AES256.
 	ServerSideEncryption *string `json:"serverSideEncryption,omitempty" tf:"server_side_encryption,omitempty"`
 
@@ -75,7 +81,7 @@ type BucketObjectInitParameters struct {
 
 type BucketObjectObservation struct {
 
-	// The canned ACL to apply. Defaults to "private".
+	// The canned ACL to apply. Defaults to private.
 	ACL *string `json:"acl,omitempty" tf:"acl,omitempty"`
 
 	// The name of the bucket to put the file in.
@@ -117,6 +123,12 @@ type BucketObjectObservation struct {
 	// The name of the object once it is in the bucket.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Updating only this attribute (or object_worm_retain_until_date) calls PutObjectRetention and does not re-upload the object.
+	ObjectWormMode *string `json:"objectWormMode,omitempty" tf:"object_worm_mode,omitempty"`
+
+	// The UTC time at which the object retention expires, in ISO8601 format with millisecond precision (for example 2026-09-30T00:00:00.000Z). Must be set together with object_worm_mode.
+	ObjectWormRetainUntilDate *string `json:"objectWormRetainUntilDate,omitempty" tf:"object_worm_retain_until_date,omitempty"`
+
 	// Specifies server-side encryption of the object in OSS. Valid values are AES256, KMS. Default value is AES256.
 	ServerSideEncryption *string `json:"serverSideEncryption,omitempty" tf:"server_side_encryption,omitempty"`
 
@@ -129,7 +141,7 @@ type BucketObjectObservation struct {
 
 type BucketObjectParameters struct {
 
-	// The canned ACL to apply. Defaults to "private".
+	// The canned ACL to apply. Defaults to private.
 	// +kubebuilder:validation:Optional
 	ACL *string `json:"acl,omitempty" tf:"acl,omitempty"`
 
@@ -190,6 +202,14 @@ type BucketObjectParameters struct {
 	// The name of the object once it is in the bucket.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Updating only this attribute (or object_worm_retain_until_date) calls PutObjectRetention and does not re-upload the object.
+	// +kubebuilder:validation:Optional
+	ObjectWormMode *string `json:"objectWormMode,omitempty" tf:"object_worm_mode,omitempty"`
+
+	// The UTC time at which the object retention expires, in ISO8601 format with millisecond precision (for example 2026-09-30T00:00:00.000Z). Must be set together with object_worm_mode.
+	// +kubebuilder:validation:Optional
+	ObjectWormRetainUntilDate *string `json:"objectWormRetainUntilDate,omitempty" tf:"object_worm_retain_until_date,omitempty"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-

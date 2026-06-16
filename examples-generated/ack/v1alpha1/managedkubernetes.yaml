@@ -29,7 +29,7 @@ spec:
             })}
       name: ack-node-problem-detector
     clusterSpec: ack.pro.small
-    name: ${var.name}
+    encryptionProviderKey: ${data.alicloud_kms_keys.default.keys[0].key_id}
     newNatGateway: true
     podVswitchIds: '${length(var.terway_vswitch_ids) > 0 ? split(",", join(",", var.terway_vswitch_ids))
       : length(var.terway_vswitch_cidrs) < 1 ? [] : split(",", join(",", alicloud_vswitch.terway_vswitches.*.id))}'
