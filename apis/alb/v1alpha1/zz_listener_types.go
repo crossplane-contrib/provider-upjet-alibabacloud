@@ -167,7 +167,7 @@ type ListenerInitParameters struct {
 	// Whether to Enable HTTP/2 Features. Valid Values: True Or False. Default Value: TRUE.
 	Http2Enabled *bool `json:"http2Enabled,omitempty" tf:"http2_enabled,omitempty"`
 
-	// Specify the Connection Idle Timeout Value: 1 to 60 seconds.
+	// Specify the Connection Idle Timeout Value: 0~600 Seconds.
 	IdleTimeout *float64 `json:"idleTimeout,omitempty" tf:"idle_timeout,omitempty"`
 
 	// Set the IP Address of the Listened Description. Length Is from 2 to 256 Characters.
@@ -194,7 +194,7 @@ type ListenerInitParameters struct {
 	// Configuration Associated with the QuIC Listening See quic_config below.
 	QuicConfig []QuicConfigInitParameters `json:"quicConfig,omitempty" tf:"quic_config,omitempty"`
 
-	// The Specified Request Timeout Time. Value: 1~180 Seconds. Default Value: 60 seconds. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
+	// The Specified Request Timeout Time. Value: 0~600 Seconds. Default Value: 60 seconds. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
 	RequestTimeout *float64 `json:"requestTimeout,omitempty" tf:"request_timeout,omitempty"`
 
 	// Security Policy
@@ -252,7 +252,7 @@ type ListenerObservation struct {
 	// The ID of the resource supplied above.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Specify the Connection Idle Timeout Value: 1 to 60 seconds.
+	// Specify the Connection Idle Timeout Value: 0~600 Seconds.
 	IdleTimeout *float64 `json:"idleTimeout,omitempty" tf:"idle_timeout,omitempty"`
 
 	// Set the IP Address of the Listened Description. Length Is from 2 to 256 Characters.
@@ -270,7 +270,7 @@ type ListenerObservation struct {
 	// Configuration Associated with the QuIC Listening See quic_config below.
 	QuicConfig []QuicConfigObservation `json:"quicConfig,omitempty" tf:"quic_config,omitempty"`
 
-	// The Specified Request Timeout Time. Value: 1~180 Seconds. Default Value: 60 seconds. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
+	// The Specified Request Timeout Time. Value: 0~600 Seconds. Default Value: 60 seconds. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
 	RequestTimeout *float64 `json:"requestTimeout,omitempty" tf:"request_timeout,omitempty"`
 
 	// Security Policy
@@ -325,7 +325,7 @@ type ListenerParameters struct {
 	// +kubebuilder:validation:Optional
 	Http2Enabled *bool `json:"http2Enabled,omitempty" tf:"http2_enabled,omitempty"`
 
-	// Specify the Connection Idle Timeout Value: 1 to 60 seconds.
+	// Specify the Connection Idle Timeout Value: 0~600 Seconds.
 	// +kubebuilder:validation:Optional
 	IdleTimeout *float64 `json:"idleTimeout,omitempty" tf:"idle_timeout,omitempty"`
 
@@ -363,7 +363,7 @@ type ListenerParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
-	// The Specified Request Timeout Time. Value: 1~180 Seconds. Default Value: 60 seconds. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
+	// The Specified Request Timeout Time. Value: 0~600 Seconds. Default Value: 60 seconds. If the Timeout Time Within the Back-End Server Has Not Answered the SLB Will Give up Waiting, the Client Returns the HTTP 504 Error Code.
 	// +kubebuilder:validation:Optional
 	RequestTimeout *float64 `json:"requestTimeout,omitempty" tf:"request_timeout,omitempty"`
 

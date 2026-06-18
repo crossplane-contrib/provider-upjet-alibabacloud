@@ -2057,6 +2057,16 @@ func (in *TairInstanceInitParameters) DeepCopyInto(out *TairInstanceInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.EncryptionKey != nil {
+		in, out := &in.EncryptionKey, &out.EncryptionKey
+		*out = new(string)
+		**out = **in
+	}
+	if in.EncryptionName != nil {
+		in, out := &in.EncryptionName, &out.EncryptionName
+		*out = new(string)
+		**out = **in
+	}
 	if in.EngineVersion != nil {
 		in, out := &in.EngineVersion, &out.EngineVersion
 		*out = new(string)
@@ -2162,6 +2172,21 @@ func (in *TairInstanceInitParameters) DeepCopyInto(out *TairInstanceInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.RoleArn != nil {
+		in, out := &in.RoleArn, &out.RoleArn
+		*out = new(string)
+		**out = **in
+	}
+	if in.RoleArnRef != nil {
+		in, out := &in.RoleArnRef, &out.RoleArnRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleArnSelector != nil {
+		in, out := &in.RoleArnSelector, &out.RoleArnSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SSLEnabled != nil {
 		in, out := &in.SSLEnabled, &out.SSLEnabled
 		*out = new(string)
@@ -2240,6 +2265,11 @@ func (in *TairInstanceInitParameters) DeepCopyInto(out *TairInstanceInitParamete
 	}
 	if in.TairInstanceName != nil {
 		in, out := &in.TairInstanceName, &out.TairInstanceName
+		*out = new(string)
+		**out = **in
+	}
+	if in.TdeStatus != nil {
+		in, out := &in.TdeStatus, &out.TdeStatus
 		*out = new(string)
 		**out = **in
 	}
@@ -2375,6 +2405,16 @@ func (in *TairInstanceObservation) DeepCopyInto(out *TairInstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EncryptionKey != nil {
+		in, out := &in.EncryptionKey, &out.EncryptionKey
+		*out = new(string)
+		**out = **in
+	}
+	if in.EncryptionName != nil {
+		in, out := &in.EncryptionName, &out.EncryptionName
+		*out = new(string)
+		**out = **in
+	}
 	if in.EngineVersion != nil {
 		in, out := &in.EngineVersion, &out.EngineVersion
 		*out = new(string)
@@ -2495,6 +2535,11 @@ func (in *TairInstanceObservation) DeepCopyInto(out *TairInstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RoleArn != nil {
+		in, out := &in.RoleArn, &out.RoleArn
+		*out = new(string)
+		**out = **in
+	}
 	if in.SSLEnabled != nil {
 		in, out := &in.SSLEnabled, &out.SSLEnabled
 		*out = new(string)
@@ -2576,6 +2621,11 @@ func (in *TairInstanceObservation) DeepCopyInto(out *TairInstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.TdeStatus != nil {
+		in, out := &in.TdeStatus, &out.TdeStatus
+		*out = new(string)
+		**out = **in
+	}
 	if in.VPCAuthMode != nil {
 		in, out := &in.VPCAuthMode, &out.VPCAuthMode
 		*out = new(string)
@@ -2638,6 +2688,16 @@ func (in *TairInstanceParameters) DeepCopyInto(out *TairInstanceParameters) {
 	}
 	if in.EffectiveTime != nil {
 		in, out := &in.EffectiveTime, &out.EffectiveTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.EncryptionKey != nil {
+		in, out := &in.EncryptionKey, &out.EncryptionKey
+		*out = new(string)
+		**out = **in
+	}
+	if in.EncryptionName != nil {
+		in, out := &in.EncryptionName, &out.EncryptionName
 		*out = new(string)
 		**out = **in
 	}
@@ -2751,6 +2811,21 @@ func (in *TairInstanceParameters) DeepCopyInto(out *TairInstanceParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RoleArn != nil {
+		in, out := &in.RoleArn, &out.RoleArn
+		*out = new(string)
+		**out = **in
+	}
+	if in.RoleArnRef != nil {
+		in, out := &in.RoleArnRef, &out.RoleArnRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.RoleArnSelector != nil {
+		in, out := &in.RoleArnSelector, &out.RoleArnSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SSLEnabled != nil {
 		in, out := &in.SSLEnabled, &out.SSLEnabled
 		*out = new(string)
@@ -2829,6 +2904,11 @@ func (in *TairInstanceParameters) DeepCopyInto(out *TairInstanceParameters) {
 	}
 	if in.TairInstanceName != nil {
 		in, out := &in.TairInstanceName, &out.TairInstanceName
+		*out = new(string)
+		**out = **in
+	}
+	if in.TdeStatus != nil {
+		in, out := &in.TdeStatus, &out.TdeStatus
 		*out = new(string)
 		**out = **in
 	}

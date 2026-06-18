@@ -86,7 +86,12 @@ spec:
                       Value:'
                     type: boolean
                   ipv6CidrBlockMask:
-                    description: The IPv6 CIDR block of the VSwitch.
+                    description: 'The last 4, 8, or 12 bits of the IPv6 CIDR block
+                      of the VSwitch, corresponding to a VPC IPv6 address mask of
+                      60, 56, or 52 respectively. It only takes effect and is required
+                      when enable_ipv6 is true, and is used only for create and update
+                      operations. The valid values are determined by the IPv6 address
+                      mask of the VPC:'
                     type: number
                   isDefault:
                     description: 'Specifies whether to create the default VSwitch.
@@ -99,7 +104,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: Key-value map of resource tags.
+                    description: The tags of VSwitch.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcId:
@@ -180,6 +185,12 @@ spec:
                             type: string
                         type: object
                     type: object
+                  vpcIpv6CidrBlock:
+                    description: The IPv6 CIDR block of the VPC. If the VPC has multiple
+                      IPv6 CIDR blocks, you can use this parameter to specify the
+                      IPv6 CIDR block range to which the VSwitch belongs. This parameter
+                      is used only for create and update operations.
+                    type: string
                   vswitchName:
                     description: The name of the VSwitch.
                     type: string
@@ -214,7 +225,12 @@ spec:
                       Value:'
                     type: boolean
                   ipv6CidrBlockMask:
-                    description: The IPv6 CIDR block of the VSwitch.
+                    description: 'The last 4, 8, or 12 bits of the IPv6 CIDR block
+                      of the VSwitch, corresponding to a VPC IPv6 address mask of
+                      60, 56, or 52 respectively. It only takes effect and is required
+                      when enable_ipv6 is true, and is used only for create and update
+                      operations. The valid values are determined by the IPv6 address
+                      mask of the VPC:'
                     type: number
                   isDefault:
                     description: 'Specifies whether to create the default VSwitch.
@@ -223,7 +239,7 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: Key-value map of resource tags.
+                    description: The tags of VSwitch.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcId:
@@ -304,6 +320,12 @@ spec:
                             type: string
                         type: object
                     type: object
+                  vpcIpv6CidrBlock:
+                    description: The IPv6 CIDR block of the VPC. If the VPC has multiple
+                      IPv6 CIDR blocks, you can use this parameter to specify the
+                      IPv6 CIDR block range to which the VSwitch belongs. This parameter
+                      is used only for create and update operations.
+                    type: string
                   vswitchName:
                     description: The name of the VSwitch.
                     type: string
@@ -506,7 +528,12 @@ spec:
                     description: The IPv6 CIDR block of the VSwitch.
                     type: string
                   ipv6CidrBlockMask:
-                    description: The IPv6 CIDR block of the VSwitch.
+                    description: 'The last 4, 8, or 12 bits of the IPv6 CIDR block
+                      of the VSwitch, corresponding to a VPC IPv6 address mask of
+                      60, 56, or 52 respectively. It only takes effect and is required
+                      when enable_ipv6 is true, and is used only for create and update
+                      operations. The valid values are determined by the IPv6 address
+                      mask of the VPC:'
                     type: number
                   isDefault:
                     description: 'Specifies whether to create the default VSwitch.
@@ -518,12 +545,18 @@ spec:
                   tags:
                     additionalProperties:
                       type: string
-                    description: Key-value map of resource tags.
+                    description: The tags of VSwitch.
                     type: object
                     x-kubernetes-map-type: granular
                   vpcId:
                     description: 'The VPC ID. NOTE: From version 1.233.0, if you do
                       not set is_default, or set is_default to false, vpc_id is required.'
+                    type: string
+                  vpcIpv6CidrBlock:
+                    description: The IPv6 CIDR block of the VPC. If the VPC has multiple
+                      IPv6 CIDR blocks, you can use this parameter to specify the
+                      IPv6 CIDR block range to which the VSwitch belongs. This parameter
+                      is used only for create and update operations.
                     type: string
                   vswitchName:
                     description: The name of the VSwitch.

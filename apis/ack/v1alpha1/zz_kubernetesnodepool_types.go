@@ -1030,6 +1030,9 @@ type KubernetesNodePoolInitParameters struct {
 	// Synchronously update node labels and taints.
 	UpdateNodes *bool `json:"updateNodes,omitempty" tf:"update_nodes,omitempty"`
 
+	// Configuration block for node pool upgrade operations. This is a transient parameter that triggers node pool upgrades when specified. Once the upgrade completes, this block should be removed from your configuration to prevent unintended re-upgrades on subsequent applies. See upgrade_policy below.
+	UpgradePolicy []UpgradePolicyInitParameters `json:"upgradePolicy,omitempty" tf:"upgrade_policy,omitempty"`
+
 	// Node custom data, base64-encoded.
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
 
@@ -1087,7 +1090,7 @@ type KubernetesNodePoolObservation struct {
 	// After you select this check box, if data disks have been attached to the specified ECS instances and the file system of the last data disk is uninitialized, the system automatically formats the last data disk to ext4 and mounts the data disk to /var/lib/docker and /var/lib/kubelet. The original data on the disk will be cleared. Make sure that you back up data in advance. If no data disk is mounted on the ECS instance, no new data disk will be purchased. Default is false.
 	FormatDisk *bool `json:"formatDisk,omitempty" tf:"format_disk,omitempty"`
 
-	// The ID of the resource supplied above.The value is formulated as <cluster_id>:<node_pool_id>.
+	// The ID of the resource supplied above. The value is formulated as <cluster_id>:<node_pool_id>.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The custom image ID. The system-provided image is used by default.
@@ -1286,10 +1289,13 @@ type KubernetesNodePoolObservation struct {
 	// Synchronously update node labels and taints.
 	UpdateNodes *bool `json:"updateNodes,omitempty" tf:"update_nodes,omitempty"`
 
+	// Configuration block for node pool upgrade operations. This is a transient parameter that triggers node pool upgrades when specified. Once the upgrade completes, this block should be removed from your configuration to prevent unintended re-upgrades on subsequent applies. See upgrade_policy below.
+	UpgradePolicy []UpgradePolicyObservation `json:"upgradePolicy,omitempty" tf:"upgrade_policy,omitempty"`
+
 	// Node custom data, base64-encoded.
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
 
-	// The ID of the resource supplied above.The value is formulated as <cluster_id>:<node_pool_id>.
+	// The ID of the resource supplied above. The value is formulated as <cluster_id>:<node_pool_id>.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
 	// The vswitches used by node pool workers.
@@ -1645,6 +1651,10 @@ type KubernetesNodePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	UpdateNodes *bool `json:"updateNodes,omitempty" tf:"update_nodes,omitempty"`
 
+	// Configuration block for node pool upgrade operations. This is a transient parameter that triggers node pool upgrades when specified. Once the upgrade completes, this block should be removed from your configuration to prevent unintended re-upgrades on subsequent applies. See upgrade_policy below.
+	// +kubebuilder:validation:Optional
+	UpgradePolicy []UpgradePolicyParameters `json:"upgradePolicy,omitempty" tf:"upgrade_policy,omitempty"`
+
 	// Node custom data, base64-encoded.
 	// +kubebuilder:validation:Optional
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
@@ -1903,21 +1913,51 @@ type ReservedMemoryParameters struct {
 
 type RollingPolicyInitParameters struct {
 
-	// The maximum number of unusable nodes.
+	// The upgrade interval time between batches, in minutes. This parameter only takes effect when pause_policy is set to NotPause.
+	BatchInterval *string `json:"batchInterval,omitempty" tf:"batch_interval,omitempty"`
+
+	// The maximum number of nodes that can be upgraded in parallel per batch when updating nodes in the node pool.
 	MaxParallelism *float64 `json:"maxParallelism,omitempty" tf:"max_parallelism,omitempty"`
+
+	// Specify the list of nodes to be upgraded.
+	NodeNames []*string `json:"nodeNames,omitempty" tf:"node_names,omitempty"`
+
+	// The auto-pause policy during node upgrade. Valid values:
+	PausePolicy *string `json:"pausePolicy,omitempty" tf:"pause_policy,omitempty"`
 }
 
 type RollingPolicyObservation struct {
 
-	// The maximum number of unusable nodes.
+	// The upgrade interval time between batches, in minutes. This parameter only takes effect when pause_policy is set to NotPause.
+	BatchInterval *string `json:"batchInterval,omitempty" tf:"batch_interval,omitempty"`
+
+	// The maximum number of nodes that can be upgraded in parallel per batch when updating nodes in the node pool.
 	MaxParallelism *float64 `json:"maxParallelism,omitempty" tf:"max_parallelism,omitempty"`
+
+	// Specify the list of nodes to be upgraded.
+	NodeNames []*string `json:"nodeNames,omitempty" tf:"node_names,omitempty"`
+
+	// The auto-pause policy during node upgrade. Valid values:
+	PausePolicy *string `json:"pausePolicy,omitempty" tf:"pause_policy,omitempty"`
 }
 
 type RollingPolicyParameters struct {
 
-	// The maximum number of unusable nodes.
+	// The upgrade interval time between batches, in minutes. This parameter only takes effect when pause_policy is set to NotPause.
+	// +kubebuilder:validation:Optional
+	BatchInterval *string `json:"batchInterval,omitempty" tf:"batch_interval,omitempty"`
+
+	// The maximum number of nodes that can be upgraded in parallel per batch when updating nodes in the node pool.
 	// +kubebuilder:validation:Optional
 	MaxParallelism *float64 `json:"maxParallelism,omitempty" tf:"max_parallelism,omitempty"`
+
+	// Specify the list of nodes to be upgraded.
+	// +kubebuilder:validation:Optional
+	NodeNames []*string `json:"nodeNames,omitempty" tf:"node_names,omitempty"`
+
+	// The auto-pause policy during node upgrade. Valid values:
+	// +kubebuilder:validation:Optional
+	PausePolicy *string `json:"pausePolicy,omitempty" tf:"pause_policy,omitempty"`
 }
 
 type RolloutPolicyInitParameters struct {
@@ -2093,6 +2133,85 @@ type TracingParameters struct {
 	// Number of samples to be collected per million span.
 	// +kubebuilder:validation:Optional
 	SamplingRatePerMillion *string `json:"samplingRatePerMillion,omitempty" tf:"sampling_rate_per_million,omitempty"`
+}
+
+type UpgradePolicyInitParameters struct {
+
+	// Node system Image ID
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// Node Kubernetes version
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ack/v1alpha1.ManagedKubernetes
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("version",false)
+	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
+
+	// Reference to a ManagedKubernetes in ack to populate kubernetesVersion.
+	// +kubebuilder:validation:Optional
+	KubernetesVersionRef *v1.Reference `json:"kubernetesVersionRef,omitempty" tf:"-"`
+
+	// Selector for a ManagedKubernetes in ack to populate kubernetesVersion.
+	// +kubebuilder:validation:Optional
+	KubernetesVersionSelector *v1.Selector `json:"kubernetesVersionSelector,omitempty" tf:"-"`
+
+	// Node runtime type
+	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// Node Runtime Version
+	RuntimeVersion *string `json:"runtimeVersion,omitempty" tf:"runtime_version,omitempty"`
+
+	// Whether to use replacement disk upgrade. Valid values:
+	UseReplace *bool `json:"useReplace,omitempty" tf:"use_replace,omitempty"`
+}
+
+type UpgradePolicyObservation struct {
+
+	// Node system Image ID
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// Node Kubernetes version
+	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
+
+	// Node runtime type
+	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// Node Runtime Version
+	RuntimeVersion *string `json:"runtimeVersion,omitempty" tf:"runtime_version,omitempty"`
+
+	// Whether to use replacement disk upgrade. Valid values:
+	UseReplace *bool `json:"useReplace,omitempty" tf:"use_replace,omitempty"`
+}
+
+type UpgradePolicyParameters struct {
+
+	// Node system Image ID
+	// +kubebuilder:validation:Optional
+	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// Node Kubernetes version
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ack/v1alpha1.ManagedKubernetes
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("version",false)
+	// +kubebuilder:validation:Optional
+	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
+
+	// Reference to a ManagedKubernetes in ack to populate kubernetesVersion.
+	// +kubebuilder:validation:Optional
+	KubernetesVersionRef *v1.Reference `json:"kubernetesVersionRef,omitempty" tf:"-"`
+
+	// Selector for a ManagedKubernetes in ack to populate kubernetesVersion.
+	// +kubebuilder:validation:Optional
+	KubernetesVersionSelector *v1.Selector `json:"kubernetesVersionSelector,omitempty" tf:"-"`
+
+	// Node runtime type
+	// +kubebuilder:validation:Optional
+	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+
+	// Node Runtime Version
+	// +kubebuilder:validation:Optional
+	RuntimeVersion *string `json:"runtimeVersion,omitempty" tf:"runtime_version,omitempty"`
+
+	// Whether to use replacement disk upgrade. Valid values:
+	// +kubebuilder:validation:Optional
+	UseReplace *bool `json:"useReplace,omitempty" tf:"use_replace,omitempty"`
 }
 
 // KubernetesNodePoolSpec defines the desired state of KubernetesNodePool

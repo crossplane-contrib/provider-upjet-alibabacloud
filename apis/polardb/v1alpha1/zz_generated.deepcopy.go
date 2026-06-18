@@ -1661,6 +1661,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableDynamodb != nil {
+		in, out := &in.EnableDynamodb, &out.EnableDynamodb
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EncryptNewTables != nil {
 		in, out := &in.EncryptNewTables, &out.EncryptNewTables
 		*out = new(string)
@@ -1680,6 +1685,17 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		in, out := &in.GdnID, &out.GdnID
 		*out = new(string)
 		**out = **in
+	}
+	if in.GlobalSecurityGroupList != nil {
+		in, out := &in.GlobalSecurityGroupList, &out.GlobalSecurityGroupList
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.HotReplicaMode != nil {
 		in, out := &in.HotReplicaMode, &out.HotReplicaMode
@@ -2154,6 +2170,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableDynamodb != nil {
+		in, out := &in.EnableDynamodb, &out.EnableDynamodb
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EncryptNewTables != nil {
 		in, out := &in.EncryptNewTables, &out.EncryptNewTables
 		*out = new(string)
@@ -2173,6 +2194,17 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		in, out := &in.GdnID, &out.GdnID
 		*out = new(string)
 		**out = **in
+	}
+	if in.GlobalSecurityGroupList != nil {
+		in, out := &in.GlobalSecurityGroupList, &out.GlobalSecurityGroupList
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.HotReplicaMode != nil {
 		in, out := &in.HotReplicaMode, &out.HotReplicaMode
@@ -2576,6 +2608,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.EnableDynamodb != nil {
+		in, out := &in.EnableDynamodb, &out.EnableDynamodb
+		*out = new(bool)
+		**out = **in
+	}
 	if in.EncryptNewTables != nil {
 		in, out := &in.EncryptNewTables, &out.EncryptNewTables
 		*out = new(string)
@@ -2595,6 +2632,17 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		in, out := &in.GdnID, &out.GdnID
 		*out = new(string)
 		**out = **in
+	}
+	if in.GlobalSecurityGroupList != nil {
+		in, out := &in.GlobalSecurityGroupList, &out.GlobalSecurityGroupList
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.HotReplicaMode != nil {
 		in, out := &in.HotReplicaMode, &out.HotReplicaMode

@@ -113,8 +113,16 @@ spec:
                       are immediately changed), MaintainTime (The configurations are
                       changed within the maintenance window).'
                     type: string
+                  encryptionKey:
+                    description: The custom key ID. You can call DescribeEncryptionKeyList
+                      to obtain it.
+                    type: string
+                  encryptionName:
+                    description: The encryption algorithm. The default value is AES-CTR-256.
+                    type: string
                   engineVersion:
-                    description: 'Database version. Default value: 1.0.'
+                    description: 'The database version. Default value: 1.0. The valid
+                      values depend on the Tair instance series:'
                     type: string
                   forceUpgrade:
                     description: 'Specifies whether to forcefully change the configurations
@@ -248,6 +256,85 @@ spec:
                     description: The ID of the resource group to which the instance
                       belongs.
                     type: string
+                  roleArn:
+                    description: 'The Alibaba Cloud Resource Name (ARN) of the role
+                      to be authorized. After authorization, you can use the related
+                      Key Management Service (KMS) features. Format: acs:ram::$accountID:role/$roleName.'
+                    type: string
+                  roleArnRef:
+                    description: Reference to a Role in ram to populate roleArn.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  roleArnSelector:
+                    description: Selector for a Role in ram to populate roleArn.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   secondaryZoneId:
                     description: The ID of the secondary zone.This parameter is returned
                       only if the instance is deployed in two zones.
@@ -398,6 +485,10 @@ spec:
                     x-kubernetes-map-type: granular
                   tairInstanceName:
                     description: The name of the resource.
+                    type: string
+                  tdeStatus:
+                    description: 'Specifies whether to enable Transparent Data Encryption
+                      (TDE). Valid value: enabled.'
                     type: string
                   vpcAuthMode:
                     description: 'The VPC authentication mode. Valid values: Open
@@ -614,8 +705,16 @@ spec:
                       are immediately changed), MaintainTime (The configurations are
                       changed within the maintenance window).'
                     type: string
+                  encryptionKey:
+                    description: The custom key ID. You can call DescribeEncryptionKeyList
+                      to obtain it.
+                    type: string
+                  encryptionName:
+                    description: The encryption algorithm. The default value is AES-CTR-256.
+                    type: string
                   engineVersion:
-                    description: 'Database version. Default value: 1.0.'
+                    description: 'The database version. Default value: 1.0. The valid
+                      values depend on the Tair instance series:'
                     type: string
                   forceUpgrade:
                     description: 'Specifies whether to forcefully change the configurations
@@ -745,6 +844,85 @@ spec:
                     description: The ID of the resource group to which the instance
                       belongs.
                     type: string
+                  roleArn:
+                    description: 'The Alibaba Cloud Resource Name (ARN) of the role
+                      to be authorized. After authorization, you can use the related
+                      Key Management Service (KMS) features. Format: acs:ram::$accountID:role/$roleName.'
+                    type: string
+                  roleArnRef:
+                    description: Reference to a Role in ram to populate roleArn.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  roleArnSelector:
+                    description: Selector for a Role in ram to populate roleArn.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   secondaryZoneId:
                     description: The ID of the secondary zone.This parameter is returned
                       only if the instance is deployed in two zones.
@@ -895,6 +1073,10 @@ spec:
                     x-kubernetes-map-type: granular
                   tairInstanceName:
                     description: The name of the resource.
+                    type: string
+                  tdeStatus:
+                    description: 'Specifies whether to enable Transparent Data Encryption
+                      (TDE). Valid value: enabled.'
                     type: string
                   vpcAuthMode:
                     description: 'The VPC authentication mode. Valid values: Open
@@ -1295,8 +1477,16 @@ spec:
                       are immediately changed), MaintainTime (The configurations are
                       changed within the maintenance window).'
                     type: string
+                  encryptionKey:
+                    description: The custom key ID. You can call DescribeEncryptionKeyList
+                      to obtain it.
+                    type: string
+                  encryptionName:
+                    description: The encryption algorithm. The default value is AES-CTR-256.
+                    type: string
                   engineVersion:
-                    description: 'Database version. Default value: 1.0.'
+                    description: 'The database version. Default value: 1.0. The valid
+                      values depend on the Tair instance series:'
                     type: string
                   forceUpgrade:
                     description: 'Specifies whether to forcefully change the configurations
@@ -1419,6 +1609,11 @@ spec:
                     description: The ID of the resource group to which the instance
                       belongs.
                     type: string
+                  roleArn:
+                    description: 'The Alibaba Cloud Resource Name (ARN) of the role
+                      to be authorized. After authorization, you can use the related
+                      Key Management Service (KMS) features. Format: acs:ram::$accountID:role/$roleName.'
+                    type: string
                   secondaryZoneId:
                     description: The ID of the secondary zone.This parameter is returned
                       only if the instance is deployed in two zones.
@@ -1501,6 +1696,10 @@ spec:
                     type: string
                   tairInstanceName:
                     description: The name of the resource.
+                    type: string
+                  tdeStatus:
+                    description: 'Specifies whether to enable Transparent Data Encryption
+                      (TDE). Valid value: enabled.'
                     type: string
                   vpcAuthMode:
                     description: 'The VPC authentication mode. Valid values: Open

@@ -9,8 +9,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.0.0.0/8
-    description: test
+    description: example description
     enableIpv6: true
-    ipv6Isp: BGP
     region: cn-beijing
     vpcName: ${var.name}

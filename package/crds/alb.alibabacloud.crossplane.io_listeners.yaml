@@ -236,8 +236,8 @@ spec:
                       True Or False. Default Value: TRUE.'
                     type: boolean
                   idleTimeout:
-                    description: 'Specify the Connection Idle Timeout Value: 1 to
-                      60 seconds.'
+                    description: 'Specify the Connection Idle Timeout Value: 0~600
+                      Seconds.'
                     type: number
                   listenerDescription:
                     description: Set the IP Address of the Listened Description. Length
@@ -348,7 +348,7 @@ spec:
                       be created in.
                     type: string
                   requestTimeout:
-                    description: 'The Specified Request Timeout Time. Value: 1~180
+                    description: 'The Specified Request Timeout Time. Value: 0~600
                       Seconds. Default Value: 60 seconds. If the Timeout Time Within
                       the Back-End Server Has Not Answered the SLB Will Give up Waiting,
                       the Client Returns the HTTP 504 Error Code.'
@@ -708,8 +708,8 @@ spec:
                       True Or False. Default Value: TRUE.'
                     type: boolean
                   idleTimeout:
-                    description: 'Specify the Connection Idle Timeout Value: 1 to
-                      60 seconds.'
+                    description: 'Specify the Connection Idle Timeout Value: 0~600
+                      Seconds.'
                     type: number
                   listenerDescription:
                     description: Set the IP Address of the Listened Description. Length
@@ -816,7 +816,7 @@ spec:
                       type: object
                     type: array
                   requestTimeout:
-                    description: 'The Specified Request Timeout Time. Value: 1~180
+                    description: 'The Specified Request Timeout Time. Value: 0~600
                       Seconds. Default Value: 60 seconds. If the Timeout Time Within
                       the Back-End Server Has Not Answered the SLB Will Give up Waiting,
                       the Client Returns the HTTP 504 Error Code.'
@@ -1275,8 +1275,8 @@ spec:
                     description: The ID of the resource supplied above.
                     type: string
                   idleTimeout:
-                    description: 'Specify the Connection Idle Timeout Value: 1 to
-                      60 seconds.'
+                    description: 'Specify the Connection Idle Timeout Value: 0~600
+                      Seconds.'
                     type: number
                   listenerDescription:
                     description: Set the IP Address of the Listened Description. Length
@@ -1309,7 +1309,7 @@ spec:
                       type: object
                     type: array
                   requestTimeout:
-                    description: 'The Specified Request Timeout Time. Value: 1~180
+                    description: 'The Specified Request Timeout Time. Value: 0~600
                       Seconds. Default Value: 60 seconds. If the Timeout Time Within
                       the Back-End Server Has Not Answered the SLB Will Give up Waiting,
                       the Client Returns the HTTP 504 Error Code.'

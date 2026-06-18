@@ -74,7 +74,7 @@ spec:
               forProvider:
                 properties:
                   acl:
-                    description: The canned ACL to apply. Defaults to "private".
+                    description: The canned ACL to apply. Defaults to private.
                     type: string
                   bucket:
                     description: The name of the bucket to put the file in.
@@ -265,6 +265,18 @@ spec:
                             type: string
                         type: object
                     type: object
+                  objectWormMode:
+                    description: 'The retention mode of the object worm policy. Valid
+                      value: COMPLIANCE. Must be set together with object_worm_retain_until_date.
+                      The bucket must have object worm enabled. Updating only this
+                      attribute (or object_worm_retain_until_date) calls PutObjectRetention
+                      and does not re-upload the object.'
+                    type: string
+                  objectWormRetainUntilDate:
+                    description: The UTC time at which the object retention expires,
+                      in ISO8601 format with millisecond precision (for example 2026-09-30T00:00:00.000Z).
+                      Must be set together with object_worm_mode.
+                    type: string
                   region:
                     description: Region is the region you'd like your resource to
                       be created in.
@@ -292,7 +304,7 @@ spec:
                   autoscaler.
                 properties:
                   acl:
-                    description: The canned ACL to apply. Defaults to "private".
+                    description: The canned ACL to apply. Defaults to private.
                     type: string
                   bucket:
                     description: The name of the bucket to put the file in.
@@ -483,6 +495,18 @@ spec:
                             type: string
                         type: object
                     type: object
+                  objectWormMode:
+                    description: 'The retention mode of the object worm policy. Valid
+                      value: COMPLIANCE. Must be set together with object_worm_retain_until_date.
+                      The bucket must have object worm enabled. Updating only this
+                      attribute (or object_worm_retain_until_date) calls PutObjectRetention
+                      and does not re-upload the object.'
+                    type: string
+                  objectWormRetainUntilDate:
+                    description: The UTC time at which the object retention expires,
+                      in ISO8601 format with millisecond precision (for example 2026-09-30T00:00:00.000Z).
+                      Must be set together with object_worm_mode.
+                    type: string
                   serverSideEncryption:
                     description: Specifies server-side encryption of the object in
                       OSS. Valid values are AES256, KMS. Default value is AES256.
@@ -670,7 +694,7 @@ spec:
               atProvider:
                 properties:
                   acl:
-                    description: The canned ACL to apply. Defaults to "private".
+                    description: The canned ACL to apply. Defaults to private.
                     type: string
                   bucket:
                     description: The name of the bucket to put the file in.
@@ -722,6 +746,18 @@ spec:
                     description: Specifies the primary key managed by KMS. This parameter
                       is valid when the value of server_side_encryption is set to
                       KMS.
+                    type: string
+                  objectWormMode:
+                    description: 'The retention mode of the object worm policy. Valid
+                      value: COMPLIANCE. Must be set together with object_worm_retain_until_date.
+                      The bucket must have object worm enabled. Updating only this
+                      attribute (or object_worm_retain_until_date) calls PutObjectRetention
+                      and does not re-upload the object.'
+                    type: string
+                  objectWormRetainUntilDate:
+                    description: The UTC time at which the object retention expires,
+                      in ISO8601 format with millisecond precision (for example 2026-09-30T00:00:00.000Z).
+                      Must be set together with object_worm_mode.
                     type: string
                   serverSideEncryption:
                     description: Specifies server-side encryption of the object in

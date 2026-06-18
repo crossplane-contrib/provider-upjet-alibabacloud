@@ -15,10 +15,10 @@ import (
 
 type KeyPairAttachmentInitParameters struct {
 
-	// Set it to true and it will reboot instances which attached with the key pair to make key pair affect immediately.
+	// Specifies whether to make the key pair effective immediately. Valid values:
 	Force *bool `json:"force,omitempty" tf:"force,omitempty"`
 
-	// The list of ECS instance's IDs.
+	// The IDs of instances to which you want to bind the SSH key pair.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance
 	// +crossplane:generate:reference:refFieldName=InstanceRefs
 	// +crossplane:generate:reference:selectorFieldName=InstanceSelector
@@ -33,7 +33,7 @@ type KeyPairAttachmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
-	// The name of key pair used to bind.
+	// The name of the SSH key pair.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.KeyPair
 	KeyPairName *string `json:"keyPairName,omitempty" tf:"key_pair_name,omitempty"`
 
@@ -48,27 +48,27 @@ type KeyPairAttachmentInitParameters struct {
 
 type KeyPairAttachmentObservation struct {
 
-	// Set it to true and it will reboot instances which attached with the key pair to make key pair affect immediately.
+	// Specifies whether to make the key pair effective immediately. Valid values:
 	Force *bool `json:"force,omitempty" tf:"force,omitempty"`
 
-	// The resource ID of Key Pair Attachment. The value is formatted <key_pair_name>:<instance_ids>.
+	// The resource ID of Key Pair Attachment. It formats as <key_pair_name>:<instance_ids>.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The list of ECS instance's IDs.
+	// The IDs of instances to which you want to bind the SSH key pair.
 	// +listType=set
 	InstanceIds []*string `json:"instanceIds,omitempty" tf:"instance_ids,omitempty"`
 
-	// The name of key pair used to bind.
+	// The name of the SSH key pair.
 	KeyPairName *string `json:"keyPairName,omitempty" tf:"key_pair_name,omitempty"`
 }
 
 type KeyPairAttachmentParameters struct {
 
-	// Set it to true and it will reboot instances which attached with the key pair to make key pair affect immediately.
+	// Specifies whether to make the key pair effective immediately. Valid values:
 	// +kubebuilder:validation:Optional
 	Force *bool `json:"force,omitempty" tf:"force,omitempty"`
 
-	// The list of ECS instance's IDs.
+	// The IDs of instances to which you want to bind the SSH key pair.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance
 	// +crossplane:generate:reference:refFieldName=InstanceRefs
 	// +crossplane:generate:reference:selectorFieldName=InstanceSelector
@@ -84,7 +84,7 @@ type KeyPairAttachmentParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
-	// The name of key pair used to bind.
+	// The name of the SSH key pair.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.KeyPair
 	// +kubebuilder:validation:Optional
 	KeyPairName *string `json:"keyPairName,omitempty" tf:"key_pair_name,omitempty"`

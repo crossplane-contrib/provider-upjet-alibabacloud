@@ -60,7 +60,7 @@ type InstanceDataDisksInitParameters struct {
 	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
 
-	// The category of the disk:
+	// The category of the disk. Default value: cloud_efficiency. Valid values:
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
 
 	// Delete this data disk when the instance is destroyed. It only works on cloud, cloud_efficiency, cloud_essd, cloud_ssd disk. If the category of this data disk was ephemeral_ssd, please don't set this param. Default value: true.
@@ -112,7 +112,7 @@ type InstanceDataDisksObservation struct {
 	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
 
-	// The category of the disk:
+	// The category of the disk. Default value: cloud_efficiency. Valid values:
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
 
 	// Delete this data disk when the instance is destroyed. It only works on cloud, cloud_efficiency, cloud_essd, cloud_ssd disk. If the category of this data disk was ephemeral_ssd, please don't set this param. Default value: true.
@@ -156,7 +156,7 @@ type InstanceDataDisksParameters struct {
 	// +kubebuilder:validation:Optional
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
 
-	// The category of the disk:
+	// The category of the disk. Default value: cloud_efficiency. Valid values:
 	// +kubebuilder:validation:Optional
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
 
@@ -343,7 +343,8 @@ type InstanceInitParameters struct {
 	// +mapType=granular
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
-	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid.
+	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
+	// -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.KeyPair
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
@@ -424,7 +425,7 @@ type InstanceInitParameters struct {
 	// The Id of resource group which the instance belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// The name of the Resource Access Management (RAM) role. NOTE: From version 1.250.0, If you want to use role_name, We recommend you to use the resource alicloud_ecs_ram_role_attachment.
+	// The name of the Resource Access Management (RAM) role. NOTE: From version 1.250.0, If you want to use role_name, We recommend you to use the resource alicloud_ecs_ram_role_attachment. Field role_name has been deprecated from provider version 1.275.0. New resource alicloud_ecs_ram_role_attachment instead. From version 1.276.0, role_name can be modified.
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
 	// The number of private IP addresses to be automatically assigned from within the CIDR block of the vswitch. NOTE: To assign secondary private IP addresses, you must specify secondary_private_ips or secondary_private_ip_address_count but not both.
@@ -455,6 +456,9 @@ type InstanceInitParameters struct {
 	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1.
 	SpotDuration *float64 `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
 
+	// The interruption mode of the spot instance. Default value: Terminate. Valid values:
+	SpotInterruptionBehavior *string `json:"spotInterruptionBehavior,omitempty" tf:"spot_interruption_behavior,omitempty"`
+
 	// The hourly price threshold of a instance, and it takes effect only when parameter 'spot_strategy' is 'SpotWithPriceLimit'. Three decimals is allowed at most.
 	SpotPriceLimit *float64 `json:"spotPriceLimit,omitempty" tf:"spot_price_limit,omitempty"`
 
@@ -467,7 +471,7 @@ type InstanceInitParameters struct {
 	// The stop mode of the pay-as-you-go instance. Valid values: StopCharging,KeepCharging, Not-applicable. Default value: If the prerequisites required for enabling the economical mode are met, and you have enabled this mode in the ECS console, the default value is StopCharging. For more information, see "Enable the economical mode" in Economical mode. Otherwise, the default value is KeepCharging. Note: Not-applicable: Economical mode is not applicable to the instance.`
 	StoppedMode *string `json:"stoppedMode,omitempty" tf:"stopped_mode,omitempty"`
 
-	// The ID of the automatic snapshot policy applied to the system disk.
+	// The ID of the automatic snapshot policy applied to the system disk. NOTE: If you want to use system_disk_auto_snapshot_policy_id, We recommend you to use the resource alicloud_ecs_auto_snapshot_policy_attachment.
 	SystemDiskAutoSnapshotPolicyID *string `json:"systemDiskAutoSnapshotPolicyId,omitempty" tf:"system_disk_auto_snapshot_policy_id,omitempty"`
 
 	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
@@ -730,7 +734,8 @@ type InstanceObservation struct {
 	// +mapType=granular
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
-	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid.
+	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
+	// -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
 	// The ID of the launch template. For more information, see DescribeLaunchTemplates.To use a launch template to create an instance, you must use the launch_template_id or launch_template_name parameter to specify the launch template.
@@ -808,7 +813,7 @@ type InstanceObservation struct {
 	// The Id of resource group which the instance belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// The name of the Resource Access Management (RAM) role. NOTE: From version 1.250.0, If you want to use role_name, We recommend you to use the resource alicloud_ecs_ram_role_attachment.
+	// The name of the Resource Access Management (RAM) role. NOTE: From version 1.250.0, If you want to use role_name, We recommend you to use the resource alicloud_ecs_ram_role_attachment. Field role_name has been deprecated from provider version 1.275.0. New resource alicloud_ecs_ram_role_attachment instead. From version 1.276.0, role_name can be modified.
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
 	// The number of private IP addresses to be automatically assigned from within the CIDR block of the vswitch. NOTE: To assign secondary private IP addresses, you must specify secondary_private_ips or secondary_private_ip_address_count but not both.
@@ -828,6 +833,9 @@ type InstanceObservation struct {
 	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1.
 	SpotDuration *float64 `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
 
+	// The interruption mode of the spot instance. Default value: Terminate. Valid values:
+	SpotInterruptionBehavior *string `json:"spotInterruptionBehavior,omitempty" tf:"spot_interruption_behavior,omitempty"`
+
 	// The hourly price threshold of a instance, and it takes effect only when parameter 'spot_strategy' is 'SpotWithPriceLimit'. Three decimals is allowed at most.
 	SpotPriceLimit *float64 `json:"spotPriceLimit,omitempty" tf:"spot_price_limit,omitempty"`
 
@@ -843,7 +851,7 @@ type InstanceObservation struct {
 	// The stop mode of the pay-as-you-go instance. Valid values: StopCharging,KeepCharging, Not-applicable. Default value: If the prerequisites required for enabling the economical mode are met, and you have enabled this mode in the ECS console, the default value is StopCharging. For more information, see "Enable the economical mode" in Economical mode. Otherwise, the default value is KeepCharging. Note: Not-applicable: Economical mode is not applicable to the instance.`
 	StoppedMode *string `json:"stoppedMode,omitempty" tf:"stopped_mode,omitempty"`
 
-	// The ID of the automatic snapshot policy applied to the system disk.
+	// The ID of the automatic snapshot policy applied to the system disk. NOTE: If you want to use system_disk_auto_snapshot_policy_id, We recommend you to use the resource alicloud_ecs_auto_snapshot_policy_attachment.
 	SystemDiskAutoSnapshotPolicyID *string `json:"systemDiskAutoSnapshotPolicyId,omitempty" tf:"system_disk_auto_snapshot_policy_id,omitempty"`
 
 	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
@@ -1047,7 +1055,8 @@ type InstanceParameters struct {
 	// +mapType=granular
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
-	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid.
+	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
+	// -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.KeyPair
 	// +kubebuilder:validation:Optional
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
@@ -1154,7 +1163,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// The name of the Resource Access Management (RAM) role. NOTE: From version 1.250.0, If you want to use role_name, We recommend you to use the resource alicloud_ecs_ram_role_attachment.
+	// The name of the Resource Access Management (RAM) role. NOTE: From version 1.250.0, If you want to use role_name, We recommend you to use the resource alicloud_ecs_ram_role_attachment. Field role_name has been deprecated from provider version 1.275.0. New resource alicloud_ecs_ram_role_attachment instead. From version 1.276.0, role_name can be modified.
 	// +kubebuilder:validation:Optional
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
@@ -1191,6 +1200,10 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	SpotDuration *float64 `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
 
+	// The interruption mode of the spot instance. Default value: Terminate. Valid values:
+	// +kubebuilder:validation:Optional
+	SpotInterruptionBehavior *string `json:"spotInterruptionBehavior,omitempty" tf:"spot_interruption_behavior,omitempty"`
+
 	// The hourly price threshold of a instance, and it takes effect only when parameter 'spot_strategy' is 'SpotWithPriceLimit'. Three decimals is allowed at most.
 	// +kubebuilder:validation:Optional
 	SpotPriceLimit *float64 `json:"spotPriceLimit,omitempty" tf:"spot_price_limit,omitempty"`
@@ -1207,7 +1220,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	StoppedMode *string `json:"stoppedMode,omitempty" tf:"stopped_mode,omitempty"`
 
-	// The ID of the automatic snapshot policy applied to the system disk.
+	// The ID of the automatic snapshot policy applied to the system disk. NOTE: If you want to use system_disk_auto_snapshot_policy_id, We recommend you to use the resource alicloud_ecs_auto_snapshot_policy_attachment.
 	// +kubebuilder:validation:Optional
 	SystemDiskAutoSnapshotPolicyID *string `json:"systemDiskAutoSnapshotPolicyId,omitempty" tf:"system_disk_auto_snapshot_policy_id,omitempty"`
 

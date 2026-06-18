@@ -15,7 +15,7 @@ import (
 
 type AutoSnapshotPolicyAttachmentInitParameters struct {
 
-	// The auto snapshot policy id.
+	// The ID of the automatic snapshot policy that is applied to the cloud disk.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.AutoSnapshotPolicy
 	AutoSnapshotPolicyID *string `json:"autoSnapshotPolicyId,omitempty" tf:"auto_snapshot_policy_id,omitempty"`
 
@@ -27,7 +27,7 @@ type AutoSnapshotPolicyAttachmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoSnapshotPolicyIDSelector *v1.Selector `json:"autoSnapshotPolicyIdSelector,omitempty" tf:"-"`
 
-	// The disk id.
+	// The ID of the disk.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Disk
 	DiskID *string `json:"diskId,omitempty" tf:"disk_id,omitempty"`
 
@@ -42,19 +42,22 @@ type AutoSnapshotPolicyAttachmentInitParameters struct {
 
 type AutoSnapshotPolicyAttachmentObservation struct {
 
-	// The auto snapshot policy id.
+	// The ID of the automatic snapshot policy that is applied to the cloud disk.
 	AutoSnapshotPolicyID *string `json:"autoSnapshotPolicyId,omitempty" tf:"auto_snapshot_policy_id,omitempty"`
 
-	// The disk id.
+	// The ID of the disk.
 	DiskID *string `json:"diskId,omitempty" tf:"disk_id,omitempty"`
 
-	// The resource ID of Auto Snapshot Policy Attachment. The value is formatted <auto_snapshot_policy_id>:<disk_id>.
+	// The ID of the resource supplied above. The value is formulated as <auto_snapshot_policy_id>:<disk_id>.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (Available since v1.271.0) The ID of the region where the automatic snapshot policy and the cloud disk are located.
+	RegionID *string `json:"regionId,omitempty" tf:"region_id,omitempty"`
 }
 
 type AutoSnapshotPolicyAttachmentParameters struct {
 
-	// The auto snapshot policy id.
+	// The ID of the automatic snapshot policy that is applied to the cloud disk.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.AutoSnapshotPolicy
 	// +kubebuilder:validation:Optional
 	AutoSnapshotPolicyID *string `json:"autoSnapshotPolicyId,omitempty" tf:"auto_snapshot_policy_id,omitempty"`
@@ -67,7 +70,7 @@ type AutoSnapshotPolicyAttachmentParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoSnapshotPolicyIDSelector *v1.Selector `json:"autoSnapshotPolicyIdSelector,omitempty" tf:"-"`
 
-	// The disk id.
+	// The ID of the disk.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Disk
 	// +kubebuilder:validation:Optional
 	DiskID *string `json:"diskId,omitempty" tf:"disk_id,omitempty"`

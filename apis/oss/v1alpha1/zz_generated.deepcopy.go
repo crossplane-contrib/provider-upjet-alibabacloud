@@ -3053,6 +3053,16 @@ func (in *BucketObjectInitParameters) DeepCopyInto(out *BucketObjectInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.ObjectWormMode != nil {
+		in, out := &in.ObjectWormMode, &out.ObjectWormMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.ObjectWormRetainUntilDate != nil {
+		in, out := &in.ObjectWormRetainUntilDate, &out.ObjectWormRetainUntilDate
+		*out = new(string)
+		**out = **in
+	}
 	if in.ServerSideEncryption != nil {
 		in, out := &in.ServerSideEncryption, &out.ServerSideEncryption
 		*out = new(string)
@@ -3180,6 +3190,16 @@ func (in *BucketObjectObservation) DeepCopyInto(out *BucketObjectObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ObjectWormMode != nil {
+		in, out := &in.ObjectWormMode, &out.ObjectWormMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.ObjectWormRetainUntilDate != nil {
+		in, out := &in.ObjectWormRetainUntilDate, &out.ObjectWormRetainUntilDate
+		*out = new(string)
+		**out = **in
+	}
 	if in.ServerSideEncryption != nil {
 		in, out := &in.ServerSideEncryption, &out.ServerSideEncryption
 		*out = new(string)
@@ -3282,6 +3302,16 @@ func (in *BucketObjectParameters) DeepCopyInto(out *BucketObjectParameters) {
 	}
 	if in.Key != nil {
 		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.ObjectWormMode != nil {
+		in, out := &in.ObjectWormMode, &out.ObjectWormMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.ObjectWormRetainUntilDate != nil {
+		in, out := &in.ObjectWormRetainUntilDate, &out.ObjectWormRetainUntilDate
 		*out = new(string)
 		**out = **in
 	}

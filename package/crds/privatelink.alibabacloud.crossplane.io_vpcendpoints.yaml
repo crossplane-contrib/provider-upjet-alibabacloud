@@ -84,7 +84,7 @@ spec:
                     description: The description of the endpoint.
                     type: string
                   endpointType:
-                    description: The endpoint type.
+                    description: 'The type of the endpoint. Valid values:'
                     type: string
                   policyDocument:
                     description: RAM access policies. For more information about policy
@@ -389,7 +389,7 @@ spec:
                     description: The description of the endpoint.
                     type: string
                   endpointType:
-                    description: The endpoint type.
+                    description: 'The type of the endpoint. Valid values:'
                     type: string
                   policyDocument:
                     description: RAM access policies. For more information about policy
@@ -865,7 +865,7 @@ spec:
                     description: The domain name of the endpoint.
                     type: string
                   endpointType:
-                    description: The endpoint type.
+                    description: 'The type of the endpoint. Valid values:'
                     type: string
                   id:
                     description: The ID of the resource supplied above.

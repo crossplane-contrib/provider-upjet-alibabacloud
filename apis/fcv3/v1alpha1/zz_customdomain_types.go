@@ -78,6 +78,75 @@ type CertConfigParameters struct {
 	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 }
 
+type CorsConfigInitParameters struct {
+
+	// Whether to allow credentials (such as Cookies, Authorization headers, etc.). When AllowCredentials is true, AllowOrigins cannot use the wildcard '*'.
+	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
+
+	// List of allowed request headers, such as Content-Type, Authorization, etc.
+	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
+
+	// List of allowed HTTP methods, such as GET, POST, PUT, DELETE, etc.
+	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
+
+	// List of allowed origins. Supports wildcard '*' to allow all origins (when AllowCredentials is false), specific domains like 'https://example.com', or an array of multiple domains.
+	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
+
+	// List of response headers that can be exposed to the browser.
+	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
+
+	// Cache time (seconds) for preflight request results. Browsers will not resend preflight requests within this time.
+	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
+}
+
+type CorsConfigObservation struct {
+
+	// Whether to allow credentials (such as Cookies, Authorization headers, etc.). When AllowCredentials is true, AllowOrigins cannot use the wildcard '*'.
+	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
+
+	// List of allowed request headers, such as Content-Type, Authorization, etc.
+	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
+
+	// List of allowed HTTP methods, such as GET, POST, PUT, DELETE, etc.
+	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
+
+	// List of allowed origins. Supports wildcard '*' to allow all origins (when AllowCredentials is false), specific domains like 'https://example.com', or an array of multiple domains.
+	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
+
+	// List of response headers that can be exposed to the browser.
+	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
+
+	// Cache time (seconds) for preflight request results. Browsers will not resend preflight requests within this time.
+	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
+}
+
+type CorsConfigParameters struct {
+
+	// Whether to allow credentials (such as Cookies, Authorization headers, etc.). When AllowCredentials is true, AllowOrigins cannot use the wildcard '*'.
+	// +kubebuilder:validation:Optional
+	AllowCredentials *bool `json:"allowCredentials,omitempty" tf:"allow_credentials,omitempty"`
+
+	// List of allowed request headers, such as Content-Type, Authorization, etc.
+	// +kubebuilder:validation:Optional
+	AllowHeaders []*string `json:"allowHeaders,omitempty" tf:"allow_headers,omitempty"`
+
+	// List of allowed HTTP methods, such as GET, POST, PUT, DELETE, etc.
+	// +kubebuilder:validation:Optional
+	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
+
+	// List of allowed origins. Supports wildcard '*' to allow all origins (when AllowCredentials is false), specific domains like 'https://example.com', or an array of multiple domains.
+	// +kubebuilder:validation:Optional
+	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
+
+	// List of response headers that can be exposed to the browser.
+	// +kubebuilder:validation:Optional
+	ExposeHeaders []*string `json:"exposeHeaders,omitempty" tf:"expose_headers,omitempty"`
+
+	// Cache time (seconds) for preflight request results. Browsers will not resend preflight requests within this time.
+	// +kubebuilder:validation:Optional
+	MaxAge *float64 `json:"maxAge,omitempty" tf:"max_age,omitempty"`
+}
+
 type CustomDomainInitParameters struct {
 
 	// Permission authentication configuration See auth_config below.
@@ -85,6 +154,9 @@ type CustomDomainInitParameters struct {
 
 	// HTTPS certificate information See cert_config below.
 	CertConfig []CertConfigInitParameters `json:"certConfig,omitempty" tf:"cert_config,omitempty"`
+
+	// Cross-Origin Resource Sharing (CORS) configuration, used to control which origins can access resources under the custom domain. See cors_config below.
+	CorsConfig []CorsConfigInitParameters `json:"corsConfig,omitempty" tf:"cors_config,omitempty"`
 
 	// The name of the resource
 	CustomDomainName *string `json:"customDomainName,omitempty" tf:"custom_domain_name,omitempty"`
@@ -104,10 +176,10 @@ type CustomDomainInitParameters struct {
 
 type CustomDomainObservation struct {
 
-	// (Available since v1.234.0) API version of Function Compute
+	// API version of Function Compute.
 	APIVersion *string `json:"apiVersion,omitempty" tf:"api_version,omitempty"`
 
-	// (Available since v1.234.0) The ID of your Alibaba Cloud account (primary account).
+	// The ID of your Alibaba Cloud account (primary account).
 	AccountID *string `json:"accountId,omitempty" tf:"account_id,omitempty"`
 
 	// Permission authentication configuration See auth_config below.
@@ -116,7 +188,10 @@ type CustomDomainObservation struct {
 	// HTTPS certificate information See cert_config below.
 	CertConfig []CertConfigObservation `json:"certConfig,omitempty" tf:"cert_config,omitempty"`
 
-	// The creation time of the resource
+	// Cross-Origin Resource Sharing (CORS) configuration, used to control which origins can access resources under the custom domain. See cors_config below.
+	CorsConfig []CorsConfigObservation `json:"corsConfig,omitempty" tf:"cors_config,omitempty"`
+
+	// The creation time of the resource.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// The name of the resource
@@ -125,7 +200,7 @@ type CustomDomainObservation struct {
 	// The ID of the resource supplied above.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (Available since v1.234.0) The last time the custom domain name was Updated
+	// The last time the custom domain name was Updated.
 	LastModifiedTime *string `json:"lastModifiedTime,omitempty" tf:"last_modified_time,omitempty"`
 
 	// The protocol type supported by the domain name. HTTP: only HTTP protocol is supported. HTTPS: only HTTPS is supported. HTTP,HTTPS: Supports HTTP and HTTPS protocols.
@@ -134,7 +209,7 @@ type CustomDomainObservation struct {
 	// Route matching rule configuration See route_config below.
 	RouteConfig []RouteConfigObservation `json:"routeConfig,omitempty" tf:"route_config,omitempty"`
 
-	// (Available since v1.234.0) Number of subdomains
+	// Number of subdomains.
 	SubdomainCount *string `json:"subdomainCount,omitempty" tf:"subdomain_count,omitempty"`
 
 	// TLS configuration information See tls_config below.
@@ -153,6 +228,10 @@ type CustomDomainParameters struct {
 	// HTTPS certificate information See cert_config below.
 	// +kubebuilder:validation:Optional
 	CertConfig []CertConfigParameters `json:"certConfig,omitempty" tf:"cert_config,omitempty"`
+
+	// Cross-Origin Resource Sharing (CORS) configuration, used to control which origins can access resources under the custom domain. See cors_config below.
+	// +kubebuilder:validation:Optional
+	CorsConfig []CorsConfigParameters `json:"corsConfig,omitempty" tf:"cors_config,omitempty"`
 
 	// The name of the resource
 	// +kubebuilder:validation:Optional
@@ -487,7 +566,7 @@ type CustomDomainStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// CustomDomain is the Schema for the CustomDomains API. Provides a Alicloud FCV3 Custom Domain resource.
+// CustomDomain is the Schema for the CustomDomains API. Provides a Alicloud Function Compute Service V3 (FCV3) Custom Domain resource.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

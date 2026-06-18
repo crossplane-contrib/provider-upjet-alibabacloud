@@ -74,11 +74,12 @@ spec:
               forProvider:
                 properties:
                   force:
-                    description: Set it to true and it will reboot instances which
-                      attached with the key pair to make key pair affect immediately.
+                    description: 'Specifies whether to make the key pair effective
+                      immediately. Valid values:'
                     type: boolean
                   instanceIds:
-                    description: The list of ECS instance's IDs.
+                    description: The IDs of instances to which you want to bind the
+                      SSH key pair.
                     items:
                       type: string
                     type: array
@@ -162,7 +163,7 @@ spec:
                         type: object
                     type: object
                   keyPairName:
-                    description: The name of key pair used to bind.
+                    description: The name of the SSH key pair.
                     type: string
                   keyPairNameRef:
                     description: Reference to a KeyPair in ecs to populate keyPairName.
@@ -257,11 +258,12 @@ spec:
                   autoscaler.
                 properties:
                   force:
-                    description: Set it to true and it will reboot instances which
-                      attached with the key pair to make key pair affect immediately.
+                    description: 'Specifies whether to make the key pair effective
+                      immediately. Valid values:'
                     type: boolean
                   instanceIds:
-                    description: The list of ECS instance's IDs.
+                    description: The IDs of instances to which you want to bind the
+                      SSH key pair.
                     items:
                       type: string
                     type: array
@@ -345,7 +347,7 @@ spec:
                         type: object
                     type: object
                   keyPairName:
-                    description: The name of key pair used to bind.
+                    description: The name of the SSH key pair.
                     type: string
                   keyPairNameRef:
                     description: Reference to a KeyPair in ecs to populate keyPairName.
@@ -595,21 +597,22 @@ spec:
               atProvider:
                 properties:
                   force:
-                    description: Set it to true and it will reboot instances which
-                      attached with the key pair to make key pair affect immediately.
+                    description: 'Specifies whether to make the key pair effective
+                      immediately. Valid values:'
                     type: boolean
                   id:
-                    description: The resource ID of Key Pair Attachment. The value
-                      is formatted <key_pair_name>:<instance_ids>.
+                    description: The resource ID of Key Pair Attachment. It formats
+                      as <key_pair_name>:<instance_ids>.
                     type: string
                   instanceIds:
-                    description: The list of ECS instance's IDs.
+                    description: The IDs of instances to which you want to bind the
+                      SSH key pair.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
                   keyPairName:
-                    description: The name of key pair used to bind.
+                    description: The name of the SSH key pair.
                     type: string
                 type: object
               conditions:

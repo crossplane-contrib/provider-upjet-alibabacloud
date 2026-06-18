@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: CustomDomain is the Schema for the CustomDomains API. Provides
-          a Alicloud FCV3 Custom Domain resource.
+          a Alicloud Function Compute Service V3 (FCV3) Custom Domain resource.
         properties:
           apiVersion:
             description: |-
@@ -114,6 +114,50 @@ spec:
                           - name
                           - namespace
                           type: object
+                      type: object
+                    type: array
+                  corsConfig:
+                    description: Cross-Origin Resource Sharing (CORS) configuration,
+                      used to control which origins can access resources under the
+                      custom domain. See cors_config below.
+                    items:
+                      properties:
+                        allowCredentials:
+                          description: Whether to allow credentials (such as Cookies,
+                            Authorization headers, etc.). When AllowCredentials is
+                            true, AllowOrigins cannot use the wildcard '*'.
+                          type: boolean
+                        allowHeaders:
+                          description: List of allowed request headers, such as Content-Type,
+                            Authorization, etc.
+                          items:
+                            type: string
+                          type: array
+                        allowMethods:
+                          description: List of allowed HTTP methods, such as GET,
+                            POST, PUT, DELETE, etc.
+                          items:
+                            type: string
+                          type: array
+                        allowOrigins:
+                          description: List of allowed origins. Supports wildcard
+                            '*' to allow all origins (when AllowCredentials is false),
+                            specific domains like 'https://example.com', or an array
+                            of multiple domains.
+                          items:
+                            type: string
+                          type: array
+                        exposeHeaders:
+                          description: List of response headers that can be exposed
+                            to the browser.
+                          items:
+                            type: string
+                          type: array
+                        maxAge:
+                          description: Cache time (seconds) for preflight request
+                            results. Browsers will not resend preflight requests within
+                            this time.
+                          type: number
                       type: object
                     type: array
                   customDomainName:
@@ -361,6 +405,50 @@ spec:
                           - name
                           - namespace
                           type: object
+                      type: object
+                    type: array
+                  corsConfig:
+                    description: Cross-Origin Resource Sharing (CORS) configuration,
+                      used to control which origins can access resources under the
+                      custom domain. See cors_config below.
+                    items:
+                      properties:
+                        allowCredentials:
+                          description: Whether to allow credentials (such as Cookies,
+                            Authorization headers, etc.). When AllowCredentials is
+                            true, AllowOrigins cannot use the wildcard '*'.
+                          type: boolean
+                        allowHeaders:
+                          description: List of allowed request headers, such as Content-Type,
+                            Authorization, etc.
+                          items:
+                            type: string
+                          type: array
+                        allowMethods:
+                          description: List of allowed HTTP methods, such as GET,
+                            POST, PUT, DELETE, etc.
+                          items:
+                            type: string
+                          type: array
+                        allowOrigins:
+                          description: List of allowed origins. Supports wildcard
+                            '*' to allow all origins (when AllowCredentials is false),
+                            specific domains like 'https://example.com', or an array
+                            of multiple domains.
+                          items:
+                            type: string
+                          type: array
+                        exposeHeaders:
+                          description: List of response headers that can be exposed
+                            to the browser.
+                          items:
+                            type: string
+                          type: array
+                        maxAge:
+                          description: Cache time (seconds) for preflight request
+                            results. Browsers will not resend preflight requests within
+                            this time.
+                          type: number
                       type: object
                     type: array
                   customDomainName:
@@ -723,12 +811,10 @@ spec:
               atProvider:
                 properties:
                   accountId:
-                    description: (Available since v1.234.0) The ID of your Alibaba
-                      Cloud account (primary account).
+                    description: The ID of your Alibaba Cloud account (primary account).
                     type: string
                   apiVersion:
-                    description: (Available since v1.234.0) API version of Function
-                      Compute
+                    description: API version of Function Compute.
                     type: string
                   authConfig:
                     description: Permission authentication configuration See auth_config
@@ -756,8 +842,52 @@ spec:
                           type: string
                       type: object
                     type: array
+                  corsConfig:
+                    description: Cross-Origin Resource Sharing (CORS) configuration,
+                      used to control which origins can access resources under the
+                      custom domain. See cors_config below.
+                    items:
+                      properties:
+                        allowCredentials:
+                          description: Whether to allow credentials (such as Cookies,
+                            Authorization headers, etc.). When AllowCredentials is
+                            true, AllowOrigins cannot use the wildcard '*'.
+                          type: boolean
+                        allowHeaders:
+                          description: List of allowed request headers, such as Content-Type,
+                            Authorization, etc.
+                          items:
+                            type: string
+                          type: array
+                        allowMethods:
+                          description: List of allowed HTTP methods, such as GET,
+                            POST, PUT, DELETE, etc.
+                          items:
+                            type: string
+                          type: array
+                        allowOrigins:
+                          description: List of allowed origins. Supports wildcard
+                            '*' to allow all origins (when AllowCredentials is false),
+                            specific domains like 'https://example.com', or an array
+                            of multiple domains.
+                          items:
+                            type: string
+                          type: array
+                        exposeHeaders:
+                          description: List of response headers that can be exposed
+                            to the browser.
+                          items:
+                            type: string
+                          type: array
+                        maxAge:
+                          description: Cache time (seconds) for preflight request
+                            results. Browsers will not resend preflight requests within
+                            this time.
+                          type: number
+                      type: object
+                    type: array
                   createTime:
-                    description: The creation time of the resource
+                    description: The creation time of the resource.
                     type: string
                   customDomainName:
                     description: The name of the resource
@@ -766,8 +896,7 @@ spec:
                     description: The ID of the resource supplied above.
                     type: string
                   lastModifiedTime:
-                    description: (Available since v1.234.0) The last time the custom
-                      domain name was Updated
+                    description: The last time the custom domain name was Updated.
                     type: string
                   protocol:
                     description: 'The protocol type supported by the domain name.
@@ -848,7 +977,7 @@ spec:
                       type: object
                     type: array
                   subdomainCount:
-                    description: (Available since v1.234.0) Number of subdomains
+                    description: Number of subdomains.
                     type: string
                   tlsConfig:
                     description: TLS configuration information See tls_config below.

@@ -4,16 +4,16 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicyattachment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
     autoSnapshotPolicyIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: default
     diskIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: default
     region: cn-beijing
 
 ---
@@ -24,21 +24,21 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicyattachment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
-    name: terraform-example
+    autoSnapshotPolicyName: ${var.name}
     region: cn-beijing
     repeatWeekdays:
     - "1"
     - "2"
     - "3"
-    retentionDays: -1
+    retentionDays: 1
     timePoints:
     - "1"
-    - "22"
-    - "23"
+    - "2"
+    - "3"
 
 ---
 
@@ -48,36 +48,10 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicyattachment
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
-    category: cloud_efficiency
-    description: Hello ecs disk.
-    diskName: terraform-example
-    encrypted: true
-    kmsKeyIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
     region: cn-beijing
-    size: "30"
-    tags:
-      Name: terraform-example
-    zoneId: ${data.alicloud_zones.example.zones.0.id}
-
----
-
-apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
-kind: Key
-metadata:
-  annotations:
-    meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicyattachment
-  labels:
-    testing.upbound.io/example-name: example
-  name: example
-spec:
-  forProvider:
-    description: terraform-example
-    pendingWindowInDays: "7"
-    region: cn-beijing
-    status: Enabled
+    size: "500"
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

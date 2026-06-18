@@ -44,7 +44,7 @@ type KubernetesAddonInitParameters struct {
 
 type KubernetesAddonObservation struct {
 
-	// Is the addon ready for upgrade.
+	// (Deprecated since v1.273.0) Is the addon ready for upgrade.
 	CanUpgrade *bool `json:"canUpgrade,omitempty" tf:"can_upgrade,omitempty"`
 
 	// Whether to clean up cloud resources when deleting. Currently only works for addon ack-virtual-node and you must specify it when uninstall addon ack-virtual-node. Valid values: true: clean up, false: do not clean up.
@@ -62,7 +62,7 @@ type KubernetesAddonObservation struct {
 	// The name of addon.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// The version which addon can be upgraded to.
+	// (Deprecated since v1.273.0) The version which addon can be upgraded to.
 	NextVersion *string `json:"nextVersion,omitempty" tf:"next_version,omitempty"`
 
 	// Is it a mandatory addon to be installed.

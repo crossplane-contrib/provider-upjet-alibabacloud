@@ -50,8 +50,8 @@ type ClusterInitParameters struct {
 
 	// The db_node_class of cluster node.
 	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
-	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small.
-	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL 14 using the SENormal edition, db_node_class can be set to polar.pg.sl.small.c(x86 Architecture). Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
+	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
+	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
 	DBNodeClass *string `json:"dbNodeClass,omitempty" tf:"db_node_class,omitempty"`
 
 	// Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16].
@@ -61,7 +61,8 @@ type ClusterInitParameters struct {
 	// The ID of the node or node subscript. Node subscript values: 1 to 15.
 	DBNodeID *string `json:"dbNodeId,omitempty" tf:"db_node_id,omitempty"`
 
-	// The number of Standard Edition nodes. Default value: 1. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
+	// The number of Standard and Enterprise Edition nodes. Default value: 1 for Standard Edition, 2 for Enterprise Edition. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
+	// -> NOTE: This parameter only takes effect on creation. To further manage target db node number, please refer to parameter db_node_count.
 	DBNodeNum *float64 `json:"dbNodeNum,omitempty" tf:"db_node_num,omitempty"`
 
 	// Database type. Value options: MySQL, Oracle, PostgreSQL.
@@ -81,6 +82,10 @@ type ClusterInitParameters struct {
 	// The description of cluster.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
+	// -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
+	EnableDynamodb *bool `json:"enableDynamodb,omitempty" tf:"enable_dynamodb,omitempty"`
+
 	// turn on table auto encryption. Valid values are ON, OFF. Only MySQL 8.0 supports.
 	// -> NOTE: encrypt_new_tables Polardb MySQL 8.0 cluster, after TDE and Automatic Encryption are enabled, all newly created tables are automatically encrypted in the cluster.
 	EncryptNewTables *string `json:"encryptNewTables,omitempty" tf:"encrypt_new_tables,omitempty"`
@@ -94,6 +99,10 @@ type ClusterInitParameters struct {
 	// The ID of the global database network (GDN).
 	// -> NOTE: This parameter is required if CreationOption is set to CreateGdnStandby.
 	GdnID *string `json:"gdnId,omitempty" tf:"gdn_id,omitempty"`
+
+	// The list of global security ip group ids.
+	// +listType=set
+	GlobalSecurityGroupList []*string `json:"globalSecurityGroupList,omitempty" tf:"global_security_group_list,omitempty"`
 
 	// Indicates whether the hot standby feature is enabled. Valid values are ON, OFF. Only MySQL supports.
 	HotReplicaMode *string `json:"hotReplicaMode,omitempty" tf:"hot_replica_mode,omitempty"`
@@ -352,8 +361,8 @@ type ClusterObservation struct {
 
 	// The db_node_class of cluster node.
 	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
-	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small.
-	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL 14 using the SENormal edition, db_node_class can be set to polar.pg.sl.small.c(x86 Architecture). Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
+	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
+	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
 	DBNodeClass *string `json:"dbNodeClass,omitempty" tf:"db_node_class,omitempty"`
 
 	// Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16].
@@ -363,7 +372,8 @@ type ClusterObservation struct {
 	// The ID of the node or node subscript. Node subscript values: 1 to 15.
 	DBNodeID *string `json:"dbNodeId,omitempty" tf:"db_node_id,omitempty"`
 
-	// The number of Standard Edition nodes. Default value: 1. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
+	// The number of Standard and Enterprise Edition nodes. Default value: 1 for Standard Edition, 2 for Enterprise Edition. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
+	// -> NOTE: This parameter only takes effect on creation. To further manage target db node number, please refer to parameter db_node_count.
 	DBNodeNum *float64 `json:"dbNodeNum,omitempty" tf:"db_node_num,omitempty"`
 
 	// (Available since v1.216.0) The db_revision_version_list supports the following:
@@ -386,6 +396,10 @@ type ClusterObservation struct {
 	// The description of cluster.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
+	// -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
+	EnableDynamodb *bool `json:"enableDynamodb,omitempty" tf:"enable_dynamodb,omitempty"`
+
 	// turn on table auto encryption. Valid values are ON, OFF. Only MySQL 8.0 supports.
 	// -> NOTE: encrypt_new_tables Polardb MySQL 8.0 cluster, after TDE and Automatic Encryption are enabled, all newly created tables are automatically encrypted in the cluster.
 	EncryptNewTables *string `json:"encryptNewTables,omitempty" tf:"encrypt_new_tables,omitempty"`
@@ -399,6 +413,10 @@ type ClusterObservation struct {
 	// The ID of the global database network (GDN).
 	// -> NOTE: This parameter is required if CreationOption is set to CreateGdnStandby.
 	GdnID *string `json:"gdnId,omitempty" tf:"gdn_id,omitempty"`
+
+	// The list of global security ip group ids.
+	// +listType=set
+	GlobalSecurityGroupList []*string `json:"globalSecurityGroupList,omitempty" tf:"global_security_group_list,omitempty"`
 
 	// Indicates whether the hot standby feature is enabled. Valid values are ON, OFF. Only MySQL supports.
 	HotReplicaMode *string `json:"hotReplicaMode,omitempty" tf:"hot_replica_mode,omitempty"`
@@ -635,8 +653,8 @@ type ClusterParameters struct {
 
 	// The db_node_class of cluster node.
 	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
-	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small.
-	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL 14 using the SENormal edition, db_node_class can be set to polar.pg.sl.small.c(x86 Architecture). Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
+	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
+	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
 	// +kubebuilder:validation:Optional
 	DBNodeClass *string `json:"dbNodeClass,omitempty" tf:"db_node_class,omitempty"`
 
@@ -649,7 +667,8 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	DBNodeID *string `json:"dbNodeId,omitempty" tf:"db_node_id,omitempty"`
 
-	// The number of Standard Edition nodes. Default value: 1. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
+	// The number of Standard and Enterprise Edition nodes. Default value: 1 for Standard Edition, 2 for Enterprise Edition. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
+	// -> NOTE: This parameter only takes effect on creation. To further manage target db node number, please refer to parameter db_node_count.
 	// +kubebuilder:validation:Optional
 	DBNodeNum *float64 `json:"dbNodeNum,omitempty" tf:"db_node_num,omitempty"`
 
@@ -675,6 +694,11 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
+	// -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
+	// +kubebuilder:validation:Optional
+	EnableDynamodb *bool `json:"enableDynamodb,omitempty" tf:"enable_dynamodb,omitempty"`
+
 	// turn on table auto encryption. Valid values are ON, OFF. Only MySQL 8.0 supports.
 	// -> NOTE: encrypt_new_tables Polardb MySQL 8.0 cluster, after TDE and Automatic Encryption are enabled, all newly created tables are automatically encrypted in the cluster.
 	// +kubebuilder:validation:Optional
@@ -692,6 +716,11 @@ type ClusterParameters struct {
 	// -> NOTE: This parameter is required if CreationOption is set to CreateGdnStandby.
 	// +kubebuilder:validation:Optional
 	GdnID *string `json:"gdnId,omitempty" tf:"gdn_id,omitempty"`
+
+	// The list of global security ip group ids.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	GlobalSecurityGroupList []*string `json:"globalSecurityGroupList,omitempty" tf:"global_security_group_list,omitempty"`
 
 	// Indicates whether the hot standby feature is enabled. Valid values are ON, OFF. Only MySQL supports.
 	// +kubebuilder:validation:Optional

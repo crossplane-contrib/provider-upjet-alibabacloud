@@ -123,7 +123,8 @@ spec:
                             burst feature for the system disk. Valid values:'
                           type: boolean
                         category:
-                          description: 'The category of the disk:'
+                          description: 'The category of the disk. Default value: cloud_efficiency.
+                            Valid values:'
                           type: string
                         deleteWithInstance:
                           description: 'Delete this data disk when the instance is
@@ -444,9 +445,9 @@ spec:
                     description: Whether to use outdated instance type.
                     type: boolean
                   keyName:
-                    description: The name of key pair that can login ECS instance
-                      successfully without password. If it is specified, the password
-                      would be invalid.
+                    description: |-
+                      The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
+                      -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
                     type: string
                   keyNameRef:
                     description: Reference to a KeyPair in ecs to populate keyName.
@@ -770,7 +771,10 @@ spec:
                   roleName:
                     description: 'The name of the Resource Access Management (RAM)
                       role. NOTE: From version 1.250.0, If you want to use role_name,
-                      We recommend you to use the resource alicloud_ecs_ram_role_attachment.'
+                      We recommend you to use the resource alicloud_ecs_ram_role_attachment.
+                      Field role_name has been deprecated from provider version 1.275.0.
+                      New resource alicloud_ecs_ram_role_attachment instead. From
+                      version 1.276.0, role_name can be modified.'
                     type: string
                   secondaryPrivateIpAddressCount:
                     description: 'The number of private IP addresses to be automatically
@@ -881,6 +885,10 @@ spec:
                       you need to open. If the value is 0, the mode is no protection
                       period. Default value is 1.'
                     type: number
+                  spotInterruptionBehavior:
+                    description: 'The interruption mode of the spot instance. Default
+                      value: Terminate. Valid values:'
+                    type: string
                   spotPriceLimit:
                     description: The hourly price threshold of a instance, and it
                       takes effect only when parameter 'spot_strategy' is 'SpotWithPriceLimit'.
@@ -907,8 +915,9 @@ spec:
                       mode is not applicable to the instance.`'
                     type: string
                   systemDiskAutoSnapshotPolicyId:
-                    description: The ID of the automatic snapshot policy applied to
-                      the system disk.
+                    description: 'The ID of the automatic snapshot policy applied
+                      to the system disk. NOTE: If you want to use system_disk_auto_snapshot_policy_id,
+                      We recommend you to use the resource alicloud_ecs_auto_snapshot_policy_attachment.'
                     type: string
                   systemDiskBurstingEnabled:
                     description: 'Specifies whether to enable the performance burst
@@ -1205,7 +1214,8 @@ spec:
                             burst feature for the system disk. Valid values:'
                           type: boolean
                         category:
-                          description: 'The category of the disk:'
+                          description: 'The category of the disk. Default value: cloud_efficiency.
+                            Valid values:'
                           type: string
                         deleteWithInstance:
                           description: 'Delete this data disk when the instance is
@@ -1526,9 +1536,9 @@ spec:
                     description: Whether to use outdated instance type.
                     type: boolean
                   keyName:
-                    description: The name of key pair that can login ECS instance
-                      successfully without password. If it is specified, the password
-                      would be invalid.
+                    description: |-
+                      The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
+                      -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
                     type: string
                   keyNameRef:
                     description: Reference to a KeyPair in ecs to populate keyName.
@@ -1848,7 +1858,10 @@ spec:
                   roleName:
                     description: 'The name of the Resource Access Management (RAM)
                       role. NOTE: From version 1.250.0, If you want to use role_name,
-                      We recommend you to use the resource alicloud_ecs_ram_role_attachment.'
+                      We recommend you to use the resource alicloud_ecs_ram_role_attachment.
+                      Field role_name has been deprecated from provider version 1.275.0.
+                      New resource alicloud_ecs_ram_role_attachment instead. From
+                      version 1.276.0, role_name can be modified.'
                     type: string
                   secondaryPrivateIpAddressCount:
                     description: 'The number of private IP addresses to be automatically
@@ -1959,6 +1972,10 @@ spec:
                       you need to open. If the value is 0, the mode is no protection
                       period. Default value is 1.'
                     type: number
+                  spotInterruptionBehavior:
+                    description: 'The interruption mode of the spot instance. Default
+                      value: Terminate. Valid values:'
+                    type: string
                   spotPriceLimit:
                     description: The hourly price threshold of a instance, and it
                       takes effect only when parameter 'spot_strategy' is 'SpotWithPriceLimit'.
@@ -1985,8 +2002,9 @@ spec:
                       mode is not applicable to the instance.`'
                     type: string
                   systemDiskAutoSnapshotPolicyId:
-                    description: The ID of the automatic snapshot policy applied to
-                      the system disk.
+                    description: 'The ID of the automatic snapshot policy applied
+                      to the system disk. NOTE: If you want to use system_disk_auto_snapshot_policy_id,
+                      We recommend you to use the resource alicloud_ecs_auto_snapshot_policy_attachment.'
                     type: string
                   systemDiskBurstingEnabled:
                     description: 'Specifies whether to enable the performance burst
@@ -2449,7 +2467,8 @@ spec:
                             burst feature for the system disk. Valid values:'
                           type: boolean
                         category:
-                          description: 'The category of the disk:'
+                          description: 'The category of the disk. Default value: cloud_efficiency.
+                            Valid values:'
                           type: string
                         deleteWithInstance:
                           description: 'Delete this data disk when the instance is
@@ -2633,9 +2652,9 @@ spec:
                     description: Whether to use outdated instance type.
                     type: boolean
                   keyName:
-                    description: The name of key pair that can login ECS instance
-                      successfully without password. If it is specified, the password
-                      would be invalid.
+                    description: |-
+                      The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
+                      -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
                     type: string
                   kmsEncryptedPassword:
                     description: An KMS encrypts password used to an instance. If
@@ -2803,7 +2822,10 @@ spec:
                   roleName:
                     description: 'The name of the Resource Access Management (RAM)
                       role. NOTE: From version 1.250.0, If you want to use role_name,
-                      We recommend you to use the resource alicloud_ecs_ram_role_attachment.'
+                      We recommend you to use the resource alicloud_ecs_ram_role_attachment.
+                      Field role_name has been deprecated from provider version 1.275.0.
+                      New resource alicloud_ecs_ram_role_attachment instead. From
+                      version 1.276.0, role_name can be modified.'
                     type: string
                   secondaryPrivateIpAddressCount:
                     description: 'The number of private IP addresses to be automatically
@@ -2836,6 +2858,10 @@ spec:
                       you need to open. If the value is 0, the mode is no protection
                       period. Default value is 1.'
                     type: number
+                  spotInterruptionBehavior:
+                    description: 'The interruption mode of the spot instance. Default
+                      value: Terminate. Valid values:'
+                    type: string
                   spotPriceLimit:
                     description: The hourly price threshold of a instance, and it
                       takes effect only when parameter 'spot_strategy' is 'SpotWithPriceLimit'.
@@ -2866,8 +2892,9 @@ spec:
                       mode is not applicable to the instance.`'
                     type: string
                   systemDiskAutoSnapshotPolicyId:
-                    description: The ID of the automatic snapshot policy applied to
-                      the system disk.
+                    description: 'The ID of the automatic snapshot policy applied
+                      to the system disk. NOTE: If you want to use system_disk_auto_snapshot_policy_id,
+                      We recommend you to use the resource alicloud_ecs_auto_snapshot_policy_attachment.'
                     type: string
                   systemDiskBurstingEnabled:
                     description: 'Specifies whether to enable the performance burst

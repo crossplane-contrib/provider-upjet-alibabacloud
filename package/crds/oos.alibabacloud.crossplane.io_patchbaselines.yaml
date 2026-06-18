@@ -35,7 +35,7 @@ spec:
     schema:
       openAPIV3Schema:
         description: PatchBaseline is the Schema for the PatchBaselines API. Provides
-          a Alicloud OOS Patch Baseline resource.
+          a Alicloud Operation Orchestration Service (OOS) Patch Baseline resource.
         properties:
           apiVersion:
             description: |-
@@ -74,35 +74,34 @@ spec:
               forProvider:
                 properties:
                   approvalRules:
-                    description: Accept the rules. This value follows the json format.
-                      For more details, see the description of ApprovalRules in the
-                      Request parameters table for details.
+                    description: This value follows the json format. For more details,
+                      see the description of ApprovalRules in the Request parameters
+                      table for details.
                     type: string
                   approvedPatches:
-                    description: Approved Patch.
+                    description: List of approved patches.
                     items:
                       type: string
                     type: array
                   approvedPatchesEnableNonSecurity:
-                    description: ApprovedPatchesEnableNonSecurity.
+                    description: Specifies whether approved patches include updates
+                      other than security updates.
                     type: boolean
                   description:
-                    description: Patches baseline description information.
+                    description: Description of the patch baseline.
                     type: string
                   operationSystem:
-                    description: 'Operating system type. Valid values: AliyunLinux,
-                      Anolis, CentOS, Debian, RedhatEnterpriseLinux, Ubuntu, Windows,
-                      AlmaLinux.'
+                    description: 'Operating system type. Supported values:'
                     type: string
                   patchBaselineName:
-                    description: The name of the patch baseline.
+                    description: Patch baseline name.
                     type: string
                   region:
                     description: Region is the region you'd like your resource to
                       be created in.
                     type: string
                   rejectedPatches:
-                    description: Reject patches.
+                    description: List of rejected patches.
                     items:
                       type: string
                     type: array
@@ -111,10 +110,10 @@ spec:
                       BLOCK.'
                     type: string
                   resourceGroupId:
-                    description: The ID of the resource group.
+                    description: Resource group ID.
                     type: string
                   sources:
-                    description: Source.
+                    description: List of patch source configurations.
                     items:
                       type: string
                     type: array
@@ -139,31 +138,30 @@ spec:
                   autoscaler.
                 properties:
                   approvalRules:
-                    description: Accept the rules. This value follows the json format.
-                      For more details, see the description of ApprovalRules in the
-                      Request parameters table for details.
+                    description: This value follows the json format. For more details,
+                      see the description of ApprovalRules in the Request parameters
+                      table for details.
                     type: string
                   approvedPatches:
-                    description: Approved Patch.
+                    description: List of approved patches.
                     items:
                       type: string
                     type: array
                   approvedPatchesEnableNonSecurity:
-                    description: ApprovedPatchesEnableNonSecurity.
+                    description: Specifies whether approved patches include updates
+                      other than security updates.
                     type: boolean
                   description:
-                    description: Patches baseline description information.
+                    description: Description of the patch baseline.
                     type: string
                   operationSystem:
-                    description: 'Operating system type. Valid values: AliyunLinux,
-                      Anolis, CentOS, Debian, RedhatEnterpriseLinux, Ubuntu, Windows,
-                      AlmaLinux.'
+                    description: 'Operating system type. Supported values:'
                     type: string
                   patchBaselineName:
-                    description: The name of the patch baseline.
+                    description: Patch baseline name.
                     type: string
                   rejectedPatches:
-                    description: Reject patches.
+                    description: List of rejected patches.
                     items:
                       type: string
                     type: array
@@ -172,10 +170,10 @@ spec:
                       BLOCK.'
                     type: string
                   resourceGroupId:
-                    description: The ID of the resource group.
+                    description: Resource group ID.
                     type: string
                   sources:
-                    description: Source.
+                    description: List of patch source configurations.
                     items:
                       type: string
                     type: array
@@ -372,37 +370,36 @@ spec:
               atProvider:
                 properties:
                   approvalRules:
-                    description: Accept the rules. This value follows the json format.
-                      For more details, see the description of ApprovalRules in the
-                      Request parameters table for details.
+                    description: This value follows the json format. For more details,
+                      see the description of ApprovalRules in the Request parameters
+                      table for details.
                     type: string
                   approvedPatches:
-                    description: Approved Patch.
+                    description: List of approved patches.
                     items:
                       type: string
                     type: array
                   approvedPatchesEnableNonSecurity:
-                    description: ApprovedPatchesEnableNonSecurity.
+                    description: Specifies whether approved patches include updates
+                      other than security updates.
                     type: boolean
                   createTime:
                     description: Creation time.
                     type: string
                   description:
-                    description: Patches baseline description information.
+                    description: Description of the patch baseline.
                     type: string
                   id:
                     description: The ID of the resource supplied above.
                     type: string
                   operationSystem:
-                    description: 'Operating system type. Valid values: AliyunLinux,
-                      Anolis, CentOS, Debian, RedhatEnterpriseLinux, Ubuntu, Windows,
-                      AlmaLinux.'
+                    description: 'Operating system type. Supported values:'
                     type: string
                   patchBaselineName:
-                    description: The name of the patch baseline.
+                    description: Patch baseline name.
                     type: string
                   rejectedPatches:
-                    description: Reject patches.
+                    description: List of rejected patches.
                     items:
                       type: string
                     type: array
@@ -411,10 +408,10 @@ spec:
                       BLOCK.'
                     type: string
                   resourceGroupId:
-                    description: The ID of the resource group.
+                    description: Resource group ID.
                     type: string
                   sources:
-                    description: Source.
+                    description: List of patch source configurations.
                     items:
                       type: string
                     type: array

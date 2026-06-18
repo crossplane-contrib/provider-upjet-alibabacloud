@@ -15,34 +15,34 @@ import (
 
 type PatchBaselineInitParameters struct {
 
-	// Accept the rules. This value follows the json format. For more details, see the description of ApprovalRules in the Request parameters table for details.
+	// This value follows the json format. For more details, see the description of ApprovalRules in the Request parameters table for details.
 	ApprovalRules *string `json:"approvalRules,omitempty" tf:"approval_rules,omitempty"`
 
-	// Approved Patch.
+	// List of approved patches.
 	ApprovedPatches []*string `json:"approvedPatches,omitempty" tf:"approved_patches,omitempty"`
 
-	// ApprovedPatchesEnableNonSecurity.
+	// Specifies whether approved patches include updates other than security updates.
 	ApprovedPatchesEnableNonSecurity *bool `json:"approvedPatchesEnableNonSecurity,omitempty" tf:"approved_patches_enable_non_security,omitempty"`
 
-	// Patches baseline description information.
+	// Description of the patch baseline.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Operating system type. Valid values: AliyunLinux, Anolis, CentOS, Debian, RedhatEnterpriseLinux, Ubuntu, Windows, AlmaLinux.
+	// Operating system type. Supported values:
 	OperationSystem *string `json:"operationSystem,omitempty" tf:"operation_system,omitempty"`
 
-	// The name of the patch baseline.
+	// Patch baseline name.
 	PatchBaselineName *string `json:"patchBaselineName,omitempty" tf:"patch_baseline_name,omitempty"`
 
-	// Reject patches.
+	// List of rejected patches.
 	RejectedPatches []*string `json:"rejectedPatches,omitempty" tf:"rejected_patches,omitempty"`
 
 	// Rejected patches action. Valid values: ALLOW_AS_DEPENDENCY, BLOCK.
 	RejectedPatchesAction *string `json:"rejectedPatchesAction,omitempty" tf:"rejected_patches_action,omitempty"`
 
-	// The ID of the resource group.
+	// Resource group ID.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// Source.
+	// List of patch source configurations.
 	Sources []*string `json:"sources,omitempty" tf:"sources,omitempty"`
 
 	// Key-value map of resource tags.
@@ -52,40 +52,40 @@ type PatchBaselineInitParameters struct {
 
 type PatchBaselineObservation struct {
 
-	// Accept the rules. This value follows the json format. For more details, see the description of ApprovalRules in the Request parameters table for details.
+	// This value follows the json format. For more details, see the description of ApprovalRules in the Request parameters table for details.
 	ApprovalRules *string `json:"approvalRules,omitempty" tf:"approval_rules,omitempty"`
 
-	// Approved Patch.
+	// List of approved patches.
 	ApprovedPatches []*string `json:"approvedPatches,omitempty" tf:"approved_patches,omitempty"`
 
-	// ApprovedPatchesEnableNonSecurity.
+	// Specifies whether approved patches include updates other than security updates.
 	ApprovedPatchesEnableNonSecurity *bool `json:"approvedPatchesEnableNonSecurity,omitempty" tf:"approved_patches_enable_non_security,omitempty"`
 
 	// Creation time.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// Patches baseline description information.
+	// Description of the patch baseline.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The ID of the resource supplied above.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Operating system type. Valid values: AliyunLinux, Anolis, CentOS, Debian, RedhatEnterpriseLinux, Ubuntu, Windows, AlmaLinux.
+	// Operating system type. Supported values:
 	OperationSystem *string `json:"operationSystem,omitempty" tf:"operation_system,omitempty"`
 
-	// The name of the patch baseline.
+	// Patch baseline name.
 	PatchBaselineName *string `json:"patchBaselineName,omitempty" tf:"patch_baseline_name,omitempty"`
 
-	// Reject patches.
+	// List of rejected patches.
 	RejectedPatches []*string `json:"rejectedPatches,omitempty" tf:"rejected_patches,omitempty"`
 
 	// Rejected patches action. Valid values: ALLOW_AS_DEPENDENCY, BLOCK.
 	RejectedPatchesAction *string `json:"rejectedPatchesAction,omitempty" tf:"rejected_patches_action,omitempty"`
 
-	// The ID of the resource group.
+	// Resource group ID.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// Source.
+	// List of patch source configurations.
 	Sources []*string `json:"sources,omitempty" tf:"sources,omitempty"`
 
 	// Key-value map of resource tags.
@@ -95,27 +95,27 @@ type PatchBaselineObservation struct {
 
 type PatchBaselineParameters struct {
 
-	// Accept the rules. This value follows the json format. For more details, see the description of ApprovalRules in the Request parameters table for details.
+	// This value follows the json format. For more details, see the description of ApprovalRules in the Request parameters table for details.
 	// +kubebuilder:validation:Optional
 	ApprovalRules *string `json:"approvalRules,omitempty" tf:"approval_rules,omitempty"`
 
-	// Approved Patch.
+	// List of approved patches.
 	// +kubebuilder:validation:Optional
 	ApprovedPatches []*string `json:"approvedPatches,omitempty" tf:"approved_patches,omitempty"`
 
-	// ApprovedPatchesEnableNonSecurity.
+	// Specifies whether approved patches include updates other than security updates.
 	// +kubebuilder:validation:Optional
 	ApprovedPatchesEnableNonSecurity *bool `json:"approvedPatchesEnableNonSecurity,omitempty" tf:"approved_patches_enable_non_security,omitempty"`
 
-	// Patches baseline description information.
+	// Description of the patch baseline.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Operating system type. Valid values: AliyunLinux, Anolis, CentOS, Debian, RedhatEnterpriseLinux, Ubuntu, Windows, AlmaLinux.
+	// Operating system type. Supported values:
 	// +kubebuilder:validation:Optional
 	OperationSystem *string `json:"operationSystem,omitempty" tf:"operation_system,omitempty"`
 
-	// The name of the patch baseline.
+	// Patch baseline name.
 	// +kubebuilder:validation:Optional
 	PatchBaselineName *string `json:"patchBaselineName,omitempty" tf:"patch_baseline_name,omitempty"`
 
@@ -124,7 +124,7 @@ type PatchBaselineParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
-	// Reject patches.
+	// List of rejected patches.
 	// +kubebuilder:validation:Optional
 	RejectedPatches []*string `json:"rejectedPatches,omitempty" tf:"rejected_patches,omitempty"`
 
@@ -132,11 +132,11 @@ type PatchBaselineParameters struct {
 	// +kubebuilder:validation:Optional
 	RejectedPatchesAction *string `json:"rejectedPatchesAction,omitempty" tf:"rejected_patches_action,omitempty"`
 
-	// The ID of the resource group.
+	// Resource group ID.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// Source.
+	// List of patch source configurations.
 	// +kubebuilder:validation:Optional
 	Sources []*string `json:"sources,omitempty" tf:"sources,omitempty"`
 
@@ -173,7 +173,7 @@ type PatchBaselineStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// PatchBaseline is the Schema for the PatchBaselines API. Provides a Alicloud OOS Patch Baseline resource.
+// PatchBaseline is the Schema for the PatchBaselines API. Provides a Alicloud Operation Orchestration Service (OOS) Patch Baseline resource.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
