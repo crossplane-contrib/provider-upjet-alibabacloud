@@ -24,7 +24,7 @@ type AccountPublicAccessBlockObservation struct {
 	// Whether or not AlibabaCloud OSS should block public bucket policies for buckets in this account is enabled.
 	BlockPublicAccess *bool `json:"blockPublicAccess,omitempty" tf:"block_public_access,omitempty"`
 
-	// The ID of the resource supplied above.The value is formulated as ``.
+	// The ID of the resource supplied above.The value is formulated as “.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
