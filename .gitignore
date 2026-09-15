@@ -11,3 +11,6 @@ cover.out
 # ignore IDE folders
 .vscode/
 .idea/
+
+# compiled generator, produced by `go build ./cmd/generator`
+/generator

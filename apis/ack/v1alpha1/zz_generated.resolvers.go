@@ -11,8 +11,8 @@ import (
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1"
 	v1alpha12 "github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1"
 	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	resource "github.com/crossplane/upjet/pkg/resource"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -27,6 +27,7 @@ func (mg *AutoscalingConfig) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ClusterIDRefs,
 		Selector:     mg.Spec.ForProvider.ClusterIDSelector,
 		To: reference.To{
@@ -43,6 +44,7 @@ func (mg *AutoscalingConfig) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ClusterIDRefs,
 		Selector:     mg.Spec.InitProvider.ClusterIDSelector,
 		To: reference.To{
@@ -70,6 +72,7 @@ func (mg *EdgeKubernetes) ResolveReferences(ctx context.Context, c client.Reader
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityGroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -86,6 +89,7 @@ func (mg *EdgeKubernetes) ResolveReferences(ctx context.Context, c client.Reader
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.WorkerVswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.WorkerVswitchIDsRefs,
 		Selector:      mg.Spec.ForProvider.WorkerVswitchIDsSelector,
 		To: reference.To{
@@ -102,6 +106,7 @@ func (mg *EdgeKubernetes) ResolveReferences(ctx context.Context, c client.Reader
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityGroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -118,6 +123,7 @@ func (mg *EdgeKubernetes) ResolveReferences(ctx context.Context, c client.Reader
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.WorkerVswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.WorkerVswitchIDsRefs,
 		Selector:      mg.Spec.InitProvider.WorkerVswitchIDsSelector,
 		To: reference.To{
@@ -145,6 +151,7 @@ func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) er
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.MasterVswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.MasterVswitchIdsRefs,
 		Selector:      mg.Spec.ForProvider.MasterVswitchIdsSelector,
 		To: reference.To{
@@ -161,6 +168,7 @@ func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) er
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.PodVswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.PodVswitchIdsRefs,
 		Selector:      mg.Spec.ForProvider.PodVswitchIdsSelector,
 		To: reference.To{
@@ -177,6 +185,7 @@ func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityGroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -193,6 +202,7 @@ func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) er
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.MasterVswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.MasterVswitchIdsRefs,
 		Selector:      mg.Spec.InitProvider.MasterVswitchIdsSelector,
 		To: reference.To{
@@ -209,6 +219,7 @@ func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) er
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.PodVswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.PodVswitchIdsRefs,
 		Selector:      mg.Spec.InitProvider.PodVswitchIdsSelector,
 		To: reference.To{
@@ -225,6 +236,7 @@ func (mg *Kubernetes) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityGroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -251,6 +263,7 @@ func (mg *KubernetesAddon) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ClusterIDRefs,
 		Selector:     mg.Spec.ForProvider.ClusterIDSelector,
 		To: reference.To{
@@ -267,6 +280,7 @@ func (mg *KubernetesAddon) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ClusterIDRefs,
 		Selector:     mg.Spec.InitProvider.ClusterIDSelector,
 		To: reference.To{
@@ -294,6 +308,7 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ClusterIDRefs,
 		Selector:     mg.Spec.ForProvider.ClusterIDSelector,
 		To: reference.To{
@@ -310,6 +325,7 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KeyName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.KeyNameRef,
 		Selector:     mg.Spec.ForProvider.KeyNameSelector,
 		To: reference.To{
@@ -326,6 +342,7 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.SecurityGroupIDRefs,
 		Selector:      mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -343,6 +360,7 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.UpgradePolicy[i3].KubernetesVersion),
 			Extract:      resource.ExtractParamPath("version", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.UpgradePolicy[i3].KubernetesVersionRef,
 			Selector:     mg.Spec.ForProvider.UpgradePolicy[i3].KubernetesVersionSelector,
 			To: reference.To{
@@ -360,6 +378,7 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.VswitchIdsRefs,
 		Selector:      mg.Spec.ForProvider.VswitchIdsSelector,
 		To: reference.To{
@@ -376,6 +395,7 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ClusterIDRefs,
 		Selector:     mg.Spec.InitProvider.ClusterIDSelector,
 		To: reference.To{
@@ -392,6 +412,7 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KeyName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.KeyNameRef,
 		Selector:     mg.Spec.InitProvider.KeyNameSelector,
 		To: reference.To{
@@ -408,6 +429,7 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.SecurityGroupIDRefs,
 		Selector:      mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -425,6 +447,7 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.UpgradePolicy[i3].KubernetesVersion),
 			Extract:      resource.ExtractParamPath("version", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.UpgradePolicy[i3].KubernetesVersionRef,
 			Selector:     mg.Spec.InitProvider.UpgradePolicy[i3].KubernetesVersionSelector,
 			To: reference.To{
@@ -442,6 +465,7 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.VswitchIdsRefs,
 		Selector:      mg.Spec.InitProvider.VswitchIdsSelector,
 		To: reference.To{
@@ -469,6 +493,7 @@ func (mg *KubernetesPermissions) ResolveReferences(ctx context.Context, c client
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Permissions[i3].Cluster),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.Permissions[i3].ClusterIDRefs,
 			Selector:     mg.Spec.ForProvider.Permissions[i3].ClusterIDSelector,
 			To: reference.To{
@@ -487,6 +512,7 @@ func (mg *KubernetesPermissions) ResolveReferences(ctx context.Context, c client
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Permissions[i3].RoleName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.Permissions[i3].RoleIDRefs,
 			Selector:     mg.Spec.ForProvider.Permissions[i3].RoleIDSelector,
 			To: reference.To{
@@ -504,6 +530,7 @@ func (mg *KubernetesPermissions) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.UID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.UIDRef,
 		Selector:     mg.Spec.ForProvider.UIDSelector,
 		To: reference.To{
@@ -521,6 +548,7 @@ func (mg *KubernetesPermissions) ResolveReferences(ctx context.Context, c client
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Permissions[i3].Cluster),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.Permissions[i3].ClusterIDRefs,
 			Selector:     mg.Spec.InitProvider.Permissions[i3].ClusterIDSelector,
 			To: reference.To{
@@ -539,6 +567,7 @@ func (mg *KubernetesPermissions) ResolveReferences(ctx context.Context, c client
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Permissions[i3].RoleName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.Permissions[i3].RoleIDRefs,
 			Selector:     mg.Spec.InitProvider.Permissions[i3].RoleIDSelector,
 			To: reference.To{
@@ -556,6 +585,7 @@ func (mg *KubernetesPermissions) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.UID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.UIDRef,
 		Selector:     mg.Spec.InitProvider.UIDSelector,
 		To: reference.To{
@@ -583,6 +613,7 @@ func (mg *ManagedKubernetes) ResolveReferences(ctx context.Context, c client.Rea
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.PodVswitchIds),
 		Extract:       resource.ExtractResourceID(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.PodVswitchIdsRefs,
 		Selector:      mg.Spec.ForProvider.PodVswitchIdsSelector,
 		To: reference.To{
@@ -599,6 +630,7 @@ func (mg *ManagedKubernetes) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityGroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -615,6 +647,7 @@ func (mg *ManagedKubernetes) ResolveReferences(ctx context.Context, c client.Rea
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.VswitchIdsRefs,
 		Selector:      mg.Spec.ForProvider.VswitchIdsSelector,
 		To: reference.To{
@@ -631,6 +664,7 @@ func (mg *ManagedKubernetes) ResolveReferences(ctx context.Context, c client.Rea
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.PodVswitchIds),
 		Extract:       resource.ExtractResourceID(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.PodVswitchIdsRefs,
 		Selector:      mg.Spec.InitProvider.PodVswitchIdsSelector,
 		To: reference.To{
@@ -647,6 +681,7 @@ func (mg *ManagedKubernetes) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityGroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -663,6 +698,7 @@ func (mg *ManagedKubernetes) ResolveReferences(ctx context.Context, c client.Rea
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.VswitchIdsRefs,
 		Selector:      mg.Spec.InitProvider.VswitchIdsSelector,
 		To: reference.To{
@@ -690,6 +726,7 @@ func (mg *ServerlessKubernetes) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityGroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -706,6 +743,7 @@ func (mg *ServerlessKubernetes) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
@@ -722,6 +760,7 @@ func (mg *ServerlessKubernetes) ResolveReferences(ctx context.Context, c client.
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.VswitchIdsRefs,
 		Selector:      mg.Spec.ForProvider.VswitchIdsSelector,
 		To: reference.To{
@@ -738,6 +777,7 @@ func (mg *ServerlessKubernetes) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityGroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -754,6 +794,7 @@ func (mg *ServerlessKubernetes) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
@@ -770,6 +811,7 @@ func (mg *ServerlessKubernetes) ResolveReferences(ctx context.Context, c client.
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.VswitchIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.VswitchIdsRefs,
 		Selector:      mg.Spec.InitProvider.VswitchIdsSelector,
 		To: reference.To{

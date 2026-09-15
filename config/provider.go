@@ -10,8 +10,8 @@ import (
 	_ "embed"
 
 	alicloud "github.com/aliyun/terraform-provider-alicloud/alicloud"
-	"github.com/crossplane/upjet/pkg/schema/traverser"
-	conversiontfjson "github.com/crossplane/upjet/pkg/types/conversion/tfjson"
+	"github.com/crossplane/upjet/v2/pkg/schema/traverser"
+	conversiontfjson "github.com/crossplane/upjet/v2/pkg/types/conversion/tfjson"
 	tfjson "github.com/hashicorp/terraform-json"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
@@ -19,7 +19,7 @@ import (
 	"github.com/crossplane-contrib/provider-alibabacloud/config/fcv3"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/slb"
 
-	"github.com/crossplane/upjet/pkg/registry/reference"
+	"github.com/crossplane/upjet/v2/pkg/registry/reference"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/ack"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/ackone"
@@ -42,7 +42,7 @@ import (
 	"github.com/crossplane-contrib/provider-alibabacloud/config/vpc"
 	"github.com/crossplane-contrib/provider-alibabacloud/hack"
 
-	ujconfig "github.com/crossplane/upjet/pkg/config"
+	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 )
 
 const (

@@ -10,18 +10,18 @@ import (
 	"fmt"
 	"strings"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/internal/version"
 
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/crossplane/upjet/pkg/terraform"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	tfsdk "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
@@ -31,6 +31,7 @@ import (
 const (
 	// error messages
 	errNoProviderConfig      = "no providerConfigRef provided"
+	errNotLegacyManaged      = "resource is not a legacy (cluster-scoped) managed resource"
 	errGetProviderConfig     = "cannot get referenced ProviderConfig"
 	errTrackUsage            = "cannot track ProviderConfig usage"
 	errExtractCredentials    = "cannot extract credentials"
@@ -55,13 +56,23 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
 	return func(ctx context.Context, c client.Client, mg resource.Managed) (terraform.Setup, error) {
 		ps := terraform.Setup{}
 
-		configRef := mg.GetProviderConfigReference()
+		// crossplane-runtime v2 split resource.Managed into LegacyManaged
+		// (cluster-scoped, untyped providerConfigRef) and ModernManaged
+		// (namespaced, typed ref). This provider currently generates only
+		// cluster-scoped MRs, so only the legacy path is implemented; the
+		// modern path arrives with namespaced resource support.
+		lmg, ok := mg.(resource.LegacyManaged) //nolint:staticcheck // cluster-scoped MRs are legacy by definition
+		if !ok {
+			return ps, errors.New(errNotLegacyManaged)
+		}
+
+		configRef := lmg.GetProviderConfigReference()
 		if configRef == nil {
 			return ps, errors.New(errNoProviderConfig)
 		}
 
-		t := resource.NewProviderConfigUsageTracker(c, &v1beta1.ProviderConfigUsage{})
-		if err := t.Track(ctx, mg); err != nil {
+		t := resource.NewLegacyProviderConfigUsageTracker(c, &v1beta1.ProviderConfigUsage{}) //nolint:staticcheck // matches the legacy PCU type above
+		if err := t.Track(ctx, lmg); err != nil {
 			return ps, errors.Wrap(err, errTrackUsage)
 		}
 

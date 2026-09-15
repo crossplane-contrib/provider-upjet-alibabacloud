@@ -12,8 +12,8 @@ import (
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1"
 	v1alpha12 "github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	resource "github.com/crossplane/upjet/pkg/resource"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -28,6 +28,7 @@ func (mg *Account) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBClusterIDRef,
 		Selector:     mg.Spec.ForProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -44,6 +45,7 @@ func (mg *Account) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBClusterIDRef,
 		Selector:     mg.Spec.InitProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -71,6 +73,7 @@ func (mg *AccountPrivilege) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AccountName),
 		Extract:      common.AccountNameExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.AccountNameRef,
 		Selector:     mg.Spec.ForProvider.AccountNameSelector,
 		To: reference.To{
@@ -87,6 +90,7 @@ func (mg *AccountPrivilege) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBClusterIDRef,
 		Selector:     mg.Spec.ForProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -103,6 +107,7 @@ func (mg *AccountPrivilege) ResolveReferences(ctx context.Context, c client.Read
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.DBNames),
 		Extract:       resource.ExtractParamPath("db_name", false),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.DBNamesRefs,
 		Selector:      mg.Spec.ForProvider.DBNamesSelector,
 		To: reference.To{
@@ -119,6 +124,7 @@ func (mg *AccountPrivilege) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AccountName),
 		Extract:      common.AccountNameExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.AccountNameRef,
 		Selector:     mg.Spec.InitProvider.AccountNameSelector,
 		To: reference.To{
@@ -135,6 +141,7 @@ func (mg *AccountPrivilege) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBClusterIDRef,
 		Selector:     mg.Spec.InitProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -151,6 +158,7 @@ func (mg *AccountPrivilege) ResolveReferences(ctx context.Context, c client.Read
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.DBNames),
 		Extract:       resource.ExtractParamPath("db_name", false),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.DBNamesRefs,
 		Selector:      mg.Spec.InitProvider.DBNamesSelector,
 		To: reference.To{
@@ -177,6 +185,7 @@ func (mg *BackupPolicy) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBClusterIDRef,
 		Selector:     mg.Spec.ForProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -193,6 +202,7 @@ func (mg *BackupPolicy) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBClusterIDRef,
 		Selector:     mg.Spec.InitProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -220,6 +230,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoleArn),
 		Extract:      common.RoleArnExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.RoleArnRef,
 		Selector:     mg.Spec.ForProvider.RoleArnSelector,
 		To: reference.To{
@@ -236,6 +247,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.SecurityGroupIDRefs,
 		Selector:      mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -252,6 +264,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
@@ -268,6 +281,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VswitchID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VswitchIDRef,
 		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
 		To: reference.To{
@@ -284,6 +298,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoleArn),
 		Extract:      common.RoleArnExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.RoleArnRef,
 		Selector:     mg.Spec.InitProvider.RoleArnSelector,
 		To: reference.To{
@@ -300,6 +315,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.SecurityGroupIDRefs,
 		Selector:      mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -316,6 +332,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
@@ -332,6 +349,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VswitchID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VswitchIDRef,
 		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
 		To: reference.To{
@@ -358,6 +376,7 @@ func (mg *ClusterEndpoint) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBClusterIDRef,
 		Selector:     mg.Spec.ForProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -374,6 +393,7 @@ func (mg *ClusterEndpoint) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBClusterIDRef,
 		Selector:     mg.Spec.InitProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -400,6 +420,7 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBClusterIDRef,
 		Selector:     mg.Spec.ForProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -416,6 +437,7 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBClusterIDRef,
 		Selector:     mg.Spec.InitProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -442,6 +464,7 @@ func (mg *Endpoint) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBClusterIDRef,
 		Selector:     mg.Spec.ForProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -458,6 +481,7 @@ func (mg *Endpoint) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBClusterIDRef,
 		Selector:     mg.Spec.InitProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -484,6 +508,7 @@ func (mg *EndpointAddress) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBClusterIDRef,
 		Selector:     mg.Spec.ForProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -500,6 +525,7 @@ func (mg *EndpointAddress) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBEndpointID),
 		Extract:      common.DBEndpointIdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBEndpointIDRef,
 		Selector:     mg.Spec.ForProvider.DBEndpointIDSelector,
 		To: reference.To{
@@ -516,6 +542,7 @@ func (mg *EndpointAddress) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBClusterIDRef,
 		Selector:     mg.Spec.InitProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -532,6 +559,7 @@ func (mg *EndpointAddress) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBEndpointID),
 		Extract:      common.DBEndpointIdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBEndpointIDRef,
 		Selector:     mg.Spec.InitProvider.DBEndpointIDSelector,
 		To: reference.To{
@@ -558,6 +586,7 @@ func (mg *GlobalDatabaseNetwork) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBClusterIDRef,
 		Selector:     mg.Spec.ForProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -574,6 +603,7 @@ func (mg *GlobalDatabaseNetwork) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBClusterIDRef,
 		Selector:     mg.Spec.InitProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -600,6 +630,7 @@ func (mg *PrimaryEndpoint) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBClusterIDRef,
 		Selector:     mg.Spec.ForProvider.DBClusterIDSelector,
 		To: reference.To{
@@ -616,6 +647,7 @@ func (mg *PrimaryEndpoint) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBClusterID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBClusterIDRef,
 		Selector:     mg.Spec.InitProvider.DBClusterIDSelector,
 		To: reference.To{

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type AlertConfigInitParameters struct {
@@ -69,7 +69,7 @@ type GtmInstanceInitParameters struct {
 
 	// The alert group.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cloudmonitorservice/v1alpha1.AlarmContactGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("alarm_contact_group_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("alarm_contact_group_name",false)
 	// +listType=set
 	AlertGroup []*string `json:"alertGroup,omitempty" tf:"alert_group,omitempty"`
 
@@ -210,7 +210,7 @@ type GtmInstanceParameters struct {
 
 	// The alert group.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cloudmonitorservice/v1alpha1.AlarmContactGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("alarm_contact_group_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("alarm_contact_group_name",false)
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	AlertGroup []*string `json:"alertGroup,omitempty" tf:"alert_group,omitempty"`

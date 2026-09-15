@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	account "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/polardb/account"
 	accountprivilege "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/polardb/accountprivilege"
@@ -39,6 +39,51 @@ func Setup_polardb(mgr ctrl.Manager, o controller.Options) error {
 		primaryendpoint.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupGated_polardb creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_polardb(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		account.SetupGated,
+		accountprivilege.SetupGated,
+		backuppolicy.SetupGated,
+		cluster.SetupGated,
+		clusterendpoint.SetupGated,
+		database.SetupGated,
+		endpoint.SetupGated,
+		endpointaddress.SetupGated,
+		globaldatabasenetwork.SetupGated,
+		parametergroup.SetupGated,
+		primaryendpoint.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupWebhookWithManager_polardb registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_polardb(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		account.SetupWebhookWithManager,
+		accountprivilege.SetupWebhookWithManager,
+		backuppolicy.SetupWebhookWithManager,
+		cluster.SetupWebhookWithManager,
+		clusterendpoint.SetupWebhookWithManager,
+		database.SetupWebhookWithManager,
+		endpoint.SetupWebhookWithManager,
+		endpointaddress.SetupWebhookWithManager,
+		globaldatabasenetwork.SetupWebhookWithManager,
+		parametergroup.SetupWebhookWithManager,
+		primaryendpoint.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
 			return err
 		}
 	}

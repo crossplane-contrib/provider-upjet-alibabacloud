@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	acl "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/acl"
 	aclentryattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/aclentryattachment"
@@ -41,6 +41,53 @@ func Setup_alb(mgr ctrl.Manager, o controller.Options) error {
 		servergroup.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupGated_alb creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_alb(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		acl.SetupGated,
+		aclentryattachment.SetupGated,
+		ascript.SetupGated,
+		healthchecktemplate.SetupGated,
+		listener.SetupGated,
+		listeneraclattachment.SetupGated,
+		loadbalancer.SetupGated,
+		loadbalancersecuritygroupattachment.SetupGated,
+		loadbalancerzoneshiftedattachment.SetupGated,
+		rule.SetupGated,
+		securitypolicy.SetupGated,
+		servergroup.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupWebhookWithManager_alb registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_alb(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		acl.SetupWebhookWithManager,
+		aclentryattachment.SetupWebhookWithManager,
+		ascript.SetupWebhookWithManager,
+		healthchecktemplate.SetupWebhookWithManager,
+		listener.SetupWebhookWithManager,
+		listeneraclattachment.SetupWebhookWithManager,
+		loadbalancer.SetupWebhookWithManager,
+		loadbalancersecuritygroupattachment.SetupWebhookWithManager,
+		loadbalancerzoneshiftedattachment.SetupWebhookWithManager,
+		rule.SetupWebhookWithManager,
+		securitypolicy.SetupWebhookWithManager,
+		servergroup.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
 			return err
 		}
 	}

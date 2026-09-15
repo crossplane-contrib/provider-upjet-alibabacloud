@@ -6,7 +6,7 @@
 
 package v1alpha1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
 // GetCondition of this VPCEndpointService.
 func (mg *VPCEndpointService) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
@@ -26,11 +26,6 @@ func (mg *VPCEndpointService) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this VPCEndpointService.
 func (mg *VPCEndpointService) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this VPCEndpointService.
-func (mg *VPCEndpointService) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this VPCEndpointService.
@@ -58,11 +53,6 @@ func (mg *VPCEndpointService) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this VPCEndpointService.
-func (mg *VPCEndpointService) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this VPCEndpointService.
 func (mg *VPCEndpointService) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -86,11 +76,6 @@ func (mg *VpcEndpoint) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this VpcEndpoint.
 func (mg *VpcEndpoint) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this VpcEndpoint.
-func (mg *VpcEndpoint) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this VpcEndpoint.
@@ -118,11 +103,6 @@ func (mg *VpcEndpoint) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this VpcEndpoint.
-func (mg *VpcEndpoint) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this VpcEndpoint.
 func (mg *VpcEndpoint) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -146,11 +126,6 @@ func (mg *VpcEndpointConnection) GetManagementPolicies() xpv1.ManagementPolicies
 // GetProviderConfigReference of this VpcEndpointConnection.
 func (mg *VpcEndpointConnection) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this VpcEndpointConnection.
-func (mg *VpcEndpointConnection) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this VpcEndpointConnection.
@@ -178,11 +153,6 @@ func (mg *VpcEndpointConnection) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this VpcEndpointConnection.
-func (mg *VpcEndpointConnection) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this VpcEndpointConnection.
 func (mg *VpcEndpointConnection) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -206,11 +176,6 @@ func (mg *VpcEndpointServiceResource) GetManagementPolicies() xpv1.ManagementPol
 // GetProviderConfigReference of this VpcEndpointServiceResource.
 func (mg *VpcEndpointServiceResource) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this VpcEndpointServiceResource.
-func (mg *VpcEndpointServiceResource) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this VpcEndpointServiceResource.
@@ -238,11 +203,6 @@ func (mg *VpcEndpointServiceResource) SetProviderConfigReference(r *xpv1.Referen
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this VpcEndpointServiceResource.
-func (mg *VpcEndpointServiceResource) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this VpcEndpointServiceResource.
 func (mg *VpcEndpointServiceResource) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -266,11 +226,6 @@ func (mg *VpcEndpointServiceUser) GetManagementPolicies() xpv1.ManagementPolicie
 // GetProviderConfigReference of this VpcEndpointServiceUser.
 func (mg *VpcEndpointServiceUser) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this VpcEndpointServiceUser.
-func (mg *VpcEndpointServiceUser) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this VpcEndpointServiceUser.
@@ -298,11 +253,6 @@ func (mg *VpcEndpointServiceUser) SetProviderConfigReference(r *xpv1.Reference) 
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this VpcEndpointServiceUser.
-func (mg *VpcEndpointServiceUser) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this VpcEndpointServiceUser.
 func (mg *VpcEndpointServiceUser) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -328,11 +278,6 @@ func (mg *VpcEndpointZone) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this VpcEndpointZone.
-func (mg *VpcEndpointZone) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this VpcEndpointZone.
 func (mg *VpcEndpointZone) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -356,11 +301,6 @@ func (mg *VpcEndpointZone) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this VpcEndpointZone.
 func (mg *VpcEndpointZone) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this VpcEndpointZone.
-func (mg *VpcEndpointZone) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this VpcEndpointZone.

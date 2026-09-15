@@ -8,8 +8,8 @@ package v1alpha1
 
 import (
 	"context"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	resource "github.com/crossplane/upjet/pkg/resource"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -24,6 +24,7 @@ func (mg *AccessKey) ResolveReferences(ctx context.Context, c client.Reader) err
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.UserName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.UserNameRef,
 		Selector:     mg.Spec.ForProvider.UserNameSelector,
 		To: reference.To{
@@ -40,6 +41,7 @@ func (mg *AccessKey) ResolveReferences(ctx context.Context, c client.Reader) err
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.UserName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.UserNameRef,
 		Selector:     mg.Spec.InitProvider.UserNameSelector,
 		To: reference.To{
@@ -67,6 +69,7 @@ func (mg *GroupMembership) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GroupName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.GroupNameRef,
 		Selector:     mg.Spec.ForProvider.GroupNameSelector,
 		To: reference.To{
@@ -83,6 +86,7 @@ func (mg *GroupMembership) ResolveReferences(ctx context.Context, c client.Reade
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.UserNames),
 		Extract:       resource.ExtractParamPath("name", false),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.UserNamesRefs,
 		Selector:      mg.Spec.ForProvider.UserNamesSelector,
 		To: reference.To{
@@ -99,6 +103,7 @@ func (mg *GroupMembership) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.GroupName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.GroupNameRef,
 		Selector:     mg.Spec.InitProvider.GroupNameSelector,
 		To: reference.To{
@@ -115,6 +120,7 @@ func (mg *GroupMembership) ResolveReferences(ctx context.Context, c client.Reade
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.UserNames),
 		Extract:       resource.ExtractParamPath("name", false),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.UserNamesRefs,
 		Selector:      mg.Spec.InitProvider.UserNamesSelector,
 		To: reference.To{
@@ -141,6 +147,7 @@ func (mg *GroupPolicyAttachment) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GroupName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.GroupNameRef,
 		Selector:     mg.Spec.ForProvider.GroupNameSelector,
 		To: reference.To{
@@ -157,6 +164,7 @@ func (mg *GroupPolicyAttachment) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PolicyName),
 		Extract:      resource.ExtractParamPath("policy_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.PolicyNameRef,
 		Selector:     mg.Spec.ForProvider.PolicyNameSelector,
 		To: reference.To{
@@ -173,6 +181,7 @@ func (mg *GroupPolicyAttachment) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PolicyType),
 		Extract:      resource.ExtractParamPath("type", true),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.PolicyTypeRef,
 		Selector:     mg.Spec.ForProvider.PolicyTypeSelector,
 		To: reference.To{
@@ -189,6 +198,7 @@ func (mg *GroupPolicyAttachment) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.GroupName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.GroupNameRef,
 		Selector:     mg.Spec.InitProvider.GroupNameSelector,
 		To: reference.To{
@@ -205,6 +215,7 @@ func (mg *GroupPolicyAttachment) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PolicyName),
 		Extract:      resource.ExtractParamPath("policy_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.PolicyNameRef,
 		Selector:     mg.Spec.InitProvider.PolicyNameSelector,
 		To: reference.To{
@@ -221,6 +232,7 @@ func (mg *GroupPolicyAttachment) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PolicyType),
 		Extract:      resource.ExtractParamPath("type", true),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.PolicyTypeRef,
 		Selector:     mg.Spec.InitProvider.PolicyTypeSelector,
 		To: reference.To{
@@ -247,6 +259,7 @@ func (mg *LoginProfile) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.UserName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.UserNameRef,
 		Selector:     mg.Spec.ForProvider.UserNameSelector,
 		To: reference.To{
@@ -263,6 +276,7 @@ func (mg *LoginProfile) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.UserName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.UserNameRef,
 		Selector:     mg.Spec.InitProvider.UserNameSelector,
 		To: reference.To{
@@ -289,6 +303,7 @@ func (mg *RolePolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PolicyName),
 		Extract:      resource.ExtractParamPath("policy_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.PolicyNameRef,
 		Selector:     mg.Spec.ForProvider.PolicyNameSelector,
 		To: reference.To{
@@ -305,6 +320,7 @@ func (mg *RolePolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PolicyType),
 		Extract:      resource.ExtractParamPath("type", true),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.PolicyTypeRef,
 		Selector:     mg.Spec.ForProvider.PolicyTypeSelector,
 		To: reference.To{
@@ -321,6 +337,7 @@ func (mg *RolePolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoleName),
 		Extract:      resource.ExtractParamPath("role_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.RoleNameRef,
 		Selector:     mg.Spec.ForProvider.RoleNameSelector,
 		To: reference.To{
@@ -337,6 +354,7 @@ func (mg *RolePolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PolicyName),
 		Extract:      resource.ExtractParamPath("policy_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.PolicyNameRef,
 		Selector:     mg.Spec.InitProvider.PolicyNameSelector,
 		To: reference.To{
@@ -353,6 +371,7 @@ func (mg *RolePolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PolicyType),
 		Extract:      resource.ExtractParamPath("type", true),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.PolicyTypeRef,
 		Selector:     mg.Spec.InitProvider.PolicyTypeSelector,
 		To: reference.To{
@@ -369,6 +388,7 @@ func (mg *RolePolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoleName),
 		Extract:      resource.ExtractParamPath("role_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.RoleNameRef,
 		Selector:     mg.Spec.InitProvider.RoleNameSelector,
 		To: reference.To{
@@ -395,6 +415,7 @@ func (mg *UserGroupAttachment) ResolveReferences(ctx context.Context, c client.R
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GroupName),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.GroupNameRef,
 		Selector:     mg.Spec.ForProvider.GroupNameSelector,
 		To: reference.To{
@@ -411,6 +432,7 @@ func (mg *UserGroupAttachment) ResolveReferences(ctx context.Context, c client.R
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.UserName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.UserNameRef,
 		Selector:     mg.Spec.ForProvider.UserNameSelector,
 		To: reference.To{
@@ -427,6 +449,7 @@ func (mg *UserGroupAttachment) ResolveReferences(ctx context.Context, c client.R
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.GroupName),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.GroupNameRef,
 		Selector:     mg.Spec.InitProvider.GroupNameSelector,
 		To: reference.To{
@@ -443,6 +466,7 @@ func (mg *UserGroupAttachment) ResolveReferences(ctx context.Context, c client.R
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.UserName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.UserNameRef,
 		Selector:     mg.Spec.InitProvider.UserNameSelector,
 		To: reference.To{
@@ -469,6 +493,7 @@ func (mg *UserPolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PolicyName),
 		Extract:      resource.ExtractParamPath("policy_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.PolicyNameRef,
 		Selector:     mg.Spec.ForProvider.PolicyNameSelector,
 		To: reference.To{
@@ -485,6 +510,7 @@ func (mg *UserPolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PolicyType),
 		Extract:      resource.ExtractParamPath("type", true),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.PolicyTypeRef,
 		Selector:     mg.Spec.ForProvider.PolicyTypeSelector,
 		To: reference.To{
@@ -501,6 +527,7 @@ func (mg *UserPolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.UserName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.UserNameRef,
 		Selector:     mg.Spec.ForProvider.UserNameSelector,
 		To: reference.To{
@@ -517,6 +544,7 @@ func (mg *UserPolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PolicyName),
 		Extract:      resource.ExtractParamPath("policy_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.PolicyNameRef,
 		Selector:     mg.Spec.InitProvider.PolicyNameSelector,
 		To: reference.To{
@@ -533,6 +561,7 @@ func (mg *UserPolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PolicyType),
 		Extract:      resource.ExtractParamPath("type", true),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.PolicyTypeRef,
 		Selector:     mg.Spec.InitProvider.PolicyTypeSelector,
 		To: reference.To{
@@ -549,6 +578,7 @@ func (mg *UserPolicyAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.UserName),
 		Extract:      resource.ExtractParamPath("name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.UserNameRef,
 		Selector:     mg.Spec.InitProvider.UserNameSelector,
 		To: reference.To{
