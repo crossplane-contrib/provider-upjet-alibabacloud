@@ -222,4 +222,6 @@ require (
 // replace, any MVS bump or Renovate run would silently move the provider off
 // the SDK v2 code line and back onto v1, which cannot work with no-fork.
 // Remove once upstream ships v2.0.0 with a proper /v2 module path.
+// Must refer to the same upstream commit as TERRAFORM_PROVIDER_VERSION in the
+// Makefile, which pins the registry release config/schema.json is generated from.
 replace github.com/aliyun/terraform-provider-alicloud => github.com/aliyun/terraform-provider-alicloud v1.290.1-0.20260827115952-d31d4a12eca0

@@ -56,7 +56,7 @@ jobs:
         run: |
           make crddiff
       - name: Report native schema version changes
-        if: ${{ inputs.upjet-based-provider }}
+        if: steps.modified-crds.outputs.any_changed == 'true'
         run: |
           make schema-version-diff
 

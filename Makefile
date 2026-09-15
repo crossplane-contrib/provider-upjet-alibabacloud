@@ -19,6 +19,13 @@ TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAF
 
 export TERRAFORM_PROVIDER_SOURCE ?= aliyun/alicloud
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/aliyun/terraform-provider-alicloud
+# NOTE: This pins the registry release used to generate config/schema.json.
+# The Go code the provider actually runs is pinned separately, in go.mod, and
+# for a prerelease it appears there only as an opaque pseudo-version
+# (v1.290.1-0.<timestamp>-<commit>) plus a replace directive. The two must refer
+# to the same upstream commit. Nothing enforces it mechanically, but
+# TestSchemaSourcesAgree in config/ fails if they drift far enough apart that a
+# configured resource is missing from either source.
 export TERRAFORM_PROVIDER_VERSION ?= 2.0.0-beta4
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-alicloud
 export TERRAFORM_DOCS_PATH ?= website/docs/r
@@ -350,7 +357,7 @@ crddiff:
 
 schema-version-diff:
 	@$(INFO) Checking for native state schema version changes
-	@export PREV_PROVIDER_VERSION=$$(git cat-file -p "${GITHUB_BASE_REF}:Makefile" | sed -nr 's/^export[[:space:]]*TERRAFORM_PROVIDER_VERSION[[:space:]]*:=[[:space:]]*(.+)/\1/p'); \
+	@export PREV_PROVIDER_VERSION=$$(git cat-file -p "${GITHUB_BASE_REF}:Makefile" | sed -nr 's/^export[[:space:]]*TERRAFORM_PROVIDER_VERSION[[:space:]]*[?:]?=[[:space:]]*(.+)/\1/p'); \
 	echo Detected previous Terraform provider version: $${PREV_PROVIDER_VERSION}; \
 	echo Current Terraform provider version: $${TERRAFORM_PROVIDER_VERSION}; \
 	mkdir -p $(WORK_DIR); \
