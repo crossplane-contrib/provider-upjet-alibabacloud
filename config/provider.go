@@ -10,6 +10,7 @@ import (
 	_ "embed"
 
 	alicloud "github.com/aliyun/terraform-provider-alicloud/alicloud"
+	"github.com/crossplane/upjet/pkg/schema/traverser"
 	conversiontfjson "github.com/crossplane/upjet/pkg/types/conversion/tfjson"
 	tfjson "github.com/hashicorp/terraform-json"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -81,15 +82,32 @@ func getProviderSchema(s string) (*schema.Provider, error) {
 // runtime it is the real upstream provider, whose CRUD functions the plugin SDK
 // external client calls directly.
 func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider, error) {
-	var p *schema.Provider
-	var err error
+	// The runtime schema is the upstream provider's own Go schema, which the
+	// CRUD functions execute against. Code generation deliberately uses the
+	// JSON schema instead, to keep the generated CRD APIs stable: the Go
+	// schema would, among other things, widen some number fields differently.
+	//
+	// The two are not identical, though: the JSON schema does not faithfully
+	// carry MaxItems, so a list the Go schema constrains to one element can
+	// come back unconstrained. Left alone, the generated API would model such
+	// a field as an array while the runtime conversion functions expect a
+	// single object. Sync the constraints across before generating, as
+	// provider-upjet-aws does for the same reason.
+	//
+	// Today this is a no-op for the resources we expose: the only divergence
+	// in the upstream schema is alicloud_ros_stack_instances.deployment_options,
+	// which is not in the include list. It is kept because the divergence is a
+	// property of the two schema sources, not of the current include list.
+	p := alicloud.Provider()
 	if generationProvider {
-		p, err = getProviderSchema(providerSchema)
-	} else {
-		p = alicloud.Provider()
-	}
-	if err != nil {
-		return nil, errors.Wrapf(err, "cannot get the Terraform provider schema with generation mode set to %t", generationProvider)
+		gp, err := getProviderSchema(providerSchema)
+		if err != nil {
+			return nil, errors.Wrap(err, "cannot get the Terraform provider schema from the embedded JSON schema for code generation")
+		}
+		if err := traverser.TFResourceSchema(p.ResourcesMap).Traverse(traverser.NewMaxItemsSync(gp.ResourcesMap)); err != nil {
+			return nil, errors.Wrap(err, "cannot sync the MaxItems constraints between the Go schema and the JSON schema")
+		}
+		p = gp
 	}
 
 	defaultResourceOptions := []ujconfig.ResourceOption{

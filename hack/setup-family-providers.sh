@@ -6,7 +6,7 @@
 set -e
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BASE_IMAGE_DIR="$ROOT_DIR/cluster/images/provider-upjet-alibabacloud"
+BASE_IMAGE_DIR="$ROOT_DIR/cluster/images/provider-alibabacloud"
 IMAGES_DIR="$ROOT_DIR/cluster/images"
 
 # Get the provider families from SUBPACKAGES environment variable, fallback to all if not set
@@ -17,7 +17,7 @@ echo "Setting up family provider image directories for: $FAMILY_PROVIDERS"
 # Create image directories for each family provider
 for provider in $FAMILY_PROVIDERS; do
     
-    provider_image_dir="$IMAGES_DIR/provider-upjet-alibabacloud-$provider"
+    provider_image_dir="$IMAGES_DIR/provider-alibabacloud-$provider"
     echo "Creating image directory for $provider: $provider_image_dir"
     
     # Create the directory
