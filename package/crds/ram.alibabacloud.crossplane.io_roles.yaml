@@ -80,7 +80,8 @@ spec:
                       providers (IdPs).
                     type: string
                   description:
-                    description: The description of the RAM role.
+                    description: The description of the RAM role. The description
+                      must be 1 to 1024 characters in length.
                     type: string
                   document:
                     description: Field document has been deprecated from provider
@@ -128,7 +129,8 @@ spec:
                       providers (IdPs).
                     type: string
                   description:
-                    description: The description of the RAM role.
+                    description: The description of the RAM role. The description
+                      must be 1 to 1024 characters in length.
                     type: string
                   document:
                     description: Field document has been deprecated from provider
@@ -343,7 +345,8 @@ spec:
                       role was created.
                     type: string
                   description:
-                    description: The description of the RAM role.
+                    description: The description of the RAM role. The description
+                      must be 1 to 1024 characters in length.
                     type: string
                   document:
                     description: Field document has been deprecated from provider

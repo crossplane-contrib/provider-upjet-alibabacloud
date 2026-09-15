@@ -77,7 +77,11 @@ spec:
                     description: The CIDR block of the VPC.
                     type: string
                   classicLinkEnabled:
-                    description: The status of ClassicLink function.
+                    description: The status of ClassicLink function. Field 'classic_link_enabled'
+                      has been deprecated from provider version 1.286.0. The underlying
+                      ClassicLink feature has been deprecated by Alibaba Cloud and
+                      this field will be removed in a future version. For more information,
+                      see the deprecated API references EnableVpcClassicLink and DisableVpcClassicLink.
                     type: boolean
                   description:
                     description: |-
@@ -85,7 +89,8 @@ spec:
                       The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
                     type: string
                   dnsHostnameStatus:
-                    description: The status of VPC DNS Hostname
+                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
+                      DISABLED.'
                     type: string
                   dryRun:
                     description: 'Whether to PreCheck only this request. Value:'
@@ -164,7 +169,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   userCidrs:
-                    description: A list of user CIDRs.
+                    description: A list of user CIDRs. Up to 3 CIDR blocks can be
+                      specified.
                     items:
                       type: string
                     type: array
@@ -191,7 +197,11 @@ spec:
                     description: The CIDR block of the VPC.
                     type: string
                   classicLinkEnabled:
-                    description: The status of ClassicLink function.
+                    description: The status of ClassicLink function. Field 'classic_link_enabled'
+                      has been deprecated from provider version 1.286.0. The underlying
+                      ClassicLink feature has been deprecated by Alibaba Cloud and
+                      this field will be removed in a future version. For more information,
+                      see the deprecated API references EnableVpcClassicLink and DisableVpcClassicLink.
                     type: boolean
                   description:
                     description: |-
@@ -199,7 +209,8 @@ spec:
                       The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
                     type: string
                   dnsHostnameStatus:
-                    description: The status of VPC DNS Hostname
+                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
+                      DISABLED.'
                     type: string
                   dryRun:
                     description: 'Whether to PreCheck only this request. Value:'
@@ -274,7 +285,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   userCidrs:
-                    description: A list of user CIDRs.
+                    description: A list of user CIDRs. Up to 3 CIDR blocks can be
+                      specified.
                     items:
                       type: string
                     type: array
@@ -460,7 +472,11 @@ spec:
                     description: The CIDR block of the VPC.
                     type: string
                   classicLinkEnabled:
-                    description: The status of ClassicLink function.
+                    description: The status of ClassicLink function. Field 'classic_link_enabled'
+                      has been deprecated from provider version 1.286.0. The underlying
+                      ClassicLink feature has been deprecated by Alibaba Cloud and
+                      this field will be removed in a future version. For more information,
+                      see the deprecated API references EnableVpcClassicLink and DisableVpcClassicLink.
                     type: boolean
                   createTime:
                     description: The creation time of the VPC.
@@ -471,7 +487,8 @@ spec:
                       The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
                     type: string
                   dnsHostnameStatus:
-                    description: The status of VPC DNS Hostname
+                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
+                      DISABLED.'
                     type: string
                   dryRun:
                     description: 'Whether to PreCheck only this request. Value:'
@@ -536,8 +553,7 @@ spec:
                     description: The ID of the system route table.
                     type: string
                   routerId:
-                    description: The region ID of the VPC to which the route table
-                      belongs.
+                    description: The ID of the VRouter.
                     type: string
                   routerTableId:
                     description: (Deprecated since v1.227.1). Field 'router_table_id'
@@ -583,7 +599,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   userCidrs:
-                    description: A list of user CIDRs.
+                    description: A list of user CIDRs. Up to 3 CIDR blocks can be
+                      specified.
                     items:
                       type: string
                     type: array

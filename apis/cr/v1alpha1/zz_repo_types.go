@@ -13,6 +13,24 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type DomainListInitParameters struct {
+}
+
+type DomainListObservation struct {
+
+	// Domain of internal endpoint, only in some regions.
+	Internal *string `json:"internal,omitempty" tf:"internal,omitempty"`
+
+	// Domain of public endpoint.
+	Public *string `json:"public,omitempty" tf:"public,omitempty"`
+
+	// Domain of vpc endpoint.
+	VPC *string `json:"vpc,omitempty" tf:"vpc,omitempty"`
+}
+
+type DomainListParameters struct {
+}
+
 type RepoInitParameters struct {
 
 	// The repository specific information. MarkDown format is supported, and the length limit is 2000.
@@ -46,9 +64,8 @@ type RepoObservation struct {
 	// The repository specific information. MarkDown format is supported, and the length limit is 2000.
 	Detail *string `json:"detail,omitempty" tf:"detail,omitempty"`
 
-	// The repository domain list.
-	// +mapType=granular
-	DomainList map[string]*string `json:"domainList,omitempty" tf:"domain_list,omitempty"`
+	// A list of repository domain.
+	DomainList []DomainListObservation `json:"domainList,omitempty" tf:"domain_list,omitempty"`
 
 	// The id of Container Registry repository. The value is in format namespace/repository.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`

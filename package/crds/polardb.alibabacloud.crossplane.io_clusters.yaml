@@ -189,6 +189,11 @@ spec:
                   description:
                     description: The description of cluster.
                     type: string
+                  enableAutomaticRotation:
+                    description: Specifies whether to enable automatic rotation of
+                      the TDE encryption key. Default to false. Valid values are true,
+                      false. This parameter takes effect only after TDE is enabled.
+                    type: boolean
                   enableDynamodb:
                     description: |-
                       Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
@@ -614,10 +619,15 @@ spec:
                     description: The Version Code of the target version, whose parameter
                       values can be obtained from the DescribeDBClusterVersion interface.
                     type: string
+                  targetMinorVersion:
+                    description: |-
+                      The target minor version of the cluster. Used during creation.
+                      The target minor version of the cluster. Used during creation.
+                    type: string
                   tdeStatus:
                     description: |-
-                      turn on TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be closed after it is turned on.
-                      -> NOTE: tde_status Cannot modify after created when db_type is PostgreSQL or Oracle.tde_status only support modification from Disabled to Enabled when db_type is MySQL.
+                      Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
+                      -> NOTE: tde_status only supports modification from Disabled to Enabled.
                     type: string
                   upgradeType:
                     description: Version upgrade type. Valid values are PROXY, DB,
@@ -915,6 +925,11 @@ spec:
                   description:
                     description: The description of cluster.
                     type: string
+                  enableAutomaticRotation:
+                    description: Specifies whether to enable automatic rotation of
+                      the TDE encryption key. Default to false. Valid values are true,
+                      false. This parameter takes effect only after TDE is enabled.
+                    type: boolean
                   enableDynamodb:
                     description: |-
                       Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
@@ -1336,10 +1351,15 @@ spec:
                     description: The Version Code of the target version, whose parameter
                       values can be obtained from the DescribeDBClusterVersion interface.
                     type: string
+                  targetMinorVersion:
+                    description: |-
+                      The target minor version of the cluster. Used during creation.
+                      The target minor version of the cluster. Used during creation.
+                    type: string
                   tdeStatus:
                     description: |-
-                      turn on TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be closed after it is turned on.
-                      -> NOTE: tde_status Cannot modify after created when db_type is PostgreSQL or Oracle.tde_status only support modification from Disabled to Enabled when db_type is MySQL.
+                      Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
+                      -> NOTE: tde_status only supports modification from Disabled to Enabled.
                     type: string
                   upgradeType:
                     description: Version upgrade type. Valid values are PROXY, DB,
@@ -1703,6 +1723,10 @@ spec:
                       the month. It is valid when pay_type is PrePaid. Valid value:1,
                       2, 3, 6, 12, 24, 36, Default to 1.
                     type: number
+                  automaticRotation:
+                    description: (Available since v1.289.0) Indicates whether automatic
+                      rotation of the TDE encryption key is enabled.
+                    type: string
                   backupRetentionPolicyOnClusterDeletion:
                     description: The retention policy for the backup sets when you
                       delete the cluster.  Valid values are ALL, LATEST, NONE. Value
@@ -1842,6 +1866,11 @@ spec:
                   description:
                     description: The description of cluster.
                     type: string
+                  enableAutomaticRotation:
+                    description: Specifies whether to enable automatic rotation of
+                      the TDE encryption key. Default to false. Valid values are true,
+                      false. This parameter takes effect only after TDE is enabled.
+                    type: boolean
                   enableDynamodb:
                     description: |-
                       Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
@@ -1989,6 +2018,10 @@ spec:
                       your Alibaba Cloud account. For more information see RAM role
                       overview.
                     type: string
+                  rotationInterval:
+                    description: (Available since v1.289.0) The rotation interval
+                      of the TDE encryption key.
+                    type: string
                   scaleApRoNumMax:
                     description: 'Number of Read-only Columnar Nodes. Valid values:
                       0 to 7. This parameter is valid only for serverless clusters.
@@ -2121,6 +2154,11 @@ spec:
                     description: The Version Code of the target version, whose parameter
                       values can be obtained from the DescribeDBClusterVersion interface.
                     type: string
+                  targetMinorVersion:
+                    description: |-
+                      The target minor version of the cluster. Used during creation.
+                      The target minor version of the cluster. Used during creation.
+                    type: string
                   tdeRegion:
                     description: |-
                       (Available since 1.200.0) The region where the TDE key resides.
@@ -2129,8 +2167,8 @@ spec:
                     type: string
                   tdeStatus:
                     description: |-
-                      turn on TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be closed after it is turned on.
-                      -> NOTE: tde_status Cannot modify after created when db_type is PostgreSQL or Oracle.tde_status only support modification from Disabled to Enabled when db_type is MySQL.
+                      Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
+                      -> NOTE: tde_status only supports modification from Disabled to Enabled.
                     type: string
                   upgradeType:
                     description: Version upgrade type. Valid values are PROXY, DB,

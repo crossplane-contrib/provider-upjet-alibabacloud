@@ -215,11 +215,6 @@ spec:
                       period of the KVStore DBInstance, in the format of HH:mmZ (UTC
                       time).
                     type: string
-                  modifyMode:
-                    description: '(Removed since v1.216.0) The method of modifying
-                      the whitelist. NOTE: Field modify_mode has been removed from
-                      provider version 1.216.0.'
-                    type: number
                   orderType:
                     description: 'Specifies a change type when you change the configuration
                       of a subscription instance. Valid values: UPGRADE, DOWNGRADE.
@@ -282,6 +277,11 @@ spec:
                     description: Region is the region you'd like your resource to
                       be created in.
                     type: string
+                  replicaCount:
+                    description: The number of replica nodes in the primary zone.
+                      If not specified, the value is assigned by the system based
+                      on the instance architecture.
+                    type: number
                   resourceGroupId:
                     description: The ID of resource group which the resource belongs.
                     type: string
@@ -476,6 +476,11 @@ spec:
                     description: |-
                       The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
                       -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
+                    type: number
+                  slaveReplicaCount:
+                    description: |-
+                      The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
+                      -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
                     type: number
                   srcdbInstanceId:
                     description: The ID of the source instance.
@@ -739,11 +744,6 @@ spec:
                       period of the KVStore DBInstance, in the format of HH:mmZ (UTC
                       time).
                     type: string
-                  modifyMode:
-                    description: '(Removed since v1.216.0) The method of modifying
-                      the whitelist. NOTE: Field modify_mode has been removed from
-                      provider version 1.216.0.'
-                    type: number
                   orderType:
                     description: 'Specifies a change type when you change the configuration
                       of a subscription instance. Valid values: UPGRADE, DOWNGRADE.
@@ -801,6 +801,11 @@ spec:
                   readOnlyCount:
                     description: 'The number of read replicas in the primary zone.
                       Valid values: 1 to 9.'
+                    type: number
+                  replicaCount:
+                    description: The number of replica nodes in the primary zone.
+                      If not specified, the value is assigned by the system based
+                      on the instance architecture.
                     type: number
                   resourceGroupId:
                     description: The ID of resource group which the resource belongs.
@@ -996,6 +1001,11 @@ spec:
                     description: |-
                       The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
                       -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
+                    type: number
+                  slaveReplicaCount:
+                    description: |-
+                      The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
+                      -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
                     type: number
                   srcdbInstanceId:
                     description: The ID of the source instance.
@@ -1431,11 +1441,6 @@ spec:
                       period of the KVStore DBInstance, in the format of HH:mmZ (UTC
                       time).
                     type: string
-                  modifyMode:
-                    description: '(Removed since v1.216.0) The method of modifying
-                      the whitelist. NOTE: Field modify_mode has been removed from
-                      provider version 1.216.0.'
-                    type: number
                   orderType:
                     description: 'Specifies a change type when you change the configuration
                       of a subscription instance. Valid values: UPGRADE, DOWNGRADE.
@@ -1474,6 +1479,11 @@ spec:
                   readOnlyCount:
                     description: 'The number of read replicas in the primary zone.
                       Valid values: 1 to 9.'
+                    type: number
+                  replicaCount:
+                    description: The number of replica nodes in the primary zone.
+                      If not specified, the value is assigned by the system based
+                      on the instance architecture.
                     type: number
                   resourceGroupId:
                     description: The ID of resource group which the resource belongs.
@@ -1521,6 +1531,11 @@ spec:
                     description: |-
                       The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
                       -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
+                    type: number
+                  slaveReplicaCount:
+                    description: |-
+                      The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
+                      -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
                     type: number
                   srcdbInstanceId:
                     description: The ID of the source instance.

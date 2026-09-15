@@ -15,7 +15,7 @@ import (
 
 type SecurityGroupRuleInitParameters struct {
 
-	// The target IP address range. The default value is 0.0.0.0/0 (which means no restriction will be applied). Other supported formats include 10.159.6.18/12. Only IPv4 is supported.
+	// The target IPv4 CIDR address range. Other supported formats include 10.159.6.18/12. Only IPv4 is supported. NOTE: This field has no default value; leaving it empty does not open traffic to all sources but instead fails with MissingParameter.Source (ingress) or MissingParameter.Dest (egress). To allow all IPv4 traffic, set cidr_ip = "0.0.0.0/0" explicitly.
 	CidrIP *string `json:"cidrIp,omitempty" tf:"cidr_ip,omitempty"`
 
 	// The description of the security group rule. The description can be up to 1 to 512 characters in length. Defaults to null.
@@ -55,8 +55,11 @@ type SecurityGroupRuleInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
-	// The Alibaba Cloud user account Id of the target security group when security groups are authorized across accounts.  This parameter is invalid if cidr_ip has already been set.
+	// The Alibaba Cloud account of the target security group owner when security groups are authorized across accounts. This field may not take effect. Use source_group_owner_id instead. This parameter is invalid if cidr_ip has already been set.
 	SourceGroupOwnerAccount *string `json:"sourceGroupOwnerAccount,omitempty" tf:"source_group_owner_account,omitempty"`
+
+	// The Alibaba Cloud account ID of the target security group owner when security groups are authorized across accounts.
+	SourceGroupOwnerID *string `json:"sourceGroupOwnerId,omitempty" tf:"source_group_owner_id,omitempty"`
 
 	// The target security group ID within the same region. If this field is specified, the nic_type can only select intranet.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -77,7 +80,7 @@ type SecurityGroupRuleInitParameters struct {
 
 type SecurityGroupRuleObservation struct {
 
-	// The target IP address range. The default value is 0.0.0.0/0 (which means no restriction will be applied). Other supported formats include 10.159.6.18/12. Only IPv4 is supported.
+	// The target IPv4 CIDR address range. Other supported formats include 10.159.6.18/12. Only IPv4 is supported. NOTE: This field has no default value; leaving it empty does not open traffic to all sources but instead fails with MissingParameter.Source (ingress) or MissingParameter.Dest (egress). To allow all IPv4 traffic, set cidr_ip = "0.0.0.0/0" explicitly.
 	CidrIP *string `json:"cidrIp,omitempty" tf:"cidr_ip,omitempty"`
 
 	// The description of the security group rule. The description can be up to 1 to 512 characters in length. Defaults to null.
@@ -113,8 +116,11 @@ type SecurityGroupRuleObservation struct {
 	// The ID of the Security Group Rule.
 	SecurityGroupRuleID *string `json:"securityGroupRuleId,omitempty" tf:"security_group_rule_id,omitempty"`
 
-	// The Alibaba Cloud user account Id of the target security group when security groups are authorized across accounts.  This parameter is invalid if cidr_ip has already been set.
+	// The Alibaba Cloud account of the target security group owner when security groups are authorized across accounts. This field may not take effect. Use source_group_owner_id instead. This parameter is invalid if cidr_ip has already been set.
 	SourceGroupOwnerAccount *string `json:"sourceGroupOwnerAccount,omitempty" tf:"source_group_owner_account,omitempty"`
+
+	// The Alibaba Cloud account ID of the target security group owner when security groups are authorized across accounts.
+	SourceGroupOwnerID *string `json:"sourceGroupOwnerId,omitempty" tf:"source_group_owner_id,omitempty"`
 
 	// The target security group ID within the same region. If this field is specified, the nic_type can only select intranet.
 	SourceSecurityGroupID *string `json:"sourceSecurityGroupId,omitempty" tf:"source_security_group_id,omitempty"`
@@ -126,7 +132,7 @@ type SecurityGroupRuleObservation struct {
 
 type SecurityGroupRuleParameters struct {
 
-	// The target IP address range. The default value is 0.0.0.0/0 (which means no restriction will be applied). Other supported formats include 10.159.6.18/12. Only IPv4 is supported.
+	// The target IPv4 CIDR address range. Other supported formats include 10.159.6.18/12. Only IPv4 is supported. NOTE: This field has no default value; leaving it empty does not open traffic to all sources but instead fails with MissingParameter.Source (ingress) or MissingParameter.Dest (egress). To allow all IPv4 traffic, set cidr_ip = "0.0.0.0/0" explicitly.
 	// +kubebuilder:validation:Optional
 	CidrIP *string `json:"cidrIp,omitempty" tf:"cidr_ip,omitempty"`
 
@@ -181,9 +187,13 @@ type SecurityGroupRuleParameters struct {
 	// +kubebuilder:validation:Optional
 	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
-	// The Alibaba Cloud user account Id of the target security group when security groups are authorized across accounts.  This parameter is invalid if cidr_ip has already been set.
+	// The Alibaba Cloud account of the target security group owner when security groups are authorized across accounts. This field may not take effect. Use source_group_owner_id instead. This parameter is invalid if cidr_ip has already been set.
 	// +kubebuilder:validation:Optional
 	SourceGroupOwnerAccount *string `json:"sourceGroupOwnerAccount,omitempty" tf:"source_group_owner_account,omitempty"`
+
+	// The Alibaba Cloud account ID of the target security group owner when security groups are authorized across accounts.
+	// +kubebuilder:validation:Optional
+	SourceGroupOwnerID *string `json:"sourceGroupOwnerId,omitempty" tf:"source_group_owner_id,omitempty"`
 
 	// The target security group ID within the same region. If this field is specified, the nic_type can only select intranet.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup

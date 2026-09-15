@@ -5,8 +5,15 @@ Copyright 2021 Upbound Inc.
 package config
 
 import (
+	"context"
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
+
+	alicloud "github.com/aliyun/terraform-provider-alicloud/alicloud"
+	conversiontfjson "github.com/crossplane/upjet/pkg/types/conversion/tfjson"
+	tfjson "github.com/hashicorp/terraform-json"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/pkg/errors"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/fcv3"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/slb"
@@ -47,10 +54,46 @@ var providerSchema string
 //go:embed provider-metadata.yaml
 var providerMetadata string
 
-// GetProvider returns provider configuration
-func GetProvider() *ujconfig.Provider {
+// getProviderSchema builds a schema.Provider out of the Terraform JSON schema
+// document. It carries no CRUD implementations, so it is only good enough for
+// code generation, where the schema is all that is read.
+func getProviderSchema(s string) (*schema.Provider, error) {
+	ps := tfjson.ProviderSchemas{}
+	if err := ps.UnmarshalJSON([]byte(s)); err != nil {
+		return nil, errors.Wrap(err, "cannot unmarshal the Terraform JSON schema")
+	}
+	if len(ps.Schemas) != 1 {
+		return nil, errors.Errorf("there should exactly be 1 provider schema but there are %d", len(ps.Schemas))
+	}
+	var rs map[string]*tfjson.Schema
+	for _, v := range ps.Schemas {
+		rs = v.ResourceSchemas
+		break
+	}
+	return &schema.Provider{
+		ResourcesMap: conversiontfjson.GetV2ResourceMap(rs),
+	}, nil
+}
+
+// GetProvider returns provider configuration. When generationProvider is true,
+// the Terraform provider is reconstructed from the embedded JSON schema, which
+// keeps code generation independent of the upstream provider's Go code. At
+// runtime it is the real upstream provider, whose CRUD functions the plugin SDK
+// external client calls directly.
+func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider, error) {
+	var p *schema.Provider
+	var err error
+	if generationProvider {
+		p, err = getProviderSchema(providerSchema)
+	} else {
+		p = alicloud.Provider()
+	}
+	if err != nil {
+		return nil, errors.Wrapf(err, "cannot get the Terraform provider schema with generation mode set to %t", generationProvider)
+	}
+
 	defaultResourceOptions := []ujconfig.ResourceOption{
-		ExternalNameConfigurations(),
+		ResourceConfigurator(),
 		RegionAddition(),
 		IdentifierAssignedByAlibabaCloud(),
 		KnownReferences(),
@@ -62,7 +105,9 @@ func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithShortName("alibabacloud"),
 		ujconfig.WithRootGroup("alibabacloud.crossplane.io"),
-		ujconfig.WithIncludeList(ExternalNameConfigured()),
+		ujconfig.WithIncludeList(resourceList(CLIReconciledExternalNameConfigs)),
+		ujconfig.WithTerraformPluginSDKIncludeList(resourceList(terraformPluginSDKExternalNameConfigs)),
+		ujconfig.WithTerraformProvider(p),
 		ujconfig.WithReferenceInjectors([]ujconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithMainTemplate(hack.MainTemplate),
@@ -95,5 +140,5 @@ func GetProvider() *ujconfig.Provider {
 	}
 
 	pc.ConfigureResources()
-	return pc
+	return pc, nil
 }

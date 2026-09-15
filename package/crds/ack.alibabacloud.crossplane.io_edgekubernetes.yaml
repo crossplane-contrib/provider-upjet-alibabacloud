@@ -126,10 +126,6 @@ spec:
                   deletionProtection:
                     description: Whether to enable cluster deletion protection.
                     type: boolean
-                  forceUpdate:
-                    description: (Removed) Whether to force the update of kubernetes
-                      cluster arguments. Default to false.
-                    type: boolean
                   installCloudMonitor:
                     description: 'Install cloud monitor agent on ECS. default: true.'
                     type: boolean
@@ -236,13 +232,20 @@ spec:
                       type: string
                     type: array
                   runtime:
-                    additionalProperties:
-                      type: string
-                    description: The runtime of containers. If you select another
+                    description: A list of runtime of containers. If you select another
                       container runtime, see Comparison of Docker, containerd, and
                       Sandboxed-Container. See runtime below.
-                    type: object
-                    x-kubernetes-map-type: granular
+                    items:
+                      properties:
+                        name:
+                          description: The name of the runtime. Supported runtimes
+                            can be queried by data source alicloud_cs_kubernetes_version.
+                          type: string
+                        version:
+                          description: The version of the runtime.
+                          type: string
+                      type: object
+                    type: array
                   securityGroupId:
                     description: The ID of the security group to which the ECS instances
                       in the cluster belong. If it is not specified, a new Security
@@ -582,10 +585,6 @@ spec:
                   deletionProtection:
                     description: Whether to enable cluster deletion protection.
                     type: boolean
-                  forceUpdate:
-                    description: (Removed) Whether to force the update of kubernetes
-                      cluster arguments. Default to false.
-                    type: boolean
                   installCloudMonitor:
                     description: 'Install cloud monitor agent on ECS. default: true.'
                     type: boolean
@@ -688,13 +687,20 @@ spec:
                       type: string
                     type: array
                   runtime:
-                    additionalProperties:
-                      type: string
-                    description: The runtime of containers. If you select another
+                    description: A list of runtime of containers. If you select another
                       container runtime, see Comparison of Docker, containerd, and
                       Sandboxed-Container. See runtime below.
-                    type: object
-                    x-kubernetes-map-type: granular
+                    items:
+                      properties:
+                        name:
+                          description: The name of the runtime. Supported runtimes
+                            can be queried by data source alicloud_cs_kubernetes_version.
+                          type: string
+                        version:
+                          description: The version of the runtime.
+                          type: string
+                      type: object
+                    type: array
                   securityGroupId:
                     description: The ID of the security group to which the ECS instances
                       in the cluster belong. If it is not specified, a new Security
@@ -1175,14 +1181,36 @@ spec:
                     description: The ID of availability zone.
                     type: string
                   certificateAuthority:
-                    additionalProperties:
-                      type: string
-                    description: (Map, Deprecated from v1.248.0) Nested attribute
+                    description: (List, Deprecated from v1.248.0) Nested attribute
                       containing certificate authority data for your cluster. Please
                       use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential
                       to replace it.
-                    type: object
-                    x-kubernetes-map-type: granular
+                    items:
+                      properties:
+                        clientCert:
+                          description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                            is recommended to manage cluster's kubeconfig, you can
+                            also save the certificate_authority.client_cert attribute
+                            content of new DataSource alicloud_cs_cluster_credential
+                            to an appropriate path(like ~/.kube/client-cert.pem) for
+                            replace it.
+                          type: string
+                        clientKey:
+                          description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                            is recommended to manage cluster's kubeconfig, you can
+                            also save the certificate_authority.client_key attribute
+                            content of new DataSource alicloud_cs_cluster_credential
+                            to an appropriate path(like ~/.kube/client-key.pem) for
+                            replace it.
+                          type: string
+                        clusterCert:
+                          description: The base64 encoded cluster certificate data
+                            required to communicate with your cluster. Add this to
+                            the certificate-authority-data section of the kubeconfig
+                            file for your cluster.
+                          type: string
+                      type: object
+                    type: array
                   clientCert:
                     description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
                       is recommended to manage cluster's kubeconfig, you can also
@@ -1209,17 +1237,25 @@ spec:
                       can be empty. Valid values:'
                     type: string
                   connections:
-                    additionalProperties:
-                      type: string
-                    description: (Map) Map of kubernetes cluster connection information.
-                    type: object
-                    x-kubernetes-map-type: granular
+                    description: (List) A list of kubernetes cluster connection information.
+                    items:
+                      properties:
+                        apiServerInternet:
+                          description: API Server Internet endpoint.
+                          type: string
+                        apiServerIntranet:
+                          description: API Server Intranet endpoint.
+                          type: string
+                        masterPublicIp:
+                          description: Master node SSH IP address.
+                          type: string
+                        serviceDomain:
+                          description: Service Access Domain.
+                          type: string
+                      type: object
+                    type: array
                   deletionProtection:
                     description: Whether to enable cluster deletion protection.
-                    type: boolean
-                  forceUpdate:
-                    description: (Removed) Whether to force the update of kubernetes
-                      cluster arguments. Default to false.
                     type: boolean
                   id:
                     description: The ID of the container cluster.
@@ -1310,13 +1346,20 @@ spec:
                       type: string
                     type: array
                   runtime:
-                    additionalProperties:
-                      type: string
-                    description: The runtime of containers. If you select another
+                    description: A list of runtime of containers. If you select another
                       container runtime, see Comparison of Docker, containerd, and
                       Sandboxed-Container. See runtime below.
-                    type: object
-                    x-kubernetes-map-type: granular
+                    items:
+                      properties:
+                        name:
+                          description: The name of the runtime. Supported runtimes
+                            can be queried by data source alicloud_cs_kubernetes_version.
+                          type: string
+                        version:
+                          description: The version of the runtime.
+                          type: string
+                      type: object
+                    type: array
                   securityGroupId:
                     description: The ID of the security group to which the ECS instances
                       in the cluster belong. If it is not specified, a new Security
@@ -1333,6 +1376,9 @@ spec:
                       security, recommended configuration as true. Will be removed
                       with attribute certificate_authority removed.
                     type: boolean
+                  slbId:
+                    description: The ID of the container cluster.
+                    type: string
                   slbInternet:
                     description: The public ip of load balancer.
                     type: string

@@ -763,6 +763,22 @@ func (in *ExecutionInitParameters) DeepCopyInto(out *ExecutionInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.TemplateContent != nil {
 		in, out := &in.TemplateContent, &out.TemplateContent
 		*out = new(string)
@@ -920,6 +936,22 @@ func (in *ExecutionObservation) DeepCopyInto(out *ExecutionObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.TemplateContent != nil {
 		in, out := &in.TemplateContent, &out.TemplateContent
 		*out = new(string)
@@ -994,6 +1026,22 @@ func (in *ExecutionParameters) DeepCopyInto(out *ExecutionParameters) {
 		in, out := &in.SafetyCheck, &out.SafetyCheck
 		*out = new(string)
 		**out = **in
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.TemplateContent != nil {
 		in, out := &in.TemplateContent, &out.TemplateContent

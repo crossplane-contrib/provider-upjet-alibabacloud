@@ -82,6 +82,9 @@ type ClusterInitParameters struct {
 	// The description of cluster.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Specifies whether to enable automatic rotation of the TDE encryption key. Default to false. Valid values are true, false. This parameter takes effect only after TDE is enabled.
+	EnableAutomaticRotation *bool `json:"enableAutomaticRotation,omitempty" tf:"enable_automatic_rotation,omitempty"`
+
 	// Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
 	// -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
 	EnableDynamodb *bool `json:"enableDynamodb,omitempty" tf:"enable_dynamodb,omitempty"`
@@ -281,8 +284,12 @@ type ClusterInitParameters struct {
 	// The Version Code of the target version, whose parameter values can be obtained from the DescribeDBClusterVersion interface.
 	TargetDBRevisionVersionCode *string `json:"targetDbRevisionVersionCode,omitempty" tf:"target_db_revision_version_code,omitempty"`
 
-	// turn on TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be closed after it is turned on.
-	// -> NOTE: tde_status Cannot modify after created when db_type is PostgreSQL or Oracle.tde_status only support modification from Disabled to Enabled when db_type is MySQL.
+	// The target minor version of the cluster. Used during creation.
+	// The target minor version of the cluster. Used during creation.
+	TargetMinorVersion *string `json:"targetMinorVersion,omitempty" tf:"target_minor_version,omitempty"`
+
+	// Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
+	// -> NOTE: tde_status only supports modification from Disabled to Enabled.
 	TdeStatus *string `json:"tdeStatus,omitempty" tf:"tde_status,omitempty"`
 
 	// Version upgrade type. Valid values are PROXY, DB, ALL. PROXY means upgrading the proxy version, DB means upgrading the db version, ALL means upgrading both db and proxy versions simultaneously.
@@ -325,6 +332,9 @@ type ClusterObservation struct {
 
 	// Auto-renewal period of an cluster, in the unit of the month. It is valid when pay_type is PrePaid. Valid value:1, 2, 3, 6, 12, 24, 36, Default to 1.
 	AutoRenewPeriod *float64 `json:"autoRenewPeriod,omitempty" tf:"auto_renew_period,omitempty"`
+
+	// (Available since v1.289.0) Indicates whether automatic rotation of the TDE encryption key is enabled.
+	AutomaticRotation *string `json:"automaticRotation,omitempty" tf:"automatic_rotation,omitempty"`
 
 	// The retention policy for the backup sets when you delete the cluster.  Valid values are ALL, LATEST, NONE. Value options can refer to the latest docs DeleteDBCluster
 	BackupRetentionPolicyOnClusterDeletion *string `json:"backupRetentionPolicyOnClusterDeletion,omitempty" tf:"backup_retention_policy_on_cluster_deletion,omitempty"`
@@ -395,6 +405,9 @@ type ClusterObservation struct {
 
 	// The description of cluster.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies whether to enable automatic rotation of the TDE encryption key. Default to false. Valid values are true, false. This parameter takes effect only after TDE is enabled.
+	EnableAutomaticRotation *bool `json:"enableAutomaticRotation,omitempty" tf:"enable_automatic_rotation,omitempty"`
 
 	// Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
 	// -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
@@ -501,6 +514,9 @@ type ClusterObservation struct {
 	// The Alibaba Cloud Resource Name (ARN) of the RAM role. A RAM role is a virtual identity that you can create within your Alibaba Cloud account. For more information see RAM role overview.
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
 
+	// (Available since v1.289.0) The rotation interval of the TDE encryption key.
+	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
+
 	// Number of Read-only Columnar Nodes. Valid values: 0 to 7. This parameter is valid only for serverless clusters. This parameter is required when there are column nodes that support steady-state serverless.
 	ScaleApRoNumMax *float64 `json:"scaleApRoNumMax,omitempty" tf:"scale_ap_ro_num_max,omitempty"`
 
@@ -583,13 +599,17 @@ type ClusterObservation struct {
 	// The Version Code of the target version, whose parameter values can be obtained from the DescribeDBClusterVersion interface.
 	TargetDBRevisionVersionCode *string `json:"targetDbRevisionVersionCode,omitempty" tf:"target_db_revision_version_code,omitempty"`
 
+	// The target minor version of the cluster. Used during creation.
+	// The target minor version of the cluster. Used during creation.
+	TargetMinorVersion *string `json:"targetMinorVersion,omitempty" tf:"target_minor_version,omitempty"`
+
 	// (Available since 1.200.0) The region where the TDE key resides.
 	// -> NOTE: TDE can be enabled on clusters that have joined a global database network (GDN). After TDE is enabled on the primary cluster in a GDN, TDE is enabled on the secondary clusters in the GDN by default. The key used by the secondary clusters and the region for the key resides must be the same as the primary cluster. The region of the key cannot be modified.
 	// -> NOTE: You cannot enable TDE for the secondary clusters in a GDN. Used to view user KMS activation status.
 	TdeRegion *string `json:"tdeRegion,omitempty" tf:"tde_region,omitempty"`
 
-	// turn on TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be closed after it is turned on.
-	// -> NOTE: tde_status Cannot modify after created when db_type is PostgreSQL or Oracle.tde_status only support modification from Disabled to Enabled when db_type is MySQL.
+	// Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
+	// -> NOTE: tde_status only supports modification from Disabled to Enabled.
 	TdeStatus *string `json:"tdeStatus,omitempty" tf:"tde_status,omitempty"`
 
 	// Version upgrade type. Valid values are PROXY, DB, ALL. PROXY means upgrading the proxy version, DB means upgrading the db version, ALL means upgrading both db and proxy versions simultaneously.
@@ -693,6 +713,10 @@ type ClusterParameters struct {
 	// The description of cluster.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Specifies whether to enable automatic rotation of the TDE encryption key. Default to false. Valid values are true, false. This parameter takes effect only after TDE is enabled.
+	// +kubebuilder:validation:Optional
+	EnableAutomaticRotation *bool `json:"enableAutomaticRotation,omitempty" tf:"enable_automatic_rotation,omitempty"`
 
 	// Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
 	// -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
@@ -948,8 +972,13 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetDBRevisionVersionCode *string `json:"targetDbRevisionVersionCode,omitempty" tf:"target_db_revision_version_code,omitempty"`
 
-	// turn on TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be closed after it is turned on.
-	// -> NOTE: tde_status Cannot modify after created when db_type is PostgreSQL or Oracle.tde_status only support modification from Disabled to Enabled when db_type is MySQL.
+	// The target minor version of the cluster. Used during creation.
+	// The target minor version of the cluster. Used during creation.
+	// +kubebuilder:validation:Optional
+	TargetMinorVersion *string `json:"targetMinorVersion,omitempty" tf:"target_minor_version,omitempty"`
+
+	// Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
+	// -> NOTE: tde_status only supports modification from Disabled to Enabled.
 	// +kubebuilder:validation:Optional
 	TdeStatus *string `json:"tdeStatus,omitempty" tf:"tde_status,omitempty"`
 

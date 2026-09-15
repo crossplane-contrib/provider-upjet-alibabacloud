@@ -470,11 +470,20 @@ spec:
                       is supported, and the length limit is 2000.
                     type: string
                   domainList:
-                    additionalProperties:
-                      type: string
-                    description: The repository domain list.
-                    type: object
-                    x-kubernetes-map-type: granular
+                    description: A list of repository domain.
+                    items:
+                      properties:
+                        internal:
+                          description: Domain of internal endpoint, only in some regions.
+                          type: string
+                        public:
+                          description: Domain of public endpoint.
+                          type: string
+                        vpc:
+                          description: Domain of vpc endpoint.
+                          type: string
+                      type: object
+                    type: array
                   id:
                     description: The id of Container Registry repository. The value
                       is in format namespace/repository.

@@ -31,8 +31,10 @@ spec:
     clusterSpec: ack.pro.small
     encryptionProviderKey: ${data.alicloud_kms_keys.default.keys[0].key_id}
     newNatGateway: true
-    podVswitchIds: '${length(var.terway_vswitch_ids) > 0 ? split(",", join(",", var.terway_vswitch_ids))
-      : length(var.terway_vswitch_cidrs) < 1 ? [] : split(",", join(",", alicloud_vswitch.terway_vswitches.*.id))}'
+    podVswitchIdsSelector:
+      matchLabels:
+        testing.upbound.io/example-name: terway_vswitch_ids) > 0 ? split(",", join(",",
+          var
     proxyMode: ${var.proxy_mode}
     region: cn-beijing
     serviceCidr: ${var.service_cidr}

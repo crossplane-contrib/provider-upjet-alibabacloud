@@ -118,6 +118,10 @@ spec:
                   queueName:
                     description: The name of the queue.
                     type: string
+                  queueType:
+                    description: 'The type of the queue. Default value: normal. Valid
+                      values:'
+                    type: string
                   region:
                     description: Region is the region you'd like your resource to
                       be created in.
@@ -191,6 +195,10 @@ spec:
                     type: number
                   queueName:
                     description: The name of the queue.
+                    type: string
+                  queueType:
+                    description: 'The type of the queue. Default value: normal. Valid
+                      values:'
                     type: string
                   tags:
                     additionalProperties:
@@ -431,6 +439,10 @@ spec:
                     type: number
                   queueName:
                     description: The name of the queue.
+                    type: string
+                  queueType:
+                    description: 'The type of the queue. Default value: normal. Valid
+                      values:'
                     type: string
                   tags:
                     additionalProperties:

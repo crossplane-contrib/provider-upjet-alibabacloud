@@ -386,11 +386,12 @@ spec:
                       valid when the attribute payment_type is Subscription.
                     type: number
                   vswitchIds:
-                    description: Instance bind vswitches
+                    description: The IDs of the vSwitches that the KMS instance is
+                      bound to. Every vSwitch must reside in a zone declared in zone_ids,
+                      and that zone must be available for KMS.
                     items:
                       type: string
                     type: array
-                    x-kubernetes-list-type: set
                   vswitchIdsRefs:
                     description: References to Vswitch in vpc to populate vswitchIds.
                     items:
@@ -470,11 +471,11 @@ spec:
                         type: object
                     type: object
                   zoneIds:
-                    description: zone id
+                    description: The IDs of the zones in which the KMS instance is
+                      deployed. Each zone must be available for KMS.
                     items:
                       type: string
                     type: array
-                    x-kubernetes-list-type: set
                   zoneIdsRefs:
                     description: References to Vswitch in vpc to populate zoneIds.
                     items:
@@ -876,11 +877,12 @@ spec:
                       valid when the attribute payment_type is Subscription.
                     type: number
                   vswitchIds:
-                    description: Instance bind vswitches
+                    description: The IDs of the vSwitches that the KMS instance is
+                      bound to. Every vSwitch must reside in a zone declared in zone_ids,
+                      and that zone must be available for KMS.
                     items:
                       type: string
                     type: array
-                    x-kubernetes-list-type: set
                   vswitchIdsRefs:
                     description: References to Vswitch in vpc to populate vswitchIds.
                     items:
@@ -960,11 +962,11 @@ spec:
                         type: object
                     type: object
                   zoneIds:
-                    description: zone id
+                    description: The IDs of the zones in which the KMS instance is
+                      deployed. Each zone must be available for KMS.
                     items:
                       type: string
                     type: array
-                    x-kubernetes-list-type: set
                   zoneIdsRefs:
                     description: References to Vswitch in vpc to populate zoneIds.
                     items:
@@ -1318,17 +1320,18 @@ spec:
                       valid when the attribute payment_type is Subscription.
                     type: number
                   vswitchIds:
-                    description: Instance bind vswitches
+                    description: The IDs of the vSwitches that the KMS instance is
+                      bound to. Every vSwitch must reside in a zone declared in zone_ids,
+                      and that zone must be available for KMS.
                     items:
                       type: string
                     type: array
-                    x-kubernetes-list-type: set
                   zoneIds:
-                    description: zone id
+                    description: The IDs of the zones in which the KMS instance is
+                      deployed. Each zone must be available for KMS.
                     items:
                       type: string
                     type: array
-                    x-kubernetes-list-type: set
                 type: object
               conditions:
                 description: Conditions of the resource.
