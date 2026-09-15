@@ -113,6 +113,12 @@ func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider
 		ujconfig.WithMainTemplate(hack.MainTemplate),
 		ujconfig.WithDefaultResourceOptions(defaultResourceOptions...))
 
+	// Schema omissions shape the generated CRDs and must never touch the live
+	// runtime schema, which the upstream CRUD functions execute against.
+	if generationProvider {
+		addGenerationOnlySchemaOmissions(pc)
+	}
+
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
 		ack.Configure,

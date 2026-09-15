@@ -20,7 +20,6 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("alicloud_ecs_auto_snapshot_policy", func(r *config.Resource) {
 		r.ShortGroup = string(common.ECS)
-		delete(r.TerraformResource.Schema, "name")
 	})
 	p.AddResourceConfigurator("alicloud_ecs_auto_snapshot_policy_attachment", func(r *config.Resource) {
 		r.ShortGroup = string(common.ECS)
@@ -30,20 +29,15 @@ func Configure(p *config.Provider) {
 		r.References["disk_id"] = config.Reference{
 			TerraformName: "alicloud_ecs_disk",
 		}
-		delete(r.TerraformResource.Schema, "name")
 	})
 	p.AddResourceConfigurator("alicloud_ecs_deployment_set", func(r *config.Resource) {
 		r.ShortGroup = string(common.ECS)
-		delete(r.TerraformResource.Schema, "domain")
-		delete(r.TerraformResource.Schema, "granularity")
 	})
 	p.AddResourceConfigurator("alicloud_ecs_disk", func(r *config.Resource) {
 		r.ShortGroup = string(common.ECS)
 		r.References["instance_id"] = config.Reference{
 			TerraformName: "alicloud_instance",
 		}
-		delete(r.TerraformResource.Schema, "availability_zone")
-		delete(r.TerraformResource.Schema, "name")
 	})
 	p.AddResourceConfigurator("alicloud_ecs_disk_attachment", func(r *config.Resource) {
 		r.ShortGroup = string(common.ECS)
@@ -87,7 +81,6 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("alicloud_ecs_key_pair", func(r *config.Resource) {
 		r.ShortGroup = string(common.ECS)
-		delete(r.TerraformResource.Schema, "key_name")
 	})
 	p.AddResourceConfigurator("alicloud_ecs_key_pair_attachment", func(r *config.Resource) {
 		r.ShortGroup = string(common.ECS)
@@ -99,7 +92,6 @@ func Configure(p *config.Provider) {
 			RefFieldName:      "InstanceRefs",
 			SelectorFieldName: "InstanceSelector",
 		}
-		delete(r.TerraformResource.Schema, "key_name")
 	})
 	p.AddResourceConfigurator("alicloud_ecs_launch_template", func(r *config.Resource) {
 		r.ShortGroup = string(common.ECS)
@@ -129,12 +121,6 @@ func Configure(p *config.Provider) {
 		r.References["networkInterfaces.vswitch_id"] = config.Reference{
 			TerraformName: "alicloud_vswitch",
 		}
-		delete(r.TerraformResource.Schema, "name")
-		delete(r.TerraformResource.Schema, "system_disk_category")
-		delete(r.TerraformResource.Schema, "system_disk_description")
-		delete(r.TerraformResource.Schema, "system_disk_name")
-		delete(r.TerraformResource.Schema, "system_disk_size")
-		delete(r.TerraformResource.Schema, "userdata")
 	})
 	p.AddResourceConfigurator("alicloud_ecs_network_interface", func(r *config.Resource) {
 		r.ShortGroup = string(common.ECS)
@@ -146,11 +132,6 @@ func Configure(p *config.Provider) {
 			RefFieldName:      "SecurityGroupRefs",
 			SelectorFieldName: "SecurityGroupSelector",
 		}
-		delete(r.TerraformResource.Schema, "name")
-		delete(r.TerraformResource.Schema, "security_groups")
-		delete(r.TerraformResource.Schema, "private_ips")
-		delete(r.TerraformResource.Schema, "private_ip")
-		delete(r.TerraformResource.Schema, "private_ips_count")
 	})
 	p.AddResourceConfigurator("alicloud_ecs_network_interface_attachment", func(r *config.Resource) {
 		r.ShortGroup = string(common.ECS)
@@ -172,9 +153,6 @@ func Configure(p *config.Provider) {
 		r.References["disk_id"] = config.Reference{
 			TerraformName: "alicloud_ecs_disk",
 		}
-		delete(r.TerraformResource.Schema, "instant_access")
-		delete(r.TerraformResource.Schema, "instant_access_retention_days")
-		delete(r.TerraformResource.Schema, "name")
 	})
 	p.AddResourceConfigurator("alicloud_ecs_snapshot_group", func(r *config.Resource) {
 		r.ShortGroup = string(common.ECS)
@@ -191,7 +169,6 @@ func Configure(p *config.Provider) {
 		r.References["snapshot_id"] = config.Reference{
 			TerraformName: "alicloud_ecs_snapshot",
 		}
-		delete(r.TerraformResource.Schema, "name")
 	})
 	p.AddResourceConfigurator("alicloud_image_copy", func(r *config.Resource) {
 		r.Kind = "ImageCopy"
@@ -199,7 +176,6 @@ func Configure(p *config.Provider) {
 		r.References["source_image_id"] = config.Reference{
 			TerraformName: "alicloud_image",
 		}
-		delete(r.TerraformResource.Schema, "name")
 	})
 	p.AddResourceConfigurator("alicloud_image_export", func(r *config.Resource) {
 		r.Kind = "ImageExport"
@@ -253,15 +229,10 @@ func Configure(p *config.Provider) {
 		r.References["networkInterfaces.vswitch_id"] = config.Reference{
 			TerraformName: "alicloud_vswitch",
 		}
-		delete(r.TerraformResource.Schema, "allocate_public_ip")
-		delete(r.TerraformResource.Schema, "internet_max_bandwidth_in")
-		delete(r.TerraformResource.Schema, "io_optimized")
-		delete(r.TerraformResource.Schema, "subnet_id")
 	})
 	p.AddResourceConfigurator("alicloud_reserved_instance", func(r *config.Resource) {
 		r.Kind = "ReservedInstance"
 		r.ShortGroup = string(common.ECS)
-		delete(r.TerraformResource.Schema, "name")
 	})
 	p.AddResourceConfigurator("alicloud_security_group", func(r *config.Resource) {
 		r.Kind = "SecurityGroup"
@@ -269,8 +240,6 @@ func Configure(p *config.Provider) {
 		r.References["vpc_id"] = config.Reference{
 			TerraformName: "alicloud_vpc",
 		}
-		delete(r.TerraformResource.Schema, "name")
-		delete(r.TerraformResource.Schema, "inner_access")
 	})
 	p.AddResourceConfigurator("alicloud_security_group_rule", func(r *config.Resource) {
 		r.Kind = "SecurityGroupRule"

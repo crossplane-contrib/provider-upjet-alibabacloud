@@ -8,9 +8,6 @@ import (
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
-	p.AddResourceConfigurator("alicloud_slb_acl", func(r *config.Resource) {
-		delete(r.TerraformResource.Schema, "entry_list")
-	})
 	p.AddResourceConfigurator("alicloud_slb_load_balancer", func(r *config.Resource) {
 		r.References["master_zone_id"] = config.Reference{
 			TerraformName: "alicloud_vswitch",
@@ -20,8 +17,6 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_vswitch",
 			Extractor:     common.PathVSwitchZoneIdExtractor,
 		}
-		delete(r.TerraformResource.Schema, "name")
-		delete(r.TerraformResource.Schema, "specification")
 	})
 	p.AddResourceConfigurator("alicloud_slb_listener", func(r *config.Resource) {
 		r.References["acl_ids"] = config.Reference{
@@ -29,7 +24,5 @@ func Configure(p *config.Provider) {
 			// RefFieldName:      "AclRefs",
 			// SelectorFieldName: "AclSelector",
 		}
-		delete(r.TerraformResource.Schema, "acl_id")
-		delete(r.TerraformResource.Schema, "ssl_certificate_id")
 	})
 }

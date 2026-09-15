@@ -48,7 +48,6 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("alicloud_alidns_domain_group", func(r *config.Resource) {
 		r.ShortGroup = string(common.ALIDNS)
-		delete(r.TerraformResource.Schema, "group_name")
 	})
 	p.AddResourceConfigurator("alicloud_alidns", func(r *config.Resource) {
 		r.ShortGroup = string(common.ALIDNS)
