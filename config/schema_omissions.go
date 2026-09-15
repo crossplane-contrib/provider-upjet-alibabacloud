@@ -4,7 +4,7 @@ Copyright 2022 Upbound Inc.
 
 package config
 
-import "github.com/crossplane/upjet/pkg/config"
+import "github.com/crossplane/upjet/v2/pkg/config"
 
 // generationOnlySchemaOmissions lists, per Terraform resource, the top-level
 // schema fields that must not appear in the generated CRD.

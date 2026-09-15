@@ -12,8 +12,8 @@ import (
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/sslcertificatesservice/v1alpha1"
 	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	resource "github.com/crossplane/upjet/pkg/resource"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -28,6 +28,7 @@ func (mg *AclEntryAttachment) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ACLID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ACLIDRef,
 		Selector:     mg.Spec.ForProvider.ACLIDSelector,
 		To: reference.To{
@@ -44,6 +45,7 @@ func (mg *AclEntryAttachment) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ACLID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ACLIDRef,
 		Selector:     mg.Spec.InitProvider.ACLIDSelector,
 		To: reference.To{
@@ -70,6 +72,7 @@ func (mg *Ascript) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ListenerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ListenerIDRef,
 		Selector:     mg.Spec.ForProvider.ListenerIDSelector,
 		To: reference.To{
@@ -86,6 +89,7 @@ func (mg *Ascript) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ListenerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ListenerIDRef,
 		Selector:     mg.Spec.InitProvider.ListenerIDSelector,
 		To: reference.To{
@@ -133,6 +137,7 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DefaultActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupID),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.DefaultActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupIDRef,
 					Selector:     mg.Spec.ForProvider.DefaultActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupIDSelector,
 					To: reference.To{
@@ -152,6 +157,7 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LoadBalancerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.LoadBalancerIDRef,
 		Selector:     mg.Spec.ForProvider.LoadBalancerIDSelector,
 		To: reference.To{
@@ -168,6 +174,7 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityPolicyID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.SecurityPolicyIDRef,
 		Selector:     mg.Spec.ForProvider.SecurityPolicyIDSelector,
 		To: reference.To{
@@ -205,6 +212,7 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DefaultActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupID),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.DefaultActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupIDRef,
 					Selector:     mg.Spec.InitProvider.DefaultActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupIDSelector,
 					To: reference.To{
@@ -224,6 +232,7 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
 		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
 		To: reference.To{
@@ -240,6 +249,7 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityPolicyID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.SecurityPolicyIDRef,
 		Selector:     mg.Spec.InitProvider.SecurityPolicyIDSelector,
 		To: reference.To{
@@ -266,6 +276,7 @@ func (mg *ListenerAclAttachment) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ACLID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ACLIDRef,
 		Selector:     mg.Spec.ForProvider.ACLIDSelector,
 		To: reference.To{
@@ -282,6 +293,7 @@ func (mg *ListenerAclAttachment) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ListenerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ListenerIDRef,
 		Selector:     mg.Spec.ForProvider.ListenerIDSelector,
 		To: reference.To{
@@ -298,6 +310,7 @@ func (mg *ListenerAclAttachment) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ACLID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ACLIDRef,
 		Selector:     mg.Spec.InitProvider.ACLIDSelector,
 		To: reference.To{
@@ -314,6 +327,7 @@ func (mg *ListenerAclAttachment) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ListenerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ListenerIDRef,
 		Selector:     mg.Spec.InitProvider.ListenerIDSelector,
 		To: reference.To{
@@ -414,6 +428,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
@@ -431,6 +446,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ZoneMappings[i3].VswitchID),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ZoneMappings[i3].VswitchIDRef,
 			Selector:     mg.Spec.ForProvider.ZoneMappings[i3].VswitchIDSelector,
 			To: reference.To{
@@ -449,6 +465,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ZoneMappings[i3].ZoneID),
 			Extract:      common.VSwitchZoneIdExtractor(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ZoneMappings[i3].ZoneIDRef,
 			Selector:     mg.Spec.ForProvider.ZoneMappings[i3].ZoneIDSelector,
 			To: reference.To{
@@ -466,6 +483,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
@@ -483,6 +501,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ZoneMappings[i3].VswitchID),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ZoneMappings[i3].VswitchIDRef,
 			Selector:     mg.Spec.InitProvider.ZoneMappings[i3].VswitchIDSelector,
 			To: reference.To{
@@ -501,6 +520,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ZoneMappings[i3].ZoneID),
 			Extract:      common.VSwitchZoneIdExtractor(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ZoneMappings[i3].ZoneIDRef,
 			Selector:     mg.Spec.InitProvider.ZoneMappings[i3].ZoneIDSelector,
 			To: reference.To{
@@ -529,6 +549,7 @@ func (mg *LoadBalancerSecurityGroupAttachment) ResolveReferences(ctx context.Con
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LoadBalancerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.LoadBalancerIDRef,
 		Selector:     mg.Spec.ForProvider.LoadBalancerIDSelector,
 		To: reference.To{
@@ -545,6 +566,7 @@ func (mg *LoadBalancerSecurityGroupAttachment) ResolveReferences(ctx context.Con
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityGroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -561,6 +583,7 @@ func (mg *LoadBalancerSecurityGroupAttachment) ResolveReferences(ctx context.Con
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
 		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
 		To: reference.To{
@@ -577,6 +600,7 @@ func (mg *LoadBalancerSecurityGroupAttachment) ResolveReferences(ctx context.Con
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityGroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -603,6 +627,7 @@ func (mg *LoadBalancerZoneShiftedAttachment) ResolveReferences(ctx context.Conte
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LoadBalancerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.LoadBalancerIDRef,
 		Selector:     mg.Spec.ForProvider.LoadBalancerIDSelector,
 		To: reference.To{
@@ -619,6 +644,7 @@ func (mg *LoadBalancerZoneShiftedAttachment) ResolveReferences(ctx context.Conte
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VswitchID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VswitchIDRef,
 		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
 		To: reference.To{
@@ -635,6 +661,7 @@ func (mg *LoadBalancerZoneShiftedAttachment) ResolveReferences(ctx context.Conte
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ZoneID),
 		Extract:      resource.ExtractParamPath("zone_id", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ZoneIDRef,
 		Selector:     mg.Spec.ForProvider.ZoneIDSelector,
 		To: reference.To{
@@ -651,6 +678,7 @@ func (mg *LoadBalancerZoneShiftedAttachment) ResolveReferences(ctx context.Conte
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LoadBalancerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.LoadBalancerIDRef,
 		Selector:     mg.Spec.InitProvider.LoadBalancerIDSelector,
 		To: reference.To{
@@ -667,6 +695,7 @@ func (mg *LoadBalancerZoneShiftedAttachment) ResolveReferences(ctx context.Conte
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VswitchID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VswitchIDRef,
 		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
 		To: reference.To{
@@ -683,6 +712,7 @@ func (mg *LoadBalancerZoneShiftedAttachment) ResolveReferences(ctx context.Conte
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ZoneID),
 		Extract:      resource.ExtractParamPath("zone_id", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ZoneIDRef,
 		Selector:     mg.Spec.InitProvider.ZoneIDSelector,
 		To: reference.To{
@@ -709,6 +739,7 @@ func (mg *Rule) ResolveReferences(ctx context.Context, c client.Reader) error {
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ListenerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ListenerIDRef,
 		Selector:     mg.Spec.ForProvider.ListenerIDSelector,
 		To: reference.To{
@@ -728,6 +759,7 @@ func (mg *Rule) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RuleActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupID),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.ForProvider.RuleActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupIDRef,
 					Selector:     mg.Spec.ForProvider.RuleActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupIDSelector,
 					To: reference.To{
@@ -747,6 +779,7 @@ func (mg *Rule) ResolveReferences(ctx context.Context, c client.Reader) error {
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ListenerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ListenerIDRef,
 		Selector:     mg.Spec.InitProvider.ListenerIDSelector,
 		To: reference.To{
@@ -766,6 +799,7 @@ func (mg *Rule) ResolveReferences(ctx context.Context, c client.Reader) error {
 				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RuleActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupID),
 					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
 					Reference:    mg.Spec.InitProvider.RuleActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupIDRef,
 					Selector:     mg.Spec.InitProvider.RuleActions[i3].ForwardGroupConfig[i4].ServerGroupTuples[i5].ServerGroupIDSelector,
 					To: reference.To{
@@ -797,6 +831,7 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Servers[i3].ServerID),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.Servers[i3].ServerIDRef,
 			Selector:     mg.Spec.ForProvider.Servers[i3].ServerIDSelector,
 			To: reference.To{
@@ -815,6 +850,7 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Servers[i3].ServerIP),
 			Extract:      resource.ExtractParamPath("private_ip", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.Servers[i3].ServerIPRef,
 			Selector:     mg.Spec.ForProvider.Servers[i3].ServerIPSelector,
 			To: reference.To{
@@ -832,6 +868,7 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
@@ -849,6 +886,7 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Servers[i3].ServerID),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.Servers[i3].ServerIDRef,
 			Selector:     mg.Spec.InitProvider.Servers[i3].ServerIDSelector,
 			To: reference.To{
@@ -867,6 +905,7 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Servers[i3].ServerIP),
 			Extract:      resource.ExtractParamPath("private_ip", false),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.Servers[i3].ServerIPRef,
 			Selector:     mg.Spec.InitProvider.Servers[i3].ServerIPSelector,
 			To: reference.To{
@@ -884,6 +923,7 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{

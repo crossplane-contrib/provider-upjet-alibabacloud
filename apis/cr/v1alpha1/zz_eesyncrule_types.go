@@ -10,14 +10,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type EeSyncRuleInitParameters struct {
 
 	// The ID of the Container Registry source instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// Reference to a EeInstance in cr to populate instanceId.
@@ -30,7 +30,7 @@ type EeSyncRuleInitParameters struct {
 
 	// The namespace name of the source instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	NamespaceName *string `json:"namespaceName,omitempty" tf:"namespace_name,omitempty"`
 
 	// Reference to a EeNamespace in cr to populate namespaceName.
@@ -43,7 +43,7 @@ type EeSyncRuleInitParameters struct {
 
 	// The image repository name of the source instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeRepo
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	RepoName *string `json:"repoName,omitempty" tf:"repo_name,omitempty"`
 
 	// Reference to a EeRepo in cr to populate repoName.
@@ -68,7 +68,7 @@ type EeSyncRuleInitParameters struct {
 
 	// The ID of the destination instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetInstanceID *string `json:"targetInstanceId,omitempty" tf:"target_instance_id,omitempty"`
 
 	// Reference to a EeInstance in cr to populate targetInstanceId.
@@ -81,7 +81,7 @@ type EeSyncRuleInitParameters struct {
 
 	// The namespace name of the destination instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	TargetNamespaceName *string `json:"targetNamespaceName,omitempty" tf:"target_namespace_name,omitempty"`
 
 	// Reference to a EeNamespace in cr to populate targetNamespaceName.
@@ -97,7 +97,7 @@ type EeSyncRuleInitParameters struct {
 
 	// The image repository name of the destination instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeRepo
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	TargetRepoName *string `json:"targetRepoName,omitempty" tf:"target_repo_name,omitempty"`
 
 	// Reference to a EeRepo in cr to populate targetRepoName.
@@ -173,7 +173,7 @@ type EeSyncRuleParameters struct {
 
 	// The ID of the Container Registry source instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
@@ -187,7 +187,7 @@ type EeSyncRuleParameters struct {
 
 	// The namespace name of the source instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	NamespaceName *string `json:"namespaceName,omitempty" tf:"namespace_name,omitempty"`
 
@@ -206,7 +206,7 @@ type EeSyncRuleParameters struct {
 
 	// The image repository name of the source instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeRepo
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	RepoName *string `json:"repoName,omitempty" tf:"repo_name,omitempty"`
 
@@ -236,7 +236,7 @@ type EeSyncRuleParameters struct {
 
 	// The ID of the destination instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetInstanceID *string `json:"targetInstanceId,omitempty" tf:"target_instance_id,omitempty"`
 
@@ -250,7 +250,7 @@ type EeSyncRuleParameters struct {
 
 	// The namespace name of the destination instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	TargetNamespaceName *string `json:"targetNamespaceName,omitempty" tf:"target_namespace_name,omitempty"`
 
@@ -268,7 +268,7 @@ type EeSyncRuleParameters struct {
 
 	// The image repository name of the destination instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeRepo
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	TargetRepoName *string `json:"targetRepoName,omitempty" tf:"target_repo_name,omitempty"`
 
