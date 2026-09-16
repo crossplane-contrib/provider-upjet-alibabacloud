@@ -29,6 +29,12 @@ import "github.com/crossplane/upjet/pkg/config"
 // Applying them during generation only reproduces the pre-no-fork behaviour
 // exactly: the field stays in the runtime schema, the CRD never sets it, and
 // d.Get returns the zero value rather than nil.
+//
+// Add entries here rather than calling delete(r.TerraformResource.Schema, ...)
+// from a per-resource configurator. Resources merged in from branches that
+// predate the no-fork migration often still carry that call, and
+// TestRuntimeSchemaIsPristine will fail until it is moved here. See the README
+// section "Hiding a field from a generated CRD".
 var generationOnlySchemaOmissions = map[string][]string{
 	"alicloud_alikafka_consumer_group":             {"description"},
 	"alicloud_alikafka_instance":                   {"topic_quota"},

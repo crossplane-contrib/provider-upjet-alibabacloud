@@ -36,9 +36,14 @@ func TestRuntimeSchemaIsPristine(t *testing.T) {
 		}
 		for field := range ref.Schema {
 			if _, ok := r.TerraformResource.Schema[field]; !ok {
-				t.Errorf("resource %q is missing field %q from its runtime Terraform schema; "+
-					"schema fields may only be omitted from the code-generation provider "+
-					"(see generationOnlySchemaOmissions)", name, field)
+				t.Errorf("resource %q is missing field %q from its runtime Terraform schema.\n"+
+					"Something is calling delete(r.TerraformResource.Schema, %q), most likely a "+
+					"configurator in config/%s/config.go. Under no-fork that mutates the live "+
+					"schema the upstream CRUD functions execute against, not a throwaway copy.\n"+
+					"Fix: move the field into generationOnlySchemaOmissions in "+
+					"config/schema_omissions.go, which shapes the CRD without touching the "+
+					"runtime schema. Do not skip or revert this test. See the README section "+
+					"\"Hiding a field from a generated CRD\".", name, field, field, r.ShortGroup)
 			}
 		}
 	}
