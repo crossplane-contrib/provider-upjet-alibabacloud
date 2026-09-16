@@ -5,8 +5,9 @@ Copyright 2021 Upbound Inc.
 package v1alpha1
 
 import (
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/scheme"
 )
 
 // Package type metadata.
@@ -24,5 +25,8 @@ var (
 	// was part of the alpha External Secret Store feature, which Crossplane v2
 	// and upjet v2 have dropped. The package is retained because upjet's
 	// DefaultBasePackages registers "v1alpha1" as a base API version.
-	SchemeBuilder = &scheme.Builder{GroupVersion: SchemeGroupVersion}
+	SchemeBuilder = runtime.NewSchemeBuilder(func(s *runtime.Scheme) error {
+		metav1.AddToGroupVersion(s, SchemeGroupVersion)
+		return nil
+	})
 )

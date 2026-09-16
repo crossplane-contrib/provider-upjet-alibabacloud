@@ -345,31 +345,44 @@ e2e-provider.%:
 	@$(MAKE) build-provider.$* local-deploy.$*
 	@$(MAKE) uptest
 
+# Resolves the PR base branch to something git can read objects from. A CI
+# checkout usually has only the remote-tracking ref, so the bare branch name
+# does not resolve on its own.
+BASE_REF = $(shell git rev-parse --verify --quiet "$${GITHUB_BASE_REF}" >/dev/null 2>&1 && echo "$${GITHUB_BASE_REF}" || (git rev-parse --verify --quiet "origin/$${GITHUB_BASE_REF}" >/dev/null 2>&1 && echo "origin/$${GITHUB_BASE_REF}"))
+
 crddiff:
 	@$(INFO) Checking breaking CRD schema changes
-	@for crd in $${MODIFIED_CRD_LIST}; do \
-		if ! git cat-file -e "$${GITHUB_BASE_REF}:$${crd}" 2>/dev/null; then \
+	@if [ -z "$(BASE_REF)" ]; then \
+		echo "Cannot resolve base ref \"$${GITHUB_BASE_REF}\"; is the checkout shallow? Skipping." ; \
+	else \
+	for crd in $${MODIFIED_CRD_LIST}; do \
+		if ! git cat-file -e "$(BASE_REF):$${crd}" 2>/dev/null; then \
 			echo "CRD $${crd} does not exist in the $${GITHUB_BASE_REF} branch. Skipping..." ; \
 			continue ; \
 		fi ; \
 		echo "Checking $${crd} for breaking API changes..." ; \
-		changes_detected=$$(go run github.com/upbound/uptest/cmd/crddiff@$(CRDDIFF_VERSION) revision --enable-upjet-extensions <(git cat-file -p "$${GITHUB_BASE_REF}:$${crd}") "$${crd}" 2>&1) ; \
+		changes_detected=$$(go run github.com/upbound/uptest/cmd/crddiff@$(CRDDIFF_VERSION) revision --enable-upjet-extensions <(git cat-file -p "$(BASE_REF):$${crd}") "$${crd}" 2>&1) ; \
 		if [[ $$? != 0 ]] ; then \
 			printf "\033[31m"; echo "Breaking change detected!"; printf "\033[0m" ; \
 			echo "$${changes_detected}" ; \
 			echo ; \
 		fi ; \
-	done
+	done ; \
+	fi
 	@$(OK) Checking breaking CRD schema changes
 
 schema-version-diff:
 	@$(INFO) Checking for native state schema version changes
-	@export PREV_PROVIDER_VERSION=$$(git cat-file -p "${GITHUB_BASE_REF}:Makefile" | sed -nr 's/^export[[:space:]]*TERRAFORM_PROVIDER_VERSION[[:space:]]*[?:]?=[[:space:]]*(.+)/\1/p'); \
+	@if [ -z "$(BASE_REF)" ]; then \
+		echo "Cannot resolve base ref \"$${GITHUB_BASE_REF}\"; is the checkout shallow? Skipping." ; \
+	else \
+	export PREV_PROVIDER_VERSION=$$(git cat-file -p "$(BASE_REF):Makefile" | sed -nr 's/^export[[:space:]]*TERRAFORM_PROVIDER_VERSION[[:space:]]*[?:]?=[[:space:]]*(.+)/\1/p'); \
 	echo Detected previous Terraform provider version: $${PREV_PROVIDER_VERSION}; \
 	echo Current Terraform provider version: $${TERRAFORM_PROVIDER_VERSION}; \
 	mkdir -p $(WORK_DIR); \
-	git cat-file -p "$${GITHUB_BASE_REF}:config/schema.json" > "$(WORK_DIR)/schema.json.$${PREV_PROVIDER_VERSION}"; \
-	./scripts/version_diff.py config/generated.lst "$(WORK_DIR)/schema.json.$${PREV_PROVIDER_VERSION}" config/schema.json
+	git cat-file -p "$(BASE_REF):config/schema.json" > "$(WORK_DIR)/schema.json.$${PREV_PROVIDER_VERSION}"; \
+	./scripts/version_diff.py config/generated.lst "$(WORK_DIR)/schema.json.$${PREV_PROVIDER_VERSION}" config/schema.json ; \
+	fi
 	@$(OK) Checking for native state schema version changes
 
 .PHONY: cobertura submodules fallthrough run crds.clean
