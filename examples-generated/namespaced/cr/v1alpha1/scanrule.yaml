@@ -1,0 +1,48 @@
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: ScanRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/scanrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default2Aqoce
+    namespaces:
+    - aa
+    region: cn-beijing
+    repoNames:
+    - bb
+    - cc
+    - dd
+    - ee
+    repoTagFilterPattern: .*
+    ruleName: ${var.name}
+    scanScope: REPO
+    scanType: VUL
+    triggerType: MANUAL
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/scanrule
+  labels:
+    testing.upbound.io/example-name: default2Aqoce
+  name: default2aqoce
+  namespace: upbound-system
+spec:
+  forProvider:
+    defaultOssBucket: "false"
+    instanceName: pl-example-2
+    instanceType: Basic
+    paymentType: Subscription
+    period: "1"
+    region: cn-beijing
+    renewalStatus: ManualRenewal

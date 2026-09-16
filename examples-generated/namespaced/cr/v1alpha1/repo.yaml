@@ -1,0 +1,37 @@
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: Repo
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/repo
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    detail: this is a private repo
+    name: ${var.name}
+    namespaceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: cn-beijing
+    repoType: PRIVATE
+    summary: this is summary of my new repo
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: RegistryNamespace
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/repo
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    name: ${var.name}
+    region: cn-beijing

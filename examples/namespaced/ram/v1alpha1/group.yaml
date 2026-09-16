@@ -1,0 +1,14 @@
+---
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-group-1
+  labels:
+    testing.crossplane.io/example-name: test-group-1
+  name: test-group-1
+spec:
+  forProvider:
+    comments: This is a group comment, created by provider-upjet-alibabacloud.
+    groupName: test-group-1

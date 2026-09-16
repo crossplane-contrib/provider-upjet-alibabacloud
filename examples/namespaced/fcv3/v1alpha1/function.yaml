@@ -1,0 +1,235 @@
+apiVersion: fcv3.alibabacloud.m.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    code:
+    - checksumSecretRef:
+        key: checksum
+        name: example-secret
+      ossBucketNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: function
+      ossObjectNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: function
+    cpu: 0.5
+    customRuntimeConfig:
+    - args:
+      - app.py
+      - xx
+      - x
+      command:
+      - python
+      - -c
+      - example
+      healthCheckConfig:
+      - failureThreshold: 3
+        httpGetUrl: /ready
+        initialDelaySeconds: 1
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      port: 9000
+    description: Create
+    diskSize: 512
+    environmentVariables:
+      EnvKey: EnvVal
+    functionName: crossplane-example-function-20250729
+    handler: index.handler
+    instanceConcurrency: 2
+    instanceLifecycleConfig:
+    - initializer:
+      - handler: index.init
+        timeout: 1
+      preStop:
+      - handler: index.stop
+        timeout: 1
+    internetAccess: true
+    layerSelector:
+      matchLabels:
+        testing.upbound.io/example-name: function
+    logConfig:
+    - logBeginRule: None
+    memorySize: 512
+    region: cn-beijing
+    runtime: custom.debian10
+    timeout: 3
+    vpcConfig:
+    - vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: function
+      vSwitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: function
+      securityGroupIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: function
+
+---
+
+apiVersion: fcv3.alibabacloud.m.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/functionwithmcp
+  labels:
+    testing.upbound.io/example-name: functionwithmcp
+  name: functionwithmcp
+spec:
+  forProvider:
+    code:
+      - zipFile: "UEsDBBQACAAIAAAAAAAAAAAAAAAAAAAAAAAIAAAAaW5kZXgucHmEkEFKxEAQRfd9ig9ZTCJOooIwDMwNXLqXnnQlaalUhU5lRj2KZ/FOXkESGR114bJ/P/7jV4b1xRq1hijtFpM1682cuNgPmgysbRulPT0fRxXnMtwrSPyeCdYRokSLnuMLJTTkbUqEvDMbxm1VdcRD6Tk+T1LW2ldB66knsYdA5iNX17ebm6tN2VnPhcswMPmREPuBacb+CiapLarAj9gT6/H97dVlCNScY3mtYvRkxdZlwDKDEnanPWVLdrdkeXEGlFEazVdfPVHaVeHc3N15CUwppwOJXeK7HshAB8NuOU7J6sP4SRXuH/EvbUfMiqMmDqv5M5FNSfAj/wgAAP//UEsHCPl//NYAAQAArwEAAFBLAQIUABQACAAIAAAAAAD5f/zWAAEAAK8BAAAIAAAAAAAAAAAAAAAAAAAAAABpbmRleC5weVBLBQYAAAAAAQABADYAAAA2AQAAAAA="
+    cpu: 0.5
+    diskSize: 512
+    functionName: crossplane-example-for-function-trigger-20250724
+    handler: index.Handler
+    logConfig:
+      - logBeginRule: None
+    memorySize: 512
+    region: cn-hangzhou
+    runtime: python3.9
+    environmentVariables:
+      TestEnvKey: "TestEnvVal"
+    instanceLifecycleConfig:
+    - initializer:
+      - timeout: 3
+        handler: "index.init"
+      preStop:
+      - timeout: 3
+        handler: "index.stop"
+    sessionAffinityConfig: "{\"sessionConcurrencyPerInstance\":20,\"sseEndpointPath\":\"sse\"}"
+    instanceIsolationMode: "SHARE"
+    sessionAffinity: "MCP_SSE"
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    bucket: crossplane-example-for-function-20251024
+    region: cn-beijing
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketObject
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: function
+    content: print('hello')
+    key: FCV3Py39.zip
+    region: cn-beijing
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    cidrBlock: 10.0.0.0/8
+    region: cn-beijing
+    vpcName: crossplane-example-for-function-20250729
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    cidrBlock: 10.0.1.0/24
+    zoneId: cn-beijing-f
+    region: cn-beijing
+    vswitchName: crossplane-example-for-function-20250729
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: function
+
+---
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    region: cn-beijing
+    securityGroupName: crossplane-example-for-function-20250729
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: function
+
+---
+apiVersion: fcv3.alibabacloud.m.crossplane.io/v1alpha1
+kind: LayerVersion
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/function
+  labels:
+    testing.upbound.io/example-name: function
+  name: function
+spec:
+  forProvider:
+    acl: "0"
+    code:
+      - zipFile: UEsDBBQACAAIAAAAAAAAAAAAAAAAAAAAAAAIAAAAaW5kZXgucHmEkEFKxEAQRfd9ig9ZTCJOooIwDMwNXLqXnnQlaalUhU5lRj2KZ/FOXkESGR114bJ/P/7jV4b1xRq1hijtFpM1682cuNgPmgysbRulPT0fRxXnMtwrSPyeCdYRokSLnuMLJTTkbUqEvDMbxm1VdcRD6Tk+T1LW2ldB66knsYdA5iNX17ebm6tN2VnPhcswMPmREPuBacb+CiapLarAj9gT6/H97dVlCNScY3mtYvRkxdZlwDKDEnanPWVLdrdkeXEGlFEazVdfPVHaVeHc3N15CUwppwOJXeK7HshAB8NuOU7J6sP4SRXuH/EvbUfMiqMmDqv5M5FNSfAj/wgAAP//UEsHCPl//NYAAQAArwEAAFBLAQIUABQACAAIAAAAAAD5f/zWAAEAAK8BAAAIAAAAAAAAAAAAAAAAAAAAAABpbmRleC5weVBLBQYAAAAAAQABADYAAAA2AQAAAAA=
+    description: crossplane-example-for-function-20250729
+    layerName: FC3LayerResouceTest_ZIP_2024SepWed
+    license: Apache2.0
+    compatibleRuntime:
+    - custom.debian10
+    region: cn-beijing
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: default
+  name: example-secret
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  checksum: "4270285996107335518"

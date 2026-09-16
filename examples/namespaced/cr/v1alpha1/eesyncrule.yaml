@@ -1,0 +1,162 @@
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeSyncRule
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-sync-rule-1
+  labels:
+    testing.crossplane.io/example-name: test-sync-rule-1
+  name: test-sync-rule-1
+spec:
+  forProvider:
+    region: us-west-1
+    # Field "name" is deprecated since alicloud provider v1.240.0 and is now
+    # mutually exclusive with sync_rule_name; setting "name" makes Terraform
+    # send both and the create fails with
+    # "only one of `name,sync_rule_name` can be specified". Use syncRuleName.
+    syncRuleName: test-sync-rule-1
+    tagFilter: .*
+    targetRegionId: us-west-1
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-sync-1
+    namespaceNameSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-namespace-for-sync-1
+    repoNameSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-repo-for-sync-1
+    targetInstanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-target-sync-1
+    targetNamespaceNameSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-namespace-target-sync-1
+    targetRepoNameSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-repo-target-sync-1
+---
+# --- Source side ---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeRepo
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-repo-for-sync-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-repo-for-sync-1
+  name: test-ee-repo-for-sync-1
+spec:
+  forProvider:
+    region: us-west-1
+    detail: Test EE source repository for sync rule
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-sync-1
+    name: test-ee-repo-for-sync-1
+    namespaceSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-namespace-for-sync-1
+    repoType: PUBLIC
+    summary: Test EE source repository for sync rule
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeNamespace
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-namespace-for-sync-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-namespace-for-sync-1
+  name: test-ee-namespace-for-sync-1
+spec:
+  forProvider:
+    region: us-west-1
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-sync-1
+    name: test-ee-namespace-for-sync-1
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-instance-for-sync-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-instance-for-sync-1
+  name: test-ee-instance-for-sync-1
+spec:
+  forProvider:
+    region: us-west-1
+    instanceName: cr-ee-test-sync-2
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    renewPeriod: 1
+    renewalStatus: AutoRenewal
+---
+# --- Target side ---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeRepo
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-repo-target-sync-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-repo-target-sync-1
+  name: test-ee-repo-target-sync-1
+spec:
+  forProvider:
+    region: us-west-1
+    detail: Test EE target repository for sync rule
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-target-sync-1
+    name: test-ee-repo-target-sync-1
+    namespaceSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-namespace-target-sync-1
+    repoType: PUBLIC
+    summary: Test EE target repository for sync rule
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeNamespace
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-namespace-target-sync-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-namespace-target-sync-1
+  name: test-ee-namespace-target-sync-1
+spec:
+  forProvider:
+    region: us-west-1
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-target-sync-1
+    name: test-ee-namespace-target-sync-1
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-instance-target-sync-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-instance-target-sync-1
+  name: test-ee-instance-target-sync-1
+spec:
+  forProvider:
+    region: us-west-1
+    instanceName: cr-ee-test-synctgt-2
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    renewPeriod: 1
+    renewalStatus: AutoRenewal

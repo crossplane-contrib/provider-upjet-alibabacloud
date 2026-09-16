@@ -1,0 +1,113 @@
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: instance
+  name: instance
+  namespace: upbound-system
+spec:
+  forProvider:
+    availabilityZone: ${data.alicloud_zones.default.zones.0.id}
+    dataDisks:
+    - category: cloud_efficiency
+      description: disk2
+      encrypted: true
+      kmsKeyIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: key
+      name: disk2
+      size: 20
+    imageIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    instanceName: ${var.name}
+    instanceType: ${var.instance_type}
+    internetMaxBandwidthOut: 10
+    region: cn-beijing
+    securityGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: group
+    systemDiskCategory: cloud_efficiency
+    systemDiskDescription: test_foo_system_disk_description
+    systemDiskName: ${var.name}
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vswitch
+
+---
+
+apiVersion: kms.alibabacloud.m.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Hello KMS
+    pendingWindowInDays: "7"
+    region: cn-beijing
+    status: Enabled
+
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: foo
+    region: cn-beijing
+    securityGroupName: ${var.name}
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: vpc
+  name: vpc
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/16
+    region: cn-beijing
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: vswitch
+  name: vswitch
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

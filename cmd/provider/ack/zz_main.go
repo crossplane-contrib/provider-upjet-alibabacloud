@@ -11,22 +11,30 @@ import (
 	"time"
 
 	"github.com/alecthomas/kingpin/v2"
-	"github.com/crossplane-contrib/provider-alibabacloud/apis"
+	apisCluster "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster"
+	apisNamespaced "github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced"
 	"github.com/crossplane-contrib/provider-alibabacloud/config"
 	"github.com/crossplane-contrib/provider-alibabacloud/internal/clients"
-	"github.com/crossplane-contrib/provider-alibabacloud/internal/controller"
+	controllerCluster "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster"
+	controllerNamespaced "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced"
 	"github.com/crossplane-contrib/provider-alibabacloud/internal/features"
 	xpcontroller "github.com/crossplane/crossplane-runtime/v2/pkg/controller"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/feature"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/gate"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/logging"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/ratelimiter"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/customresourcesgate"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/statemetrics"
 	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
+	"github.com/pkg/errors"
+	authv1 "k8s.io/api/authorization/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/tools/leaderelection/resourcelock"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
 	"sigs.k8s.io/controller-runtime/pkg/metrics"
 )
 
@@ -70,7 +78,9 @@ func main() {
 		RenewDeadline:              func() *time.Duration { d := 50 * time.Second; return &d }(),
 	})
 	kingpin.FatalIfError(err, "Cannot create controller manager")
-	kingpin.FatalIfError(apis.AddToScheme(mgr.GetScheme()), "Cannot add AlibabaCloud APIs to scheme")
+	kingpin.FatalIfError(apisCluster.AddToScheme(mgr.GetScheme()), "Cannot add cluster-scoped AlibabaCloud APIs to scheme")
+	kingpin.FatalIfError(apisNamespaced.AddToScheme(mgr.GetScheme()), "Cannot add namespaced AlibabaCloud APIs to scheme")
+	kingpin.FatalIfError(authv1.AddToScheme(mgr.GetScheme()), "Cannot add Kubernetes authorization APIs to scheme")
 
 	metricRecorder := managed.NewMRMetricRecorder()
 	stateMetrics := statemetrics.NewMRStateMetrics()
@@ -79,32 +89,93 @@ func main() {
 	metrics.Registry.MustRegister(stateMetrics)
 
 	ctx := context.Background()
-	provider, err := config.GetProvider(ctx, false)
-	kingpin.FatalIfError(err, "Cannot initialize the provider configuration")
+	providerCluster, err := config.GetProvider(ctx, false)
+	kingpin.FatalIfError(err, "Cannot initialize the cluster-scoped provider configuration")
+	providerNamespaced, err := config.GetNamespacedProvider(ctx, false)
+	kingpin.FatalIfError(err, "Cannot initialize the namespaced provider configuration")
 
-	o := tjcontroller.Options{
-		Options: xpcontroller.Options{
-			Logger:                  log,
-			GlobalRateLimiter:       ratelimiter.NewGlobal(*maxReconcileRate),
-			PollInterval:            *pollInterval,
-			MaxConcurrentReconciles: *maxReconcileRate,
-			Features:                &feature.Flags{},
-			MetricOptions: &xpcontroller.MetricOptions{
-				PollStateMetricInterval: *pollStateMetricInterval,
-				MRMetrics:               metricRecorder,
-				MRStateMetrics:          stateMetrics,
-			},
+	xpOpts := xpcontroller.Options{
+		Logger:                  log,
+		GlobalRateLimiter:       ratelimiter.NewGlobal(*maxReconcileRate),
+		PollInterval:            *pollInterval,
+		MaxConcurrentReconciles: *maxReconcileRate,
+		Features:                &feature.Flags{},
+		MetricOptions: &xpcontroller.MetricOptions{
+			PollStateMetricInterval: *pollStateMetricInterval,
+			MRMetrics:               metricRecorder,
+			MRStateMetrics:          stateMetrics,
 		},
-		Provider:              provider,
-		SetupFn:               clients.TerraformSetupBuilder(provider.TerraformProvider),
+	}
+
+	clusterOpts := tjcontroller.Options{
+		Options:               xpOpts,
+		Provider:              providerCluster,
+		SetupFn:               clients.TerraformSetupBuilder(providerCluster.TerraformProvider),
 		OperationTrackerStore: tjcontroller.NewOperationStore(log),
 	}
 
+	namespacedOpts := tjcontroller.Options{
+		Options:               xpOpts,
+		Provider:              providerNamespaced,
+		SetupFn:               clients.TerraformSetupBuilder(providerNamespaced.TerraformProvider),
+		OperationTrackerStore: tjcontroller.NewOperationStore(log),
+	}
+	// Options embeds xpcontroller.Options by value, so each copy needs its own
+	// Features: enabling a flag on one must not enable it on the other.
+	clusterOpts.Features = &feature.Flags{}
+	namespacedOpts.Features = &feature.Flags{}
+
 	if *enableManagementPolicies {
-		o.Features.Enable(features.EnableBetaManagementPolicies)
+		clusterOpts.Features.Enable(features.EnableBetaManagementPolicies)
+		namespacedOpts.Features.Enable(features.EnableBetaManagementPolicies)
 		log.Info("Beta feature enabled", "flag", features.EnableBetaManagementPolicies)
 	}
 
-	kingpin.FatalIfError(controller.Setup_ack(mgr, o), "Cannot setup AlibabaCloud ack controllers")
+	// SafeStart defers controller setup until the CRDs they watch exist, which
+	// needs permission to watch CRDs. Without it the controllers are started
+	// eagerly, as they were before, so a provider lacking the RBAC still runs.
+	canSafeStart, err := canWatchCRD(ctx, mgr)
+	kingpin.FatalIfError(err, "SafeStart precheck failed")
+	if canSafeStart {
+		crdGate := new(gate.Gate[schema.GroupVersionKind])
+		clusterOpts.Gate = crdGate
+		namespacedOpts.Gate = crdGate
+		kingpin.FatalIfError(customresourcesgate.Setup(mgr, xpcontroller.Options{
+			Logger:                  log,
+			Gate:                    crdGate,
+			MaxConcurrentReconciles: 1,
+		}), "Cannot setup CRD gate")
+		kingpin.FatalIfError(controllerCluster.SetupGated_ack(mgr, clusterOpts), "Cannot setup cluster-scoped AlibabaCloud ack controllers")
+		kingpin.FatalIfError(controllerNamespaced.SetupGated_ack(mgr, namespacedOpts), "Cannot setup namespaced AlibabaCloud ack controllers")
+	} else {
+		log.Info("Provider has missing RBAC permissions for watching CRDs, controller SafeStart capability will be disabled")
+		kingpin.FatalIfError(controllerCluster.Setup_ack(mgr, clusterOpts), "Cannot setup cluster-scoped AlibabaCloud ack controllers")
+		kingpin.FatalIfError(controllerNamespaced.Setup_ack(mgr, namespacedOpts), "Cannot setup namespaced AlibabaCloud ack controllers")
+	}
+
 	kingpin.FatalIfError(mgr.Start(ctrl.SetupSignalHandler()), "Cannot start controller manager")
+}
+
+// canWatchCRD reports whether the provider's service account may get, list and
+// watch CustomResourceDefinitions, which the CRD gate requires.
+func canWatchCRD(ctx context.Context, mgr manager.Manager) (bool, error) {
+	verbs := []string{"get", "list", "watch"}
+	for _, verb := range verbs {
+		sar := &authv1.SelfSubjectAccessReview{
+			Spec: authv1.SelfSubjectAccessReviewSpec{
+				ResourceAttributes: &authv1.ResourceAttributes{
+					Group:    "apiextensions.k8s.io",
+					Resource: "customresourcedefinitions",
+					Verb:     verb,
+				},
+			},
+		}
+		if err := mgr.GetClient().Create(ctx, sar); err != nil {
+			return false, errors.Wrapf(err, "unable to perform RBAC check for verb %s on CustomResourceDefinitions", verb)
+		}
+		if !sar.Status.Allowed {
+			return false, nil
+		}
+	}
+	return true, nil
 }

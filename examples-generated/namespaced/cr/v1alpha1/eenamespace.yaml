@@ -1,0 +1,39 @@
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeNamespace
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/eenamespace
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    name: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/eenamespace
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceName: ${var.name}-${random_integer.default.result}
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    region: cn-beijing
+    renewPeriod: 0
+    renewalStatus: ManualRenewal

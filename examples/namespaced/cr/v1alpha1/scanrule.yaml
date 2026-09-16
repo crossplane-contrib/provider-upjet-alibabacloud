@@ -1,0 +1,61 @@
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: ScanRule
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-scan-rule-1
+  labels:
+    testing.crossplane.io/example-name: test-scan-rule-1
+  name: test-scan-rule-1
+spec:
+  forProvider:
+    region: us-west-1
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-scan-1
+    ruleName: test-scan-rule-1
+    scanScope: NAMESPACE
+    scanType: VUL
+    triggerType: MANUAL
+    repoTagFilterPattern: ".*"
+    namespaces:
+      - test-ee-namespace-for-scan-1
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeNamespace
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-namespace-for-scan-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-namespace-for-scan-1
+  name: test-ee-namespace-for-scan-1
+spec:
+  forProvider:
+    region: us-west-1
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-scan-1
+    name: test-ee-namespace-for-scan-1
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-instance-for-scan-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-instance-for-scan-1
+  name: test-ee-instance-for-scan-1
+spec:
+  forProvider:
+    region: us-west-1
+    instanceName: cr-ee-test-scan-1
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    renewPeriod: 1
+    renewalStatus: AutoRenewal

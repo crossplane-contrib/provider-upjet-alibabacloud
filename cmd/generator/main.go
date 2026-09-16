@@ -32,10 +32,13 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("cannot initialize the provider configuration: %v", err))
 	}
+	pns, err := config.GetNamespacedProvider(context.Background(), true)
+	if err != nil {
+		panic(fmt.Sprintf("cannot initialize the namespaced provider configuration: %v", err))
+	}
+
 	dumpGeneratedResourceList(p, filepath.Join(absRootDir, "config", "generated.lst"))
-	// Namespaced resource generation is deferred to a follow-up change; passing
-	// nil keeps the existing cluster-scoped layout.
-	pipeline.Run(p, nil, absRootDir)
+	pipeline.Run(p, pns, absRootDir)
 }
 
 // dumpGeneratedResourceList records the Terraform resource names that were

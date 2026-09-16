@@ -1,0 +1,49 @@
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketObject
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketobject
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketobject
+    key: example_key
+    content: "the content that you want to upload."
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketobject
+  labels:
+    testing.upbound.io/example-name: bucketobject
+  name: bucketobject
+spec:
+  forProvider:
+    bucket: crossplane-example-bucketobject-202504081600
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketACL
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketobject
+  labels:
+    testing.upbound.io/example-name: bucketobject
+  name: bucketobject
+spec:
+  forProvider:
+    acl: private
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketobject

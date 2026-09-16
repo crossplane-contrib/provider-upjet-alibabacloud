@@ -1,0 +1,14 @@
+apiVersion: messageservice.alibabacloud.m.crossplane.io/v1alpha1
+kind: Endpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: messageservice/v1alpha1/endpoint
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    endpointEnabled: true
+    endpointType: public
+    region: cn-beijing

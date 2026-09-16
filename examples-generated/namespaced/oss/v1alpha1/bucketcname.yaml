@@ -1,0 +1,79 @@
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketCname
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcname
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: CreateBucket
+    domainSelector:
+      matchLabels:
+        testing.upbound.io/example-name: defaultnHqm5p
+    region: cn-beijing
+
+---
+
+apiVersion: alidns.alibabacloud.m.crossplane.io/v1alpha1
+kind: Record
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcname
+  labels:
+    testing.upbound.io/example-name: defaultnHqm5p
+  name: defaultnhqm5p
+  namespace: upbound-system
+spec:
+  forProvider:
+    domainNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    line: default
+    priority: "1"
+    region: cn-beijing
+    rr: _dnsauth
+    status: ENABLE
+    ttl: "600"
+    type: TXT
+    value: ${alicloud_oss_bucket_cname_token.defaultZaWJfG.token}
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcname
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucket: ${var.name}
+    region: cn-beijing
+    storageClass: Standard
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketCnameToken
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcname
+  labels:
+    testing.upbound.io/example-name: defaultZaWJfG
+  name: defaultzawjfg
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    domain: tftestacc.com
+    region: cn-beijing

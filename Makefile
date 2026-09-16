@@ -69,7 +69,7 @@ UPTEST_LOCAL_VERSION = v0.13.0
 UPTEST_LOCAL_CHANNEL = stable
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
-CROSSPLANE_VERSION = 1.19.0
+CROSSPLANE_VERSION = 2.0.2
 CRDDIFF_VERSION = v0.12.1
 GO_STATIC_PACKAGES ?= $(GO_PROJECT)/cmd/generator ${SUBPACKAGES:%=$(GO_PROJECT)/cmd/provider/%}
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
@@ -79,8 +79,8 @@ GO_SUBDIRS += cmd internal apis
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.26.0
-UP_VERSION = v0.40.3
+KIND_VERSION = v0.30.0
+UP_VERSION = v0.41.0
 UP_CHANNEL = stable
 UPTEST_VERSION = v2.2.0
 -include build/makelib/k8s_tools.mk
@@ -214,7 +214,7 @@ run: go.build
 
 # ====================================================================================
 # End to End Testing
-CROSSPLANE_VERSION = 1.19.0
+CROSSPLANE_VERSION = 2.0.2
 CROSSPLANE_NAMESPACE = upbound-system
 -include build/makelib/local.xpkg.mk
 -include build/makelib/controlplane.mk
@@ -234,24 +234,24 @@ CROSSPLANE_NAMESPACE = upbound-system
 #   The associated `ProviderConfig`s will be named as `default` and `peer`.
 # - UPTEST_DATASOURCE_PATH (optional), please see https://github.com/crossplane/uptest#injecting-dynamic-values-and-datasource
 
-ACK=./examples/ack/v1alpha1
-ACKONE=./examples/ackone/v1alpha1
-ALB=./examples/alb/v1alpha1
-ALIDNS=./examples/alidns/v1alpha1
-ALIKAFKA=./examples/alikafka/v1alpha1
-CDN=./examples/cdn/v1alpha1
-CR=./examples/cr/v1alpha1
-ECS=./examples/ecs/v1alpha1
-KMS=./examples/kms/v1alpha1
-MESSAGESERVICE=./examples/messageservice/v1alpha1
-OOS=./examples/oos/v1alpha1
-OSS=./examples/oss/v1alpha1
-POLARDB=./examples/polardb/v1alpha1
-PRIVATELINK=./examples/privatelink/v1alpha1
-QUOTAS=./examples/quotas/v1alpha1
-RAM=./examples/ram/v1alpha1
-TAIR=./examples/tait/v1alpha1
-VPC=./examples/vpc/v1alpha1
+ACK=./examples/cluster/ack/v1alpha1
+ACKONE=./examples/cluster/ackone/v1alpha1
+ALB=./examples/cluster/alb/v1alpha1
+ALIDNS=./examples/cluster/alidns/v1alpha1
+ALIKAFKA=./examples/cluster/alikafka/v1alpha1
+CDN=./examples/cluster/cdn/v1alpha1
+CR=./examples/cluster/cr/v1alpha1
+ECS=./examples/cluster/ecs/v1alpha1
+KMS=./examples/cluster/kms/v1alpha1
+MESSAGESERVICE=./examples/cluster/messageservice/v1alpha1
+OOS=./examples/cluster/oos/v1alpha1
+OSS=./examples/cluster/oss/v1alpha1
+POLARDB=./examples/cluster/polardb/v1alpha1
+PRIVATELINK=./examples/cluster/privatelink/v1alpha1
+QUOTAS=./examples/cluster/quotas/v1alpha1
+RAM=./examples/cluster/ram/v1alpha1
+TAIR=./examples/cluster/tait/v1alpha1
+VPC=./examples/cluster/vpc/v1alpha1
 UPTEST_EXAMPLE_LIST_ACK=$(ACK)/autoscalingconfig.yaml,$(ACK)/edgekubernetes.yaml,$(ACK)/kubernetesaddon.yaml,$(ACK)/kubernetesnodepool.yaml,$(ACK)/kubernetespermissions.yaml,$(ACK)/managedkubernetes.yaml,$(ACK)/serverlesskubernetes.yaml
 UPTEST_EXAMPLE_LIST_ACKONE=$(ACKONE)/cluster.yaml,$(ACKONE)/membershipattachment.yaml
 UPTEST_EXAMPLE_LIST_ALB=$(ALB)/acl.yaml,$(ALB)/aclentryattachment.yaml,$(ALB)/ascript.yaml,$(ALB)/healthchecktemplate.yaml,$(ALB)/listener.yaml,$(ALB)/listeneraclattachment.yaml,$(ALB)/loadbalancer.yaml,$(ALB)/loadbalancersecuritygroupattachment.yaml,$(ALB)/loadbalancerzoneshiftedattachment.yaml,$(ALB)/rule.yaml,$(ALB)/securitupolicy.yaml,$(ALB)/servergroup.yaml

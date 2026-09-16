@@ -1,0 +1,91 @@
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: instance
+  name: instance
+spec:
+  forProvider:
+    region: cn-zhangjiakou
+    availabilityZone: cn-zhangjiakou-a
+    dataDisks:
+    - category: cloud_essd
+      description: disk2
+      encrypted: true
+#      kmsKeyId: ${alicloud_kms_key.key.id}
+      name: disk2
+      size: 20
+    imageId: ubuntu_18_04_64_20G_alibase_20190624.vhd
+    instanceName: crossplane-example
+    instanceType: ecs.gn6v-c8g1.2xlarge
+    internetMaxBandwidthOut: 10
+    securityGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: group
+    systemDiskCategory: cloud_efficiency
+    systemDiskDescription: test_foo_system_disk_description
+    systemDiskName: crossplane-example
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vswitch
+
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+spec:
+  forProvider:
+    region: cn-zhangjiakou
+    description: foo
+    securityGroupName: crossplane-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: vpc
+  name: vpc
+spec:
+  forProvider:
+    region: cn-zhangjiakou
+    cidrBlock: 172.16.0.0/16
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: vswitch
+  name: vswitch
+spec:
+  forProvider:
+    region: cn-zhangjiakou
+    cidrBlock: 172.16.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpc
+    vswitchName: crossplane-example
+    zoneId: cn-zhangjiakou-a

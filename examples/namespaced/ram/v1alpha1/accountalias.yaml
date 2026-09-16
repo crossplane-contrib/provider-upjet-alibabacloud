@@ -1,0 +1,13 @@
+---
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: AccountAlias
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: ram-v1alpha1-test-accountalias-1
+  labels:
+    testing.crossplane.io/example-name: test-account-alias-1
+  name: test-account-alias-1
+spec:
+  forProvider:
+    accountAlias: test-account-alias-1

@@ -1,0 +1,64 @@
+apiVersion: ack.alibabacloud.m.crossplane.io/v1alpha1
+kind: ServerlessKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/serverlesskubernetes
+  labels:
+    testing.upbound.io/example-name: serverless
+  name: serverless
+  namespace: upbound-system
+spec:
+  forProvider:
+    clusterSpec: ack.pro.small
+    deletionProtection: false
+    endpointPublicAccessEnabled: true
+    newNatGateway: true
+    region: cn-beijing
+    serviceCidr: 172.21.0.0/20
+    tags:
+      k-aa: v-aa
+      k-bb: v-bb
+    timeZone: Asia/Shanghai
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchIdsRefs:
+    - name: default
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/serverlesskubernetes
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 10.2.0.0/21
+    region: cn-beijing
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ack/v1alpha1/serverlesskubernetes
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 10.2.1.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones[0].id}

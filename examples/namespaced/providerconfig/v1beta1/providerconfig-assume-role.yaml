@@ -1,0 +1,15 @@
+apiVersion: alibabacloud.m.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  namespace: default
+  name: assume-role
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: example-creds
+      key: credentials
+  assumeRole:
+    roleARN: acs:ram::<account-id>:role/<role-name>
+    sessionName: crossplane-assume-role
+    sessionExpiration: 3600

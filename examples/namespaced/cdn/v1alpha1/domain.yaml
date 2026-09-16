@@ -1,0 +1,20 @@
+apiVersion: cdn.alibabacloud.m.crossplane.io/v1alpha1
+kind: Domain
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: cdn/v1alpha1/domain
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cdnType: web
+    domainName: mycdndomain-for-crossplane.alicloud-provider.cn
+    scope: overseas
+    sources:
+    - content: 1.1.1.1
+      port: 80
+      priority: 20
+      type: ipaddr
+      weight: 15

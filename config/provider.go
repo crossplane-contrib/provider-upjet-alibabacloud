@@ -48,6 +48,13 @@ import (
 const (
 	resourcePrefix = "alicloud"
 	modulePath     = "github.com/crossplane-contrib/provider-alibabacloud"
+
+	// clusterRootGroup is the API group for the legacy cluster-scoped managed
+	// resources, and namespacedRootGroup the one for Crossplane v2 namespaced
+	// managed resources. The ".m." infix is the convention upjet recommends for
+	// telling the two apart.
+	clusterRootGroup    = "alibabacloud.crossplane.io"
+	namespacedRootGroup = "alibabacloud.m.crossplane.io"
 )
 
 //go:embed schema.json
@@ -82,7 +89,24 @@ func getProviderSchema(s string) (*schema.Provider, error) {
 // keeps code generation independent of the upstream provider's Go code. At
 // runtime it is the real upstream provider, whose CRUD functions the plugin SDK
 // external client calls directly.
-func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider, error) {
+func GetProvider(ctx context.Context, generationProvider bool) (*ujconfig.Provider, error) {
+	return newProvider(ctx, generationProvider, clusterRootGroup)
+}
+
+// GetNamespacedProvider returns the provider configuration for namespaced
+// managed resources. It differs from GetProvider only in the root API group:
+// namespaced MRs are served under "alibabacloud.m.crossplane.io" so they can be
+// told apart from their cluster-scoped counterparts.
+//
+// The per-service resource configurations are shared between the two. They are
+// scope-independent — none of them reference the apis packages, pin a CRD
+// version or register conversions — so unlike some other upjet providers there
+// is no need to maintain a duplicate copy of every config/<group> package.
+func GetNamespacedProvider(ctx context.Context, generationProvider bool) (*ujconfig.Provider, error) {
+	return newProvider(ctx, generationProvider, namespacedRootGroup)
+}
+
+func newProvider(_ context.Context, generationProvider bool, rootGroup string) (*ujconfig.Provider, error) {
 	// The runtime schema is the upstream provider's own Go schema, which the
 	// CRUD functions execute against. Code generation deliberately uses the
 	// JSON schema instead, to keep the generated CRD APIs stable: the Go
@@ -123,7 +147,7 @@ func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider
 
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithShortName("alibabacloud"),
-		ujconfig.WithRootGroup("alibabacloud.crossplane.io"),
+		ujconfig.WithRootGroup(rootGroup),
 		ujconfig.WithIncludeList(resourceList(CLIReconciledExternalNameConfigs)),
 		ujconfig.WithTerraformPluginSDKIncludeList(resourceList(terraformPluginSDKExternalNameConfigs)),
 		ujconfig.WithTerraformProvider(p),
