@@ -59,7 +59,12 @@ NPROCS ?= 1
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
 GO_REQUIRED_VERSION ?= 1.24.1
-GOLANGCILINT_VERSION ?= 1.64.8
+# Must track GOLANGCI_VERSION in .github/workflows/ci.yml. CI lints with the
+# golangci-lint GitHub action rather than this target, so the two drifted:
+# .golangci.yml is in the version "2" config format, which a v1 binary cannot
+# parse, leaving `make lint` (and therefore `make reviewable`) broken while CI
+# stayed green.
+GOLANGCILINT_VERSION ?= 2.12.2
 UPTEST_LOCAL_VERSION = v0.13.0
 UPTEST_LOCAL_CHANNEL = stable
 KUSTOMIZE_VERSION = v5.3.0
