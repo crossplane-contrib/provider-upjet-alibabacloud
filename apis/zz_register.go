@@ -14,6 +14,7 @@ import (
 	v1alpha1ackone "github.com/crossplane-contrib/provider-alibabacloud/apis/ackone/v1alpha1"
 	v1alpha1alb "github.com/crossplane-contrib/provider-alibabacloud/apis/alb/v1alpha1"
 	v1alpha1alidns "github.com/crossplane-contrib/provider-alibabacloud/apis/alidns/v1alpha1"
+	v1alpha1alikafka "github.com/crossplane-contrib/provider-alibabacloud/apis/alikafka/v1alpha1"
 	v1alpha1cdn "github.com/crossplane-contrib/provider-alibabacloud/apis/cdn/v1alpha1"
 	v1alpha1cloudmonitorservice "github.com/crossplane-contrib/provider-alibabacloud/apis/cloudmonitorservice/v1alpha1"
 	v1alpha1cr "github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1"
@@ -41,6 +42,7 @@ func init() {
 		v1alpha1ackone.SchemeBuilder.AddToScheme,
 		v1alpha1alb.SchemeBuilder.AddToScheme,
 		v1alpha1alidns.SchemeBuilder.AddToScheme,
+		v1alpha1alikafka.SchemeBuilder.AddToScheme,
 		v1alpha1cdn.SchemeBuilder.AddToScheme,
 		v1alpha1cloudmonitorservice.SchemeBuilder.AddToScheme,
 		v1alpha1cr.SchemeBuilder.AddToScheme,

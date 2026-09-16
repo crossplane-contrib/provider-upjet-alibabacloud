@@ -34,6 +34,7 @@ const (
 	PathVSwitchZoneIdExtractor                   = SelfPackagePath + ".VSwitchZoneIdExtractor()"
 	PathCrEeInstanceVPCDomainExtractor           = SelfPackagePath + ".CrEeInstanceVPCDomainExtractor()"
 	PathCrEeInstanceOssStorageDomainExtractor    = SelfPackagePath + ".CrEeInstanceOssStorageDomainExtractor()"
+	PathAliKafkaSaslUserUsernameExtractor        = SelfPackagePath + ".AliKafkaSaslUserUsernameExtractor()"
 )
 
 // IdExtractor extracts id of the
@@ -305,5 +306,24 @@ func CrEeInstanceOssStorageDomainExtractor() reference.ExtractValueFn {
 			return ""
 		}
 		return fmt.Sprintf("https://%s-registry.oss-%s-internal.aliyuncs.com", instanceID, region)
+	}
+}
+
+// AliKafkaSaslUserUsernameExtractor extracts the username of an AliKafka SASL
+// user from "spec.forProvider.username". The SASL user's external-name id is
+// formatted as "<instance_id>:<username>", so the default external-name
+// extractor cannot be used to resolve the bare username consumed by the SASL
+// ACL's "username" field.
+func AliKafkaSaslUserUsernameExtractor() reference.ExtractValueFn {
+	return func(mg xpresource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		r, err := paved.GetString("spec.forProvider.username")
+		if err != nil {
+			return ""
+		}
+		return r
 	}
 }

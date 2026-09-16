@@ -1,0 +1,119 @@
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/topic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    compactTopic: "true"
+    configs: |-
+      ${jsonencode(
+          {
+            "message.format.version" : "2.2.0",
+            "max.message.bytes" : "10485760",
+            "min.insync.replicas" : "1",
+            "replication-factor" : "2",
+            "retention.ms" : "3600000"
+          }
+        )}
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    localTopic: "true"
+    partitionNum: "18"
+    region: cn-beijing
+    remark: ${var.name}
+    tags:
+      Created: TF
+      For: example
+    topic: ${var.name}
+
+---
+
+apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/topic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    config: |-
+      ${jsonencode(
+          {
+            "enable.acl" : "true"
+          }
+        )}
+    deployType: "5"
+    diskSize: "500"
+    diskType: "1"
+    ioMax: "20"
+    name: ${var.name}
+    partitionNum: 50
+    region: cn-beijing
+    securityGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    serviceVersion: 2.2.0
+    specType: professional
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/topic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/topic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    region: cn-beijing
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/topic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

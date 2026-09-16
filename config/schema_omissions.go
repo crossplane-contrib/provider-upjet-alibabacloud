@@ -30,6 +30,8 @@ import "github.com/crossplane/upjet/pkg/config"
 // exactly: the field stays in the runtime schema, the CRD never sets it, and
 // d.Get returns the zero value rather than nil.
 var generationOnlySchemaOmissions = map[string][]string{
+	"alicloud_alikafka_consumer_group":             {"description"},
+	"alicloud_alikafka_instance":                   {"topic_quota"},
 	"alicloud_cs_kubernetes_node_pool":             {"security_group_id"},
 	"alicloud_alb_acl":                             {"acl_entries"},
 	"alicloud_alb_listener":                        {"acl_config", "xforwarded_for_config"},

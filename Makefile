@@ -233,6 +233,7 @@ ACK=./examples/ack/v1alpha1
 ACKONE=./examples/ackone/v1alpha1
 ALB=./examples/alb/v1alpha1
 ALIDNS=./examples/alidns/v1alpha1
+ALIKAFKA=./examples/alikafka/v1alpha1
 CDN=./examples/cdn/v1alpha1
 CR=./examples/cr/v1alpha1
 ECS=./examples/ecs/v1alpha1
@@ -250,6 +251,7 @@ UPTEST_EXAMPLE_LIST_ACK=$(ACK)/autoscalingconfig.yaml,$(ACK)/edgekubernetes.yaml
 UPTEST_EXAMPLE_LIST_ACKONE=$(ACKONE)/cluster.yaml,$(ACKONE)/membershipattachment.yaml
 UPTEST_EXAMPLE_LIST_ALB=$(ALB)/acl.yaml,$(ALB)/aclentryattachment.yaml,$(ALB)/ascript.yaml,$(ALB)/healthchecktemplate.yaml,$(ALB)/listener.yaml,$(ALB)/listeneraclattachment.yaml,$(ALB)/loadbalancer.yaml,$(ALB)/loadbalancersecuritygroupattachment.yaml,$(ALB)/loadbalancerzoneshiftedattachment.yaml,$(ALB)/rule.yaml,$(ALB)/securitupolicy.yaml,$(ALB)/servergroup.yaml
 UPTEST_EXAMPLE_LIST_ALIDNS=$(ALIDNS)/addreddpool.yaml,$(ALIDNS)/customline.yaml,$(ALIDNS)/domain.yaml,$(ALIDNS)/domainattachment.yaml,$(ALIDNS)/domaingroup.yaml,$(ALIDNS)/gtminstance.yaml,$(ALIDNS)/instance.yaml,$(ALIDNS)/monitorconfig.yaml,$(ALIDNS)/record.yaml
+UPTEST_EXAMPLE_LIST_ALIKAFKA=$(ALIKAFKA)/consumergroup.yaml,$(ALIKAFKA)/instance.yaml,$(ALIKAFKA)/instanceallowedipattachment.yaml,$(ALIKAFKA)/saslacl.yaml,$(ALIKAFKA)/sasluser.yaml,$(ALIKAFKA)/scheduledscalingrule.yaml,$(ALIKAFKA)/topic.yaml
 UPTEST_EXAMPLE_LIST_CDN=$(CDN)/domain.yaml,$(CDN)/domainconfig.yaml,$(CDN)/fctrigger.yaml
 # Enterprise Edition examples validated end-to-end. endpointaclpolicy is omitted
 # from the automated list (not a defect): the endpoint ACL service must be

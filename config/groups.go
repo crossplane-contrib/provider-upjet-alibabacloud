@@ -43,6 +43,15 @@ var GroupMap = map[string]GroupKindCalculator{
 	"alicloud_ack_one_cluster":               ReplaceGroupWords("ackone", 2),
 	"alicloud_ack_one_membership_attachment": ReplaceGroupWords("ackone", 2),
 
+	// ALIKAFKA - ApsaraMQ for Kafka resources
+	"alicloud_alikafka_instance":                       ReplaceGroupWords("alikafka", 1),
+	"alicloud_alikafka_topic":                          ReplaceGroupWords("alikafka", 1),
+	"alicloud_alikafka_consumer_group":                 ReplaceGroupWords("alikafka", 1),
+	"alicloud_alikafka_sasl_user":                      ReplaceGroupWords("alikafka", 1),
+	"alicloud_alikafka_sasl_acl":                       ReplaceGroupWords("alikafka", 1),
+	"alicloud_alikafka_instance_allowed_ip_attachment": ReplaceGroupWords("alikafka", 1),
+	"alicloud_alikafka_scheduled_scaling_rule":         ReplaceGroupWords("alikafka", 1),
+
 	// ALB - Application Load Balancer resources
 	"alicloud_alb_acl":                                     ReplaceGroupWords("alb", 1),
 	"alicloud_alb_acl_entry_attachment":                    ReplaceGroupWords("alb", 1),

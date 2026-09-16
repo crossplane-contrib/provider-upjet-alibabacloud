@@ -6,6 +6,7 @@ const (
 	ACK                 = ShortGroup("ack")
 	ACKONE              = ShortGroup("ackone")
 	ALB                 = ShortGroup("alb")
+	ALIKAFKA            = ShortGroup("alikafka")
 	ALIDNS              = ShortGroup("alidns")
 	CDN                 = ShortGroup("cdn")
 	CLOUDMONITORSERVICE = ShortGroup("cloudmonitorservice")
