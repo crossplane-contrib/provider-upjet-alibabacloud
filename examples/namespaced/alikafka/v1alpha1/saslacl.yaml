@@ -1,0 +1,168 @@
+apiVersion: alikafka.alibabacloud.m.crossplane.io/v1alpha1
+kind: SaslACL
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    aclOperationType: Write
+    aclResourceType: Topic
+    aclResourcePatternType: LITERAL
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    usernameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    aclResourceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: alikafka.alibabacloud.m.crossplane.io/v1alpha1
+kind: Topic
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    topic: crossplane-example-topic
+    remark: topic-remark
+    partitionNum: 12
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    tags:
+      Created: Crossplane
+      For: example
+
+---
+
+apiVersion: alikafka.alibabacloud.m.crossplane.io/v1alpha1
+kind: SaslUser
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    username: crossplane-example-sasl-user
+    passwordSecretRef:
+      key: password
+      name: alikafka-sasl-user-password
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: default
+  name: alikafka-sasl-user-password
+  namespace: upbound-system
+type: Opaque
+stringData:
+  password: Crossplane123
+
+---
+
+apiVersion: alikafka.alibabacloud.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    name: crossplane-example-for-alikafka
+    config: '{"enable.acl":"true"}'
+    partitionNum: 50
+    diskType: 1
+    diskSize: 500
+    deployType: 5
+    ioMax: 20
+    specType: professional
+    serviceVersion: 2.2.0
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    securityGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcName: crossplane-example-for-alikafka
+    cidrBlock: 172.16.0.0/12
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/saslacl
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    vswitchName: crossplane-example-for-alikafka
+    cidrBlock: 172.16.0.0/24
+    zoneId: cn-beijing-h
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default

@@ -1,0 +1,31 @@
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketVersioning
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketversioning
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketversioning
+    status: Enabled
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketversioning
+  labels:
+    testing.upbound.io/example-name: bucketversioning
+  name: bucketversioning
+spec:
+  forProvider:
+    bucket: crossplane-example-bucketversioning-202504081600
+    storageClass: Standard

@@ -1,0 +1,11 @@
+apiVersion: alibabacloud.m.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  namespace: default
+  name: sts-token
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: example-sts-creds
+      key: credentials

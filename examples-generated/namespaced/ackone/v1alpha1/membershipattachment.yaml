@@ -1,0 +1,128 @@
+apiVersion: ackone.alibabacloud.m.crossplane.io/v1alpha1
+kind: MembershipAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ackone/v1alpha1/membershipattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    clusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    subClusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ackone.alibabacloud.m.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ackone/v1alpha1/membershipattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    argocdEnabled: false
+    network:
+    - vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      vswitchesRefs:
+      - name: default
+    region: cn-beijing
+
+---
+
+apiVersion: ack.alibabacloud.m.crossplane.io/v1alpha1
+kind: KubernetesNodePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ackone/v1alpha1/membershipattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    clusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    desiredSize: 1
+    instanceTypes:
+    - ${data.alicloud_instance_types.cloud_efficiency.instance_types.0.id}
+    keyNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    nodePoolName: ${var.name}
+    region: cn-beijing
+    systemDiskCategory: cloud_efficiency
+    systemDiskSize: 40
+    vswitchIdsRefs:
+    - name: default
+
+---
+
+apiVersion: ack.alibabacloud.m.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ackone/v1alpha1/membershipattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    clusterSpec: ack.pro.small
+    isEnterpriseSecurityGroup: true
+    newNatGateway: true
+    podCidr: ${cidrsubnet("10.0.0.0/8", 8, 36)}
+    region: cn-beijing
+    serviceCidr: ${cidrsubnet("172.16.0.0/16", 4, 7)}
+    slbInternetEnabled: true
+    vswitchIdsRefs:
+    - name: default
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ackone/v1alpha1/membershipattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    region: cn-beijing
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ackone/v1alpha1/membershipattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneId: ${data.alicloud_enhanced_nat_available_zones.enhanced.zones.0.zone_id}

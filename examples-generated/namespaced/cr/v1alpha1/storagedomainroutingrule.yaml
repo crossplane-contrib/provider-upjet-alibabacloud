@@ -1,0 +1,44 @@
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: StorageDomainRoutingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/storagedomainroutingrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    routes:
+    - endpointType: Internet
+      instanceDomainSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      storageDomainSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/storagedomainroutingrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceName: ${var.name}
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    region: cn-beijing
+    renewPeriod: 1
+    renewalStatus: AutoRenewal

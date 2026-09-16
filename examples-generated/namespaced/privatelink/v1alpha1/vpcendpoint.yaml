@@ -1,0 +1,86 @@
+apiVersion: privatelink.alibabacloud.m.crossplane.io/v1alpha1
+kind: VpcEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpoint
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    dryRun: "false"
+    endpointDescription: ${var.name}
+    endpointType: Interface
+    policyDocument: '${jsonencode({ "Version" : "1", "Statement" : [{ "Effect" : "Allow",
+      "Action" : ["*"], "Resource" : ["*"], "Principal" : "*" }] })}'
+    protectedEnabled: "false"
+    region: cn-beijing
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    securityGroupRefs:
+    - name: default1FTFrP
+    serviceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    serviceName: com.aliyuncs.privatelink.ap-southeast-5.oss
+    vpcEndpointName: ${var.name}
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: defaultbFzA4a
+    zonePrivateIpAddressCount: "1"
+
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpoint
+  labels:
+    testing.upbound.io/example-name: default1FTFrP
+  name: default1ftfrp
+  namespace: upbound-system
+spec:
+  forProvider:
+    name: ${var.name}
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: defaultbFzA4a
+
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpoint
+  labels:
+    testing.upbound.io/example-name: defaultjljY5S
+  name: defaultjljy5s
+  namespace: upbound-system
+spec:
+  forProvider:
+    name: ${var.name}
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: defaultbFzA4a
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpoint
+  labels:
+    testing.upbound.io/example-name: defaultbFzA4a
+  name: defaultbfza4a
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    description: example-terraform
+    region: cn-beijing
+    vpcName: ${var.name}

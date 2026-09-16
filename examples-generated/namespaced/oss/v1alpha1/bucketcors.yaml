@@ -1,0 +1,44 @@
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketCors
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcors
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: CreateBucket
+    corsRule:
+    - allowedHeaders:
+      - x-oss-test
+      - x-oss-abc
+      allowedMethods:
+      - GET
+      allowedOrigins:
+      - '*'
+      exposeHeader:
+      - x-oss-request-id
+      maxAgeSeconds: "1000"
+    region: cn-beijing
+    responseVary: true
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketcors
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucket: ${var.name}-${random_uuid.default.result}
+    region: cn-beijing
+    storageClass: Standard

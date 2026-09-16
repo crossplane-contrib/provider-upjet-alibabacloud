@@ -1,0 +1,143 @@
+apiVersion: alb.alibabacloud.m.crossplane.io/v1alpha1
+kind: LoadBalancerZoneShiftedAttachment
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancerzoneshiftedattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default78TIYG
+    region: cn-beijing
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: defaultDSY0JJ
+    zoneIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: defaultDSY0JJ
+
+---
+
+apiVersion: alb.alibabacloud.m.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancerzoneshiftedattachment
+  labels:
+    testing.upbound.io/example-name: default78TIYG
+  name: default78tiyg
+spec:
+  forProvider:
+    addressAllocatedMode: Fixed
+    addressType: Intranet
+    loadBalancerBillingConfig:
+    - payType: PayAsYouGo
+    loadBalancerEdition: Standard
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alb_example_tf_vpc
+    zoneMappings:
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: alb_example_tf_j
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: alb_example_tf_j
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: alb_example_tf_k
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: alb_example_tf_k
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: defaultDSY0JJ
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: defaultDSY0JJ
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancerzoneshiftedattachment
+  labels:
+    testing.upbound.io/example-name: alb_example_tf_vpc
+  name: alb-example-tf-vpc
+spec:
+  forProvider:
+    cidrBlock: 192.168.0.0/16
+    region: cn-beijing
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancerzoneshiftedattachment
+  labels:
+    testing.upbound.io/example-name: alb_example_tf_j
+  name: alb-example-tf-j
+spec:
+  forProvider:
+    cidrBlock: 192.168.1.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alb_example_tf_vpc
+    vswitchName: crossplane-example-1
+    zoneId: cn-beijing-j
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancerzoneshiftedattachment
+  labels:
+    testing.upbound.io/example-name: alb_example_tf_k
+  name: alb-example-tf-k
+spec:
+  forProvider:
+    cidrBlock: 192.168.2.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alb_example_tf_vpc
+    vswitchName: crossplane-example-2
+    zoneId: cn-beijing-k
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancerzoneshiftedattachment
+  labels:
+    testing.upbound.io/example-name: defaultDSY0JJ
+  name: defaultdsy0jj
+spec:
+  forProvider:
+    cidrBlock: 192.168.3.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alb_example_tf_vpc
+    vswitchName: crossplane-example-3
+    zoneId: cn-beijing-f

@@ -1,0 +1,165 @@
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeSyncRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/eesyncrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: source
+    namespaceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: source
+    region: cn-beijing
+    repoNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: source
+    syncRuleName: ${var.name}-${random_integer.default.result}
+    tagFilter: .*
+    targetInstanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target
+    targetNamespaceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target
+    targetRegionId: ${data.alicloud_regions.default.regions.0.id}
+    targetRepoNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/eesyncrule
+  labels:
+    testing.upbound.io/example-name: source
+  name: source
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceName: ${var.name}-source-${random_integer.default.result}
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    region: cn-beijing
+    renewPeriod: 0
+    renewalStatus: ManualRenewal
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/eesyncrule
+  labels:
+    testing.upbound.io/example-name: target
+  name: target
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceName: ${var.name}-target-${random_integer.default.result}
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    region: cn-beijing
+    renewPeriod: 0
+    renewalStatus: ManualRenewal
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeNamespace
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/eesyncrule
+  labels:
+    testing.upbound.io/example-name: source
+  name: source
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: source
+    name: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeNamespace
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/eesyncrule
+  labels:
+    testing.upbound.io/example-name: target
+  name: target
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target
+    name: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeRepo
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/eesyncrule
+  labels:
+    testing.upbound.io/example-name: source
+  name: source
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: source
+    name: ${var.name}-${random_integer.default.result}
+    namespaceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: name}-${random_integer
+    region: cn-beijing
+    repoType: PUBLIC
+    summary: this is summary of my new repo
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeRepo
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/eesyncrule
+  labels:
+    testing.upbound.io/example-name: target
+  name: target
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target
+    name: ${var.name}-${random_integer.default.result}
+    namespaceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: name}-${random_integer
+    region: cn-beijing
+    repoType: PUBLIC
+    summary: this is summary of my new repo

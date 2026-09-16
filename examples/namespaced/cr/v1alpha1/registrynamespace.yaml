@@ -1,0 +1,18 @@
+# This resource is deprecated and will be removed in a future release.
+# You need to set your registry password in Container Registry console before
+# use this resource.
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: RegistryNamespace
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-namespace-1
+  labels:
+    testing.crossplane.io/example-name: test-namespace-1
+  name: test-namespace-1
+spec:
+  forProvider:
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    name: test-namespace-1

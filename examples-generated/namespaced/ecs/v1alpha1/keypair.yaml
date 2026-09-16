@@ -1,0 +1,13 @@
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: KeyPair
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/keypair
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    keyPairName: key_pair_name
+    region: cn-beijing

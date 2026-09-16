@@ -1,0 +1,11 @@
+apiVersion: alibabacloud.m.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  namespace: default
+  name: default
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: example-creds
+      key: credentials

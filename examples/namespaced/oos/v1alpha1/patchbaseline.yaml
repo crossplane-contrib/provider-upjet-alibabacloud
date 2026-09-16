@@ -1,0 +1,15 @@
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: PatchBaseline
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/patchbaseline
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    approvalRules: '{"PatchRules":[{"EnableNonSecurity":true,"PatchFilterGroup":[{"Values":["*"],"Key":"Product"},{"Values":["Security","Bugfix"],"Key":"Classification"},{"Values":["Critical","Important"],"Key":"Severity"}],"ApproveAfterDays":7,"ComplianceLevel":"Unspecified"}]}'
+    operationSystem: Windows
+    patchBaselineName: crossplane-example-patchbaseline
+    region: us-west-1

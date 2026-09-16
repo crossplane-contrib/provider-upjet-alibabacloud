@@ -1,0 +1,180 @@
+apiVersion: privatelink.alibabacloud.m.crossplane.io/v1alpha1
+kind: VpcEndpointServiceResource
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointserviceresource
+  labels:
+    testing.upbound.io/example-name: example-for-service-resource
+  name: example-for-service-resource
+spec:
+  forProvider:
+    resourceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpcendpointserviceresource
+    resourceType: alb
+    serviceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-for-service-resource
+    zoneId: cn-beijing-f
+
+---
+
+apiVersion: privatelink.alibabacloud.m.crossplane.io/v1alpha1
+kind: VpcEndpoint
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointserviceresource
+  labels:
+    testing.upbound.io/example-name: example-for-service-resource
+  name: example-for-service-resource
+spec:
+  forProvider:
+    securityGroupRefs:
+    - name: example-for-service-resource
+    serviceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-for-service-resource
+    vpcEndpointName: crossplane-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-for-service-resource
+
+---
+
+apiVersion: privatelink.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPCEndpointService
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointserviceresource
+  labels:
+    testing.upbound.io/example-name: example-for-service-resource
+  name: example-for-service-resource
+spec:
+  forProvider:
+    autoAcceptConnection: false
+    connectBandwidth: 103
+    serviceDescription: crossplane-example
+    serviceResourceType: alb
+
+---
+
+apiVersion: alb.alibabacloud.m.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/vpcendpointserviceresource
+  labels:
+    testing.upbound.io/example-name: vpcendpointserviceresource
+  name: vpcendpointserviceresource
+spec:
+  forProvider:
+    addressAllocatedMode: Fixed
+    addressType: Internet
+    loadBalancerBillingConfig:
+      - payType: PayAsYouGo
+    loadBalancerEdition: Basic
+    loadBalancerName: crossplane-example-for-vpcendpointserviceresource
+    modificationProtectionConfig:
+      - status: NonProtection
+    region: cn-beijing
+    #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    tags:
+      Created: TF
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-for-service-resource
+    zoneMappings:
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example-for-service-resource-1
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example-for-service-resource-1
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example-for-service-resource-2
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example-for-service-resource-2
+        
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointserviceresource
+  labels:
+    testing.upbound.io/example-name: example-for-service-resource
+  name: example-for-service-resource
+spec:
+  forProvider:
+    region: cn-beijing
+    securityGroupName: crossplane-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-for-service-resource
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointserviceresource
+  labels:
+    testing.upbound.io/example-name: example-for-service-resource
+  name: example-for-service-resource
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 10.4.0.0/16
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: example-for-service-resource-1
+  name: example-for-service-resource-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.1.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-for-service-resource
+    vswitchName: crossplane-example_1
+    zoneId: cn-beijing-f
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: example-for-service-resource-2
+  name: example-for-service-resource-2
+spec:
+  forProvider:
+    cidrBlock: 10.4.2.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-for-service-resource
+    vswitchName: crossplane-example_2
+    zoneId: cn-beijing-g

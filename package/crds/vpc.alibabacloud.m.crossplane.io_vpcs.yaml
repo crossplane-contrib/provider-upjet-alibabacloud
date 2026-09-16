@@ -1,0 +1,550 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.20.1
+  name: vpcs.vpc.alibabacloud.m.crossplane.io
+spec:
+  group: vpc.alibabacloud.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alibabacloud
+    kind: VPC
+    listKind: VPCList
+    plural: vpcs
+    singular: vpc
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: VPC is the Schema for the VPCs API. Provides a Alicloud VPC VPC
+          resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: VPCSpec defines the desired state of VPC
+            properties:
+              forProvider:
+                properties:
+                  cidrBlock:
+                    description: The CIDR block of the VPC.
+                    type: string
+                  classicLinkEnabled:
+                    description: The status of ClassicLink function. Field 'classic_link_enabled'
+                      has been deprecated from provider version 1.286.0. The underlying
+                      ClassicLink feature has been deprecated by Alibaba Cloud and
+                      this field will be removed in a future version. For more information,
+                      see the deprecated API references EnableVpcClassicLink and DisableVpcClassicLink.
+                    type: boolean
+                  description:
+                    description: |-
+                      The new description of the VPC.
+                      The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
+                    type: string
+                  dnsHostnameStatus:
+                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
+                      DISABLED.'
+                    type: string
+                  dryRun:
+                    description: 'Whether to PreCheck only this request. Value:'
+                    type: boolean
+                  enableIpv6:
+                    description: 'Whether to enable the IPv6 network segment. Value:'
+                    type: boolean
+                  forceDelete:
+                    description: Force delete vpc or not.
+                    type: boolean
+                  ipv4CidrMask:
+                    description: Allocate VPC from The IPAM address pool by entering
+                      a mask.
+                    type: number
+                  ipv4IpamPoolId:
+                    description: The ID of the IP Address Manager (IPAM) pool that
+                      contains IPv4 addresses.
+                    type: string
+                  ipv6CidrBlock:
+                    description: The IPv6 CIDR block of the default VPC. Please use
+                      the new resource alicloud_vpc_ipv6_cidr_block.
+                    type: string
+                  ipv6Isp:
+                    description: 'The IPv6 address segment type of the VPC. Please
+                      use the new resource alicloud_vpc_ipv6_cidr_block. Value:'
+                    type: string
+                  isDefault:
+                    description: 'Specifies whether to create the default VPC in the
+                      specified region. Valid values:'
+                    type: boolean
+                  name:
+                    description: (Deprecated since v1.119.0). Field 'name' has been
+                      deprecated from provider version 1.119.0. New field 'vpc_name'
+                      instead.
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
+                  resourceGroupId:
+                    description: The ID of the resource group to which you want to
+                      move the resource.
+                    type: string
+                  secondaryCidrBlocks:
+                    description: Field 'secondary_cidr_blocks' has been deprecated
+                      from provider version 1.185.0 and it will be removed in the
+                      future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'.
+                      secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block
+                      resource cannot be used at the same time.
+                    items:
+                      type: string
+                    type: array
+                  secondaryCidrMask:
+                    description: (Deprecated since v1.248.0) Field 'secondary_cidr_mask'
+                      has been deprecated from provider version 1.248.0. New resource
+                      'alicloud_vpc_ipv4_cidr_block' instead.
+                    type: number
+                  systemRouteTableDescription:
+                    description: |-
+                      The description of the route table.
+                      The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
+                    type: string
+                  systemRouteTableName:
+                    description: |-
+                      The name of the route table.
+                      The name must be 1 to 128 characters in length and cannot start with http:// or https://.
+                    type: string
+                  systemRouteTableRoutePropagationEnable:
+                    description: Whether the system route table receives propagation
+                      routes.
+                    type: boolean
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  userCidrs:
+                    description: A list of user CIDRs. Up to 3 CIDR blocks can be
+                      specified.
+                    items:
+                      type: string
+                    type: array
+                  vpcName:
+                    description: |-
+                      The new name of the VPC.
+                      The name must be 1 to 128 characters in length and cannot start with http:// or https://.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  cidrBlock:
+                    description: The CIDR block of the VPC.
+                    type: string
+                  classicLinkEnabled:
+                    description: The status of ClassicLink function. Field 'classic_link_enabled'
+                      has been deprecated from provider version 1.286.0. The underlying
+                      ClassicLink feature has been deprecated by Alibaba Cloud and
+                      this field will be removed in a future version. For more information,
+                      see the deprecated API references EnableVpcClassicLink and DisableVpcClassicLink.
+                    type: boolean
+                  description:
+                    description: |-
+                      The new description of the VPC.
+                      The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
+                    type: string
+                  dnsHostnameStatus:
+                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
+                      DISABLED.'
+                    type: string
+                  dryRun:
+                    description: 'Whether to PreCheck only this request. Value:'
+                    type: boolean
+                  enableIpv6:
+                    description: 'Whether to enable the IPv6 network segment. Value:'
+                    type: boolean
+                  forceDelete:
+                    description: Force delete vpc or not.
+                    type: boolean
+                  ipv4CidrMask:
+                    description: Allocate VPC from The IPAM address pool by entering
+                      a mask.
+                    type: number
+                  ipv4IpamPoolId:
+                    description: The ID of the IP Address Manager (IPAM) pool that
+                      contains IPv4 addresses.
+                    type: string
+                  ipv6CidrBlock:
+                    description: The IPv6 CIDR block of the default VPC. Please use
+                      the new resource alicloud_vpc_ipv6_cidr_block.
+                    type: string
+                  ipv6Isp:
+                    description: 'The IPv6 address segment type of the VPC. Please
+                      use the new resource alicloud_vpc_ipv6_cidr_block. Value:'
+                    type: string
+                  isDefault:
+                    description: 'Specifies whether to create the default VPC in the
+                      specified region. Valid values:'
+                    type: boolean
+                  name:
+                    description: (Deprecated since v1.119.0). Field 'name' has been
+                      deprecated from provider version 1.119.0. New field 'vpc_name'
+                      instead.
+                    type: string
+                  resourceGroupId:
+                    description: The ID of the resource group to which you want to
+                      move the resource.
+                    type: string
+                  secondaryCidrBlocks:
+                    description: Field 'secondary_cidr_blocks' has been deprecated
+                      from provider version 1.185.0 and it will be removed in the
+                      future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'.
+                      secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block
+                      resource cannot be used at the same time.
+                    items:
+                      type: string
+                    type: array
+                  secondaryCidrMask:
+                    description: (Deprecated since v1.248.0) Field 'secondary_cidr_mask'
+                      has been deprecated from provider version 1.248.0. New resource
+                      'alicloud_vpc_ipv4_cidr_block' instead.
+                    type: number
+                  systemRouteTableDescription:
+                    description: |-
+                      The description of the route table.
+                      The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
+                    type: string
+                  systemRouteTableName:
+                    description: |-
+                      The name of the route table.
+                      The name must be 1 to 128 characters in length and cannot start with http:// or https://.
+                    type: string
+                  systemRouteTableRoutePropagationEnable:
+                    description: Whether the system route table receives propagation
+                      routes.
+                    type: boolean
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  userCidrs:
+                    description: A list of user CIDRs. Up to 3 CIDR blocks can be
+                      specified.
+                    items:
+                      type: string
+                    type: array
+                  vpcName:
+                    description: |-
+                      The new name of the VPC.
+                      The name must be 1 to 128 characters in length and cannot start with http:// or https://.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: VPCStatus defines the observed state of VPC.
+            properties:
+              atProvider:
+                properties:
+                  cidrBlock:
+                    description: The CIDR block of the VPC.
+                    type: string
+                  classicLinkEnabled:
+                    description: The status of ClassicLink function. Field 'classic_link_enabled'
+                      has been deprecated from provider version 1.286.0. The underlying
+                      ClassicLink feature has been deprecated by Alibaba Cloud and
+                      this field will be removed in a future version. For more information,
+                      see the deprecated API references EnableVpcClassicLink and DisableVpcClassicLink.
+                    type: boolean
+                  createTime:
+                    description: The creation time of the VPC.
+                    type: string
+                  description:
+                    description: |-
+                      The new description of the VPC.
+                      The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
+                    type: string
+                  dnsHostnameStatus:
+                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
+                      DISABLED.'
+                    type: string
+                  dryRun:
+                    description: 'Whether to PreCheck only this request. Value:'
+                    type: boolean
+                  enableIpv6:
+                    description: 'Whether to enable the IPv6 network segment. Value:'
+                    type: boolean
+                  forceDelete:
+                    description: Force delete vpc or not.
+                    type: boolean
+                  id:
+                    description: The ID of the resource supplied above.
+                    type: string
+                  ipv4CidrMask:
+                    description: Allocate VPC from The IPAM address pool by entering
+                      a mask.
+                    type: number
+                  ipv4IpamPoolId:
+                    description: The ID of the IP Address Manager (IPAM) pool that
+                      contains IPv4 addresses.
+                    type: string
+                  ipv6CidrBlock:
+                    description: The IPv6 CIDR block of the default VPC. Please use
+                      the new resource alicloud_vpc_ipv6_cidr_block.
+                    type: string
+                  ipv6CidrBlocks:
+                    description: The IPv6 CIDR block information of the VPC.
+                    items:
+                      properties:
+                        ipv6CidrBlock:
+                          description: The IPv6 CIDR block of the default VPC. Please
+                            use the new resource alicloud_vpc_ipv6_cidr_block.
+                          type: string
+                        ipv6Isp:
+                          description: 'The IPv6 address segment type of the VPC.
+                            Please use the new resource alicloud_vpc_ipv6_cidr_block.
+                            Value:'
+                          type: string
+                      type: object
+                    type: array
+                  ipv6Isp:
+                    description: 'The IPv6 address segment type of the VPC. Please
+                      use the new resource alicloud_vpc_ipv6_cidr_block. Value:'
+                    type: string
+                  isDefault:
+                    description: 'Specifies whether to create the default VPC in the
+                      specified region. Valid values:'
+                    type: boolean
+                  name:
+                    description: (Deprecated since v1.119.0). Field 'name' has been
+                      deprecated from provider version 1.119.0. New field 'vpc_name'
+                      instead.
+                    type: string
+                  regionId:
+                    description: The ID of the region where the VPC is located.
+                    type: string
+                  resourceGroupId:
+                    description: The ID of the resource group to which you want to
+                      move the resource.
+                    type: string
+                  routeTableId:
+                    description: The ID of the system route table.
+                    type: string
+                  routerId:
+                    description: The ID of the VRouter.
+                    type: string
+                  routerTableId:
+                    description: (Deprecated since v1.227.1). Field 'router_table_id'
+                      has been deprecated from provider version 1.227.1. New field
+                      'route_table_id' instead.
+                    type: string
+                  secondaryCidrBlocks:
+                    description: Field 'secondary_cidr_blocks' has been deprecated
+                      from provider version 1.185.0 and it will be removed in the
+                      future version. Please use the new resource 'alicloud_vpc_ipv4_cidr_block'.
+                      secondary_cidr_blocks attributes and alicloud_vpc_ipv4_cidr_block
+                      resource cannot be used at the same time.
+                    items:
+                      type: string
+                    type: array
+                  secondaryCidrMask:
+                    description: (Deprecated since v1.248.0) Field 'secondary_cidr_mask'
+                      has been deprecated from provider version 1.248.0. New resource
+                      'alicloud_vpc_ipv4_cidr_block' instead.
+                    type: number
+                  status:
+                    description: 'The status of the VPC.   Pending: The VPC is being
+                      configured. Available: The VPC is available.'
+                    type: string
+                  systemRouteTableDescription:
+                    description: |-
+                      The description of the route table.
+                      The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
+                    type: string
+                  systemRouteTableName:
+                    description: |-
+                      The name of the route table.
+                      The name must be 1 to 128 characters in length and cannot start with http:// or https://.
+                    type: string
+                  systemRouteTableRoutePropagationEnable:
+                    description: Whether the system route table receives propagation
+                      routes.
+                    type: boolean
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  userCidrs:
+                    description: A list of user CIDRs. Up to 3 CIDR blocks can be
+                      specified.
+                    items:
+                      type: string
+                    type: array
+                  vpcName:
+                    description: |-
+                      The new name of the VPC.
+                      The name must be 1 to 128 characters in length and cannot start with http:// or https://.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

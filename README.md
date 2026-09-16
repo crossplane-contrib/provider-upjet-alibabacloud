@@ -9,19 +9,62 @@ make submodules
 make generate
 ```
 
-`make generate` runs `scripts/fix-example-numeric-types.py`, which needs
-PyYAML:
+## API groups and scopes
 
+The provider serves every resource twice, in two API groups:
+
+| Group | Scope | Use |
+|---|---|---|
+| `<service>.alibabacloud.crossplane.io` | Cluster | Legacy cluster-scoped managed resources. Works on Crossplane v1 and v2. |
+| `<service>.alibabacloud.m.crossplane.io` | Namespaced | Crossplane v2 namespaced managed resources. Composable in v2. |
+
+The two are functionally equivalent; existing cluster-scoped resources keep
+working unchanged. Namespaced resources differ in three ways:
+
+- `spec.providerConfigRef` is a typed reference, with `kind` as well as `name`.
+  Omitted, it defaults to `kind: ClusterProviderConfig, name: default`.
+- `spec.writeConnectionSecretToRef` and any `...SecretRef` under
+  `spec.forProvider` are local references: they resolve in the resource's own
+  namespace and take no `namespace` field.
+- `spec.publishConnectionDetailsTo` does not exist. External Secret Stores were
+  an alpha feature that Crossplane v2 dropped, so it is gone from **all**
+  resources, cluster-scoped ones included.
+
+```yaml
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  name: example
+  namespace: default
+spec:
+  providerConfigRef:
+    kind: ClusterProviderConfig
+    name: default
+  forProvider:
+    cidrBlock: 10.0.0.0/8
 ```
-pip install pyyaml
-```
+
+Examples for both scopes live under [examples/cluster](examples/cluster) and
+[examples/namespaced](examples/namespaced).
 
 ## Authentication
 
-Provider credentials are configured with a `ProviderConfig`. Static credentials
+Provider credentials are configured with a provider config. Static credentials
 and STS session credentials are read from a Kubernetes `Secret`; AssumeRole and
-AssumeRoleWithOIDC options are configured as structured fields on the
-`ProviderConfig` spec.
+AssumeRoleWithOIDC options are configured as structured fields on its spec.
+
+There are three kinds, and a managed resource may only reference one from its
+own API group:
+
+| Kind | Group | Scope | Referenced by |
+|---|---|---|---|
+| `ProviderConfig` | `alibabacloud.crossplane.io` | Cluster | cluster-scoped MRs |
+| `ProviderConfig` | `alibabacloud.m.crossplane.io` | Namespaced | namespaced MRs, same namespace |
+| `ClusterProviderConfig` | `alibabacloud.m.crossplane.io` | Cluster | namespaced MRs, any namespace |
+
+Use a namespaced `ProviderConfig` when each namespace should carry its own
+credential, and a `ClusterProviderConfig` to share one across namespaces. The
+spec is identical in all three; the examples below apply to each.
 
 Do not put `assume_role` or `assume_role_with_oidc` blocks in the credentials
 secret. The credentials secret should contain only credential material such as
@@ -207,7 +250,7 @@ Please ask an authorized person to create a smaller scoped provider repository i
 
 Build and push the family packages using the `Publish Provider Packages` Github Actions workflow. To do this, you need to provide the values of the following parameters:
 
-- subpackages (to be built individually, e.g. config ram): config ack ackone alb alidns alikafka cdn cloudmonitorservice cr ecs fcv3 kms messageservice nlb oos oss polardb privatelink quotas ram rds slb sls tair vpc
+- subpackages (to be built individually, e.g. config ram): config ack ackone alb alidns cdn cloudmonitorservice ecs fcv3 kms messageservice oss polardb privatelink quotas ram slb tair vpc
 - size (Number of smaller provider packages to build and push with each build job): 30
 - concurrency (Number of parallel package builds within each build job): 1
 - version (Version string to use while publishing the packages,e.g. v1.2.0): v1.2.0

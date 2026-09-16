@@ -1,0 +1,15 @@
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: RegistryNamespace
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/registrynamespace
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    name: ${var.name}-${random_integer.default.result}
+    region: cn-beijing

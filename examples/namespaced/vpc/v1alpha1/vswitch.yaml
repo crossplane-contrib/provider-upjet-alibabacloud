@@ -1,0 +1,35 @@
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vswitch
+  labels:
+    testing.upbound.io/example-name: foo
+  name: foo
+spec:
+  forProvider:
+    region: cn-hangzhou
+    cidrBlock: 172.16.0.0/21
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: foo
+    vswitchName: crossplane-example
+    zoneId: cn-hangzhou-b
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vswitch
+  labels:
+    testing.upbound.io/example-name: foo
+  name: foo
+spec:
+  forProvider:
+    region: cn-hangzhou
+    cidrBlock: 172.16.0.0/12
+    vpcName: crossplane-example

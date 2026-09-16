@@ -1,0 +1,39 @@
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: ApplicationGroup
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/applicationgroup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    applicationGroupName: crossplane-example-appgroup
+    applicationNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    deployRegionId: us-west-1
+    description: crossplane-example-appgroup
+    importTagKey: example_key
+    importTagValue: example_value
+    region: us-west-1
+
+---
+
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/applicationgroup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    applicationName: crossplane-example-application
+    description: crossplane-example-application
+    region: us-west-1
+    tags:
+      Created: TF

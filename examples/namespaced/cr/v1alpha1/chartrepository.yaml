@@ -1,0 +1,60 @@
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: ChartRepository
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-chart-repo-1
+  labels:
+    testing.crossplane.io/example-name: test-chart-repo-1
+  name: test-chart-repo-1
+spec:
+  forProvider:
+    region: us-west-1
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-chart-repo-1
+    repoName: test-chart-repo-1
+    repoNamespaceNameSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-chart-ns-for-repo-1
+    repoType: PUBLIC
+    summary: Test chart repository for Container Registry
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: ChartNamespace
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-chart-ns-for-repo-1
+  labels:
+    testing.crossplane.io/example-name: test-chart-ns-for-repo-1
+  name: test-chart-ns-for-repo-1
+spec:
+  forProvider:
+    region: us-west-1
+    autoCreateRepo: false
+    defaultRepoType: PUBLIC
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-chart-repo-1
+    namespaceName: test-chart-ns-for-repo-1
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-instance-for-chart-repo-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-instance-for-chart-repo-1
+  name: test-ee-instance-for-chart-repo-1
+spec:
+  forProvider:
+    region: us-west-1
+    instanceName: cr-ee-test-chart-repo-2
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    renewPeriod: 1
+    renewalStatus: AutoRenewal
