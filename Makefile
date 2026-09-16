@@ -53,12 +53,25 @@ NPROCS ?= 1
 # to half the number of CPU cores.
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
-GO_REQUIRED_VERSION ?= 1.24.1
-# Must track GOLANGCI_VERSION in .github/workflows/ci.yml. CI lints with the
-# golangci-lint GitHub action rather than this target, so the two drifted:
-# .golangci.yml is in the version "2" config format, which a v1 binary cannot
-# parse, leaving `make lint` (and therefore `make reviewable`) broken while CI
-# stayed green.
+# Derived from go.mod so it cannot go stale, matching provider-upjet-aws and
+# provider-upjet-gcp.
+GO_REQUIRED_VERSION ?= $(shell grep -E '^go ' go.mod | awk '{print $$2}')
+# Must track GOLANGCI_VERSION in .github/workflows/ci.yml, but without the
+# leading "v": build/makelib/golang.mk builds the download URL as
+# v$(GOLANGCILINT_VERSION), so a copy of ci.yml's "v2.12.2" would request tag
+# vv2.12.2 and 404.
+#
+# CI lints with the golangci-lint GitHub action rather than this target, so the
+# two are free to drift. When they did, `make lint` (and therefore
+# `make reviewable`) failed outright while CI stayed green. A v1 binary refuses
+# this repo with:
+#
+#   can't load config: the Go language version (go1.24) used to build
+#   golangci-lint is lower than the targeted Go version (1.26.4)
+#
+# It never reaches .golangci.yml, which is in the version "2" format a v1
+# binary also cannot read ("can't load config: the format is required"). Either
+# alone is disqualifying; the version gate is simply the one that fires first.
 GOLANGCILINT_VERSION ?= 2.12.2
 UPTEST_LOCAL_VERSION = v0.13.0
 UPTEST_LOCAL_CHANNEL = stable
