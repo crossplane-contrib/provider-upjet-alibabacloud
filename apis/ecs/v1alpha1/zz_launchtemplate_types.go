@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type ImageOptionsInitParameters struct {
@@ -179,7 +179,7 @@ type LaunchTemplateInitParameters struct {
 	// Whether to enable access to instance metadata. Valid values:
 	HTTPEndpoint *string `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
 
-	// The HTTP PUT response hop limit required for instance metadata requests. NOTE: From version 1.260.0, http_put_response_hop_limit can be modified.
+	// The HTTP PUT response hop limit required for instance metadata requests. Valid values: 1 to 64.
 	HTTPPutResponseHopLimit *float64 `json:"httpPutResponseHopLimit,omitempty" tf:"http_put_response_hop_limit,omitempty"`
 
 	// Whether to use the hardened mode (IMDSv2) when accessing instance metadata. Valid values:
@@ -362,7 +362,7 @@ type LaunchTemplateNetworkInterfacesInitParameters struct {
 
 	// The security group ID must be one in the same VPC.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
@@ -375,7 +375,7 @@ type LaunchTemplateNetworkInterfacesInitParameters struct {
 
 	// The VSwitch ID for ENI. The instance must be in the same zone of the same VPC network as the ENI, but they may belong to different VSwitches.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
@@ -428,7 +428,7 @@ type LaunchTemplateNetworkInterfacesParameters struct {
 
 	// The security group ID must be one in the same VPC.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
 
@@ -442,7 +442,7 @@ type LaunchTemplateNetworkInterfacesParameters struct {
 
 	// The VSwitch ID for ENI. The instance must be in the same zone of the same VPC network as the ENI, but they may belong to different VSwitches.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 
@@ -484,7 +484,7 @@ type LaunchTemplateObservation struct {
 	// Whether to enable access to instance metadata. Valid values:
 	HTTPEndpoint *string `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
 
-	// The HTTP PUT response hop limit required for instance metadata requests. NOTE: From version 1.260.0, http_put_response_hop_limit can be modified.
+	// The HTTP PUT response hop limit required for instance metadata requests. Valid values: 1 to 64.
 	HTTPPutResponseHopLimit *float64 `json:"httpPutResponseHopLimit,omitempty" tf:"http_put_response_hop_limit,omitempty"`
 
 	// Whether to use the hardened mode (IMDSv2) when accessing instance metadata. Valid values:
@@ -656,7 +656,7 @@ type LaunchTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	HTTPEndpoint *string `json:"httpEndpoint,omitempty" tf:"http_endpoint,omitempty"`
 
-	// The HTTP PUT response hop limit required for instance metadata requests. NOTE: From version 1.260.0, http_put_response_hop_limit can be modified.
+	// The HTTP PUT response hop limit required for instance metadata requests. Valid values: 1 to 64.
 	// +kubebuilder:validation:Optional
 	HTTPPutResponseHopLimit *float64 `json:"httpPutResponseHopLimit,omitempty" tf:"http_put_response_hop_limit,omitempty"`
 

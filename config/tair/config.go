@@ -1,7 +1,7 @@
 package tair
 
 import (
-	"github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/common"
 )
@@ -44,13 +44,6 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_vswitch",
 			Extractor:     common.PathIdExtractor,
 		}
-		delete(r.TerraformResource.Schema, "availability_zone")
-		delete(r.TerraformResource.Schema, "connection_string_prefix")
-		delete(r.TerraformResource.Schema, "enable_public")
-		delete(r.TerraformResource.Schema, "instance_charge_type")
-		delete(r.TerraformResource.Schema, "instance_name")
-		delete(r.TerraformResource.Schema, "node_type")
-		delete(r.TerraformResource.Schema, "parameters")
 	})
 	p.AddResourceConfigurator("alicloud_redis_tair_instance", func(r *config.Resource) {
 		r.ShortGroup = string(common.Tair)

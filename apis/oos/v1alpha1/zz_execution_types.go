@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type ExecutionInitParameters struct {
@@ -33,12 +33,16 @@ type ExecutionInitParameters struct {
 	// The mode of safety check.
 	SafetyCheck *string `json:"safetyCheck,omitempty" tf:"safety_check,omitempty"`
 
+	// Key-value map of resource tags.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The content of template. When the user selects an existing template to create and execute a task, it is not necessary to pass in this field.
 	TemplateContent *string `json:"templateContent,omitempty" tf:"template_content,omitempty"`
 
 	// The name of execution template.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oos/v1alpha1.Template
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("template_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("template_name",false)
 	TemplateName *string `json:"templateName,omitempty" tf:"template_name,omitempty"`
 
 	// Reference to a Template in oos to populate templateName.
@@ -106,6 +110,10 @@ type ExecutionObservation struct {
 	// The message of status.
 	StatusMessage *string `json:"statusMessage,omitempty" tf:"status_message,omitempty"`
 
+	// Key-value map of resource tags.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The content of template. When the user selects an existing template to create and execute a task, it is not necessary to pass in this field.
 	TemplateContent *string `json:"templateContent,omitempty" tf:"template_content,omitempty"`
 
@@ -153,13 +161,18 @@ type ExecutionParameters struct {
 	// +kubebuilder:validation:Optional
 	SafetyCheck *string `json:"safetyCheck,omitempty" tf:"safety_check,omitempty"`
 
+	// Key-value map of resource tags.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The content of template. When the user selects an existing template to create and execute a task, it is not necessary to pass in this field.
 	// +kubebuilder:validation:Optional
 	TemplateContent *string `json:"templateContent,omitempty" tf:"template_content,omitempty"`
 
 	// The name of execution template.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oos/v1alpha1.Template
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("template_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("template_name",false)
 	// +kubebuilder:validation:Optional
 	TemplateName *string `json:"templateName,omitempty" tf:"template_name,omitempty"`
 

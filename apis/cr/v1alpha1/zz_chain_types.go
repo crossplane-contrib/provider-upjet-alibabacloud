@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type ChainConfigInitParameters struct {
@@ -68,7 +68,7 @@ type ChainInitParameters struct {
 
 	// The name of CR Enterprise Edition repository. NOTE: This parameter must specify a correct value, otherwise the created resource will be incorrect.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeRepo
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	RepoName *string `json:"repoName,omitempty" tf:"repo_name,omitempty"`
 
 	// Reference to a EeRepo in cr to populate repoName.
@@ -81,7 +81,7 @@ type ChainInitParameters struct {
 
 	// The name of CR Enterprise Edition namespace. NOTE: This parameter must specify the correct value, otherwise the created resource will be incorrect.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	RepoNamespaceName *string `json:"repoNamespaceName,omitempty" tf:"repo_namespace_name,omitempty"`
 
 	// Reference to a EeNamespace in cr to populate repoNamespaceName.
@@ -155,7 +155,7 @@ type ChainParameters struct {
 
 	// The name of CR Enterprise Edition repository. NOTE: This parameter must specify a correct value, otherwise the created resource will be incorrect.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeRepo
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	RepoName *string `json:"repoName,omitempty" tf:"repo_name,omitempty"`
 
@@ -169,7 +169,7 @@ type ChainParameters struct {
 
 	// The name of CR Enterprise Edition namespace. NOTE: This parameter must specify the correct value, otherwise the created resource will be incorrect.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	RepoNamespaceName *string `json:"repoNamespaceName,omitempty" tf:"repo_namespace_name,omitempty"`
 

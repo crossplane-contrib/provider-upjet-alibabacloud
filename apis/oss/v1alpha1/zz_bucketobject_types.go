@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type BucketObjectInitParameters struct {
@@ -66,7 +66,7 @@ type BucketObjectInitParameters struct {
 	// The name of the object once it is in the bucket.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
-	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Updating only this attribute (or object_worm_retain_until_date) calls PutObjectRetention and does not re-upload the object.
+	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Note: The parameter is immutable after resource creation. Updating object_worm_retain_until_date calls PutObjectRetention and does not re-upload the object.
 	ObjectWormMode *string `json:"objectWormMode,omitempty" tf:"object_worm_mode,omitempty"`
 
 	// The UTC time at which the object retention expires, in ISO8601 format with millisecond precision (for example 2026-09-30T00:00:00.000Z). Must be set together with object_worm_mode.
@@ -123,7 +123,7 @@ type BucketObjectObservation struct {
 	// The name of the object once it is in the bucket.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
-	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Updating only this attribute (or object_worm_retain_until_date) calls PutObjectRetention and does not re-upload the object.
+	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Note: The parameter is immutable after resource creation. Updating object_worm_retain_until_date calls PutObjectRetention and does not re-upload the object.
 	ObjectWormMode *string `json:"objectWormMode,omitempty" tf:"object_worm_mode,omitempty"`
 
 	// The UTC time at which the object retention expires, in ISO8601 format with millisecond precision (for example 2026-09-30T00:00:00.000Z). Must be set together with object_worm_mode.
@@ -203,7 +203,7 @@ type BucketObjectParameters struct {
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
-	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Updating only this attribute (or object_worm_retain_until_date) calls PutObjectRetention and does not re-upload the object.
+	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Note: The parameter is immutable after resource creation. Updating object_worm_retain_until_date calls PutObjectRetention and does not re-upload the object.
 	// +kubebuilder:validation:Optional
 	ObjectWormMode *string `json:"objectWormMode,omitempty" tf:"object_worm_mode,omitempty"`
 

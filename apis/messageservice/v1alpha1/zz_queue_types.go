@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type DlqPolicyInitParameters struct {
@@ -75,6 +75,9 @@ type QueueInitParameters struct {
 	// The name of the queue.
 	QueueName *string `json:"queueName,omitempty" tf:"queue_name,omitempty"`
 
+	// The type of the queue. Default value: normal. Valid values:
+	QueueType *string `json:"queueType,omitempty" tf:"queue_type,omitempty"`
+
 	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -110,6 +113,9 @@ type QueueObservation struct {
 
 	// The name of the queue.
 	QueueName *string `json:"queueName,omitempty" tf:"queue_name,omitempty"`
+
+	// The type of the queue. Default value: normal. Valid values:
+	QueueType *string `json:"queueType,omitempty" tf:"queue_type,omitempty"`
 
 	// Key-value map of resource tags.
 	// +mapType=granular
@@ -148,6 +154,10 @@ type QueueParameters struct {
 	// The name of the queue.
 	// +kubebuilder:validation:Optional
 	QueueName *string `json:"queueName,omitempty" tf:"queue_name,omitempty"`
+
+	// The type of the queue. Default value: normal. Valid values:
+	// +kubebuilder:validation:Optional
+	QueueType *string `json:"queueType,omitempty" tf:"queue_type,omitempty"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-

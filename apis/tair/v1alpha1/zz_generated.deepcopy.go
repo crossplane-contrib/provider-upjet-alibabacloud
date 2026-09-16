@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	"github.com/crossplane/crossplane-runtime/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -986,11 +986,6 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.ModifyMode != nil {
-		in, out := &in.ModifyMode, &out.ModifyMode
-		*out = new(float64)
-		**out = **in
-	}
 	if in.OrderType != nil {
 		in, out := &in.OrderType, &out.OrderType
 		*out = new(string)
@@ -1033,6 +1028,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.ReadOnlyCount != nil {
 		in, out := &in.ReadOnlyCount, &out.ReadOnlyCount
+		*out = new(float64)
+		**out = **in
+	}
+	if in.ReplicaCount != nil {
+		in, out := &in.ReplicaCount, &out.ReplicaCount
 		*out = new(float64)
 		**out = **in
 	}
@@ -1114,6 +1114,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.SlaveReadOnlyCount != nil {
 		in, out := &in.SlaveReadOnlyCount, &out.SlaveReadOnlyCount
+		*out = new(float64)
+		**out = **in
+	}
+	if in.SlaveReplicaCount != nil {
+		in, out := &in.SlaveReplicaCount, &out.SlaveReplicaCount
 		*out = new(float64)
 		**out = **in
 	}
@@ -1413,11 +1418,6 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.ModifyMode != nil {
-		in, out := &in.ModifyMode, &out.ModifyMode
-		*out = new(float64)
-		**out = **in
-	}
 	if in.OrderType != nil {
 		in, out := &in.OrderType, &out.OrderType
 		*out = new(string)
@@ -1460,6 +1460,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.ReadOnlyCount != nil {
 		in, out := &in.ReadOnlyCount, &out.ReadOnlyCount
+		*out = new(float64)
+		**out = **in
+	}
+	if in.ReplicaCount != nil {
+		in, out := &in.ReplicaCount, &out.ReplicaCount
 		*out = new(float64)
 		**out = **in
 	}
@@ -1521,6 +1526,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.SlaveReadOnlyCount != nil {
 		in, out := &in.SlaveReadOnlyCount, &out.SlaveReadOnlyCount
+		*out = new(float64)
+		**out = **in
+	}
+	if in.SlaveReplicaCount != nil {
+		in, out := &in.SlaveReplicaCount, &out.SlaveReplicaCount
 		*out = new(float64)
 		**out = **in
 	}
@@ -1763,11 +1773,6 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.ModifyMode != nil {
-		in, out := &in.ModifyMode, &out.ModifyMode
-		*out = new(float64)
-		**out = **in
-	}
 	if in.OrderType != nil {
 		in, out := &in.OrderType, &out.OrderType
 		*out = new(string)
@@ -1816,6 +1821,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	if in.Region != nil {
 		in, out := &in.Region, &out.Region
 		*out = new(string)
+		**out = **in
+	}
+	if in.ReplicaCount != nil {
+		in, out := &in.ReplicaCount, &out.ReplicaCount
+		*out = new(float64)
 		**out = **in
 	}
 	if in.ResourceGroupID != nil {
@@ -1896,6 +1906,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.SlaveReadOnlyCount != nil {
 		in, out := &in.SlaveReadOnlyCount, &out.SlaveReadOnlyCount
+		*out = new(float64)
+		**out = **in
+	}
+	if in.SlaveReplicaCount != nil {
+		in, out := &in.SlaveReplicaCount, &out.SlaveReplicaCount
 		*out = new(float64)
 		**out = **in
 	}
@@ -2047,6 +2062,22 @@ func (in *TairInstanceInitParameters) DeepCopyInto(out *TairInstanceInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.Config != nil {
+		in, out := &in.Config, &out.Config
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ConnectionStringPrefix != nil {
 		in, out := &in.ConnectionStringPrefix, &out.ConnectionStringPrefix
 		*out = new(string)
@@ -2095,6 +2126,16 @@ func (in *TairInstanceInitParameters) DeepCopyInto(out *TairInstanceInitParamete
 	if in.IntranetBandwidth != nil {
 		in, out := &in.IntranetBandwidth, &out.IntranetBandwidth
 		*out = new(float64)
+		**out = **in
+	}
+	if in.MaintainEndTime != nil {
+		in, out := &in.MaintainEndTime, &out.MaintainEndTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaintainStartTime != nil {
+		in, out := &in.MaintainStartTime, &out.MaintainStartTime
+		*out = new(string)
 		**out = **in
 	}
 	if in.ModifyMode != nil {
@@ -2385,6 +2426,22 @@ func (in *TairInstanceObservation) DeepCopyInto(out *TairInstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Config != nil {
+		in, out := &in.Config, &out.Config
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ConnectionDomain != nil {
 		in, out := &in.ConnectionDomain, &out.ConnectionDomain
 		*out = new(string)
@@ -2448,6 +2505,16 @@ func (in *TairInstanceObservation) DeepCopyInto(out *TairInstanceObservation) {
 	if in.IntranetBandwidth != nil {
 		in, out := &in.IntranetBandwidth, &out.IntranetBandwidth
 		*out = new(float64)
+		**out = **in
+	}
+	if in.MaintainEndTime != nil {
+		in, out := &in.MaintainEndTime, &out.MaintainEndTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaintainStartTime != nil {
+		in, out := &in.MaintainStartTime, &out.MaintainStartTime
+		*out = new(string)
 		**out = **in
 	}
 	if in.MaxConnections != nil {
@@ -2681,6 +2748,22 @@ func (in *TairInstanceParameters) DeepCopyInto(out *TairInstanceParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Config != nil {
+		in, out := &in.Config, &out.Config
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ConnectionStringPrefix != nil {
 		in, out := &in.ConnectionStringPrefix, &out.ConnectionStringPrefix
 		*out = new(string)
@@ -2729,6 +2812,16 @@ func (in *TairInstanceParameters) DeepCopyInto(out *TairInstanceParameters) {
 	if in.IntranetBandwidth != nil {
 		in, out := &in.IntranetBandwidth, &out.IntranetBandwidth
 		*out = new(float64)
+		**out = **in
+	}
+	if in.MaintainEndTime != nil {
+		in, out := &in.MaintainEndTime, &out.MaintainEndTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaintainStartTime != nil {
+		in, out := &in.MaintainStartTime, &out.MaintainStartTime
+		*out = new(string)
 		**out = **in
 	}
 	if in.ModifyMode != nil {

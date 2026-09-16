@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type AccessLogTracingConfigInitParameters struct {
@@ -427,7 +427,7 @@ type ServerGroupTuplesInitParameters struct {
 
 	// Forwarded to the Destination Server Group ID
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alb/v1alpha1.ServerGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServerGroupID *string `json:"serverGroupId,omitempty" tf:"server_group_id,omitempty"`
 
 	// Reference to a ServerGroup in alb to populate serverGroupId.
@@ -449,7 +449,7 @@ type ServerGroupTuplesParameters struct {
 
 	// Forwarded to the Destination Server Group ID
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alb/v1alpha1.ServerGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServerGroupID *string `json:"serverGroupId,omitempty" tf:"server_group_id,omitempty"`
 

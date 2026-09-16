@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type SaslACLInitParameters struct {
@@ -26,7 +26,7 @@ type SaslACLInitParameters struct {
 
 	// The resource name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alikafka/v1alpha1.Topic
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("topic",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("topic",false)
 	ACLResourceName *string `json:"aclResourceName,omitempty" tf:"acl_resource_name,omitempty"`
 
 	// Reference to a Topic in alikafka to populate aclResourceName.
@@ -124,7 +124,7 @@ type SaslACLParameters struct {
 
 	// The resource name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alikafka/v1alpha1.Topic
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("topic",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("topic",false)
 	// +kubebuilder:validation:Optional
 	ACLResourceName *string `json:"aclResourceName,omitempty" tf:"acl_resource_name,omitempty"`
 

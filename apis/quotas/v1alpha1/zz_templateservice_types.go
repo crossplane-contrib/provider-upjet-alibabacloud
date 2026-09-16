@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type TemplateServiceInitParameters struct {
@@ -21,7 +21,7 @@ type TemplateServiceInitParameters struct {
 
 type TemplateServiceObservation struct {
 
-	// The ID of the resource supplied above.The value is formulated as “.
+	// The ID of the resource supplied above.The value is formulated as ``.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Status of the quota template. Valid values:

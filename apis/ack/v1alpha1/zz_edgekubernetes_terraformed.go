@@ -10,8 +10,8 @@ import (
 	"dario.cat/mergo"
 	"github.com/pkg/errors"
 
-	"github.com/crossplane/upjet/pkg/resource"
-	"github.com/crossplane/upjet/pkg/resource/json"
+	"github.com/crossplane/upjet/v2/pkg/resource"
+	"github.com/crossplane/upjet/v2/pkg/resource/json"
 )
 
 // GetTerraformResourceType returns Terraform resource type for this EdgeKubernetes
@@ -84,7 +84,7 @@ func (tr *EdgeKubernetes) GetInitParameters() (map[string]any, error) {
 func (tr *EdgeKubernetes) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
 	params, err := tr.GetParameters()
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot get parameters for resource '%q'", tr.GetName())
+		return nil, errors.Wrapf(err, "cannot get parameters for resource \"%s/%s\"", tr.GetNamespace(), tr.GetName())
 	}
 	if !shouldMergeInitProvider {
 		return params, nil
@@ -92,7 +92,7 @@ func (tr *EdgeKubernetes) GetMergedParameters(shouldMergeInitProvider bool) (map
 
 	initParams, err := tr.GetInitParameters()
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot get init parameters for resource '%q'", tr.GetName())
+		return nil, errors.Wrapf(err, "cannot get init parameters for resource \"%s/%s\"", tr.GetNamespace(), tr.GetName())
 	}
 
 	// Note(lsviben): mergo.WithSliceDeepCopy is needed to merge the
@@ -104,7 +104,7 @@ func (tr *EdgeKubernetes) GetMergedParameters(shouldMergeInitProvider bool) (map
 		c.Overwrite = false
 	})
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot merge spec.initProvider and spec.forProvider parameters for resource '%q'", tr.GetName())
+		return nil, errors.Wrapf(err, "cannot merge spec.initProvider and spec.forProvider parameters for resource \"%s/%s\"", tr.GetNamespace(), tr.GetName())
 	}
 
 	return params, nil
@@ -121,7 +121,6 @@ func (tr *EdgeKubernetes) LateInitialize(attrs []byte) (bool, error) {
 	opts = append(opts, resource.WithNameFilter("ClientCert"))
 	opts = append(opts, resource.WithNameFilter("ClientKey"))
 	opts = append(opts, resource.WithNameFilter("ClusterCACert"))
-	opts = append(opts, resource.WithNameFilter("ForceUpdate"))
 	opts = append(opts, resource.WithNameFilter("IsEnterpriseSecurityGroup"))
 	opts = append(opts, resource.WithNameFilter("KubeConfig"))
 	opts = append(opts, resource.WithNameFilter("LogConfig"))
@@ -134,5 +133,5 @@ func (tr *EdgeKubernetes) LateInitialize(attrs []byte) (bool, error) {
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
 func (tr *EdgeKubernetes) GetTerraformSchemaVersion() int {
-	return 0
+	return 1
 }

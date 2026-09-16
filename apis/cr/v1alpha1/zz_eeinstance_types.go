@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type DomainsInitParameters struct {
@@ -75,6 +75,10 @@ type EeInstanceInitParameters struct {
 
 	// The ID of the resource group
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// Key-value map of resource tags.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The number of VPC access controls.
 	VPCQuota *float64 `json:"vpcQuota,omitempty" tf:"vpc_quota,omitempty"`
@@ -145,6 +149,10 @@ type EeInstanceObservation struct {
 
 	// Instance Status
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// Key-value map of resource tags.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The number of VPC access controls.
 	VPCQuota *float64 `json:"vpcQuota,omitempty" tf:"vpc_quota,omitempty"`
@@ -217,6 +225,11 @@ type EeInstanceParameters struct {
 	// The ID of the resource group
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// Key-value map of resource tags.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The number of VPC access controls.
 	// +kubebuilder:validation:Optional

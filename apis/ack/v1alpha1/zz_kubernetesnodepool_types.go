@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type AutoModeInitParameters struct {
@@ -97,6 +97,85 @@ type AutoVulFixPolicyParameters struct {
 	// The severity levels of vulnerabilities that is allowed to automatically patch. Multiple severity levels are separated by commas (,).
 	// +kubebuilder:validation:Optional
 	VulLevel *string `json:"vulLevel,omitempty" tf:"vul_level,omitempty"`
+}
+
+type ContainerdConfigInitParameters struct {
+
+	// Whether to ignore volumes defined in the image. Valid values: lowercase "true", "false" or "". If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "false") writes the key to the containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	IgnoreImageDefinedVolume *string `json:"ignoreImageDefinedVolume,omitempty" tf:"ignore_image_defined_volume,omitempty"`
+
+	// Allow the container runtime to skip TLS certificate verification when pulling images. Typically used in test environments with self-signed certificate registries. The format is domain name or IP address without protocol prefix (e.g., registry.example.com, 192.168.1.1:5000).
+	InsecureRegistries []*string `json:"insecureRegistries,omitempty" tf:"insecure_registries,omitempty"`
+
+	// The coredump size limit. Valid values: "" or a canonical decimal integer string from "0" to "9007199254740991" (e.g. "0", "1024"; forms like "+10" or "010" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "0") writes the corresponding value. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitCore *string `json:"limitCore,omitempty" tf:"limit_core,omitempty"`
+
+	// The maximum locked memory limit. Valid values: "" or a canonical decimal integer string from "65536" to "9007199254740991" (forms like "+65536" or "065536" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitMemLock *string `json:"limitMemLock,omitempty" tf:"limit_mem_lock,omitempty"`
+
+	// The maximum number of file handles. Valid values: "" or a canonical decimal integer string from "1024" to "9007199254740991" (forms like "+2048" or "02048" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitNoFile *string `json:"limitNoFile,omitempty" tf:"limit_no_file,omitempty"`
+
+	// The maximum number of concurrent downloads for container images. Valid values: 1 to 20.
+	MaxConcurrentDownloads *float64 `json:"maxConcurrentDownloads,omitempty" tf:"max_concurrent_downloads,omitempty"`
+
+	// Configure mirror sites for container image registries to accelerate image pulls. Each string follows the format registry=mirror1[&override_path],mirror2[&override_path],.... The part before = is the container image registry, which must be a domain name or IP address without protocol prefix , e.g., docker.io, 192.168.1.1:5000. The part after = is one or more mirror sites separated by commas; each mirror must start with http:// or https:// followed by an IP address or domain name , e.g., https://registry.cn-hangzhou.aliyuncs.com. Append &override_path to a mirror to enable path override for that mirror.
+	RegistryMirrors []*string `json:"registryMirrors,omitempty" tf:"registry_mirrors,omitempty"`
+}
+
+type ContainerdConfigObservation struct {
+
+	// Whether to ignore volumes defined in the image. Valid values: lowercase "true", "false" or "". If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "false") writes the key to the containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	IgnoreImageDefinedVolume *string `json:"ignoreImageDefinedVolume,omitempty" tf:"ignore_image_defined_volume,omitempty"`
+
+	// Allow the container runtime to skip TLS certificate verification when pulling images. Typically used in test environments with self-signed certificate registries. The format is domain name or IP address without protocol prefix (e.g., registry.example.com, 192.168.1.1:5000).
+	InsecureRegistries []*string `json:"insecureRegistries,omitempty" tf:"insecure_registries,omitempty"`
+
+	// The coredump size limit. Valid values: "" or a canonical decimal integer string from "0" to "9007199254740991" (e.g. "0", "1024"; forms like "+10" or "010" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "0") writes the corresponding value. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitCore *string `json:"limitCore,omitempty" tf:"limit_core,omitempty"`
+
+	// The maximum locked memory limit. Valid values: "" or a canonical decimal integer string from "65536" to "9007199254740991" (forms like "+65536" or "065536" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitMemLock *string `json:"limitMemLock,omitempty" tf:"limit_mem_lock,omitempty"`
+
+	// The maximum number of file handles. Valid values: "" or a canonical decimal integer string from "1024" to "9007199254740991" (forms like "+2048" or "02048" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitNoFile *string `json:"limitNoFile,omitempty" tf:"limit_no_file,omitempty"`
+
+	// The maximum number of concurrent downloads for container images. Valid values: 1 to 20.
+	MaxConcurrentDownloads *float64 `json:"maxConcurrentDownloads,omitempty" tf:"max_concurrent_downloads,omitempty"`
+
+	// Configure mirror sites for container image registries to accelerate image pulls. Each string follows the format registry=mirror1[&override_path],mirror2[&override_path],.... The part before = is the container image registry, which must be a domain name or IP address without protocol prefix , e.g., docker.io, 192.168.1.1:5000. The part after = is one or more mirror sites separated by commas; each mirror must start with http:// or https:// followed by an IP address or domain name , e.g., https://registry.cn-hangzhou.aliyuncs.com. Append &override_path to a mirror to enable path override for that mirror.
+	RegistryMirrors []*string `json:"registryMirrors,omitempty" tf:"registry_mirrors,omitempty"`
+}
+
+type ContainerdConfigParameters struct {
+
+	// Whether to ignore volumes defined in the image. Valid values: lowercase "true", "false" or "". If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "false") writes the key to the containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	// +kubebuilder:validation:Optional
+	IgnoreImageDefinedVolume *string `json:"ignoreImageDefinedVolume,omitempty" tf:"ignore_image_defined_volume,omitempty"`
+
+	// Allow the container runtime to skip TLS certificate verification when pulling images. Typically used in test environments with self-signed certificate registries. The format is domain name or IP address without protocol prefix (e.g., registry.example.com, 192.168.1.1:5000).
+	// +kubebuilder:validation:Optional
+	InsecureRegistries []*string `json:"insecureRegistries,omitempty" tf:"insecure_registries,omitempty"`
+
+	// The coredump size limit. Valid values: "" or a canonical decimal integer string from "0" to "9007199254740991" (e.g. "0", "1024"; forms like "+10" or "010" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "0") writes the corresponding value. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	// +kubebuilder:validation:Optional
+	LimitCore *string `json:"limitCore,omitempty" tf:"limit_core,omitempty"`
+
+	// The maximum locked memory limit. Valid values: "" or a canonical decimal integer string from "65536" to "9007199254740991" (forms like "+65536" or "065536" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	// +kubebuilder:validation:Optional
+	LimitMemLock *string `json:"limitMemLock,omitempty" tf:"limit_mem_lock,omitempty"`
+
+	// The maximum number of file handles. Valid values: "" or a canonical decimal integer string from "1024" to "9007199254740991" (forms like "+2048" or "02048" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	// +kubebuilder:validation:Optional
+	LimitNoFile *string `json:"limitNoFile,omitempty" tf:"limit_no_file,omitempty"`
+
+	// The maximum number of concurrent downloads for container images. Valid values: 1 to 20.
+	// +kubebuilder:validation:Optional
+	MaxConcurrentDownloads *float64 `json:"maxConcurrentDownloads,omitempty" tf:"max_concurrent_downloads,omitempty"`
+
+	// Configure mirror sites for container image registries to accelerate image pulls. Each string follows the format registry=mirror1[&override_path],mirror2[&override_path],.... The part before = is the container image registry, which must be a domain name or IP address without protocol prefix , e.g., docker.io, 192.168.1.1:5000. The part after = is one or more mirror sites separated by commas; each mirror must start with http:// or https:// followed by an IP address or domain name , e.g., https://registry.cn-hangzhou.aliyuncs.com. Append &override_path to a mirror to enable path override for that mirror.
+	// +kubebuilder:validation:Optional
+	RegistryMirrors []*string `json:"registryMirrors,omitempty" tf:"registry_mirrors,omitempty"`
 }
 
 type DataDisksInitParameters struct {
@@ -796,6 +875,9 @@ type KubernetesNodePoolInitParameters struct {
 	// Specifies whether to automatically create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created due to reasons such as cost or insufficient inventory. This parameter takes effect when you set multi_az_policy to COST_OPTIMIZED. Valid values: true: automatically creates pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created. false: does not create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created.
 	CompensateWithOnDemand *bool `json:"compensateWithOnDemand,omitempty" tf:"compensate_with_on_demand,omitempty"`
 
+	// Containerd configuration parameters for worker nodes.
+	ContainerdConfig []ContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+
 	// Configure the data disk of the node in the node pool. See data_disks below.
 	DataDisks []DataDisksInitParameters `json:"dataDisks,omitempty" tf:"data_disks,omitempty"`
 
@@ -929,9 +1011,6 @@ type KubernetesNodePoolInitParameters struct {
 	// Rotary configuration. See rolling_policy below.
 	RollingPolicy []RollingPolicyInitParameters `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
 
-	// Rollout policy is used to specify the strategy when the node pool is rolling update. This field works when node pool updating. Please use rolling_policy to instead it from provider version 1.185.0. See rollout_policy below.
-	RolloutPolicy []RolloutPolicyInitParameters `json:"rolloutPolicy,omitempty" tf:"rollout_policy,omitempty"`
-
 	// The runtime name of containers. If not set, the cluster runtime will be used as the node pool runtime. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container.
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
 
@@ -1014,7 +1093,7 @@ type KubernetesNodePoolInitParameters struct {
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// A List of Kubernetes taints to assign to the nodes. Detailed below. More information in Taints and Toleration. See taints below.
-	Taints []KubernetesNodePoolTaintsInitParameters `json:"taints,omitempty" tf:"taints,omitempty"`
+	Taints []TaintsInitParameters `json:"taints,omitempty" tf:"taints,omitempty"`
 
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	TeeConfig []TeeConfigInitParameters `json:"teeConfig,omitempty" tf:"tee_config,omitempty"`
@@ -1071,6 +1150,9 @@ type KubernetesNodePoolObservation struct {
 
 	// Specifies whether to automatically create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created due to reasons such as cost or insufficient inventory. This parameter takes effect when you set multi_az_policy to COST_OPTIMIZED. Valid values: true: automatically creates pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created. false: does not create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created.
 	CompensateWithOnDemand *bool `json:"compensateWithOnDemand,omitempty" tf:"compensate_with_on_demand,omitempty"`
+
+	// Containerd configuration parameters for worker nodes.
+	ContainerdConfig []ContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// Configure the data disk of the node in the node pool. See data_disks below.
 	DataDisks []DataDisksObservation `json:"dataDisks,omitempty" tf:"data_disks,omitempty"`
@@ -1196,9 +1278,6 @@ type KubernetesNodePoolObservation struct {
 	// Rotary configuration. See rolling_policy below.
 	RollingPolicy []RollingPolicyObservation `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
 
-	// Rollout policy is used to specify the strategy when the node pool is rolling update. This field works when node pool updating. Please use rolling_policy to instead it from provider version 1.185.0. See rollout_policy below.
-	RolloutPolicy []RolloutPolicyObservation `json:"rolloutPolicy,omitempty" tf:"rollout_policy,omitempty"`
-
 	// The runtime name of containers. If not set, the cluster runtime will be used as the node pool runtime. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container.
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
 
@@ -1273,7 +1352,7 @@ type KubernetesNodePoolObservation struct {
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// A List of Kubernetes taints to assign to the nodes. Detailed below. More information in Taints and Toleration. See taints below.
-	Taints []KubernetesNodePoolTaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
+	Taints []TaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
 
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	TeeConfig []TeeConfigObservation `json:"teeConfig,omitempty" tf:"tee_config,omitempty"`
@@ -1294,9 +1373,6 @@ type KubernetesNodePoolObservation struct {
 
 	// Node custom data, base64-encoded.
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
-
-	// The ID of the resource supplied above. The value is formulated as <cluster_id>:<node_pool_id>.
-	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
 	// The vswitches used by node pool workers.
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
@@ -1342,6 +1418,10 @@ type KubernetesNodePoolParameters struct {
 	// Specifies whether to automatically create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created due to reasons such as cost or insufficient inventory. This parameter takes effect when you set multi_az_policy to COST_OPTIMIZED. Valid values: true: automatically creates pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created. false: does not create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created.
 	// +kubebuilder:validation:Optional
 	CompensateWithOnDemand *bool `json:"compensateWithOnDemand,omitempty" tf:"compensate_with_on_demand,omitempty"`
+
+	// Containerd configuration parameters for worker nodes.
+	// +kubebuilder:validation:Optional
+	ContainerdConfig []ContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// Configure the data disk of the node in the node pool. See data_disks below.
 	// +kubebuilder:validation:Optional
@@ -1522,10 +1602,6 @@ type KubernetesNodePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	RollingPolicy []RollingPolicyParameters `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
 
-	// Rollout policy is used to specify the strategy when the node pool is rolling update. This field works when node pool updating. Please use rolling_policy to instead it from provider version 1.185.0. See rollout_policy below.
-	// +kubebuilder:validation:Optional
-	RolloutPolicy []RolloutPolicyParameters `json:"rolloutPolicy,omitempty" tf:"rollout_policy,omitempty"`
-
 	// The runtime name of containers. If not set, the cluster runtime will be used as the node pool runtime. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container.
 	// +kubebuilder:validation:Optional
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
@@ -1631,7 +1707,7 @@ type KubernetesNodePoolParameters struct {
 
 	// A List of Kubernetes taints to assign to the nodes. Detailed below. More information in Taints and Toleration. See taints below.
 	// +kubebuilder:validation:Optional
-	Taints []KubernetesNodePoolTaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
+	Taints []TaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
 
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	// +kubebuilder:validation:Optional
@@ -1671,45 +1747,6 @@ type KubernetesNodePoolParameters struct {
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
 	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
-}
-
-type KubernetesNodePoolTaintsInitParameters struct {
-
-	// The scheduling policy.
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// The value of a taint.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type KubernetesNodePoolTaintsObservation struct {
-
-	// The scheduling policy.
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// The value of a taint.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type KubernetesNodePoolTaintsParameters struct {
-
-	// The scheduling policy.
-	// +kubebuilder:validation:Optional
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	// +kubebuilder:validation:Optional
-	Key *string `json:"key" tf:"key,omitempty"`
-
-	// The value of a taint.
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type LabelsInitParameters struct {
@@ -1960,25 +1997,6 @@ type RollingPolicyParameters struct {
 	PausePolicy *string `json:"pausePolicy,omitempty" tf:"pause_policy,omitempty"`
 }
 
-type RolloutPolicyInitParameters struct {
-
-	// Maximum number of unavailable nodes during rolling upgrade. The value of this field should be greater than 0, and if it's set to a number less than or equal to 0, the default setting will be used. Please use max_parallelism to instead it from provider version 1.185.0.
-	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
-}
-
-type RolloutPolicyObservation struct {
-
-	// Maximum number of unavailable nodes during rolling upgrade. The value of this field should be greater than 0, and if it's set to a number less than or equal to 0, the default setting will be used. Please use max_parallelism to instead it from provider version 1.185.0.
-	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
-}
-
-type RolloutPolicyParameters struct {
-
-	// Maximum number of unavailable nodes during rolling upgrade. The value of this field should be greater than 0, and if it's set to a number less than or equal to 0, the default setting will be used. Please use max_parallelism to instead it from provider version 1.185.0.
-	// +kubebuilder:validation:Optional
-	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
-}
-
 type ScalingConfigInitParameters struct {
 
 	// Peak EIP bandwidth. Its valid value range [1~500] in Mbps. It works if is_bond_eip=true. Default to 5.
@@ -2087,6 +2105,45 @@ type SpotPriceLimitParameters struct {
 	PriceLimit *string `json:"priceLimit,omitempty" tf:"price_limit,omitempty"`
 }
 
+type TaintsInitParameters struct {
+
+	// The scheduling policy.
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	// The key of a taint.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of a taint.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TaintsObservation struct {
+
+	// The scheduling policy.
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	// The key of a taint.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of a taint.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TaintsParameters struct {
+
+	// The scheduling policy.
+	// +kubebuilder:validation:Optional
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	// The key of a taint.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The value of a taint.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
 type TeeConfigInitParameters struct {
 
 	// Specifies whether to enable confidential computing for the cluster.
@@ -2142,7 +2199,7 @@ type UpgradePolicyInitParameters struct {
 
 	// Node Kubernetes version
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ack/v1alpha1.ManagedKubernetes
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("version",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("version",false)
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
 
 	// Reference to a ManagedKubernetes in ack to populate kubernetesVersion.
@@ -2189,7 +2246,7 @@ type UpgradePolicyParameters struct {
 
 	// Node Kubernetes version
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ack/v1alpha1.ManagedKubernetes
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("version",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("version",false)
 	// +kubebuilder:validation:Optional
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
 

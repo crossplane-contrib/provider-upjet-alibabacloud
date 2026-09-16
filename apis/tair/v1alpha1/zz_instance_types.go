@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type InstanceInitParameters struct {
@@ -110,9 +110,6 @@ type InstanceInitParameters struct {
 	// The start time of the operation and maintenance time period of the KVStore DBInstance, in the format of HH:mmZ (UTC time).
 	MaintainStartTime *string `json:"maintainStartTime,omitempty" tf:"maintain_start_time,omitempty"`
 
-	// (Removed since v1.216.0) The method of modifying the whitelist. NOTE: Field modify_mode has been removed from provider version 1.216.0.
-	ModifyMode *float64 `json:"modifyMode,omitempty" tf:"modify_mode,omitempty"`
-
 	// Specifies a change type when you change the configuration of a subscription instance. Valid values: UPGRADE, DOWNGRADE. Default value: UPGRADE. UPGRADE means upgrades the configuration of a subscription instance. DOWNGRADE means downgrades the configuration of a subscription instance.
 	OrderType *string `json:"orderType,omitempty" tf:"order_type,omitempty"`
 
@@ -139,6 +136,9 @@ type InstanceInitParameters struct {
 
 	// The number of read replicas in the primary zone. Valid values: 1 to 9.
 	ReadOnlyCount *float64 `json:"readOnlyCount,omitempty" tf:"read_only_count,omitempty"`
+
+	// The number of replica nodes in the primary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
 
 	// The ID of resource group which the resource belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -196,6 +196,10 @@ type InstanceInitParameters struct {
 	// The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
 	// -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
+
+	// The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	// -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
+	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 
 	// The ID of the source instance.
 	SrcdbInstanceID *string `json:"srcdbInstanceId,omitempty" tf:"srcdb_instance_id,omitempty"`
@@ -338,9 +342,6 @@ type InstanceObservation struct {
 	// The start time of the operation and maintenance time period of the KVStore DBInstance, in the format of HH:mmZ (UTC time).
 	MaintainStartTime *string `json:"maintainStartTime,omitempty" tf:"maintain_start_time,omitempty"`
 
-	// (Removed since v1.216.0) The method of modifying the whitelist. NOTE: Field modify_mode has been removed from provider version 1.216.0.
-	ModifyMode *float64 `json:"modifyMode,omitempty" tf:"modify_mode,omitempty"`
-
 	// Specifies a change type when you change the configuration of a subscription instance. Valid values: UPGRADE, DOWNGRADE. Default value: UPGRADE. UPGRADE means upgrades the configuration of a subscription instance. DOWNGRADE means downgrades the configuration of a subscription instance.
 	OrderType *string `json:"orderType,omitempty" tf:"order_type,omitempty"`
 
@@ -367,6 +368,9 @@ type InstanceObservation struct {
 
 	// The number of read replicas in the primary zone. Valid values: 1 to 9.
 	ReadOnlyCount *float64 `json:"readOnlyCount,omitempty" tf:"read_only_count,omitempty"`
+
+	// The number of replica nodes in the primary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
 
 	// The ID of resource group which the resource belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -404,6 +408,10 @@ type InstanceObservation struct {
 	// The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
 	// -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
+
+	// The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	// -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
+	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 
 	// The ID of the source instance.
 	SrcdbInstanceID *string `json:"srcdbInstanceId,omitempty" tf:"srcdb_instance_id,omitempty"`
@@ -557,10 +565,6 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	MaintainStartTime *string `json:"maintainStartTime,omitempty" tf:"maintain_start_time,omitempty"`
 
-	// (Removed since v1.216.0) The method of modifying the whitelist. NOTE: Field modify_mode has been removed from provider version 1.216.0.
-	// +kubebuilder:validation:Optional
-	ModifyMode *float64 `json:"modifyMode,omitempty" tf:"modify_mode,omitempty"`
-
 	// Specifies a change type when you change the configuration of a subscription instance. Valid values: UPGRADE, DOWNGRADE. Default value: UPGRADE. UPGRADE means upgrades the configuration of a subscription instance. DOWNGRADE means downgrades the configuration of a subscription instance.
 	// +kubebuilder:validation:Optional
 	OrderType *string `json:"orderType,omitempty" tf:"order_type,omitempty"`
@@ -601,6 +605,10 @@ type InstanceParameters struct {
 	// +upjet:crd:field:TFTag=-
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
+
+	// The number of replica nodes in the primary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	// +kubebuilder:validation:Optional
+	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
 
 	// The ID of resource group which the resource belongs.
 	// +kubebuilder:validation:Optional
@@ -669,6 +677,11 @@ type InstanceParameters struct {
 	// -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
 	// +kubebuilder:validation:Optional
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
+
+	// The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	// -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
+	// +kubebuilder:validation:Optional
+	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 
 	// The ID of the source instance.
 	// +kubebuilder:validation:Optional

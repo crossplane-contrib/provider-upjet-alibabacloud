@@ -10,8 +10,8 @@ import (
 	"dario.cat/mergo"
 	"github.com/pkg/errors"
 
-	"github.com/crossplane/upjet/pkg/resource"
-	"github.com/crossplane/upjet/pkg/resource/json"
+	"github.com/crossplane/upjet/v2/pkg/resource"
+	"github.com/crossplane/upjet/v2/pkg/resource/json"
 )
 
 // GetTerraformResourceType returns Terraform resource type for this ManagedKubernetes
@@ -21,7 +21,7 @@ func (mg *ManagedKubernetes) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this ManagedKubernetes
 func (tr *ManagedKubernetes) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"password": "passwordSecretRef"}
+	return nil
 }
 
 // GetObservation of this ManagedKubernetes
@@ -84,7 +84,7 @@ func (tr *ManagedKubernetes) GetInitParameters() (map[string]any, error) {
 func (tr *ManagedKubernetes) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
 	params, err := tr.GetParameters()
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot get parameters for resource '%q'", tr.GetName())
+		return nil, errors.Wrapf(err, "cannot get parameters for resource \"%s/%s\"", tr.GetNamespace(), tr.GetName())
 	}
 	if !shouldMergeInitProvider {
 		return params, nil
@@ -92,7 +92,7 @@ func (tr *ManagedKubernetes) GetMergedParameters(shouldMergeInitProvider bool) (
 
 	initParams, err := tr.GetInitParameters()
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot get init parameters for resource '%q'", tr.GetName())
+		return nil, errors.Wrapf(err, "cannot get init parameters for resource \"%s/%s\"", tr.GetNamespace(), tr.GetName())
 	}
 
 	// Note(lsviben): mergo.WithSliceDeepCopy is needed to merge the
@@ -104,7 +104,7 @@ func (tr *ManagedKubernetes) GetMergedParameters(shouldMergeInitProvider bool) (
 		c.Overwrite = false
 	})
 	if err != nil {
-		return nil, errors.Wrapf(err, "cannot merge spec.initProvider and spec.forProvider parameters for resource '%q'", tr.GetName())
+		return nil, errors.Wrapf(err, "cannot merge spec.initProvider and spec.forProvider parameters for resource \"%s/%s\"", tr.GetNamespace(), tr.GetName())
 	}
 
 	return params, nil
@@ -118,38 +118,7 @@ func (tr *ManagedKubernetes) LateInitialize(attrs []byte) (bool, error) {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
 	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
-	opts = append(opts, resource.WithNameFilter("AvailabilityZone"))
-	opts = append(opts, resource.WithNameFilter("CPUPolicy"))
-	opts = append(opts, resource.WithNameFilter("EnableSSH"))
-	opts = append(opts, resource.WithNameFilter("ExcludeAutoscalerNodes"))
-	opts = append(opts, resource.WithNameFilter("ImageID"))
-	opts = append(opts, resource.WithNameFilter("InstallCloudMonitor"))
-	opts = append(opts, resource.WithNameFilter("KeyName"))
-	opts = append(opts, resource.WithNameFilter("KMSEncryptedPassword"))
-	opts = append(opts, resource.WithNameFilter("KMSEncryptionContext"))
-	opts = append(opts, resource.WithNameFilter("KubeConfig"))
 	opts = append(opts, resource.WithNameFilter("NewNATGateway"))
-	opts = append(opts, resource.WithNameFilter("NodeNameMode"))
-	opts = append(opts, resource.WithNameFilter("NodePortRange"))
-	opts = append(opts, resource.WithNameFilter("OsType"))
-	opts = append(opts, resource.WithNameFilter("Password"))
-	opts = append(opts, resource.WithNameFilter("Platform"))
-	opts = append(opts, resource.WithNameFilter("RDSInstances"))
-	opts = append(opts, resource.WithNameFilter("Runtime"))
-	opts = append(opts, resource.WithNameFilter("Taints"))
-	opts = append(opts, resource.WithNameFilter("UserData"))
-	opts = append(opts, resource.WithNameFilter("WorkerAutoRenew"))
-	opts = append(opts, resource.WithNameFilter("WorkerAutoRenewPeriod"))
-	opts = append(opts, resource.WithNameFilter("WorkerDataDisks"))
-	opts = append(opts, resource.WithNameFilter("WorkerDiskCategory"))
-	opts = append(opts, resource.WithNameFilter("WorkerDiskPerformanceLevel"))
-	opts = append(opts, resource.WithNameFilter("WorkerDiskSize"))
-	opts = append(opts, resource.WithNameFilter("WorkerDiskSnapshotPolicyID"))
-	opts = append(opts, resource.WithNameFilter("WorkerInstanceChargeType"))
-	opts = append(opts, resource.WithNameFilter("WorkerInstanceTypes"))
-	opts = append(opts, resource.WithNameFilter("WorkerNumber"))
-	opts = append(opts, resource.WithNameFilter("WorkerPeriod"))
-	opts = append(opts, resource.WithNameFilter("WorkerPeriodUnit"))
 	opts = append(opts, resource.WithNameFilter("WorkerVswitchIds"))
 
 	li := resource.NewGenericLateInitializer(opts...)
@@ -158,5 +127,5 @@ func (tr *ManagedKubernetes) LateInitialize(attrs []byte) (bool, error) {
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
 func (tr *ManagedKubernetes) GetTerraformSchemaVersion() int {
-	return 0
+	return 1
 }

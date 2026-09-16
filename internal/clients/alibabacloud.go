@@ -10,18 +10,20 @@ import (
 	"fmt"
 	"strings"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	"github.com/crossplane/crossplane-runtime/pkg/fieldpath"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/internal/version"
 
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/crossplane/upjet/pkg/terraform"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	tfsdk "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/apis/v1beta1"
 )
@@ -29,6 +31,7 @@ import (
 const (
 	// error messages
 	errNoProviderConfig      = "no providerConfigRef provided"
+	errNotLegacyManaged      = "resource is not a legacy (cluster-scoped) managed resource"
 	errGetProviderConfig     = "cannot get referenced ProviderConfig"
 	errTrackUsage            = "cannot track ProviderConfig usage"
 	errExtractCredentials    = "cannot extract credentials"
@@ -49,23 +52,27 @@ var providerSpecCredentialKeys = map[string]string{
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
 // returns Terraform provider setup configuration
-func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
+func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
 	return func(ctx context.Context, c client.Client, mg resource.Managed) (terraform.Setup, error) {
-		ps := terraform.Setup{
-			Version: version,
-			Requirement: terraform.ProviderRequirement{
-				Source:  providerSource,
-				Version: providerVersion,
-			},
+		ps := terraform.Setup{}
+
+		// crossplane-runtime v2 split resource.Managed into LegacyManaged
+		// (cluster-scoped, untyped providerConfigRef) and ModernManaged
+		// (namespaced, typed ref). This provider currently generates only
+		// cluster-scoped MRs, so only the legacy path is implemented; the
+		// modern path arrives with namespaced resource support.
+		lmg, ok := mg.(resource.LegacyManaged) //nolint:staticcheck // cluster-scoped MRs are legacy by definition
+		if !ok {
+			return ps, errors.New(errNotLegacyManaged)
 		}
 
-		configRef := mg.GetProviderConfigReference()
+		configRef := lmg.GetProviderConfigReference()
 		if configRef == nil {
 			return ps, errors.New(errNoProviderConfig)
 		}
 
-		t := resource.NewProviderConfigUsageTracker(c, &v1beta1.ProviderConfigUsage{})
-		if err := t.Track(ctx, mg); err != nil {
+		t := resource.NewLegacyProviderConfigUsageTracker(c, &v1beta1.ProviderConfigUsage{}) //nolint:staticcheck // matches the legacy PCU type above
+		if err := t.Track(ctx, lmg); err != nil {
 			return ps, errors.Wrap(err, errTrackUsage)
 		}
 
@@ -84,8 +91,28 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 
 		ps.Configuration = buildProviderConfiguration(region, creds, pc)
 		ps.Configuration["configuration_source"] = getUserAgent()
-		return ps, nil
+		return ps, errors.Wrap(configureNoForkAlibabaCloudClient(ctx, &ps, *tfProvider), "failed to configure the no-fork AlibabaCloud client")
 	}
+}
+
+// configureNoForkAlibabaCloudClient configures the Terraform provider with the
+// credentials resolved from the ProviderConfig and hands the resulting provider
+// meta to upjet, which passes it to the resource CRUD functions.
+//
+// Please be aware that this implementation relies on the schema.Provider
+// parameter p being a non-pointer. This is because the Terraform plugin SDK
+// normally configures the provider only once, and using a pointer argument here
+// would cause race conditions between resources referring to different
+// ProviderConfigs.
+func configureNoForkAlibabaCloudClient(ctx context.Context, ps *terraform.Setup, p schema.Provider) error {
+	diag := p.Configure(context.WithoutCancel(ctx), &tfsdk.ResourceConfig{
+		Config: ps.Configuration,
+	})
+	if diag != nil && diag.HasError() {
+		return errors.Errorf("failed to configure the provider: %v", diag)
+	}
+	ps.Meta = p.Meta()
+	return nil
 }
 
 func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1.ProviderConfig) terraform.ProviderConfiguration {

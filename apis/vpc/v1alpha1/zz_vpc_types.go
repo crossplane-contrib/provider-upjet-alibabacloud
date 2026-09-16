@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type IPv6CidrBlocksInitParameters struct {
@@ -33,10 +33,10 @@ type VPCInitParameters struct {
 	// The CIDR block of the VPC.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
-	// The status of ClassicLink function.
+	// The status of ClassicLink function. Field 'classic_link_enabled' has been deprecated from provider version 1.286.0. The underlying ClassicLink feature has been deprecated by Alibaba Cloud and this field will be removed in a future version. For more information, see the deprecated API references EnableVpcClassicLink and DisableVpcClassicLink.
 	ClassicLinkEnabled *bool `json:"classicLinkEnabled,omitempty" tf:"classic_link_enabled,omitempty"`
 
-	// The status of VPC DNS Hostname
+	// The status of VPC DNS Hostname. Valid values: ENABLED, DISABLED.
 	DNSHostnameStatus *string `json:"dnsHostnameStatus,omitempty" tf:"dns_hostname_status,omitempty"`
 
 	// The new description of the VPC.
@@ -94,7 +94,7 @@ type VPCInitParameters struct {
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
-	// A list of user CIDRs.
+	// A list of user CIDRs. Up to 3 CIDR blocks can be specified.
 	UserCidrs []*string `json:"userCidrs,omitempty" tf:"user_cidrs,omitempty"`
 
 	// The new name of the VPC.
@@ -107,13 +107,13 @@ type VPCObservation struct {
 	// The CIDR block of the VPC.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
-	// The status of ClassicLink function.
+	// The status of ClassicLink function. Field 'classic_link_enabled' has been deprecated from provider version 1.286.0. The underlying ClassicLink feature has been deprecated by Alibaba Cloud and this field will be removed in a future version. For more information, see the deprecated API references EnableVpcClassicLink and DisableVpcClassicLink.
 	ClassicLinkEnabled *bool `json:"classicLinkEnabled,omitempty" tf:"classic_link_enabled,omitempty"`
 
 	// The creation time of the VPC.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// The status of VPC DNS Hostname
+	// The status of VPC DNS Hostname. Valid values: ENABLED, DISABLED.
 	DNSHostnameStatus *string `json:"dnsHostnameStatus,omitempty" tf:"dns_hostname_status,omitempty"`
 
 	// The new description of the VPC.
@@ -162,7 +162,7 @@ type VPCObservation struct {
 	// The ID of the system route table.
 	RouteTableID *string `json:"routeTableId,omitempty" tf:"route_table_id,omitempty"`
 
-	// The region ID of the VPC to which the route table belongs.
+	// The ID of the VRouter.
 	RouterID *string `json:"routerId,omitempty" tf:"router_id,omitempty"`
 
 	// (Deprecated since v1.227.1). Field 'router_table_id' has been deprecated from provider version 1.227.1. New field 'route_table_id' instead.
@@ -192,7 +192,7 @@ type VPCObservation struct {
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
-	// A list of user CIDRs.
+	// A list of user CIDRs. Up to 3 CIDR blocks can be specified.
 	UserCidrs []*string `json:"userCidrs,omitempty" tf:"user_cidrs,omitempty"`
 
 	// The new name of the VPC.
@@ -206,11 +206,11 @@ type VPCParameters struct {
 	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
-	// The status of ClassicLink function.
+	// The status of ClassicLink function. Field 'classic_link_enabled' has been deprecated from provider version 1.286.0. The underlying ClassicLink feature has been deprecated by Alibaba Cloud and this field will be removed in a future version. For more information, see the deprecated API references EnableVpcClassicLink and DisableVpcClassicLink.
 	// +kubebuilder:validation:Optional
 	ClassicLinkEnabled *bool `json:"classicLinkEnabled,omitempty" tf:"classic_link_enabled,omitempty"`
 
-	// The status of VPC DNS Hostname
+	// The status of VPC DNS Hostname. Valid values: ENABLED, DISABLED.
 	// +kubebuilder:validation:Optional
 	DNSHostnameStatus *string `json:"dnsHostnameStatus,omitempty" tf:"dns_hostname_status,omitempty"`
 
@@ -291,7 +291,7 @@ type VPCParameters struct {
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
-	// A list of user CIDRs.
+	// A list of user CIDRs. Up to 3 CIDR blocks can be specified.
 	// +kubebuilder:validation:Optional
 	UserCidrs []*string `json:"userCidrs,omitempty" tf:"user_cidrs,omitempty"`
 

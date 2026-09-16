@@ -1,7 +1,7 @@
 package ack
 
 import (
-	"github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/common"
 )
@@ -159,7 +159,6 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_vswitch",
 		}
 
-		delete(r.TerraformResource.Schema, "security_group_id")
 	})
 
 	p.AddResourceConfigurator("alicloud_cs_kubernetes_permissions", func(r *config.Resource) {

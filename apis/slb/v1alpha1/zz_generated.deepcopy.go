@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	"github.com/crossplane/crossplane-runtime/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -433,21 +433,6 @@ func (in *ListenerInitParameters) DeepCopyInto(out *ListenerInitParameters) {
 		*out = new(float64)
 		**out = **in
 	}
-	if in.InstancePort != nil {
-		in, out := &in.InstancePort, &out.InstancePort
-		*out = new(float64)
-		**out = **in
-	}
-	if in.LBPort != nil {
-		in, out := &in.LBPort, &out.LBPort
-		*out = new(float64)
-		**out = **in
-	}
-	if in.LBProtocol != nil {
-		in, out := &in.LBProtocol, &out.LBProtocol
-		*out = new(string)
-		**out = **in
-	}
 	if in.ListenerForward != nil {
 		in, out := &in.ListenerForward, &out.ListenerForward
 		*out = new(string)
@@ -723,21 +708,6 @@ func (in *ListenerObservation) DeepCopyInto(out *ListenerObservation) {
 		*out = new(float64)
 		**out = **in
 	}
-	if in.InstancePort != nil {
-		in, out := &in.InstancePort, &out.InstancePort
-		*out = new(float64)
-		**out = **in
-	}
-	if in.LBPort != nil {
-		in, out := &in.LBPort, &out.LBPort
-		*out = new(float64)
-		**out = **in
-	}
-	if in.LBProtocol != nil {
-		in, out := &in.LBProtocol, &out.LBProtocol
-		*out = new(string)
-		**out = **in
-	}
 	if in.ListenerForward != nil {
 		in, out := &in.ListenerForward, &out.ListenerForward
 		*out = new(string)
@@ -978,21 +948,6 @@ func (in *ListenerParameters) DeepCopyInto(out *ListenerParameters) {
 		*out = new(float64)
 		**out = **in
 	}
-	if in.InstancePort != nil {
-		in, out := &in.InstancePort, &out.InstancePort
-		*out = new(float64)
-		**out = **in
-	}
-	if in.LBPort != nil {
-		in, out := &in.LBPort, &out.LBPort
-		*out = new(float64)
-		**out = **in
-	}
-	if in.LBProtocol != nil {
-		in, out := &in.LBProtocol, &out.LBProtocol
-		*out = new(string)
-		**out = **in
-	}
 	if in.ListenerForward != nil {
 		in, out := &in.ListenerForward, &out.ListenerForward
 		*out = new(string)
@@ -1192,11 +1147,6 @@ func (in *LoadBalancerInitParameters) DeepCopyInto(out *LoadBalancerInitParamete
 		*out = new(string)
 		**out = **in
 	}
-	if in.Internet != nil {
-		in, out := &in.Internet, &out.Internet
-		*out = new(bool)
-		**out = **in
-	}
 	if in.InternetChargeType != nil {
 		in, out := &in.InternetChargeType, &out.InternetChargeType
 		*out = new(string)
@@ -1385,11 +1335,6 @@ func (in *LoadBalancerObservation) DeepCopyInto(out *LoadBalancerObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.Internet != nil {
-		in, out := &in.Internet, &out.Internet
-		*out = new(bool)
-		**out = **in
-	}
 	if in.InternetChargeType != nil {
 		in, out := &in.InternetChargeType, &out.InternetChargeType
 		*out = new(string)
@@ -1509,11 +1454,6 @@ func (in *LoadBalancerParameters) DeepCopyInto(out *LoadBalancerParameters) {
 	if in.InstanceChargeType != nil {
 		in, out := &in.InstanceChargeType, &out.InstanceChargeType
 		*out = new(string)
-		**out = **in
-	}
-	if in.Internet != nil {
-		in, out := &in.Internet, &out.Internet
-		*out = new(bool)
 		**out = **in
 	}
 	if in.InternetChargeType != nil {

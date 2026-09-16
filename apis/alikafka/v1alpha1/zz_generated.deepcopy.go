@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	"github.com/crossplane/crossplane-runtime/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -1343,6 +1343,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.VPCID != nil {
 		in, out := &in.VPCID, &out.VPCID
+		*out = new(string)
+		**out = **in
+	}
+	if in.VPCSaslDomainEndpoint != nil {
+		in, out := &in.VPCSaslDomainEndpoint, &out.VPCSaslDomainEndpoint
 		*out = new(string)
 		**out = **in
 	}

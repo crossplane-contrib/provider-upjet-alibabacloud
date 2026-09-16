@@ -10,8 +10,47 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
+
+type ResourceInitParameters struct {
+
+	// The ID of the service resource.
+	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
+
+	// The type of the service resource. Valid values:
+	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
+
+	// The zone ID of the service resource.
+	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
+}
+
+type ResourceObservation struct {
+
+	// The ID of the service resource.
+	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
+
+	// The type of the service resource. Valid values:
+	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
+
+	// The zone ID of the service resource.
+	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
+}
+
+type ResourceParameters struct {
+
+	// The ID of the service resource.
+	// +kubebuilder:validation:Optional
+	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
+
+	// The type of the service resource. Valid values:
+	// +kubebuilder:validation:Optional
+	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
+
+	// The zone ID of the service resource.
+	// +kubebuilder:validation:Optional
+	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
+}
 
 type VPCEndpointServiceInitParameters struct {
 
@@ -21,7 +60,7 @@ type VPCEndpointServiceInitParameters struct {
 	// Indicates whether the endpoint service automatically accepts endpoint connection requests. Valid values:
 	AutoAcceptConnection *bool `json:"autoAcceptConnection,omitempty" tf:"auto_accept_connection,omitempty"`
 
-	// The default bandwidth of the endpoint connection. Valid values: 100 to 10240. Unit: Mbit/s.
+	// The default bandwidth of the endpoint connection. Valid values: 100 to 10240. Unit: Mbit/s. When service_resource_type is slb, this field can be read from the remote API. When service_resource_type is nlb, alb, or gwlb, this field can be configured but is not returned by the remote API.
 	ConnectBandwidth *float64 `json:"connectBandwidth,omitempty" tf:"connect_bandwidth,omitempty"`
 
 	// Specifies whether to perform only a dry run, without performing the actual request.
@@ -29,6 +68,9 @@ type VPCEndpointServiceInitParameters struct {
 
 	// The payer of the endpoint service. Valid values:
 	Payer *string `json:"payer,omitempty" tf:"payer,omitempty"`
+
+	// The service resources to associate with the endpoint service when it is created. A maximum of 10 service resources can be specified at creation. See resource below. This argument manages the full lifecycle of the associated service resources; do not use it together with the standalone alicloud_privatelink_vpc_endpoint_service_resource resource for the same endpoint service, as the two would conflict.
+	Resource []ResourceInitParameters `json:"resource,omitempty" tf:"resource,omitempty"`
 
 	// The resource group ID.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -41,6 +83,10 @@ type VPCEndpointServiceInitParameters struct {
 
 	// Specifies whether to enable IPv6 for the endpoint service. Valid values:
 	ServiceSupportIPv6 *bool `json:"serviceSupportIpv6,omitempty" tf:"service_support_ipv6,omitempty"`
+
+	// The list of remote region IDs that are supported by the endpoint service.
+	// +listType=set
+	SupportedRegionList []*string `json:"supportedRegionList,omitempty" tf:"supported_region_list,omitempty"`
 
 	// Key-value map of resource tags.
 	// +mapType=granular
@@ -58,7 +104,7 @@ type VPCEndpointServiceObservation struct {
 	// Indicates whether the endpoint service automatically accepts endpoint connection requests. Valid values:
 	AutoAcceptConnection *bool `json:"autoAcceptConnection,omitempty" tf:"auto_accept_connection,omitempty"`
 
-	// The default bandwidth of the endpoint connection. Valid values: 100 to 10240. Unit: Mbit/s.
+	// The default bandwidth of the endpoint connection. Valid values: 100 to 10240. Unit: Mbit/s. When service_resource_type is slb, this field can be read from the remote API. When service_resource_type is nlb, alb, or gwlb, this field can be configured but is not returned by the remote API.
 	ConnectBandwidth *float64 `json:"connectBandwidth,omitempty" tf:"connect_bandwidth,omitempty"`
 
 	// The time when the endpoint service was created.
@@ -75,6 +121,9 @@ type VPCEndpointServiceObservation struct {
 
 	// The ID of the region to which the endpoint service belongs.
 	RegionID *string `json:"regionId,omitempty" tf:"region_id,omitempty"`
+
+	// The service resources to associate with the endpoint service when it is created. A maximum of 10 service resources can be specified at creation. See resource below. This argument manages the full lifecycle of the associated service resources; do not use it together with the standalone alicloud_privatelink_vpc_endpoint_service_resource resource for the same endpoint service, as the two would conflict.
+	Resource []ResourceObservation `json:"resource,omitempty" tf:"resource,omitempty"`
 
 	// The resource group ID.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -97,6 +146,10 @@ type VPCEndpointServiceObservation struct {
 	// The state of the endpoint service.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// The list of remote region IDs that are supported by the endpoint service.
+	// +listType=set
+	SupportedRegionList []*string `json:"supportedRegionList,omitempty" tf:"supported_region_list,omitempty"`
+
 	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -118,7 +171,7 @@ type VPCEndpointServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoAcceptConnection *bool `json:"autoAcceptConnection,omitempty" tf:"auto_accept_connection,omitempty"`
 
-	// The default bandwidth of the endpoint connection. Valid values: 100 to 10240. Unit: Mbit/s.
+	// The default bandwidth of the endpoint connection. Valid values: 100 to 10240. Unit: Mbit/s. When service_resource_type is slb, this field can be read from the remote API. When service_resource_type is nlb, alb, or gwlb, this field can be configured but is not returned by the remote API.
 	// +kubebuilder:validation:Optional
 	ConnectBandwidth *float64 `json:"connectBandwidth,omitempty" tf:"connect_bandwidth,omitempty"`
 
@@ -135,6 +188,10 @@ type VPCEndpointServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
+	// The service resources to associate with the endpoint service when it is created. A maximum of 10 service resources can be specified at creation. See resource below. This argument manages the full lifecycle of the associated service resources; do not use it together with the standalone alicloud_privatelink_vpc_endpoint_service_resource resource for the same endpoint service, as the two would conflict.
+	// +kubebuilder:validation:Optional
+	Resource []ResourceParameters `json:"resource,omitempty" tf:"resource,omitempty"`
+
 	// The resource group ID.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -150,6 +207,11 @@ type VPCEndpointServiceParameters struct {
 	// Specifies whether to enable IPv6 for the endpoint service. Valid values:
 	// +kubebuilder:validation:Optional
 	ServiceSupportIPv6 *bool `json:"serviceSupportIpv6,omitempty" tf:"service_support_ipv6,omitempty"`
+
+	// The list of remote region IDs that are supported by the endpoint service.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	SupportedRegionList []*string `json:"supportedRegionList,omitempty" tf:"supported_region_list,omitempty"`
 
 	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type EeRepoInitParameters struct {
@@ -20,7 +20,7 @@ type EeRepoInitParameters struct {
 
 	// The ID of the Container Registry Enterprise Edition instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// Reference to a EeInstance in cr to populate instanceId.
@@ -36,7 +36,7 @@ type EeRepoInitParameters struct {
 
 	// The name of the namespace to which the image repository belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Reference to a EeNamespace in cr to populate namespace.
@@ -52,6 +52,9 @@ type EeRepoInitParameters struct {
 
 	// The summary about the repository.
 	Summary *string `json:"summary,omitempty" tf:"summary,omitempty"`
+
+	// Whether to enable image tag immutability. Valid values:
+	TagImmutability *bool `json:"tagImmutability,omitempty" tf:"tag_immutability,omitempty"`
 }
 
 type EeRepoObservation struct {
@@ -79,6 +82,9 @@ type EeRepoObservation struct {
 
 	// The summary about the repository.
 	Summary *string `json:"summary,omitempty" tf:"summary,omitempty"`
+
+	// Whether to enable image tag immutability. Valid values:
+	TagImmutability *bool `json:"tagImmutability,omitempty" tf:"tag_immutability,omitempty"`
 }
 
 type EeRepoParameters struct {
@@ -89,7 +95,7 @@ type EeRepoParameters struct {
 
 	// The ID of the Container Registry Enterprise Edition instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
@@ -107,7 +113,7 @@ type EeRepoParameters struct {
 
 	// The name of the namespace to which the image repository belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
@@ -131,6 +137,10 @@ type EeRepoParameters struct {
 	// The summary about the repository.
 	// +kubebuilder:validation:Optional
 	Summary *string `json:"summary,omitempty" tf:"summary,omitempty"`
+
+	// Whether to enable image tag immutability. Valid values:
+	// +kubebuilder:validation:Optional
+	TagImmutability *bool `json:"tagImmutability,omitempty" tf:"tag_immutability,omitempty"`
 }
 
 // EeRepoSpec defines the desired state of EeRepo

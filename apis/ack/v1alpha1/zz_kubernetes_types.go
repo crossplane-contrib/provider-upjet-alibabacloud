@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type DeleteOptionsInitParameters struct {
@@ -91,6 +91,45 @@ type KubernetesAddonsParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
+type KubernetesCertificateAuthorityInitParameters struct {
+}
+
+type KubernetesCertificateAuthorityObservation struct {
+
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
+	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
+
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
+	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
+
+	// The base64 encoded cluster certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
+	ClusterCert *string `json:"clusterCert,omitempty" tf:"cluster_cert,omitempty"`
+}
+
+type KubernetesCertificateAuthorityParameters struct {
+}
+
+type KubernetesConnectionsInitParameters struct {
+}
+
+type KubernetesConnectionsObservation struct {
+
+	// API Server Internet endpoint.
+	APIServerInternet *string `json:"apiServerInternet,omitempty" tf:"api_server_internet,omitempty"`
+
+	// API Server Intranet endpoint.
+	APIServerIntranet *string `json:"apiServerIntranet,omitempty" tf:"api_server_intranet,omitempty"`
+
+	// Master node SSH IP address.
+	MasterPublicIP *string `json:"masterPublicIp,omitempty" tf:"master_public_ip,omitempty"`
+
+	// Service Access Domain.
+	ServiceDomain *string `json:"serviceDomain,omitempty" tf:"service_domain,omitempty"`
+}
+
+type KubernetesConnectionsParameters struct {
+}
+
 type KubernetesInitParameters struct {
 
 	// A list of API audiences for Service Account Token Volume Projection. Set this to ["https://kubernetes.default.svc"] if you want to enable the Token Volume Projection feature requires specifying service_account_issuer as well. From cluster version 1.22+, Service Account Token Volume Projection will be enabled by default.
@@ -98,12 +137,6 @@ type KubernetesInitParameters struct {
 
 	// The addon you want to install in cluster. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created.
 	Addons []KubernetesAddonsInitParameters `json:"addons,omitempty" tf:"addons,omitempty"`
-
-	// (Removed since v1.212.0) The Zone where new kubernetes cluster will be located. If it is not be specified, the vswitch_ids should be set, its value will be vswitch's zone.
-	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
-
-	// (Removed since v1.212.0) Kubelet cpu policy. For Kubernetes 1.12.6 and later, its valid value is either static or none. Default to none.
-	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
 
 	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
@@ -118,9 +151,6 @@ type KubernetesInitParameters struct {
 	// cluster local domain
 	ClusterDomain *string `json:"clusterDomain,omitempty" tf:"cluster_domain,omitempty"`
 
-	// (Removed) The network that cluster uses, use flannel or terway.
-	ClusterNetworkType *string `json:"clusterNetworkType,omitempty" tf:"cluster_network_type,omitempty"`
-
 	// Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
 	CustomSan *string `json:"customSan,omitempty" tf:"custom_san,omitempty"`
 
@@ -132,12 +162,6 @@ type KubernetesInitParameters struct {
 
 	// Enable login to the node through SSH. Default to false.
 	EnableSSH *bool `json:"enableSsh,omitempty" tf:"enable_ssh,omitempty"`
-
-	// (Removed since v1.212.0) Exclude autoscaler nodes from worker_nodes. Default to false.
-	ExcludeAutoscalerNodes *bool `json:"excludeAutoscalerNodes,omitempty" tf:"exclude_autoscaler_nodes,omitempty"`
-
-	// (Removed) Whether to force the update of kubernetes cluster arguments. Default to false.
-	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
 	// Custom Image support. Must be based on AliyunLinux or AliyunLinux3.
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
@@ -158,14 +182,8 @@ type KubernetesInitParameters struct {
 	// The keypair of ssh login cluster node, you have to create it first. You have to specify one of password key_name kms_encrypted_password fields.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
-	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
-
 	// The cluster api server load balancer instance specification. For more information on how to select a LB instance specification, see SLB instance overview. Only works for Create Operation. The spec will not take effect because the charge of the load balancer has been changed to PayByCLCU.
 	LoadBalancerSpec *string `json:"loadBalancerSpec,omitempty" tf:"load_balancer_spec,omitempty"`
-
-	// (Removed) A list of one element containing information about the associated log store. See log_config below.
-	LogConfig []KubernetesLogConfigInitParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
 	// Enable master payment auto-renew, defaults to false.
 	MasterAutoRenew *bool `json:"masterAutoRenew,omitempty" tf:"master_auto_renew,omitempty"`
@@ -187,9 +205,6 @@ type KubernetesInitParameters struct {
 
 	// Master payment type. or PostPaid or PrePaid, defaults to PostPaid. If value is PrePaid, the files master_period, master_period_unit, master_auto_renew and master_auto_renew_period are required.
 	MasterInstanceChargeType *string `json:"masterInstanceChargeType,omitempty" tf:"master_instance_charge_type,omitempty"`
-
-	// (Removed) The instance type of master node.
-	MasterInstanceType *string `json:"masterInstanceType,omitempty" tf:"master_instance_type,omitempty"`
 
 	// The instance type of master node. Specify one type for single AZ Cluster, three types for MultiAZ Cluster.
 	MasterInstanceTypes []*string `json:"masterInstanceTypes,omitempty" tf:"master_instance_types,omitempty"`
@@ -223,12 +238,6 @@ type KubernetesInitParameters struct {
 
 	// Each node name consists of a prefix, an IP substring, and a suffix, the input format is customized,<prefix>,IPSubStringLen,<suffix>. For example "customized,aliyun.com-,5,-test", if the node IP address is 192.168.59.176, the prefix is aliyun.com-, IP substring length is 5, and the suffix is -test, the node name will be aliyun.com-59176-test.
 	NodeNameMode *string `json:"nodeNameMode,omitempty" tf:"node_name_mode,omitempty"`
-
-	// (Removed since v1.212.0) The service port range of nodes, valid values: 30000 to 65535. Default to 30000-32767.
-	NodePortRange *string `json:"nodePortRange,omitempty" tf:"node_port_range,omitempty"`
-
-	// (Removed) The master nodes, use master_nodes to instead it.
-	Nodes []*string `json:"nodes,omitempty" tf:"nodes,omitempty"`
 
 	// The operating system of the nodes that run pods, its valid value is either Linux or Windows. Default to Linux.
 	OsType *string `json:"osType,omitempty" tf:"os_type,omitempty"`
@@ -266,9 +275,8 @@ type KubernetesInitParameters struct {
 	// Resources that are automatically created during cluster creation, including NAT gateways, SNAT rules, SLB instances, and RAM Role, will be deleted. Resources that are manually created after you create the cluster, such as SLB instances for Services, will also be deleted. If you need to retain resources, please configure with retain_resources. There are several aspects to pay attention to when using retain_resources to retain resources.
 	RetainResources []*string `json:"retainResources,omitempty" tf:"retain_resources,omitempty"`
 
-	// The runtime of containers. If you select another container runtime, see How do I select between Docker and Sandboxed-Container. See runtime below.
-	// +mapType=granular
-	Runtime map[string]*string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+	// A list of runtime containers. If you select another container runtime, see How do I select between Docker and Sandboxed-Container. See runtime below.
+	Runtime []KubernetesRuntimeInitParameters `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -298,129 +306,14 @@ type KubernetesInitParameters struct {
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
-	// (Removed since v1.212.0) Taints ensure pods are not scheduled onto inappropriate nodes. One or more taints are applied to a node; this marks that the node should not accept any pods that do not tolerate the taints. For more information, see Taints and Tolerations. See taints below.
-	Taints []TaintsInitParameters `json:"taints,omitempty" tf:"taints,omitempty"`
-
 	// When you create a cluster, set the time zones for the Master and Worker nodes. You can only change the managed node time zone if you create a cluster. Once the cluster is created, you can only change the time zone of the Worker node.
 	Timezone *string `json:"timezone,omitempty" tf:"timezone,omitempty"`
 
 	// The path of customized CA cert, you can use this CA to sign client certs to connect your cluster.
 	UserCA *string `json:"userCa,omitempty" tf:"user_ca,omitempty"`
 
-	// (Removed since v1.212.0) Custom data that can execute on nodes. For more information, see Prepare user data.
-	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
-
 	// Desired Kubernetes version. If you do not specify a value, the latest available version at resource creation is used and no upgrades will occur except you set a higher version number. The value must be configured and increased to upgrade the version when desired. Downgrades are not supported by ACK.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
-
-	// (Removed) The vswitch where new kubernetes cluster will be located. If it is not specified, a new VPC and VSwicth will be built. It must be in the zone which availability_zone specified.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
-
-	// Reference to a Vswitch in vpc to populate vswitchId.
-	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
-
-	// Selector for a Vswitch in vpc to populate vswitchId.
-	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
-
-	// References to Vswitch in vpc to populate vswitchIds.
-	// +kubebuilder:validation:Optional
-	VswitchIDsRefs []v1.Reference `json:"vswitchIDsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of Vswitch in vpc to populate vswitchIds.
-	// +kubebuilder:validation:Optional
-	VswitchIDsSelector *v1.Selector `json:"vswitchIDsSelector,omitempty" tf:"-"`
-
-	// (Removed) The vswitch where new kubernetes cluster will be located. Specify one or more vswitch's id. It must be in the zone which availability_zone specified.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=VswitchIDsRefs
-	// +crossplane:generate:reference:selectorFieldName=VswitchIDsSelector
-	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
-
-	// (Removed since v1.212.0) Enable worker payment auto-renew, defaults to false.
-	WorkerAutoRenew *bool `json:"workerAutoRenew,omitempty" tf:"worker_auto_renew,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment auto-renew period, it can be one of {1, 2, 3, 6, 12}.
-	WorkerAutoRenewPeriod *float64 `json:"workerAutoRenewPeriod,omitempty" tf:"worker_auto_renew_period,omitempty"`
-
-	// (Removed) The data disk category of worker, use worker_data_disks to instead it.
-	WorkerDataDiskCategory *string `json:"workerDataDiskCategory,omitempty" tf:"worker_data_disk_category,omitempty"`
-
-	// (Removed) The data disk size of worker, use worker_data_disks to instead it.
-	WorkerDataDiskSize *float64 `json:"workerDataDiskSize,omitempty" tf:"worker_data_disk_size,omitempty"`
-
-	// (Removed since v1.212.0) The data disk configurations of worker nodes, such as the disk type and disk size. See worker_data_disks below.
-	WorkerDataDisks []KubernetesWorkerDataDisksInitParameters `json:"workerDataDisks,omitempty" tf:"worker_data_disks,omitempty"`
-
-	// (Removed since v1.212.0) The system disk category of worker node. Its valid value are cloud, cloud_ssd, cloud_essd and cloud_efficiency. Default to cloud_efficiency.
-	WorkerDiskCategory *string `json:"workerDiskCategory,omitempty" tf:"worker_disk_category,omitempty"`
-
-	// (Removed since v1.212.0) Worker node system disk performance level, when worker_disk_category values cloud_essd, the optional values are PL0, PL1, PL2 or PL3, but the specific performance level is related to the disk capacity. For more information, see Enhanced SSDs. Default is PL1.
-	WorkerDiskPerformanceLevel *string `json:"workerDiskPerformanceLevel,omitempty" tf:"worker_disk_performance_level,omitempty"`
-
-	// (Removed since v1.212.0) The system disk size of worker node. Its valid value range [40~500] in GB.
-	WorkerDiskSize *float64 `json:"workerDiskSize,omitempty" tf:"worker_disk_size,omitempty"`
-
-	// (Removed since v1.212.0) Worker node system disk auto snapshot policy.
-	WorkerDiskSnapshotPolicyID *string `json:"workerDiskSnapshotPolicyId,omitempty" tf:"worker_disk_snapshot_policy_id,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment type, its valid value is either or PostPaid or PrePaid. Defaults to PostPaid. If value is PrePaid, the files worker_period, worker_period_unit, worker_auto_renew and worker_auto_renew_period are required, default is PostPaid.
-	WorkerInstanceChargeType *string `json:"workerInstanceChargeType,omitempty" tf:"worker_instance_charge_type,omitempty"`
-
-	// (Removed) The instance type of worker node.
-	WorkerInstanceType *string `json:"workerInstanceType,omitempty" tf:"worker_instance_type,omitempty"`
-
-	// (Removed since v1.212.0) The instance type of worker node. Specify one type for single AZ Cluster, three types for MultiAZ Cluster.
-	WorkerInstanceTypes []*string `json:"workerInstanceTypes,omitempty" tf:"worker_instance_types,omitempty"`
-
-	// (Removed since v1.212.0) List of cluster worker nodes. See worker_nodes below.
-	WorkerNodes []KubernetesWorkerNodesInitParameters `json:"workerNodes,omitempty" tf:"worker_nodes,omitempty"`
-
-	// (Removed since v1.212.0) The worker node number of the kubernetes cluster. Default to 3. It is limited up to 50 and if you want to enlarge it, please apply white list or contact with us.
-	WorkerNumber *float64 `json:"workerNumber,omitempty" tf:"worker_number,omitempty"`
-
-	// (Removed) The number of workers, use worker_number to instead it.
-	WorkerNumbers []*float64 `json:"workerNumbers,omitempty" tf:"worker_numbers,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment period. The unit is Month. Its valid value is one of {1, 2, 3, 6, 12, 24, 36, 48, 60}.
-	WorkerPeriod *float64 `json:"workerPeriod,omitempty" tf:"worker_period,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment period unit, the valid value is Month.
-	WorkerPeriodUnit *string `json:"workerPeriodUnit,omitempty" tf:"worker_period_unit,omitempty"`
-
-	// (Removed since v1.212.0) The vswitches used by workers.
-	WorkerVswitchIds []*string `json:"workerVswitchIds,omitempty" tf:"worker_vswitch_ids,omitempty"`
-}
-
-type KubernetesLogConfigInitParameters struct {
-
-	// Log Service project name, cluster logs will output to this project.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Type of collecting logs, only SLS are supported currently.
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
-type KubernetesLogConfigObservation struct {
-
-	// Log Service project name, cluster logs will output to this project.
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Type of collecting logs, only SLS are supported currently.
-	Type *string `json:"type,omitempty" tf:"type,omitempty"`
-}
-
-type KubernetesLogConfigParameters struct {
-
-	// Log Service project name, cluster logs will output to this project.
-	// +kubebuilder:validation:Optional
-	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Type of collecting logs, only SLS are supported currently.
-	// +kubebuilder:validation:Optional
-	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type KubernetesObservation struct {
@@ -431,15 +324,8 @@ type KubernetesObservation struct {
 	// The addon you want to install in cluster. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created.
 	Addons []KubernetesAddonsObservation `json:"addons,omitempty" tf:"addons,omitempty"`
 
-	// (Removed since v1.212.0) The Zone where new kubernetes cluster will be located. If it is not be specified, the vswitch_ids should be set, its value will be vswitch's zone.
-	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
-
-	// (Removed since v1.212.0) Kubelet cpu policy. For Kubernetes 1.12.6 and later, its valid value is either static or none. Default to none.
-	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
-
-	// (Map, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.
-	// +mapType=granular
-	CertificateAuthority map[string]*string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
+	// (List, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.
+	CertificateAuthority []KubernetesCertificateAuthorityObservation `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
 	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
@@ -454,12 +340,8 @@ type KubernetesObservation struct {
 	// cluster local domain
 	ClusterDomain *string `json:"clusterDomain,omitempty" tf:"cluster_domain,omitempty"`
 
-	// (Removed) The network that cluster uses, use flannel or terway.
-	ClusterNetworkType *string `json:"clusterNetworkType,omitempty" tf:"cluster_network_type,omitempty"`
-
-	// (Map) Map of kubernetes cluster connection information.
-	// +mapType=granular
-	Connections map[string]*string `json:"connections,omitempty" tf:"connections,omitempty"`
+	// (List) A list of kubernetes cluster connection information.
+	Connections []KubernetesConnectionsObservation `json:"connections,omitempty" tf:"connections,omitempty"`
 
 	// Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
 	CustomSan *string `json:"customSan,omitempty" tf:"custom_san,omitempty"`
@@ -472,12 +354,6 @@ type KubernetesObservation struct {
 
 	// Enable login to the node through SSH. Default to false.
 	EnableSSH *bool `json:"enableSsh,omitempty" tf:"enable_ssh,omitempty"`
-
-	// (Removed since v1.212.0) Exclude autoscaler nodes from worker_nodes. Default to false.
-	ExcludeAutoscalerNodes *bool `json:"excludeAutoscalerNodes,omitempty" tf:"exclude_autoscaler_nodes,omitempty"`
-
-	// (Removed) Whether to force the update of kubernetes cluster arguments. Default to false.
-	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
 	// The ID of the container cluster.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -501,14 +377,8 @@ type KubernetesObservation struct {
 	// The keypair of ssh login cluster node, you have to create it first. You have to specify one of password key_name kms_encrypted_password fields.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
-	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
-
 	// The cluster api server load balancer instance specification. For more information on how to select a LB instance specification, see SLB instance overview. Only works for Create Operation. The spec will not take effect because the charge of the load balancer has been changed to PayByCLCU.
 	LoadBalancerSpec *string `json:"loadBalancerSpec,omitempty" tf:"load_balancer_spec,omitempty"`
-
-	// (Removed) A list of one element containing information about the associated log store. See log_config below.
-	LogConfig []KubernetesLogConfigObservation `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
 	// Enable master payment auto-renew, defaults to false.
 	MasterAutoRenew *bool `json:"masterAutoRenew,omitempty" tf:"master_auto_renew,omitempty"`
@@ -530,9 +400,6 @@ type KubernetesObservation struct {
 
 	// Master payment type. or PostPaid or PrePaid, defaults to PostPaid. If value is PrePaid, the files master_period, master_period_unit, master_auto_renew and master_auto_renew_period are required.
 	MasterInstanceChargeType *string `json:"masterInstanceChargeType,omitempty" tf:"master_instance_charge_type,omitempty"`
-
-	// (Removed) The instance type of master node.
-	MasterInstanceType *string `json:"masterInstanceType,omitempty" tf:"master_instance_type,omitempty"`
 
 	// The instance type of master node. Specify one type for single AZ Cluster, three types for MultiAZ Cluster.
 	MasterInstanceTypes []*string `json:"masterInstanceTypes,omitempty" tf:"master_instance_types,omitempty"`
@@ -564,12 +431,6 @@ type KubernetesObservation struct {
 	// Each node name consists of a prefix, an IP substring, and a suffix, the input format is customized,<prefix>,IPSubStringLen,<suffix>. For example "customized,aliyun.com-,5,-test", if the node IP address is 192.168.59.176, the prefix is aliyun.com-, IP substring length is 5, and the suffix is -test, the node name will be aliyun.com-59176-test.
 	NodeNameMode *string `json:"nodeNameMode,omitempty" tf:"node_name_mode,omitempty"`
 
-	// (Removed since v1.212.0) The service port range of nodes, valid values: 30000 to 65535. Default to 30000-32767.
-	NodePortRange *string `json:"nodePortRange,omitempty" tf:"node_port_range,omitempty"`
-
-	// (Removed) The master nodes, use master_nodes to instead it.
-	Nodes []*string `json:"nodes,omitempty" tf:"nodes,omitempty"`
-
 	// The operating system of the nodes that run pods, its valid value is either Linux or Windows. Default to Linux.
 	OsType *string `json:"osType,omitempty" tf:"os_type,omitempty"`
 
@@ -594,9 +455,8 @@ type KubernetesObservation struct {
 	// Resources that are automatically created during cluster creation, including NAT gateways, SNAT rules, SLB instances, and RAM Role, will be deleted. Resources that are manually created after you create the cluster, such as SLB instances for Services, will also be deleted. If you need to retain resources, please configure with retain_resources. There are several aspects to pay attention to when using retain_resources to retain resources.
 	RetainResources []*string `json:"retainResources,omitempty" tf:"retain_resources,omitempty"`
 
-	// The runtime of containers. If you select another container runtime, see How do I select between Docker and Sandboxed-Container. See runtime below.
-	// +mapType=granular
-	Runtime map[string]*string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+	// A list of runtime containers. If you select another container runtime, see How do I select between Docker and Sandboxed-Container. See runtime below.
+	Runtime []KubernetesRuntimeObservation `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
@@ -626,17 +486,11 @@ type KubernetesObservation struct {
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
-	// (Removed since v1.212.0) Taints ensure pods are not scheduled onto inappropriate nodes. One or more taints are applied to a node; this marks that the node should not accept any pods that do not tolerate the taints. For more information, see Taints and Tolerations. See taints below.
-	Taints []TaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
-
 	// When you create a cluster, set the time zones for the Master and Worker nodes. You can only change the managed node time zone if you create a cluster. Once the cluster is created, you can only change the time zone of the Worker node.
 	Timezone *string `json:"timezone,omitempty" tf:"timezone,omitempty"`
 
 	// The path of customized CA cert, you can use this CA to sign client certs to connect your cluster.
 	UserCA *string `json:"userCa,omitempty" tf:"user_ca,omitempty"`
-
-	// (Removed since v1.212.0) Custom data that can execute on nodes. For more information, see Prepare user data.
-	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
 
 	// The ID of VPC where the current cluster is located.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
@@ -644,68 +498,8 @@ type KubernetesObservation struct {
 	// Desired Kubernetes version. If you do not specify a value, the latest available version at resource creation is used and no upgrades will occur except you set a higher version number. The value must be configured and increased to upgrade the version when desired. Downgrades are not supported by ACK.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 
-	// (Removed) The vswitch where new kubernetes cluster will be located. If it is not specified, a new VPC and VSwicth will be built. It must be in the zone which availability_zone specified.
-	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
-
-	// (Removed) The vswitch where new kubernetes cluster will be located. Specify one or more vswitch's id. It must be in the zone which availability_zone specified.
-	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
-
-	// (Removed since v1.212.0) Enable worker payment auto-renew, defaults to false.
-	WorkerAutoRenew *bool `json:"workerAutoRenew,omitempty" tf:"worker_auto_renew,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment auto-renew period, it can be one of {1, 2, 3, 6, 12}.
-	WorkerAutoRenewPeriod *float64 `json:"workerAutoRenewPeriod,omitempty" tf:"worker_auto_renew_period,omitempty"`
-
-	// (Removed) The data disk category of worker, use worker_data_disks to instead it.
-	WorkerDataDiskCategory *string `json:"workerDataDiskCategory,omitempty" tf:"worker_data_disk_category,omitempty"`
-
-	// (Removed) The data disk size of worker, use worker_data_disks to instead it.
-	WorkerDataDiskSize *float64 `json:"workerDataDiskSize,omitempty" tf:"worker_data_disk_size,omitempty"`
-
-	// (Removed since v1.212.0) The data disk configurations of worker nodes, such as the disk type and disk size. See worker_data_disks below.
-	WorkerDataDisks []KubernetesWorkerDataDisksObservation `json:"workerDataDisks,omitempty" tf:"worker_data_disks,omitempty"`
-
-	// (Removed since v1.212.0) The system disk category of worker node. Its valid value are cloud, cloud_ssd, cloud_essd and cloud_efficiency. Default to cloud_efficiency.
-	WorkerDiskCategory *string `json:"workerDiskCategory,omitempty" tf:"worker_disk_category,omitempty"`
-
-	// (Removed since v1.212.0) Worker node system disk performance level, when worker_disk_category values cloud_essd, the optional values are PL0, PL1, PL2 or PL3, but the specific performance level is related to the disk capacity. For more information, see Enhanced SSDs. Default is PL1.
-	WorkerDiskPerformanceLevel *string `json:"workerDiskPerformanceLevel,omitempty" tf:"worker_disk_performance_level,omitempty"`
-
-	// (Removed since v1.212.0) The system disk size of worker node. Its valid value range [40~500] in GB.
-	WorkerDiskSize *float64 `json:"workerDiskSize,omitempty" tf:"worker_disk_size,omitempty"`
-
-	// (Removed since v1.212.0) Worker node system disk auto snapshot policy.
-	WorkerDiskSnapshotPolicyID *string `json:"workerDiskSnapshotPolicyId,omitempty" tf:"worker_disk_snapshot_policy_id,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment type, its valid value is either or PostPaid or PrePaid. Defaults to PostPaid. If value is PrePaid, the files worker_period, worker_period_unit, worker_auto_renew and worker_auto_renew_period are required, default is PostPaid.
-	WorkerInstanceChargeType *string `json:"workerInstanceChargeType,omitempty" tf:"worker_instance_charge_type,omitempty"`
-
-	// (Removed) The instance type of worker node.
-	WorkerInstanceType *string `json:"workerInstanceType,omitempty" tf:"worker_instance_type,omitempty"`
-
-	// (Removed since v1.212.0) The instance type of worker node. Specify one type for single AZ Cluster, three types for MultiAZ Cluster.
-	WorkerInstanceTypes []*string `json:"workerInstanceTypes,omitempty" tf:"worker_instance_types,omitempty"`
-
-	// (Removed since v1.212.0) List of cluster worker nodes. See worker_nodes below.
-	WorkerNodes []KubernetesWorkerNodesObservation `json:"workerNodes,omitempty" tf:"worker_nodes,omitempty"`
-
-	// (Removed since v1.212.0) The worker node number of the kubernetes cluster. Default to 3. It is limited up to 50 and if you want to enlarge it, please apply white list or contact with us.
-	WorkerNumber *float64 `json:"workerNumber,omitempty" tf:"worker_number,omitempty"`
-
-	// (Removed) The number of workers, use worker_number to instead it.
-	WorkerNumbers []*float64 `json:"workerNumbers,omitempty" tf:"worker_numbers,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment period. The unit is Month. Its valid value is one of {1, 2, 3, 6, 12, 24, 36, 48, 60}.
-	WorkerPeriod *float64 `json:"workerPeriod,omitempty" tf:"worker_period,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment period unit, the valid value is Month.
-	WorkerPeriodUnit *string `json:"workerPeriodUnit,omitempty" tf:"worker_period_unit,omitempty"`
-
 	// The RamRole Name attached to worker node.
 	WorkerRAMRoleName *string `json:"workerRamRoleName,omitempty" tf:"worker_ram_role_name,omitempty"`
-
-	// (Removed since v1.212.0) The vswitches used by workers.
-	WorkerVswitchIds []*string `json:"workerVswitchIds,omitempty" tf:"worker_vswitch_ids,omitempty"`
 }
 
 type KubernetesParameters struct {
@@ -717,14 +511,6 @@ type KubernetesParameters struct {
 	// The addon you want to install in cluster. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created.
 	// +kubebuilder:validation:Optional
 	Addons []KubernetesAddonsParameters `json:"addons,omitempty" tf:"addons,omitempty"`
-
-	// (Removed since v1.212.0) The Zone where new kubernetes cluster will be located. If it is not be specified, the vswitch_ids should be set, its value will be vswitch's zone.
-	// +kubebuilder:validation:Optional
-	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
-
-	// (Removed since v1.212.0) Kubelet cpu policy. For Kubernetes 1.12.6 and later, its valid value is either static or none. Default to none.
-	// +kubebuilder:validation:Optional
-	CPUPolicy *string `json:"cpuPolicy,omitempty" tf:"cpu_policy,omitempty"`
 
 	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	// +kubebuilder:validation:Optional
@@ -743,10 +529,6 @@ type KubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterDomain *string `json:"clusterDomain,omitempty" tf:"cluster_domain,omitempty"`
 
-	// (Removed) The network that cluster uses, use flannel or terway.
-	// +kubebuilder:validation:Optional
-	ClusterNetworkType *string `json:"clusterNetworkType,omitempty" tf:"cluster_network_type,omitempty"`
-
 	// Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
 	// +kubebuilder:validation:Optional
 	CustomSan *string `json:"customSan,omitempty" tf:"custom_san,omitempty"`
@@ -762,14 +544,6 @@ type KubernetesParameters struct {
 	// Enable login to the node through SSH. Default to false.
 	// +kubebuilder:validation:Optional
 	EnableSSH *bool `json:"enableSsh,omitempty" tf:"enable_ssh,omitempty"`
-
-	// (Removed since v1.212.0) Exclude autoscaler nodes from worker_nodes. Default to false.
-	// +kubebuilder:validation:Optional
-	ExcludeAutoscalerNodes *bool `json:"excludeAutoscalerNodes,omitempty" tf:"exclude_autoscaler_nodes,omitempty"`
-
-	// (Removed) Whether to force the update of kubernetes cluster arguments. Default to false.
-	// +kubebuilder:validation:Optional
-	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
 	// Custom Image support. Must be based on AliyunLinux or AliyunLinux3.
 	// +kubebuilder:validation:Optional
@@ -796,17 +570,9 @@ type KubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// (Removed since v1.212.0) The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
-	// +kubebuilder:validation:Optional
-	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
-
 	// The cluster api server load balancer instance specification. For more information on how to select a LB instance specification, see SLB instance overview. Only works for Create Operation. The spec will not take effect because the charge of the load balancer has been changed to PayByCLCU.
 	// +kubebuilder:validation:Optional
 	LoadBalancerSpec *string `json:"loadBalancerSpec,omitempty" tf:"load_balancer_spec,omitempty"`
-
-	// (Removed) A list of one element containing information about the associated log store. See log_config below.
-	// +kubebuilder:validation:Optional
-	LogConfig []KubernetesLogConfigParameters `json:"logConfig,omitempty" tf:"log_config,omitempty"`
 
 	// Enable master payment auto-renew, defaults to false.
 	// +kubebuilder:validation:Optional
@@ -835,10 +601,6 @@ type KubernetesParameters struct {
 	// Master payment type. or PostPaid or PrePaid, defaults to PostPaid. If value is PrePaid, the files master_period, master_period_unit, master_auto_renew and master_auto_renew_period are required.
 	// +kubebuilder:validation:Optional
 	MasterInstanceChargeType *string `json:"masterInstanceChargeType,omitempty" tf:"master_instance_charge_type,omitempty"`
-
-	// (Removed) The instance type of master node.
-	// +kubebuilder:validation:Optional
-	MasterInstanceType *string `json:"masterInstanceType,omitempty" tf:"master_instance_type,omitempty"`
 
 	// The instance type of master node. Specify one type for single AZ Cluster, three types for MultiAZ Cluster.
 	// +kubebuilder:validation:Optional
@@ -880,14 +642,6 @@ type KubernetesParameters struct {
 	// Each node name consists of a prefix, an IP substring, and a suffix, the input format is customized,<prefix>,IPSubStringLen,<suffix>. For example "customized,aliyun.com-,5,-test", if the node IP address is 192.168.59.176, the prefix is aliyun.com-, IP substring length is 5, and the suffix is -test, the node name will be aliyun.com-59176-test.
 	// +kubebuilder:validation:Optional
 	NodeNameMode *string `json:"nodeNameMode,omitempty" tf:"node_name_mode,omitempty"`
-
-	// (Removed since v1.212.0) The service port range of nodes, valid values: 30000 to 65535. Default to 30000-32767.
-	// +kubebuilder:validation:Optional
-	NodePortRange *string `json:"nodePortRange,omitempty" tf:"node_port_range,omitempty"`
-
-	// (Removed) The master nodes, use master_nodes to instead it.
-	// +kubebuilder:validation:Optional
-	Nodes []*string `json:"nodes,omitempty" tf:"nodes,omitempty"`
 
 	// The operating system of the nodes that run pods, its valid value is either Linux or Windows. Default to Linux.
 	// +kubebuilder:validation:Optional
@@ -939,10 +693,9 @@ type KubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	RetainResources []*string `json:"retainResources,omitempty" tf:"retain_resources,omitempty"`
 
-	// The runtime of containers. If you select another container runtime, see How do I select between Docker and Sandboxed-Container. See runtime below.
+	// A list of runtime containers. If you select another container runtime, see How do I select between Docker and Sandboxed-Container. See runtime below.
 	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	Runtime map[string]*string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+	Runtime []KubernetesRuntimeParameters `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -978,10 +731,6 @@ type KubernetesParameters struct {
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
-	// (Removed since v1.212.0) Taints ensure pods are not scheduled onto inappropriate nodes. One or more taints are applied to a node; this marks that the node should not accept any pods that do not tolerate the taints. For more information, see Taints and Tolerations. See taints below.
-	// +kubebuilder:validation:Optional
-	Taints []TaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
-
 	// When you create a cluster, set the time zones for the Master and Worker nodes. You can only change the managed node time zone if you create a cluster. Once the cluster is created, you can only change the time zone of the Worker node.
 	// +kubebuilder:validation:Optional
 	Timezone *string `json:"timezone,omitempty" tf:"timezone,omitempty"`
@@ -990,230 +739,38 @@ type KubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	UserCA *string `json:"userCa,omitempty" tf:"user_ca,omitempty"`
 
-	// (Removed since v1.212.0) Custom data that can execute on nodes. For more information, see Prepare user data.
-	// +kubebuilder:validation:Optional
-	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
-
 	// Desired Kubernetes version. If you do not specify a value, the latest available version at resource creation is used and no upgrades will occur except you set a higher version number. The value must be configured and increased to upgrade the version when desired. Downgrades are not supported by ACK.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
-
-	// (Removed) The vswitch where new kubernetes cluster will be located. If it is not specified, a new VPC and VSwicth will be built. It must be in the zone which availability_zone specified.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +kubebuilder:validation:Optional
-	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
-
-	// Reference to a Vswitch in vpc to populate vswitchId.
-	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
-
-	// Selector for a Vswitch in vpc to populate vswitchId.
-	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
-
-	// References to Vswitch in vpc to populate vswitchIds.
-	// +kubebuilder:validation:Optional
-	VswitchIDsRefs []v1.Reference `json:"vswitchIDsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of Vswitch in vpc to populate vswitchIds.
-	// +kubebuilder:validation:Optional
-	VswitchIDsSelector *v1.Selector `json:"vswitchIDsSelector,omitempty" tf:"-"`
-
-	// (Removed) The vswitch where new kubernetes cluster will be located. Specify one or more vswitch's id. It must be in the zone which availability_zone specified.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:refFieldName=VswitchIDsRefs
-	// +crossplane:generate:reference:selectorFieldName=VswitchIDsSelector
-	// +kubebuilder:validation:Optional
-	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
-
-	// (Removed since v1.212.0) Enable worker payment auto-renew, defaults to false.
-	// +kubebuilder:validation:Optional
-	WorkerAutoRenew *bool `json:"workerAutoRenew,omitempty" tf:"worker_auto_renew,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment auto-renew period, it can be one of {1, 2, 3, 6, 12}.
-	// +kubebuilder:validation:Optional
-	WorkerAutoRenewPeriod *float64 `json:"workerAutoRenewPeriod,omitempty" tf:"worker_auto_renew_period,omitempty"`
-
-	// (Removed) The data disk category of worker, use worker_data_disks to instead it.
-	// +kubebuilder:validation:Optional
-	WorkerDataDiskCategory *string `json:"workerDataDiskCategory,omitempty" tf:"worker_data_disk_category,omitempty"`
-
-	// (Removed) The data disk size of worker, use worker_data_disks to instead it.
-	// +kubebuilder:validation:Optional
-	WorkerDataDiskSize *float64 `json:"workerDataDiskSize,omitempty" tf:"worker_data_disk_size,omitempty"`
-
-	// (Removed since v1.212.0) The data disk configurations of worker nodes, such as the disk type and disk size. See worker_data_disks below.
-	// +kubebuilder:validation:Optional
-	WorkerDataDisks []KubernetesWorkerDataDisksParameters `json:"workerDataDisks,omitempty" tf:"worker_data_disks,omitempty"`
-
-	// (Removed since v1.212.0) The system disk category of worker node. Its valid value are cloud, cloud_ssd, cloud_essd and cloud_efficiency. Default to cloud_efficiency.
-	// +kubebuilder:validation:Optional
-	WorkerDiskCategory *string `json:"workerDiskCategory,omitempty" tf:"worker_disk_category,omitempty"`
-
-	// (Removed since v1.212.0) Worker node system disk performance level, when worker_disk_category values cloud_essd, the optional values are PL0, PL1, PL2 or PL3, but the specific performance level is related to the disk capacity. For more information, see Enhanced SSDs. Default is PL1.
-	// +kubebuilder:validation:Optional
-	WorkerDiskPerformanceLevel *string `json:"workerDiskPerformanceLevel,omitempty" tf:"worker_disk_performance_level,omitempty"`
-
-	// (Removed since v1.212.0) The system disk size of worker node. Its valid value range [40~500] in GB.
-	// +kubebuilder:validation:Optional
-	WorkerDiskSize *float64 `json:"workerDiskSize,omitempty" tf:"worker_disk_size,omitempty"`
-
-	// (Removed since v1.212.0) Worker node system disk auto snapshot policy.
-	// +kubebuilder:validation:Optional
-	WorkerDiskSnapshotPolicyID *string `json:"workerDiskSnapshotPolicyId,omitempty" tf:"worker_disk_snapshot_policy_id,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment type, its valid value is either or PostPaid or PrePaid. Defaults to PostPaid. If value is PrePaid, the files worker_period, worker_period_unit, worker_auto_renew and worker_auto_renew_period are required, default is PostPaid.
-	// +kubebuilder:validation:Optional
-	WorkerInstanceChargeType *string `json:"workerInstanceChargeType,omitempty" tf:"worker_instance_charge_type,omitempty"`
-
-	// (Removed) The instance type of worker node.
-	// +kubebuilder:validation:Optional
-	WorkerInstanceType *string `json:"workerInstanceType,omitempty" tf:"worker_instance_type,omitempty"`
-
-	// (Removed since v1.212.0) The instance type of worker node. Specify one type for single AZ Cluster, three types for MultiAZ Cluster.
-	// +kubebuilder:validation:Optional
-	WorkerInstanceTypes []*string `json:"workerInstanceTypes,omitempty" tf:"worker_instance_types,omitempty"`
-
-	// (Removed since v1.212.0) List of cluster worker nodes. See worker_nodes below.
-	// +kubebuilder:validation:Optional
-	WorkerNodes []KubernetesWorkerNodesParameters `json:"workerNodes,omitempty" tf:"worker_nodes,omitempty"`
-
-	// (Removed since v1.212.0) The worker node number of the kubernetes cluster. Default to 3. It is limited up to 50 and if you want to enlarge it, please apply white list or contact with us.
-	// +kubebuilder:validation:Optional
-	WorkerNumber *float64 `json:"workerNumber,omitempty" tf:"worker_number,omitempty"`
-
-	// (Removed) The number of workers, use worker_number to instead it.
-	// +kubebuilder:validation:Optional
-	WorkerNumbers []*float64 `json:"workerNumbers,omitempty" tf:"worker_numbers,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment period. The unit is Month. Its valid value is one of {1, 2, 3, 6, 12, 24, 36, 48, 60}.
-	// +kubebuilder:validation:Optional
-	WorkerPeriod *float64 `json:"workerPeriod,omitempty" tf:"worker_period,omitempty"`
-
-	// (Removed since v1.212.0) Worker payment period unit, the valid value is Month.
-	// +kubebuilder:validation:Optional
-	WorkerPeriodUnit *string `json:"workerPeriodUnit,omitempty" tf:"worker_period_unit,omitempty"`
-
-	// (Removed since v1.212.0) The vswitches used by workers.
-	// +kubebuilder:validation:Optional
-	WorkerVswitchIds []*string `json:"workerVswitchIds,omitempty" tf:"worker_vswitch_ids,omitempty"`
 }
 
-type KubernetesWorkerDataDisksInitParameters struct {
+type KubernetesRuntimeInitParameters struct {
 
-	// Worker node data disk auto snapshot policy.
-	AutoSnapshotPolicyID *string `json:"autoSnapshotPolicyId,omitempty" tf:"auto_snapshot_policy_id,omitempty"`
-
-	// The type of the data disks. Valid values: cloud, cloud_efficiency, cloud_ssd and cloud_essd. Default to cloud_efficiency.
-	Category *string `json:"category,omitempty" tf:"category,omitempty"`
-
-	// The device of the data disks.
-	Device *string `json:"device,omitempty" tf:"device,omitempty"`
-
-	// Specifies whether to encrypt data disks. Valid values: true and false.
-	Encrypted *string `json:"encrypted,omitempty" tf:"encrypted,omitempty"`
-
-	// The id of the kms key.
-	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
-
-	// The name of the data disks.
+	// The name of the runtime. Supported runtimes can be queried by data source alicloud_cs_kubernetes_version.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Worker node data disk performance level, when category values cloud_essd, the optional values are PL0, PL1, PL2 or PL3, but the specific performance level is related to the disk capacity. For more information, see Enhanced SSDs. Default is PL1.
-	PerformanceLevel *string `json:"performanceLevel,omitempty" tf:"performance_level,omitempty"`
-
-	// The size of a data disk, Its valid value range [40~32768] in GB. Unit: GiB.
-	Size *string `json:"size,omitempty" tf:"size,omitempty"`
-
-	// The id of snapshot.
-	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+	// The version of the runtime.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
-type KubernetesWorkerDataDisksObservation struct {
+type KubernetesRuntimeObservation struct {
 
-	// Worker node data disk auto snapshot policy.
-	AutoSnapshotPolicyID *string `json:"autoSnapshotPolicyId,omitempty" tf:"auto_snapshot_policy_id,omitempty"`
-
-	// The type of the data disks. Valid values: cloud, cloud_efficiency, cloud_ssd and cloud_essd. Default to cloud_efficiency.
-	Category *string `json:"category,omitempty" tf:"category,omitempty"`
-
-	// The device of the data disks.
-	Device *string `json:"device,omitempty" tf:"device,omitempty"`
-
-	// Specifies whether to encrypt data disks. Valid values: true and false.
-	Encrypted *string `json:"encrypted,omitempty" tf:"encrypted,omitempty"`
-
-	// The id of the kms key.
-	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
-
-	// The name of the data disks.
+	// The name of the runtime. Supported runtimes can be queried by data source alicloud_cs_kubernetes_version.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Worker node data disk performance level, when category values cloud_essd, the optional values are PL0, PL1, PL2 or PL3, but the specific performance level is related to the disk capacity. For more information, see Enhanced SSDs. Default is PL1.
-	PerformanceLevel *string `json:"performanceLevel,omitempty" tf:"performance_level,omitempty"`
-
-	// The size of a data disk, Its valid value range [40~32768] in GB. Unit: GiB.
-	Size *string `json:"size,omitempty" tf:"size,omitempty"`
-
-	// The id of snapshot.
-	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+	// The version of the runtime.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
-type KubernetesWorkerDataDisksParameters struct {
+type KubernetesRuntimeParameters struct {
 
-	// Worker node data disk auto snapshot policy.
-	// +kubebuilder:validation:Optional
-	AutoSnapshotPolicyID *string `json:"autoSnapshotPolicyId,omitempty" tf:"auto_snapshot_policy_id,omitempty"`
-
-	// The type of the data disks. Valid values: cloud, cloud_efficiency, cloud_ssd and cloud_essd. Default to cloud_efficiency.
-	// +kubebuilder:validation:Optional
-	Category *string `json:"category,omitempty" tf:"category,omitempty"`
-
-	// The device of the data disks.
-	// +kubebuilder:validation:Optional
-	Device *string `json:"device,omitempty" tf:"device,omitempty"`
-
-	// Specifies whether to encrypt data disks. Valid values: true and false.
-	// +kubebuilder:validation:Optional
-	Encrypted *string `json:"encrypted,omitempty" tf:"encrypted,omitempty"`
-
-	// The id of the kms key.
-	// +kubebuilder:validation:Optional
-	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
-
-	// The name of the data disks.
+	// The name of the runtime. Supported runtimes can be queried by data source alicloud_cs_kubernetes_version.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// Worker node data disk performance level, when category values cloud_essd, the optional values are PL0, PL1, PL2 or PL3, but the specific performance level is related to the disk capacity. For more information, see Enhanced SSDs. Default is PL1.
+	// The version of the runtime.
 	// +kubebuilder:validation:Optional
-	PerformanceLevel *string `json:"performanceLevel,omitempty" tf:"performance_level,omitempty"`
-
-	// The size of a data disk, Its valid value range [40~32768] in GB. Unit: GiB.
-	// +kubebuilder:validation:Optional
-	Size *string `json:"size,omitempty" tf:"size,omitempty"`
-
-	// The id of snapshot.
-	// +kubebuilder:validation:Optional
-	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
-}
-
-type KubernetesWorkerNodesInitParameters struct {
-}
-
-type KubernetesWorkerNodesObservation struct {
-
-	// ID of the node.
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// Node name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// The private IP address of node.
-	PrivateIP *string `json:"privateIp,omitempty" tf:"private_ip,omitempty"`
-}
-
-type KubernetesWorkerNodesParameters struct {
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type MasterNodesInitParameters struct {
@@ -1232,45 +789,6 @@ type MasterNodesObservation struct {
 }
 
 type MasterNodesParameters struct {
-}
-
-type TaintsInitParameters struct {
-
-	// The scheduling policy. Valid values: NoSchedule | NoExecute | PreferNoSchedule. Default value: NoSchedule.
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// The key of a taint.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type TaintsObservation struct {
-
-	// The scheduling policy. Valid values: NoSchedule | NoExecute | PreferNoSchedule. Default value: NoSchedule.
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// The key of a taint.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type TaintsParameters struct {
-
-	// The scheduling policy. Valid values: NoSchedule | NoExecute | PreferNoSchedule. Default value: NoSchedule.
-	// +kubebuilder:validation:Optional
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	// +kubebuilder:validation:Optional
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// The key of a taint.
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 // KubernetesSpec defines the desired state of Kubernetes

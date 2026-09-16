@@ -10,8 +10,26 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
+
+type DomainListInitParameters struct {
+}
+
+type DomainListObservation struct {
+
+	// Domain of internal endpoint, only in some regions.
+	Internal *string `json:"internal,omitempty" tf:"internal,omitempty"`
+
+	// Domain of public endpoint.
+	Public *string `json:"public,omitempty" tf:"public,omitempty"`
+
+	// Domain of vpc endpoint.
+	VPC *string `json:"vpc,omitempty" tf:"vpc,omitempty"`
+}
+
+type DomainListParameters struct {
+}
 
 type RepoInitParameters struct {
 
@@ -23,7 +41,7 @@ type RepoInitParameters struct {
 
 	// Name of container registry namespace where repository is located.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.RegistryNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Reference to a RegistryNamespace in cr to populate namespace.
@@ -46,9 +64,8 @@ type RepoObservation struct {
 	// The repository specific information. MarkDown format is supported, and the length limit is 2000.
 	Detail *string `json:"detail,omitempty" tf:"detail,omitempty"`
 
-	// The repository domain list.
-	// +mapType=granular
-	DomainList map[string]*string `json:"domainList,omitempty" tf:"domain_list,omitempty"`
+	// A list of repository domain.
+	DomainList []DomainListObservation `json:"domainList,omitempty" tf:"domain_list,omitempty"`
 
 	// The id of Container Registry repository. The value is in format namespace/repository.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -78,7 +95,7 @@ type RepoParameters struct {
 
 	// Name of container registry namespace where repository is located.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.RegistryNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 

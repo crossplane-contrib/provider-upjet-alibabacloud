@@ -10,13 +10,16 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type VpcEndpointInitParameters struct {
 
 	// The IP address version. Valid values:
 	AddressIPVersion *string `json:"addressIpVersion,omitempty" tf:"address_ip_version,omitempty"`
+
+	// The cross-region bandwidth that is supported by the cross-region endpoint.
+	CrossRegionBandwidth *float64 `json:"crossRegionBandwidth,omitempty" tf:"cross_region_bandwidth,omitempty"`
 
 	// Specifies whether to perform only a dry run, without performing the actual request. Valid values:
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
@@ -66,6 +69,9 @@ type VpcEndpointInitParameters struct {
 	// The name of the endpoint service with which the endpoint is associated.
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
 
+	// The region ID of the endpoint service.
+	ServiceRegionID *string `json:"serviceRegionId,omitempty" tf:"service_region_id,omitempty"`
+
 	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
@@ -102,6 +108,9 @@ type VpcEndpointObservation struct {
 
 	// The time when the endpoint was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// The cross-region bandwidth that is supported by the cross-region endpoint.
+	CrossRegionBandwidth *float64 `json:"crossRegionBandwidth,omitempty" tf:"cross_region_bandwidth,omitempty"`
 
 	// Specifies whether to perform only a dry run, without performing the actual request. Valid values:
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
@@ -143,6 +152,9 @@ type VpcEndpointObservation struct {
 	// The name of the endpoint service with which the endpoint is associated.
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
 
+	// The region ID of the endpoint service.
+	ServiceRegionID *string `json:"serviceRegionId,omitempty" tf:"service_region_id,omitempty"`
+
 	// The state of the endpoint.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
@@ -165,6 +177,10 @@ type VpcEndpointParameters struct {
 	// The IP address version. Valid values:
 	// +kubebuilder:validation:Optional
 	AddressIPVersion *string `json:"addressIpVersion,omitempty" tf:"address_ip_version,omitempty"`
+
+	// The cross-region bandwidth that is supported by the cross-region endpoint.
+	// +kubebuilder:validation:Optional
+	CrossRegionBandwidth *float64 `json:"crossRegionBandwidth,omitempty" tf:"cross_region_bandwidth,omitempty"`
 
 	// Specifies whether to perform only a dry run, without performing the actual request. Valid values:
 	// +kubebuilder:validation:Optional
@@ -227,6 +243,10 @@ type VpcEndpointParameters struct {
 	// The name of the endpoint service with which the endpoint is associated.
 	// +kubebuilder:validation:Optional
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
+
+	// The region ID of the endpoint service.
+	// +kubebuilder:validation:Optional
+	ServiceRegionID *string `json:"serviceRegionId,omitempty" tf:"service_region_id,omitempty"`
 
 	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional

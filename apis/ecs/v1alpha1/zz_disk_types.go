@@ -10,19 +10,19 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type DiskInitParameters struct {
+
+	// The advanced features configured for the disk.
 	AdvancedFeatures *string `json:"advancedFeatures,omitempty" tf:"advanced_features,omitempty"`
 
-	// Specifies whether to enable the performance burst feature. Valid values: true, false. NOTE: bursting_enabled is only valid when category is cloud_auto.
+	// Specifies whether to enable the performance burst feature. Valid values: true, false. NOTE: bursting_enabled is only valid when category is cloud_auto; specifying it for other categories is rejected by the API. When category is changed to cloud_auto in the same apply (for example from cloud_essd), the provider defers the BurstingEnabled update until the disk category has been confirmed as cloud_auto by ModifyDiskSpec and WaitForState, because the API rejects BurstingEnabled on a non-cloud_auto disk.
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
 
-	// The category of the data disk. Default value: cloud_efficiency. Valid Values: cloud, cloud_efficiency, cloud_ssd, cloud_essd, cloud_auto, cloud_essd_entry, elastic_ephemeral_disk_standard, elastic_ephemeral_disk_premium.
+	// The category of the data disk. Default value: cloud_efficiency. Valid Values: cloud, cloud_efficiency, cloud_ssd, cloud_essd, cloud_auto, cloud_essd_entry, elastic_ephemeral_disk_standard, elastic_ephemeral_disk_premium. NOTE: When category is cloud_auto, the bursting_enabled and provisioned_iops parameters become applicable; they are rejected by the API for other categories.
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
-
-	DedicatedBlockStorageClusterID *string `json:"dedicatedBlockStorageClusterId,omitempty" tf:"dedicated_block_storage_cluster_id,omitempty"`
 
 	// Specifies whether to delete the automatic snapshots of the disk when the disk is released. Default value: false.
 	DeleteAutoSnapshot *bool `json:"deleteAutoSnapshot,omitempty" tf:"delete_auto_snapshot,omitempty"`
@@ -39,9 +39,10 @@ type DiskInitParameters struct {
 	// Specifies whether to check the validity of the request without actually making the request.request Default value: false. Valid values:
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// Specifies whether to enable the automatic snapshot policy feature for the cloud disk. Valid values: true, false.
+	// (Deprecated, Optional, Bool) Specifies whether the automatic snapshot policy feature is enabled for the cloud disk. Valid values: true and false. The default value is empty, which indicates that the current value is not changed. NOTE: This parameter is deprecated. The automatic snapshot policy feature is enabled by default for a cloud disk after it is created. To use the automatic snapshot policy, apply one to the cloud disk.
 	EnableAutoSnapshot *bool `json:"enableAutoSnapshot,omitempty" tf:"enable_auto_snapshot,omitempty"`
 
+	// The encryption algorithm used to encrypt the disk. NOTE: encrypt_algorithm is only valid when encrypted is true.
 	EncryptAlgorithm *string `json:"encryptAlgorithm,omitempty" tf:"encrypt_algorithm,omitempty"`
 
 	// Specifies whether to encrypt the disk. Default value: false. Valid values:
@@ -110,18 +111,18 @@ type DiskInitParameters struct {
 }
 
 type DiskObservation struct {
+
+	// The advanced features configured for the disk.
 	AdvancedFeatures *string `json:"advancedFeatures,omitempty" tf:"advanced_features,omitempty"`
 
-	// Specifies whether to enable the performance burst feature. Valid values: true, false. NOTE: bursting_enabled is only valid when category is cloud_auto.
+	// Specifies whether to enable the performance burst feature. Valid values: true, false. NOTE: bursting_enabled is only valid when category is cloud_auto; specifying it for other categories is rejected by the API. When category is changed to cloud_auto in the same apply (for example from cloud_essd), the provider defers the BurstingEnabled update until the disk category has been confirmed as cloud_auto by ModifyDiskSpec and WaitForState, because the API rejects BurstingEnabled on a non-cloud_auto disk.
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
 
-	// The category of the data disk. Default value: cloud_efficiency. Valid Values: cloud, cloud_efficiency, cloud_ssd, cloud_essd, cloud_auto, cloud_essd_entry, elastic_ephemeral_disk_standard, elastic_ephemeral_disk_premium.
+	// The category of the data disk. Default value: cloud_efficiency. Valid Values: cloud, cloud_efficiency, cloud_ssd, cloud_essd, cloud_auto, cloud_essd_entry, elastic_ephemeral_disk_standard, elastic_ephemeral_disk_premium. NOTE: When category is cloud_auto, the bursting_enabled and provisioned_iops parameters become applicable; they are rejected by the API for other categories.
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
 
 	// (Available since v1.237.0) The time when the disk was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
-
-	DedicatedBlockStorageClusterID *string `json:"dedicatedBlockStorageClusterId,omitempty" tf:"dedicated_block_storage_cluster_id,omitempty"`
 
 	// Specifies whether to delete the automatic snapshots of the disk when the disk is released. Default value: false.
 	DeleteAutoSnapshot *bool `json:"deleteAutoSnapshot,omitempty" tf:"delete_auto_snapshot,omitempty"`
@@ -138,9 +139,10 @@ type DiskObservation struct {
 	// Specifies whether to check the validity of the request without actually making the request.request Default value: false. Valid values:
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// Specifies whether to enable the automatic snapshot policy feature for the cloud disk. Valid values: true, false.
+	// (Deprecated, Optional, Bool) Specifies whether the automatic snapshot policy feature is enabled for the cloud disk. Valid values: true and false. The default value is empty, which indicates that the current value is not changed. NOTE: This parameter is deprecated. The automatic snapshot policy feature is enabled by default for a cloud disk after it is created. To use the automatic snapshot policy, apply one to the cloud disk.
 	EnableAutoSnapshot *bool `json:"enableAutoSnapshot,omitempty" tf:"enable_auto_snapshot,omitempty"`
 
+	// The encryption algorithm used to encrypt the disk. NOTE: encrypt_algorithm is only valid when encrypted is true.
 	EncryptAlgorithm *string `json:"encryptAlgorithm,omitempty" tf:"encrypt_algorithm,omitempty"`
 
 	// Specifies whether to encrypt the disk. Default value: false. Valid values:
@@ -200,19 +202,17 @@ type DiskObservation struct {
 
 type DiskParameters struct {
 
+	// The advanced features configured for the disk.
 	// +kubebuilder:validation:Optional
 	AdvancedFeatures *string `json:"advancedFeatures,omitempty" tf:"advanced_features,omitempty"`
 
-	// Specifies whether to enable the performance burst feature. Valid values: true, false. NOTE: bursting_enabled is only valid when category is cloud_auto.
+	// Specifies whether to enable the performance burst feature. Valid values: true, false. NOTE: bursting_enabled is only valid when category is cloud_auto; specifying it for other categories is rejected by the API. When category is changed to cloud_auto in the same apply (for example from cloud_essd), the provider defers the BurstingEnabled update until the disk category has been confirmed as cloud_auto by ModifyDiskSpec and WaitForState, because the API rejects BurstingEnabled on a non-cloud_auto disk.
 	// +kubebuilder:validation:Optional
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
 
-	// The category of the data disk. Default value: cloud_efficiency. Valid Values: cloud, cloud_efficiency, cloud_ssd, cloud_essd, cloud_auto, cloud_essd_entry, elastic_ephemeral_disk_standard, elastic_ephemeral_disk_premium.
+	// The category of the data disk. Default value: cloud_efficiency. Valid Values: cloud, cloud_efficiency, cloud_ssd, cloud_essd, cloud_auto, cloud_essd_entry, elastic_ephemeral_disk_standard, elastic_ephemeral_disk_premium. NOTE: When category is cloud_auto, the bursting_enabled and provisioned_iops parameters become applicable; they are rejected by the API for other categories.
 	// +kubebuilder:validation:Optional
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	DedicatedBlockStorageClusterID *string `json:"dedicatedBlockStorageClusterId,omitempty" tf:"dedicated_block_storage_cluster_id,omitempty"`
 
 	// Specifies whether to delete the automatic snapshots of the disk when the disk is released. Default value: false.
 	// +kubebuilder:validation:Optional
@@ -234,10 +234,11 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// Specifies whether to enable the automatic snapshot policy feature for the cloud disk. Valid values: true, false.
+	// (Deprecated, Optional, Bool) Specifies whether the automatic snapshot policy feature is enabled for the cloud disk. Valid values: true and false. The default value is empty, which indicates that the current value is not changed. NOTE: This parameter is deprecated. The automatic snapshot policy feature is enabled by default for a cloud disk after it is created. To use the automatic snapshot policy, apply one to the cloud disk.
 	// +kubebuilder:validation:Optional
 	EnableAutoSnapshot *bool `json:"enableAutoSnapshot,omitempty" tf:"enable_auto_snapshot,omitempty"`
 
+	// The encryption algorithm used to encrypt the disk. NOTE: encrypt_algorithm is only valid when encrypted is true.
 	// +kubebuilder:validation:Optional
 	EncryptAlgorithm *string `json:"encryptAlgorithm,omitempty" tf:"encrypt_algorithm,omitempty"`
 
