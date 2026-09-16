@@ -21,7 +21,7 @@ func (mg *Account) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Account
 func (tr *Account) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"account_password": "accountPasswordSecretRef"}
+	return map[string]string{"account_password": "accountPasswordSecretRef", "dynamodb_auth_password": "status.atProvider.dynamodbAuthPassword"}
 }
 
 // GetObservation of this Account

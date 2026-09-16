@@ -52,6 +52,9 @@ type EeRepoInitParameters struct {
 
 	// The summary about the repository.
 	Summary *string `json:"summary,omitempty" tf:"summary,omitempty"`
+
+	// Whether to enable image tag immutability. Valid values:
+	TagImmutability *bool `json:"tagImmutability,omitempty" tf:"tag_immutability,omitempty"`
 }
 
 type EeRepoObservation struct {
@@ -79,6 +82,9 @@ type EeRepoObservation struct {
 
 	// The summary about the repository.
 	Summary *string `json:"summary,omitempty" tf:"summary,omitempty"`
+
+	// Whether to enable image tag immutability. Valid values:
+	TagImmutability *bool `json:"tagImmutability,omitempty" tf:"tag_immutability,omitempty"`
 }
 
 type EeRepoParameters struct {
@@ -131,6 +137,10 @@ type EeRepoParameters struct {
 	// The summary about the repository.
 	// +kubebuilder:validation:Optional
 	Summary *string `json:"summary,omitempty" tf:"summary,omitempty"`
+
+	// Whether to enable image tag immutability. Valid values:
+	// +kubebuilder:validation:Optional
+	TagImmutability *bool `json:"tagImmutability,omitempty" tf:"tag_immutability,omitempty"`
 }
 
 // EeRepoSpec defines the desired state of EeRepo

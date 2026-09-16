@@ -164,9 +164,8 @@ type InstanceInitParameters struct {
 	// The number of managed accesses. The maximum number of VPCs that can access this KMS instance. The attribute is valid when the attribute payment_type is Subscription.
 	VPCNum *float64 `json:"vpcNum,omitempty" tf:"vpc_num,omitempty"`
 
-	// Instance bind vswitches
+	// The IDs of the vSwitches that the KMS instance is bound to. Every vSwitch must reside in a zone declared in zone_ids, and that zone must be available for KMS.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +listType=set
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
 
 	// References to Vswitch in vpc to populate vswitchIds.
@@ -177,10 +176,9 @@ type InstanceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
-	// zone id
+	// The IDs of the zones in which the KMS instance is deployed. Each zone must be available for KMS.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("zone_id",false)
-	// +listType=set
 	ZoneIds []*string `json:"zoneIds,omitempty" tf:"zone_ids,omitempty"`
 
 	// References to Vswitch in vpc to populate zoneIds.
@@ -264,12 +262,10 @@ type InstanceObservation struct {
 	// The number of managed accesses. The maximum number of VPCs that can access this KMS instance. The attribute is valid when the attribute payment_type is Subscription.
 	VPCNum *float64 `json:"vpcNum,omitempty" tf:"vpc_num,omitempty"`
 
-	// Instance bind vswitches
-	// +listType=set
+	// The IDs of the vSwitches that the KMS instance is bound to. Every vSwitch must reside in a zone declared in zone_ids, and that zone must be available for KMS.
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
 
-	// zone id
-	// +listType=set
+	// The IDs of the zones in which the KMS instance is deployed. Each zone must be available for KMS.
 	ZoneIds []*string `json:"zoneIds,omitempty" tf:"zone_ids,omitempty"`
 }
 
@@ -362,10 +358,9 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	VPCNum *float64 `json:"vpcNum,omitempty" tf:"vpc_num,omitempty"`
 
-	// Instance bind vswitches
+	// The IDs of the vSwitches that the KMS instance is bound to. Every vSwitch must reside in a zone declared in zone_ids, and that zone must be available for KMS.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +kubebuilder:validation:Optional
-	// +listType=set
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
 
 	// References to Vswitch in vpc to populate vswitchIds.
@@ -376,11 +371,10 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
-	// zone id
+	// The IDs of the zones in which the KMS instance is deployed. Each zone must be available for KMS.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("zone_id",false)
 	// +kubebuilder:validation:Optional
-	// +listType=set
 	ZoneIds []*string `json:"zoneIds,omitempty" tf:"zone_ids,omitempty"`
 
 	// References to Vswitch in vpc to populate zoneIds.

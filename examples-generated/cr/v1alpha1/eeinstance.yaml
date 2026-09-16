@@ -15,3 +15,6 @@ spec:
     region: cn-beijing
     renewPeriod: 1
     renewalStatus: AutoRenewal
+    tags:
+      Created: TF
+      For: Test

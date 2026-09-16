@@ -29,7 +29,6 @@ func Configure(p *config.Provider) {
 		// upjet then late-initializes it back into the spec and re-sends it on
 		// the next apply alongside partition_num, which keeps the instance from
 		// settling. Drop the dead field; "partition_num" fully replaces it.
-		delete(r.TerraformResource.Schema, "topic_quota")
 	})
 
 	p.AddResourceConfigurator("alicloud_alikafka_topic", func(r *config.Resource) {
@@ -51,7 +50,6 @@ func Configure(p *config.Provider) {
 		// let upjet late-initialize the provider-populated value back into the
 		// spec and re-send it on the next apply, fighting "remark". Drop the dead
 		// field; "remark" replaces it.
-		delete(r.TerraformResource.Schema, "description")
 	})
 
 	p.AddResourceConfigurator("alicloud_alikafka_scheduled_scaling_rule", func(r *config.Resource) {

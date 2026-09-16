@@ -19,10 +19,15 @@ TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAF
 
 export TERRAFORM_PROVIDER_SOURCE ?= aliyun/alicloud
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/aliyun/terraform-provider-alicloud
-export TERRAFORM_PROVIDER_VERSION ?= 1.281.0
+# NOTE: This pins the registry release used to generate config/schema.json.
+# The Go code the provider actually runs is pinned separately, in go.mod, and
+# for a prerelease it appears there only as an opaque pseudo-version
+# (v1.290.1-0.<timestamp>-<commit>) plus a replace directive. The two must refer
+# to the same upstream commit. Nothing enforces it mechanically, but
+# TestSchemaSourcesAgree in config/ fails if they drift far enough apart that a
+# configured resource is missing from either source.
+export TERRAFORM_PROVIDER_VERSION ?= 2.0.0-beta4
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-alicloud
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://releases.hashicorp.com/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/$(TERRAFORM_PROVIDER_VERSION)
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-alicloud_v$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_DOCS_PATH ?= website/docs/r
 
 
@@ -54,7 +59,12 @@ NPROCS ?= 1
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
 GO_REQUIRED_VERSION ?= 1.24.1
-GOLANGCILINT_VERSION ?= 1.64.8
+# Must track GOLANGCI_VERSION in .github/workflows/ci.yml. CI lints with the
+# golangci-lint GitHub action rather than this target, so the two drifted:
+# .golangci.yml is in the version "2" config format, which a v1 binary cannot
+# parse, leaving `make lint` (and therefore `make reviewable`) broken while CI
+# stayed green.
+GOLANGCILINT_VERSION ?= 2.12.2
 UPTEST_LOCAL_VERSION = v0.13.0
 UPTEST_LOCAL_CHANNEL = stable
 KUSTOMIZE_VERSION = v5.3.0
@@ -72,8 +82,7 @@ GO_SUBDIRS += cmd internal apis
 KIND_VERSION = v0.26.0
 UP_VERSION = v0.40.3
 UP_CHANNEL = stable
-#UPTEST_VERSION = v0.13.1
-UPTEST_VERSION = v1.1.2
+UPTEST_VERSION = v2.2.0
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
@@ -336,7 +345,7 @@ e2e-provider.%:
 	@$(MAKE) build-provider.$* local-deploy.$*
 	@$(MAKE) uptest
 
-crddiff: $(UPTEST)
+crddiff:
 	@$(INFO) Checking breaking CRD schema changes
 	@for crd in $${MODIFIED_CRD_LIST}; do \
 		if ! git cat-file -e "$${GITHUB_BASE_REF}:$${crd}" 2>/dev/null; then \
@@ -344,7 +353,7 @@ crddiff: $(UPTEST)
 			continue ; \
 		fi ; \
 		echo "Checking $${crd} for breaking API changes..." ; \
-		changes_detected=$$($(UPTEST) crddiff revision <(git cat-file -p "$${GITHUB_BASE_REF}:$${crd}") "$${crd}" 2>&1) ; \
+		changes_detected=$$(go run github.com/upbound/uptest/cmd/crddiff@$(CRDDIFF_VERSION) revision --enable-upjet-extensions <(git cat-file -p "$${GITHUB_BASE_REF}:$${crd}") "$${crd}" 2>&1) ; \
 		if [[ $$? != 0 ]] ; then \
 			printf "\033[31m"; echo "Breaking change detected!"; printf "\033[0m" ; \
 			echo "$${changes_detected}" ; \
@@ -355,7 +364,7 @@ crddiff: $(UPTEST)
 
 schema-version-diff:
 	@$(INFO) Checking for native state schema version changes
-	@export PREV_PROVIDER_VERSION=$$(git cat-file -p "${GITHUB_BASE_REF}:Makefile" | sed -nr 's/^export[[:space:]]*TERRAFORM_PROVIDER_VERSION[[:space:]]*:=[[:space:]]*(.+)/\1/p'); \
+	@export PREV_PROVIDER_VERSION=$$(git cat-file -p "${GITHUB_BASE_REF}:Makefile" | sed -nr 's/^export[[:space:]]*TERRAFORM_PROVIDER_VERSION[[:space:]]*[?:]?=[[:space:]]*(.+)/\1/p'); \
 	echo Detected previous Terraform provider version: $${PREV_PROVIDER_VERSION}; \
 	echo Current Terraform provider version: $${TERRAFORM_PROVIDER_VERSION}; \
 	mkdir -p $(WORK_DIR); \

@@ -43,7 +43,7 @@ type RolePolicyAttachmentInitParameters struct {
 
 	// The RAM role name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("role_name",false)
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
 	// Reference to a Role in ram to populate roleName.
@@ -102,7 +102,7 @@ type RolePolicyAttachmentParameters struct {
 
 	// The RAM role name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("role_name",false)
 	// +kubebuilder:validation:Optional
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 

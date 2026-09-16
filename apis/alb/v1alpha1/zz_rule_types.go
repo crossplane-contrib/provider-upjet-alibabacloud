@@ -156,7 +156,6 @@ type ForwardGroupConfigServerGroupTuplesInitParameters struct {
 	ServerGroupIDSelector *v1.Selector `json:"serverGroupIdSelector,omitempty" tf:"-"`
 
 	// The Weight of server group. Default value: 100. Valid values: 0 to 100.
-	// NOTE: weight is required when the number of server_group_tuples is greater than 2. From version 1.264.0, weight can be set to 0.
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
@@ -166,7 +165,6 @@ type ForwardGroupConfigServerGroupTuplesObservation struct {
 	ServerGroupID *string `json:"serverGroupId,omitempty" tf:"server_group_id,omitempty"`
 
 	// The Weight of server group. Default value: 100. Valid values: 0 to 100.
-	// NOTE: weight is required when the number of server_group_tuples is greater than 2. From version 1.264.0, weight can be set to 0.
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
@@ -187,14 +185,13 @@ type ForwardGroupConfigServerGroupTuplesParameters struct {
 	ServerGroupIDSelector *v1.Selector `json:"serverGroupIdSelector,omitempty" tf:"-"`
 
 	// The Weight of server group. Default value: 100. Valid values: 0 to 100.
-	// NOTE: weight is required when the number of server_group_tuples is greater than 2. From version 1.264.0, weight can be set to 0.
 	// +kubebuilder:validation:Optional
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
 type HeaderConfigInitParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The values of the cookie. See values below.
@@ -204,7 +201,7 @@ type HeaderConfigInitParameters struct {
 
 type HeaderConfigObservation struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The values of the cookie. See values below.
@@ -214,7 +211,7 @@ type HeaderConfigObservation struct {
 
 type HeaderConfigParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
@@ -248,7 +245,7 @@ type HostConfigParameters struct {
 
 type InsertHeaderConfigInitParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The content of the inserted header field. Valid values:
@@ -260,7 +257,7 @@ type InsertHeaderConfigInitParameters struct {
 
 type InsertHeaderConfigObservation struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The content of the inserted header field. Valid values:
@@ -272,7 +269,7 @@ type InsertHeaderConfigObservation struct {
 
 type InsertHeaderConfigParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
@@ -388,7 +385,7 @@ type QueryStringConfigParameters struct {
 
 type QueryStringConfigValuesInitParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The content of the inserted header field. Valid values:
@@ -397,7 +394,7 @@ type QueryStringConfigValuesInitParameters struct {
 
 type QueryStringConfigValuesObservation struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The content of the inserted header field. Valid values:
@@ -406,7 +403,7 @@ type QueryStringConfigValuesObservation struct {
 
 type QueryStringConfigValuesParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
@@ -429,7 +426,7 @@ type RedirectConfigInitParameters struct {
 	// The port of the destination to which requests are redirected. Valid values: 1 to 63335. Default value: ${port}. You cannot use this value together with other characters at the same time.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The protocol of the requests to be redirected. Valid values: HTTP and HTTPS. Default value: ${protocol}. You cannot use this value together with other characters at the same time. Note HTTPS listeners can redirect only HTTPS requests.
+	// The protocol of the requests to be redirected. Valid values: HTTP and HTTPS. Default value: ${protocol}. You cannot use this value together with other characters at the same time.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The query string of the request to be redirected. The query string must be 1 to 128 characters in length, can contain letters and printable characters. It cannot contain the following special characters: # [ ] { } \ | < > &. Default value: ${query}. You can also reference ${host}, ${protocol}, and ${port}. Each variable can appear at most once. You can use the preceding variables at the same time, or use them together with a valid string.
@@ -450,7 +447,7 @@ type RedirectConfigObservation struct {
 	// The port of the destination to which requests are redirected. Valid values: 1 to 63335. Default value: ${port}. You cannot use this value together with other characters at the same time.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The protocol of the requests to be redirected. Valid values: HTTP and HTTPS. Default value: ${protocol}. You cannot use this value together with other characters at the same time. Note HTTPS listeners can redirect only HTTPS requests.
+	// The protocol of the requests to be redirected. Valid values: HTTP and HTTPS. Default value: ${protocol}. You cannot use this value together with other characters at the same time.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
 	// The query string of the request to be redirected. The query string must be 1 to 128 characters in length, can contain letters and printable characters. It cannot contain the following special characters: # [ ] { } \ | < > &. Default value: ${query}. You can also reference ${host}, ${protocol}, and ${port}. Each variable can appear at most once. You can use the preceding variables at the same time, or use them together with a valid string.
@@ -475,7 +472,7 @@ type RedirectConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The protocol of the requests to be redirected. Valid values: HTTP and HTTPS. Default value: ${protocol}. You cannot use this value together with other characters at the same time. Note HTTPS listeners can redirect only HTTPS requests.
+	// The protocol of the requests to be redirected. Valid values: HTTP and HTTPS. Default value: ${protocol}. You cannot use this value together with other characters at the same time.
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
@@ -486,26 +483,26 @@ type RedirectConfigParameters struct {
 
 type RemoveHeaderConfigInitParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 }
 
 type RemoveHeaderConfigObservation struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 }
 
 type RemoveHeaderConfigParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 }
 
 type ResponseHeaderConfigInitParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The values of the cookie. See values below.
@@ -515,7 +512,7 @@ type ResponseHeaderConfigInitParameters struct {
 
 type ResponseHeaderConfigObservation struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The values of the cookie. See values below.
@@ -525,7 +522,7 @@ type ResponseHeaderConfigObservation struct {
 
 type ResponseHeaderConfigParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
@@ -645,7 +642,7 @@ type RuleActionsInitParameters struct {
 	// The configuration of the external redirect action. See redirect_config below.
 	RedirectConfig []RedirectConfigInitParameters `json:"redirectConfig,omitempty" tf:"redirect_config,omitempty"`
 
-	// The configuration of the inserted header field. See remove_header_config below.
+	// The configuration of the removed header field. See remove_header_config below.
 	RemoveHeaderConfig []RemoveHeaderConfigInitParameters `json:"removeHeaderConfig,omitempty" tf:"remove_header_config,omitempty"`
 
 	// The redirect action within ALB. See rewrite_config below.
@@ -658,9 +655,6 @@ type RuleActionsInitParameters struct {
 	TrafficMirrorConfig []TrafficMirrorConfigInitParameters `json:"trafficMirrorConfig,omitempty" tf:"traffic_mirror_config,omitempty"`
 
 	// The action type. Valid values: ForwardGroup, Redirect, FixedResponse, Rewrite, InsertHeader, RemoveHeader, TrafficLimit, TrafficMirror and Cors.
-	// Note: The preceding actions can be classified into two types:  FinalType: A forwarding rule can contain only one FinalType action, which is executed last. This type of action can contain only one ForwardGroup, Redirect or FixedResponse action. ExtType: A forwarding rule can contain one or more ExtType actions, which are executed before FinalType actions and need to coexist with the FinalType actions. This type of action can contain multiple InsertHeader actions or one Rewrite action.
-	// NOTE: The TrafficLimit and TrafficMirror option is available since 1.162.0.
-	// NOTE: From version 1.205.0, type can be set to Cors.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -684,7 +678,7 @@ type RuleActionsObservation struct {
 	// The configuration of the external redirect action. See redirect_config below.
 	RedirectConfig []RedirectConfigObservation `json:"redirectConfig,omitempty" tf:"redirect_config,omitempty"`
 
-	// The configuration of the inserted header field. See remove_header_config below.
+	// The configuration of the removed header field. See remove_header_config below.
 	RemoveHeaderConfig []RemoveHeaderConfigObservation `json:"removeHeaderConfig,omitempty" tf:"remove_header_config,omitempty"`
 
 	// The redirect action within ALB. See rewrite_config below.
@@ -697,9 +691,6 @@ type RuleActionsObservation struct {
 	TrafficMirrorConfig []TrafficMirrorConfigObservation `json:"trafficMirrorConfig,omitempty" tf:"traffic_mirror_config,omitempty"`
 
 	// The action type. Valid values: ForwardGroup, Redirect, FixedResponse, Rewrite, InsertHeader, RemoveHeader, TrafficLimit, TrafficMirror and Cors.
-	// Note: The preceding actions can be classified into two types:  FinalType: A forwarding rule can contain only one FinalType action, which is executed last. This type of action can contain only one ForwardGroup, Redirect or FixedResponse action. ExtType: A forwarding rule can contain one or more ExtType actions, which are executed before FinalType actions and need to coexist with the FinalType actions. This type of action can contain multiple InsertHeader actions or one Rewrite action.
-	// NOTE: The TrafficLimit and TrafficMirror option is available since 1.162.0.
-	// NOTE: From version 1.205.0, type can be set to Cors.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -729,7 +720,7 @@ type RuleActionsParameters struct {
 	// +kubebuilder:validation:Optional
 	RedirectConfig []RedirectConfigParameters `json:"redirectConfig,omitempty" tf:"redirect_config,omitempty"`
 
-	// The configuration of the inserted header field. See remove_header_config below.
+	// The configuration of the removed header field. See remove_header_config below.
 	// +kubebuilder:validation:Optional
 	RemoveHeaderConfig []RemoveHeaderConfigParameters `json:"removeHeaderConfig,omitempty" tf:"remove_header_config,omitempty"`
 
@@ -746,16 +737,13 @@ type RuleActionsParameters struct {
 	TrafficMirrorConfig []TrafficMirrorConfigParameters `json:"trafficMirrorConfig,omitempty" tf:"traffic_mirror_config,omitempty"`
 
 	// The action type. Valid values: ForwardGroup, Redirect, FixedResponse, Rewrite, InsertHeader, RemoveHeader, TrafficLimit, TrafficMirror and Cors.
-	// Note: The preceding actions can be classified into two types:  FinalType: A forwarding rule can contain only one FinalType action, which is executed last. This type of action can contain only one ForwardGroup, Redirect or FixedResponse action. ExtType: A forwarding rule can contain one or more ExtType actions, which are executed before FinalType actions and need to coexist with the FinalType actions. This type of action can contain multiple InsertHeader actions or one Rewrite action.
-	// NOTE: The TrafficLimit and TrafficMirror option is available since 1.162.0.
-	// NOTE: From version 1.205.0, type can be set to Cors.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type RuleConditionsInitParameters struct {
 
-	// The configuration of the cookie. See See cookie_config below.
+	// The configuration of the cookie. See cookie_config below.
 	CookieConfig []CookieConfigInitParameters `json:"cookieConfig,omitempty" tf:"cookie_config,omitempty"`
 
 	// The configuration of the header field. See header_config below.
@@ -788,7 +776,7 @@ type RuleConditionsInitParameters struct {
 
 type RuleConditionsObservation struct {
 
-	// The configuration of the cookie. See See cookie_config below.
+	// The configuration of the cookie. See cookie_config below.
 	CookieConfig []CookieConfigObservation `json:"cookieConfig,omitempty" tf:"cookie_config,omitempty"`
 
 	// The configuration of the header field. See header_config below.
@@ -821,7 +809,7 @@ type RuleConditionsObservation struct {
 
 type RuleConditionsParameters struct {
 
-	// The configuration of the cookie. See See cookie_config below.
+	// The configuration of the cookie. See cookie_config below.
 	// +kubebuilder:validation:Optional
 	CookieConfig []CookieConfigParameters `json:"cookieConfig,omitempty" tf:"cookie_config,omitempty"`
 
@@ -882,7 +870,7 @@ type RuleInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
 
-	// The priority of the rule. Valid values: 1 to 10000. A smaller value indicates a higher priority. Note: The priority of each rule within the same listener must be unique.
+	// The priority of the rule. Valid values: 1 to 10000. A smaller value indicates a higher priority.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// The actions of the forwarding rules. See rule_actions below.
@@ -908,7 +896,7 @@ type RuleObservation struct {
 	// The ID of the listener to which the forwarding rule belongs.
 	ListenerID *string `json:"listenerId,omitempty" tf:"listener_id,omitempty"`
 
-	// The priority of the rule. Valid values: 1 to 10000. A smaller value indicates a higher priority. Note: The priority of each rule within the same listener must be unique.
+	// The priority of the rule. Valid values: 1 to 10000. A smaller value indicates a higher priority.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
 	// The actions of the forwarding rules. See rule_actions below.
@@ -947,7 +935,7 @@ type RuleParameters struct {
 	// +kubebuilder:validation:Optional
 	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
 
-	// The priority of the rule. Valid values: 1 to 10000. A smaller value indicates a higher priority. Note: The priority of each rule within the same listener must be unique.
+	// The priority of the rule. Valid values: 1 to 10000. A smaller value indicates a higher priority.
 	// +kubebuilder:validation:Optional
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
 
@@ -1022,7 +1010,7 @@ type SourceIPConfigParameters struct {
 
 type TrafficLimitConfigInitParameters struct {
 
-	// The number of requests per second for a single IP address. Value range: 1~1000000. Note: If the QPS parameter is also configured, the value of the PerIpQps parameter must be smaller than the value of the QPS parameter.
+	// The number of requests per second for a single IP address. Value range: 1~1000000.
 	PerIPQPS *float64 `json:"perIpQps,omitempty" tf:"per_ip_qps,omitempty"`
 
 	// The Number of requests per second. Valid values: 1 to 100000.
@@ -1031,7 +1019,7 @@ type TrafficLimitConfigInitParameters struct {
 
 type TrafficLimitConfigObservation struct {
 
-	// The number of requests per second for a single IP address. Value range: 1~1000000. Note: If the QPS parameter is also configured, the value of the PerIpQps parameter must be smaller than the value of the QPS parameter.
+	// The number of requests per second for a single IP address. Value range: 1~1000000.
 	PerIPQPS *float64 `json:"perIpQps,omitempty" tf:"per_ip_qps,omitempty"`
 
 	// The Number of requests per second. Valid values: 1 to 100000.
@@ -1040,7 +1028,7 @@ type TrafficLimitConfigObservation struct {
 
 type TrafficLimitConfigParameters struct {
 
-	// The number of requests per second for a single IP address. Value range: 1~1000000. Note: If the QPS parameter is also configured, the value of the PerIpQps parameter must be smaller than the value of the QPS parameter.
+	// The number of requests per second for a single IP address. Value range: 1~1000000.
 	// +kubebuilder:validation:Optional
 	PerIPQPS *float64 `json:"perIpQps,omitempty" tf:"per_ip_qps,omitempty"`
 
@@ -1080,7 +1068,7 @@ type TrafficMirrorConfigParameters struct {
 
 type ValuesInitParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The content of the inserted header field. Valid values:
@@ -1089,7 +1077,7 @@ type ValuesInitParameters struct {
 
 type ValuesObservation struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
 	// The content of the inserted header field. Valid values:
@@ -1098,7 +1086,7 @@ type ValuesObservation struct {
 
 type ValuesParameters struct {
 
-	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader. Note You cannot use Cookie or Host in the name.
+	// The name of the inserted header field. The name must be 1 to 40 characters in length, and can contain letters, digits, underscores (_), and hyphens (-). You cannot use the same name in InsertHeader.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 

@@ -125,6 +125,44 @@ export UPTEST_CLOUD_CREDENTIALS='{
 }'
 ```
 
+## Hiding a field from a generated CRD
+
+This provider uses upjet's no-fork architecture: it links the upstream Terraform
+provider's Go SDK and calls its CRUD functions in-process, rather than shelling
+out to `terraform`.
+
+That changes what `delete(r.TerraformResource.Schema, "field")` does, and the
+difference is easy to miss. Under CLI reconciliation `TerraformResource` was a
+throwaway map rebuilt from `config/schema.json`, so deleting from it only shaped
+the generated CRD. Under no-fork, upjet assigns `TerraformResource` straight from
+the live `*schema.Provider` **without copying it**, so the same delete strips the
+field from the map the upstream CRUD functions execute against. Depending on how
+upstream reads that field, the result is anything from a silently unset value to
+a panic on every create:
+
+```go
+// alicloud_oss_bucket Create, upstream:
+oss.ACL(oss.ACLType(d.Get("acl").(string)))   // d.Get returns nil once "acl" is
+                                              // gone from the schema
+```
+
+So per-resource configurators in `config/<group>/config.go` must **not** call
+`delete(r.TerraformResource.Schema, ...)`. Add the field to
+`generationOnlySchemaOmissions` in [config/schema_omissions.go](config/schema_omissions.go)
+instead. Those omissions are applied only when `GetProvider` is building the
+code-generation provider, which shapes the CRD exactly as before while leaving
+the runtime schema intact.
+
+`TestRuntimeSchemaIsPristine` enforces this. If it fails after you add a resource
+— or after merging a branch that adds one — the fix is to **move** the delete
+into the table, not to revert the test:
+
+```
+resource "alicloud_alikafka_instance" is missing field "topic_quota" from its
+runtime Terraform schema; schema fields may only be omitted from the
+code-generation provider (see generationOnlySchemaOmissions)
+```
+
 ## Submit PR
 
 - `make reviewable` before submitting a new PR

@@ -1346,6 +1346,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.VPCSaslDomainEndpoint != nil {
+		in, out := &in.VPCSaslDomainEndpoint, &out.VPCSaslDomainEndpoint
+		*out = new(string)
+		**out = **in
+	}
 	if in.VswitchID != nil {
 		in, out := &in.VswitchID, &out.VswitchID
 		*out = new(string)

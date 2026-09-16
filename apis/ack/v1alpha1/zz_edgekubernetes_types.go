@@ -62,6 +62,45 @@ type AddonsParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
+type CertificateAuthorityInitParameters struct {
+}
+
+type CertificateAuthorityObservation struct {
+
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
+	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
+
+	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.
+	ClientKey *string `json:"clientKey,omitempty" tf:"client_key,omitempty"`
+
+	// The base64 encoded cluster certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
+	ClusterCert *string `json:"clusterCert,omitempty" tf:"cluster_cert,omitempty"`
+}
+
+type CertificateAuthorityParameters struct {
+}
+
+type ConnectionsInitParameters struct {
+}
+
+type ConnectionsObservation struct {
+
+	// API Server Internet endpoint.
+	APIServerInternet *string `json:"apiServerInternet,omitempty" tf:"api_server_internet,omitempty"`
+
+	// API Server Intranet endpoint.
+	APIServerIntranet *string `json:"apiServerIntranet,omitempty" tf:"api_server_intranet,omitempty"`
+
+	// Master node SSH IP address.
+	MasterPublicIP *string `json:"masterPublicIp,omitempty" tf:"master_public_ip,omitempty"`
+
+	// Service Access Domain.
+	ServiceDomain *string `json:"serviceDomain,omitempty" tf:"service_domain,omitempty"`
+}
+
+type ConnectionsParameters struct {
+}
+
 type EdgeKubernetesInitParameters struct {
 
 	// The addon you want to install in cluster. See addons below.
@@ -84,9 +123,6 @@ type EdgeKubernetesInitParameters struct {
 
 	// Whether to enable cluster deletion protection.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
-	// (Removed) Whether to force the update of kubernetes cluster arguments. Default to false.
-	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
 	// Install cloud monitor agent on ECS. default: true.
 	InstallCloudMonitor *bool `json:"installCloudMonitor,omitempty" tf:"install_cloud_monitor,omitempty"`
@@ -134,9 +170,8 @@ type EdgeKubernetesInitParameters struct {
 	// Resources that are automatically created during cluster creation, including NAT gateways, SNAT rules, SLB instances, and RAM Role, will be deleted. Resources that are manually created after you create the cluster, such as SLB instances for Services, will also be deleted. If you need to retain resources, please configure with retain_resources. There are several aspects to pay attention to when using retain_resources to retain resources.
 	RetainResources []*string `json:"retainResources,omitempty" tf:"retain_resources,omitempty"`
 
-	// The runtime of containers. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container. See runtime below.
-	// +mapType=granular
-	Runtime map[string]*string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+	// A list of runtime of containers. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container. See runtime below.
+	Runtime []RuntimeInitParameters `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -216,9 +251,8 @@ type EdgeKubernetesObservation struct {
 	// The ID of availability zone.
 	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
 
-	// (Map, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.
-	// +mapType=granular
-	CertificateAuthority map[string]*string `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
+	// (List, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.
+	CertificateAuthority []CertificateAuthorityObservation `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
 	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
@@ -232,15 +266,11 @@ type EdgeKubernetesObservation struct {
 	// The cluster specifications of kubernetes cluster,which can be empty. Valid values:
 	ClusterSpec *string `json:"clusterSpec,omitempty" tf:"cluster_spec,omitempty"`
 
-	// (Map) Map of kubernetes cluster connection information.
-	// +mapType=granular
-	Connections map[string]*string `json:"connections,omitempty" tf:"connections,omitempty"`
+	// (List) A list of kubernetes cluster connection information.
+	Connections []ConnectionsObservation `json:"connections,omitempty" tf:"connections,omitempty"`
 
 	// Whether to enable cluster deletion protection.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
-
-	// (Removed) Whether to force the update of kubernetes cluster arguments. Default to false.
-	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
 	// The ID of the container cluster.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -291,9 +321,8 @@ type EdgeKubernetesObservation struct {
 	// Resources that are automatically created during cluster creation, including NAT gateways, SNAT rules, SLB instances, and RAM Role, will be deleted. Resources that are manually created after you create the cluster, such as SLB instances for Services, will also be deleted. If you need to retain resources, please configure with retain_resources. There are several aspects to pay attention to when using retain_resources to retain resources.
 	RetainResources []*string `json:"retainResources,omitempty" tf:"retain_resources,omitempty"`
 
-	// The runtime of containers. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container. See runtime below.
-	// +mapType=granular
-	Runtime map[string]*string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+	// A list of runtime of containers. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container. See runtime below.
+	Runtime []RuntimeObservation `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
@@ -303,6 +332,9 @@ type EdgeKubernetesObservation struct {
 
 	// Configure whether to save certificate authority data for your cluster to attribute certificate_authority. For cluster security, recommended configuration as true. Will be removed with attribute certificate_authority removed.
 	SkipSetCertificateAuthority *bool `json:"skipSetCertificateAuthority,omitempty" tf:"skip_set_certificate_authority,omitempty"`
+
+	// The ID of the container cluster.
+	SlbID *string `json:"slbId,omitempty" tf:"slb_id,omitempty"`
 
 	// The public ip of load balancer.
 	SlbInternet *string `json:"slbInternet,omitempty" tf:"slb_internet,omitempty"`
@@ -390,10 +422,6 @@ type EdgeKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
-	// (Removed) Whether to force the update of kubernetes cluster arguments. Default to false.
-	// +kubebuilder:validation:Optional
-	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
-
 	// Install cloud monitor agent on ECS. default: true.
 	// +kubebuilder:validation:Optional
 	InstallCloudMonitor *bool `json:"installCloudMonitor,omitempty" tf:"install_cloud_monitor,omitempty"`
@@ -460,10 +488,9 @@ type EdgeKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	RetainResources []*string `json:"retainResources,omitempty" tf:"retain_resources,omitempty"`
 
-	// The runtime of containers. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container. See runtime below.
+	// A list of runtime of containers. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container. See runtime below.
 	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	Runtime map[string]*string `json:"runtime,omitempty" tf:"runtime,omitempty"`
+	Runtime []RuntimeParameters `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -578,6 +605,35 @@ type LogConfigParameters struct {
 	// Type of collecting logs, only SLS are supported currently.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
+}
+
+type RuntimeInitParameters struct {
+
+	// The name of the runtime. Supported runtimes can be queried by data source alicloud_cs_kubernetes_version.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The version of the runtime.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type RuntimeObservation struct {
+
+	// The name of the runtime. Supported runtimes can be queried by data source alicloud_cs_kubernetes_version.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The version of the runtime.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type RuntimeParameters struct {
+
+	// The name of the runtime. Supported runtimes can be queried by data source alicloud_cs_kubernetes_version.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The version of the runtime.
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type WorkerDataDisksInitParameters struct {

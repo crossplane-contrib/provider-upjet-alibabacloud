@@ -5,8 +5,16 @@ Copyright 2021 Upbound Inc.
 package config
 
 import (
+	"context"
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
+
+	alicloud "github.com/aliyun/terraform-provider-alicloud/alicloud"
+	"github.com/crossplane/upjet/pkg/schema/traverser"
+	conversiontfjson "github.com/crossplane/upjet/pkg/types/conversion/tfjson"
+	tfjson "github.com/hashicorp/terraform-json"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/pkg/errors"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/fcv3"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/slb"
@@ -48,10 +56,63 @@ var providerSchema string
 //go:embed provider-metadata.yaml
 var providerMetadata string
 
-// GetProvider returns provider configuration
-func GetProvider() *ujconfig.Provider {
+// getProviderSchema builds a schema.Provider out of the Terraform JSON schema
+// document. It carries no CRUD implementations, so it is only good enough for
+// code generation, where the schema is all that is read.
+func getProviderSchema(s string) (*schema.Provider, error) {
+	ps := tfjson.ProviderSchemas{}
+	if err := ps.UnmarshalJSON([]byte(s)); err != nil {
+		return nil, errors.Wrap(err, "cannot unmarshal the Terraform JSON schema")
+	}
+	if len(ps.Schemas) != 1 {
+		return nil, errors.Errorf("there should exactly be 1 provider schema but there are %d", len(ps.Schemas))
+	}
+	var rs map[string]*tfjson.Schema
+	for _, v := range ps.Schemas {
+		rs = v.ResourceSchemas
+		break
+	}
+	return &schema.Provider{
+		ResourcesMap: conversiontfjson.GetV2ResourceMap(rs),
+	}, nil
+}
+
+// GetProvider returns provider configuration. When generationProvider is true,
+// the Terraform provider is reconstructed from the embedded JSON schema, which
+// keeps code generation independent of the upstream provider's Go code. At
+// runtime it is the real upstream provider, whose CRUD functions the plugin SDK
+// external client calls directly.
+func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider, error) {
+	// The runtime schema is the upstream provider's own Go schema, which the
+	// CRUD functions execute against. Code generation deliberately uses the
+	// JSON schema instead, to keep the generated CRD APIs stable: the Go
+	// schema would, among other things, widen some number fields differently.
+	//
+	// The two are not identical, though: the JSON schema does not faithfully
+	// carry MaxItems, so a list the Go schema constrains to one element can
+	// come back unconstrained. Left alone, the generated API would model such
+	// a field as an array while the runtime conversion functions expect a
+	// single object. Sync the constraints across before generating, as
+	// provider-upjet-aws does for the same reason.
+	//
+	// Today this is a no-op for the resources we expose: the only divergence
+	// in the upstream schema is alicloud_ros_stack_instances.deployment_options,
+	// which is not in the include list. It is kept because the divergence is a
+	// property of the two schema sources, not of the current include list.
+	p := alicloud.Provider()
+	if generationProvider {
+		gp, err := getProviderSchema(providerSchema)
+		if err != nil {
+			return nil, errors.Wrap(err, "cannot get the Terraform provider schema from the embedded JSON schema for code generation")
+		}
+		if err := traverser.TFResourceSchema(p.ResourcesMap).Traverse(traverser.NewMaxItemsSync(gp.ResourcesMap)); err != nil {
+			return nil, errors.Wrap(err, "cannot sync the MaxItems constraints between the Go schema and the JSON schema")
+		}
+		p = gp
+	}
+
 	defaultResourceOptions := []ujconfig.ResourceOption{
-		ExternalNameConfigurations(),
+		ResourceConfigurator(),
 		RegionAddition(),
 		IdentifierAssignedByAlibabaCloud(),
 		KnownReferences(),
@@ -63,11 +124,19 @@ func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
 		ujconfig.WithShortName("alibabacloud"),
 		ujconfig.WithRootGroup("alibabacloud.crossplane.io"),
-		ujconfig.WithIncludeList(ExternalNameConfigured()),
+		ujconfig.WithIncludeList(resourceList(CLIReconciledExternalNameConfigs)),
+		ujconfig.WithTerraformPluginSDKIncludeList(resourceList(terraformPluginSDKExternalNameConfigs)),
+		ujconfig.WithTerraformProvider(p),
 		ujconfig.WithReferenceInjectors([]ujconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithMainTemplate(hack.MainTemplate),
 		ujconfig.WithDefaultResourceOptions(defaultResourceOptions...))
+
+	// Schema omissions shape the generated CRDs and must never touch the live
+	// runtime schema, which the upstream CRUD functions execute against.
+	if generationProvider {
+		addGenerationOnlySchemaOmissions(pc)
+	}
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
@@ -97,5 +166,5 @@ func GetProvider() *ujconfig.Provider {
 	}
 
 	pc.ConfigureResources()
-	return pc
+	return pc, nil
 }

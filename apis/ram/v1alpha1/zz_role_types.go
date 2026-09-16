@@ -18,7 +18,7 @@ type RoleInitParameters struct {
 	// The trust policy that specifies one or more trusted entities to assume the RAM role. The trusted entities can be Alibaba Cloud accounts, Alibaba Cloud services, or identity providers (IdPs).
 	AssumeRolePolicyDocument *string `json:"assumeRolePolicyDocument,omitempty" tf:"assume_role_policy_document,omitempty"`
 
-	// The description of the RAM role.
+	// The description of the RAM role. The description must be 1 to 1024 characters in length.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Field document has been deprecated from provider version 1.252.0. New field assume_role_policy_document instead.
@@ -52,7 +52,7 @@ type RoleObservation struct {
 	// (Available since v1.252.0) The time when the RAM role was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// The description of the RAM role.
+	// The description of the RAM role. The description must be 1 to 1024 characters in length.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Field document has been deprecated from provider version 1.252.0. New field assume_role_policy_document instead.
@@ -87,7 +87,7 @@ type RoleParameters struct {
 	// +kubebuilder:validation:Optional
 	AssumeRolePolicyDocument *string `json:"assumeRolePolicyDocument,omitempty" tf:"assume_role_policy_document,omitempty"`
 
-	// The description of the RAM role.
+	// The description of the RAM role. The description must be 1 to 1024 characters in length.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 

@@ -33,9 +33,6 @@ type LoadBalancerInitParameters struct {
 	// Support PayBySpec (default) and PayByCLCU, This parameter takes effect when the value of payment_type (instance payment mode) is PayAsYouGo (pay-as-you-go).
 	InstanceChargeType *string `json:"instanceChargeType,omitempty" tf:"instance_charge_type,omitempty"`
 
-	// Field internet has been deprecated from provider version 1.124.0 New field address_type instead.
-	Internet *bool `json:"internet,omitempty" tf:"internet,omitempty"`
-
 	// Valid values are PayByBandwidth, PayByTraffic. If this value is PayByBandwidth, then argument address_type must be internet. Default is PayByTraffic. If load balancer launched in VPC, this value must be PayByTraffic. Before version 1.10.1, the valid values are paybybandwidth and paybytraffic.
 	InternetChargeType *string `json:"internetChargeType,omitempty" tf:"internet_charge_type,omitempty"`
 
@@ -132,9 +129,6 @@ type LoadBalancerObservation struct {
 	// Support PayBySpec (default) and PayByCLCU, This parameter takes effect when the value of payment_type (instance payment mode) is PayAsYouGo (pay-as-you-go).
 	InstanceChargeType *string `json:"instanceChargeType,omitempty" tf:"instance_charge_type,omitempty"`
 
-	// Field internet has been deprecated from provider version 1.124.0 New field address_type instead.
-	Internet *bool `json:"internet,omitempty" tf:"internet,omitempty"`
-
 	// Valid values are PayByBandwidth, PayByTraffic. If this value is PayByBandwidth, then argument address_type must be internet. Default is PayByTraffic. If load balancer launched in VPC, this value must be PayByTraffic. Before version 1.10.1, the valid values are paybybandwidth and paybytraffic.
 	InternetChargeType *string `json:"internetChargeType,omitempty" tf:"internet_charge_type,omitempty"`
 
@@ -204,10 +198,6 @@ type LoadBalancerParameters struct {
 	// Support PayBySpec (default) and PayByCLCU, This parameter takes effect when the value of payment_type (instance payment mode) is PayAsYouGo (pay-as-you-go).
 	// +kubebuilder:validation:Optional
 	InstanceChargeType *string `json:"instanceChargeType,omitempty" tf:"instance_charge_type,omitempty"`
-
-	// Field internet has been deprecated from provider version 1.124.0 New field address_type instead.
-	// +kubebuilder:validation:Optional
-	Internet *bool `json:"internet,omitempty" tf:"internet,omitempty"`
 
 	// Valid values are PayByBandwidth, PayByTraffic. If this value is PayByBandwidth, then argument address_type must be internet. Default is PayByTraffic. If load balancer launched in VPC, this value must be PayByTraffic. Before version 1.10.1, the valid values are paybybandwidth and paybytraffic.
 	// +kubebuilder:validation:Optional

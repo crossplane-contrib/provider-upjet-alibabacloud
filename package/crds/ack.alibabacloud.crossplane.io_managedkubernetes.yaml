@@ -129,11 +129,6 @@ spec:
                           type: boolean
                       type: object
                     type: array
-                  availabilityZone:
-                    description: (Removed since v1.212.0) The Zone where new kubernetes
-                      cluster will be located. If it is not be specified, the vswitch_ids
-                      should be set, its value will be vswitch's zone.
-                    type: string
                   clientCert:
                     description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
                       is recommended to manage cluster's kubeconfig, you can also
@@ -160,14 +155,50 @@ spec:
                       Cluster local domain name, Default to cluster.local. A domain name consists of one or more sections separated by a decimal point (.), each of which is up to 63 characters long, and can be lowercase, numerals, and underscores (-), and must be lowercase or numerals at the beginning and end.
                       cluster local domain
                     type: string
-                  clusterNetworkType:
-                    description: (Removed) The network that cluster uses, use flannel
-                      or terway.
-                    type: string
                   clusterSpec:
-                    description: 'The cluster specifications of kubernetes cluster,which
-                      can be empty. Valid values:'
+                    description: 'The cluster specifications of kubernetes cluster,
+                      which can be empty. Valid values:'
                     type: string
+                  controlPlaneEndpointsConfig:
+                    description: The cluster access configuration. See control_plane_endpoints_config
+                      below.
+                    items:
+                      properties:
+                        internalDnsConfig:
+                          description: The cluster internal domain name configuration,
+                            applicable to ACK managed clusters. See internal_dns_config
+                            below.
+                          items:
+                            properties:
+                              bindVpcs:
+                                description: The list of VPCs where the API Server
+                                  access domain name takes effect. By default, the
+                                  VPC of the cluster is included.
+                                items:
+                                  type: string
+                                type: array
+                              enabled:
+                                description: Whether to enable automatic cluster upgrade.
+                                type: boolean
+                            type: object
+                          type: array
+                        loadBalancersConfig:
+                          description: The load balancing configuration for cluster
+                            access. See load_balancers_config below.
+                          items:
+                            properties:
+                              endpointType:
+                                description: 'The endpoint type. Valid values: private,
+                                  public.'
+                                type: string
+                              loadBalancerId:
+                                description: The ID of the SLB (NLB) instance associated
+                                  with the endpoint.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   controlPlaneLogComponents:
                     description: List of target components for which logs need to
                       be collected. Supports apiserver, kcm, scheduler, ccm and controlplane-events.
@@ -183,11 +214,6 @@ spec:
                     description: 'Control plane log retention duration (unit: day).
                       Default 30. If control plane logs are to be collected, control_plane_log_ttl
                       and control_plane_log_components must be specified.'
-                    type: string
-                  cpuPolicy:
-                    description: (Removed since v1.212.0) Kubelet cpu policy. For
-                      Kubernetes 1.12.6 and later, its valid value is either static
-                      or none. Default to none.
                     type: string
                   customSan:
                     description: Customize the certificate SAN, multiple IP or domain
@@ -224,32 +250,11 @@ spec:
                       add the rrsa configuration to the file, learn more RAM Roles
                       for Service Accounts.
                     type: boolean
-                  enableSsh:
-                    description: (Removed since v1.212.0) Enable login to the node
-                      through SSH. Default to false.
-                    type: boolean
                   encryptionProviderKey:
                     description: |-
                       The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
                       The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
                     type: string
-                  excludeAutoscalerNodes:
-                    description: (Removed since v1.212.0) Exclude autoscaler nodes
-                      from worker_nodes. Default to false.
-                    type: boolean
-                  forceUpdate:
-                    description: (Removed) Whether to force the update of kubernetes
-                      cluster arguments. Default to false.
-                    type: boolean
-                  imageId:
-                    description: (Removed since v1.212.0) Custom Image support. Must
-                      based on CentOS7 or AliyunLinux2.
-                    type: string
-                  installCloudMonitor:
-                    description: (Removed since v1.212.0) Install cloud monitor agent
-                      on ECS. Default is true in previous version. From provider version
-                      1.208.0, the default value is false.
-                    type: boolean
                   ipStack:
                     description: 'The IP address family that the cluster network uses.
                       Valid values:'
@@ -259,32 +264,6 @@ spec:
                       false. Only works for Create Operation. See Advanced security
                       group.'
                     type: boolean
-                  keyName:
-                    description: (Removed since v1.212.0) The keypair of ssh login
-                      cluster node, you have to create it first. You have to specify
-                      one of password key_name kms_encrypted_password fields. From
-                      ersion 1.109.1, It is not necessary in the professional managed
-                      cluster.
-                    type: string
-                  kmsEncryptedPassword:
-                    description: (Removed since v1.212.0) An KMS encrypts password
-                      used to a cs kubernetes. You have to specify one of password
-                      key_name kms_encrypted_password fields.
-                    type: string
-                  kmsEncryptionContext:
-                    additionalProperties:
-                      type: string
-                    description: (Removed since v1.212.0) An KMS encryption context
-                      used to decrypt kms_encrypted_password before creating or updating
-                      a cs kubernetes with kms_encrypted_password. See Encryption
-                      Context. It is valid when kms_encrypted_password is set.
-                    type: object
-                    x-kubernetes-map-type: granular
-                  kubeConfig:
-                    description: (Removed since v1.212.0) The path of kube config,
-                      like ~/.kube/config. Please use the attribute output_file of
-                      new DataSource alicloud_cs_cluster_credential to replace it.
-                    type: string
                   loadBalancerSpec:
                     description: The cluster api server load balancer instance specification.
                       For more information on how to select a LB instance specification,
@@ -292,21 +271,6 @@ spec:
                       The spec will not take effect because the charge of the load
                       balancer has been changed to PayByCLCU.
                     type: string
-                  logConfig:
-                    description: (Removed) A list of one element containing information
-                      about the associated log store. See log_config below.
-                    items:
-                      properties:
-                        project:
-                          description: Log Service project name, cluster logs will
-                            output to this project.
-                          type: string
-                        type:
-                          description: Type of collecting logs, only SLS are supported
-                            currently.
-                          type: string
-                      type: object
-                    type: array
                   maintenanceWindow:
                     description: The cluster maintenance window. Managed node pool
                       will use it. See maintenance_window below.
@@ -346,18 +310,6 @@ spec:
                       run on single node. 24-28 is allowed. 24 means 2^(32-24)-1=255
                       and the node can run at most 255 pods. default: 24'
                     type: number
-                  nodeNameMode:
-                    description: (Removed since v1.212.0) Each node name consists
-                      of a prefix, an IP substring, and a suffix, the input format
-                      is customized,<prefix>,IPSubStringLen,<suffix>. For example
-                      "customized,aliyun.com-,5,-test", if the node IP address is
-                      192.168.59.176, the prefix is aliyun.com-, IP substring length
-                      is 5, and the suffix is -test, the node name will be aliyun.com-59176-test.
-                    type: string
-                  nodePortRange:
-                    description: '(Removed since v1.212.0) The service port range
-                      of nodes, valid values: 30000 to 65535. Default to 30000-32767.'
-                    type: string
                   operationPolicy:
                     description: The cluster automatic operation policy, only works
                       when maintenance_window is enabled. See operation_policy below.
@@ -379,36 +331,6 @@ spec:
                           type: array
                       type: object
                     type: array
-                  osType:
-                    description: (Removed since v1.212.0) The operating system of
-                      the nodes that run pods, its valid value is either Linux or
-                      Windows. Default to Linux.
-                    type: string
-                  passwordSecretRef:
-                    description: (Removed since v1.212.0) The password of ssh login
-                      cluster node. You have to specify one of password key_name kms_encrypted_password
-                      fields. From ersion 1.109.1, It is not necessary in the professional
-                      managed cluster.
-                    properties:
-                      key:
-                        description: The key to select.
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                      namespace:
-                        description: Namespace of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    - namespace
-                    type: object
-                  platform:
-                    description: (Removed since v1.212.0) The architecture of the
-                      nodes that run pods, its valid value is either CentOS or AliyunLinux.
-                      Default to CentOS.
-                    type: string
                   podCidr:
                     description: '- [Flannel Specific] The CIDR block for the pod
                       network when using Flannel.'
@@ -421,6 +343,84 @@ spec:
                     items:
                       type: string
                     type: array
+                  podVswitchIdsRefs:
+                    description: References to Vswitch in vpc to populate podVswitchIds.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  podVswitchIdsSelector:
+                    description: Selector for a list of Vswitch in vpc to populate
+                      podVswitchIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   profile:
                     description: 'The profile of cluster. Valid values:'
                     type: string
@@ -428,12 +428,6 @@ spec:
                     description: 'kube-proxy proxy mode. Default: ipvs. Options: iptables,
                       ipvs, nftables.'
                     type: string
-                  rdsInstances:
-                    description: (Removed since v1.212.0) RDS instance list, You can
-                      choose which RDS instances whitelist to add instances to.
-                    items:
-                      type: string
-                    type: array
                   region:
                     description: Region is the region you'd like your resource to
                       be created in.
@@ -454,14 +448,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  runtime:
-                    additionalProperties:
-                      type: string
-                    description: (Removed since v1.212.0) The runtime of containers.
-                      If you select another container runtime, see Comparison of Docker,
-                      containerd, and Sandboxed-Container. See runtime below.
-                    type: object
-                    x-kubernetes-map-type: granular
                   securityGroupId:
                     description: The ID of the security group to which the ECS instances
                       in the cluster belong. If it is not specified, a new Security
@@ -570,25 +556,6 @@ spec:
                     description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
-                  taints:
-                    description: (Removed since v1.212.0) Taints ensure pods are not
-                      scheduled onto inappropriate nodes. One or more taints are applied
-                      to a node; this marks that the node should not accept any pods
-                      that do not tolerate the taints. For more information, see Taints
-                      and Tolerations. See taints below.
-                    items:
-                      properties:
-                        effect:
-                          description: The taint effect.
-                          type: string
-                        key:
-                          description: The taint key.
-                          type: string
-                        value:
-                          description: The taint value.
-                          type: string
-                      type: object
-                    type: array
                   timezone:
                     description: Cluster timezone, works for control plane and Worker
                       nodes.
@@ -610,10 +577,6 @@ spec:
                   userCa:
                     description: The path of customized CA cert, you can use this
                       CA to sign client certs to connect your cluster.
-                    type: string
-                  userData:
-                    description: (Removed since v1.212.0) Custom data that can execute
-                      on nodes. For more information, see Prepare user data.
                     type: string
                   version:
                     description: Desired Kubernetes version. If you do not specify
@@ -707,143 +670,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  workerAutoRenew:
-                    description: (Removed since v1.212.0) Enable worker payment auto-renew,
-                      defaults to false.
-                    type: boolean
-                  workerAutoRenewPeriod:
-                    description: (Removed since v1.212.0) Worker payment auto-renew
-                      period, it can be one of {1, 2, 3, 6, 12}.
-                    type: number
-                  workerDataDiskCategory:
-                    description: (Removed) The data disk category of worker, use worker_data_disks
-                      to instead it.
-                    type: string
-                  workerDataDiskSize:
-                    description: (Removed) The data disk size of worker, use worker_data_disks
-                      to instead it.
-                    type: number
-                  workerDataDisks:
-                    description: (Removed since v1.212.0) The data disk configurations
-                      of worker nodes, such as the disk type and disk size.  See worker_data_disks
-                      below.
-                    items:
-                      properties:
-                        autoSnapshotPolicyId:
-                          description: Worker node data disk auto snapshot policy.
-                          type: string
-                        category:
-                          description: 'The type of the data disks. Valid values:
-                            cloud, cloud_efficiency, cloud_ssd and cloud_essd. Default
-                            to cloud_efficiency.'
-                          type: string
-                        device:
-                          description: The mount point of data disk N.
-                          type: string
-                        encrypted:
-                          description: 'Specifies whether to encrypt data disks. Valid
-                            values: true and false. Default to false.'
-                          type: string
-                        kmsKeyId:
-                          description: The ID of the Key Management Service (KMS)
-                            key to use for data disk N.
-                          type: string
-                        name:
-                          description: The name of data disk N. The name must be 2
-                            to 128 characters in length. It must start with a letter
-                            and cannot start with http:// or https://. It can contain
-                            letters, digits, colons (.), underscores (_), and hyphens
-                            (-).
-                          type: string
-                        performanceLevel:
-                          description: Worker node data disk performance level, when
-                            category values cloud_essd, the optional values are PL0,
-                            PL1, PL2 or PL3, but the specific performance level is
-                            related to the disk capacity. For more information, see
-                            Enhanced SSDs. Default is PL1.
-                          type: string
-                        size:
-                          description: 'The size of a data disk, at least 40. Unit:
-                            GiB.'
-                          type: string
-                        snapshotId:
-                          description: 'The ID of the snapshot to be used to create
-                            data disk N. Valid values of N: 1 to 16. When DataDisk.N.SnapshotId
-                            is specified, DataDisk.N.Size is ignored. The data disk
-                            is created based on the size of the specified snapshot.
-                            Use snapshots that were created on or after July 15, 2013.
-                            Otherwise, an error is returned and your request is rejected.'
-                          type: string
-                      type: object
-                    type: array
-                  workerDiskCategory:
-                    description: (Removed since v1.212.0) The system disk category
-                      of worker node. Its valid value are cloud, cloud_ssd, cloud_essd
-                      and cloud_efficiency. Default to cloud_efficiency.
-                    type: string
-                  workerDiskPerformanceLevel:
-                    description: (Removed since v1.212.0) Worker node system disk
-                      performance level, when worker_disk_category values cloud_essd,
-                      the optional values are PL0, PL1, PL2 or PL3, but the specific
-                      performance level is related to the disk capacity. For more
-                      information, see Enhanced SSDs. Default is PL1.
-                    type: string
-                  workerDiskSize:
-                    description: (Removed since v1.212.0) The system disk size of
-                      worker node. Its valid value range [40~500] in GB.
-                    type: number
-                  workerDiskSnapshotPolicyId:
-                    description: (Removed since v1.212.0) Worker node system disk
-                      auto snapshot policy.
-                    type: string
-                  workerInstanceChargeType:
-                    description: (Removed since v1.212.0) Worker payment type, its
-                      valid value is either or PostPaid or PrePaid. Defaults to PostPaid.
-                      If value is PrePaid, the files worker_period, worker_period_unit,
-                      worker_auto_renew and worker_auto_renew_period are required,
-                      default is PostPaid.
-                    type: string
-                  workerInstanceType:
-                    description: (Removed from version 1.16.0) The instance type of
-                      worker node.
-                    type: string
-                  workerInstanceTypes:
-                    description: (Removed since v1.212.0) The instance type of worker
-                      node. Specify one type for single AZ Cluster, three types for
-                      MultiAZ Cluster. From version 1.109.1, It is not necessary in
-                      the professional managed cluster, but it is necessary in other
-                      types of clusters.
-                    items:
-                      type: string
-                    type: array
-                  workerNodes:
-                    description: (Removed from version 1.212.0) List of cluster worker
-                      nodes.
-                    items:
-                      type: object
-                    type: array
-                  workerNumber:
-                    description: (Removed since v1.212.0) The worker node number of
-                      the kubernetes cluster. Default to 3. It is limited up to 50
-                      and if you want to enlarge it, please apply white list or contact
-                      with us. From version 1.109.1, It is not necessary in the professional
-                      managed cluster, but it is necessary in other types of clusters.
-                    type: number
-                  workerNumbers:
-                    description: (Removed) The number of workers, use worker_number
-                      to instead it.
-                    items:
-                      type: number
-                    type: array
-                  workerPeriod:
-                    description: (Removed since v1.212.0) Worker payment period. The
-                      unit is Month. Its valid value is one of {1, 2, 3, 6, 12, 24,
-                      36, 48, 60}.
-                    type: number
-                  workerPeriodUnit:
-                    description: (Removed since v1.212.0) Worker payment period unit,
-                      the valid value is Month.
-                    type: string
                   workerVswitchIds:
                     description: The vSwitches used by control plane. Modification
                       after creation will not take effect. Please use vswitch_ids
@@ -930,11 +756,6 @@ spec:
                           type: boolean
                       type: object
                     type: array
-                  availabilityZone:
-                    description: (Removed since v1.212.0) The Zone where new kubernetes
-                      cluster will be located. If it is not be specified, the vswitch_ids
-                      should be set, its value will be vswitch's zone.
-                    type: string
                   clientCert:
                     description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
                       is recommended to manage cluster's kubeconfig, you can also
@@ -961,14 +782,50 @@ spec:
                       Cluster local domain name, Default to cluster.local. A domain name consists of one or more sections separated by a decimal point (.), each of which is up to 63 characters long, and can be lowercase, numerals, and underscores (-), and must be lowercase or numerals at the beginning and end.
                       cluster local domain
                     type: string
-                  clusterNetworkType:
-                    description: (Removed) The network that cluster uses, use flannel
-                      or terway.
-                    type: string
                   clusterSpec:
-                    description: 'The cluster specifications of kubernetes cluster,which
-                      can be empty. Valid values:'
+                    description: 'The cluster specifications of kubernetes cluster,
+                      which can be empty. Valid values:'
                     type: string
+                  controlPlaneEndpointsConfig:
+                    description: The cluster access configuration. See control_plane_endpoints_config
+                      below.
+                    items:
+                      properties:
+                        internalDnsConfig:
+                          description: The cluster internal domain name configuration,
+                            applicable to ACK managed clusters. See internal_dns_config
+                            below.
+                          items:
+                            properties:
+                              bindVpcs:
+                                description: The list of VPCs where the API Server
+                                  access domain name takes effect. By default, the
+                                  VPC of the cluster is included.
+                                items:
+                                  type: string
+                                type: array
+                              enabled:
+                                description: Whether to enable automatic cluster upgrade.
+                                type: boolean
+                            type: object
+                          type: array
+                        loadBalancersConfig:
+                          description: The load balancing configuration for cluster
+                            access. See load_balancers_config below.
+                          items:
+                            properties:
+                              endpointType:
+                                description: 'The endpoint type. Valid values: private,
+                                  public.'
+                                type: string
+                              loadBalancerId:
+                                description: The ID of the SLB (NLB) instance associated
+                                  with the endpoint.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   controlPlaneLogComponents:
                     description: List of target components for which logs need to
                       be collected. Supports apiserver, kcm, scheduler, ccm and controlplane-events.
@@ -984,11 +841,6 @@ spec:
                     description: 'Control plane log retention duration (unit: day).
                       Default 30. If control plane logs are to be collected, control_plane_log_ttl
                       and control_plane_log_components must be specified.'
-                    type: string
-                  cpuPolicy:
-                    description: (Removed since v1.212.0) Kubelet cpu policy. For
-                      Kubernetes 1.12.6 and later, its valid value is either static
-                      or none. Default to none.
                     type: string
                   customSan:
                     description: Customize the certificate SAN, multiple IP or domain
@@ -1025,32 +877,11 @@ spec:
                       add the rrsa configuration to the file, learn more RAM Roles
                       for Service Accounts.
                     type: boolean
-                  enableSsh:
-                    description: (Removed since v1.212.0) Enable login to the node
-                      through SSH. Default to false.
-                    type: boolean
                   encryptionProviderKey:
                     description: |-
                       The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
                       The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
                     type: string
-                  excludeAutoscalerNodes:
-                    description: (Removed since v1.212.0) Exclude autoscaler nodes
-                      from worker_nodes. Default to false.
-                    type: boolean
-                  forceUpdate:
-                    description: (Removed) Whether to force the update of kubernetes
-                      cluster arguments. Default to false.
-                    type: boolean
-                  imageId:
-                    description: (Removed since v1.212.0) Custom Image support. Must
-                      based on CentOS7 or AliyunLinux2.
-                    type: string
-                  installCloudMonitor:
-                    description: (Removed since v1.212.0) Install cloud monitor agent
-                      on ECS. Default is true in previous version. From provider version
-                      1.208.0, the default value is false.
-                    type: boolean
                   ipStack:
                     description: 'The IP address family that the cluster network uses.
                       Valid values:'
@@ -1060,32 +891,6 @@ spec:
                       false. Only works for Create Operation. See Advanced security
                       group.'
                     type: boolean
-                  keyName:
-                    description: (Removed since v1.212.0) The keypair of ssh login
-                      cluster node, you have to create it first. You have to specify
-                      one of password key_name kms_encrypted_password fields. From
-                      ersion 1.109.1, It is not necessary in the professional managed
-                      cluster.
-                    type: string
-                  kmsEncryptedPassword:
-                    description: (Removed since v1.212.0) An KMS encrypts password
-                      used to a cs kubernetes. You have to specify one of password
-                      key_name kms_encrypted_password fields.
-                    type: string
-                  kmsEncryptionContext:
-                    additionalProperties:
-                      type: string
-                    description: (Removed since v1.212.0) An KMS encryption context
-                      used to decrypt kms_encrypted_password before creating or updating
-                      a cs kubernetes with kms_encrypted_password. See Encryption
-                      Context. It is valid when kms_encrypted_password is set.
-                    type: object
-                    x-kubernetes-map-type: granular
-                  kubeConfig:
-                    description: (Removed since v1.212.0) The path of kube config,
-                      like ~/.kube/config. Please use the attribute output_file of
-                      new DataSource alicloud_cs_cluster_credential to replace it.
-                    type: string
                   loadBalancerSpec:
                     description: The cluster api server load balancer instance specification.
                       For more information on how to select a LB instance specification,
@@ -1093,21 +898,6 @@ spec:
                       The spec will not take effect because the charge of the load
                       balancer has been changed to PayByCLCU.
                     type: string
-                  logConfig:
-                    description: (Removed) A list of one element containing information
-                      about the associated log store. See log_config below.
-                    items:
-                      properties:
-                        project:
-                          description: Log Service project name, cluster logs will
-                            output to this project.
-                          type: string
-                        type:
-                          description: Type of collecting logs, only SLS are supported
-                            currently.
-                          type: string
-                      type: object
-                    type: array
                   maintenanceWindow:
                     description: The cluster maintenance window. Managed node pool
                       will use it. See maintenance_window below.
@@ -1147,18 +937,6 @@ spec:
                       run on single node. 24-28 is allowed. 24 means 2^(32-24)-1=255
                       and the node can run at most 255 pods. default: 24'
                     type: number
-                  nodeNameMode:
-                    description: (Removed since v1.212.0) Each node name consists
-                      of a prefix, an IP substring, and a suffix, the input format
-                      is customized,<prefix>,IPSubStringLen,<suffix>. For example
-                      "customized,aliyun.com-,5,-test", if the node IP address is
-                      192.168.59.176, the prefix is aliyun.com-, IP substring length
-                      is 5, and the suffix is -test, the node name will be aliyun.com-59176-test.
-                    type: string
-                  nodePortRange:
-                    description: '(Removed since v1.212.0) The service port range
-                      of nodes, valid values: 30000 to 65535. Default to 30000-32767.'
-                    type: string
                   operationPolicy:
                     description: The cluster automatic operation policy, only works
                       when maintenance_window is enabled. See operation_policy below.
@@ -1180,36 +958,6 @@ spec:
                           type: array
                       type: object
                     type: array
-                  osType:
-                    description: (Removed since v1.212.0) The operating system of
-                      the nodes that run pods, its valid value is either Linux or
-                      Windows. Default to Linux.
-                    type: string
-                  passwordSecretRef:
-                    description: (Removed since v1.212.0) The password of ssh login
-                      cluster node. You have to specify one of password key_name kms_encrypted_password
-                      fields. From ersion 1.109.1, It is not necessary in the professional
-                      managed cluster.
-                    properties:
-                      key:
-                        description: The key to select.
-                        type: string
-                      name:
-                        description: Name of the secret.
-                        type: string
-                      namespace:
-                        description: Namespace of the secret.
-                        type: string
-                    required:
-                    - key
-                    - name
-                    - namespace
-                    type: object
-                  platform:
-                    description: (Removed since v1.212.0) The architecture of the
-                      nodes that run pods, its valid value is either CentOS or AliyunLinux.
-                      Default to CentOS.
-                    type: string
                   podCidr:
                     description: '- [Flannel Specific] The CIDR block for the pod
                       network when using Flannel.'
@@ -1222,6 +970,84 @@ spec:
                     items:
                       type: string
                     type: array
+                  podVswitchIdsRefs:
+                    description: References to Vswitch in vpc to populate podVswitchIds.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  podVswitchIdsSelector:
+                    description: Selector for a list of Vswitch in vpc to populate
+                      podVswitchIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   profile:
                     description: 'The profile of cluster. Valid values:'
                     type: string
@@ -1229,12 +1055,6 @@ spec:
                     description: 'kube-proxy proxy mode. Default: ipvs. Options: iptables,
                       ipvs, nftables.'
                     type: string
-                  rdsInstances:
-                    description: (Removed since v1.212.0) RDS instance list, You can
-                      choose which RDS instances whitelist to add instances to.
-                    items:
-                      type: string
-                    type: array
                   resourceGroupId:
                     description: The ID of the resource group,by default these cloud
                       resources are automatically assigned to the default resource
@@ -1251,14 +1071,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  runtime:
-                    additionalProperties:
-                      type: string
-                    description: (Removed since v1.212.0) The runtime of containers.
-                      If you select another container runtime, see Comparison of Docker,
-                      containerd, and Sandboxed-Container. See runtime below.
-                    type: object
-                    x-kubernetes-map-type: granular
                   securityGroupId:
                     description: The ID of the security group to which the ECS instances
                       in the cluster belong. If it is not specified, a new Security
@@ -1367,25 +1179,6 @@ spec:
                     description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
-                  taints:
-                    description: (Removed since v1.212.0) Taints ensure pods are not
-                      scheduled onto inappropriate nodes. One or more taints are applied
-                      to a node; this marks that the node should not accept any pods
-                      that do not tolerate the taints. For more information, see Taints
-                      and Tolerations. See taints below.
-                    items:
-                      properties:
-                        effect:
-                          description: The taint effect.
-                          type: string
-                        key:
-                          description: The taint key.
-                          type: string
-                        value:
-                          description: The taint value.
-                          type: string
-                      type: object
-                    type: array
                   timezone:
                     description: Cluster timezone, works for control plane and Worker
                       nodes.
@@ -1407,10 +1200,6 @@ spec:
                   userCa:
                     description: The path of customized CA cert, you can use this
                       CA to sign client certs to connect your cluster.
-                    type: string
-                  userData:
-                    description: (Removed since v1.212.0) Custom data that can execute
-                      on nodes. For more information, see Prepare user data.
                     type: string
                   version:
                     description: Desired Kubernetes version. If you do not specify
@@ -1504,143 +1293,6 @@ spec:
                             type: string
                         type: object
                     type: object
-                  workerAutoRenew:
-                    description: (Removed since v1.212.0) Enable worker payment auto-renew,
-                      defaults to false.
-                    type: boolean
-                  workerAutoRenewPeriod:
-                    description: (Removed since v1.212.0) Worker payment auto-renew
-                      period, it can be one of {1, 2, 3, 6, 12}.
-                    type: number
-                  workerDataDiskCategory:
-                    description: (Removed) The data disk category of worker, use worker_data_disks
-                      to instead it.
-                    type: string
-                  workerDataDiskSize:
-                    description: (Removed) The data disk size of worker, use worker_data_disks
-                      to instead it.
-                    type: number
-                  workerDataDisks:
-                    description: (Removed since v1.212.0) The data disk configurations
-                      of worker nodes, such as the disk type and disk size.  See worker_data_disks
-                      below.
-                    items:
-                      properties:
-                        autoSnapshotPolicyId:
-                          description: Worker node data disk auto snapshot policy.
-                          type: string
-                        category:
-                          description: 'The type of the data disks. Valid values:
-                            cloud, cloud_efficiency, cloud_ssd and cloud_essd. Default
-                            to cloud_efficiency.'
-                          type: string
-                        device:
-                          description: The mount point of data disk N.
-                          type: string
-                        encrypted:
-                          description: 'Specifies whether to encrypt data disks. Valid
-                            values: true and false. Default to false.'
-                          type: string
-                        kmsKeyId:
-                          description: The ID of the Key Management Service (KMS)
-                            key to use for data disk N.
-                          type: string
-                        name:
-                          description: The name of data disk N. The name must be 2
-                            to 128 characters in length. It must start with a letter
-                            and cannot start with http:// or https://. It can contain
-                            letters, digits, colons (.), underscores (_), and hyphens
-                            (-).
-                          type: string
-                        performanceLevel:
-                          description: Worker node data disk performance level, when
-                            category values cloud_essd, the optional values are PL0,
-                            PL1, PL2 or PL3, but the specific performance level is
-                            related to the disk capacity. For more information, see
-                            Enhanced SSDs. Default is PL1.
-                          type: string
-                        size:
-                          description: 'The size of a data disk, at least 40. Unit:
-                            GiB.'
-                          type: string
-                        snapshotId:
-                          description: 'The ID of the snapshot to be used to create
-                            data disk N. Valid values of N: 1 to 16. When DataDisk.N.SnapshotId
-                            is specified, DataDisk.N.Size is ignored. The data disk
-                            is created based on the size of the specified snapshot.
-                            Use snapshots that were created on or after July 15, 2013.
-                            Otherwise, an error is returned and your request is rejected.'
-                          type: string
-                      type: object
-                    type: array
-                  workerDiskCategory:
-                    description: (Removed since v1.212.0) The system disk category
-                      of worker node. Its valid value are cloud, cloud_ssd, cloud_essd
-                      and cloud_efficiency. Default to cloud_efficiency.
-                    type: string
-                  workerDiskPerformanceLevel:
-                    description: (Removed since v1.212.0) Worker node system disk
-                      performance level, when worker_disk_category values cloud_essd,
-                      the optional values are PL0, PL1, PL2 or PL3, but the specific
-                      performance level is related to the disk capacity. For more
-                      information, see Enhanced SSDs. Default is PL1.
-                    type: string
-                  workerDiskSize:
-                    description: (Removed since v1.212.0) The system disk size of
-                      worker node. Its valid value range [40~500] in GB.
-                    type: number
-                  workerDiskSnapshotPolicyId:
-                    description: (Removed since v1.212.0) Worker node system disk
-                      auto snapshot policy.
-                    type: string
-                  workerInstanceChargeType:
-                    description: (Removed since v1.212.0) Worker payment type, its
-                      valid value is either or PostPaid or PrePaid. Defaults to PostPaid.
-                      If value is PrePaid, the files worker_period, worker_period_unit,
-                      worker_auto_renew and worker_auto_renew_period are required,
-                      default is PostPaid.
-                    type: string
-                  workerInstanceType:
-                    description: (Removed from version 1.16.0) The instance type of
-                      worker node.
-                    type: string
-                  workerInstanceTypes:
-                    description: (Removed since v1.212.0) The instance type of worker
-                      node. Specify one type for single AZ Cluster, three types for
-                      MultiAZ Cluster. From version 1.109.1, It is not necessary in
-                      the professional managed cluster, but it is necessary in other
-                      types of clusters.
-                    items:
-                      type: string
-                    type: array
-                  workerNodes:
-                    description: (Removed from version 1.212.0) List of cluster worker
-                      nodes.
-                    items:
-                      type: object
-                    type: array
-                  workerNumber:
-                    description: (Removed since v1.212.0) The worker node number of
-                      the kubernetes cluster. Default to 3. It is limited up to 50
-                      and if you want to enlarge it, please apply white list or contact
-                      with us. From version 1.109.1, It is not necessary in the professional
-                      managed cluster, but it is necessary in other types of clusters.
-                    type: number
-                  workerNumbers:
-                    description: (Removed) The number of workers, use worker_number
-                      to instead it.
-                    items:
-                      type: number
-                    type: array
-                  workerPeriod:
-                    description: (Removed since v1.212.0) Worker payment period. The
-                      unit is Month. Its valid value is one of {1, 2, 3, 6, 12, 24,
-                      36, 48, 60}.
-                    type: number
-                  workerPeriodUnit:
-                    description: (Removed since v1.212.0) Worker payment period unit,
-                      the valid value is Month.
-                    type: string
                   workerVswitchIds:
                     description: The vSwitches used by control plane. Modification
                       after creation will not take effect. Please use vswitch_ids
@@ -1886,20 +1538,37 @@ spec:
                           type: boolean
                       type: object
                     type: array
-                  availabilityZone:
-                    description: (Removed since v1.212.0) The Zone where new kubernetes
-                      cluster will be located. If it is not be specified, the vswitch_ids
-                      should be set, its value will be vswitch's zone.
-                    type: string
                   certificateAuthority:
-                    additionalProperties:
-                      type: string
-                    description: (Map, Deprecated from v1.248.0) Nested attribute
+                    description: (List, Deprecated from v1.248.0) Nested attribute
                       containing certificate authority data for your cluster. Please
                       use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential
                       to replace it.
-                    type: object
-                    x-kubernetes-map-type: granular
+                    items:
+                      properties:
+                        clientCert:
+                          description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                            is recommended to manage cluster's kubeconfig, you can
+                            also save the certificate_authority.client_cert attribute
+                            content of new DataSource alicloud_cs_cluster_credential
+                            to an appropriate path(like ~/.kube/client-cert.pem) for
+                            replace it.
+                          type: string
+                        clientKey:
+                          description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                            is recommended to manage cluster's kubeconfig, you can
+                            also save the certificate_authority.client_key attribute
+                            content of new DataSource alicloud_cs_cluster_credential
+                            to an appropriate path(like ~/.kube/client-key.pem) for
+                            replace it.
+                          type: string
+                        clusterCert:
+                          description: The base64 encoded cluster certificate data
+                            required to communicate with your cluster. Add this to
+                            the certificate-authority-data section of the kubeconfig
+                            file for your cluster.
+                          type: string
+                      type: object
+                    type: array
                   clientCert:
                     description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
                       is recommended to manage cluster's kubeconfig, you can also
@@ -1926,20 +1595,71 @@ spec:
                       Cluster local domain name, Default to cluster.local. A domain name consists of one or more sections separated by a decimal point (.), each of which is up to 63 characters long, and can be lowercase, numerals, and underscores (-), and must be lowercase or numerals at the beginning and end.
                       cluster local domain
                     type: string
-                  clusterNetworkType:
-                    description: (Removed) The network that cluster uses, use flannel
-                      or terway.
-                    type: string
                   clusterSpec:
-                    description: 'The cluster specifications of kubernetes cluster,which
-                      can be empty. Valid values:'
+                    description: 'The cluster specifications of kubernetes cluster,
+                      which can be empty. Valid values:'
                     type: string
                   connections:
-                    additionalProperties:
-                      type: string
-                    description: Map of kubernetes cluster connection information.
-                    type: object
-                    x-kubernetes-map-type: granular
+                    description: A list of kubernetes cluster connection information.
+                    items:
+                      properties:
+                        apiServerInternet:
+                          description: API Server Internet endpoint.
+                          type: string
+                        apiServerIntranet:
+                          description: API Server Intranet endpoint.
+                          type: string
+                        masterPublicIp:
+                          description: Master node SSH IP address.
+                          type: string
+                        serviceDomain:
+                          description: Service Access Domain.
+                          type: string
+                      type: object
+                    type: array
+                  controlPlaneEndpointsConfig:
+                    description: The cluster access configuration. See control_plane_endpoints_config
+                      below.
+                    items:
+                      properties:
+                        internalDnsConfig:
+                          description: The cluster internal domain name configuration,
+                            applicable to ACK managed clusters. See internal_dns_config
+                            below.
+                          items:
+                            properties:
+                              bindVpcs:
+                                description: The list of VPCs where the API Server
+                                  access domain name takes effect. By default, the
+                                  VPC of the cluster is included.
+                                items:
+                                  type: string
+                                type: array
+                              enabled:
+                                description: Whether to enable automatic cluster upgrade.
+                                type: boolean
+                            type: object
+                          type: array
+                        loadBalancersConfig:
+                          description: The load balancing configuration for cluster
+                            access. See load_balancers_config below.
+                          items:
+                            properties:
+                              endpoint:
+                                description: (Computed) The access address.
+                                type: string
+                              endpointType:
+                                description: 'The endpoint type. Valid values: private,
+                                  public.'
+                                type: string
+                              loadBalancerId:
+                                description: The ID of the SLB (NLB) instance associated
+                                  with the endpoint.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   controlPlaneLogComponents:
                     description: List of target components for which logs need to
                       be collected. Supports apiserver, kcm, scheduler, ccm and controlplane-events.
@@ -1955,11 +1675,6 @@ spec:
                     description: 'Control plane log retention duration (unit: day).
                       Default 30. If control plane logs are to be collected, control_plane_log_ttl
                       and control_plane_log_components must be specified.'
-                    type: string
-                  cpuPolicy:
-                    description: (Removed since v1.212.0) Kubelet cpu policy. For
-                      Kubernetes 1.12.6 and later, its valid value is either static
-                      or none. Default to none.
                     type: string
                   customSan:
                     description: Customize the certificate SAN, multiple IP or domain
@@ -1996,35 +1711,14 @@ spec:
                       add the rrsa configuration to the file, learn more RAM Roles
                       for Service Accounts.
                     type: boolean
-                  enableSsh:
-                    description: (Removed since v1.212.0) Enable login to the node
-                      through SSH. Default to false.
-                    type: boolean
                   encryptionProviderKey:
                     description: |-
                       The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
                       The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
                     type: string
-                  excludeAutoscalerNodes:
-                    description: (Removed since v1.212.0) Exclude autoscaler nodes
-                      from worker_nodes. Default to false.
-                    type: boolean
-                  forceUpdate:
-                    description: (Removed) Whether to force the update of kubernetes
-                      cluster arguments. Default to false.
-                    type: boolean
                   id:
                     description: The ID of the container cluster.
                     type: string
-                  imageId:
-                    description: (Removed since v1.212.0) Custom Image support. Must
-                      based on CentOS7 or AliyunLinux2.
-                    type: string
-                  installCloudMonitor:
-                    description: (Removed since v1.212.0) Install cloud monitor agent
-                      on ECS. Default is true in previous version. From provider version
-                      1.208.0, the default value is false.
-                    type: boolean
                   ipStack:
                     description: 'The IP address family that the cluster network uses.
                       Valid values:'
@@ -2034,32 +1728,6 @@ spec:
                       false. Only works for Create Operation. See Advanced security
                       group.'
                     type: boolean
-                  keyName:
-                    description: (Removed since v1.212.0) The keypair of ssh login
-                      cluster node, you have to create it first. You have to specify
-                      one of password key_name kms_encrypted_password fields. From
-                      ersion 1.109.1, It is not necessary in the professional managed
-                      cluster.
-                    type: string
-                  kmsEncryptedPassword:
-                    description: (Removed since v1.212.0) An KMS encrypts password
-                      used to a cs kubernetes. You have to specify one of password
-                      key_name kms_encrypted_password fields.
-                    type: string
-                  kmsEncryptionContext:
-                    additionalProperties:
-                      type: string
-                    description: (Removed since v1.212.0) An KMS encryption context
-                      used to decrypt kms_encrypted_password before creating or updating
-                      a cs kubernetes with kms_encrypted_password. See Encryption
-                      Context. It is valid when kms_encrypted_password is set.
-                    type: object
-                    x-kubernetes-map-type: granular
-                  kubeConfig:
-                    description: (Removed since v1.212.0) The path of kube config,
-                      like ~/.kube/config. Please use the attribute output_file of
-                      new DataSource alicloud_cs_cluster_credential to replace it.
-                    type: string
                   loadBalancerSpec:
                     description: The cluster api server load balancer instance specification.
                       For more information on how to select a LB instance specification,
@@ -2067,21 +1735,6 @@ spec:
                       The spec will not take effect because the charge of the load
                       balancer has been changed to PayByCLCU.
                     type: string
-                  logConfig:
-                    description: (Removed) A list of one element containing information
-                      about the associated log store. See log_config below.
-                    items:
-                      properties:
-                        project:
-                          description: Log Service project name, cluster logs will
-                            output to this project.
-                          type: string
-                        type:
-                          description: Type of collecting logs, only SLS are supported
-                            currently.
-                          type: string
-                      type: object
-                    type: array
                   maintenanceWindow:
                     description: The cluster maintenance window. Managed node pool
                       will use it. See maintenance_window below.
@@ -2124,18 +1777,6 @@ spec:
                       run on single node. 24-28 is allowed. 24 means 2^(32-24)-1=255
                       and the node can run at most 255 pods. default: 24'
                     type: number
-                  nodeNameMode:
-                    description: (Removed since v1.212.0) Each node name consists
-                      of a prefix, an IP substring, and a suffix, the input format
-                      is customized,<prefix>,IPSubStringLen,<suffix>. For example
-                      "customized,aliyun.com-,5,-test", if the node IP address is
-                      192.168.59.176, the prefix is aliyun.com-, IP substring length
-                      is 5, and the suffix is -test, the node name will be aliyun.com-59176-test.
-                    type: string
-                  nodePortRange:
-                    description: '(Removed since v1.212.0) The service port range
-                      of nodes, valid values: 30000 to 65535. Default to 30000-32767.'
-                    type: string
                   operationPolicy:
                     description: The cluster automatic operation policy, only works
                       when maintenance_window is enabled. See operation_policy below.
@@ -2157,16 +1798,6 @@ spec:
                           type: array
                       type: object
                     type: array
-                  osType:
-                    description: (Removed since v1.212.0) The operating system of
-                      the nodes that run pods, its valid value is either Linux or
-                      Windows. Default to Linux.
-                    type: string
-                  platform:
-                    description: (Removed since v1.212.0) The architecture of the
-                      nodes that run pods, its valid value is either CentOS or AliyunLinux.
-                      Default to CentOS.
-                    type: string
                   podCidr:
                     description: '- [Flannel Specific] The CIDR block for the pod
                       network when using Flannel.'
@@ -2186,12 +1817,6 @@ spec:
                     description: 'kube-proxy proxy mode. Default: ipvs. Options: iptables,
                       ipvs, nftables.'
                     type: string
-                  rdsInstances:
-                    description: (Removed since v1.212.0) RDS instance list, You can
-                      choose which RDS instances whitelist to add instances to.
-                    items:
-                      type: string
-                    type: array
                   resourceGroupId:
                     description: The ID of the resource group,by default these cloud
                       resources are automatically assigned to the default resource
@@ -2229,14 +1854,6 @@ spec:
                           type: string
                       type: object
                     type: array
-                  runtime:
-                    additionalProperties:
-                      type: string
-                    description: (Removed since v1.212.0) The runtime of containers.
-                      If you select another container runtime, see Comparison of Docker,
-                      containerd, and Sandboxed-Container. See runtime below.
-                    type: object
-                    x-kubernetes-map-type: granular
                   securityGroupId:
                     description: The ID of the security group to which the ECS instances
                       in the cluster belong. If it is not specified, a new Security
@@ -2281,25 +1898,6 @@ spec:
                     description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
-                  taints:
-                    description: (Removed since v1.212.0) Taints ensure pods are not
-                      scheduled onto inappropriate nodes. One or more taints are applied
-                      to a node; this marks that the node should not accept any pods
-                      that do not tolerate the taints. For more information, see Taints
-                      and Tolerations. See taints below.
-                    items:
-                      properties:
-                        effect:
-                          description: The taint effect.
-                          type: string
-                        key:
-                          description: The taint key.
-                          type: string
-                        value:
-                          description: The taint value.
-                          type: string
-                      type: object
-                    type: array
                   timezone:
                     description: Cluster timezone, works for control plane and Worker
                       nodes.
@@ -2322,10 +1920,6 @@ spec:
                     description: The path of customized CA cert, you can use this
                       CA to sign client certs to connect your cluster.
                     type: string
-                  userData:
-                    description: (Removed since v1.212.0) Custom data that can execute
-                      on nodes. For more information, see Prepare user data.
-                    type: string
                   version:
                     description: Desired Kubernetes version. If you do not specify
                       a value, the latest available version at resource creation is
@@ -2343,157 +1937,6 @@ spec:
                     items:
                       type: string
                     type: array
-                  workerAutoRenew:
-                    description: (Removed since v1.212.0) Enable worker payment auto-renew,
-                      defaults to false.
-                    type: boolean
-                  workerAutoRenewPeriod:
-                    description: (Removed since v1.212.0) Worker payment auto-renew
-                      period, it can be one of {1, 2, 3, 6, 12}.
-                    type: number
-                  workerDataDiskCategory:
-                    description: (Removed) The data disk category of worker, use worker_data_disks
-                      to instead it.
-                    type: string
-                  workerDataDiskSize:
-                    description: (Removed) The data disk size of worker, use worker_data_disks
-                      to instead it.
-                    type: number
-                  workerDataDisks:
-                    description: (Removed since v1.212.0) The data disk configurations
-                      of worker nodes, such as the disk type and disk size.  See worker_data_disks
-                      below.
-                    items:
-                      properties:
-                        autoSnapshotPolicyId:
-                          description: Worker node data disk auto snapshot policy.
-                          type: string
-                        category:
-                          description: 'The type of the data disks. Valid values:
-                            cloud, cloud_efficiency, cloud_ssd and cloud_essd. Default
-                            to cloud_efficiency.'
-                          type: string
-                        device:
-                          description: The mount point of data disk N.
-                          type: string
-                        encrypted:
-                          description: 'Specifies whether to encrypt data disks. Valid
-                            values: true and false. Default to false.'
-                          type: string
-                        kmsKeyId:
-                          description: The ID of the Key Management Service (KMS)
-                            key to use for data disk N.
-                          type: string
-                        name:
-                          description: The name of data disk N. The name must be 2
-                            to 128 characters in length. It must start with a letter
-                            and cannot start with http:// or https://. It can contain
-                            letters, digits, colons (.), underscores (_), and hyphens
-                            (-).
-                          type: string
-                        performanceLevel:
-                          description: Worker node data disk performance level, when
-                            category values cloud_essd, the optional values are PL0,
-                            PL1, PL2 or PL3, but the specific performance level is
-                            related to the disk capacity. For more information, see
-                            Enhanced SSDs. Default is PL1.
-                          type: string
-                        size:
-                          description: 'The size of a data disk, at least 40. Unit:
-                            GiB.'
-                          type: string
-                        snapshotId:
-                          description: 'The ID of the snapshot to be used to create
-                            data disk N. Valid values of N: 1 to 16. When DataDisk.N.SnapshotId
-                            is specified, DataDisk.N.Size is ignored. The data disk
-                            is created based on the size of the specified snapshot.
-                            Use snapshots that were created on or after July 15, 2013.
-                            Otherwise, an error is returned and your request is rejected.'
-                          type: string
-                      type: object
-                    type: array
-                  workerDiskCategory:
-                    description: (Removed since v1.212.0) The system disk category
-                      of worker node. Its valid value are cloud, cloud_ssd, cloud_essd
-                      and cloud_efficiency. Default to cloud_efficiency.
-                    type: string
-                  workerDiskPerformanceLevel:
-                    description: (Removed since v1.212.0) Worker node system disk
-                      performance level, when worker_disk_category values cloud_essd,
-                      the optional values are PL0, PL1, PL2 or PL3, but the specific
-                      performance level is related to the disk capacity. For more
-                      information, see Enhanced SSDs. Default is PL1.
-                    type: string
-                  workerDiskSize:
-                    description: (Removed since v1.212.0) The system disk size of
-                      worker node. Its valid value range [40~500] in GB.
-                    type: number
-                  workerDiskSnapshotPolicyId:
-                    description: (Removed since v1.212.0) Worker node system disk
-                      auto snapshot policy.
-                    type: string
-                  workerInstanceChargeType:
-                    description: (Removed since v1.212.0) Worker payment type, its
-                      valid value is either or PostPaid or PrePaid. Defaults to PostPaid.
-                      If value is PrePaid, the files worker_period, worker_period_unit,
-                      worker_auto_renew and worker_auto_renew_period are required,
-                      default is PostPaid.
-                    type: string
-                  workerInstanceType:
-                    description: (Removed from version 1.16.0) The instance type of
-                      worker node.
-                    type: string
-                  workerInstanceTypes:
-                    description: (Removed since v1.212.0) The instance type of worker
-                      node. Specify one type for single AZ Cluster, three types for
-                      MultiAZ Cluster. From version 1.109.1, It is not necessary in
-                      the professional managed cluster, but it is necessary in other
-                      types of clusters.
-                    items:
-                      type: string
-                    type: array
-                  workerNodes:
-                    description: (Removed from version 1.212.0) List of cluster worker
-                      nodes.
-                    items:
-                      properties:
-                        id:
-                          description: The ID of the container cluster.
-                          type: string
-                        name:
-                          description: The name of data disk N. The name must be 2
-                            to 128 characters in length. It must start with a letter
-                            and cannot start with http:// or https://. It can contain
-                            letters, digits, colons (.), underscores (_), and hyphens
-                            (-).
-                          type: string
-                        privateIp:
-                          description: The private IP address of node.
-                          type: string
-                      type: object
-                    type: array
-                  workerNumber:
-                    description: (Removed since v1.212.0) The worker node number of
-                      the kubernetes cluster. Default to 3. It is limited up to 50
-                      and if you want to enlarge it, please apply white list or contact
-                      with us. From version 1.109.1, It is not necessary in the professional
-                      managed cluster, but it is necessary in other types of clusters.
-                    type: number
-                  workerNumbers:
-                    description: (Removed) The number of workers, use worker_number
-                      to instead it.
-                    items:
-                      type: number
-                    type: array
-                  workerPeriod:
-                    description: (Removed since v1.212.0) Worker payment period. The
-                      unit is Month. Its valid value is one of {1, 2, 3, 6, 12, 24,
-                      36, 48, 60}.
-                    type: number
-                  workerPeriodUnit:
-                    description: (Removed since v1.212.0) Worker payment period unit,
-                      the valid value is Month.
-                    type: string
                   workerRamRoleName:
                     description: The RamRole Name attached to worker node.
                     type: string

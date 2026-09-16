@@ -268,9 +268,9 @@ spec:
                   objectWormMode:
                     description: 'The retention mode of the object worm policy. Valid
                       value: COMPLIANCE. Must be set together with object_worm_retain_until_date.
-                      The bucket must have object worm enabled. Updating only this
-                      attribute (or object_worm_retain_until_date) calls PutObjectRetention
-                      and does not re-upload the object.'
+                      The bucket must have object worm enabled. Note: The parameter
+                      is immutable after resource creation. Updating object_worm_retain_until_date
+                      calls PutObjectRetention and does not re-upload the object.'
                     type: string
                   objectWormRetainUntilDate:
                     description: The UTC time at which the object retention expires,
@@ -498,9 +498,9 @@ spec:
                   objectWormMode:
                     description: 'The retention mode of the object worm policy. Valid
                       value: COMPLIANCE. Must be set together with object_worm_retain_until_date.
-                      The bucket must have object worm enabled. Updating only this
-                      attribute (or object_worm_retain_until_date) calls PutObjectRetention
-                      and does not re-upload the object.'
+                      The bucket must have object worm enabled. Note: The parameter
+                      is immutable after resource creation. Updating object_worm_retain_until_date
+                      calls PutObjectRetention and does not re-upload the object.'
                     type: string
                   objectWormRetainUntilDate:
                     description: The UTC time at which the object retention expires,
@@ -750,9 +750,9 @@ spec:
                   objectWormMode:
                     description: 'The retention mode of the object worm policy. Valid
                       value: COMPLIANCE. Must be set together with object_worm_retain_until_date.
-                      The bucket must have object worm enabled. Updating only this
-                      attribute (or object_worm_retain_until_date) calls PutObjectRetention
-                      and does not re-upload the object.'
+                      The bucket must have object worm enabled. Note: The parameter
+                      is immutable after resource creation. Updating object_worm_retain_until_date
+                      calls PutObjectRetention and does not re-upload the object.'
                     type: string
                   objectWormRetainUntilDate:
                     description: The UTC time at which the object retention expires,

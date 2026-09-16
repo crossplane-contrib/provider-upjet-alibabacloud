@@ -45,6 +45,5 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "messageservice"
 		r.ShortGroup = string(common.MessageService)
 		r.Kind = "Topic"
-		delete(r.TerraformResource.Schema, "logging_enabled")
 	})
 }

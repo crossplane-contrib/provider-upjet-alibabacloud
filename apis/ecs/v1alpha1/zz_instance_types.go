@@ -267,6 +267,9 @@ type InstanceInitParameters struct {
 	// Specifies whether to send a dry-run request. Default to false.
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
+	// Specifies whether to enable the high density mode for the instance. Valid values: true, false.
+	EnableHighDensityMode *bool `json:"enableHighDensityMode,omitempty" tf:"enable_high_density_mode,omitempty"`
+
 	// Specifies whether to enable the Jumbo Frames feature for the instance. Valid values: true, false.
 	EnableJumboFrame *bool `json:"enableJumboFrame,omitempty" tf:"enable_jumbo_frame,omitempty"`
 
@@ -297,7 +300,7 @@ type InstanceInitParameters struct {
 	// +listType=set
 	IPv6Addresses []*string `json:"ipv6Addresses,omitempty" tf:"ipv6_addresses,omitempty"`
 
-	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. When it is changed, the instance will reboot to make the change take effect. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id.
+	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id. How the change is applied is controlled by the provider argument features.ecs_instance.replace_on_image_update:
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Image
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
@@ -320,6 +323,9 @@ type InstanceInitParameters struct {
 	// However, since some limitation about CPU core count in one month,
 	// there strongly recommends that Don't change instance_charge_type frequentlly in one month.
 	InstanceChargeType *string `json:"instanceChargeType,omitempty" tf:"instance_charge_type,omitempty"`
+
+	// Specifies whether to expose the tags of the instance in the instance metadata. Valid values: enabled, disabled. Default value: disabled.
+	InstanceMetadataTags *string `json:"instanceMetadataTags,omitempty" tf:"instance_metadata_tags,omitempty"`
 
 	// The name of the ECS. This instance_name can have a string of 2 to 128 characters, must contain only alphanumeric characters or hyphens, such as "-",".","_", and must not begin with a hyphen, and must not begin with http:// or https://. NOTE: From version 1.243.0, the default value ECS-Instance will be removed.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
@@ -386,6 +392,9 @@ type InstanceInitParameters struct {
 	// The index of the network card for Primary ENI.
 	NetworkCardIndex *float64 `json:"networkCardIndex,omitempty" tf:"network_card_index,omitempty"`
 
+	// The ID of the Primary ENI.
+	NetworkInterfaceID *string `json:"networkInterfaceId,omitempty" tf:"network_interface_id,omitempty"`
+
 	// The communication mode of the Primary ENI. Default value: Standard. Valid values:
 	NetworkInterfaceTrafficMode *string `json:"networkInterfaceTrafficMode,omitempty" tf:"network_interface_traffic_mode,omitempty"`
 
@@ -446,12 +455,15 @@ type InstanceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
-	// A list of security group ids to associate with. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify security_groups.
+	// A list of security group ids to associate with.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:refFieldName=SecurityGroupRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityGroupSelector
 	// +listType=set
 	SecurityGroups []*string `json:"securityGroups,omitempty" tf:"security_groups,omitempty"`
+
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
 	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1.
 	SpotDuration *float64 `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
@@ -563,6 +575,9 @@ type InstanceNetworkInterfacesInitParameters struct {
 	// The ID of security group N to which to assign Secondary ENI N.
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
+
 	// The ID of the vSwitch to which to connect Secondary ENI N.
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 }
@@ -583,6 +598,9 @@ type InstanceNetworkInterfacesObservation struct {
 
 	// The ID of security group N to which to assign Secondary ENI N.
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
+
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
 	// The ID of the vSwitch to which to connect Secondary ENI N.
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
@@ -609,6 +627,10 @@ type InstanceNetworkInterfacesParameters struct {
 	// The ID of security group N to which to assign Secondary ENI N.
 	// +kubebuilder:validation:Optional
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
+
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	// +kubebuilder:validation:Optional
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
 	// The ID of the vSwitch to which to connect Secondary ENI N.
 	// +kubebuilder:validation:Optional
@@ -661,6 +683,9 @@ type InstanceObservation struct {
 	// Specifies whether to send a dry-run request. Default to false.
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
+	// Specifies whether to enable the high density mode for the instance. Valid values: true, false.
+	EnableHighDensityMode *bool `json:"enableHighDensityMode,omitempty" tf:"enable_high_density_mode,omitempty"`
+
 	// Specifies whether to enable the Jumbo Frames feature for the instance. Valid values: true, false.
 	EnableJumboFrame *bool `json:"enableJumboFrame,omitempty" tf:"enable_jumbo_frame,omitempty"`
 
@@ -697,7 +722,7 @@ type InstanceObservation struct {
 	// +listType=set
 	IPv6Addresses []*string `json:"ipv6Addresses,omitempty" tf:"ipv6_addresses,omitempty"`
 
-	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. When it is changed, the instance will reboot to make the change take effect. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id.
+	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id. How the change is applied is controlled by the provider argument features.ecs_instance.replace_on_image_update:
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
 	// The options of images. See image_options below.
@@ -711,6 +736,9 @@ type InstanceObservation struct {
 	// However, since some limitation about CPU core count in one month,
 	// there strongly recommends that Don't change instance_charge_type frequentlly in one month.
 	InstanceChargeType *string `json:"instanceChargeType,omitempty" tf:"instance_charge_type,omitempty"`
+
+	// Specifies whether to expose the tags of the instance in the instance metadata. Valid values: enabled, disabled. Default value: disabled.
+	InstanceMetadataTags *string `json:"instanceMetadataTags,omitempty" tf:"instance_metadata_tags,omitempty"`
 
 	// The name of the ECS. This instance_name can have a string of 2 to 128 characters, must contain only alphanumeric characters or hyphens, such as "-",".","_", and must not begin with a hyphen, and must not begin with http:// or https://. NOTE: From version 1.243.0, the default value ECS-Instance will be removed.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
@@ -826,9 +854,12 @@ type InstanceObservation struct {
 	// The security enhancement strategy.
 	SecurityEnhancementStrategy *string `json:"securityEnhancementStrategy,omitempty" tf:"security_enhancement_strategy,omitempty"`
 
-	// A list of security group ids to associate with. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify security_groups.
+	// A list of security group ids to associate with.
 	// +listType=set
 	SecurityGroups []*string `json:"securityGroups,omitempty" tf:"security_groups,omitempty"`
+
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
 	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1.
 	SpotDuration *float64 `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
@@ -959,6 +990,10 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
+	// Specifies whether to enable the high density mode for the instance. Valid values: true, false.
+	// +kubebuilder:validation:Optional
+	EnableHighDensityMode *bool `json:"enableHighDensityMode,omitempty" tf:"enable_high_density_mode,omitempty"`
+
 	// Specifies whether to enable the Jumbo Frames feature for the instance. Valid values: true, false.
 	// +kubebuilder:validation:Optional
 	EnableJumboFrame *bool `json:"enableJumboFrame,omitempty" tf:"enable_jumbo_frame,omitempty"`
@@ -998,7 +1033,7 @@ type InstanceParameters struct {
 	// +listType=set
 	IPv6Addresses []*string `json:"ipv6Addresses,omitempty" tf:"ipv6_addresses,omitempty"`
 
-	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. When it is changed, the instance will reboot to make the change take effect. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id.
+	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id. How the change is applied is controlled by the provider argument features.ecs_instance.replace_on_image_update:
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Image
 	// +kubebuilder:validation:Optional
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
@@ -1025,6 +1060,10 @@ type InstanceParameters struct {
 	// there strongly recommends that Don't change instance_charge_type frequentlly in one month.
 	// +kubebuilder:validation:Optional
 	InstanceChargeType *string `json:"instanceChargeType,omitempty" tf:"instance_charge_type,omitempty"`
+
+	// Specifies whether to expose the tags of the instance in the instance metadata. Valid values: enabled, disabled. Default value: disabled.
+	// +kubebuilder:validation:Optional
+	InstanceMetadataTags *string `json:"instanceMetadataTags,omitempty" tf:"instance_metadata_tags,omitempty"`
 
 	// The name of the ECS. This instance_name can have a string of 2 to 128 characters, must contain only alphanumeric characters or hyphens, such as "-",".","_", and must not begin with a hyphen, and must not begin with http:// or https://. NOTE: From version 1.243.0, the default value ECS-Instance will be removed.
 	// +kubebuilder:validation:Optional
@@ -1105,6 +1144,10 @@ type InstanceParameters struct {
 	// The index of the network card for Primary ENI.
 	// +kubebuilder:validation:Optional
 	NetworkCardIndex *float64 `json:"networkCardIndex,omitempty" tf:"network_card_index,omitempty"`
+
+	// The ID of the Primary ENI.
+	// +kubebuilder:validation:Optional
+	NetworkInterfaceID *string `json:"networkInterfaceId,omitempty" tf:"network_interface_id,omitempty"`
 
 	// The communication mode of the Primary ENI. Default value: Standard. Valid values:
 	// +kubebuilder:validation:Optional
@@ -1188,13 +1231,17 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
-	// A list of security group ids to associate with. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify security_groups.
+	// A list of security group ids to associate with.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:refFieldName=SecurityGroupRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityGroupSelector
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	SecurityGroups []*string `json:"securityGroups,omitempty" tf:"security_groups,omitempty"`
+
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	// +kubebuilder:validation:Optional
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
 	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1.
 	// +kubebuilder:validation:Optional

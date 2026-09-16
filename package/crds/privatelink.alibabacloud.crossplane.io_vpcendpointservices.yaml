@@ -82,7 +82,10 @@ spec:
                     type: boolean
                   connectBandwidth:
                     description: 'The default bandwidth of the endpoint connection.
-                      Valid values: 100 to 10240. Unit: Mbit/s.'
+                      Valid values: 100 to 10240. Unit: Mbit/s. When service_resource_type
+                      is slb, this field can be read from the remote API. When service_resource_type
+                      is nlb, alb, or gwlb, this field can be configured but is not
+                      returned by the remote API.'
                     type: number
                   dryRun:
                     description: Specifies whether to perform only a dry run, without
@@ -95,6 +98,26 @@ spec:
                     description: Region is the region you'd like your resource to
                       be created in.
                     type: string
+                  resource:
+                    description: The service resources to associate with the endpoint
+                      service when it is created. A maximum of 10 service resources
+                      can be specified at creation. See resource below. This argument
+                      manages the full lifecycle of the associated service resources;
+                      do not use it together with the standalone alicloud_privatelink_vpc_endpoint_service_resource
+                      resource for the same endpoint service, as the two would conflict.
+                    items:
+                      properties:
+                        resourceId:
+                          description: The ID of the service resource.
+                          type: string
+                        resourceType:
+                          description: 'The type of the service resource. Valid values:'
+                          type: string
+                        zoneId:
+                          description: The zone ID of the service resource.
+                          type: string
+                      type: object
+                    type: array
                   resourceGroupId:
                     description: The resource group ID.
                     type: string
@@ -108,6 +131,13 @@ spec:
                     description: 'Specifies whether to enable IPv6 for the endpoint
                       service. Valid values:'
                     type: boolean
+                  supportedRegionList:
+                    description: The list of remote region IDs that are supported
+                      by the endpoint service.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   tags:
                     additionalProperties:
                       type: string
@@ -142,7 +172,10 @@ spec:
                     type: boolean
                   connectBandwidth:
                     description: 'The default bandwidth of the endpoint connection.
-                      Valid values: 100 to 10240. Unit: Mbit/s.'
+                      Valid values: 100 to 10240. Unit: Mbit/s. When service_resource_type
+                      is slb, this field can be read from the remote API. When service_resource_type
+                      is nlb, alb, or gwlb, this field can be configured but is not
+                      returned by the remote API.'
                     type: number
                   dryRun:
                     description: Specifies whether to perform only a dry run, without
@@ -151,6 +184,26 @@ spec:
                   payer:
                     description: 'The payer of the endpoint service. Valid values:'
                     type: string
+                  resource:
+                    description: The service resources to associate with the endpoint
+                      service when it is created. A maximum of 10 service resources
+                      can be specified at creation. See resource below. This argument
+                      manages the full lifecycle of the associated service resources;
+                      do not use it together with the standalone alicloud_privatelink_vpc_endpoint_service_resource
+                      resource for the same endpoint service, as the two would conflict.
+                    items:
+                      properties:
+                        resourceId:
+                          description: The ID of the service resource.
+                          type: string
+                        resourceType:
+                          description: 'The type of the service resource. Valid values:'
+                          type: string
+                        zoneId:
+                          description: The zone ID of the service resource.
+                          type: string
+                      type: object
+                    type: array
                   resourceGroupId:
                     description: The resource group ID.
                     type: string
@@ -164,6 +217,13 @@ spec:
                     description: 'Specifies whether to enable IPv6 for the endpoint
                       service. Valid values:'
                     type: boolean
+                  supportedRegionList:
+                    description: The list of remote region IDs that are supported
+                      by the endpoint service.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   tags:
                     additionalProperties:
                       type: string
@@ -357,7 +417,10 @@ spec:
                     type: boolean
                   connectBandwidth:
                     description: 'The default bandwidth of the endpoint connection.
-                      Valid values: 100 to 10240. Unit: Mbit/s.'
+                      Valid values: 100 to 10240. Unit: Mbit/s. When service_resource_type
+                      is slb, this field can be read from the remote API. When service_resource_type
+                      is nlb, alb, or gwlb, this field can be configured but is not
+                      returned by the remote API.'
                     type: number
                   createTime:
                     description: The time when the endpoint service was created.
@@ -376,6 +439,26 @@ spec:
                     description: The ID of the region to which the endpoint service
                       belongs.
                     type: string
+                  resource:
+                    description: The service resources to associate with the endpoint
+                      service when it is created. A maximum of 10 service resources
+                      can be specified at creation. See resource below. This argument
+                      manages the full lifecycle of the associated service resources;
+                      do not use it together with the standalone alicloud_privatelink_vpc_endpoint_service_resource
+                      resource for the same endpoint service, as the two would conflict.
+                    items:
+                      properties:
+                        resourceId:
+                          description: The ID of the service resource.
+                          type: string
+                        resourceType:
+                          description: 'The type of the service resource. Valid values:'
+                          type: string
+                        zoneId:
+                          description: The zone ID of the service resource.
+                          type: string
+                      type: object
+                    type: array
                   resourceGroupId:
                     description: The resource group ID.
                     type: string
@@ -398,6 +481,13 @@ spec:
                   status:
                     description: The state of the endpoint service.
                     type: string
+                  supportedRegionList:
+                    description: The list of remote region IDs that are supported
+                      by the endpoint service.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   tags:
                     additionalProperties:
                       type: string

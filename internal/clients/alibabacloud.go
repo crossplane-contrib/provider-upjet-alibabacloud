@@ -22,6 +22,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/crossplane/upjet/pkg/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	tfsdk "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/apis/v1beta1"
 )
@@ -49,15 +51,9 @@ var providerSpecCredentialKeys = map[string]string{
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
 // returns Terraform provider setup configuration
-func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
+func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
 	return func(ctx context.Context, c client.Client, mg resource.Managed) (terraform.Setup, error) {
-		ps := terraform.Setup{
-			Version: version,
-			Requirement: terraform.ProviderRequirement{
-				Source:  providerSource,
-				Version: providerVersion,
-			},
-		}
+		ps := terraform.Setup{}
 
 		configRef := mg.GetProviderConfigReference()
 		if configRef == nil {
@@ -84,8 +80,28 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 
 		ps.Configuration = buildProviderConfiguration(region, creds, pc)
 		ps.Configuration["configuration_source"] = getUserAgent()
-		return ps, nil
+		return ps, errors.Wrap(configureNoForkAlibabaCloudClient(ctx, &ps, *tfProvider), "failed to configure the no-fork AlibabaCloud client")
 	}
+}
+
+// configureNoForkAlibabaCloudClient configures the Terraform provider with the
+// credentials resolved from the ProviderConfig and hands the resulting provider
+// meta to upjet, which passes it to the resource CRUD functions.
+//
+// Please be aware that this implementation relies on the schema.Provider
+// parameter p being a non-pointer. This is because the Terraform plugin SDK
+// normally configures the provider only once, and using a pointer argument here
+// would cause race conditions between resources referring to different
+// ProviderConfigs.
+func configureNoForkAlibabaCloudClient(ctx context.Context, ps *terraform.Setup, p schema.Provider) error {
+	diag := p.Configure(context.WithoutCancel(ctx), &tfsdk.ResourceConfig{
+		Config: ps.Configuration,
+	})
+	if diag != nil && diag.HasError() {
+		return errors.Errorf("failed to configure the provider: %v", diag)
+	}
+	ps.Meta = p.Meta()
+	return nil
 }
 
 func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1.ProviderConfig) terraform.ProviderConfiguration {

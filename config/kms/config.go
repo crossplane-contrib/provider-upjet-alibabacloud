@@ -32,9 +32,6 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("alicloud_kms_key", func(r *config.Resource) {
 		r.ShortGroup = string(common.KMS)
 
-		delete(r.TerraformResource.Schema, "deletion_window_in_days")
-		delete(r.TerraformResource.Schema, "is_enabled")
-		delete(r.TerraformResource.Schema, "key_state")
 	})
 	p.AddResourceConfigurator("alicloud_kms_secret", func(r *config.Resource) {
 		r.ShortGroup = string(common.KMS)
