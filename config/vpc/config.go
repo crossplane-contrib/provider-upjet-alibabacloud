@@ -1,7 +1,7 @@
 package vpc
 
 import (
-	"github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/common"
 )
@@ -14,7 +14,6 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = string(common.VPC)
 		r.Kind = "RouteTable"
 		// Delete deprecated fields
-		delete(r.TerraformResource.Schema, "name")
 	})
 	p.AddResourceConfigurator("alicloud_vpc", func(r *config.Resource) {
 		// We need to override the default group that upjet generated for
@@ -31,7 +30,5 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "vpc"
 		r.ShortGroup = string(common.VPC)
 		// Delete deprecated fields
-		delete(r.TerraformResource.Schema, "name")
-		delete(r.TerraformResource.Schema, "availability_zone")
 	})
 }

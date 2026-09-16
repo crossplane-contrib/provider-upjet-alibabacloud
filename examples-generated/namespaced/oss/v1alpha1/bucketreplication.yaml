@@ -1,0 +1,152 @@
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketReplication
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: cross-region-replication
+  name: cross-region-replication
+  namespace: upbound-system
+spec:
+  forProvider:
+    action: PUT,DELETE
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucket_src
+    destination:
+    - bucketSelector:
+        matchLabels:
+          testing.upbound.io/example-name: bucket_dest
+      locationSelector:
+        matchLabels:
+          testing.upbound.io/example-name: bucket_dest
+    encryptionConfiguration:
+    - replicaKmsKeyIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: key
+    historicalObjectReplication: enabled
+    prefixSet:
+    - prefixes:
+      - prefix1/
+      - prefix2/
+    region: cn-beijing
+    sourceSelectionCriteria:
+    - sseKmsEncryptedObjects:
+      - status: Enabled
+    syncRoleSelector:
+      matchLabels:
+        testing.upbound.io/example-name: role
+
+---
+
+apiVersion: kms.alibabacloud.m.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: key
+  name: key
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: Hello KMS
+    pendingWindowInDays: "7"
+    region: cn-beijing
+    status: Enabled
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: bucket_dest
+  name: bucket-dest
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucket: example-dest-${random_integer.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: bucket_src
+  name: bucket-src
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucket: example-src-${random_integer.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: this is a policy test
+    force: true
+    policyDocument: "\t\t{\n\t\t  \"Statement\": [\n\t\t\t{\n\t\t\t  \"Action\": [\n\t\t\t\t\"*\"\n\t\t\t
+      \ ],\n\t\t\t  \"Effect\": \"Allow\",\n\t\t\t  \"Resource\": [\n\t\t\t\t\"*\"\n\t\t\t
+      \ ]\n\t\t\t}\n\t\t  ],\n\t\t\t\"Version\": \"1\"\n\t\t}\n"
+    policyName: example-policy-${random_integer.default.result}
+
+---
+
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: role
+  name: role
+  namespace: upbound-system
+spec:
+  forProvider:
+    assumeRolePolicyDocument: "\t\t{\n\t\t  \"Statement\": [\n\t\t\t{\n\t\t\t  \"Action\":
+      \"sts:AssumeRole\",\n\t\t\t  \"Effect\": \"Allow\",\n\t\t\t  \"Principal\":
+      {\n\t\t\t\t\"Service\": [\n\t\t\t\t  \"oss.aliyuncs.com\"\n\t\t\t\t]\n\t\t\t
+      \ }\n\t\t\t}\n\t\t  ],\n\t\t  \"Version\": \"1\"\n\t\t}\n"
+    description: this is a test
+    force: true
+    roleName: example-role-${random_integer.default.result}
+
+---
+
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: RolePolicyAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketreplication
+  labels:
+    testing.upbound.io/example-name: attach
+  name: attach
+  namespace: upbound-system
+spec:
+  forProvider:
+    policyNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
+    policyTypeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
+    roleNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: role

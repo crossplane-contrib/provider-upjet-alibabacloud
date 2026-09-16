@@ -1,0 +1,53 @@
+apiVersion: privatelink.alibabacloud.m.crossplane.io/v1alpha1
+kind: VpcEndpointServiceUser
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointserviceuser
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    serviceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-for-service-user
+    userIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-for-service-user
+
+---
+
+apiVersion: privatelink.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPCEndpointService
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointserviceuser
+  labels:
+    testing.upbound.io/example-name: example-for-service-user
+  name: example-for-service-user
+spec:
+  forProvider:
+    autoAcceptConnection: false
+    connectBandwidth: 103
+    serviceDescription: crossplane-example
+
+---
+
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: User
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointserviceuser
+  labels:
+    testing.upbound.io/example-name: example-for-service-user
+  name: example-for-service-user
+spec:
+  forProvider:
+    comments: yoyoyo
+    displayName: user_display_name
+    email: hello.uuu@aaa.com
+    mobile: 86-18688888888
+    name: crossplane-example

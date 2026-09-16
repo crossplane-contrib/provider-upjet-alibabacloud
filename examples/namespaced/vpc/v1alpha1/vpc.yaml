@@ -1,0 +1,37 @@
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vpc
+  labels:
+    testing.upbound.io/example-name: default
+  name: crossplane-example
+spec:
+  forProvider:
+    cidrBlock: 10.0.0.0/8
+    description: test
+    enableIpv6: true
+    ipv6Isp: BGP
+    vpcName: crossplane-example
+---
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vpc
+  labels:
+    testing.upbound.io/example-name: with-region
+  name: crossplane-example-with-region
+spec:
+  forProvider:
+    region: cn-shenzhen
+    cidrBlock: 10.0.0.0/8
+    description: test
+    enableIpv6: true
+    ipv6Isp: BGP
+    vpcName: crossplane-example-with-region
+    tags:
+      From: Crossplane
+      For: Testing

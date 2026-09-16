@@ -1,0 +1,66 @@
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: ImageImport
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imageimport
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    architecture: x86_64
+    description: ${var.name}
+    diskDeviceMapping:
+    - diskImageSize: 5
+      ossBucketSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      ossObjectSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+    imageName: ${var.name}
+    licenseType: Auto
+    osType: linux
+    platform: Ubuntu
+    region: cn-beijing
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imageimport
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucket: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/imageimport
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    content: |2
+          # -*- coding: utf-8 -*-
+          def handler(event, context):
+          print "hello world"
+          return 'hello world'
+    key: fc/hello.zip
+    region: cn-beijing

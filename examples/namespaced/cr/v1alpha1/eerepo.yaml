@@ -1,0 +1,61 @@
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeRepo
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-repo-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-repo-1
+  name: test-ee-repo-1
+spec:
+  forProvider:
+    region: us-west-1
+    detail: This is a test EE repository created by provider-upjet-alibabacloud.
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-repo-1
+    name: test-ee-repo-1
+    namespaceSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-namespace-for-repo-1
+    repoType: PUBLIC
+    summary: Test EE repository for Container Registry
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeNamespace
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-namespace-for-repo-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-namespace-for-repo-1
+  name: test-ee-namespace-for-repo-1
+spec:
+  forProvider:
+    region: us-west-1
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-repo-1
+    name: test-ee-namespace-for-repo-1
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-instance-for-repo-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-instance-for-repo-1
+  name: test-ee-instance-for-repo-1
+spec:
+  forProvider:
+    region: us-west-1
+    instanceName: cr-ee-test-repo-1
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    renewPeriod: 1
+    renewalStatus: AutoRenewal

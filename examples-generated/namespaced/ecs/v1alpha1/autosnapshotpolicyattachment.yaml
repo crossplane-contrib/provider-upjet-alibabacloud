@@ -1,0 +1,60 @@
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: AutoSnapshotPolicyAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicyattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoSnapshotPolicyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    diskIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: AutoSnapshotPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicyattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoSnapshotPolicyName: ${var.name}
+    region: cn-beijing
+    repeatWeekdays:
+    - "1"
+    - "2"
+    - "3"
+    retentionDays: 1
+    timePoints:
+    - "1"
+    - "2"
+    - "3"
+
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: Disk
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autosnapshotpolicyattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    region: cn-beijing
+    size: "500"
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

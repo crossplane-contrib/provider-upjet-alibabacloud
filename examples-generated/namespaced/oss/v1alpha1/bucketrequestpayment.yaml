@@ -1,0 +1,33 @@
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketRequestPayment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketrequestpayment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: CreateBucket
+    payer: Requester
+    region: cn-beijing
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketrequestpayment
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucket: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
+    storageClass: Standard

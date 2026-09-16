@@ -1,0 +1,54 @@
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketLogging
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketlogging
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: CreateBucket
+    loggingRole: example-role
+    region: cn-beijing
+    targetBucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: CreateBucket
+    targetPrefix: log/
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketlogging
+  labels:
+    testing.upbound.io/example-name: CreateBucket
+  name: createbucket
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucket: resource-example-logging-806
+    region: cn-beijing
+    storageClass: Standard
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketlogging
+  labels:
+    testing.upbound.io/example-name: CreateLoggingBucket
+  name: createloggingbucket
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucket: resource-example-logging-153
+    region: cn-beijing
+    storageClass: Standard

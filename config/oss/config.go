@@ -1,7 +1,7 @@
 package oss
 
 import (
-	"github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/common"
 )
@@ -25,10 +25,6 @@ func Configure(p *config.Provider) {
 	})
 	p.AddResourceConfigurator("alicloud_oss_bucket", func(r *config.Resource) {
 		r.ShortGroup = string(common.OSS)
-		delete(r.TerraformResource.Schema, "acl")
-		delete(r.TerraformResource.Schema, "logging_isenable")
-		delete(r.TerraformResource.Schema, "referer_config")
-		delete(r.TerraformResource.Schema, "policy")
 	})
 	p.AddResourceConfigurator("alicloud_oss_bucket_access_monitor", func(r *config.Resource) {
 		r.ShortGroup = string(common.OSS)

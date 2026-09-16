@@ -1,0 +1,35 @@
+apiVersion: alidns.alibabacloud.m.crossplane.io/v1alpha1
+kind: Domain
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/domain
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    domainName: starmove.com
+    groupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    tags:
+      Created: TF
+      For: example
+
+---
+
+apiVersion: alidns.alibabacloud.m.crossplane.io/v1alpha1
+kind: DomainGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/domain
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    domainGroupName: tf-example
+    region: cn-beijing

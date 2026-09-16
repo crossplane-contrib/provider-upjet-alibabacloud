@@ -1,0 +1,30 @@
+apiVersion: kms.alibabacloud.m.crossplane.io/v1alpha1
+kind: Alias
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/alias
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+spec:
+  forProvider:
+    aliasName: alias/example_kms_alias
+    keyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alias
+
+---
+
+apiVersion: kms.alibabacloud.m.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/alias
+  labels:
+    testing.upbound.io/example-name: alias
+  name: alias
+spec:
+  forProvider:
+    pendingWindowInDays: 7

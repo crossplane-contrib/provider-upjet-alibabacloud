@@ -1,0 +1,60 @@
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: Execution
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/execution
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: From TF Test
+    parameters: '{"Status":"Running"}'
+    region: us-west-1
+    templateNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: Template
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/execution
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    content: |
+      {
+        "FormatVersion": "OOS-2019-06-01",
+        "Description": "Update Describe instances of given status",
+        "Parameters":{
+          "Status":{
+            "Type": "String",
+            "Description": "(Required) The status of the Ecs instance."
+          }
+        },
+        "Tasks": [
+          {
+            "Properties" :{
+              "Parameters":{
+                "Status": "{{ Status }}"
+              },
+              "API": "DescribeInstances",
+              "Service": "Ecs"
+            },
+            "Name": "foo",
+            "Action": "ACS::ExecuteApi"
+          }]
+      }
+    region: us-west-1
+    tags:
+      Created: TF
+      For: acceptance Test
+    templateName: crossplane-example-execution-template
+    versionName: example

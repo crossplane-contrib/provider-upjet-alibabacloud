@@ -20,6 +20,11 @@ metadata:
       {{ end }}
     friendly-name.meta.crossplane.io: Provider Alibaba Cloud ({{ .Service }})
 spec:
+  # The provider implements SafeStart: it defers controller setup until the CRDs
+  # those controllers watch are established, using the CRD gate. See canWatchCRD
+  # in the generated cmd/provider/<group>/zz_main.go.
+  capabilities:
+  - SafeStart
   crossplane:
     version: ">=v1.19.0-0"
 {{ if and (ne .Service "config") (ne .Service "monolith") }}

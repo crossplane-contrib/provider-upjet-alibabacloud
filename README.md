@@ -9,12 +9,62 @@ make submodules
 make generate
 ```
 
+## API groups and scopes
+
+The provider serves every resource twice, in two API groups:
+
+| Group | Scope | Use |
+|---|---|---|
+| `<service>.alibabacloud.crossplane.io` | Cluster | Legacy cluster-scoped managed resources. Works on Crossplane v1 and v2. |
+| `<service>.alibabacloud.m.crossplane.io` | Namespaced | Crossplane v2 namespaced managed resources. Composable in v2. |
+
+The two are functionally equivalent; existing cluster-scoped resources keep
+working unchanged. Namespaced resources differ in three ways:
+
+- `spec.providerConfigRef` is a typed reference, with `kind` as well as `name`.
+  Omitted, it defaults to `kind: ClusterProviderConfig, name: default`.
+- `spec.writeConnectionSecretToRef` and any `...SecretRef` under
+  `spec.forProvider` are local references: they resolve in the resource's own
+  namespace and take no `namespace` field.
+- `spec.publishConnectionDetailsTo` does not exist. External Secret Stores were
+  an alpha feature that Crossplane v2 dropped, so it is gone from **all**
+  resources, cluster-scoped ones included.
+
+```yaml
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  name: example
+  namespace: default
+spec:
+  providerConfigRef:
+    kind: ClusterProviderConfig
+    name: default
+  forProvider:
+    cidrBlock: 10.0.0.0/8
+```
+
+Examples for both scopes live under [examples/cluster](examples/cluster) and
+[examples/namespaced](examples/namespaced).
+
 ## Authentication
 
-Provider credentials are configured with a `ProviderConfig`. Static credentials
+Provider credentials are configured with a provider config. Static credentials
 and STS session credentials are read from a Kubernetes `Secret`; AssumeRole and
-AssumeRoleWithOIDC options are configured as structured fields on the
-`ProviderConfig` spec.
+AssumeRoleWithOIDC options are configured as structured fields on its spec.
+
+There are three kinds, and a managed resource may only reference one from its
+own API group:
+
+| Kind | Group | Scope | Referenced by |
+|---|---|---|---|
+| `ProviderConfig` | `alibabacloud.crossplane.io` | Cluster | cluster-scoped MRs |
+| `ProviderConfig` | `alibabacloud.m.crossplane.io` | Namespaced | namespaced MRs, same namespace |
+| `ClusterProviderConfig` | `alibabacloud.m.crossplane.io` | Cluster | namespaced MRs, any namespace |
+
+Use a namespaced `ProviderConfig` when each namespace should carry its own
+credential, and a `ClusterProviderConfig` to share one across namespaces. The
+spec is identical in all three; the examples below apply to each.
 
 Do not put `assume_role` or `assume_role_with_oidc` blocks in the credentials
 secret. The credentials secret should contain only credential material such as
@@ -123,6 +173,44 @@ export UPTEST_CLOUD_CREDENTIALS='{
     "secret_key": "...",
     "region": "us-west-1"
 }'
+```
+
+## Hiding a field from a generated CRD
+
+This provider uses upjet's no-fork architecture: it links the upstream Terraform
+provider's Go SDK and calls its CRUD functions in-process, rather than shelling
+out to `terraform`.
+
+That changes what `delete(r.TerraformResource.Schema, "field")` does, and the
+difference is easy to miss. Under CLI reconciliation `TerraformResource` was a
+throwaway map rebuilt from `config/schema.json`, so deleting from it only shaped
+the generated CRD. Under no-fork, upjet assigns `TerraformResource` straight from
+the live `*schema.Provider` **without copying it**, so the same delete strips the
+field from the map the upstream CRUD functions execute against. Depending on how
+upstream reads that field, the result is anything from a silently unset value to
+a panic on every create:
+
+```go
+// alicloud_oss_bucket Create, upstream:
+oss.ACL(oss.ACLType(d.Get("acl").(string)))   // d.Get returns nil once "acl" is
+                                              // gone from the schema
+```
+
+So per-resource configurators in `config/<group>/config.go` must **not** call
+`delete(r.TerraformResource.Schema, ...)`. Add the field to
+`generationOnlySchemaOmissions` in [config/schema_omissions.go](config/schema_omissions.go)
+instead. Those omissions are applied only when `GetProvider` is building the
+code-generation provider, which shapes the CRD exactly as before while leaving
+the runtime schema intact.
+
+`TestRuntimeSchemaIsPristine` enforces this. If it fails after you add a resource
+— or after merging a branch that adds one — the fix is to **move** the delete
+into the table, not to revert the test:
+
+```
+resource "alicloud_alikafka_instance" is missing field "topic_quota" from its
+runtime Terraform schema; schema fields may only be omitted from the
+code-generation provider (see generationOnlySchemaOmissions)
 ```
 
 ## Submit PR

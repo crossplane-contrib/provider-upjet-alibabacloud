@@ -5,7 +5,7 @@
 package cr
 
 import (
-	"github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/common"
 )
@@ -59,7 +59,6 @@ func Configure(p *config.Provider) {
 		// late-init alone is insufficient (the value is still read back), so
 		// drop the dead "name" field from the schema entirely; "sync_rule_name"
 		// fully replaces it.
-		delete(r.TerraformResource.Schema, "name")
 	})
 
 	p.AddResourceConfigurator("alicloud_cr_endpoint_acl_policy", func(r *config.Resource) {

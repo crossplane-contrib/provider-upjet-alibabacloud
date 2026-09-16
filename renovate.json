@@ -2,5 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "description": "Pinned by a replace directive to the v2.0.0-beta4 commit. The tag declares no /v2 module path, so Go resolves it to a pseudo-version that sorts below the v1.29x releases; any bump would silently move the provider onto the terraform-plugin-sdk v1 code line, which cannot build under the no-fork architecture. Unpin once upstream ships v2.0.0 with a /v2 module path.",
+      "matchPackageNames": [
+        "github.com/aliyun/terraform-provider-alicloud"
+      ],
+      "enabled": false
+    }
   ]
 }

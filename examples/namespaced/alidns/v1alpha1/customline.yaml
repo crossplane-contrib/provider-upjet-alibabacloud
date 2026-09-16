@@ -1,0 +1,16 @@
+apiVersion: alidns.alibabacloud.m.crossplane.io/v1alpha1
+kind: CustomLine
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/customline
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    customLineName: crossplane-example
+    domainName: starmove.com
+    ipSegmentList:
+    - endIp: 192.0.2.125
+      startIp: 192.0.2.123

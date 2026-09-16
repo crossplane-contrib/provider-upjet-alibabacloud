@@ -1,0 +1,39 @@
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EndpointACLPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/endpointaclpolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: ${var.name}
+    endpointType: internet
+    entry: 192.168.1.0/24
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: alicloud_cr_endpoint_acl_service
+    moduleName: Registry
+    region: cn-beijing
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/endpointaclpolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceName: ${var.name}-${random_integer.default.result}
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    region: cn-beijing
+    renewalStatus: ManualRenewal

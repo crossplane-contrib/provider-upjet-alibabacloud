@@ -1,0 +1,1181 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.20.1
+  name: listeners.slb.alibabacloud.m.crossplane.io
+spec:
+  group: slb.alibabacloud.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alibabacloud
+    kind: Listener
+    listKind: ListenerList
+    plural: listeners
+    singular: listener
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Listener is the Schema for the Listeners API. Provides a Alicloud
+          Classic Load Balancer (SLB) Listener resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ListenerSpec defines the desired state of Listener
+            properties:
+              forProvider:
+                properties:
+                  aclIds:
+                    description: 'The IDs of the network ACL that is associated with
+                      the listener. NOTE: If acl_status is set to on, acl_ids is required.
+                      Otherwise, it will be ignored.'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  aclIdsRefs:
+                    description: References to ACL in slb to populate aclIds.
+                    items:
+                      description: A NamespacedReference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        namespace:
+                          description: Namespace of the referenced object
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  aclIdsSelector:
+                    description: Selector for a list of ACL in slb to populate aclIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  aclStatus:
+                    description: 'Specifies whether to enable access control. Default
+                      value: off. Valid values: on, off.'
+                    type: string
+                  aclType:
+                    description: 'The type of the network ACL. Valid values: black,
+                      white. NOTE: If acl_status is set to on, acl_type is required.
+                      Otherwise, it will be ignored.'
+                    type: string
+                  backendPort:
+                    description: 'The backend port that is used by the CLB instance.
+                      Valid values: 1 to 65535. NOTE: If server_group_id is not set,
+                      backend_port is required.'
+                    type: number
+                  bandwidth:
+                    description: 'The maximum bandwidth of the listener. Unit: Mbit/s.
+                      Valid values:'
+                    type: number
+                  caCertificateId:
+                    description: The ID of the certification authority (CA) certificate.
+                    type: string
+                  cookie:
+                    description: 'The cookie that is configured on the server. The
+                      cookie must be 1 to 200 characters in length and can contain
+                      only ASCII characters and digits. It cannot contain commas (,),
+                      semicolons (;), or space characters. It cannot start with a
+                      dollar sign ($). NOTE: If sticky_session is set to on, and sticky_session_type
+                      is set to server, cookie is required. Otherwise, it will be
+                      ignored.'
+                    type: string
+                  cookieTimeout:
+                    description: 'The timeout period of a cookie. Unit: seconds. Valid
+                      values: 1 to 86400. NOTE: If sticky_session is set to on, and
+                      sticky_session_type is set to insert, cookie_timeout is required.
+                      Otherwise, it will be ignored.'
+                    type: number
+                  deleteProtectionValidation:
+                    description: 'Checking DeleteProtection of SLB instance before
+                      deleting. If true, this resource will not be deleted when its
+                      SLB instance enabled DeleteProtection. Default value: false.'
+                    type: boolean
+                  description:
+                    description: The name of the listener. The name must be 1 to 256
+                      characters in length, and can contain letters, digits, hyphens
+                      (-), forward slashes (/), periods (.), and underscores (_).
+                    type: string
+                  enableHttp2:
+                    description: 'Specifies whether to enable HTTP/2. Default value:
+                      on. Valid values: on, off.'
+                    type: string
+                  establishedTimeout:
+                    description: 'The timeout period of a connection. Unit: seconds.
+                      Default value: 900. Valid values: 10 to 900.'
+                    type: number
+                  forwardPort:
+                    description: The listening port that is used to redirect HTTP
+                      requests to HTTPS.
+                    type: number
+                  frontendPort:
+                    description: 'The frontend port that is used by the CLB instance.
+                      Valid values: 1 to 65535.'
+                    type: number
+                  gzip:
+                    description: 'Specifies whether to enable GZIP compression to
+                      compress specific types of files. Default value: true. Valid
+                      values: true, false.'
+                    type: boolean
+                  healthCheck:
+                    description: 'Specifies whether to enable the health check feature.
+                      Default value: on. Valid values: on, off. NOTE: TCP and UDP
+                      listener''s HealthCheck is always on, so it will be ignored
+                      when launching TCP or UDP listener.'
+                    type: string
+                  healthCheckConnectPort:
+                    description: 'The backend port that is used for health checks.
+                      Valid values: 0 to 65535. NOTE: If health_check_connect_port
+                      is not set, the backend port specified by backend_port is used
+                      for health checks.'
+                    type: number
+                  healthCheckDomain:
+                    description: The domain name that is used for health checks.
+                    type: string
+                  healthCheckHttpCode:
+                    description: 'The HTTP status code for a successful health check.
+                      Separate multiple HTTP status codes with commas (,). Default
+                      value: http_2xx. Valid values: http_2xx, http_3xx, http_4xx
+                      and http_5xx.'
+                    type: string
+                  healthCheckInterval:
+                    description: 'The interval between two consecutive health checks.
+                      Unit: seconds. Default value: 2. Valid values: 1 to 50.'
+                    type: number
+                  healthCheckMethod:
+                    description: 'The health check method used in HTTP health checks.
+                      Valid values: head, get. NOTE: health_check_method takes effect
+                      only if health_check is set to on.'
+                    type: string
+                  healthCheckTimeout:
+                    description: 'The maximum timeout period of a health check response.
+                      Unit: seconds. Default value: 5. Valid values: 1 to 300.'
+                    type: number
+                  healthCheckType:
+                    description: 'The type of health checks. Default value: tcp. Valid
+                      values: tcp, http.'
+                    type: string
+                  healthCheckUri:
+                    description: |-
+                      The URI that is used for health checks. The health_check_uri must be 1 to 80 characters in length, and can contain letters, digits, hyphens (-), forward slashes (/), periods (.), percent signs (%), question marks (?), number signs (#), and ampersands (&). The URI must start with a forward slash (/) but cannot be a single forward slash (/).
+                      NOTE: You can set health_check_uri when the TCP listener requires HTTP health checks. If you do not set health_check_uri, TCP health checks will be performed.
+                    type: string
+                  healthyThreshold:
+                    description: 'The number of times that an unhealthy backend server
+                      must consecutively pass health checks before it is declared
+                      healthy. Default value: 3. Valid values: 2 to 10.'
+                    type: number
+                  idleTimeout:
+                    description: 'The timeout period of an idle connection. Unit:
+                      seconds. Default value: 15. Valid values: 1 to 60.'
+                    type: number
+                  listenerForward:
+                    description: 'Specifies whether to enable HTTP-to-HTTPS redirection.
+                      Default value: off. Valid values: on, off.'
+                    type: string
+                  loadBalancerId:
+                    description: The Load Balancer ID which is used to launch a new
+                      listener.
+                    type: string
+                  loadBalancerIdRef:
+                    description: Reference to a LoadBalancer in slb to populate loadBalancerId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  loadBalancerIdSelector:
+                    description: Selector for a LoadBalancer in slb to populate loadBalancerId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  masterSlaveServerGroupId:
+                    description: 'The ID of the primary/secondary server group. NOTE:
+                      You cannot set both server_group_id and master_slave_server_group_id.'
+                    type: string
+                  persistenceTimeout:
+                    description: 'The timeout period of session persistence. Unit:
+                      seconds. Default value: 0. Valid values: 0 to 3600.'
+                    type: number
+                  protocol:
+                    description: 'The protocol to listen on. Valid values: udp.'
+                    type: string
+                  proxyProtocolV2Enabled:
+                    description: 'Specifies whether to use the Proxy protocol to pass
+                      client IP addresses to backend servers. Default value: false.
+                      Valid values: true, false.'
+                    type: boolean
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
+                  requestTimeout:
+                    description: 'The timeout period of a request. Unit: seconds.
+                      Default value: 60. Valid values: 1 to 180.'
+                    type: number
+                  scheduler:
+                    description: 'The scheduling algorithm. Default value: wrr. Valid
+                      values:'
+                    type: string
+                  serverCertificateId:
+                    description: 'The ID of the server certificate. NOTE: server_certificate_id
+                      is also required when the value of the ssl_certificate_id is
+                      Empty.'
+                    type: string
+                  serverGroupId:
+                    description: The ID of the vServer group. It's the ID of resource
+                      alicloud_slb_server_group.
+                    type: string
+                  stickySession:
+                    description: 'Specifies whether to enable session persistence.
+                      Default value: off. Valid values: on, off.'
+                    type: string
+                  stickySessionType:
+                    description: 'The method that is used to handle a cookie. Valid
+                      values: insert, server. NOTE: If sticky_session is set to on,
+                      sticky_session_type is required. Otherwise, it will be ignored.'
+                    type: string
+                  tlsCipherPolicy:
+                    description: 'The Transport Layer Security (TLS) security policy.
+                      Default value: tls_cipher_policy_1_0. Valid values: tls_cipher_policy_1_0,
+                      tls_cipher_policy_1_1, tls_cipher_policy_1_2, tls_cipher_policy_1_2_strict,
+                      tls_cipher_policy_1_2_strict_with_1_3. NOTE: From version 1.229.1,
+                      tls_cipher_policy can be set to tls_cipher_policy_1_2_strict_with_1_3.'
+                    type: string
+                  unhealthyThreshold:
+                    description: 'The number of times that a healthy backend server
+                      must consecutively fail health checks before it is declared
+                      unhealthy. Default value: 3. Valid values: 2 to 10.'
+                    type: number
+                  xForwardedFor:
+                    description: Whether to set additional HTTP Header field "X-Forwarded-For".
+                    items:
+                      properties:
+                        retriveSlbId:
+                          description: 'Indicates whether the SLB-ID header is used
+                            to retrieve the ID of the CLB instance. Default value:
+                            false. Valid values: true, false.'
+                          type: boolean
+                        retriveSlbIp:
+                          description: 'Indicates whether the SLB-IP header is used
+                            to retrieve the virtual IP address (VIP) requested by
+                            the client. Default value: false. Valid values: true,
+                            false.'
+                          type: boolean
+                        retriveSlbProto:
+                          description: 'Specifies whether to use the X-Forwarded-Proto
+                            header to retrieve the listener protocol. Default value:
+                            false. Valid values: true, false.'
+                          type: boolean
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  aclIds:
+                    description: 'The IDs of the network ACL that is associated with
+                      the listener. NOTE: If acl_status is set to on, acl_ids is required.
+                      Otherwise, it will be ignored.'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  aclIdsRefs:
+                    description: References to ACL in slb to populate aclIds.
+                    items:
+                      description: A NamespacedReference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        namespace:
+                          description: Namespace of the referenced object
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  aclIdsSelector:
+                    description: Selector for a list of ACL in slb to populate aclIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  aclStatus:
+                    description: 'Specifies whether to enable access control. Default
+                      value: off. Valid values: on, off.'
+                    type: string
+                  aclType:
+                    description: 'The type of the network ACL. Valid values: black,
+                      white. NOTE: If acl_status is set to on, acl_type is required.
+                      Otherwise, it will be ignored.'
+                    type: string
+                  backendPort:
+                    description: 'The backend port that is used by the CLB instance.
+                      Valid values: 1 to 65535. NOTE: If server_group_id is not set,
+                      backend_port is required.'
+                    type: number
+                  bandwidth:
+                    description: 'The maximum bandwidth of the listener. Unit: Mbit/s.
+                      Valid values:'
+                    type: number
+                  caCertificateId:
+                    description: The ID of the certification authority (CA) certificate.
+                    type: string
+                  cookie:
+                    description: 'The cookie that is configured on the server. The
+                      cookie must be 1 to 200 characters in length and can contain
+                      only ASCII characters and digits. It cannot contain commas (,),
+                      semicolons (;), or space characters. It cannot start with a
+                      dollar sign ($). NOTE: If sticky_session is set to on, and sticky_session_type
+                      is set to server, cookie is required. Otherwise, it will be
+                      ignored.'
+                    type: string
+                  cookieTimeout:
+                    description: 'The timeout period of a cookie. Unit: seconds. Valid
+                      values: 1 to 86400. NOTE: If sticky_session is set to on, and
+                      sticky_session_type is set to insert, cookie_timeout is required.
+                      Otherwise, it will be ignored.'
+                    type: number
+                  deleteProtectionValidation:
+                    description: 'Checking DeleteProtection of SLB instance before
+                      deleting. If true, this resource will not be deleted when its
+                      SLB instance enabled DeleteProtection. Default value: false.'
+                    type: boolean
+                  description:
+                    description: The name of the listener. The name must be 1 to 256
+                      characters in length, and can contain letters, digits, hyphens
+                      (-), forward slashes (/), periods (.), and underscores (_).
+                    type: string
+                  enableHttp2:
+                    description: 'Specifies whether to enable HTTP/2. Default value:
+                      on. Valid values: on, off.'
+                    type: string
+                  establishedTimeout:
+                    description: 'The timeout period of a connection. Unit: seconds.
+                      Default value: 900. Valid values: 10 to 900.'
+                    type: number
+                  forwardPort:
+                    description: The listening port that is used to redirect HTTP
+                      requests to HTTPS.
+                    type: number
+                  frontendPort:
+                    description: 'The frontend port that is used by the CLB instance.
+                      Valid values: 1 to 65535.'
+                    type: number
+                  gzip:
+                    description: 'Specifies whether to enable GZIP compression to
+                      compress specific types of files. Default value: true. Valid
+                      values: true, false.'
+                    type: boolean
+                  healthCheck:
+                    description: 'Specifies whether to enable the health check feature.
+                      Default value: on. Valid values: on, off. NOTE: TCP and UDP
+                      listener''s HealthCheck is always on, so it will be ignored
+                      when launching TCP or UDP listener.'
+                    type: string
+                  healthCheckConnectPort:
+                    description: 'The backend port that is used for health checks.
+                      Valid values: 0 to 65535. NOTE: If health_check_connect_port
+                      is not set, the backend port specified by backend_port is used
+                      for health checks.'
+                    type: number
+                  healthCheckDomain:
+                    description: The domain name that is used for health checks.
+                    type: string
+                  healthCheckHttpCode:
+                    description: 'The HTTP status code for a successful health check.
+                      Separate multiple HTTP status codes with commas (,). Default
+                      value: http_2xx. Valid values: http_2xx, http_3xx, http_4xx
+                      and http_5xx.'
+                    type: string
+                  healthCheckInterval:
+                    description: 'The interval between two consecutive health checks.
+                      Unit: seconds. Default value: 2. Valid values: 1 to 50.'
+                    type: number
+                  healthCheckMethod:
+                    description: 'The health check method used in HTTP health checks.
+                      Valid values: head, get. NOTE: health_check_method takes effect
+                      only if health_check is set to on.'
+                    type: string
+                  healthCheckTimeout:
+                    description: 'The maximum timeout period of a health check response.
+                      Unit: seconds. Default value: 5. Valid values: 1 to 300.'
+                    type: number
+                  healthCheckType:
+                    description: 'The type of health checks. Default value: tcp. Valid
+                      values: tcp, http.'
+                    type: string
+                  healthCheckUri:
+                    description: |-
+                      The URI that is used for health checks. The health_check_uri must be 1 to 80 characters in length, and can contain letters, digits, hyphens (-), forward slashes (/), periods (.), percent signs (%), question marks (?), number signs (#), and ampersands (&). The URI must start with a forward slash (/) but cannot be a single forward slash (/).
+                      NOTE: You can set health_check_uri when the TCP listener requires HTTP health checks. If you do not set health_check_uri, TCP health checks will be performed.
+                    type: string
+                  healthyThreshold:
+                    description: 'The number of times that an unhealthy backend server
+                      must consecutively pass health checks before it is declared
+                      healthy. Default value: 3. Valid values: 2 to 10.'
+                    type: number
+                  idleTimeout:
+                    description: 'The timeout period of an idle connection. Unit:
+                      seconds. Default value: 15. Valid values: 1 to 60.'
+                    type: number
+                  listenerForward:
+                    description: 'Specifies whether to enable HTTP-to-HTTPS redirection.
+                      Default value: off. Valid values: on, off.'
+                    type: string
+                  loadBalancerId:
+                    description: The Load Balancer ID which is used to launch a new
+                      listener.
+                    type: string
+                  loadBalancerIdRef:
+                    description: Reference to a LoadBalancer in slb to populate loadBalancerId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  loadBalancerIdSelector:
+                    description: Selector for a LoadBalancer in slb to populate loadBalancerId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  masterSlaveServerGroupId:
+                    description: 'The ID of the primary/secondary server group. NOTE:
+                      You cannot set both server_group_id and master_slave_server_group_id.'
+                    type: string
+                  persistenceTimeout:
+                    description: 'The timeout period of session persistence. Unit:
+                      seconds. Default value: 0. Valid values: 0 to 3600.'
+                    type: number
+                  protocol:
+                    description: 'The protocol to listen on. Valid values: udp.'
+                    type: string
+                  proxyProtocolV2Enabled:
+                    description: 'Specifies whether to use the Proxy protocol to pass
+                      client IP addresses to backend servers. Default value: false.
+                      Valid values: true, false.'
+                    type: boolean
+                  requestTimeout:
+                    description: 'The timeout period of a request. Unit: seconds.
+                      Default value: 60. Valid values: 1 to 180.'
+                    type: number
+                  scheduler:
+                    description: 'The scheduling algorithm. Default value: wrr. Valid
+                      values:'
+                    type: string
+                  serverCertificateId:
+                    description: 'The ID of the server certificate. NOTE: server_certificate_id
+                      is also required when the value of the ssl_certificate_id is
+                      Empty.'
+                    type: string
+                  serverGroupId:
+                    description: The ID of the vServer group. It's the ID of resource
+                      alicloud_slb_server_group.
+                    type: string
+                  stickySession:
+                    description: 'Specifies whether to enable session persistence.
+                      Default value: off. Valid values: on, off.'
+                    type: string
+                  stickySessionType:
+                    description: 'The method that is used to handle a cookie. Valid
+                      values: insert, server. NOTE: If sticky_session is set to on,
+                      sticky_session_type is required. Otherwise, it will be ignored.'
+                    type: string
+                  tlsCipherPolicy:
+                    description: 'The Transport Layer Security (TLS) security policy.
+                      Default value: tls_cipher_policy_1_0. Valid values: tls_cipher_policy_1_0,
+                      tls_cipher_policy_1_1, tls_cipher_policy_1_2, tls_cipher_policy_1_2_strict,
+                      tls_cipher_policy_1_2_strict_with_1_3. NOTE: From version 1.229.1,
+                      tls_cipher_policy can be set to tls_cipher_policy_1_2_strict_with_1_3.'
+                    type: string
+                  unhealthyThreshold:
+                    description: 'The number of times that a healthy backend server
+                      must consecutively fail health checks before it is declared
+                      unhealthy. Default value: 3. Valid values: 2 to 10.'
+                    type: number
+                  xForwardedFor:
+                    description: Whether to set additional HTTP Header field "X-Forwarded-For".
+                    items:
+                      properties:
+                        retriveSlbId:
+                          description: 'Indicates whether the SLB-ID header is used
+                            to retrieve the ID of the CLB instance. Default value:
+                            false. Valid values: true, false.'
+                          type: boolean
+                        retriveSlbIp:
+                          description: 'Indicates whether the SLB-IP header is used
+                            to retrieve the virtual IP address (VIP) requested by
+                            the client. Default value: false. Valid values: true,
+                            false.'
+                          type: boolean
+                        retriveSlbProto:
+                          description: 'Specifies whether to use the X-Forwarded-Proto
+                            header to retrieve the listener protocol. Default value:
+                            false. Valid values: true, false.'
+                          type: boolean
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.frontendPort is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.frontendPort)
+                || (has(self.initProvider) && has(self.initProvider.frontendPort))'
+            - message: spec.forProvider.protocol is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.protocol)
+                || (has(self.initProvider) && has(self.initProvider.protocol))'
+          status:
+            description: ListenerStatus defines the observed state of Listener.
+            properties:
+              atProvider:
+                properties:
+                  aclIds:
+                    description: 'The IDs of the network ACL that is associated with
+                      the listener. NOTE: If acl_status is set to on, acl_ids is required.
+                      Otherwise, it will be ignored.'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  aclStatus:
+                    description: 'Specifies whether to enable access control. Default
+                      value: off. Valid values: on, off.'
+                    type: string
+                  aclType:
+                    description: 'The type of the network ACL. Valid values: black,
+                      white. NOTE: If acl_status is set to on, acl_type is required.
+                      Otherwise, it will be ignored.'
+                    type: string
+                  backendPort:
+                    description: 'The backend port that is used by the CLB instance.
+                      Valid values: 1 to 65535. NOTE: If server_group_id is not set,
+                      backend_port is required.'
+                    type: number
+                  bandwidth:
+                    description: 'The maximum bandwidth of the listener. Unit: Mbit/s.
+                      Valid values:'
+                    type: number
+                  caCertificateId:
+                    description: The ID of the certification authority (CA) certificate.
+                    type: string
+                  cookie:
+                    description: 'The cookie that is configured on the server. The
+                      cookie must be 1 to 200 characters in length and can contain
+                      only ASCII characters and digits. It cannot contain commas (,),
+                      semicolons (;), or space characters. It cannot start with a
+                      dollar sign ($). NOTE: If sticky_session is set to on, and sticky_session_type
+                      is set to server, cookie is required. Otherwise, it will be
+                      ignored.'
+                    type: string
+                  cookieTimeout:
+                    description: 'The timeout period of a cookie. Unit: seconds. Valid
+                      values: 1 to 86400. NOTE: If sticky_session is set to on, and
+                      sticky_session_type is set to insert, cookie_timeout is required.
+                      Otherwise, it will be ignored.'
+                    type: number
+                  deleteProtectionValidation:
+                    description: 'Checking DeleteProtection of SLB instance before
+                      deleting. If true, this resource will not be deleted when its
+                      SLB instance enabled DeleteProtection. Default value: false.'
+                    type: boolean
+                  description:
+                    description: The name of the listener. The name must be 1 to 256
+                      characters in length, and can contain letters, digits, hyphens
+                      (-), forward slashes (/), periods (.), and underscores (_).
+                    type: string
+                  enableHttp2:
+                    description: 'Specifies whether to enable HTTP/2. Default value:
+                      on. Valid values: on, off.'
+                    type: string
+                  establishedTimeout:
+                    description: 'The timeout period of a connection. Unit: seconds.
+                      Default value: 900. Valid values: 10 to 900.'
+                    type: number
+                  forwardPort:
+                    description: The listening port that is used to redirect HTTP
+                      requests to HTTPS.
+                    type: number
+                  frontendPort:
+                    description: 'The frontend port that is used by the CLB instance.
+                      Valid values: 1 to 65535.'
+                    type: number
+                  gzip:
+                    description: 'Specifies whether to enable GZIP compression to
+                      compress specific types of files. Default value: true. Valid
+                      values: true, false.'
+                    type: boolean
+                  healthCheck:
+                    description: 'Specifies whether to enable the health check feature.
+                      Default value: on. Valid values: on, off. NOTE: TCP and UDP
+                      listener''s HealthCheck is always on, so it will be ignored
+                      when launching TCP or UDP listener.'
+                    type: string
+                  healthCheckConnectPort:
+                    description: 'The backend port that is used for health checks.
+                      Valid values: 0 to 65535. NOTE: If health_check_connect_port
+                      is not set, the backend port specified by backend_port is used
+                      for health checks.'
+                    type: number
+                  healthCheckDomain:
+                    description: The domain name that is used for health checks.
+                    type: string
+                  healthCheckHttpCode:
+                    description: 'The HTTP status code for a successful health check.
+                      Separate multiple HTTP status codes with commas (,). Default
+                      value: http_2xx. Valid values: http_2xx, http_3xx, http_4xx
+                      and http_5xx.'
+                    type: string
+                  healthCheckInterval:
+                    description: 'The interval between two consecutive health checks.
+                      Unit: seconds. Default value: 2. Valid values: 1 to 50.'
+                    type: number
+                  healthCheckMethod:
+                    description: 'The health check method used in HTTP health checks.
+                      Valid values: head, get. NOTE: health_check_method takes effect
+                      only if health_check is set to on.'
+                    type: string
+                  healthCheckTimeout:
+                    description: 'The maximum timeout period of a health check response.
+                      Unit: seconds. Default value: 5. Valid values: 1 to 300.'
+                    type: number
+                  healthCheckType:
+                    description: 'The type of health checks. Default value: tcp. Valid
+                      values: tcp, http.'
+                    type: string
+                  healthCheckUri:
+                    description: |-
+                      The URI that is used for health checks. The health_check_uri must be 1 to 80 characters in length, and can contain letters, digits, hyphens (-), forward slashes (/), periods (.), percent signs (%), question marks (?), number signs (#), and ampersands (&). The URI must start with a forward slash (/) but cannot be a single forward slash (/).
+                      NOTE: You can set health_check_uri when the TCP listener requires HTTP health checks. If you do not set health_check_uri, TCP health checks will be performed.
+                    type: string
+                  healthyThreshold:
+                    description: 'The number of times that an unhealthy backend server
+                      must consecutively pass health checks before it is declared
+                      healthy. Default value: 3. Valid values: 2 to 10.'
+                    type: number
+                  id:
+                    description: |-
+                      It formats as <load_balancer_id>:<protocol>:<frontend_port>.
+                      -> NOTE: Before provider version 1.57.1, it formats as <load_balancer_id>:<frontend_port>.
+                    type: string
+                  idleTimeout:
+                    description: 'The timeout period of an idle connection. Unit:
+                      seconds. Default value: 15. Valid values: 1 to 60.'
+                    type: number
+                  listenerForward:
+                    description: 'Specifies whether to enable HTTP-to-HTTPS redirection.
+                      Default value: off. Valid values: on, off.'
+                    type: string
+                  loadBalancerId:
+                    description: The Load Balancer ID which is used to launch a new
+                      listener.
+                    type: string
+                  masterSlaveServerGroupId:
+                    description: 'The ID of the primary/secondary server group. NOTE:
+                      You cannot set both server_group_id and master_slave_server_group_id.'
+                    type: string
+                  persistenceTimeout:
+                    description: 'The timeout period of session persistence. Unit:
+                      seconds. Default value: 0. Valid values: 0 to 3600.'
+                    type: number
+                  protocol:
+                    description: 'The protocol to listen on. Valid values: udp.'
+                    type: string
+                  proxyProtocolV2Enabled:
+                    description: 'Specifies whether to use the Proxy protocol to pass
+                      client IP addresses to backend servers. Default value: false.
+                      Valid values: true, false.'
+                    type: boolean
+                  requestTimeout:
+                    description: 'The timeout period of a request. Unit: seconds.
+                      Default value: 60. Valid values: 1 to 180.'
+                    type: number
+                  scheduler:
+                    description: 'The scheduling algorithm. Default value: wrr. Valid
+                      values:'
+                    type: string
+                  serverCertificateId:
+                    description: 'The ID of the server certificate. NOTE: server_certificate_id
+                      is also required when the value of the ssl_certificate_id is
+                      Empty.'
+                    type: string
+                  serverGroupId:
+                    description: The ID of the vServer group. It's the ID of resource
+                      alicloud_slb_server_group.
+                    type: string
+                  stickySession:
+                    description: 'Specifies whether to enable session persistence.
+                      Default value: off. Valid values: on, off.'
+                    type: string
+                  stickySessionType:
+                    description: 'The method that is used to handle a cookie. Valid
+                      values: insert, server. NOTE: If sticky_session is set to on,
+                      sticky_session_type is required. Otherwise, it will be ignored.'
+                    type: string
+                  tlsCipherPolicy:
+                    description: 'The Transport Layer Security (TLS) security policy.
+                      Default value: tls_cipher_policy_1_0. Valid values: tls_cipher_policy_1_0,
+                      tls_cipher_policy_1_1, tls_cipher_policy_1_2, tls_cipher_policy_1_2_strict,
+                      tls_cipher_policy_1_2_strict_with_1_3. NOTE: From version 1.229.1,
+                      tls_cipher_policy can be set to tls_cipher_policy_1_2_strict_with_1_3.'
+                    type: string
+                  unhealthyThreshold:
+                    description: 'The number of times that a healthy backend server
+                      must consecutively fail health checks before it is declared
+                      unhealthy. Default value: 3. Valid values: 2 to 10.'
+                    type: number
+                  xForwardedFor:
+                    description: Whether to set additional HTTP Header field "X-Forwarded-For".
+                    items:
+                      properties:
+                        retriveClientIp:
+                          description: Whether to retrieve the client ip.
+                          type: boolean
+                        retriveSlbId:
+                          description: 'Indicates whether the SLB-ID header is used
+                            to retrieve the ID of the CLB instance. Default value:
+                            false. Valid values: true, false.'
+                          type: boolean
+                        retriveSlbIp:
+                          description: 'Indicates whether the SLB-IP header is used
+                            to retrieve the virtual IP address (VIP) requested by
+                            the client. Default value: false. Valid values: true,
+                            false.'
+                          type: boolean
+                        retriveSlbProto:
+                          description: 'Specifies whether to use the X-Forwarded-Proto
+                            header to retrieve the listener protocol. Default value:
+                            false. Valid values: true, false.'
+                          type: boolean
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

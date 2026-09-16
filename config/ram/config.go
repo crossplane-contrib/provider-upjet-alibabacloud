@@ -1,6 +1,6 @@
 package ram
 
-import "github.com/crossplane/upjet/pkg/config"
+import "github.com/crossplane/upjet/v2/pkg/config"
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
@@ -10,7 +10,6 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = "ram"
 
 		// Name has been deprecated in favor of groupName
-		delete(r.TerraformResource.Schema, "name")
 	})
 
 	p.AddResourceConfigurator("alicloud_ram_policy", func(r *config.Resource) {
@@ -19,13 +18,9 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = "ram"
 
 		// Document has been deprecated in favor of policyDocument
-		delete(r.TerraformResource.Schema, "document")
 		// Name has been deprecated in favor of policyName
-		delete(r.TerraformResource.Schema, "name")
 		// Statement has been deprecated
-		delete(r.TerraformResource.Schema, "statement")
 		// Version has been deprecated
-		delete(r.TerraformResource.Schema, "version")
 	})
 
 	p.AddResourceConfigurator("alicloud_ram_role", func(r *config.Resource) {
@@ -33,8 +28,5 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "ram"
 		r.ShortGroup = "ram"
 
-		delete(r.TerraformResource.Schema, "ram_users")
-		delete(r.TerraformResource.Schema, "services")
-		delete(r.TerraformResource.Schema, "version")
 	})
 }

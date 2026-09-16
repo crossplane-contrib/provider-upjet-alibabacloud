@@ -1,0 +1,77 @@
+apiVersion: slb.alibabacloud.m.crossplane.io/v1alpha1
+kind: Listener
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: slb/v1alpha1/listener
+  labels:
+    testing.upbound.io/example-name: listener
+  name: listener
+spec:
+  forProvider:
+    aclIdsRefs:
+    - name: listener
+    aclStatus: "on"
+    aclType: white
+    backendPort: 80
+    bandwidth: 10
+    cookie: tfslblistenercookie
+    cookieTimeout: 86400
+    frontendPort: 80
+    healthCheck: "on"
+    healthCheckConnectPort: 20
+    healthCheckDomain: ali.com
+    healthCheckHttpCode: http_2xx,http_3xx
+    healthCheckInterval: 5
+    healthCheckTimeout: 8
+    healthCheckUri: /cons
+    healthyThreshold: 8
+    idleTimeout: 30
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: listener
+    protocol: http
+    region: cn-beijing
+    requestTimeout: 80
+    stickySession: "on"
+    stickySessionType: insert
+    unhealthyThreshold: 8
+    xForwardedFor:
+    - retriveSlbId: true
+      retriveSlbIp: true
+
+---
+
+apiVersion: slb.alibabacloud.m.crossplane.io/v1alpha1
+kind: ACL
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: slb/v1alpha1/listener
+  labels:
+    testing.upbound.io/example-name: listener
+  name: listener
+spec:
+  forProvider:
+    ipVersion: ipv4
+    name: terraformslbaclconfig-123
+    region: cn-beijing
+
+---
+
+apiVersion: slb.alibabacloud.m.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: slb/v1alpha1/listener
+  labels:
+    testing.upbound.io/example-name: listener
+  name: listener
+spec:
+  forProvider:
+    addressType: internet
+    instanceChargeType: PayByCLCU
+    internetChargeType: PayByTraffic
+    loadBalancerName: terraformslbloadbalancerconfig-123
+    region: cn-beijing

@@ -1,0 +1,77 @@
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPCEndpointLinkedVPC
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-vpc-endpoint-1
+  labels:
+    testing.crossplane.io/example-name: test-vpc-endpoint-1
+  name: test-vpc-endpoint-1
+spec:
+  forProvider:
+    region: us-west-1
+    enableCreateDnsRecordInPvzt: true
+    moduleName: Registry
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-vpc-endpoint-1
+    vpcIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-vpc-for-endpoint-1
+    vswitchIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-vsw-for-endpoint-1
+---
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-vpc-endpoint-1
+  labels:
+    testing.crossplane.io/example-name: test-vpc-for-endpoint-1
+  name: test-vpc-for-endpoint-1
+spec:
+  forProvider:
+    region: us-west-1
+    cidrBlock: 172.16.0.0/12
+    vpcName: test-vpc-for-endpoint-1
+---
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-vpc-endpoint-1
+  labels:
+    testing.crossplane.io/example-name: test-vsw-for-endpoint-1
+  name: test-vsw-for-endpoint-1
+spec:
+  forProvider:
+    region: us-west-1
+    cidrBlock: 172.16.0.0/21
+    zoneId: us-west-1a
+    vswitchName: test-vsw-for-endpoint-1
+    vpcIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-vpc-for-endpoint-1
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-instance-for-vpc-endpoint-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-instance-for-vpc-endpoint-1
+  name: test-ee-instance-for-vpc-endpoint-1
+spec:
+  forProvider:
+    region: us-west-1
+    instanceName: cr-ee-test-vpc-ep-2
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    renewPeriod: 1
+    renewalStatus: AutoRenewal

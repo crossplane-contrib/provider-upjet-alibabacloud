@@ -1,0 +1,37 @@
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: ChartNamespace
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/chartnamespace
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    namespaceName: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/chartnamespace
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceName: ${var.name}-${random_integer.default.result}
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    region: cn-beijing
+    renewPeriod: 0
+    renewalStatus: ManualRenewal

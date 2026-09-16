@@ -1,0 +1,136 @@
+---
+# NAME                                                                                       SYNCED   READY   EXTERNAL-NAME                                                          AGE
+# kubernetesnodepool.ack.alibabacloud.crossplane.io/test-ack-v1alpha1-k8snodepool-1          True     True    c9dc8c7e423d3436fbff66c1730bad496:np5cf3fc31726847a4a3b6556131661690   7m13s
+# managedkubernetes.ack.alibabacloud.crossplane.io/test-ack-v1alpha1-k8snodepool-cluster-1   True     True    c9dc8c7e423d3436fbff66c1730bad496   7m13s
+# vpc.vpc.alibabacloud.crossplane.io/test-ack-v1alpha1-k8snodepool-vpc-1                     True     True    vpc-rj90cgdf7az8efgimyeyf   7m13s
+#vswitch.vpc.alibabacloud.crossplane.io/test-ack-v1alpha1-k8snodepool-vsw-1                  True     True    vsw-rj9oft2k40xulx3ho1zoa   7m13s
+#
+# Running the test may require RAM Quick Authorization
+# Check messages / events from managed resources
+#
+apiVersion: ack.alibabacloud.m.crossplane.io/v1alpha1
+kind: KubernetesNodePool
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-k8snodepool-1
+    uptest.upbound.io/timeout: "2400"
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-1
+  name: test-ack-v1alpha1-k8snodepool-1
+spec:
+  forProvider:
+    region: us-west-1
+    clusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-cluster-1
+    instanceTypes:
+      - ecs.g6.large
+    #keyName: Default
+    labels:
+    - key: nodepool-orchestrator
+      value: crossplane
+    - key: provider
+      value: aliabacloud
+    nodePoolName: test-ack-v1alpha1-k8snodepool-1
+    systemDiskCategory: cloud_efficiency
+    systemDiskSize: 40
+    taints:
+    - effect: NoSchedule
+      key: tf
+      value: example
+    - effect: NoSchedule
+      key: tf2
+      value: example2
+    vswitchIdsSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vsw-1
+---
+apiVersion: ack.alibabacloud.m.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-k8snodepool-cluster-1
+    uptest.upbound.io/timeout: "2400"
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-cluster-1
+  name: test-ack-v1alpha1-k8snodepool-cluster-1
+spec:
+  forProvider:
+    region: us-west-1
+    clusterSpec: ack.pro.small
+    enableRrsa: true
+    newNatGateway: true
+    podCidr: 10.0.0.0/16
+    serviceCidr: 172.16.0.0/20
+    slbInternetEnabled: true
+    vswitchIdsSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vsw-1
+---
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-k8snodepool-vpc-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vpc-1
+  name: test-ack-v1alpha1-k8snodepool-vpc-1
+spec:
+  forProvider:
+    region: us-west-1
+    cidrBlock: 10.4.0.0/16
+    vpcName: test-ack-v1alpha1-k8snodepool-vpc-1
+---
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-k8snodepool-vsw-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vsw-1
+  name: test-ack-v1alpha1-k8snodepool-vsw-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-k8snodepool-vpc-1
+    vswitchName: test-ack-v1alpha1-k8snodepool-vsw-1
+    zoneId: us-west-1a
+    region: us-west-1
+---
+# The Role below may be needed if permissions are not yet specified.
+#
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: Role
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: aliyuncsmanagedautoscalerrole
+  labels:
+    testing.crossplane.io/example-name: aliyuncsmanagedautoscalerrole
+  name: aliyuncsmanagedautoscalerrole
+spec:
+  forProvider:
+    description: aliyuncsmanagedautoscalerrole
+    document: |
+      {
+          "Statement": [
+              {
+                  "Action": "sts:AssumeRole",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "Service": [
+                          "cs.aliyuncs.com",
+                          "ecs.aliyuncs.com"
+                      ]
+                  }
+              }
+          ],
+          "Version": "1"
+      }
+    name: aliyuncsmanagedautoscalerrole
