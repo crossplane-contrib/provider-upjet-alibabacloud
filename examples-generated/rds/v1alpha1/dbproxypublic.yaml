@@ -1,0 +1,171 @@
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: DBProxyPublic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbproxypublic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    connectionStringPrefix: exampleabc
+    dbInstanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    dbProxyConnectionStringNetType: Public
+    dbProxyEndpointIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    dbProxyNewConnectStringPort: "3306"
+    region: cn-beijing
+
+---
+
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbproxypublic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    dbInstanceStorageType: local_ssd
+    engine: MySQL
+    engineVersion: "5.7"
+    instanceChargeType: Postpaid
+    instanceName: ${var.name}
+    instanceStorage: "20"
+    instanceType: rds.mysql.c1.large
+    region: cn-beijing
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: ReadonlyInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbproxypublic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    engineVersionSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    instanceName: ${var.name}readonly
+    instanceStorageSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    instanceTypeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    masterDbInstanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: DBProxy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbproxypublic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    dbProxyConnectStringPort: 3306
+    dbProxyConnectionPrefix: example
+    dbProxyEndpointReadWriteMode: ReadWrite
+    dbProxyFeatures: TransactionReadSqlRouteOptimizeStatus:1;ConnectionPersist:1;ReadWriteSpliting:1
+    dbProxyInstanceNum: 2
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    instanceNetworkType: VPC
+    readOnlyInstanceDistributionType: Custom
+    readOnlyInstanceMaxDelayTime: 90
+    readOnlyInstanceWeight:
+    - instanceIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      weight: "100"
+    - instanceIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      weight: "500"
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbproxypublic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    name: ${var.name}
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbproxypublic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/16
+    region: cn-beijing
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbproxypublic
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_db_zones.default.zones.0.id}
