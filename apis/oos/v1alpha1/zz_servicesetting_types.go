@@ -38,7 +38,17 @@ type ServiceSettingInitParameters struct {
 	DeliverySlsEnabled *bool `json:"deliverySlsEnabled,omitempty" tf:"delivery_sls_enabled,omitempty"`
 
 	// The name of SLS  Project. NOTE: When the delivery_sls_enabled is true, The delivery_sls_project_name is valid.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project_name",false)
 	DeliverySlsProjectName *string `json:"deliverySlsProjectName,omitempty" tf:"delivery_sls_project_name,omitempty"`
+
+	// Reference to a Project in sls to populate deliverySlsProjectName.
+	// +kubebuilder:validation:Optional
+	DeliverySlsProjectNameRef *v1.Reference `json:"deliverySlsProjectNameRef,omitempty" tf:"-"`
+
+	// Selector for a Project in sls to populate deliverySlsProjectName.
+	// +kubebuilder:validation:Optional
+	DeliverySlsProjectNameSelector *v1.Selector `json:"deliverySlsProjectNameSelector,omitempty" tf:"-"`
 }
 
 type ServiceSettingObservation struct {
@@ -90,8 +100,18 @@ type ServiceSettingParameters struct {
 	DeliverySlsEnabled *bool `json:"deliverySlsEnabled,omitempty" tf:"delivery_sls_enabled,omitempty"`
 
 	// The name of SLS  Project. NOTE: When the delivery_sls_enabled is true, The delivery_sls_project_name is valid.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project_name",false)
 	// +kubebuilder:validation:Optional
 	DeliverySlsProjectName *string `json:"deliverySlsProjectName,omitempty" tf:"delivery_sls_project_name,omitempty"`
+
+	// Reference to a Project in sls to populate deliverySlsProjectName.
+	// +kubebuilder:validation:Optional
+	DeliverySlsProjectNameRef *v1.Reference `json:"deliverySlsProjectNameRef,omitempty" tf:"-"`
+
+	// Selector for a Project in sls to populate deliverySlsProjectName.
+	// +kubebuilder:validation:Optional
+	DeliverySlsProjectNameSelector *v1.Selector `json:"deliverySlsProjectNameSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-

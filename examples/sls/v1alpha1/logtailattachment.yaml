@@ -1,0 +1,115 @@
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: LogtailAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/logtailattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    logtailConfigNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    machineGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: LogtailConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/logtailattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    name: crossplane-example-config
+    inputType: file
+    outputType: LogService
+    inputDetail: |
+      {
+        "logPath": "/var/log/example",
+        "filePattern": "access.log",
+        "logType": "json_log",
+        "topicFormat": "default",
+        "discardUnmatch": false,
+        "enableRawLog": true,
+        "fileEncoding": "utf8",
+        "maxDepth": 10
+      }
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    logstoreSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: MachineGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/logtailattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    name: crossplane-example-machine-group
+    identifyType: ip
+    identifyList:
+    - 10.0.0.1
+    - 10.0.0.2
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Store
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/logtailattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    logstoreName: crossplane-example-store
+    projectNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    shardCount: 2
+    autoSplit: true
+    maxSplitShardCount: 60
+    appendMeta: true
+    retentionPeriod: 30
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/logtailattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    projectName: crossplane-example-project
+    description: crossplane example log project
