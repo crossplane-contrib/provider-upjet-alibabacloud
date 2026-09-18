@@ -114,4 +114,17 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_alb_listener",
 		}
 	})
+	p.AddResourceConfigurator("alicloud_alb_listener_additional_certificate_attachment", func(r *config.Resource) {
+		r.ShortGroup = string(common.ALB)
+		r.Kind = "ListenerAdditionalCertificateAttachment"
+		// ALB expects the composed "<casCertId>-<region>" form here, not the
+		// bare certificate id that the Certificate resource reports.
+		r.References["certificate_id"] = config.Reference{
+			TerraformName: "alicloud_ssl_certificates_service_certificate",
+			Extractor:     common.PathAlbCertificateIdExtractor,
+		}
+		r.References["listener_id"] = config.Reference{
+			TerraformName: "alicloud_alb_listener",
+		}
+	})
 }

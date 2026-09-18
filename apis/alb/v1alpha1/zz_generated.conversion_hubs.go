@@ -25,6 +25,9 @@ func (tr *Listener) Hub() {}
 func (tr *ListenerAclAttachment) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *ListenerAdditionalCertificateAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *LoadBalancer) Hub() {}
 
 // Hub marks this type as a conversion hub.
