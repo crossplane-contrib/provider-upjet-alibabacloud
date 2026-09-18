@@ -84,3 +84,41 @@ spec:
     memorySize: "512"
     region: cn-beijing
     runtime: python3.10
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/provisionconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: ${var.name}
+    projectName: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Store
+metadata:
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/provisionconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    appendMeta: true
+    autoSplit: true
+    logstoreName: ${var.name}-${random_integer.default.result}
+    maxSplitShardCount: 60
+    projectNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    shardCount: 3

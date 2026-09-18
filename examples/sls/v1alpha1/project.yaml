@@ -1,0 +1,16 @@
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/project
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    projectName: crossplane-example-project
+    description: crossplane example log project
+    tags:
+      Created: Crossplane
+      For: example

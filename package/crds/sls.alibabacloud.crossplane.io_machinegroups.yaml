@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.5
-  name: servicesettings.oos.alibabacloud.crossplane.io
+  name: machinegroups.sls.alibabacloud.crossplane.io
 spec:
-  group: oos.alibabacloud.crossplane.io
+  group: sls.alibabacloud.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - alibabacloud
-    kind: ServiceSetting
-    listKind: ServiceSettingList
-    plural: servicesettings
-    singular: servicesetting
+    kind: MachineGroup
+    listKind: MachineGroupList
+    plural: machinegroups
+    singular: machinegroup
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,8 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ServiceSetting is the Schema for the ServiceSettings API. Provides
-          a Alicloud OOS Service Setting resource.
+        description: MachineGroup is the Schema for the MachineGroups API. Provides
+          a Alicloud log tail machine group resource.
         properties:
           apiVersion:
             description: |-
@@ -55,7 +55,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ServiceSettingSpec defines the desired state of ServiceSetting
+            description: MachineGroupSpec defines the desired state of MachineGroup
             properties:
               deletionPolicy:
                 default: Delete
@@ -73,12 +73,27 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  deliveryOssBucketName:
-                    description: 'The name of the OSS bucket. NOTE: When the delivery_oss_enabled
-                      is true, The delivery_oss_bucket_name is valid.'
+                  identifyList:
+                    description: The specific machine identification, which can be
+                      an IP address or user-defined identity.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  identifyType:
+                    description: The machine identification type, including IP and
+                      user-defined identity. Valid values are "ip" and "userdefined".
+                      Default to "ip".
                     type: string
-                  deliveryOssBucketNameRef:
-                    description: Reference to a Bucket in oss to populate deliveryOssBucketName.
+                  name:
+                    description: The machine group name, which is unique in the same
+                      project.
+                    type: string
+                  project:
+                    description: The project name to the machine group belongs.
+                    type: string
+                  projectRef:
+                    description: Reference to a Project in sls to populate project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -111,99 +126,8 @@ spec:
                     required:
                     - name
                     type: object
-                  deliveryOssBucketNameSelector:
-                    description: Selector for a Bucket in oss to populate deliveryOssBucketName.
-                    properties:
-                      matchControllerRef:
-                        description: |-
-                          MatchControllerRef ensures an object with the same controller reference
-                          as the selecting object is selected.
-                        type: boolean
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels ensures an object with matching labels
-                          is selected.
-                        type: object
-                      policy:
-                        description: Policies for selection.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    type: object
-                  deliveryOssEnabled:
-                    description: Is the recording function for the OSS delivery template
-                      enabled.
-                    type: boolean
-                  deliveryOssKeyPrefix:
-                    description: 'The Directory of the OSS bucket. NOTE: When the
-                      delivery_oss_enabled is true, The delivery_oss_bucket_name is
-                      valid.'
-                    type: string
-                  deliverySlsEnabled:
-                    description: Is the execution record function to SLS delivery
-                      Template turned on.
-                    type: boolean
-                  deliverySlsProjectName:
-                    description: 'The name of SLS  Project. NOTE: When the delivery_sls_enabled
-                      is true, The delivery_sls_project_name is valid.'
-                    type: string
-                  deliverySlsProjectNameRef:
-                    description: Reference to a Project in sls to populate deliverySlsProjectName.
-                    properties:
-                      name:
-                        description: Name of the referenced object.
-                        type: string
-                      policy:
-                        description: Policies for referencing.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    required:
-                    - name
-                    type: object
-                  deliverySlsProjectNameSelector:
-                    description: Selector for a Project in sls to populate deliverySlsProjectName.
+                  projectSelector:
+                    description: Selector for a Project in sls to populate project.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -246,6 +170,9 @@ spec:
                     description: Region is the region you'd like your resource to
                       be created in.
                     type: string
+                  topic:
+                    description: The topic of a machine group.
+                    type: string
                 type: object
               initProvider:
                 description: |-
@@ -260,12 +187,27 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  deliveryOssBucketName:
-                    description: 'The name of the OSS bucket. NOTE: When the delivery_oss_enabled
-                      is true, The delivery_oss_bucket_name is valid.'
+                  identifyList:
+                    description: The specific machine identification, which can be
+                      an IP address or user-defined identity.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  identifyType:
+                    description: The machine identification type, including IP and
+                      user-defined identity. Valid values are "ip" and "userdefined".
+                      Default to "ip".
                     type: string
-                  deliveryOssBucketNameRef:
-                    description: Reference to a Bucket in oss to populate deliveryOssBucketName.
+                  name:
+                    description: The machine group name, which is unique in the same
+                      project.
+                    type: string
+                  project:
+                    description: The project name to the machine group belongs.
+                    type: string
+                  projectRef:
+                    description: Reference to a Project in sls to populate project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -298,8 +240,8 @@ spec:
                     required:
                     - name
                     type: object
-                  deliveryOssBucketNameSelector:
-                    description: Selector for a Bucket in oss to populate deliveryOssBucketName.
+                  projectSelector:
+                    description: Selector for a Project in sls to populate project.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -338,97 +280,9 @@ spec:
                             type: string
                         type: object
                     type: object
-                  deliveryOssEnabled:
-                    description: Is the recording function for the OSS delivery template
-                      enabled.
-                    type: boolean
-                  deliveryOssKeyPrefix:
-                    description: 'The Directory of the OSS bucket. NOTE: When the
-                      delivery_oss_enabled is true, The delivery_oss_bucket_name is
-                      valid.'
+                  topic:
+                    description: The topic of a machine group.
                     type: string
-                  deliverySlsEnabled:
-                    description: Is the execution record function to SLS delivery
-                      Template turned on.
-                    type: boolean
-                  deliverySlsProjectName:
-                    description: 'The name of SLS  Project. NOTE: When the delivery_sls_enabled
-                      is true, The delivery_sls_project_name is valid.'
-                    type: string
-                  deliverySlsProjectNameRef:
-                    description: Reference to a Project in sls to populate deliverySlsProjectName.
-                    properties:
-                      name:
-                        description: Name of the referenced object.
-                        type: string
-                      policy:
-                        description: Policies for referencing.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    required:
-                    - name
-                    type: object
-                  deliverySlsProjectNameSelector:
-                    description: Selector for a Project in sls to populate deliverySlsProjectName.
-                    properties:
-                      matchControllerRef:
-                        description: |-
-                          MatchControllerRef ensures an object with the same controller reference
-                          as the selecting object is selected.
-                        type: boolean
-                      matchLabels:
-                        additionalProperties:
-                          type: string
-                        description: MatchLabels ensures an object with matching labels
-                          is selected.
-                        type: object
-                      policy:
-                        description: Policies for selection.
-                        properties:
-                          resolution:
-                            default: Required
-                            description: |-
-                              Resolution specifies whether resolution of this reference is required.
-                              The default is 'Required', which means the reconcile will fail if the
-                              reference cannot be resolved. 'Optional' means this reference will be
-                              a no-op if it cannot be resolved.
-                            enum:
-                            - Required
-                            - Optional
-                            type: string
-                          resolve:
-                            description: |-
-                              Resolve specifies when this reference should be resolved. The default
-                              is 'IfNotPresent', which will attempt to resolve the reference only when
-                              the corresponding field is not present. Use 'Always' to resolve the
-                              reference on every reconcile.
-                            enum:
-                            - Always
-                            - IfNotPresent
-                            type: string
-                        type: object
-                    type: object
                 type: object
               managementPolicies:
                 default:
@@ -597,33 +451,44 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.identifyList is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.identifyList)
+                || (has(self.initProvider) && has(self.initProvider.identifyList))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
           status:
-            description: ServiceSettingStatus defines the observed state of ServiceSetting.
+            description: MachineGroupStatus defines the observed state of MachineGroup.
             properties:
               atProvider:
                 properties:
-                  deliveryOssBucketName:
-                    description: 'The name of the OSS bucket. NOTE: When the delivery_oss_enabled
-                      is true, The delivery_oss_bucket_name is valid.'
-                    type: string
-                  deliveryOssEnabled:
-                    description: Is the recording function for the OSS delivery template
-                      enabled.
-                    type: boolean
-                  deliveryOssKeyPrefix:
-                    description: 'The Directory of the OSS bucket. NOTE: When the
-                      delivery_oss_enabled is true, The delivery_oss_bucket_name is
-                      valid.'
-                    type: string
-                  deliverySlsEnabled:
-                    description: Is the execution record function to SLS delivery
-                      Template turned on.
-                    type: boolean
-                  deliverySlsProjectName:
-                    description: 'The name of SLS  Project. NOTE: When the delivery_sls_enabled
-                      is true, The delivery_sls_project_name is valid.'
-                    type: string
                   id:
+                    description: The ID of the log machine group. It formats of <project>:<name>.
+                    type: string
+                  identifyList:
+                    description: The specific machine identification, which can be
+                      an IP address or user-defined identity.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  identifyType:
+                    description: The machine identification type, including IP and
+                      user-defined identity. Valid values are "ip" and "userdefined".
+                      Default to "ip".
+                    type: string
+                  name:
+                    description: The machine group name, which is unique in the same
+                      project.
+                    type: string
+                  project:
+                    description: The project name to the machine group belongs.
+                    type: string
+                  topic:
+                    description: The topic of a machine group.
                     type: string
                 type: object
               conditions:

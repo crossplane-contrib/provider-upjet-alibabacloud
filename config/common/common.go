@@ -32,6 +32,8 @@ const (
 	PathFcv3FunctionVersionFunctionNameExtractor = SelfPackagePath + ".Fcv3FunctionVersionFunctionNameExtractor()"
 	PathFcv3LayerVersionArnExtractor             = SelfPackagePath + ".Fcv3LayerVersionArnExtractor()"
 	PathVSwitchZoneIdExtractor                   = SelfPackagePath + ".VSwitchZoneIdExtractor()"
+	PathNameExtractor                            = SelfPackagePath + ".NameExtractor()"
+	PathLogStoreNameExtractor                    = SelfPackagePath + ".LogStoreNameExtractor()"
 	PathCrEeInstanceVPCDomainExtractor           = SelfPackagePath + ".CrEeInstanceVPCDomainExtractor()"
 	PathCrEeInstanceOssStorageDomainExtractor    = SelfPackagePath + ".CrEeInstanceOssStorageDomainExtractor()"
 	PathAliKafkaSaslUserUsernameExtractor        = SelfPackagePath + ".AliKafkaSaslUserUsernameExtractor()"
@@ -321,6 +323,38 @@ func AliKafkaSaslUserUsernameExtractor() reference.ExtractValueFn {
 			return ""
 		}
 		r, err := paved.GetString("spec.forProvider.username")
+		if err != nil {
+			return ""
+		}
+		return r
+	}
+}
+
+// NameExtractor extracts the name of the
+// resources from "status.atProvider.name".
+func NameExtractor() reference.ExtractValueFn {
+	return func(mg xpresource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		r, err := paved.GetString("status.atProvider.name")
+		if err != nil {
+			return ""
+		}
+		return r
+	}
+}
+
+// LogStoreNameExtractor extracts the logstore name of the
+// resources from "status.atProvider.logstoreName".
+func LogStoreNameExtractor() reference.ExtractValueFn {
+	return func(mg xpresource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		r, err := paved.GetString("status.atProvider.logstoreName")
 		if err != nil {
 			return ""
 		}

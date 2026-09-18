@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.5
-  name: servicesettings.oos.alibabacloud.crossplane.io
+  name: storeindices.sls.alibabacloud.crossplane.io
 spec:
-  group: oos.alibabacloud.crossplane.io
+  group: sls.alibabacloud.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - alibabacloud
-    kind: ServiceSetting
-    listKind: ServiceSettingList
-    plural: servicesettings
-    singular: servicesetting
+    kind: StoreIndex
+    listKind: StoreIndexList
+    plural: storeindices
+    singular: storeindex
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,8 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ServiceSetting is the Schema for the ServiceSettings API. Provides
-          a Alicloud OOS Service Setting resource.
+        description: StoreIndex is the Schema for the StoreIndexs API. Provides a
+          Alicloud log store index resource.
         properties:
           apiVersion:
             description: |-
@@ -55,7 +55,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ServiceSettingSpec defines the desired state of ServiceSetting
+            description: StoreIndexSpec defines the desired state of StoreIndex
             properties:
               deletionPolicy:
                 default: Delete
@@ -73,12 +73,98 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  deliveryOssBucketName:
-                    description: 'The name of the OSS bucket. NOTE: When the delivery_oss_enabled
-                      is true, The delivery_oss_bucket_name is valid.'
+                  fieldSearch:
+                    description: List configurations of field search index. See field_search
+                      below.
+                    items:
+                      properties:
+                        alias:
+                          description: The alias of one field
+                          type: string
+                        caseSensitive:
+                          description: Whether the case sensitive for the field. Default
+                            to false. It is valid when "type" is "text" or "json".
+                          type: boolean
+                        enableAnalytics:
+                          description: Whether to enable field analytics. Default
+                            to true.
+                          type: boolean
+                        includeChinese:
+                          description: Whether includes the chinese for the field.
+                            Default to false. It is valid when "type" is "text" or
+                            "json".
+                          type: boolean
+                        jsonKeys:
+                          description: Use nested index when type is json. See json_keys
+                            below.
+                          items:
+                            properties:
+                              alias:
+                                description: The alias of one field
+                                type: string
+                              docValue:
+                                description: Whether to enable statistics. default
+                                  to true.
+                                type: boolean
+                              name:
+                                description: When using the json_keys field, this
+                                  field is required.
+                                type: string
+                              type:
+                                description: 'The type of one field. Valid values:
+                                  ["long", "text", "double"]. Default to "long"'
+                                type: string
+                            type: object
+                          type: array
+                        name:
+                          description: The field name, which is unique in the same
+                            log store.
+                          type: string
+                        token:
+                          description: The string of several split words, like "\r",
+                            "#". It is valid when "type" is "text" or "json".
+                          type: string
+                        type:
+                          description: 'The type of one field. Valid values: ["long",
+                            "text", "double", "json"]. Default to "long".'
+                          type: string
+                      type: object
+                    type: array
+                  fullText:
+                    description: The configuration of full text index. See full_text
+                      below.
+                    items:
+                      properties:
+                        caseSensitive:
+                          description: Whether the case sensitive. Default to false.
+                          type: boolean
+                        includeChinese:
+                          description: Whether includes the chinese. Default to false.
+                          type: boolean
+                        token:
+                          description: The string of several split words, like "\r",
+                            "#"
+                          type: string
+                      type: object
+                    type: array
+                  logReduce:
+                    description: Whether to enable log reduce. Default to false.
+                    type: boolean
+                  logReduceBlackList:
+                    description: The black list of log reduce.
+                    items:
+                      type: string
+                    type: array
+                  logReduceWhiteList:
+                    description: The white list of log reduce.
+                    items:
+                      type: string
+                    type: array
+                  logstore:
+                    description: The log store name to the query index belongs.
                     type: string
-                  deliveryOssBucketNameRef:
-                    description: Reference to a Bucket in oss to populate deliveryOssBucketName.
+                  logstoreRef:
+                    description: Reference to a Store in sls to populate logstore.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -111,8 +197,8 @@ spec:
                     required:
                     - name
                     type: object
-                  deliveryOssBucketNameSelector:
-                    description: Selector for a Bucket in oss to populate deliveryOssBucketName.
+                  logstoreSelector:
+                    description: Selector for a Store in sls to populate logstore.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -151,25 +237,14 @@ spec:
                             type: string
                         type: object
                     type: object
-                  deliveryOssEnabled:
-                    description: Is the recording function for the OSS delivery template
-                      enabled.
-                    type: boolean
-                  deliveryOssKeyPrefix:
-                    description: 'The Directory of the OSS bucket. NOTE: When the
-                      delivery_oss_enabled is true, The delivery_oss_bucket_name is
-                      valid.'
+                  maxTextLen:
+                    description: The max text length.
+                    type: number
+                  project:
+                    description: The project name to the log store belongs.
                     type: string
-                  deliverySlsEnabled:
-                    description: Is the execution record function to SLS delivery
-                      Template turned on.
-                    type: boolean
-                  deliverySlsProjectName:
-                    description: 'The name of SLS  Project. NOTE: When the delivery_sls_enabled
-                      is true, The delivery_sls_project_name is valid.'
-                    type: string
-                  deliverySlsProjectNameRef:
-                    description: Reference to a Project in sls to populate deliverySlsProjectName.
+                  projectRef:
+                    description: Reference to a Project in sls to populate project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -202,8 +277,8 @@ spec:
                     required:
                     - name
                     type: object
-                  deliverySlsProjectNameSelector:
-                    description: Selector for a Project in sls to populate deliverySlsProjectName.
+                  projectSelector:
+                    description: Selector for a Project in sls to populate project.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -260,12 +335,98 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  deliveryOssBucketName:
-                    description: 'The name of the OSS bucket. NOTE: When the delivery_oss_enabled
-                      is true, The delivery_oss_bucket_name is valid.'
+                  fieldSearch:
+                    description: List configurations of field search index. See field_search
+                      below.
+                    items:
+                      properties:
+                        alias:
+                          description: The alias of one field
+                          type: string
+                        caseSensitive:
+                          description: Whether the case sensitive for the field. Default
+                            to false. It is valid when "type" is "text" or "json".
+                          type: boolean
+                        enableAnalytics:
+                          description: Whether to enable field analytics. Default
+                            to true.
+                          type: boolean
+                        includeChinese:
+                          description: Whether includes the chinese for the field.
+                            Default to false. It is valid when "type" is "text" or
+                            "json".
+                          type: boolean
+                        jsonKeys:
+                          description: Use nested index when type is json. See json_keys
+                            below.
+                          items:
+                            properties:
+                              alias:
+                                description: The alias of one field
+                                type: string
+                              docValue:
+                                description: Whether to enable statistics. default
+                                  to true.
+                                type: boolean
+                              name:
+                                description: When using the json_keys field, this
+                                  field is required.
+                                type: string
+                              type:
+                                description: 'The type of one field. Valid values:
+                                  ["long", "text", "double"]. Default to "long"'
+                                type: string
+                            type: object
+                          type: array
+                        name:
+                          description: The field name, which is unique in the same
+                            log store.
+                          type: string
+                        token:
+                          description: The string of several split words, like "\r",
+                            "#". It is valid when "type" is "text" or "json".
+                          type: string
+                        type:
+                          description: 'The type of one field. Valid values: ["long",
+                            "text", "double", "json"]. Default to "long".'
+                          type: string
+                      type: object
+                    type: array
+                  fullText:
+                    description: The configuration of full text index. See full_text
+                      below.
+                    items:
+                      properties:
+                        caseSensitive:
+                          description: Whether the case sensitive. Default to false.
+                          type: boolean
+                        includeChinese:
+                          description: Whether includes the chinese. Default to false.
+                          type: boolean
+                        token:
+                          description: The string of several split words, like "\r",
+                            "#"
+                          type: string
+                      type: object
+                    type: array
+                  logReduce:
+                    description: Whether to enable log reduce. Default to false.
+                    type: boolean
+                  logReduceBlackList:
+                    description: The black list of log reduce.
+                    items:
+                      type: string
+                    type: array
+                  logReduceWhiteList:
+                    description: The white list of log reduce.
+                    items:
+                      type: string
+                    type: array
+                  logstore:
+                    description: The log store name to the query index belongs.
                     type: string
-                  deliveryOssBucketNameRef:
-                    description: Reference to a Bucket in oss to populate deliveryOssBucketName.
+                  logstoreRef:
+                    description: Reference to a Store in sls to populate logstore.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -298,8 +459,8 @@ spec:
                     required:
                     - name
                     type: object
-                  deliveryOssBucketNameSelector:
-                    description: Selector for a Bucket in oss to populate deliveryOssBucketName.
+                  logstoreSelector:
+                    description: Selector for a Store in sls to populate logstore.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -338,25 +499,14 @@ spec:
                             type: string
                         type: object
                     type: object
-                  deliveryOssEnabled:
-                    description: Is the recording function for the OSS delivery template
-                      enabled.
-                    type: boolean
-                  deliveryOssKeyPrefix:
-                    description: 'The Directory of the OSS bucket. NOTE: When the
-                      delivery_oss_enabled is true, The delivery_oss_bucket_name is
-                      valid.'
+                  maxTextLen:
+                    description: The max text length.
+                    type: number
+                  project:
+                    description: The project name to the log store belongs.
                     type: string
-                  deliverySlsEnabled:
-                    description: Is the execution record function to SLS delivery
-                      Template turned on.
-                    type: boolean
-                  deliverySlsProjectName:
-                    description: 'The name of SLS  Project. NOTE: When the delivery_sls_enabled
-                      is true, The delivery_sls_project_name is valid.'
-                    type: string
-                  deliverySlsProjectNameRef:
-                    description: Reference to a Project in sls to populate deliverySlsProjectName.
+                  projectRef:
+                    description: Reference to a Project in sls to populate project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -389,8 +539,8 @@ spec:
                     required:
                     - name
                     type: object
-                  deliverySlsProjectNameSelector:
-                    description: Selector for a Project in sls to populate deliverySlsProjectName.
+                  projectSelector:
+                    description: Selector for a Project in sls to populate project.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -598,32 +748,108 @@ spec:
             - forProvider
             type: object
           status:
-            description: ServiceSettingStatus defines the observed state of ServiceSetting.
+            description: StoreIndexStatus defines the observed state of StoreIndex.
             properties:
               atProvider:
                 properties:
-                  deliveryOssBucketName:
-                    description: 'The name of the OSS bucket. NOTE: When the delivery_oss_enabled
-                      is true, The delivery_oss_bucket_name is valid.'
-                    type: string
-                  deliveryOssEnabled:
-                    description: Is the recording function for the OSS delivery template
-                      enabled.
-                    type: boolean
-                  deliveryOssKeyPrefix:
-                    description: 'The Directory of the OSS bucket. NOTE: When the
-                      delivery_oss_enabled is true, The delivery_oss_bucket_name is
-                      valid.'
-                    type: string
-                  deliverySlsEnabled:
-                    description: Is the execution record function to SLS delivery
-                      Template turned on.
-                    type: boolean
-                  deliverySlsProjectName:
-                    description: 'The name of SLS  Project. NOTE: When the delivery_sls_enabled
-                      is true, The delivery_sls_project_name is valid.'
-                    type: string
+                  fieldSearch:
+                    description: List configurations of field search index. See field_search
+                      below.
+                    items:
+                      properties:
+                        alias:
+                          description: The alias of one field
+                          type: string
+                        caseSensitive:
+                          description: Whether the case sensitive for the field. Default
+                            to false. It is valid when "type" is "text" or "json".
+                          type: boolean
+                        enableAnalytics:
+                          description: Whether to enable field analytics. Default
+                            to true.
+                          type: boolean
+                        includeChinese:
+                          description: Whether includes the chinese for the field.
+                            Default to false. It is valid when "type" is "text" or
+                            "json".
+                          type: boolean
+                        jsonKeys:
+                          description: Use nested index when type is json. See json_keys
+                            below.
+                          items:
+                            properties:
+                              alias:
+                                description: The alias of one field
+                                type: string
+                              docValue:
+                                description: Whether to enable statistics. default
+                                  to true.
+                                type: boolean
+                              name:
+                                description: When using the json_keys field, this
+                                  field is required.
+                                type: string
+                              type:
+                                description: 'The type of one field. Valid values:
+                                  ["long", "text", "double"]. Default to "long"'
+                                type: string
+                            type: object
+                          type: array
+                        name:
+                          description: The field name, which is unique in the same
+                            log store.
+                          type: string
+                        token:
+                          description: The string of several split words, like "\r",
+                            "#". It is valid when "type" is "text" or "json".
+                          type: string
+                        type:
+                          description: 'The type of one field. Valid values: ["long",
+                            "text", "double", "json"]. Default to "long".'
+                          type: string
+                      type: object
+                    type: array
+                  fullText:
+                    description: The configuration of full text index. See full_text
+                      below.
+                    items:
+                      properties:
+                        caseSensitive:
+                          description: Whether the case sensitive. Default to false.
+                          type: boolean
+                        includeChinese:
+                          description: Whether includes the chinese. Default to false.
+                          type: boolean
+                        token:
+                          description: The string of several split words, like "\r",
+                            "#"
+                          type: string
+                      type: object
+                    type: array
                   id:
+                    description: The ID of the log store index. It formats of <project>:<logstore>.
+                    type: string
+                  logReduce:
+                    description: Whether to enable log reduce. Default to false.
+                    type: boolean
+                  logReduceBlackList:
+                    description: The black list of log reduce.
+                    items:
+                      type: string
+                    type: array
+                  logReduceWhiteList:
+                    description: The white list of log reduce.
+                    items:
+                      type: string
+                    type: array
+                  logstore:
+                    description: The log store name to the query index belongs.
+                    type: string
+                  maxTextLen:
+                    description: The max text length.
+                    type: number
+                  project:
+                    description: The project name to the log store belongs.
                     type: string
                 type: object
               conditions:
