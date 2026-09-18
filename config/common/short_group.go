@@ -15,6 +15,7 @@ const (
 	FCV3                = ShortGroup("fcv3")
 	KMS                 = ShortGroup("kms")
 	MessageService      = ShortGroup("messageservice")
+	NLB                 = ShortGroup("nlb")
 	OOS                 = ShortGroup("oos")
 	OSS                 = ShortGroup("oss")
 	POLARDB             = ShortGroup("polardb")
