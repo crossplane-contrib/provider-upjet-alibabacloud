@@ -1,0 +1,91 @@
+apiVersion: nlb.alibabacloud.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: nlb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    addressIpVersion: Ipv4
+    addressType: Internet
+    loadBalancerName: ${var.name}
+    loadBalancerType: Network
+    region: cn-beijing
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    tags:
+      Created: TF
+      For: example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneMappings:
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: alicloud_nlb_zones
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default1
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: alicloud_nlb_zones
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: nlb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    region: cn-beijing
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: nlb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_nlb_zones.default.zones.0.id}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: nlb/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: default1
+  name: default1
+spec:
+  forProvider:
+    cidrBlock: 10.4.1.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_nlb_zones.default.zones.1.id}

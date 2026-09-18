@@ -121,6 +121,7 @@ import (
 	queue "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/messageservice/queue"
 	subscription "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/messageservice/subscription"
 	topicmessageservice "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/messageservice/topic"
+	loadbalancernlb "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/nlb/loadbalancer"
 	application "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/oos/application"
 	applicationgroup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/oos/applicationgroup"
 	defaultpatchbaseline "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/oos/defaultpatchbaseline"
@@ -324,6 +325,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		queue.Setup,
 		subscription.Setup,
 		topicmessageservice.Setup,
+		loadbalancernlb.Setup,
 		application.Setup,
 		applicationgroup.Setup,
 		defaultpatchbaseline.Setup,

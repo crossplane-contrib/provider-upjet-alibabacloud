@@ -164,6 +164,9 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_oos_service_setting":        config.IdentifierFromProvider,
 	"alicloud_oos_state_configuration":    config.IdentifierFromProvider,
 
+	// NLB - Network Load Balancer
+	"alicloud_nlb_load_balancer": config.IdentifierFromProvider,
+
 	// OSS
 	"alicloud_oss_access_point":                      config.IdentifierFromProvider,
 	"alicloud_oss_account_public_access_block":       config.IdentifierFromProvider,

@@ -24,6 +24,7 @@ import (
 	"github.com/crossplane-contrib/provider-alibabacloud/config/ecs"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/kms"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/messageservice"
+	"github.com/crossplane-contrib/provider-alibabacloud/config/nlb"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/oos"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/oss"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/polardb"
@@ -83,6 +84,7 @@ func GetProvider() *ujconfig.Provider {
 		fcv3.Configure,
 		kms.Configure,
 		messageservice.Configure,
+		nlb.Configure,
 		oos.Configure,
 		oss.Configure,
 		polardb.Configure,
