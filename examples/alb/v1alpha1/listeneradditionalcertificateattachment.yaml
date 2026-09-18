@@ -1,0 +1,222 @@
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: ListenerAdditionalCertificateAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listeneradditionalcertificateattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    # Resolved from the Certificate below as "<casCertId>-<region>" by
+    # common.AlbCertificateIdExtractor(). Set "region" on the referenced
+    # Certificate, otherwise only the bare certificate id is resolved and ALB
+    # rejects it.
+    certificateIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-listener-additional-certificate-attachment-additional
+    listenerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-listener-additional-certificate-attachment
+    region: cn-beijing
+
+---
+
+# The additional certificate that gets attached to the listener.
+apiVersion: sslcertificatesservice.alibabacloud.crossplane.io/v1alpha1
+kind: Certificate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listeneradditionalcertificateattachment
+  labels:
+    testing.upbound.io/example-name: for-listener-additional-certificate-attachment-additional
+  name: for-listener-additional-certificate-attachment-additional
+spec:
+  forProvider:
+    certificateName: crossplane-example-additional
+    certSecretRef:
+      key: cert
+      name: crossplane-example-additional-cert
+      namespace: upbound-system
+    keySecretRef:
+      key: key
+      name: crossplane-example-additional-key
+      namespace: upbound-system
+    region: cn-beijing
+
+---
+
+# The listener's default certificate.
+apiVersion: sslcertificatesservice.alibabacloud.crossplane.io/v1alpha1
+kind: Certificate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listeneradditionalcertificateattachment
+  labels:
+    testing.upbound.io/example-name: for-listener-additional-certificate-attachment-default
+  name: for-listener-additional-certificate-attachment-default
+spec:
+  forProvider:
+    certificateName: crossplane-example-default
+    certSecretRef:
+      key: cert
+      name: crossplane-example-default-cert
+      namespace: upbound-system
+    keySecretRef:
+      key: key
+      name: crossplane-example-default-key
+      namespace: upbound-system
+    region: cn-beijing
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: Listener
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listeneradditionalcertificateattachment
+  labels:
+    testing.upbound.io/example-name: for-listener-additional-certificate-attachment
+  name: for-listener-additional-certificate-attachment
+spec:
+  forProvider:
+    certificates:
+      # The listener's *default* certificate. Resolved to
+      # "<casCertId>-<region>" by common.AlbCertificateIdExtractor(), same as
+      # the additional certificate above.
+      - certificateIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: for-listener-additional-certificate-attachment-default
+    defaultActions:
+      - forwardGroupConfig:
+          - serverGroupTuples:
+              - serverGroupIdSelector:
+                  matchLabels:
+                    testing.upbound.io/example-name: for-listener-additional-certificate-attachment
+        type: ForwardGroup
+    listenerDescription: crossplane-example
+    listenerPort: 8081
+    listenerProtocol: HTTPS
+    loadBalancerIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-listener-additional-certificate-attachment
+    region: cn-beijing
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listeneradditionalcertificateattachment
+  labels:
+    testing.upbound.io/example-name: for-listener-additional-certificate-attachment
+  name: for-listener-additional-certificate-attachment
+spec:
+  forProvider:
+    addressAllocatedMode: Fixed
+    addressType: Internet
+    loadBalancerBillingConfig:
+      - payType: PayAsYouGo
+    loadBalancerEdition: Standard
+    loadBalancerName: crossplane-example
+    modificationProtectionConfig:
+      - status: NonProtection
+    region: cn-beijing
+    tags:
+      Created: TF
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-listener-additional-certificate-attachment
+    zoneMappings:
+      - vswitchIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: for-listener-additional-certificate-attachment-1
+        zoneIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: for-listener-additional-certificate-attachment-1
+      - vswitchIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: for-listener-additional-certificate-attachment-2
+        zoneIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: for-listener-additional-certificate-attachment-2
+
+---
+
+apiVersion: alb.alibabacloud.crossplane.io/v1alpha1
+kind: ServerGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listeneradditionalcertificateattachment
+  labels:
+    testing.upbound.io/example-name: for-listener-additional-certificate-attachment
+  name: for-listener-additional-certificate-attachment
+spec:
+  forProvider:
+    healthCheckConfig:
+      - healthCheckEnabled: false
+    protocol: HTTP
+    region: cn-beijing
+    serverGroupName: crossplane-example
+    stickySessionConfig:
+      - stickySessionEnabled: false
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-listener-additional-certificate-attachment
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listeneradditionalcertificateattachment
+  labels:
+    testing.upbound.io/example-name: for-listener-additional-certificate-attachment
+  name: for-listener-additional-certificate-attachment
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    region: cn-beijing
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listeneradditionalcertificateattachment
+  labels:
+    testing.upbound.io/example-name: for-listener-additional-certificate-attachment-1
+  name: for-listener-additional-certificate-attachment-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.1.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-listener-additional-certificate-attachment
+    vswitchName: crossplane-example_1
+    zoneId: cn-beijing-f
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alb/v1alpha1/listeneradditionalcertificateattachment
+  labels:
+    testing.upbound.io/example-name: for-listener-additional-certificate-attachment-2
+  name: for-listener-additional-certificate-attachment-2
+spec:
+  forProvider:
+    cidrBlock: 10.4.2.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: for-listener-additional-certificate-attachment
+    vswitchName: crossplane-example_2
+    zoneId: cn-beijing-g

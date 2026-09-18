@@ -1,0 +1,21 @@
+apiVersion: sslcertificatesservice.alibabacloud.crossplane.io/v1alpha1
+kind: Certificate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sslcertificatesservice/v1alpha1/certificate
+  labels:
+    testing.upbound.io/example-name: certificate
+  name: example-certificate
+spec:
+  forProvider:
+    region: cn-beijing
+    certificateName: example-certificate
+    # Both the certificate body and the private key are supplied via Secrets.
+    certSecretRef:
+      key: cert
+      name: example-certificate-cert
+      namespace: upbound-system
+    keySecretRef:
+      key: key
+      name: example-certificate-key
+      namespace: upbound-system

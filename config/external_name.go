@@ -35,14 +35,14 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_alikafka_scheduled_scaling_rule":         config.IdentifierFromProvider,
 
 	// ALB
-	"alicloud_alb_acl":                     config.IdentifierFromProvider,
-	"alicloud_alb_acl_entry_attachment":    config.IdentifierFromProvider,
-	"alicloud_alb_ascript":                 config.IdentifierFromProvider,
-	"alicloud_alb_health_check_template":   config.IdentifierFromProvider,
-	"alicloud_alb_listener":                config.IdentifierFromProvider,
-	"alicloud_alb_listener_acl_attachment": config.IdentifierFromProvider,
-	// "alicloud_alb_listener_additional_certificate_attachment": config.IdentifierFromProvider,
-	"alicloud_alb_load_balancer": config.IdentifierFromProvider,
+	"alicloud_alb_acl":                                        config.IdentifierFromProvider,
+	"alicloud_alb_acl_entry_attachment":                       config.IdentifierFromProvider,
+	"alicloud_alb_ascript":                                    config.IdentifierFromProvider,
+	"alicloud_alb_health_check_template":                      config.IdentifierFromProvider,
+	"alicloud_alb_listener":                                   config.IdentifierFromProvider,
+	"alicloud_alb_listener_acl_attachment":                    config.IdentifierFromProvider,
+	"alicloud_alb_listener_additional_certificate_attachment": config.IdentifierFromProvider,
+	"alicloud_alb_load_balancer":                              config.IdentifierFromProvider,
 	// "alicloud_alb_load_balancer_access_log_config_attachment": config.IdentifierFromProvider,
 	// "alicloud_alb_load_balancer_common_bandwidth_package_attachment": config.IdentifierFromProvider,
 	"alicloud_alb_load_balancer_security_group_attachment": config.IdentifierFromProvider,
@@ -236,6 +236,9 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_ram_user":                    config.IdentifierFromProvider,
 	"alicloud_ram_user_group_attachment":   config.IdentifierFromProvider,
 	"alicloud_ram_user_policy_attachment":  config.IdentifierFromProvider,
+
+	// SSL Certificates Service
+	"alicloud_ssl_certificates_service_certificate": config.IdentifierFromProvider,
 
 	// SLB
 	"alicloud_slb_acl":           config.IdentifierFromProvider,
