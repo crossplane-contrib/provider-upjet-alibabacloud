@@ -64,7 +64,7 @@ UPTEST_LOCAL_VERSION = v0.13.0
 UPTEST_LOCAL_CHANNEL = stable
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
-CROSSPLANE_VERSION = 1.19.0
+CROSSPLANE_VERSION = 1.20.13
 CRDDIFF_VERSION = v0.12.1
 GO_STATIC_PACKAGES ?= $(GO_PROJECT)/cmd/generator ${SUBPACKAGES:%=$(GO_PROJECT)/cmd/provider/%}
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
@@ -74,11 +74,12 @@ GO_SUBDIRS += cmd internal apis
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.26.0
-UP_VERSION = v0.40.3
-UP_CHANNEL = stable
+KIND_VERSION = v0.33.0
+# The up CLI was removed from the build submodule in favour of the Crossplane
+# CLI, which is what provider-upjet-aws and -gcp use for `xpkg batch`.
+CROSSPLANE_CLI_VERSION = v2.5.0
 #UPTEST_VERSION = v0.13.1
-UPTEST_VERSION = v1.1.2
+UPTEST_VERSION = v2.2.0
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
@@ -132,7 +133,7 @@ fallthrough: submodules
 
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.
-build.init: $(UP) check-terraform-version
+build.init: $(CROSSPLANE_CLI) check-terraform-version
 
 # ====================================================================================
 # Setup Terraform for fetching provider schema
@@ -210,7 +211,7 @@ run: go.build
 
 # ====================================================================================
 # End to End Testing
-CROSSPLANE_VERSION = 1.19.0
+CROSSPLANE_VERSION = 1.20.13
 CROSSPLANE_NAMESPACE = upbound-system
 -include build/makelib/local.xpkg.mk
 -include build/makelib/controlplane.mk
