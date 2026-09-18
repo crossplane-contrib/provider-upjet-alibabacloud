@@ -31,7 +31,7 @@ for provider in $FAMILY_PROVIDERS; do
     
     # Create provider-specific Dockerfile
     cat > "$provider_image_dir/Dockerfile" << EOF
-FROM alpine:3.20.3
+FROM alpine:3.24.2
 RUN apk --no-cache add ca-certificates bash
 
 ARG TARGETOS

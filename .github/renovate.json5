@@ -33,6 +33,16 @@
       ],
       "datasourceTemplate": "github-tags",
       "depNameTemplate": "golangci/golangci-lint"
+    }, {
+// The family-provider Dockerfiles are written by a shell heredoc, so
+// Renovate's dockerfile manager does not see this FROM and the pin drifted
+// behind the one in cluster/images. Track it explicitly.
+      "fileMatch": ["^hack\\/setup-family-providers\\.sh$"],
+      "matchStrings": [
+        "FROM alpine:(?<currentValue>[0-9][0-9.]*)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "alpine"
     }
   ],
 // PackageRules disabled below should be enabled in case of vulnerabilities
