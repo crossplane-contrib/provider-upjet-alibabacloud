@@ -1,0 +1,2800 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.16.5
+  name: instances.rds.alibabacloud.crossplane.io
+spec:
+  group: rds.alibabacloud.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alibabacloud
+    kind: Instance
+    listKind: InstanceList
+    plural: instances
+    singular: instance
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Instance is the Schema for the Instances API. Provides an RDS
+          instance resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InstanceSpec defines the desired state of Instance
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  acl:
+                    description: 'The method that is used to verify the identities
+                      of clients. This parameter is supported only when the instance
+                      runs PostgreSQL with standard or enhanced SSDs. In addition,
+                      this parameter is available only when the public key of the
+                      CA that issues client certificates is enabled. Valid values:'
+                    type: string
+                  autoRenew:
+                    description: Whether to renewal a DB instance automatically or
+                      not. It is valid when instance_charge_type is PrePaid. Default
+                      to false.
+                    type: boolean
+                  autoRenewPeriod:
+                    description: Auto-renewal period of an instance, in the unit of
+                      the month. It is valid when instance_charge_type is PrePaid.
+                      Valid value:[1~12], Default to 1.
+                    type: number
+                  autoUpgradeMinorVersion:
+                    description: 'The upgrade method to use. Valid values:'
+                    type: string
+                  babelfishConfig:
+                    description: (ForceNew, Optional, Available since v1.176.0) The
+                      configuration of an ApsaraDB RDS for PostgreSQL instance for
+                      which Babelfish is enabled. See babelfish_config below.
+                    items:
+                      properties:
+                        babelfishEnabled:
+                          description: specifies whether to enable the Babelfish for
+                            the instance. If you set this parameter to true, you enable
+                            Babelfish for the instance. If you leave this parameter
+                            empty, you disable Babelfish for the instance.
+                          type: string
+                        masterUserPassword:
+                          description: 'The password of the administrator account.
+                            The password must contain at least three of the following
+                            character types: uppercase letters, lowercase letters,
+                            digits, and special characters. It must be 8 to 32 characters
+                            in length. The password can contain any of the following
+                            characters:! @ # $ % ^ & * () _ + - ='
+                          type: string
+                        masterUsername:
+                          description: The name of the administrator account. The
+                            name can contain lowercase letters, digits, and underscores
+                            (_). It must start with a letter and end with a letter
+                            or digit. It can be up to 63 characters in length and
+                            cannot start with pg.
+                          type: string
+                        migrationMode:
+                          description: 'The migration mode of the instance. Valid
+                            values: single-db and multi-db.'
+                          type: string
+                      type: object
+                    type: array
+                  babelfishPort:
+                    description: The TDS port of the instance for which Babelfish
+                      is enabled.
+                    type: string
+                  burstingEnabled:
+                    description: |-
+                      Specifies whether to enable the I/O burst feature of general
+                      ESSDs. Valid values:
+                    type: boolean
+                  caType:
+                    description: 'The type of the server certificate. This parameter
+                      is supported only when the instance runs PostgreSQL or MySQL
+                      with standard or enhanced SSDs. If you set the SSLEnabled parameter
+                      to 1, the default value of this parameter is aliyun. NOTE: From
+                      version 1.231.0, ca_type start  support MySQL engine. Value
+                      range:'
+                    type: string
+                  category:
+                    description: 'The RDS edition of the instance. If you want to
+                      create a serverless instance, you must use this value. Valid
+                      values:'
+                    type: string
+                  clientCaCertSecretRef:
+                    description: The public key of the CA that issues client certificates.
+                      This parameter is supported only when the instance runs PostgreSQL
+                      with standard or enhanced SSDs. If you set the ClientCAEbabled
+                      parameter to 1, you must also specify this parameter.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  clientCaEnabled:
+                    description: 'Specifies whether to enable the public key of the
+                      CA that issues client certificates. This parameter is supported
+                      only when the instance runs PostgreSQL with standard or enhanced
+                      SSDs. Valid values:'
+                    type: number
+                  clientCertRevocationList:
+                    description: The CRL that contains revoked client certificates.
+                      This parameter is supported only when the instance runs PostgreSQL
+                      with standard or enhanced SSDs. If you set the ClientCrlEnabled
+                      parameter to 1, you must also specify this parameter.
+                    type: string
+                  clientCrlEnabled:
+                    description: 'Specifies whether to enable a certificate revocation
+                      list (CRL) that contains revoked client certificates. This parameter
+                      is supported only when the instance runs PostgreSQL with standard
+                      or enhanced SSDs. In addition, this parameter is available only
+                      when the public key of the CA that issues client certificates
+                      is enabled. Valid values:'
+                    type: number
+                  coldDataEnabled:
+                    description: 'High performance cloud disk data archiving function
+                      switch.Example value:'
+                    type: boolean
+                  collation:
+                    description: 'The character set collation of the instance. By
+                      default, the system does not modify the character set collation
+                      of the instance. Valid values:'
+                    type: string
+                  collectStatMode:
+                    description: Specify the point in time at which the system collects
+                      the statistics of the instance.
+                    type: string
+                  connectionStringPrefix:
+                    description: |-
+                      The private connection string prefix. If you want to update public connection string prefix, please use resource alicloud_db_connection connection_prefix.
+                      -> NOTE: The prefix must be 8 to 64 characters in length and can contain letters, digits, and hyphens (-). It cannot contain Chinese characters and special characters ~!#%^&*=+|{};:'",<>/?
+                    type: string
+                  dbInstanceIpArrayAttribute:
+                    description: The attribute of the IP address whitelist. By default,
+                      this parameter is empty.
+                    type: string
+                  dbInstanceIpArrayName:
+                    description: 'The name of the IP address whitelist. Default value:
+                      Default.'
+                    type: string
+                  dbInstanceStorageType:
+                    description: 'The storage type of the instance. Serverless instance,
+                      only cloud_essd can be selected. Valid values:'
+                    type: string
+                  dbIsIgnoreCase:
+                    description: 'Specifies whether table names on the instance are
+                      case-sensitive. Valid values: true, false.'
+                    type: boolean
+                  dbParamGroupId:
+                    description: Parameter template ID. Only MySQL and PostgreSQL
+                      support this parameter. If this parameter is not specified,
+                      the default parameter template is used. You can also customize
+                      a parameter template and use it here.
+                    type: string
+                  dbTimeZone:
+                    description: The time zone of the instance. This parameter takes
+                      effect only when you set the Engine parameter to MySQL or PostgreSQL.
+                    type: string
+                  deletionProtection:
+                    description: 'The switch of delete protection. Valid values:'
+                    type: boolean
+                  direction:
+                    description: 'The instance configuration type. Valid values: ["Up",
+                      "Down", "TempUpgrade", "Serverless"]'
+                    type: string
+                  effectiveTime:
+                    description: 'The method to update the engine version and change.  Default
+                      value: Immediate. Valid values:'
+                    type: string
+                  encryptionKey:
+                    description: |-
+                      The key id of the KMS. Used for encrypting a disk if not null. Only for PostgreSQL, MySQL and SQLServer.
+                      When the instance is PostgreSQL, this parameter can be used to enable, modify, and disable cloud disk encryption.Value range:
+                    type: string
+                  engine:
+                    description: 'Database type. Value options: MySQL, SQLServer,
+                      PostgreSQL, MariaDB.'
+                    type: string
+                  engineVersion:
+                    description: Database version. Value options can refer to the
+                      latest docs CreateDBInstance EngineVersion.
+                    type: string
+                  force:
+                    description: 'Specifies whether to enable forcible switching.
+                      Valid values:'
+                    type: string
+                  forceEncryption:
+                    description: 'Specifies whether to enable the forceful SSL encryption
+                      feature. This parameter is supported only for ApsaraDB RDS for
+                      SQL Server instances.Valid values:'
+                    type: number
+                  forceRestart:
+                    description: Set it to true to make some parameter efficient when
+                      modifying them. Default to false.
+                    type: boolean
+                  freshWhiteListReadins:
+                    description: The read-only instances to which you want to synchronize
+                      the IP address whitelist.
+                    type: string
+                  haConfig:
+                    description: 'The primary/secondary switchover mode of the instance.
+                      Default value: Auto. Valid values:'
+                    type: string
+                  instanceChargeType:
+                    description: Valid values are Prepaid, Postpaid, Serverless, Default
+                      to Postpaid. Currently, the resource only supports PostPaid
+                      to PrePaid. For more information, see Overview.
+                    type: string
+                  instanceName:
+                    description: The name of DB instance. It a string of 2 to 256
+                      characters.
+                    type: string
+                  instanceStorage:
+                    description: 'User-defined DB instance storage space. Value range:'
+                    type: number
+                  instanceType:
+                    description: DB Instance type. For details, see Instance type
+                      table.
+                    type: string
+                  maintainTime:
+                    description: 'Maintainable time period format of the instance:
+                      HH:MMZ-HH:MMZ (UTC time)'
+                    type: string
+                  manualHaTime:
+                    description: The time after when you want to enable automatic
+                      primary/secondary switchover. At most, you can set this parameter
+                      to 23:59:59 seven days later. Specify the time in the ISO 8601
+                      standard in the yyyy-MM-ddTHH:mm:ssZ format. The time must be
+                      in UTC.
+                    type: string
+                  modifyMode:
+                    description: 'The method that is used to modify the IP address
+                      whitelist. Default value: Cover. Valid values:'
+                    type: string
+                  monitoringPeriod:
+                    description: The monitoring frequency in seconds. Valid values
+                      are 5, 10, 60, 300. Defaults to 300.
+                    type: number
+                  nodeId:
+                    description: The globally unique identifier (GUID) of the secondary
+                      instance. You can call the DescribeDBInstanceHAConfig operation
+                      to query the GUID of the secondary instance.
+                    type: string
+                  optimizedWrites:
+                    description: 'Write optimization function switch. supported engine
+                      type: MySQL. Valid values:'
+                    type: string
+                  parameters:
+                    description: Set of parameters needs to be set after DB instance
+                      was launched. Available parameters can refer to the latest docs
+                      View database parameter templates . See parameters below.
+                    items:
+                      properties:
+                        name:
+                          description: The parameter name.
+                          type: string
+                        value:
+                          description: The parameter value.
+                          type: string
+                      type: object
+                    type: array
+                  period:
+                    description: |-
+                      The duration that you will buy DB instance (in month). It is valid when instance_charge_type is PrePaid. Valid values: [1~9], 12, 24, 36.
+                      -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
+                    type: number
+                  pgBouncerEnabled:
+                    description: 'Modify the PgBouncer feature of the RDS PostgreSQL
+                      instance. Valid values:'
+                    type: boolean
+                  pgHbaConf:
+                    description: The configuration of AD domain . See pg_hba_conf
+                      below.
+                    items:
+                      properties:
+                        address:
+                          description: The IP addresses from which the specified users
+                            can access the specified databases. If you set this parameter
+                            to 0.0.0.0/0, the specified users are allowed to access
+                            the specified databases from all IP addresses.
+                          type: string
+                        database:
+                          description: The name of the database that the specified
+                            users are allowed to access. If you set this parameter
+                            to all, the specified users are allowed to access all
+                            databases in the instance. If you specify multiple databases,
+                            separate the database names with commas (,).
+                          type: string
+                        mask:
+                          description: The mask of the instance. If the value of the
+                            Address parameter is an IP address, you can use this parameter
+                            to specify the mask of the IP address.
+                          type: string
+                        method:
+                          description: 'The authentication method of Lightweight Directory
+                            Access Protocol (LDAP). Valid values: trust, reject, scram-sha-256,
+                            md5, password, gss, sspi, ldap, radius, cert, pam.'
+                          type: string
+                        option:
+                          description: Optional. The value of this parameter is based
+                            on the value of the HbaItem.N.Method parameter. In this
+                            topic, LDAP is used as an example. You must configure
+                            this parameter. For more information, see Authentication
+                            Methods.
+                          type: string
+                        priorityId:
+                          description: 'The priority of an AD domain. If you set this
+                            parameter to 0, the AD domain has the highest priority.
+                            Valid values: 0 to 10000. This parameter is used to identify
+                            each AD domain. When you add an AD domain, the value of
+                            the PriorityId parameter of the new AD domain cannot be
+                            the same as the value of the PriorityId parameter for
+                            any existing AD domain. When you modify or delete an AD
+                            domain, you must also modify or delete the value of the
+                            PriorityId parameter for this AD domain.'
+                          type: number
+                        type:
+                          description: 'The type of connection to the instance. Valid
+                            values:'
+                          type: string
+                        user:
+                          description: The user that is allowed to access the instance.
+                            If you specify multiple users, separate the usernames
+                            with commas (,).
+                          type: string
+                      type: object
+                    type: array
+                  port:
+                    description: The private port of the database service. If you
+                      want to update public port, please use resource alicloud_db_connection
+                      port.
+                    type: string
+                  privateIpAddress:
+                    description: The private IP address of the instance. The private
+                      IP address must be within the Classless Inter-Domain Routing
+                      (CIDR) block of the vSwitch that is specified by the VSwitchId
+                      parameter.
+                    type: string
+                  recoveryModel:
+                    description: 'Enable the Simple Recovery Model for an RDS SQL
+                      Server Instance.The Simple Recovery Model feature is only supported
+                      by the Basic Series of RDS SQL Server instances. Once this feature
+                      is enabled, it cannot be disabled.Valid values:'
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
+                  releasedKeepPolicy:
+                    description: 'The policy based on which ApsaraDB RDS retains archived
+                      backup files after the instance is released. Valid values:'
+                    type: string
+                  replicationAcl:
+                    description: 'The method that is used to verify the replication
+                      permission. This parameter is supported only when the instance
+                      runs PostgreSQL with standard or enhanced SSDs. In addition,
+                      this parameter is available only when the public key of the
+                      CA that issues client certificates is enabled. Valid values:'
+                    type: string
+                  resourceGroupId:
+                    description: The ID of resource group which the DB instance belongs.
+                    type: string
+                  roleArn:
+                    description: The Alibaba Cloud Resource Name (ARN) of the RAM
+                      role.
+                    type: string
+                  roleArnRef:
+                    description: Reference to a Role in ram to populate roleArn.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  roleArnSelector:
+                    description: Selector for a Role in ram to populate roleArn.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  securityGroupIdRefs:
+                    description: References to SecurityGroup in ecs to populate securityGroupIds.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  securityGroupIdSelector:
+                    description: Selector for a list of SecurityGroup in ecs to populate
+                      securityGroupIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  securityGroupIds:
+                    description: ', Available since v1.69.0) The list IDs to join
+                      ECS Security Group. At most supports three security groups.'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  securityIpMode:
+                    description: Valid values are normal, safety, Default to normal.
+                      support safety switch to high security access mode.
+                    type: string
+                  securityIpType:
+                    description: The type of IP address in the IP address whitelist.
+                    type: string
+                  securityIps:
+                    description: List of IP addresses allowed to access all databases
+                      of an instance. The list contains up to 1,000 IP addresses,
+                      separated by commas. Supported formats include 0.0.0.0/0, 10.23.12.24
+                      (IP), and 10.23.12.24/24 (Classless Inter-Domain Routing (CIDR)
+                      mode. /24 represents the length of the prefix in an IP address.
+                      The range of the prefix length is [1,32]).
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  serverCertSecretRef:
+                    description: 'The content of the server certificate. This parameter
+                      is supported only when the instance runs PostgreSQL or MySQL
+                      with standard or enhanced SSDs. If you set the CAType parameter
+                      to custom, you must also specify this parameter. NOTE: From
+                      version 1.231.0, server_cert start  support MySQL engine.'
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  serverKey:
+                    description: 'The private key of the server certificate. This
+                      parameter is supported only when the instance runs PostgreSQL
+                      or MySQL with standard or enhanced SSDs. If you set the CAType
+                      parameter to custom, you must also specify this parameter. NOTE:
+                      From version 1.231.0, server_key start support MySQL engine.'
+                    type: string
+                  serverlessConfig:
+                    description: The settings of the serverless instance. This parameter
+                      is required when you create a serverless instance. This parameter
+                      takes effect only when you create an ApsaraDB RDS for Serverless
+                      instance. See serverless_config below.
+                    items:
+                      properties:
+                        autoPause:
+                          description: 'Specifies whether to enable the smart startup
+                            and stop feature for the serverless instance. Valid values:'
+                          type: boolean
+                        maxCapacity:
+                          description: 'The maximum number of RDS Capacity Units (RCUs).
+                            The value of this parameter must be greater than or equal
+                            to min_capacity and only supports passing integers. Valid
+                            values:'
+                          type: number
+                        minCapacity:
+                          description: 'The minimum number of RCUs. The value of this
+                            parameter must be less than or equal to max_capacity.
+                            Valid values:'
+                          type: number
+                        switchForce:
+                          description: 'Specifies whether to enable the forced scaling
+                            feature for the serverless instance. Valid values:'
+                          type: boolean
+                      type: object
+                    type: array
+                  sqlCollectorConfigValue:
+                    description: |-
+                      The sql collector keep time of the instance. Valid values are 30, 180, 365, 1095, 1825, Default to 30.
+                      -> NOTE: This parameter takes effect when sql_collector_status is set to Enabled and does not take effect when sql_collector_status is set to Disabled.
+                    type: number
+                  sqlCollectorStatus:
+                    description: The sql collector status of the instance. Valid values
+                      are Enabled, Disabled, Default to Disabled.
+                    type: string
+                  sslAction:
+                    description: |-
+                      Actions performed on SSL functions. Valid values:
+                      Open: turn on SSL encryption;
+                      Close: turn off SSL encryption;
+                      Update: update SSL certificate.
+                      See more engine and engineVersion limitation.
+                    type: string
+                  sslCertificateSecretRef:
+                    description: The custom certificate.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  sslConnectionString:
+                    description: The internal or public endpoint for which the server
+                      certificate needs to be created or updated.
+                    type: string
+                  sslPasswordSecretRef:
+                    description: The password of the certificate.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  storageAutoScale:
+                    description: 'Automatic storage space expansion switch. Valid
+                      values:'
+                    type: string
+                  storageThreshold:
+                    description: |-
+                      The threshold in percentage based on which an automatic storage expansion is triggered. If the available storage reaches the threshold, ApsaraDB RDS increases the storage capacity of the instance.
+                      Valid values: [10, 20, 30, 40, 50].
+                    type: number
+                  storageUpperBound:
+                    description: 'The upper limit of the total storage space for automatic
+                      expansion of the storage space, that is, automatic expansion
+                      will not cause the total storage space of the instance to exceed
+                      this value. Unit: GB. The value must be ≥0.'
+                    type: number
+                  switchTime:
+                    description: The specific point in time when you want to perform
+                      the update. Specify the time in the ISO 8601 standard in the
+                      yyyy-MM-ddTHH:mm:ssZ format. It is valid only when target_minor_version
+                      is changed. The time must be in UTC.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  targetMinorVersion:
+                    description: 'The minor engine version to which you want to update
+                      the instance. If you do not specify this parameter, the instance
+                      is updated to the latest minor engine version. You must specify
+                      the minor engine version in one of the following formats:'
+                    type: string
+                  tcpConnectionType:
+                    description: 'The availability check method of the instance. Valid
+                      values:'
+                    type: string
+                  tdeCertificateSecretRef:
+                    description: The file that contains the certificate..
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  tdeDbName:
+                    description: The name of the database for which you want to enable
+                      TDE. You can specify up to 50 database names in a single request.
+                      If you specify multiple database names, separate the database
+                      names with commas (,).
+                    type: string
+                  tdeEncryptionKey:
+                    description: The ID of the custom key.
+                    type: string
+                  tdePasswordSecretRef:
+                    description: The password of the certificate.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  tdePrivateKeySecretRef:
+                    description: The file that contains the private key of the certificate..
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  tdeStatus:
+                    description: The TDE(Transparent Data Encryption) status. After
+                      TDE is turned on, it cannot be turned off. See more engine and
+                      engineVersion limitation.
+                    type: string
+                  templateIdList:
+                    description: Whitelist Template ID List.
+                    items:
+                      type: number
+                    type: array
+                  timeZone:
+                    description: The time zone of the instance. By default, the system
+                      does not modify the time zone.
+                    type: string
+                  upgradeDbInstanceKernelVersion:
+                    description: '(Deprecated from v1.198.0)  Whether to upgrade a
+                      minor version of the kernel. Valid values:'
+                    type: boolean
+                  upgradeTime:
+                    description: 'The method to update the minor engine version. Default
+                      value: Immediate. It is valid only when target_minor_version
+                      is changed. Valid values:'
+                    type: string
+                  vpcId:
+                    description: The VPC ID of the instance.
+                    type: string
+                  vpcIdRef:
+                    description: Reference to a VPC in vpc to populate vpcId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vpcIdSelector:
+                    description: Selector for a VPC in vpc to populate vpcId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  vswitchId:
+                    description: (ForceNew, Optional) The virtual switch ID to launch
+                      DB instances in one VPC. If there are multiple vswitches, separate
+                      them with commas.
+                    type: string
+                  vswitchIdRef:
+                    description: Reference to a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vswitchIdSelector:
+                    description: Selector for a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  whitelistNetworkType:
+                    description: 'The network type of the IP address whitelist. Default
+                      value: MIX. Valid values:'
+                    type: string
+                  zoneId:
+                    description: |-
+                      (ForceNew, Optional) The Zone to launch the DB instance. From version 1.8.1, it supports multiple zone.
+                      If it is a multi-zone and vswitch_id is specified, the vswitch must in the one of them.
+                      The multiple zone ID can be retrieved by setting multi to "true" in the data source alicloud_zones.
+                    type: string
+                  zoneIdSlaveA:
+                    description: The region ID of the secondary instance if you create
+                      a secondary instance. If you set this parameter to the same
+                      value as the ZoneId parameter, the instance is deployed in a
+                      single zone. Otherwise, the instance is deployed in multiple
+                      zones.
+                    type: string
+                  zoneIdSlaveB:
+                    description: RDS MySQL Cluster series instances support creating
+                      1 to 2 secondary nodes at the same time when establishing a
+                      new instance. If you have this requirement, you can use this
+                      parameter to specify the availability zone for the second secondary
+                      node.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  acl:
+                    description: 'The method that is used to verify the identities
+                      of clients. This parameter is supported only when the instance
+                      runs PostgreSQL with standard or enhanced SSDs. In addition,
+                      this parameter is available only when the public key of the
+                      CA that issues client certificates is enabled. Valid values:'
+                    type: string
+                  autoRenew:
+                    description: Whether to renewal a DB instance automatically or
+                      not. It is valid when instance_charge_type is PrePaid. Default
+                      to false.
+                    type: boolean
+                  autoRenewPeriod:
+                    description: Auto-renewal period of an instance, in the unit of
+                      the month. It is valid when instance_charge_type is PrePaid.
+                      Valid value:[1~12], Default to 1.
+                    type: number
+                  autoUpgradeMinorVersion:
+                    description: 'The upgrade method to use. Valid values:'
+                    type: string
+                  babelfishConfig:
+                    description: (ForceNew, Optional, Available since v1.176.0) The
+                      configuration of an ApsaraDB RDS for PostgreSQL instance for
+                      which Babelfish is enabled. See babelfish_config below.
+                    items:
+                      properties:
+                        babelfishEnabled:
+                          description: specifies whether to enable the Babelfish for
+                            the instance. If you set this parameter to true, you enable
+                            Babelfish for the instance. If you leave this parameter
+                            empty, you disable Babelfish for the instance.
+                          type: string
+                        masterUserPassword:
+                          description: 'The password of the administrator account.
+                            The password must contain at least three of the following
+                            character types: uppercase letters, lowercase letters,
+                            digits, and special characters. It must be 8 to 32 characters
+                            in length. The password can contain any of the following
+                            characters:! @ # $ % ^ & * () _ + - ='
+                          type: string
+                        masterUsername:
+                          description: The name of the administrator account. The
+                            name can contain lowercase letters, digits, and underscores
+                            (_). It must start with a letter and end with a letter
+                            or digit. It can be up to 63 characters in length and
+                            cannot start with pg.
+                          type: string
+                        migrationMode:
+                          description: 'The migration mode of the instance. Valid
+                            values: single-db and multi-db.'
+                          type: string
+                      type: object
+                    type: array
+                  babelfishPort:
+                    description: The TDS port of the instance for which Babelfish
+                      is enabled.
+                    type: string
+                  burstingEnabled:
+                    description: |-
+                      Specifies whether to enable the I/O burst feature of general
+                      ESSDs. Valid values:
+                    type: boolean
+                  caType:
+                    description: 'The type of the server certificate. This parameter
+                      is supported only when the instance runs PostgreSQL or MySQL
+                      with standard or enhanced SSDs. If you set the SSLEnabled parameter
+                      to 1, the default value of this parameter is aliyun. NOTE: From
+                      version 1.231.0, ca_type start  support MySQL engine. Value
+                      range:'
+                    type: string
+                  category:
+                    description: 'The RDS edition of the instance. If you want to
+                      create a serverless instance, you must use this value. Valid
+                      values:'
+                    type: string
+                  clientCaCertSecretRef:
+                    description: The public key of the CA that issues client certificates.
+                      This parameter is supported only when the instance runs PostgreSQL
+                      with standard or enhanced SSDs. If you set the ClientCAEbabled
+                      parameter to 1, you must also specify this parameter.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  clientCaEnabled:
+                    description: 'Specifies whether to enable the public key of the
+                      CA that issues client certificates. This parameter is supported
+                      only when the instance runs PostgreSQL with standard or enhanced
+                      SSDs. Valid values:'
+                    type: number
+                  clientCertRevocationList:
+                    description: The CRL that contains revoked client certificates.
+                      This parameter is supported only when the instance runs PostgreSQL
+                      with standard or enhanced SSDs. If you set the ClientCrlEnabled
+                      parameter to 1, you must also specify this parameter.
+                    type: string
+                  clientCrlEnabled:
+                    description: 'Specifies whether to enable a certificate revocation
+                      list (CRL) that contains revoked client certificates. This parameter
+                      is supported only when the instance runs PostgreSQL with standard
+                      or enhanced SSDs. In addition, this parameter is available only
+                      when the public key of the CA that issues client certificates
+                      is enabled. Valid values:'
+                    type: number
+                  coldDataEnabled:
+                    description: 'High performance cloud disk data archiving function
+                      switch.Example value:'
+                    type: boolean
+                  collation:
+                    description: 'The character set collation of the instance. By
+                      default, the system does not modify the character set collation
+                      of the instance. Valid values:'
+                    type: string
+                  collectStatMode:
+                    description: Specify the point in time at which the system collects
+                      the statistics of the instance.
+                    type: string
+                  connectionStringPrefix:
+                    description: |-
+                      The private connection string prefix. If you want to update public connection string prefix, please use resource alicloud_db_connection connection_prefix.
+                      -> NOTE: The prefix must be 8 to 64 characters in length and can contain letters, digits, and hyphens (-). It cannot contain Chinese characters and special characters ~!#%^&*=+|{};:'",<>/?
+                    type: string
+                  dbInstanceIpArrayAttribute:
+                    description: The attribute of the IP address whitelist. By default,
+                      this parameter is empty.
+                    type: string
+                  dbInstanceIpArrayName:
+                    description: 'The name of the IP address whitelist. Default value:
+                      Default.'
+                    type: string
+                  dbInstanceStorageType:
+                    description: 'The storage type of the instance. Serverless instance,
+                      only cloud_essd can be selected. Valid values:'
+                    type: string
+                  dbIsIgnoreCase:
+                    description: 'Specifies whether table names on the instance are
+                      case-sensitive. Valid values: true, false.'
+                    type: boolean
+                  dbParamGroupId:
+                    description: Parameter template ID. Only MySQL and PostgreSQL
+                      support this parameter. If this parameter is not specified,
+                      the default parameter template is used. You can also customize
+                      a parameter template and use it here.
+                    type: string
+                  dbTimeZone:
+                    description: The time zone of the instance. This parameter takes
+                      effect only when you set the Engine parameter to MySQL or PostgreSQL.
+                    type: string
+                  deletionProtection:
+                    description: 'The switch of delete protection. Valid values:'
+                    type: boolean
+                  direction:
+                    description: 'The instance configuration type. Valid values: ["Up",
+                      "Down", "TempUpgrade", "Serverless"]'
+                    type: string
+                  effectiveTime:
+                    description: 'The method to update the engine version and change.  Default
+                      value: Immediate. Valid values:'
+                    type: string
+                  encryptionKey:
+                    description: |-
+                      The key id of the KMS. Used for encrypting a disk if not null. Only for PostgreSQL, MySQL and SQLServer.
+                      When the instance is PostgreSQL, this parameter can be used to enable, modify, and disable cloud disk encryption.Value range:
+                    type: string
+                  engine:
+                    description: 'Database type. Value options: MySQL, SQLServer,
+                      PostgreSQL, MariaDB.'
+                    type: string
+                  engineVersion:
+                    description: Database version. Value options can refer to the
+                      latest docs CreateDBInstance EngineVersion.
+                    type: string
+                  force:
+                    description: 'Specifies whether to enable forcible switching.
+                      Valid values:'
+                    type: string
+                  forceEncryption:
+                    description: 'Specifies whether to enable the forceful SSL encryption
+                      feature. This parameter is supported only for ApsaraDB RDS for
+                      SQL Server instances.Valid values:'
+                    type: number
+                  forceRestart:
+                    description: Set it to true to make some parameter efficient when
+                      modifying them. Default to false.
+                    type: boolean
+                  freshWhiteListReadins:
+                    description: The read-only instances to which you want to synchronize
+                      the IP address whitelist.
+                    type: string
+                  haConfig:
+                    description: 'The primary/secondary switchover mode of the instance.
+                      Default value: Auto. Valid values:'
+                    type: string
+                  instanceChargeType:
+                    description: Valid values are Prepaid, Postpaid, Serverless, Default
+                      to Postpaid. Currently, the resource only supports PostPaid
+                      to PrePaid. For more information, see Overview.
+                    type: string
+                  instanceName:
+                    description: The name of DB instance. It a string of 2 to 256
+                      characters.
+                    type: string
+                  instanceStorage:
+                    description: 'User-defined DB instance storage space. Value range:'
+                    type: number
+                  instanceType:
+                    description: DB Instance type. For details, see Instance type
+                      table.
+                    type: string
+                  maintainTime:
+                    description: 'Maintainable time period format of the instance:
+                      HH:MMZ-HH:MMZ (UTC time)'
+                    type: string
+                  manualHaTime:
+                    description: The time after when you want to enable automatic
+                      primary/secondary switchover. At most, you can set this parameter
+                      to 23:59:59 seven days later. Specify the time in the ISO 8601
+                      standard in the yyyy-MM-ddTHH:mm:ssZ format. The time must be
+                      in UTC.
+                    type: string
+                  modifyMode:
+                    description: 'The method that is used to modify the IP address
+                      whitelist. Default value: Cover. Valid values:'
+                    type: string
+                  monitoringPeriod:
+                    description: The monitoring frequency in seconds. Valid values
+                      are 5, 10, 60, 300. Defaults to 300.
+                    type: number
+                  nodeId:
+                    description: The globally unique identifier (GUID) of the secondary
+                      instance. You can call the DescribeDBInstanceHAConfig operation
+                      to query the GUID of the secondary instance.
+                    type: string
+                  optimizedWrites:
+                    description: 'Write optimization function switch. supported engine
+                      type: MySQL. Valid values:'
+                    type: string
+                  parameters:
+                    description: Set of parameters needs to be set after DB instance
+                      was launched. Available parameters can refer to the latest docs
+                      View database parameter templates . See parameters below.
+                    items:
+                      properties:
+                        name:
+                          description: The parameter name.
+                          type: string
+                        value:
+                          description: The parameter value.
+                          type: string
+                      type: object
+                    type: array
+                  period:
+                    description: |-
+                      The duration that you will buy DB instance (in month). It is valid when instance_charge_type is PrePaid. Valid values: [1~9], 12, 24, 36.
+                      -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
+                    type: number
+                  pgBouncerEnabled:
+                    description: 'Modify the PgBouncer feature of the RDS PostgreSQL
+                      instance. Valid values:'
+                    type: boolean
+                  pgHbaConf:
+                    description: The configuration of AD domain . See pg_hba_conf
+                      below.
+                    items:
+                      properties:
+                        address:
+                          description: The IP addresses from which the specified users
+                            can access the specified databases. If you set this parameter
+                            to 0.0.0.0/0, the specified users are allowed to access
+                            the specified databases from all IP addresses.
+                          type: string
+                        database:
+                          description: The name of the database that the specified
+                            users are allowed to access. If you set this parameter
+                            to all, the specified users are allowed to access all
+                            databases in the instance. If you specify multiple databases,
+                            separate the database names with commas (,).
+                          type: string
+                        mask:
+                          description: The mask of the instance. If the value of the
+                            Address parameter is an IP address, you can use this parameter
+                            to specify the mask of the IP address.
+                          type: string
+                        method:
+                          description: 'The authentication method of Lightweight Directory
+                            Access Protocol (LDAP). Valid values: trust, reject, scram-sha-256,
+                            md5, password, gss, sspi, ldap, radius, cert, pam.'
+                          type: string
+                        option:
+                          description: Optional. The value of this parameter is based
+                            on the value of the HbaItem.N.Method parameter. In this
+                            topic, LDAP is used as an example. You must configure
+                            this parameter. For more information, see Authentication
+                            Methods.
+                          type: string
+                        priorityId:
+                          description: 'The priority of an AD domain. If you set this
+                            parameter to 0, the AD domain has the highest priority.
+                            Valid values: 0 to 10000. This parameter is used to identify
+                            each AD domain. When you add an AD domain, the value of
+                            the PriorityId parameter of the new AD domain cannot be
+                            the same as the value of the PriorityId parameter for
+                            any existing AD domain. When you modify or delete an AD
+                            domain, you must also modify or delete the value of the
+                            PriorityId parameter for this AD domain.'
+                          type: number
+                        type:
+                          description: 'The type of connection to the instance. Valid
+                            values:'
+                          type: string
+                        user:
+                          description: The user that is allowed to access the instance.
+                            If you specify multiple users, separate the usernames
+                            with commas (,).
+                          type: string
+                      type: object
+                    type: array
+                  port:
+                    description: The private port of the database service. If you
+                      want to update public port, please use resource alicloud_db_connection
+                      port.
+                    type: string
+                  privateIpAddress:
+                    description: The private IP address of the instance. The private
+                      IP address must be within the Classless Inter-Domain Routing
+                      (CIDR) block of the vSwitch that is specified by the VSwitchId
+                      parameter.
+                    type: string
+                  recoveryModel:
+                    description: 'Enable the Simple Recovery Model for an RDS SQL
+                      Server Instance.The Simple Recovery Model feature is only supported
+                      by the Basic Series of RDS SQL Server instances. Once this feature
+                      is enabled, it cannot be disabled.Valid values:'
+                    type: string
+                  releasedKeepPolicy:
+                    description: 'The policy based on which ApsaraDB RDS retains archived
+                      backup files after the instance is released. Valid values:'
+                    type: string
+                  replicationAcl:
+                    description: 'The method that is used to verify the replication
+                      permission. This parameter is supported only when the instance
+                      runs PostgreSQL with standard or enhanced SSDs. In addition,
+                      this parameter is available only when the public key of the
+                      CA that issues client certificates is enabled. Valid values:'
+                    type: string
+                  resourceGroupId:
+                    description: The ID of resource group which the DB instance belongs.
+                    type: string
+                  roleArn:
+                    description: The Alibaba Cloud Resource Name (ARN) of the RAM
+                      role.
+                    type: string
+                  roleArnRef:
+                    description: Reference to a Role in ram to populate roleArn.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  roleArnSelector:
+                    description: Selector for a Role in ram to populate roleArn.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  securityGroupIdRefs:
+                    description: References to SecurityGroup in ecs to populate securityGroupIds.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  securityGroupIdSelector:
+                    description: Selector for a list of SecurityGroup in ecs to populate
+                      securityGroupIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  securityGroupIds:
+                    description: ', Available since v1.69.0) The list IDs to join
+                      ECS Security Group. At most supports three security groups.'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  securityIpMode:
+                    description: Valid values are normal, safety, Default to normal.
+                      support safety switch to high security access mode.
+                    type: string
+                  securityIpType:
+                    description: The type of IP address in the IP address whitelist.
+                    type: string
+                  securityIps:
+                    description: List of IP addresses allowed to access all databases
+                      of an instance. The list contains up to 1,000 IP addresses,
+                      separated by commas. Supported formats include 0.0.0.0/0, 10.23.12.24
+                      (IP), and 10.23.12.24/24 (Classless Inter-Domain Routing (CIDR)
+                      mode. /24 represents the length of the prefix in an IP address.
+                      The range of the prefix length is [1,32]).
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  serverCertSecretRef:
+                    description: 'The content of the server certificate. This parameter
+                      is supported only when the instance runs PostgreSQL or MySQL
+                      with standard or enhanced SSDs. If you set the CAType parameter
+                      to custom, you must also specify this parameter. NOTE: From
+                      version 1.231.0, server_cert start  support MySQL engine.'
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  serverKey:
+                    description: 'The private key of the server certificate. This
+                      parameter is supported only when the instance runs PostgreSQL
+                      or MySQL with standard or enhanced SSDs. If you set the CAType
+                      parameter to custom, you must also specify this parameter. NOTE:
+                      From version 1.231.0, server_key start support MySQL engine.'
+                    type: string
+                  serverlessConfig:
+                    description: The settings of the serverless instance. This parameter
+                      is required when you create a serverless instance. This parameter
+                      takes effect only when you create an ApsaraDB RDS for Serverless
+                      instance. See serverless_config below.
+                    items:
+                      properties:
+                        autoPause:
+                          description: 'Specifies whether to enable the smart startup
+                            and stop feature for the serverless instance. Valid values:'
+                          type: boolean
+                        maxCapacity:
+                          description: 'The maximum number of RDS Capacity Units (RCUs).
+                            The value of this parameter must be greater than or equal
+                            to min_capacity and only supports passing integers. Valid
+                            values:'
+                          type: number
+                        minCapacity:
+                          description: 'The minimum number of RCUs. The value of this
+                            parameter must be less than or equal to max_capacity.
+                            Valid values:'
+                          type: number
+                        switchForce:
+                          description: 'Specifies whether to enable the forced scaling
+                            feature for the serverless instance. Valid values:'
+                          type: boolean
+                      type: object
+                    type: array
+                  sqlCollectorConfigValue:
+                    description: |-
+                      The sql collector keep time of the instance. Valid values are 30, 180, 365, 1095, 1825, Default to 30.
+                      -> NOTE: This parameter takes effect when sql_collector_status is set to Enabled and does not take effect when sql_collector_status is set to Disabled.
+                    type: number
+                  sqlCollectorStatus:
+                    description: The sql collector status of the instance. Valid values
+                      are Enabled, Disabled, Default to Disabled.
+                    type: string
+                  sslAction:
+                    description: |-
+                      Actions performed on SSL functions. Valid values:
+                      Open: turn on SSL encryption;
+                      Close: turn off SSL encryption;
+                      Update: update SSL certificate.
+                      See more engine and engineVersion limitation.
+                    type: string
+                  sslCertificateSecretRef:
+                    description: The custom certificate.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  sslConnectionString:
+                    description: The internal or public endpoint for which the server
+                      certificate needs to be created or updated.
+                    type: string
+                  sslPasswordSecretRef:
+                    description: The password of the certificate.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  storageAutoScale:
+                    description: 'Automatic storage space expansion switch. Valid
+                      values:'
+                    type: string
+                  storageThreshold:
+                    description: |-
+                      The threshold in percentage based on which an automatic storage expansion is triggered. If the available storage reaches the threshold, ApsaraDB RDS increases the storage capacity of the instance.
+                      Valid values: [10, 20, 30, 40, 50].
+                    type: number
+                  storageUpperBound:
+                    description: 'The upper limit of the total storage space for automatic
+                      expansion of the storage space, that is, automatic expansion
+                      will not cause the total storage space of the instance to exceed
+                      this value. Unit: GB. The value must be ≥0.'
+                    type: number
+                  switchTime:
+                    description: The specific point in time when you want to perform
+                      the update. Specify the time in the ISO 8601 standard in the
+                      yyyy-MM-ddTHH:mm:ssZ format. It is valid only when target_minor_version
+                      is changed. The time must be in UTC.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  targetMinorVersion:
+                    description: 'The minor engine version to which you want to update
+                      the instance. If you do not specify this parameter, the instance
+                      is updated to the latest minor engine version. You must specify
+                      the minor engine version in one of the following formats:'
+                    type: string
+                  tcpConnectionType:
+                    description: 'The availability check method of the instance. Valid
+                      values:'
+                    type: string
+                  tdeCertificateSecretRef:
+                    description: The file that contains the certificate..
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  tdeDbName:
+                    description: The name of the database for which you want to enable
+                      TDE. You can specify up to 50 database names in a single request.
+                      If you specify multiple database names, separate the database
+                      names with commas (,).
+                    type: string
+                  tdeEncryptionKey:
+                    description: The ID of the custom key.
+                    type: string
+                  tdePasswordSecretRef:
+                    description: The password of the certificate.
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  tdePrivateKeySecretRef:
+                    description: The file that contains the private key of the certificate..
+                    properties:
+                      key:
+                        description: The key to select.
+                        type: string
+                      name:
+                        description: Name of the secret.
+                        type: string
+                      namespace:
+                        description: Namespace of the secret.
+                        type: string
+                    required:
+                    - key
+                    - name
+                    - namespace
+                    type: object
+                  tdeStatus:
+                    description: The TDE(Transparent Data Encryption) status. After
+                      TDE is turned on, it cannot be turned off. See more engine and
+                      engineVersion limitation.
+                    type: string
+                  templateIdList:
+                    description: Whitelist Template ID List.
+                    items:
+                      type: number
+                    type: array
+                  timeZone:
+                    description: The time zone of the instance. By default, the system
+                      does not modify the time zone.
+                    type: string
+                  upgradeDbInstanceKernelVersion:
+                    description: '(Deprecated from v1.198.0)  Whether to upgrade a
+                      minor version of the kernel. Valid values:'
+                    type: boolean
+                  upgradeTime:
+                    description: 'The method to update the minor engine version. Default
+                      value: Immediate. It is valid only when target_minor_version
+                      is changed. Valid values:'
+                    type: string
+                  vpcId:
+                    description: The VPC ID of the instance.
+                    type: string
+                  vpcIdRef:
+                    description: Reference to a VPC in vpc to populate vpcId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vpcIdSelector:
+                    description: Selector for a VPC in vpc to populate vpcId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  vswitchId:
+                    description: (ForceNew, Optional) The virtual switch ID to launch
+                      DB instances in one VPC. If there are multiple vswitches, separate
+                      them with commas.
+                    type: string
+                  vswitchIdRef:
+                    description: Reference to a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  vswitchIdSelector:
+                    description: Selector for a Vswitch in vpc to populate vswitchId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  whitelistNetworkType:
+                    description: 'The network type of the IP address whitelist. Default
+                      value: MIX. Valid values:'
+                    type: string
+                  zoneId:
+                    description: |-
+                      (ForceNew, Optional) The Zone to launch the DB instance. From version 1.8.1, it supports multiple zone.
+                      If it is a multi-zone and vswitch_id is specified, the vswitch must in the one of them.
+                      The multiple zone ID can be retrieved by setting multi to "true" in the data source alicloud_zones.
+                    type: string
+                  zoneIdSlaveA:
+                    description: The region ID of the secondary instance if you create
+                      a secondary instance. If you set this parameter to the same
+                      value as the ZoneId parameter, the instance is deployed in a
+                      single zone. Otherwise, the instance is deployed in multiple
+                      zones.
+                    type: string
+                  zoneIdSlaveB:
+                    description: RDS MySQL Cluster series instances support creating
+                      1 to 2 secondary nodes at the same time when establishing a
+                      new instance. If you have this requirement, you can use this
+                      parameter to specify the availability zone for the second secondary
+                      node.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.engine is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.engine)
+                || (has(self.initProvider) && has(self.initProvider.engine))'
+            - message: spec.forProvider.engineVersion is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.engineVersion)
+                || (has(self.initProvider) && has(self.initProvider.engineVersion))'
+            - message: spec.forProvider.instanceStorage is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceStorage)
+                || (has(self.initProvider) && has(self.initProvider.instanceStorage))'
+            - message: spec.forProvider.instanceType is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceType)
+                || (has(self.initProvider) && has(self.initProvider.instanceType))'
+          status:
+            description: InstanceStatus defines the observed state of Instance.
+            properties:
+              atProvider:
+                properties:
+                  acl:
+                    description: 'The method that is used to verify the identities
+                      of clients. This parameter is supported only when the instance
+                      runs PostgreSQL with standard or enhanced SSDs. In addition,
+                      this parameter is available only when the public key of the
+                      CA that issues client certificates is enabled. Valid values:'
+                    type: string
+                  autoRenew:
+                    description: Whether to renewal a DB instance automatically or
+                      not. It is valid when instance_charge_type is PrePaid. Default
+                      to false.
+                    type: boolean
+                  autoRenewPeriod:
+                    description: Auto-renewal period of an instance, in the unit of
+                      the month. It is valid when instance_charge_type is PrePaid.
+                      Valid value:[1~12], Default to 1.
+                    type: number
+                  autoUpgradeMinorVersion:
+                    description: 'The upgrade method to use. Valid values:'
+                    type: string
+                  babelfishConfig:
+                    description: (ForceNew, Optional, Available since v1.176.0) The
+                      configuration of an ApsaraDB RDS for PostgreSQL instance for
+                      which Babelfish is enabled. See babelfish_config below.
+                    items:
+                      properties:
+                        babelfishEnabled:
+                          description: specifies whether to enable the Babelfish for
+                            the instance. If you set this parameter to true, you enable
+                            Babelfish for the instance. If you leave this parameter
+                            empty, you disable Babelfish for the instance.
+                          type: string
+                        masterUserPassword:
+                          description: 'The password of the administrator account.
+                            The password must contain at least three of the following
+                            character types: uppercase letters, lowercase letters,
+                            digits, and special characters. It must be 8 to 32 characters
+                            in length. The password can contain any of the following
+                            characters:! @ # $ % ^ & * () _ + - ='
+                          type: string
+                        masterUsername:
+                          description: The name of the administrator account. The
+                            name can contain lowercase letters, digits, and underscores
+                            (_). It must start with a letter and end with a letter
+                            or digit. It can be up to 63 characters in length and
+                            cannot start with pg.
+                          type: string
+                        migrationMode:
+                          description: 'The migration mode of the instance. Valid
+                            values: single-db and multi-db.'
+                          type: string
+                      type: object
+                    type: array
+                  babelfishPort:
+                    description: The TDS port of the instance for which Babelfish
+                      is enabled.
+                    type: string
+                  burstingEnabled:
+                    description: |-
+                      Specifies whether to enable the I/O burst feature of general
+                      ESSDs. Valid values:
+                    type: boolean
+                  caType:
+                    description: 'The type of the server certificate. This parameter
+                      is supported only when the instance runs PostgreSQL or MySQL
+                      with standard or enhanced SSDs. If you set the SSLEnabled parameter
+                      to 1, the default value of this parameter is aliyun. NOTE: From
+                      version 1.231.0, ca_type start  support MySQL engine. Value
+                      range:'
+                    type: string
+                  category:
+                    description: 'The RDS edition of the instance. If you want to
+                      create a serverless instance, you must use this value. Valid
+                      values:'
+                    type: string
+                  clientCaEnabled:
+                    description: 'Specifies whether to enable the public key of the
+                      CA that issues client certificates. This parameter is supported
+                      only when the instance runs PostgreSQL with standard or enhanced
+                      SSDs. Valid values:'
+                    type: number
+                  clientCertRevocationList:
+                    description: The CRL that contains revoked client certificates.
+                      This parameter is supported only when the instance runs PostgreSQL
+                      with standard or enhanced SSDs. If you set the ClientCrlEnabled
+                      parameter to 1, you must also specify this parameter.
+                    type: string
+                  clientCrlEnabled:
+                    description: 'Specifies whether to enable a certificate revocation
+                      list (CRL) that contains revoked client certificates. This parameter
+                      is supported only when the instance runs PostgreSQL with standard
+                      or enhanced SSDs. In addition, this parameter is available only
+                      when the public key of the CA that issues client certificates
+                      is enabled. Valid values:'
+                    type: number
+                  coldDataEnabled:
+                    description: 'High performance cloud disk data archiving function
+                      switch.Example value:'
+                    type: boolean
+                  collation:
+                    description: 'The character set collation of the instance. By
+                      default, the system does not modify the character set collation
+                      of the instance. Valid values:'
+                    type: string
+                  collectStatMode:
+                    description: Specify the point in time at which the system collects
+                      the statistics of the instance.
+                    type: string
+                  connectionString:
+                    description: RDS database connection string.
+                    type: string
+                  connectionStringPrefix:
+                    description: |-
+                      The private connection string prefix. If you want to update public connection string prefix, please use resource alicloud_db_connection connection_prefix.
+                      -> NOTE: The prefix must be 8 to 64 characters in length and can contain letters, digits, and hyphens (-). It cannot contain Chinese characters and special characters ~!#%^&*=+|{};:'",<>/?
+                    type: string
+                  createTime:
+                    description: (Available since v1.204.1) The creation time of db
+                      instance.
+                    type: string
+                  dbInstanceIpArrayAttribute:
+                    description: The attribute of the IP address whitelist. By default,
+                      this parameter is empty.
+                    type: string
+                  dbInstanceIpArrayName:
+                    description: 'The name of the IP address whitelist. Default value:
+                      Default.'
+                    type: string
+                  dbInstanceStorageType:
+                    description: 'The storage type of the instance. Serverless instance,
+                      only cloud_essd can be selected. Valid values:'
+                    type: string
+                  dbInstanceType:
+                    description: (Available since v1.197.0) The type of db instance.
+                    type: string
+                  dbIsIgnoreCase:
+                    description: 'Specifies whether table names on the instance are
+                      case-sensitive. Valid values: true, false.'
+                    type: boolean
+                  dbParamGroupId:
+                    description: Parameter template ID. Only MySQL and PostgreSQL
+                      support this parameter. If this parameter is not specified,
+                      the default parameter template is used. You can also customize
+                      a parameter template and use it here.
+                    type: string
+                  dbTimeZone:
+                    description: The time zone of the instance. This parameter takes
+                      effect only when you set the Engine parameter to MySQL or PostgreSQL.
+                    type: string
+                  deletionProtection:
+                    description: 'The switch of delete protection. Valid values:'
+                    type: boolean
+                  direction:
+                    description: 'The instance configuration type. Valid values: ["Up",
+                      "Down", "TempUpgrade", "Serverless"]'
+                    type: string
+                  effectiveTime:
+                    description: 'The method to update the engine version and change.  Default
+                      value: Immediate. Valid values:'
+                    type: string
+                  encryptionKey:
+                    description: |-
+                      The key id of the KMS. Used for encrypting a disk if not null. Only for PostgreSQL, MySQL and SQLServer.
+                      When the instance is PostgreSQL, this parameter can be used to enable, modify, and disable cloud disk encryption.Value range:
+                    type: string
+                  engine:
+                    description: 'Database type. Value options: MySQL, SQLServer,
+                      PostgreSQL, MariaDB.'
+                    type: string
+                  engineVersion:
+                    description: Database version. Value options can refer to the
+                      latest docs CreateDBInstance EngineVersion.
+                    type: string
+                  force:
+                    description: 'Specifies whether to enable forcible switching.
+                      Valid values:'
+                    type: string
+                  forceEncryption:
+                    description: 'Specifies whether to enable the forceful SSL encryption
+                      feature. This parameter is supported only for ApsaraDB RDS for
+                      SQL Server instances.Valid values:'
+                    type: number
+                  forceRestart:
+                    description: Set it to true to make some parameter efficient when
+                      modifying them. Default to false.
+                    type: boolean
+                  freshWhiteListReadins:
+                    description: The read-only instances to which you want to synchronize
+                      the IP address whitelist.
+                    type: string
+                  haConfig:
+                    description: 'The primary/secondary switchover mode of the instance.
+                      Default value: Auto. Valid values:'
+                    type: string
+                  id:
+                    description: The RDS instance ID.
+                    type: string
+                  instanceChargeType:
+                    description: Valid values are Prepaid, Postpaid, Serverless, Default
+                      to Postpaid. Currently, the resource only supports PostPaid
+                      to PrePaid. For more information, see Overview.
+                    type: string
+                  instanceName:
+                    description: The name of DB instance. It a string of 2 to 256
+                      characters.
+                    type: string
+                  instanceStorage:
+                    description: 'User-defined DB instance storage space. Value range:'
+                    type: number
+                  instanceType:
+                    description: DB Instance type. For details, see Instance type
+                      table.
+                    type: string
+                  maintainTime:
+                    description: 'Maintainable time period format of the instance:
+                      HH:MMZ-HH:MMZ (UTC time)'
+                    type: string
+                  manualHaTime:
+                    description: The time after when you want to enable automatic
+                      primary/secondary switchover. At most, you can set this parameter
+                      to 23:59:59 seven days later. Specify the time in the ISO 8601
+                      standard in the yyyy-MM-ddTHH:mm:ssZ format. The time must be
+                      in UTC.
+                    type: string
+                  modifyMode:
+                    description: 'The method that is used to modify the IP address
+                      whitelist. Default value: Cover. Valid values:'
+                    type: string
+                  monitoringPeriod:
+                    description: The monitoring frequency in seconds. Valid values
+                      are 5, 10, 60, 300. Defaults to 300.
+                    type: number
+                  nodeId:
+                    description: The globally unique identifier (GUID) of the secondary
+                      instance. You can call the DescribeDBInstanceHAConfig operation
+                      to query the GUID of the secondary instance.
+                    type: string
+                  optimizedWrites:
+                    description: 'Write optimization function switch. supported engine
+                      type: MySQL. Valid values:'
+                    type: string
+                  parameters:
+                    description: Set of parameters needs to be set after DB instance
+                      was launched. Available parameters can refer to the latest docs
+                      View database parameter templates . See parameters below.
+                    items:
+                      properties:
+                        name:
+                          description: The parameter name.
+                          type: string
+                        value:
+                          description: The parameter value.
+                          type: string
+                      type: object
+                    type: array
+                  period:
+                    description: |-
+                      The duration that you will buy DB instance (in month). It is valid when instance_charge_type is PrePaid. Valid values: [1~9], 12, 24, 36.
+                      -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
+                    type: number
+                  pgBouncerEnabled:
+                    description: 'Modify the PgBouncer feature of the RDS PostgreSQL
+                      instance. Valid values:'
+                    type: boolean
+                  pgHbaConf:
+                    description: The configuration of AD domain . See pg_hba_conf
+                      below.
+                    items:
+                      properties:
+                        address:
+                          description: The IP addresses from which the specified users
+                            can access the specified databases. If you set this parameter
+                            to 0.0.0.0/0, the specified users are allowed to access
+                            the specified databases from all IP addresses.
+                          type: string
+                        database:
+                          description: The name of the database that the specified
+                            users are allowed to access. If you set this parameter
+                            to all, the specified users are allowed to access all
+                            databases in the instance. If you specify multiple databases,
+                            separate the database names with commas (,).
+                          type: string
+                        mask:
+                          description: The mask of the instance. If the value of the
+                            Address parameter is an IP address, you can use this parameter
+                            to specify the mask of the IP address.
+                          type: string
+                        method:
+                          description: 'The authentication method of Lightweight Directory
+                            Access Protocol (LDAP). Valid values: trust, reject, scram-sha-256,
+                            md5, password, gss, sspi, ldap, radius, cert, pam.'
+                          type: string
+                        option:
+                          description: Optional. The value of this parameter is based
+                            on the value of the HbaItem.N.Method parameter. In this
+                            topic, LDAP is used as an example. You must configure
+                            this parameter. For more information, see Authentication
+                            Methods.
+                          type: string
+                        priorityId:
+                          description: 'The priority of an AD domain. If you set this
+                            parameter to 0, the AD domain has the highest priority.
+                            Valid values: 0 to 10000. This parameter is used to identify
+                            each AD domain. When you add an AD domain, the value of
+                            the PriorityId parameter of the new AD domain cannot be
+                            the same as the value of the PriorityId parameter for
+                            any existing AD domain. When you modify or delete an AD
+                            domain, you must also modify or delete the value of the
+                            PriorityId parameter for this AD domain.'
+                          type: number
+                        type:
+                          description: 'The type of connection to the instance. Valid
+                            values:'
+                          type: string
+                        user:
+                          description: The user that is allowed to access the instance.
+                            If you specify multiple users, separate the usernames
+                            with commas (,).
+                          type: string
+                      type: object
+                    type: array
+                  port:
+                    description: The private port of the database service. If you
+                      want to update public port, please use resource alicloud_db_connection
+                      port.
+                    type: string
+                  privateIpAddress:
+                    description: The private IP address of the instance. The private
+                      IP address must be within the Classless Inter-Domain Routing
+                      (CIDR) block of the vSwitch that is specified by the VSwitchId
+                      parameter.
+                    type: string
+                  recoveryModel:
+                    description: 'Enable the Simple Recovery Model for an RDS SQL
+                      Server Instance.The Simple Recovery Model feature is only supported
+                      by the Basic Series of RDS SQL Server instances. Once this feature
+                      is enabled, it cannot be disabled.Valid values:'
+                    type: string
+                  releasedKeepPolicy:
+                    description: 'The policy based on which ApsaraDB RDS retains archived
+                      backup files after the instance is released. Valid values:'
+                    type: string
+                  replicationAcl:
+                    description: 'The method that is used to verify the replication
+                      permission. This parameter is supported only when the instance
+                      runs PostgreSQL with standard or enhanced SSDs. In addition,
+                      this parameter is available only when the public key of the
+                      CA that issues client certificates is enabled. Valid values:'
+                    type: string
+                  resourceGroupId:
+                    description: The ID of resource group which the DB instance belongs.
+                    type: string
+                  roleArn:
+                    description: The Alibaba Cloud Resource Name (ARN) of the RAM
+                      role.
+                    type: string
+                  securityGroupIds:
+                    description: ', Available since v1.69.0) The list IDs to join
+                      ECS Security Group. At most supports three security groups.'
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  securityIpMode:
+                    description: Valid values are normal, safety, Default to normal.
+                      support safety switch to high security access mode.
+                    type: string
+                  securityIpType:
+                    description: The type of IP address in the IP address whitelist.
+                    type: string
+                  securityIps:
+                    description: List of IP addresses allowed to access all databases
+                      of an instance. The list contains up to 1,000 IP addresses,
+                      separated by commas. Supported formats include 0.0.0.0/0, 10.23.12.24
+                      (IP), and 10.23.12.24/24 (Classless Inter-Domain Routing (CIDR)
+                      mode. /24 represents the length of the prefix in an IP address.
+                      The range of the prefix length is [1,32]).
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  serverKey:
+                    description: 'The private key of the server certificate. This
+                      parameter is supported only when the instance runs PostgreSQL
+                      or MySQL with standard or enhanced SSDs. If you set the CAType
+                      parameter to custom, you must also specify this parameter. NOTE:
+                      From version 1.231.0, server_key start support MySQL engine.'
+                    type: string
+                  serverlessConfig:
+                    description: The settings of the serverless instance. This parameter
+                      is required when you create a serverless instance. This parameter
+                      takes effect only when you create an ApsaraDB RDS for Serverless
+                      instance. See serverless_config below.
+                    items:
+                      properties:
+                        autoPause:
+                          description: 'Specifies whether to enable the smart startup
+                            and stop feature for the serverless instance. Valid values:'
+                          type: boolean
+                        maxCapacity:
+                          description: 'The maximum number of RDS Capacity Units (RCUs).
+                            The value of this parameter must be greater than or equal
+                            to min_capacity and only supports passing integers. Valid
+                            values:'
+                          type: number
+                        minCapacity:
+                          description: 'The minimum number of RCUs. The value of this
+                            parameter must be less than or equal to max_capacity.
+                            Valid values:'
+                          type: number
+                        switchForce:
+                          description: 'Specifies whether to enable the forced scaling
+                            feature for the serverless instance. Valid values:'
+                          type: boolean
+                      type: object
+                    type: array
+                  sqlCollectorConfigValue:
+                    description: |-
+                      The sql collector keep time of the instance. Valid values are 30, 180, 365, 1095, 1825, Default to 30.
+                      -> NOTE: This parameter takes effect when sql_collector_status is set to Enabled and does not take effect when sql_collector_status is set to Disabled.
+                    type: number
+                  sqlCollectorStatus:
+                    description: The sql collector status of the instance. Valid values
+                      are Enabled, Disabled, Default to Disabled.
+                    type: string
+                  sslAction:
+                    description: |-
+                      Actions performed on SSL functions. Valid values:
+                      Open: turn on SSL encryption;
+                      Close: turn off SSL encryption;
+                      Update: update SSL certificate.
+                      See more engine and engineVersion limitation.
+                    type: string
+                  sslConnectionString:
+                    description: The internal or public endpoint for which the server
+                      certificate needs to be created or updated.
+                    type: string
+                  sslStatus:
+                    description: 'Status of the SSL feature. Yes: SSL is turned on;
+                      No: SSL is turned off.'
+                    type: string
+                  status:
+                    description: (Available since v1.204.1) The status of db instance.
+                    type: string
+                  storageAutoScale:
+                    description: 'Automatic storage space expansion switch. Valid
+                      values:'
+                    type: string
+                  storageThreshold:
+                    description: |-
+                      The threshold in percentage based on which an automatic storage expansion is triggered. If the available storage reaches the threshold, ApsaraDB RDS increases the storage capacity of the instance.
+                      Valid values: [10, 20, 30, 40, 50].
+                    type: number
+                  storageUpperBound:
+                    description: 'The upper limit of the total storage space for automatic
+                      expansion of the storage space, that is, automatic expansion
+                      will not cause the total storage space of the instance to exceed
+                      this value. Unit: GB. The value must be ≥0.'
+                    type: number
+                  switchTime:
+                    description: The specific point in time when you want to perform
+                      the update. Specify the time in the ISO 8601 standard in the
+                      yyyy-MM-ddTHH:mm:ssZ format. It is valid only when target_minor_version
+                      is changed. The time must be in UTC.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  targetMinorVersion:
+                    description: 'The minor engine version to which you want to update
+                      the instance. If you do not specify this parameter, the instance
+                      is updated to the latest minor engine version. You must specify
+                      the minor engine version in one of the following formats:'
+                    type: string
+                  tcpConnectionType:
+                    description: 'The availability check method of the instance. Valid
+                      values:'
+                    type: string
+                  tdeDbName:
+                    description: The name of the database for which you want to enable
+                      TDE. You can specify up to 50 database names in a single request.
+                      If you specify multiple database names, separate the database
+                      names with commas (,).
+                    type: string
+                  tdeEncryptionKey:
+                    description: The ID of the custom key.
+                    type: string
+                  tdeStatus:
+                    description: The TDE(Transparent Data Encryption) status. After
+                      TDE is turned on, it cannot be turned off. See more engine and
+                      engineVersion limitation.
+                    type: string
+                  templateIdList:
+                    description: Whitelist Template ID List.
+                    items:
+                      type: number
+                    type: array
+                  templates:
+                    description: (Computed, Available since v1.254.0) Whitelist Template
+                      Details.
+                    items:
+                      additionalProperties:
+                        type: string
+                      type: object
+                    type: array
+                  timeZone:
+                    description: The time zone of the instance. By default, the system
+                      does not modify the time zone.
+                    type: string
+                  upgradeDbInstanceKernelVersion:
+                    description: '(Deprecated from v1.198.0)  Whether to upgrade a
+                      minor version of the kernel. Valid values:'
+                    type: boolean
+                  upgradeTime:
+                    description: 'The method to update the minor engine version. Default
+                      value: Immediate. It is valid only when target_minor_version
+                      is changed. Valid values:'
+                    type: string
+                  vpcId:
+                    description: The VPC ID of the instance.
+                    type: string
+                  vswitchId:
+                    description: (ForceNew, Optional) The virtual switch ID to launch
+                      DB instances in one VPC. If there are multiple vswitches, separate
+                      them with commas.
+                    type: string
+                  whitelistNetworkType:
+                    description: 'The network type of the IP address whitelist. Default
+                      value: MIX. Valid values:'
+                    type: string
+                  zoneId:
+                    description: |-
+                      (ForceNew, Optional) The Zone to launch the DB instance. From version 1.8.1, it supports multiple zone.
+                      If it is a multi-zone and vswitch_id is specified, the vswitch must in the one of them.
+                      The multiple zone ID can be retrieved by setting multi to "true" in the data source alicloud_zones.
+                    type: string
+                  zoneIdSlaveA:
+                    description: The region ID of the secondary instance if you create
+                      a secondary instance. If you set this parameter to the same
+                      value as the ZoneId parameter, the instance is deployed in a
+                      single zone. Otherwise, the instance is deployed in multiple
+                      zones.
+                    type: string
+                  zoneIdSlaveB:
+                    description: RDS MySQL Cluster series instances support creating
+                      1 to 2 secondary nodes at the same time when establishing a
+                      new instance. If you have this requirement, you can use this
+                      parameter to specify the availability zone for the second secondary
+                      node.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

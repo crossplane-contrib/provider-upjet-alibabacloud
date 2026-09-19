@@ -1,0 +1,78 @@
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    dbInstanceStorageType: cloud_essd
+    engine: MySQL
+    engineVersion: "8.0"
+    instanceChargeType: Postpaid
+    instanceName: terraform-example
+    instanceStorage: ${data.alicloud_db_instance_classes.example.instance_classes.0.storage_range.min}
+    instanceType: ${data.alicloud_db_instance_classes.example.instance_classes.0.instance_class}
+    monitoringPeriod: "60"
+    region: cn-beijing
+    securityGroupIdRefs:
+    - name: example
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: terraform-example
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/16
+    region: cn-beijing
+    vpcName: terraform-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    vswitchName: terraform-example
+    zoneId: ${data.alicloud_db_zones.example.zones.0.id}
