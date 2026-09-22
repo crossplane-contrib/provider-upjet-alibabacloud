@@ -1,0 +1,13 @@
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: WhitelistTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/whitelisttemplate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    templateName: crossplane-example-whitelist
+    ipWhiteList: 172.16.0.0/16

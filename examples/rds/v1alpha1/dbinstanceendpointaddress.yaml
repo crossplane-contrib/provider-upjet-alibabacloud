@@ -1,0 +1,168 @@
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: DBInstanceEndpointAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbinstanceendpointaddress
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    connectionStringPrefix: crossplaneexamplepub
+    port: "3306"
+    dbInstanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: cluster
+    dbInstanceEndpointIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: DBInstanceEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbinstanceendpointaddress
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    connectionStringPrefix: crossplaneexample
+    port: "3306"
+    dbInstanceEndpointDescription: crossplane-example
+    dbInstanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: cluster
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    nodeItems:
+      - weight: 25
+        nodeIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: default
+
+---
+
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: DBNode
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbinstanceendpointaddress
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    dbInstanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: cluster
+    classCodeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: cluster
+    zoneIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+# A separate, distinctly-labeled Instance from the HighAvailability one used
+# by the other RDS examples: DBInstanceEndpointAddress requires RDS MySQL
+# Cluster Edition, which is a different instance category/class. Keeping it
+# under its own "cluster" example-name (instead of "default") avoids
+# colliding with the HighAvailability Instance when all RDS examples are
+# applied together (e.g. via uptest), since both would otherwise be the same
+# named object with conflicting specs.
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbinstanceendpointaddress
+  labels:
+    testing.upbound.io/example-name: cluster
+  name: cluster
+spec:
+  forProvider:
+    region: cn-beijing
+    engine: MySQL
+    engineVersion: "8.0"
+    # DBInstanceEndpointAddress requires an RDS MySQL Cluster Edition
+    # instance. Cluster Edition classes (e.g. mysql.x4.medium.2c) are
+    # region/zone specific, verify availability before applying.
+    category: cluster
+    dbInstanceStorageType: cloud_essd
+    instanceChargeType: Postpaid
+    instanceName: crossplane-example-cluster
+    instanceStorage: 20
+    instanceType: mysql.x4.medium.2c
+    zoneId: cn-beijing-l
+    zoneIdSlaveA: cn-beijing-l
+    monitoringPeriod: "60"
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbinstanceendpointaddress
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    securityGroupName: crossplane-example
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbinstanceendpointaddress
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 172.16.0.0/16
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbinstanceendpointaddress
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 172.16.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: crossplane-example
+    zoneId: cn-beijing-l
