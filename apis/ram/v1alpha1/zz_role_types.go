@@ -21,17 +21,11 @@ type RoleInitParameters struct {
 	// The description of the RAM role.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Field document has been deprecated from provider version 1.252.0. New field assume_role_policy_document instead.
-	Document *string `json:"document,omitempty" tf:"document,omitempty"`
-
 	// Specifies whether to force delete the Role. Default value: false. Valid values:
 	Force *bool `json:"force,omitempty" tf:"force,omitempty"`
 
 	// The maximum session time of the RAM role. Default value: 3600. Valid values: 3600 to 43200.
 	MaxSessionDuration *float64 `json:"maxSessionDuration,omitempty" tf:"max_session_duration,omitempty"`
-
-	// Field name has been deprecated from provider version 1.252.0. New field role_name instead.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The name of the RAM role.
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
@@ -55,9 +49,6 @@ type RoleObservation struct {
 	// The description of the RAM role.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Field document has been deprecated from provider version 1.252.0. New field assume_role_policy_document instead.
-	Document *string `json:"document,omitempty" tf:"document,omitempty"`
-
 	// Specifies whether to force delete the Role. Default value: false. Valid values:
 	Force *bool `json:"force,omitempty" tf:"force,omitempty"`
 
@@ -66,9 +57,6 @@ type RoleObservation struct {
 
 	// The maximum session time of the RAM role. Default value: 3600. Valid values: 3600 to 43200.
 	MaxSessionDuration *float64 `json:"maxSessionDuration,omitempty" tf:"max_session_duration,omitempty"`
-
-	// Field name has been deprecated from provider version 1.252.0. New field role_name instead.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The ID of the RAM role.
 	RoleID *string `json:"roleId,omitempty" tf:"role_id,omitempty"`
@@ -91,10 +79,6 @@ type RoleParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// Field document has been deprecated from provider version 1.252.0. New field assume_role_policy_document instead.
-	// +kubebuilder:validation:Optional
-	Document *string `json:"document,omitempty" tf:"document,omitempty"`
-
 	// Specifies whether to force delete the Role. Default value: false. Valid values:
 	// +kubebuilder:validation:Optional
 	Force *bool `json:"force,omitempty" tf:"force,omitempty"`
@@ -102,10 +86,6 @@ type RoleParameters struct {
 	// The maximum session time of the RAM role. Default value: 3600. Valid values: 3600 to 43200.
 	// +kubebuilder:validation:Optional
 	MaxSessionDuration *float64 `json:"maxSessionDuration,omitempty" tf:"max_session_duration,omitempty"`
-
-	// Field name has been deprecated from provider version 1.252.0. New field role_name instead.
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The name of the RAM role.
 	// +kubebuilder:validation:Optional

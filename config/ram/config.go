@@ -33,6 +33,11 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "ram"
 		r.ShortGroup = "ram"
 
+		// Read returns both canonical fields and their deprecated aliases.
+		// Exclude the aliases so late initialization cannot add conflicting
+		// arguments to the configuration on the next refresh.
+		delete(r.TerraformResource.Schema, "name")
+		delete(r.TerraformResource.Schema, "document")
 		delete(r.TerraformResource.Schema, "ram_users")
 		delete(r.TerraformResource.Schema, "services")
 		delete(r.TerraformResource.Schema, "version")
