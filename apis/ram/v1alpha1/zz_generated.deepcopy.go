@@ -2989,11 +2989,6 @@ func (in *SecurityPreferenceInitParameters) DeepCopyInto(out *SecurityPreference
 		*out = new(bool)
 		**out = **in
 	}
-	if in.EnforceMfaForLogin != nil {
-		in, out := &in.EnforceMfaForLogin, &out.EnforceMfaForLogin
-		*out = new(bool)
-		**out = **in
-	}
 	if in.LoginNetworkMasks != nil {
 		in, out := &in.LoginNetworkMasks, &out.LoginNetworkMasks
 		*out = new(string)
@@ -3112,11 +3107,6 @@ func (in *SecurityPreferenceObservation) DeepCopyInto(out *SecurityPreferenceObs
 		*out = new(bool)
 		**out = **in
 	}
-	if in.EnforceMfaForLogin != nil {
-		in, out := &in.EnforceMfaForLogin, &out.EnforceMfaForLogin
-		*out = new(bool)
-		**out = **in
-	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -3205,11 +3195,6 @@ func (in *SecurityPreferenceParameters) DeepCopyInto(out *SecurityPreferencePara
 	}
 	if in.EnableSaveMfaTicket != nil {
 		in, out := &in.EnableSaveMfaTicket, &out.EnableSaveMfaTicket
-		*out = new(bool)
-		**out = **in
-	}
-	if in.EnforceMfaForLogin != nil {
-		in, out := &in.EnforceMfaForLogin, &out.EnforceMfaForLogin
 		*out = new(bool)
 		**out = **in
 	}

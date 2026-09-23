@@ -18,3 +18,17 @@ Deploy the updated provider package and its generated Role CRD together. After
 upgrading, change `description` and verify that reconciliation succeeds and the
 description is updated in RAM. Local regression tests cover parameter generation
 after adoption and repeated observations; they do not replace this cloud check.
+
+# RAM SecurityPreference field migration
+
+Use `mfaOperationForLogin` instead of `enforceMfaForLogin` in
+`spec.forProvider` and `spec.initProvider`. The Terraform provider no longer
+reads or writes `enforce_mfa_for_login`, so the deprecated field has also been
+removed from the Crossplane parameters and observations.
+
+Before upgrading, migrate manifests that use the old field and explicitly
+choose the intended login MFA policy with `mfaOperationForLogin`. The provider
+does not automatically translate the old boolean into a policy. Existing
+configurations using `mfaOperationForLogin` are unaffected. Deploy the updated
+provider package and SecurityPreference CRD together, then verify the effective
+MFA policy in RAM.

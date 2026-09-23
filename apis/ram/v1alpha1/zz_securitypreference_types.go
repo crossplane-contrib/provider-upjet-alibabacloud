@@ -33,10 +33,6 @@ type SecurityPreferenceInitParameters struct {
 	// Whether to save the verification status of a RAM user after logging in using multi-factor authentication. The validity period is 7 days. Value:
 	EnableSaveMfaTicket *bool `json:"enableSaveMfaTicket,omitempty" tf:"enable_save_mfa_ticket,omitempty"`
 
-	// Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
-	// Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
-	EnforceMfaForLogin *bool `json:"enforceMfaForLogin,omitempty" tf:"enforce_mfa_for_login,omitempty"`
-
 	// The login mask. The logon mask determines which IP addresses are affected by the logon console, including password logon and single sign-on (SSO), but API calls made using the access key are not affected.
 	LoginNetworkMasks *string `json:"loginNetworkMasks,omitempty" tf:"login_network_masks,omitempty"`
 
@@ -51,7 +47,7 @@ type SecurityPreferenceInitParameters struct {
 	// The maximum idle time (days) of the RAM user. If the RAM user has the console logon enabled, the console logon will be automatically disabled on the next day after the continuous logon time (excluding SSO logon time) reaches this time. Possible values are 90, 180, 365, 730. Defaults to 730.
 	MaxIdleDaysForUsers *float64 `json:"maxIdleDaysForUsers,omitempty" tf:"max_idle_days_for_users,omitempty"`
 
-	// MFA must be used during logon (replace the original EnforceMFAForLogin parameter, the original parameter is still valid, we recommend that you update it to a new parameter). Value:
+	// The login MFA policy for RAM users.
 	MfaOperationForLogin *string `json:"mfaOperationForLogin,omitempty" tf:"mfa_operation_for_login,omitempty"`
 
 	// Whether MFA is verified twice during abnormal logon. Value:
@@ -82,10 +78,6 @@ type SecurityPreferenceObservation struct {
 	// Whether to save the verification status of a RAM user after logging in using multi-factor authentication. The validity period is 7 days. Value:
 	EnableSaveMfaTicket *bool `json:"enableSaveMfaTicket,omitempty" tf:"enable_save_mfa_ticket,omitempty"`
 
-	// Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
-	// Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
-	EnforceMfaForLogin *bool `json:"enforceMfaForLogin,omitempty" tf:"enforce_mfa_for_login,omitempty"`
-
 	// The ID of the resource supplied above. The value is formulated as Alibaba Account ID.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -103,7 +95,7 @@ type SecurityPreferenceObservation struct {
 	// The maximum idle time (days) of the RAM user. If the RAM user has the console logon enabled, the console logon will be automatically disabled on the next day after the continuous logon time (excluding SSO logon time) reaches this time. Possible values are 90, 180, 365, 730. Defaults to 730.
 	MaxIdleDaysForUsers *float64 `json:"maxIdleDaysForUsers,omitempty" tf:"max_idle_days_for_users,omitempty"`
 
-	// MFA must be used during logon (replace the original EnforceMFAForLogin parameter, the original parameter is still valid, we recommend that you update it to a new parameter). Value:
+	// The login MFA policy for RAM users.
 	MfaOperationForLogin *string `json:"mfaOperationForLogin,omitempty" tf:"mfa_operation_for_login,omitempty"`
 
 	// Whether MFA is verified twice during abnormal logon. Value:
@@ -140,11 +132,6 @@ type SecurityPreferenceParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableSaveMfaTicket *bool `json:"enableSaveMfaTicket,omitempty" tf:"enable_save_mfa_ticket,omitempty"`
 
-	// Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
-	// Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
-	// +kubebuilder:validation:Optional
-	EnforceMfaForLogin *bool `json:"enforceMfaForLogin,omitempty" tf:"enforce_mfa_for_login,omitempty"`
-
 	// The login mask. The logon mask determines which IP addresses are affected by the logon console, including password logon and single sign-on (SSO), but API calls made using the access key are not affected.
 	// +kubebuilder:validation:Optional
 	LoginNetworkMasks *string `json:"loginNetworkMasks,omitempty" tf:"login_network_masks,omitempty"`
@@ -163,7 +150,7 @@ type SecurityPreferenceParameters struct {
 	// +kubebuilder:validation:Optional
 	MaxIdleDaysForUsers *float64 `json:"maxIdleDaysForUsers,omitempty" tf:"max_idle_days_for_users,omitempty"`
 
-	// MFA must be used during logon (replace the original EnforceMFAForLogin parameter, the original parameter is still valid, we recommend that you update it to a new parameter). Value:
+	// The login MFA policy for RAM users.
 	// +kubebuilder:validation:Optional
 	MfaOperationForLogin *string `json:"mfaOperationForLogin,omitempty" tf:"mfa_operation_for_login,omitempty"`
 
