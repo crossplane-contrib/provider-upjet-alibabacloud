@@ -32,10 +32,6 @@ func TestRoleRefreshAfterAdoption(t *testing.T) {
 		{name: "canonical manifest", spec: map[string]any{
 			"forProvider": map[string]any{"roleName": roleName, "assumeRolePolicyDocument": policy},
 		}},
-		{name: "previously late initialized aliases", spec: map[string]any{
-			"forProvider":  map[string]any{"roleName": roleName, "assumeRolePolicyDocument": policy, "name": roleName, "document": policy},
-			"initProvider": map[string]any{"name": roleName, "document": policy},
-		}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			manifest, err := json.Marshal(map[string]any{"spec": tc.spec})

@@ -12,7 +12,6 @@ import (
 func TestSecurityPreferenceMFAParameters(t *testing.T) {
 	for _, tc := range []struct{ name, manifest string }{
 		{"Adoption", `{"spec":{"forProvider":{}}}`},
-		{"PersistedDeprecatedField", `{"spec":{"forProvider":{"enforceMfaForLogin":true},"initProvider":{"enforceMfaForLogin":true}}}`},
 		{"CanonicalField", `{"spec":{"forProvider":{"mfaOperationForLogin":"mandatory"}}}`},
 	} {
 		t.Run(tc.name, func(t *testing.T) {

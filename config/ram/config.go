@@ -9,7 +9,12 @@ func Configure(p *config.Provider) {
 		// Use mfa_operation_for_login to configure the login MFA policy.
 		delete(r.TerraformResource.Schema, "enforce_mfa_for_login")
 		// Upstream documentation still claims the removed field is effective.
-		r.MetaResource.ArgumentDocs["mfa_operation_for_login"] = "The login MFA policy for RAM users."
+		if r.MetaResource == nil {
+			return
+		}
+		if _, ok := r.MetaResource.ArgumentDocs["mfa_operation_for_login"]; ok {
+			r.MetaResource.ArgumentDocs["mfa_operation_for_login"] = "The login MFA policy for RAM users."
+		}
 	})
 
 	p.AddResourceConfigurator("alicloud_ram_group", func(r *config.Resource) {
