@@ -6,7 +6,7 @@ require (
 	dario.cat/mergo v1.0.1
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/crossplane/crossplane-runtime v1.20.0-rc.0.0.20250509113121-26da25aff65f
-	github.com/crossplane/crossplane-tools v0.0.0-20260719165235-993a1680fb2c
+	github.com/crossplane/crossplane-tools v0.0.0-20250725062323-29da02534659
 	github.com/crossplane/upjet v1.9.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.30.0
 	github.com/pkg/errors v0.9.1
