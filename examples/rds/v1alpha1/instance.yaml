@@ -11,12 +11,16 @@ spec:
     region: cn-beijing
     engine: MySQL
     engineVersion: "8.0"
-    category: HighAvailability
+    # Basic edition general-purpose class with a cloud disk. RDS names the
+    # Basic classes "<...>.1" and the High-availability ones "<...>.2c"; there
+    # is no "mysql.n2.medium.1c", which the API reports as
+    # InvalidDBInstanceClass.NotFound.
+    category: Basic
     dbInstanceStorageType: cloud_essd
     instanceChargeType: Postpaid
     instanceName: crossplane-example
     instanceStorage: 20
-    instanceType: mysql.n2.medium.1c
+    instanceType: mysql.n2.medium.1
     zoneId: cn-beijing-l
     securityIps:
       - 10.0.0.0/8
