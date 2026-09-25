@@ -44,6 +44,13 @@ func Configure(p *config.Provider) {
 		r.References["security_policy_id"] = config.Reference{
 			TerraformName: "alicloud_alb_security_policy",
 		}
+		// The listener's default certificate. ALB expects the composed
+		// "<casCertId>-<region>" form here, same as the additional
+		// certificate attachment below.
+		r.References["certificates.certificate_id"] = config.Reference{
+			TerraformName: "alicloud_ssl_certificates_service_certificate",
+			Extractor:     common.PathAlbCertificateIdExtractor,
+		}
 		delete(r.TerraformResource.Schema, "acl_config")
 		delete(r.TerraformResource.Schema, "xforwarded_for_config")
 	})

@@ -29,8 +29,9 @@ metadata:
 spec:
   forProvider:
     certificates:
-    - certificateId: ${join("", [alicloud_ssl_certificates_service_certificate.default.0.id,
-        "-cn-hangzhou"])}
+    - certificateIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
     defaultActions:
     - forwardGroupConfig:
       - serverGroupTuples:

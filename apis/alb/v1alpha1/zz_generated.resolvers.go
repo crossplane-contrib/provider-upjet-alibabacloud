@@ -109,6 +109,24 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 	var rsp reference.ResolutionResponse
 	var err error
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Certificates); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Certificates[i3].CertificateID),
+			Extract:      common.AlbCertificateIdExtractor(),
+			Reference:    mg.Spec.ForProvider.Certificates[i3].CertificateIDRef,
+			Selector:     mg.Spec.ForProvider.Certificates[i3].CertificateIDSelector,
+			To: reference.To{
+				List:    &v1alpha1.CertificateList{},
+				Managed: &v1alpha1.Certificate{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Certificates[i3].CertificateID")
+		}
+		mg.Spec.ForProvider.Certificates[i3].CertificateID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Certificates[i3].CertificateIDRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.DefaultActions); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.DefaultActions[i3].ForwardGroupConfig); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.DefaultActions[i3].ForwardGroupConfig[i4].ServerGroupTuples); i5++ {
@@ -163,6 +181,24 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.SecurityPolicyID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SecurityPolicyIDRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Certificates); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Certificates[i3].CertificateID),
+			Extract:      common.AlbCertificateIdExtractor(),
+			Reference:    mg.Spec.InitProvider.Certificates[i3].CertificateIDRef,
+			Selector:     mg.Spec.InitProvider.Certificates[i3].CertificateIDSelector,
+			To: reference.To{
+				List:    &v1alpha1.CertificateList{},
+				Managed: &v1alpha1.Certificate{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Certificates[i3].CertificateID")
+		}
+		mg.Spec.InitProvider.Certificates[i3].CertificateID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Certificates[i3].CertificateIDRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.DefaultActions); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.DefaultActions[i3].ForwardGroupConfig); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.InitProvider.DefaultActions[i3].ForwardGroupConfig[i4].ServerGroupTuples); i5++ {

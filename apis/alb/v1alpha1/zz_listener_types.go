@@ -74,7 +74,17 @@ type CACertificatesParameters struct {
 type CertificatesInitParameters struct {
 
 	// The ID of the certificate. Currently, only server certificates are supported.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sslcertificatesservice/v1alpha1.Certificate
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.AlbCertificateIdExtractor()
 	CertificateID *string `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
+
+	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
+	// +kubebuilder:validation:Optional
+	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+
+	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
+	// +kubebuilder:validation:Optional
+	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
 }
 
 type CertificatesObservation struct {
@@ -86,8 +96,18 @@ type CertificatesObservation struct {
 type CertificatesParameters struct {
 
 	// The ID of the certificate. Currently, only server certificates are supported.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sslcertificatesservice/v1alpha1.Certificate
+	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.AlbCertificateIdExtractor()
 	// +kubebuilder:validation:Optional
 	CertificateID *string `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
+
+	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
+	// +kubebuilder:validation:Optional
+	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+
+	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
+	// +kubebuilder:validation:Optional
+	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
 }
 
 type DefaultActionsInitParameters struct {
