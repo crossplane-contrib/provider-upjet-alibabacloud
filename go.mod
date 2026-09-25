@@ -1,6 +1,6 @@
 module github.com/crossplane-contrib/provider-alibabacloud
 
-go 1.26.4
+go 1.26.8
 
 require (
 	dario.cat/mergo v1.0.1
