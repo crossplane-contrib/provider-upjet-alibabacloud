@@ -78,7 +78,6 @@ KIND_VERSION = v0.33.0
 # The up CLI was removed from the build submodule in favour of the Crossplane
 # CLI, which is what provider-upjet-aws and -gcp use for `xpkg batch`.
 CROSSPLANE_CLI_VERSION = v2.5.0
-#UPTEST_VERSION = v0.13.1
 UPTEST_VERSION = v2.2.0
 -include build/makelib/k8s_tools.mk
 
