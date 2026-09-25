@@ -98,11 +98,6 @@ spec:
                       user after logging in using multi-factor authentication. The
                       validity period is 7 days. Value:'
                     type: boolean
-                  enforceMfaForLogin:
-                    description: |-
-                      Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
-                      Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
-                    type: boolean
                   loginNetworkMasks:
                     description: The login mask. The logon mask determines which IP
                       addresses are affected by the logon console, including password
@@ -129,10 +124,7 @@ spec:
                       values are 90, 180, 365, 730. Defaults to 730.
                     type: number
                   mfaOperationForLogin:
-                    description: 'MFA must be used during logon (replace the original
-                      EnforceMFAForLogin parameter, the original parameter is still
-                      valid, we recommend that you update it to a new parameter).
-                      Value:'
+                    description: The login MFA policy for RAM users.
                     type: string
                   operationForRiskLogin:
                     description: 'Whether MFA is verified twice during abnormal logon.
@@ -183,11 +175,6 @@ spec:
                       user after logging in using multi-factor authentication. The
                       validity period is 7 days. Value:'
                     type: boolean
-                  enforceMfaForLogin:
-                    description: |-
-                      Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
-                      Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
-                    type: boolean
                   loginNetworkMasks:
                     description: The login mask. The logon mask determines which IP
                       addresses are affected by the logon console, including password
@@ -214,10 +201,7 @@ spec:
                       values are 90, 180, 365, 730. Defaults to 730.
                     type: number
                   mfaOperationForLogin:
-                    description: 'MFA must be used during logon (replace the original
-                      EnforceMFAForLogin parameter, the original parameter is still
-                      valid, we recommend that you update it to a new parameter).
-                      Value:'
+                    description: The login MFA policy for RAM users.
                     type: string
                   operationForRiskLogin:
                     description: 'Whether MFA is verified twice during abnormal logon.
@@ -427,11 +411,6 @@ spec:
                       user after logging in using multi-factor authentication. The
                       validity period is 7 days. Value:'
                     type: boolean
-                  enforceMfaForLogin:
-                    description: |-
-                      Field enforce_mfa_for_login has been deprecated from provider version 1.248.0. New field mfa_operation_for_login instead.
-                      Specifies whether MFA is required for all RAM users when they log on to the Alibaba Cloud Management Console by using usernames and passwords. Valid values: true and false
-                    type: boolean
                   id:
                     description: The ID of the resource supplied above. The value
                       is formulated as Alibaba Account ID.
@@ -462,10 +441,7 @@ spec:
                       values are 90, 180, 365, 730. Defaults to 730.
                     type: number
                   mfaOperationForLogin:
-                    description: 'MFA must be used during logon (replace the original
-                      EnforceMFAForLogin parameter, the original parameter is still
-                      valid, we recommend that you update it to a new parameter).
-                      Value:'
+                    description: The login MFA policy for RAM users.
                     type: string
                   operationForRiskLogin:
                     description: 'Whether MFA is verified twice during abnormal logon.
