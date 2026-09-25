@@ -15,7 +15,7 @@ spec:
     accountPasswordSecretRef:
       key: password
       name: sample-account-password
-      namespace: crossplane-system
+      namespace: upbound-system
     dbInstanceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -35,12 +35,12 @@ spec:
     region: cn-beijing
     engine: MySQL
     engineVersion: "8.0"
-    category: HighAvailability
+    category: Basic
     dbInstanceStorageType: cloud_essd
     instanceChargeType: Postpaid
     instanceName: crossplane-example
     instanceStorage: 20
-    instanceType: mysql.n2.medium.1c
+    instanceType: mysql.n2.medium.1
     zoneId: cn-beijing-l
     securityIps:
       - 10.0.0.0/8
@@ -92,7 +92,7 @@ metadata:
   annotations:
     meta.upbound.io/example-id: rds/v1alpha1/account
   name: sample-account-password
-  namespace: crossplane-system
+  namespace: upbound-system
 type: Opaque
 stringData:
   password: Crossplane_123!
