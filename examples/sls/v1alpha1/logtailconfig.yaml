@@ -68,5 +68,5 @@ metadata:
 spec:
   forProvider:
     region: cn-beijing
-    projectName: crossplane-example-logtailconfig-project
+    projectName: crossplane-example-logtailconfig-project-202609251900
     description: crossplane example log project
