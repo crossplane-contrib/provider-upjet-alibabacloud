@@ -111,5 +111,5 @@ metadata:
 spec:
   forProvider:
     region: cn-beijing
-    projectName: crossplane-example-project
+    projectName: crossplane-example-logtailattachment-project
     description: crossplane example log project

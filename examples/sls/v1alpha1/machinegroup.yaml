@@ -32,5 +32,5 @@ metadata:
 spec:
   forProvider:
     region: cn-beijing
-    projectName: crossplane-example-project
+    projectName: crossplane-example-machinegroup-project
     description: crossplane example log project
