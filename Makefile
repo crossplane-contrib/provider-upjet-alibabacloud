@@ -59,7 +59,7 @@ GO_REQUIRED_VERSION ?= 1.24.1
 # .golangci.yml is in the version "2" config format, which a v1 binary cannot
 # parse, leaving `make lint` (and therefore `make reviewable`) broken while CI
 # stayed green.
-GOLANGCILINT_VERSION ?= 2.12.2
+GOLANGCILINT_VERSION ?= 2.14.0
 UPTEST_LOCAL_VERSION = v0.13.0
 UPTEST_LOCAL_CHANNEL = stable
 KUSTOMIZE_VERSION = v5.3.0
