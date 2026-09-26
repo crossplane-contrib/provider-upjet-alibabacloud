@@ -9,7 +9,7 @@ metadata:
 spec:
   forProvider:
     region: cn-beijing
-    projectName: crossplane-example-project-202609251900
+    projectName: crossplane-example-project-${Rand.RFC1123Subdomain}
     description: crossplane example log project
     tags:
       Created: Crossplane

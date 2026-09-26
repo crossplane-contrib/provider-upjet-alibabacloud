@@ -68,5 +68,5 @@ metadata:
 spec:
   forProvider:
     region: cn-beijing
-    projectName: crossplane-example-logtailconfig-project-202609252245
+    projectName: crossplane-example-logtailconfig-project-${Rand.RFC1123Subdomain}
     description: crossplane example log project
