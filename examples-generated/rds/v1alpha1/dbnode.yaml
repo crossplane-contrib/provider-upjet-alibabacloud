@@ -1,0 +1,103 @@
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: DBNode
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbnode
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    classCodeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    dbInstanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    zoneIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbnode
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    dbInstanceStorageType: cloud_essd
+    engine: MySQL
+    engineVersion: "8.0"
+    instanceChargeType: Postpaid
+    instanceName: ${var.name}
+    instanceStorage: ${data.alicloud_db_instance_classes.default.instance_classes.0.storage_range.min}
+    instanceType: ${data.alicloud_db_instance_classes.default.instance_classes.0.instance_class}
+    monitoringPeriod: "60"
+    region: cn-beijing
+    securityGroupIdRefs:
+    - name: default
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneId: ${data.alicloud_db_zones.default.ids.0}
+    zoneIdSlaveA: ${data.alicloud_db_zones.default.ids.0}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbnode
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    name: ${var.name}
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbnode
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/16
+    region: cn-beijing
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/dbnode
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_db_zones.default.ids.0}

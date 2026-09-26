@@ -246,6 +246,7 @@ POLARDB=./examples/polardb/v1alpha1
 PRIVATELINK=./examples/privatelink/v1alpha1
 QUOTAS=./examples/quotas/v1alpha1
 RAM=./examples/ram/v1alpha1
+RDS=./examples/rds/v1alpha1
 TAIR=./examples/tait/v1alpha1
 VPC=./examples/vpc/v1alpha1
 UPTEST_EXAMPLE_LIST_ACK=$(ACK)/autoscalingconfig.yaml,$(ACK)/edgekubernetes.yaml,$(ACK)/kubernetesaddon.yaml,$(ACK)/kubernetesnodepool.yaml,$(ACK)/kubernetespermissions.yaml,$(ACK)/managedkubernetes.yaml,$(ACK)/serverlesskubernetes.yaml
