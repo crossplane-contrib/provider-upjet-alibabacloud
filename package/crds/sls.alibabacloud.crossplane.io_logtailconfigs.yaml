@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.5
-  name: servicesettings.oos.alibabacloud.crossplane.io
+  name: logtailconfigs.sls.alibabacloud.crossplane.io
 spec:
-  group: oos.alibabacloud.crossplane.io
+  group: sls.alibabacloud.crossplane.io
   names:
     categories:
     - crossplane
     - managed
     - alibabacloud
-    kind: ServiceSetting
-    listKind: ServiceSettingList
-    plural: servicesettings
-    singular: servicesetting
+    kind: LogtailConfig
+    listKind: LogtailConfigList
+    plural: logtailconfigs
+    singular: logtailconfig
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,8 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ServiceSetting is the Schema for the ServiceSettings API. Provides
-          a Alicloud OOS Service Setting resource.
+        description: LogtailConfig is the Schema for the LogtailConfigs API. Provides
+          a Alicloud logtail config resource.
         properties:
           apiVersion:
             description: |-
@@ -55,7 +55,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ServiceSettingSpec defines the desired state of ServiceSetting
+            description: LogtailConfigSpec defines the desired state of LogtailConfig
             properties:
               deletionPolicy:
                 default: Delete
@@ -73,12 +73,23 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  deliveryOssBucketName:
-                    description: 'The name of the OSS bucket. NOTE: When the delivery_oss_enabled
-                      is true, The delivery_oss_bucket_name is valid.'
+                  inputDetail:
+                    description: The logtail configure the required JSON files. (Refer
+                      to details)
                     type: string
-                  deliveryOssBucketNameRef:
-                    description: Reference to a Bucket in oss to populate deliveryOssBucketName.
+                  inputType:
+                    description: The input type. Currently only two types of files
+                      and plugin are supported.
+                    type: string
+                  logSample:
+                    description: The log sample of the Logtail configuration. The
+                      log size cannot exceed 1,000 bytes.
+                    type: string
+                  logstore:
+                    description: The log store name to the query index belongs.
+                    type: string
+                  logstoreRef:
+                    description: Reference to a Store in sls to populate logstore.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -111,8 +122,8 @@ spec:
                     required:
                     - name
                     type: object
-                  deliveryOssBucketNameSelector:
-                    description: Selector for a Bucket in oss to populate deliveryOssBucketName.
+                  logstoreSelector:
+                    description: Selector for a Store in sls to populate logstore.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -151,25 +162,18 @@ spec:
                             type: string
                         type: object
                     type: object
-                  deliveryOssEnabled:
-                    description: Is the recording function for the OSS delivery template
-                      enabled.
-                    type: boolean
-                  deliveryOssKeyPrefix:
-                    description: 'The Directory of the OSS bucket. NOTE: When the
-                      delivery_oss_enabled is true, The delivery_oss_bucket_name is
-                      valid.'
+                  name:
+                    description: The Logtail configuration name, which is unique in
+                      the same project.
                     type: string
-                  deliverySlsEnabled:
-                    description: Is the execution record function to SLS delivery
-                      Template turned on.
-                    type: boolean
-                  deliverySlsProjectName:
-                    description: 'The name of SLS  Project. NOTE: When the delivery_sls_enabled
-                      is true, The delivery_sls_project_name is valid.'
+                  outputType:
+                    description: The output type. Currently, only LogService is supported.
                     type: string
-                  deliverySlsProjectNameRef:
-                    description: Reference to a Project in sls to populate deliverySlsProjectName.
+                  project:
+                    description: The project name to the log store belongs.
+                    type: string
+                  projectRef:
+                    description: Reference to a Project in sls to populate project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -202,8 +206,8 @@ spec:
                     required:
                     - name
                     type: object
-                  deliverySlsProjectNameSelector:
-                    description: Selector for a Project in sls to populate deliverySlsProjectName.
+                  projectSelector:
+                    description: Selector for a Project in sls to populate project.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -260,12 +264,23 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  deliveryOssBucketName:
-                    description: 'The name of the OSS bucket. NOTE: When the delivery_oss_enabled
-                      is true, The delivery_oss_bucket_name is valid.'
+                  inputDetail:
+                    description: The logtail configure the required JSON files. (Refer
+                      to details)
                     type: string
-                  deliveryOssBucketNameRef:
-                    description: Reference to a Bucket in oss to populate deliveryOssBucketName.
+                  inputType:
+                    description: The input type. Currently only two types of files
+                      and plugin are supported.
+                    type: string
+                  logSample:
+                    description: The log sample of the Logtail configuration. The
+                      log size cannot exceed 1,000 bytes.
+                    type: string
+                  logstore:
+                    description: The log store name to the query index belongs.
+                    type: string
+                  logstoreRef:
+                    description: Reference to a Store in sls to populate logstore.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -298,8 +313,8 @@ spec:
                     required:
                     - name
                     type: object
-                  deliveryOssBucketNameSelector:
-                    description: Selector for a Bucket in oss to populate deliveryOssBucketName.
+                  logstoreSelector:
+                    description: Selector for a Store in sls to populate logstore.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -338,25 +353,18 @@ spec:
                             type: string
                         type: object
                     type: object
-                  deliveryOssEnabled:
-                    description: Is the recording function for the OSS delivery template
-                      enabled.
-                    type: boolean
-                  deliveryOssKeyPrefix:
-                    description: 'The Directory of the OSS bucket. NOTE: When the
-                      delivery_oss_enabled is true, The delivery_oss_bucket_name is
-                      valid.'
+                  name:
+                    description: The Logtail configuration name, which is unique in
+                      the same project.
                     type: string
-                  deliverySlsEnabled:
-                    description: Is the execution record function to SLS delivery
-                      Template turned on.
-                    type: boolean
-                  deliverySlsProjectName:
-                    description: 'The name of SLS  Project. NOTE: When the delivery_sls_enabled
-                      is true, The delivery_sls_project_name is valid.'
+                  outputType:
+                    description: The output type. Currently, only LogService is supported.
                     type: string
-                  deliverySlsProjectNameRef:
-                    description: Reference to a Project in sls to populate deliverySlsProjectName.
+                  project:
+                    description: The project name to the log store belongs.
+                    type: string
+                  projectRef:
+                    description: Reference to a Project in sls to populate project.
                     properties:
                       name:
                         description: Name of the referenced object.
@@ -389,8 +397,8 @@ spec:
                     required:
                     - name
                     type: object
-                  deliverySlsProjectNameSelector:
-                    description: Selector for a Project in sls to populate deliverySlsProjectName.
+                  projectSelector:
+                    description: Selector for a Project in sls to populate project.
                     properties:
                       matchControllerRef:
                         description: |-
@@ -597,33 +605,59 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.inputDetail is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.inputDetail)
+                || (has(self.initProvider) && has(self.initProvider.inputDetail))'
+            - message: spec.forProvider.inputType is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.inputType)
+                || (has(self.initProvider) && has(self.initProvider.inputType))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.outputType is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.outputType)
+                || (has(self.initProvider) && has(self.initProvider.outputType))'
           status:
-            description: ServiceSettingStatus defines the observed state of ServiceSetting.
+            description: LogtailConfigStatus defines the observed state of LogtailConfig.
             properties:
               atProvider:
                 properties:
-                  deliveryOssBucketName:
-                    description: 'The name of the OSS bucket. NOTE: When the delivery_oss_enabled
-                      is true, The delivery_oss_bucket_name is valid.'
-                    type: string
-                  deliveryOssEnabled:
-                    description: Is the recording function for the OSS delivery template
-                      enabled.
-                    type: boolean
-                  deliveryOssKeyPrefix:
-                    description: 'The Directory of the OSS bucket. NOTE: When the
-                      delivery_oss_enabled is true, The delivery_oss_bucket_name is
-                      valid.'
-                    type: string
-                  deliverySlsEnabled:
-                    description: Is the execution record function to SLS delivery
-                      Template turned on.
-                    type: boolean
-                  deliverySlsProjectName:
-                    description: 'The name of SLS  Project. NOTE: When the delivery_sls_enabled
-                      is true, The delivery_sls_project_name is valid.'
-                    type: string
                   id:
+                    description: The ID of the log store index. It formats of <project>:<logstore>:<config_name>.
+                    type: string
+                  inputDetail:
+                    description: The logtail configure the required JSON files. (Refer
+                      to details)
+                    type: string
+                  inputType:
+                    description: The input type. Currently only two types of files
+                      and plugin are supported.
+                    type: string
+                  lastModifyTime:
+                    description: (Computed) This parameter is auto generated by server,
+                      please do not fill in.
+                    type: string
+                  logSample:
+                    description: The log sample of the Logtail configuration. The
+                      log size cannot exceed 1,000 bytes.
+                    type: string
+                  logstore:
+                    description: The log store name to the query index belongs.
+                    type: string
+                  name:
+                    description: The Logtail configuration name, which is unique in
+                      the same project.
+                    type: string
+                  outputType:
+                    description: The output type. Currently, only LogService is supported.
+                    type: string
+                  project:
+                    description: The project name to the log store belongs.
                     type: string
                 type: object
               conditions:
