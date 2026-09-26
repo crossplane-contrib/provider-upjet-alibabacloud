@@ -44,6 +44,13 @@ func Configure(p *config.Provider) {
 		r.References["security_policy_id"] = config.Reference{
 			TerraformName: "alicloud_alb_security_policy",
 		}
+		// The listener's default certificate. ALB expects the composed
+		// "<casCertId>-<region>" form here, same as the additional
+		// certificate attachment below.
+		r.References["certificates.certificate_id"] = config.Reference{
+			TerraformName: "alicloud_ssl_certificates_service_certificate",
+			Extractor:     common.PathAlbCertificateIdExtractor,
+		}
 		delete(r.TerraformResource.Schema, "acl_config")
 		delete(r.TerraformResource.Schema, "xforwarded_for_config")
 	})
@@ -110,6 +117,19 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("alicloud_alb_rule", func(r *config.Resource) {
 		r.ShortGroup = string(common.ALB)
 		r.Kind = "Rule"
+		r.References["listener_id"] = config.Reference{
+			TerraformName: "alicloud_alb_listener",
+		}
+	})
+	p.AddResourceConfigurator("alicloud_alb_listener_additional_certificate_attachment", func(r *config.Resource) {
+		r.ShortGroup = string(common.ALB)
+		r.Kind = "ListenerAdditionalCertificateAttachment"
+		// ALB expects the composed "<casCertId>-<region>" form here, not the
+		// bare certificate id that the Certificate resource reports.
+		r.References["certificate_id"] = config.Reference{
+			TerraformName: "alicloud_ssl_certificates_service_certificate",
+			Extractor:     common.PathAlbCertificateIdExtractor,
+		}
 		r.References["listener_id"] = config.Reference{
 			TerraformName: "alicloud_alb_listener",
 		}

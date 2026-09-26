@@ -25,6 +25,7 @@ import (
 	healthchecktemplate "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/healthchecktemplate"
 	listener "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/listener"
 	listeneraclattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/listeneraclattachment"
+	listeneradditionalcertificateattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/listeneradditionalcertificateattachment"
 	loadbalancer "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/loadbalancer"
 	loadbalancersecuritygroupattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/loadbalancersecuritygroupattachment"
 	loadbalancerzoneshiftedattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/loadbalancerzoneshiftedattachment"
@@ -198,6 +199,7 @@ import (
 	aclslb "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/slb/acl"
 	listenerslb "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/slb/listener"
 	loadbalancerslb "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/slb/loadbalancer"
+	certificate "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/sslcertificatesservice/certificate"
 	accounttair "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/tair/account"
 	auditlogconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/tair/auditlogconfig"
 	connection "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/tair/connection"
@@ -228,6 +230,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		healthchecktemplate.Setup,
 		listener.Setup,
 		listeneraclattachment.Setup,
+		listeneradditionalcertificateattachment.Setup,
 		loadbalancer.Setup,
 		loadbalancersecuritygroupattachment.Setup,
 		loadbalancerzoneshiftedattachment.Setup,
@@ -401,6 +404,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		aclslb.Setup,
 		listenerslb.Setup,
 		loadbalancerslb.Setup,
+		certificate.Setup,
 		accounttair.Setup,
 		auditlogconfig.Setup,
 		connection.Setup,
