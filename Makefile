@@ -239,6 +239,7 @@ CDN=./examples/cdn/v1alpha1
 CR=./examples/cr/v1alpha1
 ECS=./examples/ecs/v1alpha1
 KMS=./examples/kms/v1alpha1
+NLB=./examples/nlb/v1alpha1
 MESSAGESERVICE=./examples/messageservice/v1alpha1
 OOS=./examples/oos/v1alpha1
 OSS=./examples/oss/v1alpha1
