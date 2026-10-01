@@ -237,6 +237,25 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_ram_user_group_attachment":   config.IdentifierFromProvider,
 	"alicloud_ram_user_policy_attachment":  config.IdentifierFromProvider,
 
+	// RDS
+	"alicloud_db_backup_policy":                   config.IdentifierFromProvider,
+	"alicloud_db_connection":                      config.IdentifierFromProvider,
+	"alicloud_db_database":                        config.IdentifierFromProvider,
+	"alicloud_db_instance":                        config.IdentifierFromProvider,
+	"alicloud_db_read_write_splitting_connection": config.IdentifierFromProvider,
+	"alicloud_db_readonly_instance":               config.IdentifierFromProvider,
+	"alicloud_rds_account":                        config.IdentifierFromProvider,
+	"alicloud_rds_backup":                         config.IdentifierFromProvider,
+	"alicloud_rds_db_instance_endpoint":           config.IdentifierFromProvider,
+	"alicloud_rds_db_instance_endpoint_address":   config.IdentifierFromProvider,
+	"alicloud_rds_db_node":                        config.IdentifierFromProvider,
+	"alicloud_rds_db_proxy":                       config.IdentifierFromProvider,
+	"alicloud_rds_db_proxy_public":                config.IdentifierFromProvider,
+	"alicloud_rds_instance_cross_backup_policy":   config.IdentifierFromProvider,
+	"alicloud_rds_parameter_group":                config.IdentifierFromProvider,
+	"alicloud_rds_service_linked_role":            config.IdentifierFromProvider,
+	"alicloud_rds_whitelist_template":             config.IdentifierFromProvider,
+
 	// SLB
 	"alicloud_slb_acl":           config.IdentifierFromProvider,
 	"alicloud_slb_load_balancer": config.IdentifierFromProvider,

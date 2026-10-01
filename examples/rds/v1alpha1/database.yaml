@@ -1,0 +1,80 @@
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: Database
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/database
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    characterSet: utf8mb4
+    dataBaseName: crossplane_example
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/database
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    engine: MySQL
+    engineVersion: "8.0"
+    category: Basic
+    dbInstanceStorageType: cloud_essd
+    instanceChargeType: Postpaid
+    instanceName: crossplane-example
+    instanceStorage: 20
+    instanceType: mysql.n2.medium.1
+    zoneId: cn-beijing-l
+    securityIps:
+      - 10.0.0.0/8
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/database
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 172.16.0.0/16
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/database
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 172.16.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: crossplane-example
+    zoneId: cn-beijing-l

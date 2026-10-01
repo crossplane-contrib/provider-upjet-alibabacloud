@@ -1,0 +1,20 @@
+apiVersion: rds.alibabacloud.crossplane.io/v1alpha1
+kind: ParameterGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/parametergroup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    engine: mysql
+    engineVersion: "5.7"
+    paramDetail:
+    - paramName: back_log
+      paramValue: "4000"
+    - paramName: wait_timeout
+      paramValue: "86460"
+    parameterGroupDesc: ${var.name}
+    parameterGroupName: ${var.name}
+    region: cn-beijing
