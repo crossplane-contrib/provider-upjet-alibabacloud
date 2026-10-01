@@ -8,8 +8,9 @@ package v1alpha1
 
 import (
 	"context"
-	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1"
-	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1"
+	v1alpha12 "github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/sslcertificatesservice/v1alpha1"
+	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	resource "github.com/crossplane/upjet/pkg/resource"
@@ -108,6 +109,24 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 	var rsp reference.ResolutionResponse
 	var err error
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.Certificates); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Certificates[i3].CertificateID),
+			Extract:      common.AlbCertificateIdExtractor(),
+			Reference:    mg.Spec.ForProvider.Certificates[i3].CertificateIDRef,
+			Selector:     mg.Spec.ForProvider.Certificates[i3].CertificateIDSelector,
+			To: reference.To{
+				List:    &v1alpha1.CertificateList{},
+				Managed: &v1alpha1.Certificate{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Certificates[i3].CertificateID")
+		}
+		mg.Spec.ForProvider.Certificates[i3].CertificateID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.Certificates[i3].CertificateIDRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.ForProvider.DefaultActions); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.DefaultActions[i3].ForwardGroupConfig); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.ForProvider.DefaultActions[i3].ForwardGroupConfig[i4].ServerGroupTuples); i5++ {
@@ -162,6 +181,24 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mg.Spec.ForProvider.SecurityPolicyID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SecurityPolicyIDRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.Certificates); i3++ {
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Certificates[i3].CertificateID),
+			Extract:      common.AlbCertificateIdExtractor(),
+			Reference:    mg.Spec.InitProvider.Certificates[i3].CertificateIDRef,
+			Selector:     mg.Spec.InitProvider.Certificates[i3].CertificateIDSelector,
+			To: reference.To{
+				List:    &v1alpha1.CertificateList{},
+				Managed: &v1alpha1.Certificate{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Certificates[i3].CertificateID")
+		}
+		mg.Spec.InitProvider.Certificates[i3].CertificateID = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.Certificates[i3].CertificateIDRef = rsp.ResolvedReference
+
+	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.DefaultActions); i3++ {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.DefaultActions[i3].ForwardGroupConfig); i4++ {
 			for i5 := 0; i5 < len(mg.Spec.InitProvider.DefaultActions[i3].ForwardGroupConfig[i4].ServerGroupTuples); i5++ {
@@ -293,6 +330,80 @@ func (mg *ListenerAclAttachment) ResolveReferences(ctx context.Context, c client
 	return nil
 }
 
+// ResolveReferences of this ListenerAdditionalCertificateAttachment.
+func (mg *ListenerAdditionalCertificateAttachment) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CertificateID),
+		Extract:      common.AlbCertificateIdExtractor(),
+		Reference:    mg.Spec.ForProvider.CertificateIDRef,
+		Selector:     mg.Spec.ForProvider.CertificateIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CertificateList{},
+			Managed: &v1alpha1.Certificate{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.CertificateID")
+	}
+	mg.Spec.ForProvider.CertificateID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CertificateIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ListenerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.ForProvider.ListenerIDRef,
+		Selector:     mg.Spec.ForProvider.ListenerIDSelector,
+		To: reference.To{
+			List:    &ListenerList{},
+			Managed: &Listener{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ListenerID")
+	}
+	mg.Spec.ForProvider.ListenerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ListenerIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateID),
+		Extract:      common.AlbCertificateIdExtractor(),
+		Reference:    mg.Spec.InitProvider.CertificateIDRef,
+		Selector:     mg.Spec.InitProvider.CertificateIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.CertificateList{},
+			Managed: &v1alpha1.Certificate{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CertificateID")
+	}
+	mg.Spec.InitProvider.CertificateID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CertificateIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ListenerID),
+		Extract:      reference.ExternalName(),
+		Reference:    mg.Spec.InitProvider.ListenerIDRef,
+		Selector:     mg.Spec.InitProvider.ListenerIDSelector,
+		To: reference.To{
+			List:    &ListenerList{},
+			Managed: &Listener{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ListenerID")
+	}
+	mg.Spec.InitProvider.ListenerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ListenerIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this LoadBalancer.
 func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -306,8 +417,8 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.VPCList{},
-			Managed: &v1alpha1.VPC{},
+			List:    &v1alpha11.VPCList{},
+			Managed: &v1alpha11.VPC{},
 		},
 	})
 	if err != nil {
@@ -323,8 +434,8 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 			Reference:    mg.Spec.ForProvider.ZoneMappings[i3].VswitchIDRef,
 			Selector:     mg.Spec.ForProvider.ZoneMappings[i3].VswitchIDSelector,
 			To: reference.To{
-				List:    &v1alpha1.VswitchList{},
-				Managed: &v1alpha1.Vswitch{},
+				List:    &v1alpha11.VswitchList{},
+				Managed: &v1alpha11.Vswitch{},
 			},
 		})
 		if err != nil {
@@ -341,8 +452,8 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 			Reference:    mg.Spec.ForProvider.ZoneMappings[i3].ZoneIDRef,
 			Selector:     mg.Spec.ForProvider.ZoneMappings[i3].ZoneIDSelector,
 			To: reference.To{
-				List:    &v1alpha1.VswitchList{},
-				Managed: &v1alpha1.Vswitch{},
+				List:    &v1alpha11.VswitchList{},
+				Managed: &v1alpha11.Vswitch{},
 			},
 		})
 		if err != nil {
@@ -358,8 +469,8 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.VPCList{},
-			Managed: &v1alpha1.VPC{},
+			List:    &v1alpha11.VPCList{},
+			Managed: &v1alpha11.VPC{},
 		},
 	})
 	if err != nil {
@@ -375,8 +486,8 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 			Reference:    mg.Spec.InitProvider.ZoneMappings[i3].VswitchIDRef,
 			Selector:     mg.Spec.InitProvider.ZoneMappings[i3].VswitchIDSelector,
 			To: reference.To{
-				List:    &v1alpha1.VswitchList{},
-				Managed: &v1alpha1.Vswitch{},
+				List:    &v1alpha11.VswitchList{},
+				Managed: &v1alpha11.Vswitch{},
 			},
 		})
 		if err != nil {
@@ -393,8 +504,8 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 			Reference:    mg.Spec.InitProvider.ZoneMappings[i3].ZoneIDRef,
 			Selector:     mg.Spec.InitProvider.ZoneMappings[i3].ZoneIDSelector,
 			To: reference.To{
-				List:    &v1alpha1.VswitchList{},
-				Managed: &v1alpha1.Vswitch{},
+				List:    &v1alpha11.VswitchList{},
+				Managed: &v1alpha11.Vswitch{},
 			},
 		})
 		if err != nil {
@@ -437,8 +548,8 @@ func (mg *LoadBalancerSecurityGroupAttachment) ResolveReferences(ctx context.Con
 		Reference:    mg.Spec.ForProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.SecurityGroupList{},
-			Managed: &v1alpha11.SecurityGroup{},
+			List:    &v1alpha12.SecurityGroupList{},
+			Managed: &v1alpha12.SecurityGroup{},
 		},
 	})
 	if err != nil {
@@ -469,8 +580,8 @@ func (mg *LoadBalancerSecurityGroupAttachment) ResolveReferences(ctx context.Con
 		Reference:    mg.Spec.InitProvider.SecurityGroupIDRef,
 		Selector:     mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
-			List:    &v1alpha11.SecurityGroupList{},
-			Managed: &v1alpha11.SecurityGroup{},
+			List:    &v1alpha12.SecurityGroupList{},
+			Managed: &v1alpha12.SecurityGroup{},
 		},
 	})
 	if err != nil {
@@ -511,8 +622,8 @@ func (mg *LoadBalancerZoneShiftedAttachment) ResolveReferences(ctx context.Conte
 		Reference:    mg.Spec.ForProvider.VswitchIDRef,
 		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
@@ -527,8 +638,8 @@ func (mg *LoadBalancerZoneShiftedAttachment) ResolveReferences(ctx context.Conte
 		Reference:    mg.Spec.ForProvider.ZoneIDRef,
 		Selector:     mg.Spec.ForProvider.ZoneIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
@@ -559,8 +670,8 @@ func (mg *LoadBalancerZoneShiftedAttachment) ResolveReferences(ctx context.Conte
 		Reference:    mg.Spec.InitProvider.VswitchIDRef,
 		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
@@ -575,8 +686,8 @@ func (mg *LoadBalancerZoneShiftedAttachment) ResolveReferences(ctx context.Conte
 		Reference:    mg.Spec.InitProvider.ZoneIDRef,
 		Selector:     mg.Spec.InitProvider.ZoneIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.VswitchList{},
-			Managed: &v1alpha1.Vswitch{},
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
 		},
 	})
 	if err != nil {
@@ -689,8 +800,8 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 			Reference:    mg.Spec.ForProvider.Servers[i3].ServerIDRef,
 			Selector:     mg.Spec.ForProvider.Servers[i3].ServerIDSelector,
 			To: reference.To{
-				List:    &v1alpha11.InstanceList{},
-				Managed: &v1alpha11.Instance{},
+				List:    &v1alpha12.InstanceList{},
+				Managed: &v1alpha12.Instance{},
 			},
 		})
 		if err != nil {
@@ -707,8 +818,8 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 			Reference:    mg.Spec.ForProvider.Servers[i3].ServerIPRef,
 			Selector:     mg.Spec.ForProvider.Servers[i3].ServerIPSelector,
 			To: reference.To{
-				List:    &v1alpha11.InstanceList{},
-				Managed: &v1alpha11.Instance{},
+				List:    &v1alpha12.InstanceList{},
+				Managed: &v1alpha12.Instance{},
 			},
 		})
 		if err != nil {
@@ -724,8 +835,8 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.VPCList{},
-			Managed: &v1alpha1.VPC{},
+			List:    &v1alpha11.VPCList{},
+			Managed: &v1alpha11.VPC{},
 		},
 	})
 	if err != nil {
@@ -741,8 +852,8 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 			Reference:    mg.Spec.InitProvider.Servers[i3].ServerIDRef,
 			Selector:     mg.Spec.InitProvider.Servers[i3].ServerIDSelector,
 			To: reference.To{
-				List:    &v1alpha11.InstanceList{},
-				Managed: &v1alpha11.Instance{},
+				List:    &v1alpha12.InstanceList{},
+				Managed: &v1alpha12.Instance{},
 			},
 		})
 		if err != nil {
@@ -759,8 +870,8 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 			Reference:    mg.Spec.InitProvider.Servers[i3].ServerIPRef,
 			Selector:     mg.Spec.InitProvider.Servers[i3].ServerIPSelector,
 			To: reference.To{
-				List:    &v1alpha11.InstanceList{},
-				Managed: &v1alpha11.Instance{},
+				List:    &v1alpha12.InstanceList{},
+				Managed: &v1alpha12.Instance{},
 			},
 		})
 		if err != nil {
@@ -776,8 +887,8 @@ func (mg *ServerGroup) ResolveReferences(ctx context.Context, c client.Reader) e
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
-			List:    &v1alpha1.VPCList{},
-			Managed: &v1alpha1.VPC{},
+			List:    &v1alpha11.VPCList{},
+			Managed: &v1alpha11.VPC{},
 		},
 	})
 	if err != nil {

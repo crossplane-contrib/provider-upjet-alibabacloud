@@ -32,6 +32,7 @@ const (
 	PathFcv3FunctionVersionFunctionNameExtractor = SelfPackagePath + ".Fcv3FunctionVersionFunctionNameExtractor()"
 	PathFcv3LayerVersionArnExtractor             = SelfPackagePath + ".Fcv3LayerVersionArnExtractor()"
 	PathVSwitchZoneIdExtractor                   = SelfPackagePath + ".VSwitchZoneIdExtractor()"
+	PathAlbCertificateIdExtractor                = SelfPackagePath + ".AlbCertificateIdExtractor()"
 	PathCrEeInstanceVPCDomainExtractor           = SelfPackagePath + ".CrEeInstanceVPCDomainExtractor()"
 	PathCrEeInstanceOssStorageDomainExtractor    = SelfPackagePath + ".CrEeInstanceOssStorageDomainExtractor()"
 	PathAliKafkaSaslUserUsernameExtractor        = SelfPackagePath + ".AliKafkaSaslUserUsernameExtractor()"
@@ -325,5 +326,31 @@ func AliKafkaSaslUserUsernameExtractor() reference.ExtractValueFn {
 			return ""
 		}
 		return r
+	}
+}
+
+// AlbCertificateIdExtractor composes the certificate identifier that ALB
+// expects ("<casCertId>-<region>") from a certificate resource, i.e. it joins
+// "status.atProvider.id" with "spec.forProvider.region".
+//
+// When the referenced certificate does not pin a region it falls back to the
+// bare identifier: the region then comes from the ProviderConfig, which is not
+// visible from here. In that case set "region" on the referenced certificate,
+// or supply "certificateId" literally.
+func AlbCertificateIdExtractor() reference.ExtractValueFn {
+	return func(mg xpresource.Managed) string {
+		paved, err := fieldpath.PaveObject(mg)
+		if err != nil {
+			return ""
+		}
+		id, err := paved.GetString("status.atProvider.id")
+		if err != nil || id == "" {
+			return ""
+		}
+		region, err := paved.GetString("spec.forProvider.region")
+		if err != nil || region == "" {
+			return id
+		}
+		return id + "-" + region
 	}
 }

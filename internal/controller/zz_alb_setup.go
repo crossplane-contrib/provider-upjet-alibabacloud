@@ -15,6 +15,7 @@ import (
 	healthchecktemplate "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/healthchecktemplate"
 	listener "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/listener"
 	listeneraclattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/listeneraclattachment"
+	listeneradditionalcertificateattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/listeneradditionalcertificateattachment"
 	loadbalancer "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/loadbalancer"
 	loadbalancersecuritygroupattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/loadbalancersecuritygroupattachment"
 	loadbalancerzoneshiftedattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/alb/loadbalancerzoneshiftedattachment"
@@ -33,6 +34,7 @@ func Setup_alb(mgr ctrl.Manager, o controller.Options) error {
 		healthchecktemplate.Setup,
 		listener.Setup,
 		listeneraclattachment.Setup,
+		listeneradditionalcertificateattachment.Setup,
 		loadbalancer.Setup,
 		loadbalancersecuritygroupattachment.Setup,
 		loadbalancerzoneshiftedattachment.Setup,

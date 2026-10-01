@@ -53,6 +53,15 @@ func (l *ListenerAclAttachmentList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ListenerAdditionalCertificateAttachmentList.
+func (l *ListenerAdditionalCertificateAttachmentList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ListenerList.
 func (l *ListenerList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
