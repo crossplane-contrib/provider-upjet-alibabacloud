@@ -10,6 +10,7 @@ import (
 	"context"
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1"
 	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1"
+	v1alpha12 "github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1"
 	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
 	resource "github.com/crossplane/upjet/pkg/resource"
 	errors "github.com/pkg/errors"
@@ -208,6 +209,22 @@ func (mg *ServiceSetting) ResolveReferences(ctx context.Context, c client.Reader
 	mg.Spec.ForProvider.DeliveryOssBucketNameRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DeliverySlsProjectName),
+		Extract:      resource.ExtractParamPath("project_name", false),
+		Reference:    mg.Spec.ForProvider.DeliverySlsProjectNameRef,
+		Selector:     mg.Spec.ForProvider.DeliverySlsProjectNameSelector,
+		To: reference.To{
+			List:    &v1alpha12.ProjectList{},
+			Managed: &v1alpha12.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.DeliverySlsProjectName")
+	}
+	mg.Spec.ForProvider.DeliverySlsProjectName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DeliverySlsProjectNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DeliveryOssBucketName),
 		Extract:      resource.ExtractParamPath("bucket", false),
 		Reference:    mg.Spec.InitProvider.DeliveryOssBucketNameRef,
@@ -222,6 +239,22 @@ func (mg *ServiceSetting) ResolveReferences(ctx context.Context, c client.Reader
 	}
 	mg.Spec.InitProvider.DeliveryOssBucketName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.DeliveryOssBucketNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DeliverySlsProjectName),
+		Extract:      resource.ExtractParamPath("project_name", false),
+		Reference:    mg.Spec.InitProvider.DeliverySlsProjectNameRef,
+		Selector:     mg.Spec.InitProvider.DeliverySlsProjectNameSelector,
+		To: reference.To{
+			List:    &v1alpha12.ProjectList{},
+			Managed: &v1alpha12.Project{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DeliverySlsProjectName")
+	}
+	mg.Spec.InitProvider.DeliverySlsProjectName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DeliverySlsProjectNameRef = rsp.ResolvedReference
 
 	return nil
 }

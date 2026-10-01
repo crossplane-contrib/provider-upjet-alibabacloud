@@ -1,0 +1,63 @@
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: StoreIndex
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/storeindex
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    fieldSearch:
+    - enableAnalytics: true
+      name: terraform-example
+      token: " #$^*\r\n\t"
+      type: text
+    fullText:
+    - caseSensitive: true
+      token: " #$^*\r\n\t"
+    logstoreSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: cn-beijing
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/storeindex
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    description: terraform-example
+    projectName: terraform-example-${random_integer.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Store
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/storeindex
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    appendMeta: true
+    autoSplit: true
+    logstoreName: example-store
+    maxSplitShardCount: 60
+    projectNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    shardCount: 3

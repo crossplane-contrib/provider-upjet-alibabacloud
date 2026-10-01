@@ -10,6 +10,7 @@ import (
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/fcv3"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/slb"
+	"github.com/crossplane-contrib/provider-alibabacloud/config/sls"
 
 	"github.com/crossplane/upjet/pkg/registry/reference"
 
@@ -90,6 +91,7 @@ func GetProvider() *ujconfig.Provider {
 		quotas.Configure,
 		ram.Configure,
 		slb.Configure,
+		sls.Configure,
 		tair.Configure,
 		vpc.Configure,
 	} {

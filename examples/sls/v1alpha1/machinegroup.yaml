@@ -1,0 +1,36 @@
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: MachineGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/machinegroup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    name: crossplane-example-machine-group
+    identifyType: ip
+    identifyList:
+    - 10.0.0.1
+    - 10.0.0.2
+    topic: crossplane-example
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/machinegroup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    projectName: crossplane-example-machinegroup-project-${Rand.RFC1123Subdomain}
+    description: crossplane example log project

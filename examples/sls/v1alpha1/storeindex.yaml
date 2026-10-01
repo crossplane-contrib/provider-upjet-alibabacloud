@@ -1,0 +1,63 @@
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: StoreIndex
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/storeindex
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    logstoreSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    fullText:
+    - caseSensitive: false
+      token: ", '\";=()[]{}?@&<>/:\n\t\r"
+    fieldSearch:
+    - name: request_time
+      type: long
+      enableAnalytics: true
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Store
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/storeindex
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    logstoreName: crossplane-example-store
+    projectNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    shardCount: 2
+    autoSplit: true
+    maxSplitShardCount: 60
+    appendMeta: true
+    retentionPeriod: 30
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/storeindex
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    projectName: crossplane-example-storeindex-project-${Rand.RFC1123Subdomain}
+    description: crossplane example log project

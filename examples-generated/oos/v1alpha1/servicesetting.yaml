@@ -14,7 +14,24 @@ spec:
     deliveryOssEnabled: true
     deliveryOssKeyPrefix: path1/
     deliverySlsEnabled: true
-    deliverySlsProjectName: ${alicloud_log_project.default.project_name}
+    deliverySlsProjectNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/servicesetting
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    projectName: ${var.name}
     region: cn-beijing
 
 ---

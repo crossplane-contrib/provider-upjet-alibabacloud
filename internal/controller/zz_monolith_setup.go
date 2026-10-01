@@ -198,6 +198,12 @@ import (
 	aclslb "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/slb/acl"
 	listenerslb "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/slb/listener"
 	loadbalancerslb "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/slb/loadbalancer"
+	logtailattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/sls/logtailattachment"
+	logtailconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/sls/logtailconfig"
+	machinegroup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/sls/machinegroup"
+	project "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/sls/project"
+	store "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/sls/store"
+	storeindex "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/sls/storeindex"
 	accounttair "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/tair/account"
 	auditlogconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/tair/auditlogconfig"
 	connection "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/tair/connection"
@@ -401,6 +407,12 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		aclslb.Setup,
 		listenerslb.Setup,
 		loadbalancerslb.Setup,
+		logtailattachment.Setup,
+		logtailconfig.Setup,
+		machinegroup.Setup,
+		project.Setup,
+		store.Setup,
+		storeindex.Setup,
 		accounttair.Setup,
 		auditlogconfig.Setup,
 		connection.Setup,

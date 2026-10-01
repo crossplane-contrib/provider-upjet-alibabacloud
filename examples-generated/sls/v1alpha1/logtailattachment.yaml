@@ -1,0 +1,108 @@
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: LogtailAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/logtailattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    logtailConfigNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    machineGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    region: cn-beijing
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: MachineGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/logtailattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    identifyList:
+    - 10.0.0.1
+    - 10.0.0.2
+    identifyType: ip
+    name: terraform-example
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    topic: terraform
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/logtailattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    description: terraform-example
+    projectName: terraform-example-${random_integer.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Store
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/logtailattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    appendMeta: true
+    autoSplit: true
+    logstoreName: example-store
+    maxSplitShardCount: 60
+    projectNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    retentionPeriod: 3650
+    shardCount: 3
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: LogtailConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sls/v1alpha1/logtailattachment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    inputDetail: "  \t{\n\t\t\"logPath\": \"/logPath\",\n\t\t\"filePattern\": \"access.log\",\n\t\t\"logType\":
+      \"json_log\",\n\t\t\"topicFormat\": \"default\",\n\t\t\"discardUnmatch\": false,\n\t\t\"enableRawLog\":
+      true,\n\t\t\"fileEncoding\": \"gbk\",\n\t\t\"maxDepth\": 10\n\t}\n"
+    inputType: file
+    logstoreSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    name: terraform-example
+    outputType: LogService
+    projectSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
