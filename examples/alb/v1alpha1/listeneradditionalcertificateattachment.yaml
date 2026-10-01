@@ -42,7 +42,10 @@ spec:
       key: key
       name: crossplane-example-additional-key
       namespace: upbound-system
-    region: cn-beijing
+    # CAS stores certificates centrally in cn-hangzhou, and ALB resolves
+    # "<casCertId>-<region>" against where the certificate lives, not where the
+    # load balancer is.
+    region: cn-hangzhou
 
 ---
 
@@ -66,7 +69,10 @@ spec:
       key: key
       name: crossplane-example-default-key
       namespace: upbound-system
-    region: cn-beijing
+    # CAS stores certificates centrally in cn-hangzhou, and ALB resolves
+    # "<casCertId>-<region>" against where the certificate lives, not where the
+    # load balancer is.
+    region: cn-hangzhou
 
 ---
 
