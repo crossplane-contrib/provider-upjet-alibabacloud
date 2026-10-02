@@ -41,6 +41,18 @@ func Configure(p *config.Provider) {
 		delete(r.TerraformResource.Schema, "version")
 	})
 
+	p.AddResourceConfigurator("alicloud_ram_role_policy_attachment", func(r *config.Resource) {
+		// Upstream documentation at the pinned provider version still points
+		// this reference at the Role's deprecated "name", which the Role
+		// configurator below removes from the schema. Left alone, roleNameRef
+		// and roleNameSelector resolve to an empty value and the attachment
+		// never reconciles. Extract the canonical field instead.
+		r.References["role_name"] = config.Reference{
+			TerraformName: "alicloud_ram_role",
+			Extractor:     `github.com/crossplane/upjet/pkg/resource.ExtractParamPath("role_name",false)`,
+		}
+	})
+
 	p.AddResourceConfigurator("alicloud_ram_role", func(r *config.Resource) {
 		// We need to override the default group that upjet generated for
 		// this resource, which would be "ram"
