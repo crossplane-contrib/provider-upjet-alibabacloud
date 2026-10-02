@@ -952,6 +952,10 @@ spec:
                     description: Key-value map of resource tags.
                     type: object
                     x-kubernetes-map-type: granular
+                  usable:
+                    description: 'Indicates whether the image is available. Valid
+                      values:'
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.

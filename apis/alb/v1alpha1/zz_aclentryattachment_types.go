@@ -15,7 +15,7 @@ import (
 
 type AclEntryAttachmentInitParameters struct {
 
-	// The ID of the Acl.
+	// The ID of the ACL.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alb/v1alpha1.Acl
 	ACLID *string `json:"aclId,omitempty" tf:"acl_id,omitempty"`
 
@@ -27,34 +27,40 @@ type AclEntryAttachmentInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ACLIDSelector *v1.Selector `json:"aclIdSelector,omitempty" tf:"-"`
 
-	// The description of the entry.
+	// The description of the entry. Only valid when entry is set. The description must be 1 to 256 characters in length.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The CIDR blocks.
+	// One or more entry blocks. Exactly one of entry and entries must be specified. The order of the blocks is not significant. See entries below for details.
+	Entries []EntriesInitParameters `json:"entries,omitempty" tf:"entries,omitempty"`
+
+	// The CIDR block of the ACL entry. Exactly one of entry and entries must be specified. Field entry has been deprecated from provider version 1.292.0 and it will be removed in the future version. Please use the new field entries.
 	Entry *string `json:"entry,omitempty" tf:"entry,omitempty"`
 }
 
 type AclEntryAttachmentObservation struct {
 
-	// The ID of the Acl.
+	// The ID of the ACL.
 	ACLID *string `json:"aclId,omitempty" tf:"acl_id,omitempty"`
 
-	// The description of the entry.
+	// The description of the entry. Only valid when entry is set. The description must be 1 to 256 characters in length.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The CIDR blocks.
+	// One or more entry blocks. Exactly one of entry and entries must be specified. The order of the blocks is not significant. See entries below for details.
+	Entries []EntriesObservation `json:"entries,omitempty" tf:"entries,omitempty"`
+
+	// The CIDR block of the ACL entry. Exactly one of entry and entries must be specified. Field entry has been deprecated from provider version 1.292.0 and it will be removed in the future version. Please use the new field entries.
 	Entry *string `json:"entry,omitempty" tf:"entry,omitempty"`
 
-	// The ID of the resource. The value formats as <acl_id>:<entry>.
+	// The ID of the resource. The value formats as <acl_id>:<entry> when entry is set, or <acl_id> when entries is set.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The Status of the resource.
+	// The status of the resource. Only exported when entry is set. When entries is set, the status of each entry is exported in its entries block.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }
 
 type AclEntryAttachmentParameters struct {
 
-	// The ID of the Acl.
+	// The ID of the ACL.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alb/v1alpha1.Acl
 	// +kubebuilder:validation:Optional
 	ACLID *string `json:"aclId,omitempty" tf:"acl_id,omitempty"`
@@ -67,11 +73,15 @@ type AclEntryAttachmentParameters struct {
 	// +kubebuilder:validation:Optional
 	ACLIDSelector *v1.Selector `json:"aclIdSelector,omitempty" tf:"-"`
 
-	// The description of the entry.
+	// The description of the entry. Only valid when entry is set. The description must be 1 to 256 characters in length.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The CIDR blocks.
+	// One or more entry blocks. Exactly one of entry and entries must be specified. The order of the blocks is not significant. See entries below for details.
+	// +kubebuilder:validation:Optional
+	Entries []EntriesParameters `json:"entries,omitempty" tf:"entries,omitempty"`
+
+	// The CIDR block of the ACL entry. Exactly one of entry and entries must be specified. Field entry has been deprecated from provider version 1.292.0 and it will be removed in the future version. Please use the new field entries.
 	// +kubebuilder:validation:Optional
 	Entry *string `json:"entry,omitempty" tf:"entry,omitempty"`
 
@@ -79,6 +89,38 @@ type AclEntryAttachmentParameters struct {
 	// +upjet:crd:field:TFTag=-
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
+}
+
+type EntriesInitParameters struct {
+
+	// The description of the ACL entry. The description must be 1 to 256 characters in length.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The CIDR block of the ACL entry.
+	Entry *string `json:"entry,omitempty" tf:"entry,omitempty"`
+}
+
+type EntriesObservation struct {
+
+	// The description of the ACL entry. The description must be 1 to 256 characters in length.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The CIDR block of the ACL entry.
+	Entry *string `json:"entry,omitempty" tf:"entry,omitempty"`
+
+	// (Computed) The status of the ACL entry. Valid values: Adding, Available and Removing.
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+}
+
+type EntriesParameters struct {
+
+	// The description of the ACL entry. The description must be 1 to 256 characters in length.
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The CIDR block of the ACL entry.
+	// +kubebuilder:validation:Optional
+	Entry *string `json:"entry" tf:"entry,omitempty"`
 }
 
 // AclEntryAttachmentSpec defines the desired state of AclEntryAttachment
@@ -117,9 +159,8 @@ type AclEntryAttachmentStatus struct {
 type AclEntryAttachment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entry) || (has(self.initProvider) && has(self.initProvider.entry))",message="spec.forProvider.entry is a required parameter"
-	Spec   AclEntryAttachmentSpec   `json:"spec"`
-	Status AclEntryAttachmentStatus `json:"status,omitempty"`
+	Spec              AclEntryAttachmentSpec   `json:"spec"`
+	Status            AclEntryAttachmentStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -27,6 +27,10 @@ type TairInstanceInitParameters struct {
 	// This parameter is supported for specific new cluster instances. You can query the backup set ID by calling the DescribeClusterBackupList operation. If this parameter is supported, you can specify the backup set ID. In this case, you do not need to specify the BackupId parameter. If this parameter is not supported, set the BackupId parameter to the IDs of backup sets in all shards of the source instance, separated by commas (,).
 	ClusterBackupID *string `json:"clusterBackupId,omitempty" tf:"cluster_backup_id,omitempty"`
 
+	// The configuration of the Tair (Redis OSS-Compatible) instance. It is a map of Redis configuration parameters, such as maxmemory-policy and appendonly. Available parameters can refer to the latest docs Instance configurations table. This attribute is applied via the ModifyInstanceConfig API and only takes effect when the instance is in the running state, so it is recommended to set or update it after the instance is created.
+	// +mapType=granular
+	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
+
 	// The prefix of the endpoint the instance, which must consist of lowercase letters and numbers and start with a lowercase letter.
 	ConnectionStringPrefix *string `json:"connectionStringPrefix,omitempty" tf:"connection_string_prefix,omitempty"`
 
@@ -56,6 +60,12 @@ type TairInstanceInitParameters struct {
 
 	// Instance intranet bandwidth
 	IntranetBandwidth *float64 `json:"intranetBandwidth,omitempty" tf:"intranet_bandwidth,omitempty"`
+
+	// The end time of the maintenance window of the Tair instance. The time is in the HH:mmZ format (UTC). The interval between the start time and the end time must be at least 1 hour. Example: 06:00Z.
+	MaintainEndTime *string `json:"maintainEndTime,omitempty" tf:"maintain_end_time,omitempty"`
+
+	// The start time of the maintenance window of the Tair instance. The time is in the HH:mmZ format (UTC). Example: 02:00Z.
+	MaintainStartTime *string `json:"maintainStartTime,omitempty" tf:"maintain_start_time,omitempty"`
 
 	// The modification method when modifying the IP whitelist. The value includes Cover (default): overwrite the original whitelist; Append: Append the whitelist; Delete: Delete the whitelist.
 	ModifyMode *string `json:"modifyMode,omitempty" tf:"modify_mode,omitempty"`
@@ -121,7 +131,7 @@ type TairInstanceInitParameters struct {
 	// The ID of the secondary zone.This parameter is returned only if the instance is deployed in two zones.
 	SecondaryZoneID *string `json:"secondaryZoneId,omitempty" tf:"secondary_zone_id,omitempty"`
 
-	// Security group id
+	// Security group id. Multiple security group IDs can be bound at once by separating them with a comma (,); the order of the IDs is not significant and does not trigger a diff.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.IdExtractor()
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
@@ -215,6 +225,10 @@ type TairInstanceObservation struct {
 	// This parameter is supported for specific new cluster instances. You can query the backup set ID by calling the DescribeClusterBackupList operation. If this parameter is supported, you can specify the backup set ID. In this case, you do not need to specify the BackupId parameter. If this parameter is not supported, set the BackupId parameter to the IDs of backup sets in all shards of the source instance, separated by commas (,).
 	ClusterBackupID *string `json:"clusterBackupId,omitempty" tf:"cluster_backup_id,omitempty"`
 
+	// The configuration of the Tair (Redis OSS-Compatible) instance. It is a map of Redis configuration parameters, such as maxmemory-policy and appendonly. Available parameters can refer to the latest docs Instance configurations table. This attribute is applied via the ModifyInstanceConfig API and only takes effect when the instance is in the running state, so it is recommended to set or update it after the instance is created.
+	// +mapType=granular
+	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
+
 	// The internal endpoint of the instance.
 	ConnectionDomain *string `json:"connectionDomain,omitempty" tf:"connection_domain,omitempty"`
 
@@ -253,6 +267,12 @@ type TairInstanceObservation struct {
 
 	// Instance intranet bandwidth
 	IntranetBandwidth *float64 `json:"intranetBandwidth,omitempty" tf:"intranet_bandwidth,omitempty"`
+
+	// The end time of the maintenance window of the Tair instance. The time is in the HH:mmZ format (UTC). The interval between the start time and the end time must be at least 1 hour. Example: 06:00Z.
+	MaintainEndTime *string `json:"maintainEndTime,omitempty" tf:"maintain_end_time,omitempty"`
+
+	// The start time of the maintenance window of the Tair instance. The time is in the HH:mmZ format (UTC). Example: 02:00Z.
+	MaintainStartTime *string `json:"maintainStartTime,omitempty" tf:"maintain_start_time,omitempty"`
 
 	// The maximum number of connections supported by the instance.
 	MaxConnections *float64 `json:"maxConnections,omitempty" tf:"max_connections,omitempty"`
@@ -314,7 +334,7 @@ type TairInstanceObservation struct {
 	// The ID of the secondary zone.This parameter is returned only if the instance is deployed in two zones.
 	SecondaryZoneID *string `json:"secondaryZoneId,omitempty" tf:"secondary_zone_id,omitempty"`
 
-	// Security group id
+	// Security group id. Multiple security group IDs can be bound at once by separating them with a comma (,); the order of the IDs is not significant and does not trigger a diff.
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
 
 	// The name of the IP address whitelist. You cannot modify the whitelist that is generated by the system. If you do not specify this parameter, the default whitelist is modified by default.
@@ -385,6 +405,11 @@ type TairInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterBackupID *string `json:"clusterBackupId,omitempty" tf:"cluster_backup_id,omitempty"`
 
+	// The configuration of the Tair (Redis OSS-Compatible) instance. It is a map of Redis configuration parameters, such as maxmemory-policy and appendonly. Available parameters can refer to the latest docs Instance configurations table. This attribute is applied via the ModifyInstanceConfig API and only takes effect when the instance is in the running state, so it is recommended to set or update it after the instance is created.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Config map[string]*string `json:"config,omitempty" tf:"config,omitempty"`
+
 	// The prefix of the endpoint the instance, which must consist of lowercase letters and numbers and start with a lowercase letter.
 	// +kubebuilder:validation:Optional
 	ConnectionStringPrefix *string `json:"connectionStringPrefix,omitempty" tf:"connection_string_prefix,omitempty"`
@@ -424,6 +449,14 @@ type TairInstanceParameters struct {
 	// Instance intranet bandwidth
 	// +kubebuilder:validation:Optional
 	IntranetBandwidth *float64 `json:"intranetBandwidth,omitempty" tf:"intranet_bandwidth,omitempty"`
+
+	// The end time of the maintenance window of the Tair instance. The time is in the HH:mmZ format (UTC). The interval between the start time and the end time must be at least 1 hour. Example: 06:00Z.
+	// +kubebuilder:validation:Optional
+	MaintainEndTime *string `json:"maintainEndTime,omitempty" tf:"maintain_end_time,omitempty"`
+
+	// The start time of the maintenance window of the Tair instance. The time is in the HH:mmZ format (UTC). Example: 02:00Z.
+	// +kubebuilder:validation:Optional
+	MaintainStartTime *string `json:"maintainStartTime,omitempty" tf:"maintain_start_time,omitempty"`
 
 	// The modification method when modifying the IP whitelist. The value includes Cover (default): overwrite the original whitelist; Append: Append the whitelist; Delete: Delete the whitelist.
 	// +kubebuilder:validation:Optional
@@ -512,7 +545,7 @@ type TairInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	SecondaryZoneID *string `json:"secondaryZoneId,omitempty" tf:"secondary_zone_id,omitempty"`
 
-	// Security group id
+	// Security group id. Multiple security group IDs can be bound at once by separating them with a comma (,); the order of the IDs is not significant and does not trigger a diff.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.IdExtractor()
 	// +kubebuilder:validation:Optional

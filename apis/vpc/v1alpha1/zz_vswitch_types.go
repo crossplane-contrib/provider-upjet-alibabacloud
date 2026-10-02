@@ -15,10 +15,10 @@ import (
 
 type VswitchInitParameters struct {
 
-	// The IPv4 CIDR block of the VSwitch. NOTE: From version 1.233.0, if you do not set is_default, or set is_default to false, cidr_block is required.
+	// The IPv4 CIDR block of the VSwitch. The subnet mask must be 16 to 29 bits in length. NOTE: From version 1.233.0, if you do not set is_default, or set is_default to false, cidr_block is required.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
-	// The description of VSwitch.
+	// The description of VSwitch. The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Whether the IPv6 function is enabled in the switch. Value:
@@ -49,7 +49,7 @@ type VswitchInitParameters struct {
 	// The IPv6 CIDR block of the VPC. If the VPC has multiple IPv6 CIDR blocks, you can use this parameter to specify the IPv6 CIDR block range to which the VSwitch belongs. This parameter is used only for create and update operations.
 	VPCIPv6CidrBlock *string `json:"vpcIpv6CidrBlock,omitempty" tf:"vpc_ipv6_cidr_block,omitempty"`
 
-	// The name of the VSwitch.
+	// The name of the VSwitch. The name must be 1 to 128 characters in length, and cannot start with http:// or https://.
 	VswitchName *string `json:"vswitchName,omitempty" tf:"vswitch_name,omitempty"`
 
 	// The AZ for the VSwitch. Note: Required for a VPC VSwitch.
@@ -58,13 +58,13 @@ type VswitchInitParameters struct {
 
 type VswitchObservation struct {
 
-	// The IPv4 CIDR block of the VSwitch. NOTE: From version 1.233.0, if you do not set is_default, or set is_default to false, cidr_block is required.
+	// The IPv4 CIDR block of the VSwitch. The subnet mask must be 16 to 29 bits in length. NOTE: From version 1.233.0, if you do not set is_default, or set is_default to false, cidr_block is required.
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
 	// The creation time of the VSwitch.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// The description of VSwitch.
+	// The description of VSwitch. The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Whether the IPv6 function is enabled in the switch. Value:
@@ -95,7 +95,7 @@ type VswitchObservation struct {
 	// The IPv6 CIDR block of the VPC. If the VPC has multiple IPv6 CIDR blocks, you can use this parameter to specify the IPv6 CIDR block range to which the VSwitch belongs. This parameter is used only for create and update operations.
 	VPCIPv6CidrBlock *string `json:"vpcIpv6CidrBlock,omitempty" tf:"vpc_ipv6_cidr_block,omitempty"`
 
-	// The name of the VSwitch.
+	// The name of the VSwitch. The name must be 1 to 128 characters in length, and cannot start with http:// or https://.
 	VswitchName *string `json:"vswitchName,omitempty" tf:"vswitch_name,omitempty"`
 
 	// The AZ for the VSwitch. Note: Required for a VPC VSwitch.
@@ -104,11 +104,11 @@ type VswitchObservation struct {
 
 type VswitchParameters struct {
 
-	// The IPv4 CIDR block of the VSwitch. NOTE: From version 1.233.0, if you do not set is_default, or set is_default to false, cidr_block is required.
+	// The IPv4 CIDR block of the VSwitch. The subnet mask must be 16 to 29 bits in length. NOTE: From version 1.233.0, if you do not set is_default, or set is_default to false, cidr_block is required.
 	// +kubebuilder:validation:Optional
 	CidrBlock *string `json:"cidrBlock,omitempty" tf:"cidr_block,omitempty"`
 
-	// The description of VSwitch.
+	// The description of VSwitch. The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -151,7 +151,7 @@ type VswitchParameters struct {
 	// +kubebuilder:validation:Optional
 	VPCIPv6CidrBlock *string `json:"vpcIpv6CidrBlock,omitempty" tf:"vpc_ipv6_cidr_block,omitempty"`
 
-	// The name of the VSwitch.
+	// The name of the VSwitch. The name must be 1 to 128 characters in length, and cannot start with http:// or https://.
 	// +kubebuilder:validation:Optional
 	VswitchName *string `json:"vswitchName,omitempty" tf:"vswitch_name,omitempty"`
 

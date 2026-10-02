@@ -24,7 +24,7 @@ type SecurityGroupInitParameters struct {
 	// The ID of the resource group to which the security group belongs. NOTE: From version 1.115.0, resource_group_id can be modified.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// The name of the security group. The name must be 2 to 128 characters in length. The name must start with a letter and cannot start with http:// or https://. The name can contain Unicode characters under the Decimal Number category and the categories whose names contain Letter. The name can also contain colons (:), underscores (_), periods (.), and hyphens (-).
+	// The name of the security group. The name must be 2 to 128 characters in length. The name must start with a letter or a Chinese character and cannot start with http:// or https://. The name can contain Unicode characters under the Decimal Number category and the categories whose names contain Letter. The name can also contain colons (:), underscores (_), periods (.), and hyphens (-).
 	SecurityGroupName *string `json:"securityGroupName,omitempty" tf:"security_group_name,omitempty"`
 
 	// The type of the security group. Default value: normal. Valid values:
@@ -63,7 +63,7 @@ type SecurityGroupObservation struct {
 	// The ID of the resource group to which the security group belongs. NOTE: From version 1.115.0, resource_group_id can be modified.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// The name of the security group. The name must be 2 to 128 characters in length. The name must start with a letter and cannot start with http:// or https://. The name can contain Unicode characters under the Decimal Number category and the categories whose names contain Letter. The name can also contain colons (:), underscores (_), periods (.), and hyphens (-).
+	// The name of the security group. The name must be 2 to 128 characters in length. The name must start with a letter or a Chinese character and cannot start with http:// or https://. The name can contain Unicode characters under the Decimal Number category and the categories whose names contain Letter. The name can also contain colons (:), underscores (_), periods (.), and hyphens (-).
 	SecurityGroupName *string `json:"securityGroupName,omitempty" tf:"security_group_name,omitempty"`
 
 	// The type of the security group. Default value: normal. Valid values:
@@ -96,7 +96,7 @@ type SecurityGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
-	// The name of the security group. The name must be 2 to 128 characters in length. The name must start with a letter and cannot start with http:// or https://. The name can contain Unicode characters under the Decimal Number category and the categories whose names contain Letter. The name can also contain colons (:), underscores (_), periods (.), and hyphens (-).
+	// The name of the security group. The name must be 2 to 128 characters in length. The name must start with a letter or a Chinese character and cannot start with http:// or https://. The name can contain Unicode characters under the Decimal Number category and the categories whose names contain Letter. The name can also contain colons (:), underscores (_), periods (.), and hyphens (-).
 	// +kubebuilder:validation:Optional
 	SecurityGroupName *string `json:"securityGroupName,omitempty" tf:"security_group_name,omitempty"`
 

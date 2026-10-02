@@ -18,7 +18,7 @@ type EndpointACLPolicyInitParameters struct {
 	// The description of the entry.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The type of endpoint. Valid values: internet.
+	// The type of endpoint. Valid values: internet, Internet. The value is normalized to lowercase internet in the state and the resource ID.
 	EndpointType *string `json:"endpointType,omitempty" tf:"endpoint_type,omitempty"`
 
 	// The IP segment that allowed to access.
@@ -46,7 +46,7 @@ type EndpointACLPolicyObservation struct {
 	// The description of the entry.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The type of endpoint. Valid values: internet.
+	// The type of endpoint. Valid values: internet, Internet. The value is normalized to lowercase internet in the state and the resource ID.
 	EndpointType *string `json:"endpointType,omitempty" tf:"endpoint_type,omitempty"`
 
 	// The IP segment that allowed to access.
@@ -68,7 +68,7 @@ type EndpointACLPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The type of endpoint. Valid values: internet.
+	// The type of endpoint. Valid values: internet, Internet. The value is normalized to lowercase internet in the state and the resource ID.
 	// +kubebuilder:validation:Optional
 	EndpointType *string `json:"endpointType,omitempty" tf:"endpoint_type,omitempty"`
 

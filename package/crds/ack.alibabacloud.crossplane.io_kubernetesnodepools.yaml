@@ -193,6 +193,77 @@ spec:
                       create pay-as-you-go instances to meet the required number of
                       ECS instances if preemptible instances cannot be created.'
                     type: boolean
+                  containerdConfig:
+                    description: Containerd configuration parameters for worker nodes.
+                    items:
+                      properties:
+                        ignoreImageDefinedVolume:
+                          description: 'Whether to ignore volumes defined in the image.
+                            Valid values: lowercase "true", "false" or "". If not
+                            set (or set to ""), this option is not written to the
+                            node containerd configuration. Explicitly setting it (including
+                            "false") writes the key to the containerd configuration.
+                            Removing this field from the configuration removes the
+                            key from the cloud-side containerd configuration.'
+                          type: string
+                        insecureRegistries:
+                          description: Allow the container runtime to skip TLS certificate
+                            verification when pulling images. Typically used in test
+                            environments with self-signed certificate registries.
+                            The format is domain name or IP address without protocol
+                            prefix (e.g., registry.example.com, 192.168.1.1:5000).
+                          items:
+                            type: string
+                          type: array
+                        limitCore:
+                          description: 'The coredump size limit. Valid values: ""
+                            or a canonical decimal integer string from "0" to "9007199254740991"
+                            (e.g. "0", "1024"; forms like "+10" or "010" are not accepted).
+                            If not set (or set to ""), this option is not written
+                            to the node containerd configuration. Explicitly setting
+                            it (including "0") writes the corresponding value. Removing
+                            this field from the configuration removes the key from
+                            the cloud-side containerd configuration.'
+                          type: string
+                        limitMemLock:
+                          description: 'The maximum locked memory limit. Valid values:
+                            "" or a canonical decimal integer string from "65536"
+                            to "9007199254740991" (forms like "+65536" or "065536"
+                            are not accepted). If not set (or set to ""), this option
+                            is not written to the node containerd configuration. Removing
+                            this field from the configuration removes the key from
+                            the cloud-side containerd configuration.'
+                          type: string
+                        limitNoFile:
+                          description: 'The maximum number of file handles. Valid
+                            values: "" or a canonical decimal integer string from
+                            "1024" to "9007199254740991" (forms like "+2048" or "02048"
+                            are not accepted). If not set (or set to ""), this option
+                            is not written to the node containerd configuration. Removing
+                            this field from the configuration removes the key from
+                            the cloud-side containerd configuration.'
+                          type: string
+                        maxConcurrentDownloads:
+                          description: 'The maximum number of concurrent downloads
+                            for container images. Valid values: 1 to 20.'
+                          type: number
+                        registryMirrors:
+                          description: Configure mirror sites for container image
+                            registries to accelerate image pulls. Each string follows
+                            the format registry=mirror1[&override_path],mirror2[&override_path],....
+                            The part before = is the container image registry, which
+                            must be a domain name or IP address without protocol prefix
+                            , e.g., docker.io, 192.168.1.1:5000. The part after =
+                            is one or more mirror sites separated by commas; each
+                            mirror must start with http:// or https:// followed by
+                            an IP address or domain name , e.g., https://registry.cn-hangzhou.aliyuncs.com.
+                            Append &override_path to a mirror to enable path override
+                            for that mirror.
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
                   cpuPolicy:
                     description: 'Node CPU management policies. Default value: none.
                       When the cluster version is 1.12.6 or later, the following two
@@ -956,6 +1027,105 @@ spec:
                   resourceGroupId:
                     description: The ID of the resource group
                     type: string
+                  resourcePoolOptions:
+                    description: |-
+                      The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+                      The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+                    items:
+                      properties:
+                        privatePoolIds:
+                          description: |-
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+                          items:
+                            type: string
+                          type: array
+                        privatePoolIdsRefs:
+                          description: References to CapacityReservation in ecs to
+                            populate privatePoolIds.
+                          items:
+                            description: A Reference to a named object.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        privatePoolIdsSelector:
+                          description: Selector for a list of CapacityReservation
+                            in ecs to populate privatePoolIds.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        strategy:
+                          description: |-
+                            The resource pool strategy used when launching instances. Default value: None. Valid values:
+                            The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+                          type: string
+                      type: object
+                    type: array
                   rollingPolicy:
                     description: Rotary configuration. See rolling_policy below.
                     items:
@@ -1596,6 +1766,77 @@ spec:
                       create pay-as-you-go instances to meet the required number of
                       ECS instances if preemptible instances cannot be created.'
                     type: boolean
+                  containerdConfig:
+                    description: Containerd configuration parameters for worker nodes.
+                    items:
+                      properties:
+                        ignoreImageDefinedVolume:
+                          description: 'Whether to ignore volumes defined in the image.
+                            Valid values: lowercase "true", "false" or "". If not
+                            set (or set to ""), this option is not written to the
+                            node containerd configuration. Explicitly setting it (including
+                            "false") writes the key to the containerd configuration.
+                            Removing this field from the configuration removes the
+                            key from the cloud-side containerd configuration.'
+                          type: string
+                        insecureRegistries:
+                          description: Allow the container runtime to skip TLS certificate
+                            verification when pulling images. Typically used in test
+                            environments with self-signed certificate registries.
+                            The format is domain name or IP address without protocol
+                            prefix (e.g., registry.example.com, 192.168.1.1:5000).
+                          items:
+                            type: string
+                          type: array
+                        limitCore:
+                          description: 'The coredump size limit. Valid values: ""
+                            or a canonical decimal integer string from "0" to "9007199254740991"
+                            (e.g. "0", "1024"; forms like "+10" or "010" are not accepted).
+                            If not set (or set to ""), this option is not written
+                            to the node containerd configuration. Explicitly setting
+                            it (including "0") writes the corresponding value. Removing
+                            this field from the configuration removes the key from
+                            the cloud-side containerd configuration.'
+                          type: string
+                        limitMemLock:
+                          description: 'The maximum locked memory limit. Valid values:
+                            "" or a canonical decimal integer string from "65536"
+                            to "9007199254740991" (forms like "+65536" or "065536"
+                            are not accepted). If not set (or set to ""), this option
+                            is not written to the node containerd configuration. Removing
+                            this field from the configuration removes the key from
+                            the cloud-side containerd configuration.'
+                          type: string
+                        limitNoFile:
+                          description: 'The maximum number of file handles. Valid
+                            values: "" or a canonical decimal integer string from
+                            "1024" to "9007199254740991" (forms like "+2048" or "02048"
+                            are not accepted). If not set (or set to ""), this option
+                            is not written to the node containerd configuration. Removing
+                            this field from the configuration removes the key from
+                            the cloud-side containerd configuration.'
+                          type: string
+                        maxConcurrentDownloads:
+                          description: 'The maximum number of concurrent downloads
+                            for container images. Valid values: 1 to 20.'
+                          type: number
+                        registryMirrors:
+                          description: Configure mirror sites for container image
+                            registries to accelerate image pulls. Each string follows
+                            the format registry=mirror1[&override_path],mirror2[&override_path],....
+                            The part before = is the container image registry, which
+                            must be a domain name or IP address without protocol prefix
+                            , e.g., docker.io, 192.168.1.1:5000. The part after =
+                            is one or more mirror sites separated by commas; each
+                            mirror must start with http:// or https:// followed by
+                            an IP address or domain name , e.g., https://registry.cn-hangzhou.aliyuncs.com.
+                            Append &override_path to a mirror to enable path override
+                            for that mirror.
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
                   cpuPolicy:
                     description: 'Node CPU management policies. Default value: none.
                       When the cluster version is 1.12.6 or later, the following two
@@ -2355,6 +2596,105 @@ spec:
                   resourceGroupId:
                     description: The ID of the resource group
                     type: string
+                  resourcePoolOptions:
+                    description: |-
+                      The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+                      The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+                    items:
+                      properties:
+                        privatePoolIds:
+                          description: |-
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+                          items:
+                            type: string
+                          type: array
+                        privatePoolIdsRefs:
+                          description: References to CapacityReservation in ecs to
+                            populate privatePoolIds.
+                          items:
+                            description: A Reference to a named object.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        privatePoolIdsSelector:
+                          description: Selector for a list of CapacityReservation
+                            in ecs to populate privatePoolIds.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        strategy:
+                          description: |-
+                            The resource pool strategy used when launching instances. Default value: None. Valid values:
+                            The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+                          type: string
+                      type: object
+                    type: array
                   rollingPolicy:
                     description: Rotary configuration. See rolling_policy below.
                     items:
@@ -3078,6 +3418,77 @@ spec:
                       create pay-as-you-go instances to meet the required number of
                       ECS instances if preemptible instances cannot be created.'
                     type: boolean
+                  containerdConfig:
+                    description: Containerd configuration parameters for worker nodes.
+                    items:
+                      properties:
+                        ignoreImageDefinedVolume:
+                          description: 'Whether to ignore volumes defined in the image.
+                            Valid values: lowercase "true", "false" or "". If not
+                            set (or set to ""), this option is not written to the
+                            node containerd configuration. Explicitly setting it (including
+                            "false") writes the key to the containerd configuration.
+                            Removing this field from the configuration removes the
+                            key from the cloud-side containerd configuration.'
+                          type: string
+                        insecureRegistries:
+                          description: Allow the container runtime to skip TLS certificate
+                            verification when pulling images. Typically used in test
+                            environments with self-signed certificate registries.
+                            The format is domain name or IP address without protocol
+                            prefix (e.g., registry.example.com, 192.168.1.1:5000).
+                          items:
+                            type: string
+                          type: array
+                        limitCore:
+                          description: 'The coredump size limit. Valid values: ""
+                            or a canonical decimal integer string from "0" to "9007199254740991"
+                            (e.g. "0", "1024"; forms like "+10" or "010" are not accepted).
+                            If not set (or set to ""), this option is not written
+                            to the node containerd configuration. Explicitly setting
+                            it (including "0") writes the corresponding value. Removing
+                            this field from the configuration removes the key from
+                            the cloud-side containerd configuration.'
+                          type: string
+                        limitMemLock:
+                          description: 'The maximum locked memory limit. Valid values:
+                            "" or a canonical decimal integer string from "65536"
+                            to "9007199254740991" (forms like "+65536" or "065536"
+                            are not accepted). If not set (or set to ""), this option
+                            is not written to the node containerd configuration. Removing
+                            this field from the configuration removes the key from
+                            the cloud-side containerd configuration.'
+                          type: string
+                        limitNoFile:
+                          description: 'The maximum number of file handles. Valid
+                            values: "" or a canonical decimal integer string from
+                            "1024" to "9007199254740991" (forms like "+2048" or "02048"
+                            are not accepted). If not set (or set to ""), this option
+                            is not written to the node containerd configuration. Removing
+                            this field from the configuration removes the key from
+                            the cloud-side containerd configuration.'
+                          type: string
+                        maxConcurrentDownloads:
+                          description: 'The maximum number of concurrent downloads
+                            for container images. Valid values: 1 to 20.'
+                          type: number
+                        registryMirrors:
+                          description: Configure mirror sites for container image
+                            registries to accelerate image pulls. Each string follows
+                            the format registry=mirror1[&override_path],mirror2[&override_path],....
+                            The part before = is the container image registry, which
+                            must be a domain name or IP address without protocol prefix
+                            , e.g., docker.io, 192.168.1.1:5000. The part after =
+                            is one or more mirror sites separated by commas; each
+                            mirror must start with http:// or https:// followed by
+                            an IP address or domain name , e.g., https://registry.cn-hangzhou.aliyuncs.com.
+                            Append &override_path to a mirror to enable path override
+                            for that mirror.
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
                   cpuPolicy:
                     description: 'Node CPU management policies. Default value: none.
                       When the cluster version is 1.12.6 or later, the following two
@@ -3731,6 +4142,26 @@ spec:
                   resourceGroupId:
                     description: The ID of the resource group
                     type: string
+                  resourcePoolOptions:
+                    description: |-
+                      The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+                      The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+                    items:
+                      properties:
+                        privatePoolIds:
+                          description: |-
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+                          items:
+                            type: string
+                          type: array
+                        strategy:
+                          description: |-
+                            The resource pool strategy used when launching instances. Default value: None. Valid values:
+                            The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+                          type: string
+                      type: object
+                    type: array
                   rollingPolicy:
                     description: Rotary configuration. See rolling_policy below.
                     items:

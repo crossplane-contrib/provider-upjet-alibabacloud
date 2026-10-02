@@ -42,7 +42,7 @@ type BucketObjectInitParameters struct {
 	// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field. Read RFC2616 Content-Encoding for further details.
 	ContentEncoding *string `json:"contentEncoding,omitempty" tf:"content_encoding,omitempty"`
 
-	// The MD5 value of the content. Read MD5 for computing method.
+	// The MD5 digest of the content for OSS data-integrity verification. Values that are neither a valid hex MD5 digest nor valid base64 are rejected by the provider. Read MD5 for the computing method.
 	ContentMd5 *string `json:"contentMd5,omitempty" tf:"content_md5,omitempty"`
 
 	// A standard MIME type describing the format of the object data, e.g. application/octet-stream. All Valid MIME Types are valid for this input.
@@ -66,7 +66,7 @@ type BucketObjectInitParameters struct {
 	// The name of the object once it is in the bucket.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
-	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Updating only this attribute (or object_worm_retain_until_date) calls PutObjectRetention and does not re-upload the object.
+	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Note: The parameter is immutable after resource creation. Updating object_worm_retain_until_date calls PutObjectRetention and does not re-upload the object.
 	ObjectWormMode *string `json:"objectWormMode,omitempty" tf:"object_worm_mode,omitempty"`
 
 	// The UTC time at which the object retention expires, in ISO8601 format with millisecond precision (for example 2026-09-30T00:00:00.000Z). Must be set together with object_worm_mode.
@@ -102,7 +102,7 @@ type BucketObjectObservation struct {
 	// the content length of request.
 	ContentLength *string `json:"contentLength,omitempty" tf:"content_length,omitempty"`
 
-	// The MD5 value of the content. Read MD5 for computing method.
+	// The MD5 digest of the content for OSS data-integrity verification. Values that are neither a valid hex MD5 digest nor valid base64 are rejected by the provider. Read MD5 for the computing method.
 	ContentMd5 *string `json:"contentMd5,omitempty" tf:"content_md5,omitempty"`
 
 	// A standard MIME type describing the format of the object data, e.g. application/octet-stream. All Valid MIME Types are valid for this input.
@@ -123,7 +123,7 @@ type BucketObjectObservation struct {
 	// The name of the object once it is in the bucket.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
-	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Updating only this attribute (or object_worm_retain_until_date) calls PutObjectRetention and does not re-upload the object.
+	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Note: The parameter is immutable after resource creation. Updating object_worm_retain_until_date calls PutObjectRetention and does not re-upload the object.
 	ObjectWormMode *string `json:"objectWormMode,omitempty" tf:"object_worm_mode,omitempty"`
 
 	// The UTC time at which the object retention expires, in ISO8601 format with millisecond precision (for example 2026-09-30T00:00:00.000Z). Must be set together with object_worm_mode.
@@ -174,7 +174,7 @@ type BucketObjectParameters struct {
 	// +kubebuilder:validation:Optional
 	ContentEncoding *string `json:"contentEncoding,omitempty" tf:"content_encoding,omitempty"`
 
-	// The MD5 value of the content. Read MD5 for computing method.
+	// The MD5 digest of the content for OSS data-integrity verification. Values that are neither a valid hex MD5 digest nor valid base64 are rejected by the provider. Read MD5 for the computing method.
 	// +kubebuilder:validation:Optional
 	ContentMd5 *string `json:"contentMd5,omitempty" tf:"content_md5,omitempty"`
 
@@ -203,7 +203,7 @@ type BucketObjectParameters struct {
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
-	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Updating only this attribute (or object_worm_retain_until_date) calls PutObjectRetention and does not re-upload the object.
+	// The retention mode of the object worm policy. Valid value: COMPLIANCE. Must be set together with object_worm_retain_until_date. The bucket must have object worm enabled. Note: The parameter is immutable after resource creation. Updating object_worm_retain_until_date calls PutObjectRetention and does not re-upload the object.
 	// +kubebuilder:validation:Optional
 	ObjectWormMode *string `json:"objectWormMode,omitempty" tf:"object_worm_mode,omitempty"`
 

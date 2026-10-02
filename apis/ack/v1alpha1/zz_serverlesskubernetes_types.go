@@ -122,7 +122,7 @@ type ServerlessKubernetesDeleteOptionsParameters struct {
 
 type ServerlessKubernetesInitParameters struct {
 
-	// You can specific network plugin, log component, ingress component and so on. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created.
+	// You can specific network plugin, log component, ingress component and so on. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created. Note: The parameter is immutable after resource creation.
 	Addons []ServerlessKubernetesAddonsInitParameters `json:"addons,omitempty" tf:"addons,omitempty"`
 
 	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
@@ -150,8 +150,17 @@ type ServerlessKubernetesInitParameters struct {
 	// Whether enable the deletion protection or not.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
+	// Whether to disable encryption for Kubernetes Secrets. Default value is false. Set to true to disable encryption.
+	// -> Note: When enabling encryption, you must explicitly set disable_encryption = false along with encryption_provider_key. When disabling encryption, you only need to set disable_encryption = true, and the encryption_provider_key will be ignored.
+	DisableEncryption *bool `json:"disableEncryption,omitempty" tf:"disable_encryption,omitempty"`
+
 	// Whether to enable cluster to support RRSA for version 1.22.3+. Default to false. Once the RRSA function is turned on, it is not allowed to turn off. If your cluster has enabled this function, please manually modify your tf file and add the rrsa configuration to the file, learn more RAM Roles for Service Accounts.
 	EnableRrsa *bool `json:"enableRrsa,omitempty" tf:"enable_rrsa,omitempty"`
+
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+	// -> Note: To enable encryption, you must specify both encryption_provider_key and disable_encryption = false. When disable_encryption is set to true, changes to encryption_provider_key will be ignored.
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+	EncryptionProviderKey *string `json:"encryptionProviderKey,omitempty" tf:"encryption_provider_key,omitempty"`
 
 	// Whether to create internet eip for API Server. Default to false. Only works for Create Operation.
 	EndpointPublicAccessEnabled *bool `json:"endpointPublicAccessEnabled,omitempty" tf:"endpoint_public_access_enabled,omitempty"`
@@ -311,7 +320,7 @@ type ServerlessKubernetesMaintenanceWindowParameters struct {
 
 type ServerlessKubernetesObservation struct {
 
-	// You can specific network plugin, log component, ingress component and so on. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created.
+	// You can specific network plugin, log component, ingress component and so on. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created. Note: The parameter is immutable after resource creation.
 	Addons []ServerlessKubernetesAddonsObservation `json:"addons,omitempty" tf:"addons,omitempty"`
 
 	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
@@ -339,8 +348,17 @@ type ServerlessKubernetesObservation struct {
 	// Whether enable the deletion protection or not.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
+	// Whether to disable encryption for Kubernetes Secrets. Default value is false. Set to true to disable encryption.
+	// -> Note: When enabling encryption, you must explicitly set disable_encryption = false along with encryption_provider_key. When disabling encryption, you only need to set disable_encryption = true, and the encryption_provider_key will be ignored.
+	DisableEncryption *bool `json:"disableEncryption,omitempty" tf:"disable_encryption,omitempty"`
+
 	// Whether to enable cluster to support RRSA for version 1.22.3+. Default to false. Once the RRSA function is turned on, it is not allowed to turn off. If your cluster has enabled this function, please manually modify your tf file and add the rrsa configuration to the file, learn more RAM Roles for Service Accounts.
 	EnableRrsa *bool `json:"enableRrsa,omitempty" tf:"enable_rrsa,omitempty"`
+
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+	// -> Note: To enable encryption, you must specify both encryption_provider_key and disable_encryption = false. When disable_encryption is set to true, changes to encryption_provider_key will be ignored.
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+	EncryptionProviderKey *string `json:"encryptionProviderKey,omitempty" tf:"encryption_provider_key,omitempty"`
 
 	// Whether to create internet eip for API Server. Default to false. Only works for Create Operation.
 	EndpointPublicAccessEnabled *bool `json:"endpointPublicAccessEnabled,omitempty" tf:"endpoint_public_access_enabled,omitempty"`
@@ -440,7 +458,7 @@ type ServerlessKubernetesOperationPolicyParameters struct {
 
 type ServerlessKubernetesParameters struct {
 
-	// You can specific network plugin, log component, ingress component and so on. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created.
+	// You can specific network plugin, log component, ingress component and so on. See addons below. Only works for Create Operation, use resource cs_kubernetes_addon to manage addons if cluster is created. Note: The parameter is immutable after resource creation.
 	// +kubebuilder:validation:Optional
 	Addons []ServerlessKubernetesAddonsParameters `json:"addons,omitempty" tf:"addons,omitempty"`
 
@@ -477,9 +495,20 @@ type ServerlessKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
+	// Whether to disable encryption for Kubernetes Secrets. Default value is false. Set to true to disable encryption.
+	// -> Note: When enabling encryption, you must explicitly set disable_encryption = false along with encryption_provider_key. When disabling encryption, you only need to set disable_encryption = true, and the encryption_provider_key will be ignored.
+	// +kubebuilder:validation:Optional
+	DisableEncryption *bool `json:"disableEncryption,omitempty" tf:"disable_encryption,omitempty"`
+
 	// Whether to enable cluster to support RRSA for version 1.22.3+. Default to false. Once the RRSA function is turned on, it is not allowed to turn off. If your cluster has enabled this function, please manually modify your tf file and add the rrsa configuration to the file, learn more RAM Roles for Service Accounts.
 	// +kubebuilder:validation:Optional
 	EnableRrsa *bool `json:"enableRrsa,omitempty" tf:"enable_rrsa,omitempty"`
+
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+	// -> Note: To enable encryption, you must specify both encryption_provider_key and disable_encryption = false. When disable_encryption is set to true, changes to encryption_provider_key will be ignored.
+	// The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+	// +kubebuilder:validation:Optional
+	EncryptionProviderKey *string `json:"encryptionProviderKey,omitempty" tf:"encryption_provider_key,omitempty"`
 
 	// Whether to create internet eip for API Server. Default to false. Only works for Create Operation.
 	// +kubebuilder:validation:Optional

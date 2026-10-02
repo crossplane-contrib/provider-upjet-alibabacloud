@@ -60,6 +60,21 @@ type QueueInitParameters struct {
 	// The dead-letter queue policy. See dlq_policy below.
 	DlqPolicy []DlqPolicyInitParameters `json:"dlqPolicy,omitempty" tf:"dlq_policy,omitempty"`
 
+	// Specifies whether to enable server-side encryption (SSE) for the messages in the queue. Default value: false. Valid values:
+	EnableSse *bool `json:"enableSse,omitempty" tf:"enable_sse,omitempty"`
+
+	// The ID of the customer master key (CMK) in Key Management Service (KMS). This parameter is required when sse_type is set to KMS.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// Reference to a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
+
 	// Specifies whether to enable the logging feature. Default value: false. Valid values:
 	LoggingEnabled *bool `json:"loggingEnabled,omitempty" tf:"logging_enabled,omitempty"`
 
@@ -74,6 +89,15 @@ type QueueInitParameters struct {
 
 	// The name of the queue.
 	QueueName *string `json:"queueName,omitempty" tf:"queue_name,omitempty"`
+
+	// The type of the queue. Default value: normal. Valid values:
+	QueueType *string `json:"queueType,omitempty" tf:"queue_type,omitempty"`
+
+	// The encryption algorithm that is used to encrypt the messages in the queue. Valid value: AES-256-GCM.
+	SseAlgorithm *string `json:"sseAlgorithm,omitempty" tf:"sse_algorithm,omitempty"`
+
+	// The type of server-side encryption (SSE). Valid values:
+	SseType *string `json:"sseType,omitempty" tf:"sse_type,omitempty"`
 
 	// Key-value map of resource tags.
 	// +mapType=granular
@@ -94,7 +118,16 @@ type QueueObservation struct {
 	// The dead-letter queue policy. See dlq_policy below.
 	DlqPolicy []DlqPolicyObservation `json:"dlqPolicy,omitempty" tf:"dlq_policy,omitempty"`
 
+	// Specifies whether to enable server-side encryption (SSE) for the messages in the queue. Default value: false. Valid values:
+	EnableSse *bool `json:"enableSse,omitempty" tf:"enable_sse,omitempty"`
+
+	// (Available since v1.291.0) Indicates whether server-side encryption is applied to the queue. The value remains true after server-side encryption is disabled because existing messages are still stored as encrypted.
+	EncryptionEnabled *bool `json:"encryptionEnabled,omitempty" tf:"encryption_enabled,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The ID of the customer master key (CMK) in Key Management Service (KMS). This parameter is required when sse_type is set to KMS.
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// Specifies whether to enable the logging feature. Default value: false. Valid values:
 	LoggingEnabled *bool `json:"loggingEnabled,omitempty" tf:"logging_enabled,omitempty"`
@@ -110,6 +143,15 @@ type QueueObservation struct {
 
 	// The name of the queue.
 	QueueName *string `json:"queueName,omitempty" tf:"queue_name,omitempty"`
+
+	// The type of the queue. Default value: normal. Valid values:
+	QueueType *string `json:"queueType,omitempty" tf:"queue_type,omitempty"`
+
+	// The encryption algorithm that is used to encrypt the messages in the queue. Valid value: AES-256-GCM.
+	SseAlgorithm *string `json:"sseAlgorithm,omitempty" tf:"sse_algorithm,omitempty"`
+
+	// The type of server-side encryption (SSE). Valid values:
+	SseType *string `json:"sseType,omitempty" tf:"sse_type,omitempty"`
 
 	// Key-value map of resource tags.
 	// +mapType=granular
@@ -129,6 +171,23 @@ type QueueParameters struct {
 	// +kubebuilder:validation:Optional
 	DlqPolicy []DlqPolicyParameters `json:"dlqPolicy,omitempty" tf:"dlq_policy,omitempty"`
 
+	// Specifies whether to enable server-side encryption (SSE) for the messages in the queue. Default value: false. Valid values:
+	// +kubebuilder:validation:Optional
+	EnableSse *bool `json:"enableSse,omitempty" tf:"enable_sse,omitempty"`
+
+	// The ID of the customer master key (CMK) in Key Management Service (KMS). This parameter is required when sse_type is set to KMS.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
+	// +kubebuilder:validation:Optional
+	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+
+	// Reference to a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+
+	// Selector for a Key in kms to populate kmsKeyId.
+	// +kubebuilder:validation:Optional
+	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
+
 	// Specifies whether to enable the logging feature. Default value: false. Valid values:
 	// +kubebuilder:validation:Optional
 	LoggingEnabled *bool `json:"loggingEnabled,omitempty" tf:"logging_enabled,omitempty"`
@@ -149,10 +208,22 @@ type QueueParameters struct {
 	// +kubebuilder:validation:Optional
 	QueueName *string `json:"queueName,omitempty" tf:"queue_name,omitempty"`
 
+	// The type of the queue. Default value: normal. Valid values:
+	// +kubebuilder:validation:Optional
+	QueueType *string `json:"queueType,omitempty" tf:"queue_type,omitempty"`
+
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
+
+	// The encryption algorithm that is used to encrypt the messages in the queue. Valid value: AES-256-GCM.
+	// +kubebuilder:validation:Optional
+	SseAlgorithm *string `json:"sseAlgorithm,omitempty" tf:"sse_algorithm,omitempty"`
+
+	// The type of server-side encryption (SSE). Valid values:
+	// +kubebuilder:validation:Optional
+	SseType *string `json:"sseType,omitempty" tf:"sse_type,omitempty"`
 
 	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional

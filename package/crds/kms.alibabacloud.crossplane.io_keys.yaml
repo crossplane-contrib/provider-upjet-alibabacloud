@@ -89,7 +89,9 @@ spec:
                     description: The description of the key.
                     type: string
                   dkmsInstanceId:
-                    description: The ID of the KMS instance.
+                    description: The ID of the KMS instance. If specified, the key
+                      is created in the specified KMS instance; if omitted, a default
+                      key (master key) is created in the current region.
                     type: string
                   keySpec:
                     description: 'The specification of the key. Default value: Aliyun_AES_256.
@@ -112,9 +114,9 @@ spec:
                       can be set to 366.'
                     type: number
                   policy:
-                    description: The content of the key policy. The value is in the
-                      JSON format. The value can be up to 32,768 bytes in length.
-                      For more information, see How to use it.
+                    description: ), and the valid values of key_spec and rotation_interval
+                      are determined by the key management type. For more information,
+                      see CreateKey.
                     type: string
                   protectionLevel:
                     description: 'The protection level of the key. Default value:
@@ -128,8 +130,7 @@ spec:
                     description: 'The period of automatic key rotation. The following
                       units are supported: d (day), h (hour), m (minute), and s (second).
                       For example, you can use either 7d or 604800s to specify a seven-day
-                      interval. NOTE: If automatic_rotation is set to Enabled, rotation_interval
-                      is required.'
+                      interval.'
                     type: string
                   status:
                     description: 'The status of key. Default value: Enabled. Valid
@@ -171,7 +172,9 @@ spec:
                     description: The description of the key.
                     type: string
                   dkmsInstanceId:
-                    description: The ID of the KMS instance.
+                    description: The ID of the KMS instance. If specified, the key
+                      is created in the specified KMS instance; if omitted, a default
+                      key (master key) is created in the current region.
                     type: string
                   keySpec:
                     description: 'The specification of the key. Default value: Aliyun_AES_256.
@@ -194,9 +197,9 @@ spec:
                       can be set to 366.'
                     type: number
                   policy:
-                    description: The content of the key policy. The value is in the
-                      JSON format. The value can be up to 32,768 bytes in length.
-                      For more information, see How to use it.
+                    description: ), and the valid values of key_spec and rotation_interval
+                      are determined by the key management type. For more information,
+                      see CreateKey.
                     type: string
                   protectionLevel:
                     description: 'The protection level of the key. Default value:
@@ -206,8 +209,7 @@ spec:
                     description: 'The period of automatic key rotation. The following
                       units are supported: d (day), h (hour), m (minute), and s (second).
                       For example, you can use either 7d or 604800s to specify a seven-day
-                      interval. NOTE: If automatic_rotation is set to Enabled, rotation_interval
-                      is required.'
+                      interval.'
                     type: string
                   status:
                     description: 'The status of key. Default value: Enabled. Valid
@@ -420,7 +422,9 @@ spec:
                     description: The description of the key.
                     type: string
                   dkmsInstanceId:
-                    description: The ID of the KMS instance.
+                    description: The ID of the KMS instance. If specified, the key
+                      is created in the specified KMS instance; if omitted, a default
+                      key (master key) is created in the current region.
                     type: string
                   id:
                     type: string
@@ -454,9 +458,9 @@ spec:
                       can be set to 366.'
                     type: number
                   policy:
-                    description: The content of the key policy. The value is in the
-                      JSON format. The value can be up to 32,768 bytes in length.
-                      For more information, see How to use it.
+                    description: ), and the valid values of key_spec and rotation_interval
+                      are determined by the key management type. For more information,
+                      see CreateKey.
                     type: string
                   primaryKeyVersion:
                     description: The ID of the current primary key version of the
@@ -470,8 +474,7 @@ spec:
                     description: 'The period of automatic key rotation. The following
                       units are supported: d (day), h (hour), m (minute), and s (second).
                       For example, you can use either 7d or 604800s to specify a seven-day
-                      interval. NOTE: If automatic_rotation is set to Enabled, rotation_interval
-                      is required.'
+                      interval.'
                     type: string
                   status:
                     description: 'The status of key. Default value: Enabled. Valid

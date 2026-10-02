@@ -21,7 +21,7 @@ func (mg *Function) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Function
 func (tr *Function) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"code[*].checksum": "code[*].checksumSecretRef"}
+	return map[string]string{"code[*].checksum": "code[*].checksumSecretRef", "custom_container_config[*].registry_config[*].auth_config[*].password": "customContainerConfig[*].registryConfig[*].authConfig[*].passwordSecretRef", "custom_container_config[*].registry_config[*].auth_config[*].user_name": "customContainerConfig[*].registryConfig[*].authConfig[*].userNameSecretRef"}
 }
 
 // GetObservation of this Function

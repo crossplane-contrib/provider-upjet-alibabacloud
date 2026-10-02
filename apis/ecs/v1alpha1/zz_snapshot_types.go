@@ -48,9 +48,15 @@ type SnapshotInitParameters struct {
 	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Local waiting policy for creation only. Valid values: accomplished, which waits for Status=accomplished, and available, which waits for Available=true. When omitted, creation still waits for Status=accomplished, but no default waiting policy is inserted into state, avoiding a new wait_until default-value diff for existing configurations. This argument is not sent to ECS or read from ECS. Changing only wait_until neither recreates nor modifies the snapshot and is not a readiness barrier; it affects subsequent creation only. Metadata updates (snapshot_name, name, description) do not wait for background upload after ECS accepts the update; Read preserves the actual status. Resource-group and tag updates are also unaffected. NOTE: Independently of this policy, retention_days changes, including mixed attribute updates, must wait for Status=accomplished before sending the update, with no additional wait afterward.
+	WaitUntil *string `json:"waitUntil,omitempty" tf:"wait_until,omitempty"`
 }
 
 type SnapshotObservation struct {
+
+	// Whether ECS reports the snapshot as available. This read-only value can be true while status is still progressing, allowing the operations described in the availability note above. It reflects the most recent refresh, not the configured wait_until policy.
+	Available *bool `json:"available,omitempty" tf:"available,omitempty"`
 
 	// The category of the snapshot. Valid values:
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
@@ -87,6 +93,9 @@ type SnapshotObservation struct {
 	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Local waiting policy for creation only. Valid values: accomplished, which waits for Status=accomplished, and available, which waits for Available=true. When omitted, creation still waits for Status=accomplished, but no default waiting policy is inserted into state, avoiding a new wait_until default-value diff for existing configurations. This argument is not sent to ECS or read from ECS. Changing only wait_until neither recreates nor modifies the snapshot and is not a readiness barrier; it affects subsequent creation only. Metadata updates (snapshot_name, name, description) do not wait for background upload after ECS accepts the update; Read preserves the actual status. Resource-group and tag updates are also unaffected. NOTE: Independently of this policy, retention_days changes, including mixed attribute updates, must wait for Status=accomplished before sending the update, with no additional wait afterward.
+	WaitUntil *string `json:"waitUntil,omitempty" tf:"wait_until,omitempty"`
 }
 
 type SnapshotParameters struct {
@@ -137,6 +146,10 @@ type SnapshotParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Local waiting policy for creation only. Valid values: accomplished, which waits for Status=accomplished, and available, which waits for Available=true. When omitted, creation still waits for Status=accomplished, but no default waiting policy is inserted into state, avoiding a new wait_until default-value diff for existing configurations. This argument is not sent to ECS or read from ECS. Changing only wait_until neither recreates nor modifies the snapshot and is not a readiness barrier; it affects subsequent creation only. Metadata updates (snapshot_name, name, description) do not wait for background upload after ECS accepts the update; Read preserves the actual status. Resource-group and tag updates are also unaffected. NOTE: Independently of this policy, retention_days changes, including mixed attribute updates, must wait for Status=accomplished before sending the update, with no additional wait afterward.
+	// +kubebuilder:validation:Optional
+	WaitUntil *string `json:"waitUntil,omitempty" tf:"wait_until,omitempty"`
 }
 
 // SnapshotSpec defines the desired state of Snapshot

@@ -106,12 +106,16 @@ spec:
                       type: object
                     type: array
                   creditSpecification:
-                    description: 'Performance mode of the t5 burstable instance. Valid
-                      values: ''Standard'', ''Unlimited''.'
+                    description: |-
+                      Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+                      -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
                     type: string
                   dataDisks:
-                    description: The list of data disks created with instance. See
-                      data_disks below.
+                    description: 'The list of data disks created with instance. Note:
+                      The parameter is immutable after resource creation. This resource
+                      only configures these disks during instance creation; it does
+                      not update or refresh the inline disk settings. See data_disks
+                      below.'
                     items:
                       properties:
                         autoSnapshotPolicyId:
@@ -267,9 +271,17 @@ spec:
                     description: Specifies whether to send a dry-run request. Default
                       to false.
                     type: boolean
+                  enableHighDensityMode:
+                    description: 'Specifies whether to enable the high density mode
+                      for the instance. Valid values: true, false.'
+                    type: boolean
                   enableJumboFrame:
                     description: 'Specifies whether to enable the Jumbo Frames feature
                       for the instance. Valid values: true, false.'
+                    type: boolean
+                  enableNetworkEncryption:
+                    description: 'Specifies whether to enable network encryption for
+                      the instance. Valid values: true, false.'
                     type: boolean
                   forceDelete:
                     description: |-
@@ -301,11 +313,11 @@ spec:
                       Valid values:'
                     type: string
                   imageId:
-                    description: The Image to use for the instance. ECS instance's
-                      image can be replaced via changing image_id. When it is changed,
-                      the instance will reboot to make the change take effect. If
-                      you do not use launch_template_id or launch_template_name to
-                      specify a launch template, you must specify image_id.
+                    description: 'The Image to use for the instance. ECS instance''s
+                      image can be replaced via changing image_id. If you do not use
+                      launch_template_id or launch_template_name to specify a launch
+                      template, you must specify image_id. How the change is applied
+                      is controlled by the provider argument features.ecs_instance.replace_on_image_update:'
                     type: string
                   imageIdRef:
                     description: Reference to a Image in ecs to populate imageId.
@@ -382,7 +394,8 @@ spec:
                         type: object
                     type: object
                   imageOptions:
-                    description: The options of images. See image_options below.
+                    description: 'The options of images. Note: The parameter is immutable
+                      after resource creation. See image_options below.'
                     items:
                       properties:
                         loginAsNonRoot:
@@ -401,6 +414,11 @@ spec:
                       NOTE: Since 1.9.6, it can be changed each other between PostPaid and PrePaid.
                       However, since some limitation about CPU core count in one month,
                       there strongly recommends that Don't change instance_charge_type frequentlly in one month.
+                    type: string
+                  instanceMetadataTags:
+                    description: 'Specifies whether to expose the tags of the instance
+                      in the instance metadata. Valid values: enabled, disabled. Default
+                      value: disabled.'
                     type: string
                   instanceName:
                     description: 'The name of the ECS. This instance_name can have
@@ -442,7 +460,9 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   isOutdated:
-                    description: Whether to use outdated instance type.
+                    description: 'Whether to use outdated instance type. Note: The
+                      parameter is immutable after resource creation. It only controls
+                      the I/O optimization option sent when creating the instance.'
                     type: boolean
                   keyName:
                     description: |-
@@ -664,13 +684,17 @@ spec:
                   networkCardIndex:
                     description: The index of the network card for Primary ENI.
                     type: number
+                  networkInterfaceId:
+                    description: The ID of the Primary ENI.
+                    type: string
                   networkInterfaceTrafficMode:
                     description: 'The communication mode of the Primary ENI. Default
                       value: Standard. Valid values:'
                     type: string
                   networkInterfaces:
-                    description: The list of network interfaces created with instance.
-                      See network_interfaces below.
+                    description: 'The list of network interfaces created with instance.
+                      Note: The parameter is immutable after resource creation. See
+                      network_interfaces below.'
                     items:
                       properties:
                         networkCardIndex:
@@ -693,6 +717,12 @@ spec:
                           items:
                             type: string
                           type: array
+                        sourceDestCheck:
+                          description: 'Specifies whether to enable the source and
+                            destination IP address check feature. We recommend that
+                            you enable the feature to improve network security. Valid
+                            values: true, false.'
+                          type: boolean
                         vswitchId:
                           description: The ID of the vSwitch to which to connect Secondary
                             ENI N.
@@ -871,19 +901,24 @@ spec:
                         type: object
                     type: object
                   securityGroups:
-                    description: A list of security group ids to associate with. If
-                      you do not use launch_template_id or launch_template_name to
-                      specify a launch template, you must specify security_groups.
+                    description: A list of security group ids to associate with.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  sourceDestCheck:
+                    description: 'Specifies whether to enable the source and destination
+                      IP address check feature. We recommend that you enable the feature
+                      to improve network security. Valid values: true, false.'
+                    type: boolean
                   spotDuration:
                     description: 'The retention time of the preemptive instance in
                       hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration
                       2~6 is under invitation test, please submit a work order if
                       you need to open. If the value is 0, the mode is no protection
-                      period. Default value is 1.'
+                      period. Default value is 1. Note: The parameter is immutable
+                      after resource creation. This resource sends it only when creating
+                      the instance.'
                     type: number
                   spotInterruptionBehavior:
                     description: 'The interruption mode of the spot instance. Default
@@ -1197,12 +1232,16 @@ spec:
                       type: object
                     type: array
                   creditSpecification:
-                    description: 'Performance mode of the t5 burstable instance. Valid
-                      values: ''Standard'', ''Unlimited''.'
+                    description: |-
+                      Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+                      -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
                     type: string
                   dataDisks:
-                    description: The list of data disks created with instance. See
-                      data_disks below.
+                    description: 'The list of data disks created with instance. Note:
+                      The parameter is immutable after resource creation. This resource
+                      only configures these disks during instance creation; it does
+                      not update or refresh the inline disk settings. See data_disks
+                      below.'
                     items:
                       properties:
                         autoSnapshotPolicyId:
@@ -1358,9 +1397,17 @@ spec:
                     description: Specifies whether to send a dry-run request. Default
                       to false.
                     type: boolean
+                  enableHighDensityMode:
+                    description: 'Specifies whether to enable the high density mode
+                      for the instance. Valid values: true, false.'
+                    type: boolean
                   enableJumboFrame:
                     description: 'Specifies whether to enable the Jumbo Frames feature
                       for the instance. Valid values: true, false.'
+                    type: boolean
+                  enableNetworkEncryption:
+                    description: 'Specifies whether to enable network encryption for
+                      the instance. Valid values: true, false.'
                     type: boolean
                   forceDelete:
                     description: |-
@@ -1392,11 +1439,11 @@ spec:
                       Valid values:'
                     type: string
                   imageId:
-                    description: The Image to use for the instance. ECS instance's
-                      image can be replaced via changing image_id. When it is changed,
-                      the instance will reboot to make the change take effect. If
-                      you do not use launch_template_id or launch_template_name to
-                      specify a launch template, you must specify image_id.
+                    description: 'The Image to use for the instance. ECS instance''s
+                      image can be replaced via changing image_id. If you do not use
+                      launch_template_id or launch_template_name to specify a launch
+                      template, you must specify image_id. How the change is applied
+                      is controlled by the provider argument features.ecs_instance.replace_on_image_update:'
                     type: string
                   imageIdRef:
                     description: Reference to a Image in ecs to populate imageId.
@@ -1473,7 +1520,8 @@ spec:
                         type: object
                     type: object
                   imageOptions:
-                    description: The options of images. See image_options below.
+                    description: 'The options of images. Note: The parameter is immutable
+                      after resource creation. See image_options below.'
                     items:
                       properties:
                         loginAsNonRoot:
@@ -1492,6 +1540,11 @@ spec:
                       NOTE: Since 1.9.6, it can be changed each other between PostPaid and PrePaid.
                       However, since some limitation about CPU core count in one month,
                       there strongly recommends that Don't change instance_charge_type frequentlly in one month.
+                    type: string
+                  instanceMetadataTags:
+                    description: 'Specifies whether to expose the tags of the instance
+                      in the instance metadata. Valid values: enabled, disabled. Default
+                      value: disabled.'
                     type: string
                   instanceName:
                     description: 'The name of the ECS. This instance_name can have
@@ -1533,7 +1586,9 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   isOutdated:
-                    description: Whether to use outdated instance type.
+                    description: 'Whether to use outdated instance type. Note: The
+                      parameter is immutable after resource creation. It only controls
+                      the I/O optimization option sent when creating the instance.'
                     type: boolean
                   keyName:
                     description: |-
@@ -1755,13 +1810,17 @@ spec:
                   networkCardIndex:
                     description: The index of the network card for Primary ENI.
                     type: number
+                  networkInterfaceId:
+                    description: The ID of the Primary ENI.
+                    type: string
                   networkInterfaceTrafficMode:
                     description: 'The communication mode of the Primary ENI. Default
                       value: Standard. Valid values:'
                     type: string
                   networkInterfaces:
-                    description: The list of network interfaces created with instance.
-                      See network_interfaces below.
+                    description: 'The list of network interfaces created with instance.
+                      Note: The parameter is immutable after resource creation. See
+                      network_interfaces below.'
                     items:
                       properties:
                         networkCardIndex:
@@ -1784,6 +1843,12 @@ spec:
                           items:
                             type: string
                           type: array
+                        sourceDestCheck:
+                          description: 'Specifies whether to enable the source and
+                            destination IP address check feature. We recommend that
+                            you enable the feature to improve network security. Valid
+                            values: true, false.'
+                          type: boolean
                         vswitchId:
                           description: The ID of the vSwitch to which to connect Secondary
                             ENI N.
@@ -1958,19 +2023,24 @@ spec:
                         type: object
                     type: object
                   securityGroups:
-                    description: A list of security group ids to associate with. If
-                      you do not use launch_template_id or launch_template_name to
-                      specify a launch template, you must specify security_groups.
+                    description: A list of security group ids to associate with.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  sourceDestCheck:
+                    description: 'Specifies whether to enable the source and destination
+                      IP address check feature. We recommend that you enable the feature
+                      to improve network security. Valid values: true, false.'
+                    type: boolean
                   spotDuration:
                     description: 'The retention time of the preemptive instance in
                       hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration
                       2~6 is under invitation test, please submit a work order if
                       you need to open. If the value is 0, the mode is no protection
-                      period. Default value is 1.'
+                      period. Default value is 1. Note: The parameter is immutable
+                      after resource creation. This resource sends it only when creating
+                      the instance.'
                     type: number
                   spotInterruptionBehavior:
                     description: 'The interruption mode of the spot instance. Default
@@ -2450,12 +2520,16 @@ spec:
                       was created.
                     type: string
                   creditSpecification:
-                    description: 'Performance mode of the t5 burstable instance. Valid
-                      values: ''Standard'', ''Unlimited''.'
+                    description: |-
+                      Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+                      -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
                     type: string
                   dataDisks:
-                    description: The list of data disks created with instance. See
-                      data_disks below.
+                    description: 'The list of data disks created with instance. Note:
+                      The parameter is immutable after resource creation. This resource
+                      only configures these disks during instance creation; it does
+                      not update or refresh the inline disk settings. See data_disks
+                      below.'
                     items:
                       properties:
                         autoSnapshotPolicyId:
@@ -2541,9 +2615,17 @@ spec:
                     description: Specifies whether to send a dry-run request. Default
                       to false.
                     type: boolean
+                  enableHighDensityMode:
+                    description: 'Specifies whether to enable the high density mode
+                      for the instance. Valid values: true, false.'
+                    type: boolean
                   enableJumboFrame:
                     description: 'Specifies whether to enable the Jumbo Frames feature
                       for the instance. Valid values: true, false.'
+                    type: boolean
+                  enableNetworkEncryption:
+                    description: 'Specifies whether to enable network encryption for
+                      the instance. Valid values: true, false.'
                     type: boolean
                   expiredTime:
                     description: (Available since v1.232.0) The expiration time of
@@ -2582,14 +2664,15 @@ spec:
                     description: The instance ID.
                     type: string
                   imageId:
-                    description: The Image to use for the instance. ECS instance's
-                      image can be replaced via changing image_id. When it is changed,
-                      the instance will reboot to make the change take effect. If
-                      you do not use launch_template_id or launch_template_name to
-                      specify a launch template, you must specify image_id.
+                    description: 'The Image to use for the instance. ECS instance''s
+                      image can be replaced via changing image_id. If you do not use
+                      launch_template_id or launch_template_name to specify a launch
+                      template, you must specify image_id. How the change is applied
+                      is controlled by the provider argument features.ecs_instance.replace_on_image_update:'
                     type: string
                   imageOptions:
-                    description: The options of images. See image_options below.
+                    description: 'The options of images. Note: The parameter is immutable
+                      after resource creation. See image_options below.'
                     items:
                       properties:
                         loginAsNonRoot:
@@ -2608,6 +2691,11 @@ spec:
                       NOTE: Since 1.9.6, it can be changed each other between PostPaid and PrePaid.
                       However, since some limitation about CPU core count in one month,
                       there strongly recommends that Don't change instance_charge_type frequentlly in one month.
+                    type: string
+                  instanceMetadataTags:
+                    description: 'Specifies whether to expose the tags of the instance
+                      in the instance metadata. Valid values: enabled, disabled. Default
+                      value: disabled.'
                     type: string
                   instanceName:
                     description: 'The name of the ECS. This instance_name can have
@@ -2649,7 +2737,9 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   isOutdated:
-                    description: Whether to use outdated instance type.
+                    description: 'Whether to use outdated instance type. Note: The
+                      parameter is immutable after resource creation. It only controls
+                      the I/O optimization option sent when creating the instance.'
                     type: boolean
                   keyName:
                     description: |-
@@ -2732,8 +2822,9 @@ spec:
                       value: Standard. Valid values:'
                     type: string
                   networkInterfaces:
-                    description: The list of network interfaces created with instance.
-                      See network_interfaces below.
+                    description: 'The list of network interfaces created with instance.
+                      Note: The parameter is immutable after resource creation. See
+                      network_interfaces below.'
                     items:
                       properties:
                         networkCardIndex:
@@ -2756,6 +2847,12 @@ spec:
                           items:
                             type: string
                           type: array
+                        sourceDestCheck:
+                          description: 'Specifies whether to enable the source and
+                            destination IP address check feature. We recommend that
+                            you enable the feature to improve network security. Valid
+                            values: true, false.'
+                          type: boolean
                         vswitchId:
                           description: The ID of the vSwitch to which to connect Secondary
                             ENI N.
@@ -2844,19 +2941,24 @@ spec:
                     description: The security enhancement strategy.
                     type: string
                   securityGroups:
-                    description: A list of security group ids to associate with. If
-                      you do not use launch_template_id or launch_template_name to
-                      specify a launch template, you must specify security_groups.
+                    description: A list of security group ids to associate with.
                     items:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  sourceDestCheck:
+                    description: 'Specifies whether to enable the source and destination
+                      IP address check feature. We recommend that you enable the feature
+                      to improve network security. Valid values: true, false.'
+                    type: boolean
                   spotDuration:
                     description: 'The retention time of the preemptive instance in
                       hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration
                       2~6 is under invitation test, please submit a work order if
                       you need to open. If the value is 0, the mode is no protection
-                      period. Default value is 1.'
+                      period. Default value is 1. Note: The parameter is immutable
+                      after resource creation. This resource sends it only when creating
+                      the instance.'
                     type: number
                   spotInterruptionBehavior:
                     description: 'The interruption mode of the spot instance. Default

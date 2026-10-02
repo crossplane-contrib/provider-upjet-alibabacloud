@@ -334,6 +334,87 @@ spec:
                           description: The listening port of the HTTP Server when
                             the custom container runs.
                           type: number
+                        registryConfig:
+                          description: The configuration of the custom image registry.
+                            See registry_config below.
+                          items:
+                            properties:
+                              authConfig:
+                                description: The authentication configuration of the
+                                  image registry. See auth_config below.
+                                items:
+                                  properties:
+                                    passwordSecretRef:
+                                      description: The password of the image registry.
+                                      properties:
+                                        key:
+                                          description: The key to select.
+                                          type: string
+                                        name:
+                                          description: Name of the secret.
+                                          type: string
+                                        namespace:
+                                          description: Namespace of the secret.
+                                          type: string
+                                      required:
+                                      - key
+                                      - name
+                                      - namespace
+                                      type: object
+                                    userNameSecretRef:
+                                      description: The username of the image registry.
+                                      properties:
+                                        key:
+                                          description: The key to select.
+                                          type: string
+                                        name:
+                                          description: Name of the secret.
+                                          type: string
+                                        namespace:
+                                          description: Namespace of the secret.
+                                          type: string
+                                      required:
+                                      - key
+                                      - name
+                                      - namespace
+                                      type: object
+                                  type: object
+                                type: array
+                              certConfig:
+                                description: The certificate configuration of the
+                                  image registry. See cert_config below.
+                                items:
+                                  properties:
+                                    insecure:
+                                      description: Specifies whether to skip certificate
+                                        verification.
+                                      type: boolean
+                                    rootCaCertBase64:
+                                      description: The Base64-encoded root CA certificate
+                                        of the image registry.
+                                      type: string
+                                  type: object
+                                type: array
+                              networkConfig:
+                                description: The network configuration used to connect
+                                  to the image registry. See network_config below.
+                                items:
+                                  properties:
+                                    securityGroupId:
+                                      description: Security group ID
+                                      type: string
+                                    vpcId:
+                                      description: The ID of the VPC that can connect
+                                        to the image registry.
+                                      type: string
+                                    vswitchId:
+                                      description: The ID of the vSwitch that can
+                                        connect to the image registry.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                       type: object
                     type: array
                   customDns:
@@ -1351,6 +1432,87 @@ spec:
                           description: The listening port of the HTTP Server when
                             the custom container runs.
                           type: number
+                        registryConfig:
+                          description: The configuration of the custom image registry.
+                            See registry_config below.
+                          items:
+                            properties:
+                              authConfig:
+                                description: The authentication configuration of the
+                                  image registry. See auth_config below.
+                                items:
+                                  properties:
+                                    passwordSecretRef:
+                                      description: The password of the image registry.
+                                      properties:
+                                        key:
+                                          description: The key to select.
+                                          type: string
+                                        name:
+                                          description: Name of the secret.
+                                          type: string
+                                        namespace:
+                                          description: Namespace of the secret.
+                                          type: string
+                                      required:
+                                      - key
+                                      - name
+                                      - namespace
+                                      type: object
+                                    userNameSecretRef:
+                                      description: The username of the image registry.
+                                      properties:
+                                        key:
+                                          description: The key to select.
+                                          type: string
+                                        name:
+                                          description: Name of the secret.
+                                          type: string
+                                        namespace:
+                                          description: Namespace of the secret.
+                                          type: string
+                                      required:
+                                      - key
+                                      - name
+                                      - namespace
+                                      type: object
+                                  type: object
+                                type: array
+                              certConfig:
+                                description: The certificate configuration of the
+                                  image registry. See cert_config below.
+                                items:
+                                  properties:
+                                    insecure:
+                                      description: Specifies whether to skip certificate
+                                        verification.
+                                      type: boolean
+                                    rootCaCertBase64:
+                                      description: The Base64-encoded root CA certificate
+                                        of the image registry.
+                                      type: string
+                                  type: object
+                                type: array
+                              networkConfig:
+                                description: The network configuration used to connect
+                                  to the image registry. See network_config below.
+                                items:
+                                  properties:
+                                    securityGroupId:
+                                      description: Security group ID
+                                      type: string
+                                    vpcId:
+                                      description: The ID of the VPC that can connect
+                                        to the image registry.
+                                      type: string
+                                    vswitchId:
+                                      description: The ID of the vSwitch that can
+                                        connect to the image registry.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                       type: object
                     type: array
                   customDns:
@@ -2382,6 +2544,87 @@ spec:
                           description: The listening port of the HTTP Server when
                             the custom container runs.
                           type: number
+                        registryConfig:
+                          description: The configuration of the custom image registry.
+                            See registry_config below.
+                          items:
+                            properties:
+                              authConfig:
+                                description: The authentication configuration of the
+                                  image registry. See auth_config below.
+                                items:
+                                  properties:
+                                    passwordSecretRef:
+                                      description: The password of the image registry.
+                                      properties:
+                                        key:
+                                          description: The key to select.
+                                          type: string
+                                        name:
+                                          description: Name of the secret.
+                                          type: string
+                                        namespace:
+                                          description: Namespace of the secret.
+                                          type: string
+                                      required:
+                                      - key
+                                      - name
+                                      - namespace
+                                      type: object
+                                    userNameSecretRef:
+                                      description: The username of the image registry.
+                                      properties:
+                                        key:
+                                          description: The key to select.
+                                          type: string
+                                        name:
+                                          description: Name of the secret.
+                                          type: string
+                                        namespace:
+                                          description: Namespace of the secret.
+                                          type: string
+                                      required:
+                                      - key
+                                      - name
+                                      - namespace
+                                      type: object
+                                  type: object
+                                type: array
+                              certConfig:
+                                description: The certificate configuration of the
+                                  image registry. See cert_config below.
+                                items:
+                                  properties:
+                                    insecure:
+                                      description: Specifies whether to skip certificate
+                                        verification.
+                                      type: boolean
+                                    rootCaCertBase64:
+                                      description: The Base64-encoded root CA certificate
+                                        of the image registry.
+                                      type: string
+                                  type: object
+                                type: array
+                              networkConfig:
+                                description: The network configuration used to connect
+                                  to the image registry. See network_config below.
+                                items:
+                                  properties:
+                                    securityGroupId:
+                                      description: Security group ID
+                                      type: string
+                                    vpcId:
+                                      description: The ID of the VPC that can connect
+                                        to the image registry.
+                                      type: string
+                                    vswitchId:
+                                      description: The ID of the vSwitch that can
+                                        connect to the image registry.
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          type: array
                         resolvedImageUri:
                           description: The actual digest version of the deployed Image.
                             The code version specified by this digest is used when

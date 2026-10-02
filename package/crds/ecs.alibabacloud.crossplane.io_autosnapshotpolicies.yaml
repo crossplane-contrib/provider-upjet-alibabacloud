@@ -73,6 +73,10 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  associationType:
+                    description: 'The association type between the automatic snapshot
+                      policy and target resources. Valid values:'
+                    type: string
                   autoSnapshotPolicyName:
                     description: The name of the automatic snapshot policy. The name
                       must be 2 to 128 characters in length. The name must start with
@@ -139,6 +143,26 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  targetTags:
+                    description: The tags used to associate the automatic snapshot
+                      policy with ECS instances. This parameter takes effect only
+                      when association_type is set to AssociatedWithInstanceTag. See
+                      target_tags below.
+                    items:
+                      properties:
+                        tagKey:
+                          description: 'The key of target tag N. The tag key cannot
+                            be an empty string. The tag key can be up to 128 characters
+                            in length and cannot start with acs: or aliyun. Valid
+                            values of N: 1 to 10.'
+                          type: string
+                        tagValue:
+                          description: The value of target tag N. The tag value can
+                            be an empty string. The tag value can be up to 128 characters
+                            in length and cannot start with acs:.
+                          type: string
+                      type: object
+                    type: array
                   timePoints:
                     description: The points in time of the day at which to create
                       automatic snapshots.
@@ -159,6 +183,10 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  associationType:
+                    description: 'The association type between the automatic snapshot
+                      policy and target resources. Valid values:'
+                    type: string
                   autoSnapshotPolicyName:
                     description: The name of the automatic snapshot policy. The name
                       must be 2 to 128 characters in length. The name must start with
@@ -221,6 +249,26 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  targetTags:
+                    description: The tags used to associate the automatic snapshot
+                      policy with ECS instances. This parameter takes effect only
+                      when association_type is set to AssociatedWithInstanceTag. See
+                      target_tags below.
+                    items:
+                      properties:
+                        tagKey:
+                          description: 'The key of target tag N. The tag key cannot
+                            be an empty string. The tag key can be up to 128 characters
+                            in length and cannot start with acs: or aliyun. Valid
+                            values of N: 1 to 10.'
+                          type: string
+                        tagValue:
+                          description: The value of target tag N. The tag value can
+                            be an empty string. The tag value can be up to 128 characters
+                            in length and cannot start with acs:.
+                          type: string
+                      type: object
+                    type: array
                   timePoints:
                     description: The points in time of the day at which to create
                       automatic snapshots.
@@ -413,6 +461,10 @@ spec:
             properties:
               atProvider:
                 properties:
+                  associationType:
+                    description: 'The association type between the automatic snapshot
+                      policy and target resources. Valid values:'
+                    type: string
                   autoSnapshotPolicyName:
                     description: The name of the automatic snapshot policy. The name
                       must be 2 to 128 characters in length. The name must start with
@@ -490,6 +542,26 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  targetTags:
+                    description: The tags used to associate the automatic snapshot
+                      policy with ECS instances. This parameter takes effect only
+                      when association_type is set to AssociatedWithInstanceTag. See
+                      target_tags below.
+                    items:
+                      properties:
+                        tagKey:
+                          description: 'The key of target tag N. The tag key cannot
+                            be an empty string. The tag key can be up to 128 characters
+                            in length and cannot start with acs: or aliyun. Valid
+                            values of N: 1 to 10.'
+                          type: string
+                        tagValue:
+                          description: The value of target tag N. The tag value can
+                            be an empty string. The tag value can be up to 128 characters
+                            in length and cannot start with acs:.
+                          type: string
+                      type: object
+                    type: array
                   timePoints:
                     description: The points in time of the day at which to create
                       automatic snapshots.

@@ -378,9 +378,11 @@ spec:
                       properties:
                         reservedPublishCapacity:
                           description: The reserved capacity for publishing messages.
+                            The minimum value is 60.
                           type: number
                         reservedSubscribeCapacity:
                           description: The reserved capacity for subscribing to message.
+                            The minimum value is 20.
                           type: number
                       type: object
                     type: array
@@ -956,9 +958,11 @@ spec:
                       properties:
                         reservedPublishCapacity:
                           description: The reserved capacity for publishing messages.
+                            The minimum value is 60.
                           type: number
                         reservedSubscribeCapacity:
                           description: The reserved capacity for subscribing to message.
+                            The minimum value is 20.
                           type: number
                       type: object
                     type: array
@@ -1582,9 +1586,11 @@ spec:
                       properties:
                         reservedPublishCapacity:
                           description: The reserved capacity for publishing messages.
+                            The minimum value is 60.
                           type: number
                         reservedSubscribeCapacity:
                           description: The reserved capacity for subscribing to message.
+                            The minimum value is 20.
                           type: number
                       type: object
                     type: array
@@ -1625,6 +1631,10 @@ spec:
                     type: number
                   vpcId:
                     description: The VPC ID of the instance.
+                    type: string
+                  vpcSaslDomainEndpoint:
+                    description: (Available since v1.283.0) The IP-based endpoint
+                      for SASL access over a VPC.
                     type: string
                   vswitchId:
                     description: The ID of attaching vswitch to instance.

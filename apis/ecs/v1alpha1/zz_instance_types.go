@@ -247,9 +247,10 @@ type InstanceInitParameters struct {
 	CPUOptions []CPUOptionsInitParameters `json:"cpuOptions,omitempty" tf:"cpu_options,omitempty"`
 
 	// Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+	// -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
 	CreditSpecification *string `json:"creditSpecification,omitempty" tf:"credit_specification,omitempty"`
 
-	// The list of data disks created with instance. See data_disks below.
+	// The list of data disks created with instance. Note: The parameter is immutable after resource creation. This resource only configures these disks during instance creation; it does not update or refresh the inline disk settings. See data_disks below.
 	DataDisks []InstanceDataDisksInitParameters `json:"dataDisks,omitempty" tf:"data_disks,omitempty"`
 
 	// The ID of the dedicated host on which to create the instance. If you set the DedicatedHostId parameter, the spot_strategy and spot_price_limit parameters cannot be set. This is because preemptible instances cannot be created on dedicated hosts.
@@ -267,8 +268,14 @@ type InstanceInitParameters struct {
 	// Specifies whether to send a dry-run request. Default to false.
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
+	// Specifies whether to enable the high density mode for the instance. Valid values: true, false.
+	EnableHighDensityMode *bool `json:"enableHighDensityMode,omitempty" tf:"enable_high_density_mode,omitempty"`
+
 	// Specifies whether to enable the Jumbo Frames feature for the instance. Valid values: true, false.
 	EnableJumboFrame *bool `json:"enableJumboFrame,omitempty" tf:"enable_jumbo_frame,omitempty"`
+
+	// Specifies whether to enable network encryption for the instance. Valid values: true, false.
+	EnableNetworkEncryption *bool `json:"enableNetworkEncryption,omitempty" tf:"enable_network_encryption,omitempty"`
 
 	// If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
 	// However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
@@ -297,7 +304,7 @@ type InstanceInitParameters struct {
 	// +listType=set
 	IPv6Addresses []*string `json:"ipv6Addresses,omitempty" tf:"ipv6_addresses,omitempty"`
 
-	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. When it is changed, the instance will reboot to make the change take effect. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id.
+	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id. How the change is applied is controlled by the provider argument features.ecs_instance.replace_on_image_update:
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Image
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
@@ -309,7 +316,7 @@ type InstanceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageIDSelector *v1.Selector `json:"imageIdSelector,omitempty" tf:"-"`
 
-	// The options of images. See image_options below.
+	// The options of images. Note: The parameter is immutable after resource creation. See image_options below.
 	ImageOptions []InstanceImageOptionsInitParameters `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
 
 	// Whether to change instance disks charge type when changing instance charge type.
@@ -320,6 +327,9 @@ type InstanceInitParameters struct {
 	// However, since some limitation about CPU core count in one month,
 	// there strongly recommends that Don't change instance_charge_type frequentlly in one month.
 	InstanceChargeType *string `json:"instanceChargeType,omitempty" tf:"instance_charge_type,omitempty"`
+
+	// Specifies whether to expose the tags of the instance in the instance metadata. Valid values: enabled, disabled. Default value: disabled.
+	InstanceMetadataTags *string `json:"instanceMetadataTags,omitempty" tf:"instance_metadata_tags,omitempty"`
 
 	// The name of the ECS. This instance_name can have a string of 2 to 128 characters, must contain only alphanumeric characters or hyphens, such as "-",".","_", and must not begin with a hyphen, and must not begin with http:// or https://. NOTE: From version 1.243.0, the default value ECS-Instance will be removed.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
@@ -333,7 +343,7 @@ type InstanceInitParameters struct {
 	// Maximum outgoing bandwidth to the public network, measured in Mbps (Mega bit per second). Value range:  [0, 100]. NOTE: From version 1.243.0, the default value 0 will be removed.
 	InternetMaxBandwidthOut *float64 `json:"internetMaxBandwidthOut,omitempty" tf:"internet_max_bandwidth_out,omitempty"`
 
-	// Whether to use outdated instance type.
+	// Whether to use outdated instance type. Note: The parameter is immutable after resource creation. It only controls the I/O optimization option sent when creating the instance.
 	IsOutdated *bool `json:"isOutdated,omitempty" tf:"is_outdated,omitempty"`
 
 	// An KMS encrypts password used to an instance. If the password is filled in, this field will be ignored. When it is changed, the instance will reboot to make the change take effect.
@@ -386,10 +396,13 @@ type InstanceInitParameters struct {
 	// The index of the network card for Primary ENI.
 	NetworkCardIndex *float64 `json:"networkCardIndex,omitempty" tf:"network_card_index,omitempty"`
 
+	// The ID of the Primary ENI.
+	NetworkInterfaceID *string `json:"networkInterfaceId,omitempty" tf:"network_interface_id,omitempty"`
+
 	// The communication mode of the Primary ENI. Default value: Standard. Valid values:
 	NetworkInterfaceTrafficMode *string `json:"networkInterfaceTrafficMode,omitempty" tf:"network_interface_traffic_mode,omitempty"`
 
-	// The list of network interfaces created with instance. See network_interfaces below.
+	// The list of network interfaces created with instance. Note: The parameter is immutable after resource creation. See network_interfaces below.
 	NetworkInterfaces []InstanceNetworkInterfacesInitParameters `json:"networkInterfaces,omitempty" tf:"network_interfaces,omitempty"`
 
 	// The operation type. It is valid when instance_charge_type is PrePaid. Default value: upgrade. Valid values: upgrade, downgrade. NOTE:  When the new instance type specified by the instance_type parameter has lower specifications than the current instance type, you must set operator_type to downgrade.
@@ -446,14 +459,17 @@ type InstanceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
-	// A list of security group ids to associate with. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify security_groups.
+	// A list of security group ids to associate with.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:refFieldName=SecurityGroupRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityGroupSelector
 	// +listType=set
 	SecurityGroups []*string `json:"securityGroups,omitempty" tf:"security_groups,omitempty"`
 
-	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1.
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
+
+	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1. Note: The parameter is immutable after resource creation. This resource sends it only when creating the instance.
 	SpotDuration *float64 `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
 
 	// The interruption mode of the spot instance. Default value: Terminate. Valid values:
@@ -563,6 +579,9 @@ type InstanceNetworkInterfacesInitParameters struct {
 	// The ID of security group N to which to assign Secondary ENI N.
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
+
 	// The ID of the vSwitch to which to connect Secondary ENI N.
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 }
@@ -583,6 +602,9 @@ type InstanceNetworkInterfacesObservation struct {
 
 	// The ID of security group N to which to assign Secondary ENI N.
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
+
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
 	// The ID of the vSwitch to which to connect Secondary ENI N.
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
@@ -609,6 +631,10 @@ type InstanceNetworkInterfacesParameters struct {
 	// The ID of security group N to which to assign Secondary ENI N.
 	// +kubebuilder:validation:Optional
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
+
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	// +kubebuilder:validation:Optional
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
 	// The ID of the vSwitch to which to connect Secondary ENI N.
 	// +kubebuilder:validation:Optional
@@ -638,9 +664,10 @@ type InstanceObservation struct {
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+	// -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
 	CreditSpecification *string `json:"creditSpecification,omitempty" tf:"credit_specification,omitempty"`
 
-	// The list of data disks created with instance. See data_disks below.
+	// The list of data disks created with instance. Note: The parameter is immutable after resource creation. This resource only configures these disks during instance creation; it does not update or refresh the inline disk settings. See data_disks below.
 	DataDisks []InstanceDataDisksObservation `json:"dataDisks,omitempty" tf:"data_disks,omitempty"`
 
 	// The ID of the dedicated host on which to create the instance. If you set the DedicatedHostId parameter, the spot_strategy and spot_price_limit parameters cannot be set. This is because preemptible instances cannot be created on dedicated hosts.
@@ -661,8 +688,14 @@ type InstanceObservation struct {
 	// Specifies whether to send a dry-run request. Default to false.
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
+	// Specifies whether to enable the high density mode for the instance. Valid values: true, false.
+	EnableHighDensityMode *bool `json:"enableHighDensityMode,omitempty" tf:"enable_high_density_mode,omitempty"`
+
 	// Specifies whether to enable the Jumbo Frames feature for the instance. Valid values: true, false.
 	EnableJumboFrame *bool `json:"enableJumboFrame,omitempty" tf:"enable_jumbo_frame,omitempty"`
+
+	// Specifies whether to enable network encryption for the instance. Valid values: true, false.
+	EnableNetworkEncryption *bool `json:"enableNetworkEncryption,omitempty" tf:"enable_network_encryption,omitempty"`
 
 	// (Available since v1.232.0) The expiration time of the instance.
 	ExpiredTime *string `json:"expiredTime,omitempty" tf:"expired_time,omitempty"`
@@ -697,10 +730,10 @@ type InstanceObservation struct {
 	// +listType=set
 	IPv6Addresses []*string `json:"ipv6Addresses,omitempty" tf:"ipv6_addresses,omitempty"`
 
-	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. When it is changed, the instance will reboot to make the change take effect. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id.
+	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id. How the change is applied is controlled by the provider argument features.ecs_instance.replace_on_image_update:
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
-	// The options of images. See image_options below.
+	// The options of images. Note: The parameter is immutable after resource creation. See image_options below.
 	ImageOptions []InstanceImageOptionsObservation `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
 
 	// Whether to change instance disks charge type when changing instance charge type.
@@ -711,6 +744,9 @@ type InstanceObservation struct {
 	// However, since some limitation about CPU core count in one month,
 	// there strongly recommends that Don't change instance_charge_type frequentlly in one month.
 	InstanceChargeType *string `json:"instanceChargeType,omitempty" tf:"instance_charge_type,omitempty"`
+
+	// Specifies whether to expose the tags of the instance in the instance metadata. Valid values: enabled, disabled. Default value: disabled.
+	InstanceMetadataTags *string `json:"instanceMetadataTags,omitempty" tf:"instance_metadata_tags,omitempty"`
 
 	// The name of the ECS. This instance_name can have a string of 2 to 128 characters, must contain only alphanumeric characters or hyphens, such as "-",".","_", and must not begin with a hyphen, and must not begin with http:// or https://. NOTE: From version 1.243.0, the default value ECS-Instance will be removed.
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
@@ -724,7 +760,7 @@ type InstanceObservation struct {
 	// Maximum outgoing bandwidth to the public network, measured in Mbps (Mega bit per second). Value range:  [0, 100]. NOTE: From version 1.243.0, the default value 0 will be removed.
 	InternetMaxBandwidthOut *float64 `json:"internetMaxBandwidthOut,omitempty" tf:"internet_max_bandwidth_out,omitempty"`
 
-	// Whether to use outdated instance type.
+	// Whether to use outdated instance type. Note: The parameter is immutable after resource creation. It only controls the I/O optimization option sent when creating the instance.
 	IsOutdated *bool `json:"isOutdated,omitempty" tf:"is_outdated,omitempty"`
 
 	// An KMS encrypts password used to an instance. If the password is filled in, this field will be ignored. When it is changed, the instance will reboot to make the change take effect.
@@ -768,7 +804,7 @@ type InstanceObservation struct {
 	// The communication mode of the Primary ENI. Default value: Standard. Valid values:
 	NetworkInterfaceTrafficMode *string `json:"networkInterfaceTrafficMode,omitempty" tf:"network_interface_traffic_mode,omitempty"`
 
-	// The list of network interfaces created with instance. See network_interfaces below.
+	// The list of network interfaces created with instance. Note: The parameter is immutable after resource creation. See network_interfaces below.
 	NetworkInterfaces []InstanceNetworkInterfacesObservation `json:"networkInterfaces,omitempty" tf:"network_interfaces,omitempty"`
 
 	// The operation type. It is valid when instance_charge_type is PrePaid. Default value: upgrade. Valid values: upgrade, downgrade. NOTE:  When the new instance type specified by the instance_type parameter has lower specifications than the current instance type, you must set operator_type to downgrade.
@@ -826,11 +862,14 @@ type InstanceObservation struct {
 	// The security enhancement strategy.
 	SecurityEnhancementStrategy *string `json:"securityEnhancementStrategy,omitempty" tf:"security_enhancement_strategy,omitempty"`
 
-	// A list of security group ids to associate with. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify security_groups.
+	// A list of security group ids to associate with.
 	// +listType=set
 	SecurityGroups []*string `json:"securityGroups,omitempty" tf:"security_groups,omitempty"`
 
-	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1.
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
+
+	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1. Note: The parameter is immutable after resource creation. This resource sends it only when creating the instance.
 	SpotDuration *float64 `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
 
 	// The interruption mode of the spot instance. Default value: Terminate. Valid values:
@@ -932,10 +971,11 @@ type InstanceParameters struct {
 	CPUOptions []CPUOptionsParameters `json:"cpuOptions,omitempty" tf:"cpu_options,omitempty"`
 
 	// Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+	// -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
 	// +kubebuilder:validation:Optional
 	CreditSpecification *string `json:"creditSpecification,omitempty" tf:"credit_specification,omitempty"`
 
-	// The list of data disks created with instance. See data_disks below.
+	// The list of data disks created with instance. Note: The parameter is immutable after resource creation. This resource only configures these disks during instance creation; it does not update or refresh the inline disk settings. See data_disks below.
 	// +kubebuilder:validation:Optional
 	DataDisks []InstanceDataDisksParameters `json:"dataDisks,omitempty" tf:"data_disks,omitempty"`
 
@@ -959,9 +999,17 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
+	// Specifies whether to enable the high density mode for the instance. Valid values: true, false.
+	// +kubebuilder:validation:Optional
+	EnableHighDensityMode *bool `json:"enableHighDensityMode,omitempty" tf:"enable_high_density_mode,omitempty"`
+
 	// Specifies whether to enable the Jumbo Frames feature for the instance. Valid values: true, false.
 	// +kubebuilder:validation:Optional
 	EnableJumboFrame *bool `json:"enableJumboFrame,omitempty" tf:"enable_jumbo_frame,omitempty"`
+
+	// Specifies whether to enable network encryption for the instance. Valid values: true, false.
+	// +kubebuilder:validation:Optional
+	EnableNetworkEncryption *bool `json:"enableNetworkEncryption,omitempty" tf:"enable_network_encryption,omitempty"`
 
 	// If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
 	// However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
@@ -998,7 +1046,7 @@ type InstanceParameters struct {
 	// +listType=set
 	IPv6Addresses []*string `json:"ipv6Addresses,omitempty" tf:"ipv6_addresses,omitempty"`
 
-	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. When it is changed, the instance will reboot to make the change take effect. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id.
+	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id. How the change is applied is controlled by the provider argument features.ecs_instance.replace_on_image_update:
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Image
 	// +kubebuilder:validation:Optional
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
@@ -1011,7 +1059,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageIDSelector *v1.Selector `json:"imageIdSelector,omitempty" tf:"-"`
 
-	// The options of images. See image_options below.
+	// The options of images. Note: The parameter is immutable after resource creation. See image_options below.
 	// +kubebuilder:validation:Optional
 	ImageOptions []InstanceImageOptionsParameters `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
 
@@ -1025,6 +1073,10 @@ type InstanceParameters struct {
 	// there strongly recommends that Don't change instance_charge_type frequentlly in one month.
 	// +kubebuilder:validation:Optional
 	InstanceChargeType *string `json:"instanceChargeType,omitempty" tf:"instance_charge_type,omitempty"`
+
+	// Specifies whether to expose the tags of the instance in the instance metadata. Valid values: enabled, disabled. Default value: disabled.
+	// +kubebuilder:validation:Optional
+	InstanceMetadataTags *string `json:"instanceMetadataTags,omitempty" tf:"instance_metadata_tags,omitempty"`
 
 	// The name of the ECS. This instance_name can have a string of 2 to 128 characters, must contain only alphanumeric characters or hyphens, such as "-",".","_", and must not begin with a hyphen, and must not begin with http:// or https://. NOTE: From version 1.243.0, the default value ECS-Instance will be removed.
 	// +kubebuilder:validation:Optional
@@ -1042,7 +1094,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	InternetMaxBandwidthOut *float64 `json:"internetMaxBandwidthOut,omitempty" tf:"internet_max_bandwidth_out,omitempty"`
 
-	// Whether to use outdated instance type.
+	// Whether to use outdated instance type. Note: The parameter is immutable after resource creation. It only controls the I/O optimization option sent when creating the instance.
 	// +kubebuilder:validation:Optional
 	IsOutdated *bool `json:"isOutdated,omitempty" tf:"is_outdated,omitempty"`
 
@@ -1106,11 +1158,15 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkCardIndex *float64 `json:"networkCardIndex,omitempty" tf:"network_card_index,omitempty"`
 
+	// The ID of the Primary ENI.
+	// +kubebuilder:validation:Optional
+	NetworkInterfaceID *string `json:"networkInterfaceId,omitempty" tf:"network_interface_id,omitempty"`
+
 	// The communication mode of the Primary ENI. Default value: Standard. Valid values:
 	// +kubebuilder:validation:Optional
 	NetworkInterfaceTrafficMode *string `json:"networkInterfaceTrafficMode,omitempty" tf:"network_interface_traffic_mode,omitempty"`
 
-	// The list of network interfaces created with instance. See network_interfaces below.
+	// The list of network interfaces created with instance. Note: The parameter is immutable after resource creation. See network_interfaces below.
 	// +kubebuilder:validation:Optional
 	NetworkInterfaces []InstanceNetworkInterfacesParameters `json:"networkInterfaces,omitempty" tf:"network_interfaces,omitempty"`
 
@@ -1188,7 +1244,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
-	// A list of security group ids to associate with. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify security_groups.
+	// A list of security group ids to associate with.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:refFieldName=SecurityGroupRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityGroupSelector
@@ -1196,7 +1252,11 @@ type InstanceParameters struct {
 	// +listType=set
 	SecurityGroups []*string `json:"securityGroups,omitempty" tf:"security_groups,omitempty"`
 
-	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1.
+	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
+	// +kubebuilder:validation:Optional
+	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
+
+	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1. Note: The parameter is immutable after resource creation. This resource sends it only when creating the instance.
 	// +kubebuilder:validation:Optional
 	SpotDuration *float64 `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
 

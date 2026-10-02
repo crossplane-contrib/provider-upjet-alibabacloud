@@ -140,6 +140,9 @@ type InstanceInitParameters struct {
 	// The number of read replicas in the primary zone. Valid values: 1 to 9.
 	ReadOnlyCount *float64 `json:"readOnlyCount,omitempty" tf:"read_only_count,omitempty"`
 
+	// The number of replica nodes in the primary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
 	// The ID of resource group which the resource belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
@@ -196,6 +199,10 @@ type InstanceInitParameters struct {
 	// The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
 	// -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
+
+	// The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	// -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
+	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 
 	// The ID of the source instance.
 	SrcdbInstanceID *string `json:"srcdbInstanceId,omitempty" tf:"srcdb_instance_id,omitempty"`
@@ -368,6 +375,9 @@ type InstanceObservation struct {
 	// The number of read replicas in the primary zone. Valid values: 1 to 9.
 	ReadOnlyCount *float64 `json:"readOnlyCount,omitempty" tf:"read_only_count,omitempty"`
 
+	// The number of replica nodes in the primary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
 	// The ID of resource group which the resource belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
@@ -404,6 +414,10 @@ type InstanceObservation struct {
 	// The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
 	// -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
+
+	// The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	// -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
+	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 
 	// The ID of the source instance.
 	SrcdbInstanceID *string `json:"srcdbInstanceId,omitempty" tf:"srcdb_instance_id,omitempty"`
@@ -602,6 +616,10 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
+	// The number of replica nodes in the primary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	// +kubebuilder:validation:Optional
+	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
 	// The ID of resource group which the resource belongs.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -669,6 +687,11 @@ type InstanceParameters struct {
 	// -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
 	// +kubebuilder:validation:Optional
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
+
+	// The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
+	// -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
+	// +kubebuilder:validation:Optional
+	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 
 	// The ID of the source instance.
 	// +kubebuilder:validation:Optional

@@ -1584,6 +1584,16 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.CnNodeClass != nil {
+		in, out := &in.CnNodeClass, &out.CnNodeClass
+		*out = new(string)
+		**out = **in
+	}
+	if in.CnNodeNum != nil {
+		in, out := &in.CnNodeNum, &out.CnNodeNum
+		*out = new(float64)
+		**out = **in
+	}
 	if in.CollectorStatus != nil {
 		in, out := &in.CollectorStatus, &out.CollectorStatus
 		*out = new(string)
@@ -1659,6 +1669,21 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
+		**out = **in
+	}
+	if in.DnNodeClass != nil {
+		in, out := &in.DnNodeClass, &out.DnNodeClass
+		*out = new(string)
+		**out = **in
+	}
+	if in.DnNodeNum != nil {
+		in, out := &in.DnNodeNum, &out.DnNodeNum
+		*out = new(float64)
+		**out = **in
+	}
+	if in.EnableAutomaticRotation != nil {
+		in, out := &in.EnableAutomaticRotation, &out.EnableAutomaticRotation
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableDynamodb != nil {
@@ -1964,6 +1989,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.TargetMinorVersion != nil {
+		in, out := &in.TargetMinorVersion, &out.TargetMinorVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.TdeStatus != nil {
 		in, out := &in.TdeStatus, &out.TdeStatus
 		*out = new(string)
@@ -2066,6 +2096,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.AutomaticRotation != nil {
+		in, out := &in.AutomaticRotation, &out.AutomaticRotation
+		*out = new(string)
+		**out = **in
+	}
 	if in.BackupRetentionPolicyOnClusterDeletion != nil {
 		in, out := &in.BackupRetentionPolicyOnClusterDeletion, &out.BackupRetentionPolicyOnClusterDeletion
 		*out = new(string)
@@ -2074,6 +2109,27 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	if in.CloneDataPoint != nil {
 		in, out := &in.CloneDataPoint, &out.CloneDataPoint
 		*out = new(string)
+		**out = **in
+	}
+	if in.CnNodeClass != nil {
+		in, out := &in.CnNodeClass, &out.CnNodeClass
+		*out = new(string)
+		**out = **in
+	}
+	if in.CnNodeIds != nil {
+		in, out := &in.CnNodeIds, &out.CnNodeIds
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.CnNodeNum != nil {
+		in, out := &in.CnNodeNum, &out.CnNodeNum
+		*out = new(float64)
 		**out = **in
 	}
 	if in.CollectorStatus != nil {
@@ -2168,6 +2224,32 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
+		**out = **in
+	}
+	if in.DnNodeClass != nil {
+		in, out := &in.DnNodeClass, &out.DnNodeClass
+		*out = new(string)
+		**out = **in
+	}
+	if in.DnNodeIds != nil {
+		in, out := &in.DnNodeIds, &out.DnNodeIds
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.DnNodeNum != nil {
+		in, out := &in.DnNodeNum, &out.DnNodeNum
+		*out = new(float64)
+		**out = **in
+	}
+	if in.EnableAutomaticRotation != nil {
+		in, out := &in.EnableAutomaticRotation, &out.EnableAutomaticRotation
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableDynamodb != nil {
@@ -2323,6 +2405,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.RotationInterval != nil {
+		in, out := &in.RotationInterval, &out.RotationInterval
+		*out = new(string)
+		**out = **in
+	}
 	if in.ScaleApRoNumMax != nil {
 		in, out := &in.ScaleApRoNumMax, &out.ScaleApRoNumMax
 		*out = new(float64)
@@ -2466,6 +2553,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.TargetMinorVersion != nil {
+		in, out := &in.TargetMinorVersion, &out.TargetMinorVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.TdeRegion != nil {
 		in, out := &in.TdeRegion, &out.TdeRegion
 		*out = new(string)
@@ -2529,6 +2621,16 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	if in.CloneDataPoint != nil {
 		in, out := &in.CloneDataPoint, &out.CloneDataPoint
 		*out = new(string)
+		**out = **in
+	}
+	if in.CnNodeClass != nil {
+		in, out := &in.CnNodeClass, &out.CnNodeClass
+		*out = new(string)
+		**out = **in
+	}
+	if in.CnNodeNum != nil {
+		in, out := &in.CnNodeNum, &out.CnNodeNum
+		*out = new(float64)
 		**out = **in
 	}
 	if in.CollectorStatus != nil {
@@ -2606,6 +2708,21 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
+		**out = **in
+	}
+	if in.DnNodeClass != nil {
+		in, out := &in.DnNodeClass, &out.DnNodeClass
+		*out = new(string)
+		**out = **in
+	}
+	if in.DnNodeNum != nil {
+		in, out := &in.DnNodeNum, &out.DnNodeNum
+		*out = new(float64)
+		**out = **in
+	}
+	if in.EnableAutomaticRotation != nil {
+		in, out := &in.EnableAutomaticRotation, &out.EnableAutomaticRotation
+		*out = new(bool)
 		**out = **in
 	}
 	if in.EnableDynamodb != nil {
@@ -2913,6 +3030,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.TargetDBRevisionVersionCode != nil {
 		in, out := &in.TargetDBRevisionVersionCode, &out.TargetDBRevisionVersionCode
+		*out = new(string)
+		**out = **in
+	}
+	if in.TargetMinorVersion != nil {
+		in, out := &in.TargetMinorVersion, &out.TargetMinorVersion
 		*out = new(string)
 		**out = **in
 	}
