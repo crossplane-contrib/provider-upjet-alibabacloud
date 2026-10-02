@@ -75,10 +75,11 @@ spec:
               forProvider:
                 properties:
                   addons:
-                    description: You can specific network plugin, log component, ingress
-                      component and so on. See addons below. Only works for Create
-                      Operation, use resource cs_kubernetes_addon to manage addons
-                      if cluster is created.
+                    description: 'You can specific network plugin, log component,
+                      ingress component and so on. See addons below. Only works for
+                      Create Operation, use resource cs_kubernetes_addon to manage
+                      addons if cluster is created. Note: The parameter is immutable
+                      after resource creation.'
                     items:
                       properties:
                         config:
@@ -151,6 +152,11 @@ spec:
                   deletionProtection:
                     description: Whether enable the deletion protection or not.
                     type: boolean
+                  disableEncryption:
+                    description: |-
+                      Whether to disable encryption for Kubernetes Secrets. Default value is false. Set to true to disable encryption.
+                      -> Note: When enabling encryption, you must explicitly set disable_encryption = false along with encryption_provider_key. When disabling encryption, you only need to set disable_encryption = true, and the encryption_provider_key will be ignored.
+                    type: boolean
                   enableRrsa:
                     description: Whether to enable cluster to support RRSA for version
                       1.22.3+. Default to false. Once the RRSA function is turned
@@ -159,6 +165,12 @@ spec:
                       rrsa configuration to the file, learn more RAM Roles for Service
                       Accounts.
                     type: boolean
+                  encryptionProviderKey:
+                    description: |-
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+                      -> Note: To enable encryption, you must specify both encryption_provider_key and disable_encryption = false. When disable_encryption is set to true, changes to encryption_provider_key will be ignored.
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+                    type: string
                   endpointPublicAccessEnabled:
                     description: Whether to create internet eip for API Server. Default
                       to false. Only works for Create Operation.
@@ -637,10 +649,11 @@ spec:
                   autoscaler.
                 properties:
                   addons:
-                    description: You can specific network plugin, log component, ingress
-                      component and so on. See addons below. Only works for Create
-                      Operation, use resource cs_kubernetes_addon to manage addons
-                      if cluster is created.
+                    description: 'You can specific network plugin, log component,
+                      ingress component and so on. See addons below. Only works for
+                      Create Operation, use resource cs_kubernetes_addon to manage
+                      addons if cluster is created. Note: The parameter is immutable
+                      after resource creation.'
                     items:
                       properties:
                         config:
@@ -713,6 +726,11 @@ spec:
                   deletionProtection:
                     description: Whether enable the deletion protection or not.
                     type: boolean
+                  disableEncryption:
+                    description: |-
+                      Whether to disable encryption for Kubernetes Secrets. Default value is false. Set to true to disable encryption.
+                      -> Note: When enabling encryption, you must explicitly set disable_encryption = false along with encryption_provider_key. When disabling encryption, you only need to set disable_encryption = true, and the encryption_provider_key will be ignored.
+                    type: boolean
                   enableRrsa:
                     description: Whether to enable cluster to support RRSA for version
                       1.22.3+. Default to false. Once the RRSA function is turned
@@ -721,6 +739,12 @@ spec:
                       rrsa configuration to the file, learn more RAM Roles for Service
                       Accounts.
                     type: boolean
+                  encryptionProviderKey:
+                    description: |-
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+                      -> Note: To enable encryption, you must specify both encryption_provider_key and disable_encryption = false. When disable_encryption is set to true, changes to encryption_provider_key will be ignored.
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+                    type: string
                   endpointPublicAccessEnabled:
                     description: Whether to create internet eip for API Server. Default
                       to false. Only works for Create Operation.
@@ -1355,10 +1379,11 @@ spec:
               atProvider:
                 properties:
                   addons:
-                    description: You can specific network plugin, log component, ingress
-                      component and so on. See addons below. Only works for Create
-                      Operation, use resource cs_kubernetes_addon to manage addons
-                      if cluster is created.
+                    description: 'You can specific network plugin, log component,
+                      ingress component and so on. See addons below. Only works for
+                      Create Operation, use resource cs_kubernetes_addon to manage
+                      addons if cluster is created. Note: The parameter is immutable
+                      after resource creation.'
                     items:
                       properties:
                         config:
@@ -1431,6 +1456,11 @@ spec:
                   deletionProtection:
                     description: Whether enable the deletion protection or not.
                     type: boolean
+                  disableEncryption:
+                    description: |-
+                      Whether to disable encryption for Kubernetes Secrets. Default value is false. Set to true to disable encryption.
+                      -> Note: When enabling encryption, you must explicitly set disable_encryption = false along with encryption_provider_key. When disabling encryption, you only need to set disable_encryption = true, and the encryption_provider_key will be ignored.
+                    type: boolean
                   enableRrsa:
                     description: Whether to enable cluster to support RRSA for version
                       1.22.3+. Default to false. Once the RRSA function is turned
@@ -1439,6 +1469,12 @@ spec:
                       rrsa configuration to the file, learn more RAM Roles for Service
                       Accounts.
                     type: boolean
+                  encryptionProviderKey:
+                    description: |-
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+                      -> Note: To enable encryption, you must specify both encryption_provider_key and disable_encryption = false. When disable_encryption is set to true, changes to encryption_provider_key will be ignored.
+                      The ID of the Key Management Service (KMS) key that is used to encrypt Kubernetes Secrets.
+                    type: string
                   endpointPublicAccessEnabled:
                     description: Whether to create internet eip for API Server. Default
                       to false. Only works for Create Operation.

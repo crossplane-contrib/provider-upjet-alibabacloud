@@ -15,6 +15,9 @@ import (
 
 type AutoSnapshotPolicyInitParameters struct {
 
+	// The association type between the automatic snapshot policy and target resources. Valid values:
+	AssociationType *string `json:"associationType,omitempty" tf:"association_type,omitempty"`
+
 	// The name of the automatic snapshot policy. The name must be 2 to 128 characters in length. The name must start with a letter and cannot start with http:// or https://. The name can contain letters, digits, colons (:), underscores (_), and hyphens (-).
 	AutoSnapshotPolicyName *string `json:"autoSnapshotPolicyName,omitempty" tf:"auto_snapshot_policy_name,omitempty"`
 
@@ -44,11 +47,17 @@ type AutoSnapshotPolicyInitParameters struct {
 	// +listType=set
 	TargetCopyRegions []*string `json:"targetCopyRegions,omitempty" tf:"target_copy_regions,omitempty"`
 
+	// The tags used to associate the automatic snapshot policy with ECS instances. This parameter takes effect only when association_type is set to AssociatedWithInstanceTag. See target_tags below.
+	TargetTags []TargetTagsInitParameters `json:"targetTags,omitempty" tf:"target_tags,omitempty"`
+
 	// The points in time of the day at which to create automatic snapshots.
 	TimePoints []*string `json:"timePoints,omitempty" tf:"time_points,omitempty"`
 }
 
 type AutoSnapshotPolicyObservation struct {
+
+	// The association type between the automatic snapshot policy and target resources. Valid values:
+	AssociationType *string `json:"associationType,omitempty" tf:"association_type,omitempty"`
 
 	// The name of the automatic snapshot policy. The name must be 2 to 128 characters in length. The name must start with a letter and cannot start with http:// or https://. The name can contain letters, digits, colons (:), underscores (_), and hyphens (-).
 	AutoSnapshotPolicyName *string `json:"autoSnapshotPolicyName,omitempty" tf:"auto_snapshot_policy_name,omitempty"`
@@ -90,11 +99,18 @@ type AutoSnapshotPolicyObservation struct {
 	// +listType=set
 	TargetCopyRegions []*string `json:"targetCopyRegions,omitempty" tf:"target_copy_regions,omitempty"`
 
+	// The tags used to associate the automatic snapshot policy with ECS instances. This parameter takes effect only when association_type is set to AssociatedWithInstanceTag. See target_tags below.
+	TargetTags []TargetTagsObservation `json:"targetTags,omitempty" tf:"target_tags,omitempty"`
+
 	// The points in time of the day at which to create automatic snapshots.
 	TimePoints []*string `json:"timePoints,omitempty" tf:"time_points,omitempty"`
 }
 
 type AutoSnapshotPolicyParameters struct {
+
+	// The association type between the automatic snapshot policy and target resources. Valid values:
+	// +kubebuilder:validation:Optional
+	AssociationType *string `json:"associationType,omitempty" tf:"association_type,omitempty"`
 
 	// The name of the automatic snapshot policy. The name must be 2 to 128 characters in length. The name must start with a letter and cannot start with http:// or https://. The name can contain letters, digits, colons (:), underscores (_), and hyphens (-).
 	// +kubebuilder:validation:Optional
@@ -139,6 +155,10 @@ type AutoSnapshotPolicyParameters struct {
 	// +listType=set
 	TargetCopyRegions []*string `json:"targetCopyRegions,omitempty" tf:"target_copy_regions,omitempty"`
 
+	// The tags used to associate the automatic snapshot policy with ECS instances. This parameter takes effect only when association_type is set to AssociatedWithInstanceTag. See target_tags below.
+	// +kubebuilder:validation:Optional
+	TargetTags []TargetTagsParameters `json:"targetTags,omitempty" tf:"target_tags,omitempty"`
+
 	// The points in time of the day at which to create automatic snapshots.
 	// +kubebuilder:validation:Optional
 	TimePoints []*string `json:"timePoints,omitempty" tf:"time_points,omitempty"`
@@ -171,6 +191,35 @@ type CopyEncryptionConfigurationParameters struct {
 	// The ID of the Key Management Service (KMS) key used to encrypt snapshots in cross-region snapshot replication.
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
+}
+
+type TargetTagsInitParameters struct {
+
+	// The key of target tag N. The tag key cannot be an empty string. The tag key can be up to 128 characters in length and cannot start with acs: or aliyun. Valid values of N: 1 to 10.
+	TagKey *string `json:"tagKey,omitempty" tf:"tag_key,omitempty"`
+
+	// The value of target tag N. The tag value can be an empty string. The tag value can be up to 128 characters in length and cannot start with acs:.
+	TagValue *string `json:"tagValue,omitempty" tf:"tag_value,omitempty"`
+}
+
+type TargetTagsObservation struct {
+
+	// The key of target tag N. The tag key cannot be an empty string. The tag key can be up to 128 characters in length and cannot start with acs: or aliyun. Valid values of N: 1 to 10.
+	TagKey *string `json:"tagKey,omitempty" tf:"tag_key,omitempty"`
+
+	// The value of target tag N. The tag value can be an empty string. The tag value can be up to 128 characters in length and cannot start with acs:.
+	TagValue *string `json:"tagValue,omitempty" tf:"tag_value,omitempty"`
+}
+
+type TargetTagsParameters struct {
+
+	// The key of target tag N. The tag key cannot be an empty string. The tag key can be up to 128 characters in length and cannot start with acs: or aliyun. Valid values of N: 1 to 10.
+	// +kubebuilder:validation:Optional
+	TagKey *string `json:"tagKey,omitempty" tf:"tag_key,omitempty"`
+
+	// The value of target tag N. The tag value can be an empty string. The tag value can be up to 128 characters in length and cannot start with acs:.
+	// +kubebuilder:validation:Optional
+	TagValue *string `json:"tagValue,omitempty" tf:"tag_value,omitempty"`
 }
 
 // AutoSnapshotPolicySpec defines the desired state of AutoSnapshotPolicy

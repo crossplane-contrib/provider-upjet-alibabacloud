@@ -129,6 +129,9 @@ type CustomContainerConfigInitParameters struct {
 
 	// The listening port of the HTTP Server when the custom container runs.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The configuration of the custom image registry. See registry_config below.
+	RegistryConfig []RegistryConfigInitParameters `json:"registryConfig,omitempty" tf:"registry_config,omitempty"`
 }
 
 type CustomContainerConfigObservation struct {
@@ -156,6 +159,9 @@ type CustomContainerConfigObservation struct {
 
 	// The listening port of the HTTP Server when the custom container runs.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The configuration of the custom image registry. See registry_config below.
+	RegistryConfig []RegistryConfigObservation `json:"registryConfig,omitempty" tf:"registry_config,omitempty"`
 
 	// The actual digest version of the deployed Image. The code version specified by this digest is used when the function starts.
 	ResolvedImageURI *string `json:"resolvedImageUri,omitempty" tf:"resolved_image_uri,omitempty"`
@@ -190,6 +196,10 @@ type CustomContainerConfigParameters struct {
 	// The listening port of the HTTP Server when the custom container runs.
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The configuration of the custom image registry. See registry_config below.
+	// +kubebuilder:validation:Optional
+	RegistryConfig []RegistryConfigParameters `json:"registryConfig,omitempty" tf:"registry_config,omitempty"`
 }
 
 type CustomDNSInitParameters struct {
@@ -1114,6 +1124,45 @@ type NasConfigParameters struct {
 	UserID *float64 `json:"userId,omitempty" tf:"user_id,omitempty"`
 }
 
+type NetworkConfigInitParameters struct {
+
+	// Security group ID
+	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
+
+	// The ID of the VPC that can connect to the image registry.
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	// The ID of the vSwitch that can connect to the image registry.
+	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
+}
+
+type NetworkConfigObservation struct {
+
+	// Security group ID
+	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
+
+	// The ID of the VPC that can connect to the image registry.
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	// The ID of the vSwitch that can connect to the image registry.
+	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
+}
+
+type NetworkConfigParameters struct {
+
+	// Security group ID
+	// +kubebuilder:validation:Optional
+	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
+
+	// The ID of the VPC that can connect to the image registry.
+	// +kubebuilder:validation:Optional
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	// The ID of the vSwitch that can connect to the image registry.
+	// +kubebuilder:validation:Optional
+	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
+}
+
 type OssMountConfigInitParameters struct {
 
 	// OSS mount point list See mount_points below.
@@ -1219,6 +1268,97 @@ type PreStopParameters struct {
 	// The maximum running time of the function, in seconds.
 	// +kubebuilder:validation:Optional
 	Timeout *float64 `json:"timeout,omitempty" tf:"timeout,omitempty"`
+}
+
+type RegistryConfigAuthConfigInitParameters struct {
+
+	// The password of the image registry.
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
+	// The username of the image registry.
+	UserNameSecretRef *v1.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
+}
+
+type RegistryConfigAuthConfigObservation struct {
+}
+
+type RegistryConfigAuthConfigParameters struct {
+
+	// The password of the image registry.
+	// +kubebuilder:validation:Optional
+	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+
+	// The username of the image registry.
+	// +kubebuilder:validation:Optional
+	UserNameSecretRef *v1.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
+}
+
+type RegistryConfigCertConfigInitParameters struct {
+
+	// Specifies whether to skip certificate verification.
+	Insecure *bool `json:"insecure,omitempty" tf:"insecure,omitempty"`
+
+	// The Base64-encoded root CA certificate of the image registry.
+	RootCACertBase64 *string `json:"rootCaCertBase64,omitempty" tf:"root_ca_cert_base64,omitempty"`
+}
+
+type RegistryConfigCertConfigObservation struct {
+
+	// Specifies whether to skip certificate verification.
+	Insecure *bool `json:"insecure,omitempty" tf:"insecure,omitempty"`
+
+	// The Base64-encoded root CA certificate of the image registry.
+	RootCACertBase64 *string `json:"rootCaCertBase64,omitempty" tf:"root_ca_cert_base64,omitempty"`
+}
+
+type RegistryConfigCertConfigParameters struct {
+
+	// Specifies whether to skip certificate verification.
+	// +kubebuilder:validation:Optional
+	Insecure *bool `json:"insecure,omitempty" tf:"insecure,omitempty"`
+
+	// The Base64-encoded root CA certificate of the image registry.
+	// +kubebuilder:validation:Optional
+	RootCACertBase64 *string `json:"rootCaCertBase64,omitempty" tf:"root_ca_cert_base64,omitempty"`
+}
+
+type RegistryConfigInitParameters struct {
+
+	// The authentication configuration of the image registry. See auth_config below.
+	AuthConfig []RegistryConfigAuthConfigInitParameters `json:"authConfig,omitempty" tf:"auth_config,omitempty"`
+
+	// The certificate configuration of the image registry. See cert_config below.
+	CertConfig []RegistryConfigCertConfigInitParameters `json:"certConfig,omitempty" tf:"cert_config,omitempty"`
+
+	// The network configuration used to connect to the image registry. See network_config below.
+	NetworkConfig []NetworkConfigInitParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+}
+
+type RegistryConfigObservation struct {
+
+	// The authentication configuration of the image registry. See auth_config below.
+	AuthConfig []RegistryConfigAuthConfigParameters `json:"authConfig,omitempty" tf:"auth_config,omitempty"`
+
+	// The certificate configuration of the image registry. See cert_config below.
+	CertConfig []RegistryConfigCertConfigObservation `json:"certConfig,omitempty" tf:"cert_config,omitempty"`
+
+	// The network configuration used to connect to the image registry. See network_config below.
+	NetworkConfig []NetworkConfigObservation `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
+}
+
+type RegistryConfigParameters struct {
+
+	// The authentication configuration of the image registry. See auth_config below.
+	// +kubebuilder:validation:Optional
+	AuthConfig []RegistryConfigAuthConfigParameters `json:"authConfig,omitempty" tf:"auth_config,omitempty"`
+
+	// The certificate configuration of the image registry. See cert_config below.
+	// +kubebuilder:validation:Optional
+	CertConfig []RegistryConfigCertConfigParameters `json:"certConfig,omitempty" tf:"cert_config,omitempty"`
+
+	// The network configuration used to connect to the image registry. See network_config below.
+	// +kubebuilder:validation:Optional
+	NetworkConfig []NetworkConfigParameters `json:"networkConfig,omitempty" tf:"network_config,omitempty"`
 }
 
 type TracingConfigInitParameters struct {

@@ -95,6 +95,10 @@ spec:
                   topicName:
                     description: The name of the topic.
                     type: string
+                  topicType:
+                    description: 'The type of the topic. Default value: normal. Valid
+                      values:'
+                    type: string
                 type: object
               initProvider:
                 description: |-
@@ -126,6 +130,10 @@ spec:
                     x-kubernetes-map-type: granular
                   topicName:
                     description: The name of the topic.
+                    type: string
+                  topicType:
+                    description: 'The type of the topic. Default value: normal. Valid
+                      values:'
                     type: string
                 type: object
               managementPolicies:
@@ -328,6 +336,10 @@ spec:
                     x-kubernetes-map-type: granular
                   topicName:
                     description: The name of the topic.
+                    type: string
+                  topicType:
+                    description: 'The type of the topic. Default value: normal. Valid
+                      values:'
                     type: string
                 type: object
               conditions:

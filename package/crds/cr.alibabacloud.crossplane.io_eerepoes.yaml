@@ -245,6 +245,10 @@ spec:
                   summary:
                     description: The summary about the repository.
                     type: string
+                  tagImmutability:
+                    description: 'Whether to enable image tag immutability. Valid
+                      values:'
+                    type: boolean
                 type: object
               initProvider:
                 description: |-
@@ -427,6 +431,10 @@ spec:
                   summary:
                     description: The summary about the repository.
                     type: string
+                  tagImmutability:
+                    description: 'Whether to enable image tag immutability. Valid
+                      values:'
+                    type: boolean
                 type: object
               managementPolicies:
                 default:
@@ -639,6 +647,10 @@ spec:
                   summary:
                     description: The summary about the repository.
                     type: string
+                  tagImmutability:
+                    description: 'Whether to enable image tag immutability. Valid
+                      values:'
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.

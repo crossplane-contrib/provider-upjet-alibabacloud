@@ -253,14 +253,18 @@ spec:
                   repeatMode:
                     description: 'Specifies how to run the command. Valid values:
                       Once, Period, NextRebootOnly, EveryReboot. Default value: When
-                      timed is set to false and Frequency is not specified, the default
-                      value of repeat_mode is Once. When Timed is set to true and
-                      Frequency is specified, period is used as the value of RepeatMode
-                      regardless of whether repeat_mode is specified.'
+                      frequency is not specified, the default value of repeat_mode
+                      is Once. When frequency is specified, Period is used as the
+                      value of repeat_mode regardless of whether repeat_mode is specified.'
                     type: string
                   timed:
                     description: 'Specifies whether to periodically run the command.
-                      Default value: false.'
+                      Default value: false. NOTE: This parameter has been deprecated
+                      by the ECS API and no longer takes effect. To run a command
+                      periodically, set repeat_mode to Period and specify frequency
+                      instead. Existing configurations in which timed is set to true
+                      together with frequency are not affected because the command
+                      runs periodically as long as frequency is specified.'
                     type: boolean
                   username:
                     description: The username that is used to run the command on the
@@ -460,14 +464,18 @@ spec:
                   repeatMode:
                     description: 'Specifies how to run the command. Valid values:
                       Once, Period, NextRebootOnly, EveryReboot. Default value: When
-                      timed is set to false and Frequency is not specified, the default
-                      value of repeat_mode is Once. When Timed is set to true and
-                      Frequency is specified, period is used as the value of RepeatMode
-                      regardless of whether repeat_mode is specified.'
+                      frequency is not specified, the default value of repeat_mode
+                      is Once. When frequency is specified, Period is used as the
+                      value of repeat_mode regardless of whether repeat_mode is specified.'
                     type: string
                   timed:
                     description: 'Specifies whether to periodically run the command.
-                      Default value: false.'
+                      Default value: false. NOTE: This parameter has been deprecated
+                      by the ECS API and no longer takes effect. To run a command
+                      periodically, set repeat_mode to Period and specify frequency
+                      instead. Existing configurations in which timed is set to true
+                      together with frequency are not affected because the command
+                      runs periodically as long as frequency is specified.'
                     type: boolean
                   username:
                     description: The username that is used to run the command on the
@@ -676,17 +684,21 @@ spec:
                   repeatMode:
                     description: 'Specifies how to run the command. Valid values:
                       Once, Period, NextRebootOnly, EveryReboot. Default value: When
-                      timed is set to false and Frequency is not specified, the default
-                      value of repeat_mode is Once. When Timed is set to true and
-                      Frequency is specified, period is used as the value of RepeatMode
-                      regardless of whether repeat_mode is specified.'
+                      frequency is not specified, the default value of repeat_mode
+                      is Once. When frequency is specified, Period is used as the
+                      value of repeat_mode regardless of whether repeat_mode is specified.'
                     type: string
                   status:
                     description: The status of the resource.
                     type: string
                   timed:
                     description: 'Specifies whether to periodically run the command.
-                      Default value: false.'
+                      Default value: false. NOTE: This parameter has been deprecated
+                      by the ECS API and no longer takes effect. To run a command
+                      periodically, set repeat_mode to Period and specify frequency
+                      instead. Existing configurations in which timed is set to true
+                      together with frequency are not affected because the command
+                      runs periodically as long as frequency is specified.'
                     type: boolean
                   username:
                     description: The username that is used to run the command on the

@@ -18,7 +18,7 @@ type SecretInitParameters struct {
 	// The description of the secret.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The ID of the KMS instance.
+	// The ID of the KMS instance. NOTE: In KMS 3.0, this parameter is required.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Instance
 	DkmsInstanceID *string `json:"dkmsInstanceId,omitempty" tf:"dkms_instance_id,omitempty"`
 
@@ -33,7 +33,7 @@ type SecretInitParameters struct {
 	// Specifies whether to enable automatic rotation. Default value: false. Valid values: true, false.
 	EnableAutomaticRotation *bool `json:"enableAutomaticRotation,omitempty" tf:"enable_automatic_rotation,omitempty"`
 
-	// The ID of the KMS key.
+	// The ID of the KMS key used to encrypt the secret value. The key and the secret must belong to the same KMS instance, and the key must be a symmetric key. NOTE: In KMS 3.0, this parameter is required.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
 	EncryptionKeyID *string `json:"encryptionKeyId,omitempty" tf:"encryption_key_id,omitempty"`
 
@@ -45,7 +45,7 @@ type SecretInitParameters struct {
 	// +kubebuilder:validation:Optional
 	EncryptionKeyIDSelector *v1.Selector `json:"encryptionKeyIdSelector,omitempty" tf:"-"`
 
-	// The extended configuration of the secret. For more information, see How to use it.
+	// The extended configuration of the secret. This parameter is required when secret_type is Rds, Redis, RAMCredentials, ECS or PolarDB. The value is a JSON string. For more information, see How to use it.
 	ExtendedConfig *string `json:"extendedConfig,omitempty" tf:"extended_config,omitempty"`
 
 	// Specifies whether to immediately delete a secret. Default value: false. Valid values: true, false.
@@ -60,7 +60,7 @@ type SecretInitParameters struct {
 	// The interval for automatic rotation. For more information, see How to use it.
 	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
 
-	// The data of the secret. NOTE: From version 1.204.1, secret_data updating diff will be ignored when secret_type is not Generic.
+	// The data of the secret. NOTE: From version 1.204.1, secret_data updating diff will be ignored when secret_type is not Generic. The expected format of secret_data depends on secret_type:
 	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
 
 	// The type of the secret value. Default value: text. Valid values: text, binary.
@@ -95,16 +95,16 @@ type SecretObservation struct {
 	// The description of the secret.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The ID of the KMS instance.
+	// The ID of the KMS instance. NOTE: In KMS 3.0, this parameter is required.
 	DkmsInstanceID *string `json:"dkmsInstanceId,omitempty" tf:"dkms_instance_id,omitempty"`
 
 	// Specifies whether to enable automatic rotation. Default value: false. Valid values: true, false.
 	EnableAutomaticRotation *bool `json:"enableAutomaticRotation,omitempty" tf:"enable_automatic_rotation,omitempty"`
 
-	// The ID of the KMS key.
+	// The ID of the KMS key used to encrypt the secret value. The key and the secret must belong to the same KMS instance, and the key must be a symmetric key. NOTE: In KMS 3.0, this parameter is required.
 	EncryptionKeyID *string `json:"encryptionKeyId,omitempty" tf:"encryption_key_id,omitempty"`
 
-	// The extended configuration of the secret. For more information, see How to use it.
+	// The extended configuration of the secret. This parameter is required when secret_type is Rds, Redis, RAMCredentials, ECS or PolarDB. The value is a JSON string. For more information, see How to use it.
 	ExtendedConfig *string `json:"extendedConfig,omitempty" tf:"extended_config,omitempty"`
 
 	// Specifies whether to immediately delete a secret. Default value: false. Valid values: true, false.
@@ -151,7 +151,7 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The ID of the KMS instance.
+	// The ID of the KMS instance. NOTE: In KMS 3.0, this parameter is required.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Instance
 	// +kubebuilder:validation:Optional
 	DkmsInstanceID *string `json:"dkmsInstanceId,omitempty" tf:"dkms_instance_id,omitempty"`
@@ -168,7 +168,7 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableAutomaticRotation *bool `json:"enableAutomaticRotation,omitempty" tf:"enable_automatic_rotation,omitempty"`
 
-	// The ID of the KMS key.
+	// The ID of the KMS key used to encrypt the secret value. The key and the secret must belong to the same KMS instance, and the key must be a symmetric key. NOTE: In KMS 3.0, this parameter is required.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
 	// +kubebuilder:validation:Optional
 	EncryptionKeyID *string `json:"encryptionKeyId,omitempty" tf:"encryption_key_id,omitempty"`
@@ -181,7 +181,7 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	EncryptionKeyIDSelector *v1.Selector `json:"encryptionKeyIdSelector,omitempty" tf:"-"`
 
-	// The extended configuration of the secret. For more information, see How to use it.
+	// The extended configuration of the secret. This parameter is required when secret_type is Rds, Redis, RAMCredentials, ECS or PolarDB. The value is a JSON string. For more information, see How to use it.
 	// +kubebuilder:validation:Optional
 	ExtendedConfig *string `json:"extendedConfig,omitempty" tf:"extended_config,omitempty"`
 
@@ -206,7 +206,7 @@ type SecretParameters struct {
 	// +kubebuilder:validation:Optional
 	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
 
-	// The data of the secret. NOTE: From version 1.204.1, secret_data updating diff will be ignored when secret_type is not Generic.
+	// The data of the secret. NOTE: From version 1.204.1, secret_data updating diff will be ignored when secret_type is not Generic. The expected format of secret_data depends on secret_type:
 	// +kubebuilder:validation:Optional
 	SecretDataSecretRef v1.SecretKeySelector `json:"secretDataSecretRef" tf:"-"`
 

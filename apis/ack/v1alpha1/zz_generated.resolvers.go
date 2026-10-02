@@ -387,6 +387,24 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mg.Spec.ForProvider.KeyName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.KeyNameRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ResourcePoolOptions); i3++ {
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIds),
+			Extract:       resource.ExtractResourceID(),
+			References:    mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIdsRefs,
+			Selector:      mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIdsSelector,
+			To: reference.To{
+				List:    &v1alpha1.CapacityReservationList{},
+				Managed: &v1alpha1.CapacityReservation{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIds")
+		}
+		mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIds = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIdsRefs = mrsp.ResolvedReferences
+
+	}
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
@@ -469,6 +487,24 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mg.Spec.InitProvider.KeyName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.KeyNameRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ResourcePoolOptions); i3++ {
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIds),
+			Extract:       resource.ExtractResourceID(),
+			References:    mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIdsRefs,
+			Selector:      mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIdsSelector,
+			To: reference.To{
+				List:    &v1alpha1.CapacityReservationList{},
+				Managed: &v1alpha1.CapacityReservation{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIds")
+		}
+		mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIds = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIdsRefs = mrsp.ResolvedReferences
+
+	}
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
@@ -644,6 +680,22 @@ func (mg *ManagedKubernetes) ResolveReferences(ctx context.Context, c client.Rea
 	var mrsp reference.MultiResolutionResponse
 	var err error
 
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.PodVswitchIds),
+		Extract:       resource.ExtractResourceID(),
+		References:    mg.Spec.ForProvider.PodVswitchIdsRefs,
+		Selector:      mg.Spec.ForProvider.PodVswitchIdsSelector,
+		To: reference.To{
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.PodVswitchIds")
+	}
+	mg.Spec.ForProvider.PodVswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.PodVswitchIdsRefs = mrsp.ResolvedReferences
+
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SecurityGroupID),
 		Extract:      reference.ExternalName(),
@@ -675,6 +727,22 @@ func (mg *ManagedKubernetes) ResolveReferences(ctx context.Context, c client.Rea
 	}
 	mg.Spec.ForProvider.VswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.VswitchIdsRefs = mrsp.ResolvedReferences
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.PodVswitchIds),
+		Extract:       resource.ExtractResourceID(),
+		References:    mg.Spec.InitProvider.PodVswitchIdsRefs,
+		Selector:      mg.Spec.InitProvider.PodVswitchIdsSelector,
+		To: reference.To{
+			List:    &v1alpha11.VswitchList{},
+			Managed: &v1alpha11.Vswitch{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.PodVswitchIds")
+	}
+	mg.Spec.InitProvider.PodVswitchIds = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.PodVswitchIdsRefs = mrsp.ResolvedReferences
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SecurityGroupID),

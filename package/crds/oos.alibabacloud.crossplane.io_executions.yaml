@@ -97,6 +97,12 @@ spec:
                   safetyCheck:
                     description: The mode of safety check.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                   templateContent:
                     description: The content of template. When the user selects an
                       existing template to create and execute a task, it is not necessary
@@ -216,6 +222,12 @@ spec:
                   safetyCheck:
                     description: The mode of safety check.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                   templateContent:
                     description: The content of template. When the user selects an
                       existing template to create and execute a task, it is not necessary
@@ -527,6 +539,12 @@ spec:
                   statusMessage:
                     description: The message of status.
                     type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
                   templateContent:
                     description: The content of template. When the user selects an
                       existing template to create and execute a task, it is not necessary

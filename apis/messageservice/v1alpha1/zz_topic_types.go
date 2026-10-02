@@ -27,6 +27,9 @@ type TopicInitParameters struct {
 
 	// The name of the topic.
 	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
+
+	// The type of the topic. Default value: normal. Valid values:
+	TopicType *string `json:"topicType,omitempty" tf:"topic_type,omitempty"`
 }
 
 type TopicObservation struct {
@@ -48,6 +51,9 @@ type TopicObservation struct {
 
 	// The name of the topic.
 	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
+
+	// The type of the topic. Default value: normal. Valid values:
+	TopicType *string `json:"topicType,omitempty" tf:"topic_type,omitempty"`
 }
 
 type TopicParameters struct {
@@ -73,6 +79,10 @@ type TopicParameters struct {
 	// The name of the topic.
 	// +kubebuilder:validation:Optional
 	TopicName *string `json:"topicName,omitempty" tf:"topic_name,omitempty"`
+
+	// The type of the topic. Default value: normal. Valid values:
+	// +kubebuilder:validation:Optional
+	TopicType *string `json:"topicType,omitempty" tf:"topic_type,omitempty"`
 }
 
 // TopicSpec defines the desired state of Topic

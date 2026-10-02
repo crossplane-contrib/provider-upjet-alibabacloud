@@ -99,6 +99,85 @@ type AutoVulFixPolicyParameters struct {
 	VulLevel *string `json:"vulLevel,omitempty" tf:"vul_level,omitempty"`
 }
 
+type ContainerdConfigInitParameters struct {
+
+	// Whether to ignore volumes defined in the image. Valid values: lowercase "true", "false" or "". If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "false") writes the key to the containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	IgnoreImageDefinedVolume *string `json:"ignoreImageDefinedVolume,omitempty" tf:"ignore_image_defined_volume,omitempty"`
+
+	// Allow the container runtime to skip TLS certificate verification when pulling images. Typically used in test environments with self-signed certificate registries. The format is domain name or IP address without protocol prefix (e.g., registry.example.com, 192.168.1.1:5000).
+	InsecureRegistries []*string `json:"insecureRegistries,omitempty" tf:"insecure_registries,omitempty"`
+
+	// The coredump size limit. Valid values: "" or a canonical decimal integer string from "0" to "9007199254740991" (e.g. "0", "1024"; forms like "+10" or "010" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "0") writes the corresponding value. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitCore *string `json:"limitCore,omitempty" tf:"limit_core,omitempty"`
+
+	// The maximum locked memory limit. Valid values: "" or a canonical decimal integer string from "65536" to "9007199254740991" (forms like "+65536" or "065536" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitMemLock *string `json:"limitMemLock,omitempty" tf:"limit_mem_lock,omitempty"`
+
+	// The maximum number of file handles. Valid values: "" or a canonical decimal integer string from "1024" to "9007199254740991" (forms like "+2048" or "02048" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitNoFile *string `json:"limitNoFile,omitempty" tf:"limit_no_file,omitempty"`
+
+	// The maximum number of concurrent downloads for container images. Valid values: 1 to 20.
+	MaxConcurrentDownloads *float64 `json:"maxConcurrentDownloads,omitempty" tf:"max_concurrent_downloads,omitempty"`
+
+	// Configure mirror sites for container image registries to accelerate image pulls. Each string follows the format registry=mirror1[&override_path],mirror2[&override_path],.... The part before = is the container image registry, which must be a domain name or IP address without protocol prefix , e.g., docker.io, 192.168.1.1:5000. The part after = is one or more mirror sites separated by commas; each mirror must start with http:// or https:// followed by an IP address or domain name , e.g., https://registry.cn-hangzhou.aliyuncs.com. Append &override_path to a mirror to enable path override for that mirror.
+	RegistryMirrors []*string `json:"registryMirrors,omitempty" tf:"registry_mirrors,omitempty"`
+}
+
+type ContainerdConfigObservation struct {
+
+	// Whether to ignore volumes defined in the image. Valid values: lowercase "true", "false" or "". If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "false") writes the key to the containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	IgnoreImageDefinedVolume *string `json:"ignoreImageDefinedVolume,omitempty" tf:"ignore_image_defined_volume,omitempty"`
+
+	// Allow the container runtime to skip TLS certificate verification when pulling images. Typically used in test environments with self-signed certificate registries. The format is domain name or IP address without protocol prefix (e.g., registry.example.com, 192.168.1.1:5000).
+	InsecureRegistries []*string `json:"insecureRegistries,omitempty" tf:"insecure_registries,omitempty"`
+
+	// The coredump size limit. Valid values: "" or a canonical decimal integer string from "0" to "9007199254740991" (e.g. "0", "1024"; forms like "+10" or "010" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "0") writes the corresponding value. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitCore *string `json:"limitCore,omitempty" tf:"limit_core,omitempty"`
+
+	// The maximum locked memory limit. Valid values: "" or a canonical decimal integer string from "65536" to "9007199254740991" (forms like "+65536" or "065536" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitMemLock *string `json:"limitMemLock,omitempty" tf:"limit_mem_lock,omitempty"`
+
+	// The maximum number of file handles. Valid values: "" or a canonical decimal integer string from "1024" to "9007199254740991" (forms like "+2048" or "02048" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	LimitNoFile *string `json:"limitNoFile,omitempty" tf:"limit_no_file,omitempty"`
+
+	// The maximum number of concurrent downloads for container images. Valid values: 1 to 20.
+	MaxConcurrentDownloads *float64 `json:"maxConcurrentDownloads,omitempty" tf:"max_concurrent_downloads,omitempty"`
+
+	// Configure mirror sites for container image registries to accelerate image pulls. Each string follows the format registry=mirror1[&override_path],mirror2[&override_path],.... The part before = is the container image registry, which must be a domain name or IP address without protocol prefix , e.g., docker.io, 192.168.1.1:5000. The part after = is one or more mirror sites separated by commas; each mirror must start with http:// or https:// followed by an IP address or domain name , e.g., https://registry.cn-hangzhou.aliyuncs.com. Append &override_path to a mirror to enable path override for that mirror.
+	RegistryMirrors []*string `json:"registryMirrors,omitempty" tf:"registry_mirrors,omitempty"`
+}
+
+type ContainerdConfigParameters struct {
+
+	// Whether to ignore volumes defined in the image. Valid values: lowercase "true", "false" or "". If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "false") writes the key to the containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	// +kubebuilder:validation:Optional
+	IgnoreImageDefinedVolume *string `json:"ignoreImageDefinedVolume,omitempty" tf:"ignore_image_defined_volume,omitempty"`
+
+	// Allow the container runtime to skip TLS certificate verification when pulling images. Typically used in test environments with self-signed certificate registries. The format is domain name or IP address without protocol prefix (e.g., registry.example.com, 192.168.1.1:5000).
+	// +kubebuilder:validation:Optional
+	InsecureRegistries []*string `json:"insecureRegistries,omitempty" tf:"insecure_registries,omitempty"`
+
+	// The coredump size limit. Valid values: "" or a canonical decimal integer string from "0" to "9007199254740991" (e.g. "0", "1024"; forms like "+10" or "010" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Explicitly setting it (including "0") writes the corresponding value. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	// +kubebuilder:validation:Optional
+	LimitCore *string `json:"limitCore,omitempty" tf:"limit_core,omitempty"`
+
+	// The maximum locked memory limit. Valid values: "" or a canonical decimal integer string from "65536" to "9007199254740991" (forms like "+65536" or "065536" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	// +kubebuilder:validation:Optional
+	LimitMemLock *string `json:"limitMemLock,omitempty" tf:"limit_mem_lock,omitempty"`
+
+	// The maximum number of file handles. Valid values: "" or a canonical decimal integer string from "1024" to "9007199254740991" (forms like "+2048" or "02048" are not accepted). If not set (or set to ""), this option is not written to the node containerd configuration. Removing this field from the configuration removes the key from the cloud-side containerd configuration.
+	// +kubebuilder:validation:Optional
+	LimitNoFile *string `json:"limitNoFile,omitempty" tf:"limit_no_file,omitempty"`
+
+	// The maximum number of concurrent downloads for container images. Valid values: 1 to 20.
+	// +kubebuilder:validation:Optional
+	MaxConcurrentDownloads *float64 `json:"maxConcurrentDownloads,omitempty" tf:"max_concurrent_downloads,omitempty"`
+
+	// Configure mirror sites for container image registries to accelerate image pulls. Each string follows the format registry=mirror1[&override_path],mirror2[&override_path],.... The part before = is the container image registry, which must be a domain name or IP address without protocol prefix , e.g., docker.io, 192.168.1.1:5000. The part after = is one or more mirror sites separated by commas; each mirror must start with http:// or https:// followed by an IP address or domain name , e.g., https://registry.cn-hangzhou.aliyuncs.com. Append &override_path to a mirror to enable path override for that mirror.
+	// +kubebuilder:validation:Optional
+	RegistryMirrors []*string `json:"registryMirrors,omitempty" tf:"registry_mirrors,omitempty"`
+}
+
 type DataDisksInitParameters struct {
 
 	// Whether to automatically mount the data disk. Valid values: true and false.
@@ -796,6 +875,9 @@ type KubernetesNodePoolInitParameters struct {
 	// Specifies whether to automatically create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created due to reasons such as cost or insufficient inventory. This parameter takes effect when you set multi_az_policy to COST_OPTIMIZED. Valid values: true: automatically creates pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created. false: does not create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created.
 	CompensateWithOnDemand *bool `json:"compensateWithOnDemand,omitempty" tf:"compensate_with_on_demand,omitempty"`
 
+	// Containerd configuration parameters for worker nodes.
+	ContainerdConfig []ContainerdConfigInitParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+
 	// Configure the data disk of the node in the node pool. See data_disks below.
 	DataDisks []DataDisksInitParameters `json:"dataDisks,omitempty" tf:"data_disks,omitempty"`
 
@@ -925,6 +1007,10 @@ type KubernetesNodePoolInitParameters struct {
 
 	// The ID of the resource group
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+	// The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+	ResourcePoolOptions []ResourcePoolOptionsInitParameters `json:"resourcePoolOptions,omitempty" tf:"resource_pool_options,omitempty"`
 
 	// Rotary configuration. See rolling_policy below.
 	RollingPolicy []RollingPolicyInitParameters `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
@@ -1072,6 +1158,9 @@ type KubernetesNodePoolObservation struct {
 	// Specifies whether to automatically create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created due to reasons such as cost or insufficient inventory. This parameter takes effect when you set multi_az_policy to COST_OPTIMIZED. Valid values: true: automatically creates pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created. false: does not create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created.
 	CompensateWithOnDemand *bool `json:"compensateWithOnDemand,omitempty" tf:"compensate_with_on_demand,omitempty"`
 
+	// Containerd configuration parameters for worker nodes.
+	ContainerdConfig []ContainerdConfigObservation `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
+
 	// Configure the data disk of the node in the node pool. See data_disks below.
 	DataDisks []DataDisksObservation `json:"dataDisks,omitempty" tf:"data_disks,omitempty"`
 
@@ -1192,6 +1281,10 @@ type KubernetesNodePoolObservation struct {
 
 	// The ID of the resource group
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+	// The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+	ResourcePoolOptions []ResourcePoolOptionsObservation `json:"resourcePoolOptions,omitempty" tf:"resource_pool_options,omitempty"`
 
 	// Rotary configuration. See rolling_policy below.
 	RollingPolicy []RollingPolicyObservation `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
@@ -1342,6 +1435,10 @@ type KubernetesNodePoolParameters struct {
 	// Specifies whether to automatically create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created due to reasons such as cost or insufficient inventory. This parameter takes effect when you set multi_az_policy to COST_OPTIMIZED. Valid values: true: automatically creates pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created. false: does not create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created.
 	// +kubebuilder:validation:Optional
 	CompensateWithOnDemand *bool `json:"compensateWithOnDemand,omitempty" tf:"compensate_with_on_demand,omitempty"`
+
+	// Containerd configuration parameters for worker nodes.
+	// +kubebuilder:validation:Optional
+	ContainerdConfig []ContainerdConfigParameters `json:"containerdConfig,omitempty" tf:"containerd_config,omitempty"`
 
 	// Configure the data disk of the node in the node pool. See data_disks below.
 	// +kubebuilder:validation:Optional
@@ -1517,6 +1614,11 @@ type KubernetesNodePoolParameters struct {
 	// The ID of the resource group
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+	// The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+	// +kubebuilder:validation:Optional
+	ResourcePoolOptions []ResourcePoolOptionsParameters `json:"resourcePoolOptions,omitempty" tf:"resource_pool_options,omitempty"`
 
 	// Rotary configuration. See rolling_policy below.
 	// +kubebuilder:validation:Optional
@@ -1909,6 +2011,61 @@ type ReservedMemoryParameters struct {
 	// The NUMA node.
 	// +kubebuilder:validation:Optional
 	NumaNode *float64 `json:"numaNode,omitempty" tf:"numa_node,omitempty"`
+}
+
+type ResourcePoolOptionsInitParameters struct {
+
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.CapacityReservation
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	PrivatePoolIds []*string `json:"privatePoolIds,omitempty" tf:"private_pool_ids,omitempty"`
+
+	// References to CapacityReservation in ecs to populate privatePoolIds.
+	// +kubebuilder:validation:Optional
+	PrivatePoolIdsRefs []v1.Reference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of CapacityReservation in ecs to populate privatePoolIds.
+	// +kubebuilder:validation:Optional
+	PrivatePoolIdsSelector *v1.Selector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
+
+	// The resource pool strategy used when launching instances. Default value: None. Valid values:
+	// The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
+}
+
+type ResourcePoolOptionsObservation struct {
+
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+	PrivatePoolIds []*string `json:"privatePoolIds,omitempty" tf:"private_pool_ids,omitempty"`
+
+	// The resource pool strategy used when launching instances. Default value: None. Valid values:
+	// The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
+}
+
+type ResourcePoolOptionsParameters struct {
+
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.CapacityReservation
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	PrivatePoolIds []*string `json:"privatePoolIds,omitempty" tf:"private_pool_ids,omitempty"`
+
+	// References to CapacityReservation in ecs to populate privatePoolIds.
+	// +kubebuilder:validation:Optional
+	PrivatePoolIdsRefs []v1.Reference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of CapacityReservation in ecs to populate privatePoolIds.
+	// +kubebuilder:validation:Optional
+	PrivatePoolIdsSelector *v1.Selector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
+
+	// The resource pool strategy used when launching instances. Default value: None. Valid values:
+	// The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+	// +kubebuilder:validation:Optional
+	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
 }
 
 type RollingPolicyInitParameters struct {

@@ -171,8 +171,10 @@ spec:
                       field. Read RFC2616 Content-Encoding for further details.
                     type: string
                   contentMd5:
-                    description: The MD5 value of the content. Read MD5 for computing
-                      method.
+                    description: The MD5 digest of the content for OSS data-integrity
+                      verification. Values that are neither a valid hex MD5 digest
+                      nor valid base64 are rejected by the provider. Read MD5 for
+                      the computing method.
                     type: string
                   contentType:
                     description: A standard MIME type describing the format of the
@@ -268,9 +270,9 @@ spec:
                   objectWormMode:
                     description: 'The retention mode of the object worm policy. Valid
                       value: COMPLIANCE. Must be set together with object_worm_retain_until_date.
-                      The bucket must have object worm enabled. Updating only this
-                      attribute (or object_worm_retain_until_date) calls PutObjectRetention
-                      and does not re-upload the object.'
+                      The bucket must have object worm enabled. Note: The parameter
+                      is immutable after resource creation. Updating object_worm_retain_until_date
+                      calls PutObjectRetention and does not re-upload the object.'
                     type: string
                   objectWormRetainUntilDate:
                     description: The UTC time at which the object retention expires,
@@ -401,8 +403,10 @@ spec:
                       field. Read RFC2616 Content-Encoding for further details.
                     type: string
                   contentMd5:
-                    description: The MD5 value of the content. Read MD5 for computing
-                      method.
+                    description: The MD5 digest of the content for OSS data-integrity
+                      verification. Values that are neither a valid hex MD5 digest
+                      nor valid base64 are rejected by the provider. Read MD5 for
+                      the computing method.
                     type: string
                   contentType:
                     description: A standard MIME type describing the format of the
@@ -498,9 +502,9 @@ spec:
                   objectWormMode:
                     description: 'The retention mode of the object worm policy. Valid
                       value: COMPLIANCE. Must be set together with object_worm_retain_until_date.
-                      The bucket must have object worm enabled. Updating only this
-                      attribute (or object_worm_retain_until_date) calls PutObjectRetention
-                      and does not re-upload the object.'
+                      The bucket must have object worm enabled. Note: The parameter
+                      is immutable after resource creation. Updating object_worm_retain_until_date
+                      calls PutObjectRetention and does not re-upload the object.'
                     type: string
                   objectWormRetainUntilDate:
                     description: The UTC time at which the object retention expires,
@@ -720,8 +724,10 @@ spec:
                     description: the content length of request.
                     type: string
                   contentMd5:
-                    description: The MD5 value of the content. Read MD5 for computing
-                      method.
+                    description: The MD5 digest of the content for OSS data-integrity
+                      verification. Values that are neither a valid hex MD5 digest
+                      nor valid base64 are rejected by the provider. Read MD5 for
+                      the computing method.
                     type: string
                   contentType:
                     description: A standard MIME type describing the format of the
@@ -750,9 +756,9 @@ spec:
                   objectWormMode:
                     description: 'The retention mode of the object worm policy. Valid
                       value: COMPLIANCE. Must be set together with object_worm_retain_until_date.
-                      The bucket must have object worm enabled. Updating only this
-                      attribute (or object_worm_retain_until_date) calls PutObjectRetention
-                      and does not re-upload the object.'
+                      The bucket must have object worm enabled. Note: The parameter
+                      is immutable after resource creation. Updating object_worm_retain_until_date
+                      calls PutObjectRetention and does not re-upload the object.'
                     type: string
                   objectWormRetainUntilDate:
                     description: The UTC time at which the object retention expires,

@@ -116,6 +116,16 @@ spec:
                           type: object
                       type: object
                     type: array
+                  certificateId:
+                    description: The ID of an SSL certificate managed by SSL Certificates
+                      Service (CAS). When set, the provider resolves the certificate
+                      and private key from the referenced SSL certificate and binds
+                      them as the HTTPS certificate for the custom domain, so that
+                      a certificate managed in SSL Certificates Service can be referenced
+                      without pasting the PEM material. It conflicts with cert_config.0.certificate
+                      and cert_config.0.private_key. The resolved private key is never
+                      persisted to state.
+                    type: string
                   corsConfig:
                     description: Cross-Origin Resource Sharing (CORS) configuration,
                       used to control which origins can access resources under the
@@ -142,7 +152,7 @@ spec:
                         allowOrigins:
                           description: List of allowed origins. Supports wildcard
                             '*' to allow all origins (when AllowCredentials is false),
-                            specific domains like 'https://example.com', or an array
+                            specific domains like https://example.com, or an array
                             of multiple domains.
                           items:
                             type: string
@@ -407,6 +417,16 @@ spec:
                           type: object
                       type: object
                     type: array
+                  certificateId:
+                    description: The ID of an SSL certificate managed by SSL Certificates
+                      Service (CAS). When set, the provider resolves the certificate
+                      and private key from the referenced SSL certificate and binds
+                      them as the HTTPS certificate for the custom domain, so that
+                      a certificate managed in SSL Certificates Service can be referenced
+                      without pasting the PEM material. It conflicts with cert_config.0.certificate
+                      and cert_config.0.private_key. The resolved private key is never
+                      persisted to state.
+                    type: string
                   corsConfig:
                     description: Cross-Origin Resource Sharing (CORS) configuration,
                       used to control which origins can access resources under the
@@ -433,7 +453,7 @@ spec:
                         allowOrigins:
                           description: List of allowed origins. Supports wildcard
                             '*' to allow all origins (when AllowCredentials is false),
-                            specific domains like 'https://example.com', or an array
+                            specific domains like https://example.com, or an array
                             of multiple domains.
                           items:
                             type: string
@@ -842,6 +862,16 @@ spec:
                           type: string
                       type: object
                     type: array
+                  certificateId:
+                    description: The ID of an SSL certificate managed by SSL Certificates
+                      Service (CAS). When set, the provider resolves the certificate
+                      and private key from the referenced SSL certificate and binds
+                      them as the HTTPS certificate for the custom domain, so that
+                      a certificate managed in SSL Certificates Service can be referenced
+                      without pasting the PEM material. It conflicts with cert_config.0.certificate
+                      and cert_config.0.private_key. The resolved private key is never
+                      persisted to state.
+                    type: string
                   corsConfig:
                     description: Cross-Origin Resource Sharing (CORS) configuration,
                       used to control which origins can access resources under the
@@ -868,7 +898,7 @@ spec:
                         allowOrigins:
                           description: List of allowed origins. Supports wildcard
                             '*' to allow all origins (when AllowCredentials is false),
-                            specific domains like 'https://example.com', or an array
+                            specific domains like https://example.com, or an array
                             of multiple domains.
                           items:
                             type: string

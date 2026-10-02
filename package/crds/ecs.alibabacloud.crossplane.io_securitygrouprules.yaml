@@ -74,9 +74,12 @@ spec:
               forProvider:
                 properties:
                   cidrIp:
-                    description: The target IP address range. The default value is
-                      0.0.0.0/0 (which means no restriction will be applied). Other
-                      supported formats include 10.159.6.18/12. Only IPv4 is supported.
+                    description: 'The target IPv4 CIDR address range. Other supported
+                      formats include 10.159.6.18/12. Only IPv4 is supported. NOTE:
+                      This field has no default value; leaving it empty does not open
+                      traffic to all sources but instead fails with MissingParameter.Source
+                      (ingress) or MissingParameter.Dest (egress). To allow all IPv4
+                      traffic, set cidr_ip = "0.0.0.0/0" explicitly.'
                     type: string
                   description:
                     description: The description of the security group rule. The description
@@ -198,9 +201,14 @@ spec:
                         type: object
                     type: object
                   sourceGroupOwnerAccount:
-                    description: The Alibaba Cloud user account Id of the target security
-                      group when security groups are authorized across accounts.  This
-                      parameter is invalid if cidr_ip has already been set.
+                    description: The Alibaba Cloud account of the target security
+                      group owner when security groups are authorized across accounts.
+                      This field may not take effect. Use source_group_owner_id instead.
+                      This parameter is invalid if cidr_ip has already been set.
+                    type: string
+                  sourceGroupOwnerId:
+                    description: The Alibaba Cloud account ID of the target security
+                      group owner when security groups are authorized across accounts.
                     type: string
                   sourceSecurityGroupId:
                     description: The target security group ID within the same region.
@@ -300,9 +308,12 @@ spec:
                   autoscaler.
                 properties:
                   cidrIp:
-                    description: The target IP address range. The default value is
-                      0.0.0.0/0 (which means no restriction will be applied). Other
-                      supported formats include 10.159.6.18/12. Only IPv4 is supported.
+                    description: 'The target IPv4 CIDR address range. Other supported
+                      formats include 10.159.6.18/12. Only IPv4 is supported. NOTE:
+                      This field has no default value; leaving it empty does not open
+                      traffic to all sources but instead fails with MissingParameter.Source
+                      (ingress) or MissingParameter.Dest (egress). To allow all IPv4
+                      traffic, set cidr_ip = "0.0.0.0/0" explicitly.'
                     type: string
                   description:
                     description: The description of the security group rule. The description
@@ -420,9 +431,14 @@ spec:
                         type: object
                     type: object
                   sourceGroupOwnerAccount:
-                    description: The Alibaba Cloud user account Id of the target security
-                      group when security groups are authorized across accounts.  This
-                      parameter is invalid if cidr_ip has already been set.
+                    description: The Alibaba Cloud account of the target security
+                      group owner when security groups are authorized across accounts.
+                      This field may not take effect. Use source_group_owner_id instead.
+                      This parameter is invalid if cidr_ip has already been set.
+                    type: string
+                  sourceGroupOwnerId:
+                    description: The Alibaba Cloud account ID of the target security
+                      group owner when security groups are authorized across accounts.
                     type: string
                   sourceSecurityGroupId:
                     description: The target security group ID within the same region.
@@ -690,9 +706,12 @@ spec:
               atProvider:
                 properties:
                   cidrIp:
-                    description: The target IP address range. The default value is
-                      0.0.0.0/0 (which means no restriction will be applied). Other
-                      supported formats include 10.159.6.18/12. Only IPv4 is supported.
+                    description: 'The target IPv4 CIDR address range. Other supported
+                      formats include 10.159.6.18/12. Only IPv4 is supported. NOTE:
+                      This field has no default value; leaving it empty does not open
+                      traffic to all sources but instead fails with MissingParameter.Source
+                      (ingress) or MissingParameter.Dest (egress). To allow all IPv4
+                      traffic, set cidr_ip = "0.0.0.0/0" explicitly.'
                     type: string
                   description:
                     description: The description of the security group rule. The description
@@ -741,9 +760,14 @@ spec:
                     description: The ID of the Security Group Rule.
                     type: string
                   sourceGroupOwnerAccount:
-                    description: The Alibaba Cloud user account Id of the target security
-                      group when security groups are authorized across accounts.  This
-                      parameter is invalid if cidr_ip has already been set.
+                    description: The Alibaba Cloud account of the target security
+                      group owner when security groups are authorized across accounts.
+                      This field may not take effect. Use source_group_owner_id instead.
+                      This parameter is invalid if cidr_ip has already been set.
+                    type: string
+                  sourceGroupOwnerId:
+                    description: The Alibaba Cloud account ID of the target security
+                      group owner when security groups are authorized across accounts.
                     type: string
                   sourceSecurityGroupId:
                     description: The target security group ID within the same region.

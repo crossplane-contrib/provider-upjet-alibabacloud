@@ -165,9 +165,49 @@ spec:
                       or terway.
                     type: string
                   clusterSpec:
-                    description: 'The cluster specifications of kubernetes cluster,which
-                      can be empty. Valid values:'
+                    description: 'The cluster specifications of kubernetes cluster,
+                      which can be empty. Valid values:'
                     type: string
+                  controlPlaneEndpointsConfig:
+                    description: The cluster access configuration. See control_plane_endpoints_config
+                      below.
+                    items:
+                      properties:
+                        internalDnsConfig:
+                          description: The cluster internal domain name configuration,
+                            applicable to ACK managed clusters. See internal_dns_config
+                            below.
+                          items:
+                            properties:
+                              bindVpcs:
+                                description: The list of VPCs where the API Server
+                                  access domain name takes effect. By default, the
+                                  VPC of the cluster is included.
+                                items:
+                                  type: string
+                                type: array
+                              enabled:
+                                description: Whether to enable automatic cluster upgrade.
+                                type: boolean
+                            type: object
+                          type: array
+                        loadBalancersConfig:
+                          description: The load balancing configuration for cluster
+                            access. See load_balancers_config below.
+                          items:
+                            properties:
+                              endpointType:
+                                description: 'The endpoint type. Valid values: private,
+                                  public.'
+                                type: string
+                              loadBalancerId:
+                                description: The ID of the SLB (NLB) instance associated
+                                  with the endpoint.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   controlPlaneLogComponents:
                     description: List of target components for which logs need to
                       be collected. Supports apiserver, kcm, scheduler, ccm and controlplane-events.
@@ -421,6 +461,84 @@ spec:
                     items:
                       type: string
                     type: array
+                  podVswitchIdsRefs:
+                    description: References to Vswitch in vpc to populate podVswitchIds.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  podVswitchIdsSelector:
+                    description: Selector for a list of Vswitch in vpc to populate
+                      podVswitchIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   profile:
                     description: 'The profile of cluster. Valid values:'
                     type: string
@@ -966,9 +1084,49 @@ spec:
                       or terway.
                     type: string
                   clusterSpec:
-                    description: 'The cluster specifications of kubernetes cluster,which
-                      can be empty. Valid values:'
+                    description: 'The cluster specifications of kubernetes cluster,
+                      which can be empty. Valid values:'
                     type: string
+                  controlPlaneEndpointsConfig:
+                    description: The cluster access configuration. See control_plane_endpoints_config
+                      below.
+                    items:
+                      properties:
+                        internalDnsConfig:
+                          description: The cluster internal domain name configuration,
+                            applicable to ACK managed clusters. See internal_dns_config
+                            below.
+                          items:
+                            properties:
+                              bindVpcs:
+                                description: The list of VPCs where the API Server
+                                  access domain name takes effect. By default, the
+                                  VPC of the cluster is included.
+                                items:
+                                  type: string
+                                type: array
+                              enabled:
+                                description: Whether to enable automatic cluster upgrade.
+                                type: boolean
+                            type: object
+                          type: array
+                        loadBalancersConfig:
+                          description: The load balancing configuration for cluster
+                            access. See load_balancers_config below.
+                          items:
+                            properties:
+                              endpointType:
+                                description: 'The endpoint type. Valid values: private,
+                                  public.'
+                                type: string
+                              loadBalancerId:
+                                description: The ID of the SLB (NLB) instance associated
+                                  with the endpoint.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   controlPlaneLogComponents:
                     description: List of target components for which logs need to
                       be collected. Supports apiserver, kcm, scheduler, ccm and controlplane-events.
@@ -1222,6 +1380,84 @@ spec:
                     items:
                       type: string
                     type: array
+                  podVswitchIdsRefs:
+                    description: References to Vswitch in vpc to populate podVswitchIds.
+                    items:
+                      description: A Reference to a named object.
+                      properties:
+                        name:
+                          description: Name of the referenced object.
+                          type: string
+                        policy:
+                          description: Policies for referencing.
+                          properties:
+                            resolution:
+                              default: Required
+                              description: |-
+                                Resolution specifies whether resolution of this reference is required.
+                                The default is 'Required', which means the reconcile will fail if the
+                                reference cannot be resolved. 'Optional' means this reference will be
+                                a no-op if it cannot be resolved.
+                              enum:
+                              - Required
+                              - Optional
+                              type: string
+                            resolve:
+                              description: |-
+                                Resolve specifies when this reference should be resolved. The default
+                                is 'IfNotPresent', which will attempt to resolve the reference only when
+                                the corresponding field is not present. Use 'Always' to resolve the
+                                reference on every reconcile.
+                              enum:
+                              - Always
+                              - IfNotPresent
+                              type: string
+                          type: object
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  podVswitchIdsSelector:
+                    description: Selector for a list of Vswitch in vpc to populate
+                      podVswitchIds.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   profile:
                     description: 'The profile of cluster. Valid values:'
                     type: string
@@ -1931,8 +2167,8 @@ spec:
                       or terway.
                     type: string
                   clusterSpec:
-                    description: 'The cluster specifications of kubernetes cluster,which
-                      can be empty. Valid values:'
+                    description: 'The cluster specifications of kubernetes cluster,
+                      which can be empty. Valid values:'
                     type: string
                   connections:
                     additionalProperties:
@@ -1940,6 +2176,49 @@ spec:
                     description: Map of kubernetes cluster connection information.
                     type: object
                     x-kubernetes-map-type: granular
+                  controlPlaneEndpointsConfig:
+                    description: The cluster access configuration. See control_plane_endpoints_config
+                      below.
+                    items:
+                      properties:
+                        internalDnsConfig:
+                          description: The cluster internal domain name configuration,
+                            applicable to ACK managed clusters. See internal_dns_config
+                            below.
+                          items:
+                            properties:
+                              bindVpcs:
+                                description: The list of VPCs where the API Server
+                                  access domain name takes effect. By default, the
+                                  VPC of the cluster is included.
+                                items:
+                                  type: string
+                                type: array
+                              enabled:
+                                description: Whether to enable automatic cluster upgrade.
+                                type: boolean
+                            type: object
+                          type: array
+                        loadBalancersConfig:
+                          description: The load balancing configuration for cluster
+                            access. See load_balancers_config below.
+                          items:
+                            properties:
+                              endpoint:
+                                description: (Computed) The access address.
+                                type: string
+                              endpointType:
+                                description: 'The endpoint type. Valid values: private,
+                                  public.'
+                                type: string
+                              loadBalancerId:
+                                description: The ID of the SLB (NLB) instance associated
+                                  with the endpoint.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   controlPlaneLogComponents:
                     description: List of target components for which logs need to
                       be collected. Supports apiserver, kcm, scheduler, ccm and controlplane-events.

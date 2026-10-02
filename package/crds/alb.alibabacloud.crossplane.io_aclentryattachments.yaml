@@ -74,7 +74,7 @@ spec:
               forProvider:
                 properties:
                   aclId:
-                    description: The ID of the Acl.
+                    description: The ID of the ACL.
                     type: string
                   aclIdRef:
                     description: Reference to a Acl in alb to populate aclId.
@@ -151,10 +151,29 @@ spec:
                         type: object
                     type: object
                   description:
-                    description: The description of the entry.
+                    description: The description of the entry. Only valid when entry
+                      is set. The description must be 1 to 256 characters in length.
                     type: string
+                  entries:
+                    description: One or more entry blocks. Exactly one of entry and
+                      entries must be specified. The order of the blocks is not significant.
+                      See entries below for details.
+                    items:
+                      properties:
+                        description:
+                          description: The description of the ACL entry. The description
+                            must be 1 to 256 characters in length.
+                          type: string
+                        entry:
+                          description: The CIDR block of the ACL entry.
+                          type: string
+                      type: object
+                    type: array
                   entry:
-                    description: The CIDR blocks.
+                    description: The CIDR block of the ACL entry. Exactly one of entry
+                      and entries must be specified. Field entry has been deprecated
+                      from provider version 1.292.0 and it will be removed in the
+                      future version. Please use the new field entries.
                     type: string
                   region:
                     description: Region is the region you'd like your resource to
@@ -175,7 +194,7 @@ spec:
                   autoscaler.
                 properties:
                   aclId:
-                    description: The ID of the Acl.
+                    description: The ID of the ACL.
                     type: string
                   aclIdRef:
                     description: Reference to a Acl in alb to populate aclId.
@@ -252,10 +271,29 @@ spec:
                         type: object
                     type: object
                   description:
-                    description: The description of the entry.
+                    description: The description of the entry. Only valid when entry
+                      is set. The description must be 1 to 256 characters in length.
                     type: string
+                  entries:
+                    description: One or more entry blocks. Exactly one of entry and
+                      entries must be specified. The order of the blocks is not significant.
+                      See entries below for details.
+                    items:
+                      properties:
+                        description:
+                          description: The description of the ACL entry. The description
+                            must be 1 to 256 characters in length.
+                          type: string
+                        entry:
+                          description: The CIDR block of the ACL entry.
+                          type: string
+                      type: object
+                    type: array
                   entry:
-                    description: The CIDR blocks.
+                    description: The CIDR block of the ACL entry. Exactly one of entry
+                      and entries must be specified. Field entry has been deprecated
+                      from provider version 1.292.0 and it will be removed in the
+                      future version. Please use the new field entries.
                     type: string
                 type: object
               managementPolicies:
@@ -425,30 +463,51 @@ spec:
             required:
             - forProvider
             type: object
-            x-kubernetes-validations:
-            - message: spec.forProvider.entry is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.entry)
-                || (has(self.initProvider) && has(self.initProvider.entry))'
           status:
             description: AclEntryAttachmentStatus defines the observed state of AclEntryAttachment.
             properties:
               atProvider:
                 properties:
                   aclId:
-                    description: The ID of the Acl.
+                    description: The ID of the ACL.
                     type: string
                   description:
-                    description: The description of the entry.
+                    description: The description of the entry. Only valid when entry
+                      is set. The description must be 1 to 256 characters in length.
                     type: string
+                  entries:
+                    description: One or more entry blocks. Exactly one of entry and
+                      entries must be specified. The order of the blocks is not significant.
+                      See entries below for details.
+                    items:
+                      properties:
+                        description:
+                          description: The description of the ACL entry. The description
+                            must be 1 to 256 characters in length.
+                          type: string
+                        entry:
+                          description: The CIDR block of the ACL entry.
+                          type: string
+                        status:
+                          description: '(Computed) The status of the ACL entry. Valid
+                            values: Adding, Available and Removing.'
+                          type: string
+                      type: object
+                    type: array
                   entry:
-                    description: The CIDR blocks.
+                    description: The CIDR block of the ACL entry. Exactly one of entry
+                      and entries must be specified. Field entry has been deprecated
+                      from provider version 1.292.0 and it will be removed in the
+                      future version. Please use the new field entries.
                     type: string
                   id:
-                    description: The ID of the resource. The value formats as <acl_id>:<entry>.
+                    description: The ID of the resource. The value formats as <acl_id>:<entry>
+                      when entry is set, or <acl_id> when entries is set.
                     type: string
                   status:
-                    description: The Status of the resource.
+                    description: The status of the resource. Only exported when entry
+                      is set. When entries is set, the status of each entry is exported
+                      in its entries block.
                     type: string
                 type: object
               conditions:

@@ -466,6 +466,9 @@ type InstanceObservation struct {
 	// The VPC ID of the instance.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
+	// (Available since v1.283.0) The IP-based endpoint for SASL access over a VPC.
+	VPCSaslDomainEndpoint *string `json:"vpcSaslDomainEndpoint,omitempty" tf:"vpc_sasl_domain_endpoint,omitempty"`
+
 	// The ID of attaching vswitch to instance.
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 
@@ -651,29 +654,29 @@ type InstanceParameters struct {
 
 type ServerlessConfigInitParameters struct {
 
-	// The reserved capacity for publishing messages.
+	// The reserved capacity for publishing messages. The minimum value is 60.
 	ReservedPublishCapacity *float64 `json:"reservedPublishCapacity,omitempty" tf:"reserved_publish_capacity,omitempty"`
 
-	// The reserved capacity for subscribing to message.
+	// The reserved capacity for subscribing to message. The minimum value is 20.
 	ReservedSubscribeCapacity *float64 `json:"reservedSubscribeCapacity,omitempty" tf:"reserved_subscribe_capacity,omitempty"`
 }
 
 type ServerlessConfigObservation struct {
 
-	// The reserved capacity for publishing messages.
+	// The reserved capacity for publishing messages. The minimum value is 60.
 	ReservedPublishCapacity *float64 `json:"reservedPublishCapacity,omitempty" tf:"reserved_publish_capacity,omitempty"`
 
-	// The reserved capacity for subscribing to message.
+	// The reserved capacity for subscribing to message. The minimum value is 20.
 	ReservedSubscribeCapacity *float64 `json:"reservedSubscribeCapacity,omitempty" tf:"reserved_subscribe_capacity,omitempty"`
 }
 
 type ServerlessConfigParameters struct {
 
-	// The reserved capacity for publishing messages.
+	// The reserved capacity for publishing messages. The minimum value is 60.
 	// +kubebuilder:validation:Optional
 	ReservedPublishCapacity *float64 `json:"reservedPublishCapacity,omitempty" tf:"reserved_publish_capacity,omitempty"`
 
-	// The reserved capacity for subscribing to message.
+	// The reserved capacity for subscribing to message. The minimum value is 20.
 	// +kubebuilder:validation:Optional
 	ReservedSubscribeCapacity *float64 `json:"reservedSubscribeCapacity,omitempty" tf:"reserved_subscribe_capacity,omitempty"`
 }

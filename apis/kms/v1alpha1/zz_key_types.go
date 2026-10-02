@@ -27,7 +27,7 @@ type KeyInitParameters struct {
 	// The description of the key.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The ID of the KMS instance.
+	// The ID of the KMS instance. If specified, the key is created in the specified KMS instance; if omitted, a default key (master key) is created in the current region.
 	DkmsInstanceID *string `json:"dkmsInstanceId,omitempty" tf:"dkms_instance_id,omitempty"`
 
 	// The specification of the key. Default value: Aliyun_AES_256. Valid values: Aliyun_AES_256, Aliyun_AES_128, Aliyun_AES_192, Aliyun_SM4, RSA_2048, RSA_3072, EC_P256, EC_P256K, EC_SM2.
@@ -42,13 +42,13 @@ type KeyInitParameters struct {
 	// The number of days before the CMK is deleted. During this period, the CMK is in the PendingDeletion state. After this period ends, you cannot cancel the deletion. Unit: days. Valid values: 7 to 366. NOTE: From version 1.184.0, pending_window_in_days can be set to 366.
 	PendingWindowInDays *float64 `json:"pendingWindowInDays,omitempty" tf:"pending_window_in_days,omitempty"`
 
-	// The content of the key policy. The value is in the JSON format. The value can be up to 32,768 bytes in length. For more information, see How to use it.
+	// ), and the valid values of key_spec and rotation_interval are determined by the key management type. For more information, see CreateKey.
 	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 
 	// The protection level of the key. Default value: SOFTWARE. Valid values: SOFTWARE, HSM.
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 
-	// The period of automatic key rotation. The following units are supported: d (day), h (hour), m (minute), and s (second). For example, you can use either 7d or 604800s to specify a seven-day interval. NOTE: If automatic_rotation is set to Enabled, rotation_interval is required.
+	// The period of automatic key rotation. The following units are supported: d (day), h (hour), m (minute), and s (second). For example, you can use either 7d or 604800s to specify a seven-day interval.
 	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
 
 	// The status of key. Default value: Enabled. Valid values: Enabled, Disabled, PendingDeletion.
@@ -85,7 +85,7 @@ type KeyObservation struct {
 	// The description of the key.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The ID of the KMS instance.
+	// The ID of the KMS instance. If specified, the key is created in the specified KMS instance; if omitted, a default key (master key) is created in the current region.
 	DkmsInstanceID *string `json:"dkmsInstanceId,omitempty" tf:"dkms_instance_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -111,7 +111,7 @@ type KeyObservation struct {
 	// The number of days before the CMK is deleted. During this period, the CMK is in the PendingDeletion state. After this period ends, you cannot cancel the deletion. Unit: days. Valid values: 7 to 366. NOTE: From version 1.184.0, pending_window_in_days can be set to 366.
 	PendingWindowInDays *float64 `json:"pendingWindowInDays,omitempty" tf:"pending_window_in_days,omitempty"`
 
-	// The content of the key policy. The value is in the JSON format. The value can be up to 32,768 bytes in length. For more information, see How to use it.
+	// ), and the valid values of key_spec and rotation_interval are determined by the key management type. For more information, see CreateKey.
 	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 
 	// The ID of the current primary key version of the symmetric CMK.
@@ -120,7 +120,7 @@ type KeyObservation struct {
 	// The protection level of the key. Default value: SOFTWARE. Valid values: SOFTWARE, HSM.
 	ProtectionLevel *string `json:"protectionLevel,omitempty" tf:"protection_level,omitempty"`
 
-	// The period of automatic key rotation. The following units are supported: d (day), h (hour), m (minute), and s (second). For example, you can use either 7d or 604800s to specify a seven-day interval. NOTE: If automatic_rotation is set to Enabled, rotation_interval is required.
+	// The period of automatic key rotation. The following units are supported: d (day), h (hour), m (minute), and s (second). For example, you can use either 7d or 604800s to specify a seven-day interval.
 	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
 
 	// The status of key. Default value: Enabled. Valid values: Enabled, Disabled, PendingDeletion.
@@ -149,7 +149,7 @@ type KeyParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The ID of the KMS instance.
+	// The ID of the KMS instance. If specified, the key is created in the specified KMS instance; if omitted, a default key (master key) is created in the current region.
 	// +kubebuilder:validation:Optional
 	DkmsInstanceID *string `json:"dkmsInstanceId,omitempty" tf:"dkms_instance_id,omitempty"`
 
@@ -169,7 +169,7 @@ type KeyParameters struct {
 	// +kubebuilder:validation:Optional
 	PendingWindowInDays *float64 `json:"pendingWindowInDays,omitempty" tf:"pending_window_in_days,omitempty"`
 
-	// The content of the key policy. The value is in the JSON format. The value can be up to 32,768 bytes in length. For more information, see How to use it.
+	// ), and the valid values of key_spec and rotation_interval are determined by the key management type. For more information, see CreateKey.
 	// +kubebuilder:validation:Optional
 	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 
@@ -182,7 +182,7 @@ type KeyParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
-	// The period of automatic key rotation. The following units are supported: d (day), h (hour), m (minute), and s (second). For example, you can use either 7d or 604800s to specify a seven-day interval. NOTE: If automatic_rotation is set to Enabled, rotation_interval is required.
+	// The period of automatic key rotation. The following units are supported: d (day), h (hour), m (minute), and s (second). For example, you can use either 7d or 604800s to specify a seven-day interval.
 	// +kubebuilder:validation:Optional
 	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
 

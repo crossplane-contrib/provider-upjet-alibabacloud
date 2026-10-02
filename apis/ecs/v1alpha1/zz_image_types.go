@@ -231,6 +231,9 @@ type ImageObservation struct {
 	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Indicates whether the image is available. Valid values:
+	Usable *bool `json:"usable,omitempty" tf:"usable,omitempty"`
 }
 
 type ImageParameters struct {

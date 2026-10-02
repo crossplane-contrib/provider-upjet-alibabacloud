@@ -11,6 +11,9 @@ spec:
     description: From TF Test
     parameters: "\t\t\t\t{\"Status\":\"Running\"}\n"
     region: cn-beijing
+    tags:
+      Created: TF
+      For: execution Test
     templateNameSelector:
       matchLabels:
         testing.upbound.io/example-name: default

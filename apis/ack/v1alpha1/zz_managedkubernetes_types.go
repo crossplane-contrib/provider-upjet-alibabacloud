@@ -71,6 +71,96 @@ type ClusterAutoUpgradeParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
+type ControlPlaneEndpointsConfigInitParameters struct {
+
+	// The cluster internal domain name configuration, applicable to ACK managed clusters. See internal_dns_config below.
+	InternalDNSConfig []InternalDNSConfigInitParameters `json:"internalDnsConfig,omitempty" tf:"internal_dns_config,omitempty"`
+
+	// The load balancing configuration for cluster access. See load_balancers_config below.
+	LoadBalancersConfig []LoadBalancersConfigInitParameters `json:"loadBalancersConfig,omitempty" tf:"load_balancers_config,omitempty"`
+}
+
+type ControlPlaneEndpointsConfigObservation struct {
+
+	// The cluster internal domain name configuration, applicable to ACK managed clusters. See internal_dns_config below.
+	InternalDNSConfig []InternalDNSConfigObservation `json:"internalDnsConfig,omitempty" tf:"internal_dns_config,omitempty"`
+
+	// The load balancing configuration for cluster access. See load_balancers_config below.
+	LoadBalancersConfig []LoadBalancersConfigObservation `json:"loadBalancersConfig,omitempty" tf:"load_balancers_config,omitempty"`
+}
+
+type ControlPlaneEndpointsConfigParameters struct {
+
+	// The cluster internal domain name configuration, applicable to ACK managed clusters. See internal_dns_config below.
+	// +kubebuilder:validation:Optional
+	InternalDNSConfig []InternalDNSConfigParameters `json:"internalDnsConfig,omitempty" tf:"internal_dns_config,omitempty"`
+
+	// The load balancing configuration for cluster access. See load_balancers_config below.
+	// +kubebuilder:validation:Optional
+	LoadBalancersConfig []LoadBalancersConfigParameters `json:"loadBalancersConfig,omitempty" tf:"load_balancers_config,omitempty"`
+}
+
+type InternalDNSConfigInitParameters struct {
+
+	// The list of VPCs where the API Server access domain name takes effect. By default, the VPC of the cluster is included.
+	BindVpcs []*string `json:"bindVpcs,omitempty" tf:"bind_vpcs,omitempty"`
+
+	// Whether to enable automatic cluster upgrade.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type InternalDNSConfigObservation struct {
+
+	// The list of VPCs where the API Server access domain name takes effect. By default, the VPC of the cluster is included.
+	BindVpcs []*string `json:"bindVpcs,omitempty" tf:"bind_vpcs,omitempty"`
+
+	// Whether to enable automatic cluster upgrade.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type InternalDNSConfigParameters struct {
+
+	// The list of VPCs where the API Server access domain name takes effect. By default, the VPC of the cluster is included.
+	// +kubebuilder:validation:Optional
+	BindVpcs []*string `json:"bindVpcs,omitempty" tf:"bind_vpcs,omitempty"`
+
+	// Whether to enable automatic cluster upgrade.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type LoadBalancersConfigInitParameters struct {
+
+	// The endpoint type. Valid values: private, public.
+	EndpointType *string `json:"endpointType,omitempty" tf:"endpoint_type,omitempty"`
+
+	// The ID of the SLB (NLB) instance associated with the endpoint.
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+}
+
+type LoadBalancersConfigObservation struct {
+
+	// (Computed) The access address.
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// The endpoint type. Valid values: private, public.
+	EndpointType *string `json:"endpointType,omitempty" tf:"endpoint_type,omitempty"`
+
+	// The ID of the SLB (NLB) instance associated with the endpoint.
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+}
+
+type LoadBalancersConfigParameters struct {
+
+	// The endpoint type. Valid values: private, public.
+	// +kubebuilder:validation:Optional
+	EndpointType *string `json:"endpointType,omitempty" tf:"endpoint_type,omitempty"`
+
+	// The ID of the SLB (NLB) instance associated with the endpoint.
+	// +kubebuilder:validation:Optional
+	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
+}
+
 type MaintenanceWindowInitParameters struct {
 
 	// The maintenance time, values range from 1 to 24,unit is hour. For example: "3h".
@@ -253,8 +343,11 @@ type ManagedKubernetesInitParameters struct {
 	// (Removed) The network that cluster uses, use flannel or terway.
 	ClusterNetworkType *string `json:"clusterNetworkType,omitempty" tf:"cluster_network_type,omitempty"`
 
-	// The cluster specifications of kubernetes cluster,which can be empty. Valid values:
+	// The cluster specifications of kubernetes cluster, which can be empty. Valid values:
 	ClusterSpec *string `json:"clusterSpec,omitempty" tf:"cluster_spec,omitempty"`
+
+	// The cluster access configuration. See control_plane_endpoints_config below.
+	ControlPlaneEndpointsConfig []ControlPlaneEndpointsConfigInitParameters `json:"controlPlaneEndpointsConfig,omitempty" tf:"control_plane_endpoints_config,omitempty"`
 
 	// List of target components for which logs need to be collected. Supports apiserver, kcm, scheduler, ccm and controlplane-events.
 	ControlPlaneLogComponents []*string `json:"controlPlaneLogComponents,omitempty" tf:"control_plane_log_components,omitempty"`
@@ -358,7 +451,17 @@ type ManagedKubernetesInitParameters struct {
 	PodCidr *string `json:"podCidr,omitempty" tf:"pod_cidr,omitempty"`
 
 	// - [Terway Specific] The vswitches for the pod network when using Terway. It is recommended that pod_vswitch_ids is not belong to vswitch_ids but must be in same availability zones. Only works for Create Operation.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	PodVswitchIds []*string `json:"podVswitchIds,omitempty" tf:"pod_vswitch_ids,omitempty"`
+
+	// References to Vswitch in vpc to populate podVswitchIds.
+	// +kubebuilder:validation:Optional
+	PodVswitchIdsRefs []v1.Reference `json:"podVswitchIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Vswitch in vpc to populate podVswitchIds.
+	// +kubebuilder:validation:Optional
+	PodVswitchIdsSelector *v1.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
 
 	// The profile of cluster. Valid values:
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
@@ -564,12 +667,15 @@ type ManagedKubernetesObservation struct {
 	// (Removed) The network that cluster uses, use flannel or terway.
 	ClusterNetworkType *string `json:"clusterNetworkType,omitempty" tf:"cluster_network_type,omitempty"`
 
-	// The cluster specifications of kubernetes cluster,which can be empty. Valid values:
+	// The cluster specifications of kubernetes cluster, which can be empty. Valid values:
 	ClusterSpec *string `json:"clusterSpec,omitempty" tf:"cluster_spec,omitempty"`
 
 	// Map of kubernetes cluster connection information.
 	// +mapType=granular
 	Connections map[string]*string `json:"connections,omitempty" tf:"connections,omitempty"`
+
+	// The cluster access configuration. See control_plane_endpoints_config below.
+	ControlPlaneEndpointsConfig []ControlPlaneEndpointsConfigObservation `json:"controlPlaneEndpointsConfig,omitempty" tf:"control_plane_endpoints_config,omitempty"`
 
 	// List of target components for which logs need to be collected. Supports apiserver, kcm, scheduler, ccm and controlplane-events.
 	ControlPlaneLogComponents []*string `json:"controlPlaneLogComponents,omitempty" tf:"control_plane_log_components,omitempty"`
@@ -860,9 +966,13 @@ type ManagedKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterNetworkType *string `json:"clusterNetworkType,omitempty" tf:"cluster_network_type,omitempty"`
 
-	// The cluster specifications of kubernetes cluster,which can be empty. Valid values:
+	// The cluster specifications of kubernetes cluster, which can be empty. Valid values:
 	// +kubebuilder:validation:Optional
 	ClusterSpec *string `json:"clusterSpec,omitempty" tf:"cluster_spec,omitempty"`
+
+	// The cluster access configuration. See control_plane_endpoints_config below.
+	// +kubebuilder:validation:Optional
+	ControlPlaneEndpointsConfig []ControlPlaneEndpointsConfigParameters `json:"controlPlaneEndpointsConfig,omitempty" tf:"control_plane_endpoints_config,omitempty"`
 
 	// List of target components for which logs need to be collected. Supports apiserver, kcm, scheduler, ccm and controlplane-events.
 	// +kubebuilder:validation:Optional
@@ -999,8 +1109,18 @@ type ManagedKubernetesParameters struct {
 	PodCidr *string `json:"podCidr,omitempty" tf:"pod_cidr,omitempty"`
 
 	// - [Terway Specific] The vswitches for the pod network when using Terway. It is recommended that pod_vswitch_ids is not belong to vswitch_ids but must be in same availability zones. Only works for Create Operation.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PodVswitchIds []*string `json:"podVswitchIds,omitempty" tf:"pod_vswitch_ids,omitempty"`
+
+	// References to Vswitch in vpc to populate podVswitchIds.
+	// +kubebuilder:validation:Optional
+	PodVswitchIdsRefs []v1.Reference `json:"podVswitchIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of Vswitch in vpc to populate podVswitchIds.
+	// +kubebuilder:validation:Optional
+	PodVswitchIdsSelector *v1.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
 
 	// The profile of cluster. Valid values:
 	// +kubebuilder:validation:Optional

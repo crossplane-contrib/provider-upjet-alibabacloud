@@ -1036,6 +1036,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.ReplicaCount != nil {
+		in, out := &in.ReplicaCount, &out.ReplicaCount
+		*out = new(float64)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -1114,6 +1119,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.SlaveReadOnlyCount != nil {
 		in, out := &in.SlaveReadOnlyCount, &out.SlaveReadOnlyCount
+		*out = new(float64)
+		**out = **in
+	}
+	if in.SlaveReplicaCount != nil {
+		in, out := &in.SlaveReplicaCount, &out.SlaveReplicaCount
 		*out = new(float64)
 		**out = **in
 	}
@@ -1463,6 +1473,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.ReplicaCount != nil {
+		in, out := &in.ReplicaCount, &out.ReplicaCount
+		*out = new(float64)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -1521,6 +1536,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.SlaveReadOnlyCount != nil {
 		in, out := &in.SlaveReadOnlyCount, &out.SlaveReadOnlyCount
+		*out = new(float64)
+		**out = **in
+	}
+	if in.SlaveReplicaCount != nil {
+		in, out := &in.SlaveReplicaCount, &out.SlaveReplicaCount
 		*out = new(float64)
 		**out = **in
 	}
@@ -1818,6 +1838,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ReplicaCount != nil {
+		in, out := &in.ReplicaCount, &out.ReplicaCount
+		*out = new(float64)
+		**out = **in
+	}
 	if in.ResourceGroupID != nil {
 		in, out := &in.ResourceGroupID, &out.ResourceGroupID
 		*out = new(string)
@@ -1896,6 +1921,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.SlaveReadOnlyCount != nil {
 		in, out := &in.SlaveReadOnlyCount, &out.SlaveReadOnlyCount
+		*out = new(float64)
+		**out = **in
+	}
+	if in.SlaveReplicaCount != nil {
+		in, out := &in.SlaveReplicaCount, &out.SlaveReplicaCount
 		*out = new(float64)
 		**out = **in
 	}
@@ -2047,6 +2077,22 @@ func (in *TairInstanceInitParameters) DeepCopyInto(out *TairInstanceInitParamete
 		*out = new(string)
 		**out = **in
 	}
+	if in.Config != nil {
+		in, out := &in.Config, &out.Config
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ConnectionStringPrefix != nil {
 		in, out := &in.ConnectionStringPrefix, &out.ConnectionStringPrefix
 		*out = new(string)
@@ -2095,6 +2141,16 @@ func (in *TairInstanceInitParameters) DeepCopyInto(out *TairInstanceInitParamete
 	if in.IntranetBandwidth != nil {
 		in, out := &in.IntranetBandwidth, &out.IntranetBandwidth
 		*out = new(float64)
+		**out = **in
+	}
+	if in.MaintainEndTime != nil {
+		in, out := &in.MaintainEndTime, &out.MaintainEndTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaintainStartTime != nil {
+		in, out := &in.MaintainStartTime, &out.MaintainStartTime
+		*out = new(string)
 		**out = **in
 	}
 	if in.ModifyMode != nil {
@@ -2385,6 +2441,22 @@ func (in *TairInstanceObservation) DeepCopyInto(out *TairInstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Config != nil {
+		in, out := &in.Config, &out.Config
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ConnectionDomain != nil {
 		in, out := &in.ConnectionDomain, &out.ConnectionDomain
 		*out = new(string)
@@ -2448,6 +2520,16 @@ func (in *TairInstanceObservation) DeepCopyInto(out *TairInstanceObservation) {
 	if in.IntranetBandwidth != nil {
 		in, out := &in.IntranetBandwidth, &out.IntranetBandwidth
 		*out = new(float64)
+		**out = **in
+	}
+	if in.MaintainEndTime != nil {
+		in, out := &in.MaintainEndTime, &out.MaintainEndTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaintainStartTime != nil {
+		in, out := &in.MaintainStartTime, &out.MaintainStartTime
+		*out = new(string)
 		**out = **in
 	}
 	if in.MaxConnections != nil {
@@ -2681,6 +2763,22 @@ func (in *TairInstanceParameters) DeepCopyInto(out *TairInstanceParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Config != nil {
+		in, out := &in.Config, &out.Config
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ConnectionStringPrefix != nil {
 		in, out := &in.ConnectionStringPrefix, &out.ConnectionStringPrefix
 		*out = new(string)
@@ -2729,6 +2827,16 @@ func (in *TairInstanceParameters) DeepCopyInto(out *TairInstanceParameters) {
 	if in.IntranetBandwidth != nil {
 		in, out := &in.IntranetBandwidth, &out.IntranetBandwidth
 		*out = new(float64)
+		**out = **in
+	}
+	if in.MaintainEndTime != nil {
+		in, out := &in.MaintainEndTime, &out.MaintainEndTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaintainStartTime != nil {
+		in, out := &in.MaintainStartTime, &out.MaintainStartTime
+		*out = new(string)
 		**out = **in
 	}
 	if in.ModifyMode != nil {

@@ -31,7 +31,7 @@ type RoutesInitParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceDomainSelector *v1.Selector `json:"instanceDomainSelector,omitempty" tf:"-"`
 
-	// Storage domain name.
+	// Storage domain name. The API returns this value with an https:// prefix; the prefix is optional in the configuration and is ignored when comparing the configured value with the returned one.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.CrEeInstanceOssStorageDomainExtractor()
 	StorageDomain *string `json:"storageDomain,omitempty" tf:"storage_domain,omitempty"`
@@ -53,7 +53,7 @@ type RoutesObservation struct {
 	// Instance domain name.
 	InstanceDomain *string `json:"instanceDomain,omitempty" tf:"instance_domain,omitempty"`
 
-	// Storage domain name.
+	// Storage domain name. The API returns this value with an https:// prefix; the prefix is optional in the configuration and is ignored when comparing the configured value with the returned one.
 	StorageDomain *string `json:"storageDomain,omitempty" tf:"storage_domain,omitempty"`
 }
 
@@ -77,7 +77,7 @@ type RoutesParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceDomainSelector *v1.Selector `json:"instanceDomainSelector,omitempty" tf:"-"`
 
-	// Storage domain name.
+	// Storage domain name. The API returns this value with an https:// prefix; the prefix is optional in the configuration and is ignored when comparing the configured value with the returned one.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.CrEeInstanceOssStorageDomainExtractor()
 	// +kubebuilder:validation:Optional
