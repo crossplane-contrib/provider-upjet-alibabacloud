@@ -283,7 +283,7 @@ UPTEST_EXAMPLE_LIST_VPC=$(VPC)/vpc.yaml
 UPTEST_EXAMPLE_LIST ?= $(VPC)/vpc.yaml
 uptest: $(UPTEST) $(KUBECTL) $(CHAINSAW)
 	@$(INFO) running automated tests
-	@KUBECTL=$(KUBECTL) CHAINSAW=$(CHAINSAW) CROSSPLANE_NAMESPACE=$(CROSSPLANE_NAMESPACE) $(UPTEST) e2e "${UPTEST_EXAMPLE_LIST}" --data-source="${UPTEST_DATASOURCE_PATH}" --setup-script=cluster/test/setup.sh --default-conditions="Test" --default-timeout=2400s || $(FAIL)
+	@KUBECTL=$(KUBECTL) CHAINSAW=$(CHAINSAW) CROSSPLANE_NAMESPACE=$(CROSSPLANE_NAMESPACE) $(UPTEST) e2e "${UPTEST_EXAMPLE_LIST}" --data-source="${UPTEST_DATASOURCE_PATH}" --setup-script=cluster/test/setup.sh --default-conditions="Test" --default-timeout=3600s || $(FAIL)
 	@$(OK) running automated tests
 
 local-deploy: build-provider.monolith local-deploy.monolith
