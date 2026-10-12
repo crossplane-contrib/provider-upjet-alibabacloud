@@ -34,6 +34,6 @@ metadata:
 spec:
   forProvider:
     description: terraform-example
-    pendingWindowInDays: "7"
+    pendingWindowInDays: 7
     region: cn-beijing
     status: Enabled
