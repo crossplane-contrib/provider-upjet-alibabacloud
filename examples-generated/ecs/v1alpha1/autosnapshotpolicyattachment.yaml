@@ -53,5 +53,5 @@ metadata:
 spec:
   forProvider:
     region: cn-beijing
-    size: "500"
+    size: 500
     zoneId: ${data.alicloud_zones.default.zones.0.id}
