@@ -117,6 +117,7 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Certificates[i3].CertificateID),
 			Extract:      common.AlbCertificateIdExtractor(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.Certificates[i3].CertificateIDRef,
 			Selector:     mg.Spec.ForProvider.Certificates[i3].CertificateIDSelector,
 			To: reference.To{
@@ -192,6 +193,7 @@ func (mg *Listener) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Certificates[i3].CertificateID),
 			Extract:      common.AlbCertificateIdExtractor(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.Certificates[i3].CertificateIDRef,
 			Selector:     mg.Spec.InitProvider.Certificates[i3].CertificateIDSelector,
 			To: reference.To{
@@ -354,6 +356,7 @@ func (mg *ListenerAdditionalCertificateAttachment) ResolveReferences(ctx context
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CertificateID),
 		Extract:      common.AlbCertificateIdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.CertificateIDRef,
 		Selector:     mg.Spec.ForProvider.CertificateIDSelector,
 		To: reference.To{
@@ -370,6 +373,7 @@ func (mg *ListenerAdditionalCertificateAttachment) ResolveReferences(ctx context
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ListenerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ListenerIDRef,
 		Selector:     mg.Spec.ForProvider.ListenerIDSelector,
 		To: reference.To{
@@ -386,6 +390,7 @@ func (mg *ListenerAdditionalCertificateAttachment) ResolveReferences(ctx context
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateID),
 		Extract:      common.AlbCertificateIdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.CertificateIDRef,
 		Selector:     mg.Spec.InitProvider.CertificateIDSelector,
 		To: reference.To{
@@ -402,6 +407,7 @@ func (mg *ListenerAdditionalCertificateAttachment) ResolveReferences(ctx context
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ListenerID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ListenerIDRef,
 		Selector:     mg.Spec.InitProvider.ListenerIDSelector,
 		To: reference.To{

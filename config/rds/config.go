@@ -150,7 +150,7 @@ func Configure(p *config.Provider) {
 		// that field rather than status.atProvider.id.
 		r.References["db_instance_endpoint_id"] = config.Reference{
 			TerraformName: "alicloud_rds_db_instance_endpoint",
-			Extractor:     `github.com/crossplane/upjet/pkg/resource.ExtractParamPath("db_instance_endpoint_id",true)`,
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("db_instance_endpoint_id",true)`,
 		}
 	})
 	p.AddResourceConfigurator("alicloud_rds_db_node", func(r *config.Resource) {
