@@ -47,7 +47,6 @@ var generationOnlySchemaOmissions = map[string][]string{
 	"alicloud_db_database":                          {"name"},
 	"alicloud_db_instance":                          {"security_group_id"},
 	"alicloud_ecs_auto_snapshot_policy":             {"name"},
-	"alicloud_ecs_auto_snapshot_policy_attachment":  {"name"},
 	"alicloud_ecs_deployment_set":                   {"domain", "granularity"},
 	"alicloud_ecs_disk":                             {"availability_zone", "name"},
 	"alicloud_ecs_key_pair":                         {"key_name"},

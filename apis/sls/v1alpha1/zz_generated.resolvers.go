@@ -10,8 +10,8 @@ import (
 	"context"
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	resource "github.com/crossplane/upjet/pkg/resource"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -26,6 +26,7 @@ func (mg *LogtailAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.LogtailConfigName),
 		Extract:      common.NameExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.LogtailConfigNameRef,
 		Selector:     mg.Spec.ForProvider.LogtailConfigNameSelector,
 		To: reference.To{
@@ -42,6 +43,7 @@ func (mg *LogtailAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.MachineGroupName),
 		Extract:      common.NameExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.MachineGroupNameRef,
 		Selector:     mg.Spec.ForProvider.MachineGroupNameSelector,
 		To: reference.To{
@@ -58,6 +60,7 @@ func (mg *LogtailAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ProjectRef,
 		Selector:     mg.Spec.ForProvider.ProjectSelector,
 		To: reference.To{
@@ -74,6 +77,7 @@ func (mg *LogtailAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.LogtailConfigName),
 		Extract:      common.NameExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.LogtailConfigNameRef,
 		Selector:     mg.Spec.InitProvider.LogtailConfigNameSelector,
 		To: reference.To{
@@ -90,6 +94,7 @@ func (mg *LogtailAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MachineGroupName),
 		Extract:      common.NameExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.MachineGroupNameRef,
 		Selector:     mg.Spec.InitProvider.MachineGroupNameSelector,
 		To: reference.To{
@@ -106,6 +111,7 @@ func (mg *LogtailAttachment) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ProjectRef,
 		Selector:     mg.Spec.InitProvider.ProjectSelector,
 		To: reference.To{
@@ -132,6 +138,7 @@ func (mg *LogtailConfig) ResolveReferences(ctx context.Context, c client.Reader)
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Logstore),
 		Extract:      common.LogStoreNameExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.LogstoreRef,
 		Selector:     mg.Spec.ForProvider.LogstoreSelector,
 		To: reference.To{
@@ -148,6 +155,7 @@ func (mg *LogtailConfig) ResolveReferences(ctx context.Context, c client.Reader)
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ProjectRef,
 		Selector:     mg.Spec.ForProvider.ProjectSelector,
 		To: reference.To{
@@ -164,6 +172,7 @@ func (mg *LogtailConfig) ResolveReferences(ctx context.Context, c client.Reader)
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Logstore),
 		Extract:      common.LogStoreNameExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.LogstoreRef,
 		Selector:     mg.Spec.InitProvider.LogstoreSelector,
 		To: reference.To{
@@ -180,6 +189,7 @@ func (mg *LogtailConfig) ResolveReferences(ctx context.Context, c client.Reader)
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ProjectRef,
 		Selector:     mg.Spec.InitProvider.ProjectSelector,
 		To: reference.To{
@@ -206,6 +216,7 @@ func (mg *MachineGroup) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ProjectRef,
 		Selector:     mg.Spec.ForProvider.ProjectSelector,
 		To: reference.To{
@@ -222,6 +233,7 @@ func (mg *MachineGroup) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ProjectRef,
 		Selector:     mg.Spec.InitProvider.ProjectSelector,
 		To: reference.To{
@@ -250,6 +262,7 @@ func (mg *Store) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EncryptConf[i3].UserCmkInfo[i4].CmkKeyID),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.EncryptConf[i3].UserCmkInfo[i4].CmkKeyIDRef,
 				Selector:     mg.Spec.ForProvider.EncryptConf[i3].UserCmkInfo[i4].CmkKeyIDSelector,
 				To: reference.To{
@@ -268,6 +281,7 @@ func (mg *Store) ResolveReferences(ctx context.Context, c client.Reader) error {
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ProjectName),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ProjectNameRef,
 		Selector:     mg.Spec.ForProvider.ProjectNameSelector,
 		To: reference.To{
@@ -286,6 +300,7 @@ func (mg *Store) ResolveReferences(ctx context.Context, c client.Reader) error {
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EncryptConf[i3].UserCmkInfo[i4].CmkKeyID),
 				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.EncryptConf[i3].UserCmkInfo[i4].CmkKeyIDRef,
 				Selector:     mg.Spec.InitProvider.EncryptConf[i3].UserCmkInfo[i4].CmkKeyIDSelector,
 				To: reference.To{
@@ -304,6 +319,7 @@ func (mg *Store) ResolveReferences(ctx context.Context, c client.Reader) error {
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ProjectName),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ProjectNameRef,
 		Selector:     mg.Spec.InitProvider.ProjectNameSelector,
 		To: reference.To{
@@ -330,6 +346,7 @@ func (mg *StoreIndex) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Logstore),
 		Extract:      common.LogStoreNameExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.LogstoreRef,
 		Selector:     mg.Spec.ForProvider.LogstoreSelector,
 		To: reference.To{
@@ -346,6 +363,7 @@ func (mg *StoreIndex) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ProjectRef,
 		Selector:     mg.Spec.ForProvider.ProjectSelector,
 		To: reference.To{
@@ -362,6 +380,7 @@ func (mg *StoreIndex) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Logstore),
 		Extract:      common.LogStoreNameExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.LogstoreRef,
 		Selector:     mg.Spec.InitProvider.LogstoreSelector,
 		To: reference.To{
@@ -378,6 +397,7 @@ func (mg *StoreIndex) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ProjectRef,
 		Selector:     mg.Spec.InitProvider.ProjectSelector,
 		To: reference.To{

@@ -328,11 +328,6 @@ func (mg *ListenerAdditionalCertificateAttachment) GetProviderConfigReference() 
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this ListenerAdditionalCertificateAttachment.
-func (mg *ListenerAdditionalCertificateAttachment) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this ListenerAdditionalCertificateAttachment.
 func (mg *ListenerAdditionalCertificateAttachment) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -356,11 +351,6 @@ func (mg *ListenerAdditionalCertificateAttachment) SetManagementPolicies(r xpv1.
 // SetProviderConfigReference of this ListenerAdditionalCertificateAttachment.
 func (mg *ListenerAdditionalCertificateAttachment) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this ListenerAdditionalCertificateAttachment.
-func (mg *ListenerAdditionalCertificateAttachment) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this ListenerAdditionalCertificateAttachment.

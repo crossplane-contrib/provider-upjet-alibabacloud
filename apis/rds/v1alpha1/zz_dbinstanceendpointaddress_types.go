@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type DBInstanceEndpointAddressInitParameters struct {
@@ -20,7 +20,7 @@ type DBInstanceEndpointAddressInitParameters struct {
 
 	// The Endpoint ID of the instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.DBInstanceEndpoint
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("db_instance_endpoint_id",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("db_instance_endpoint_id",true)
 	DBInstanceEndpointID *string `json:"dbInstanceEndpointId,omitempty" tf:"db_instance_endpoint_id,omitempty"`
 
 	// Reference to a DBInstanceEndpoint in rds to populate dbInstanceEndpointId.
@@ -83,7 +83,7 @@ type DBInstanceEndpointAddressParameters struct {
 
 	// The Endpoint ID of the instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.DBInstanceEndpoint
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("db_instance_endpoint_id",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("db_instance_endpoint_id",true)
 	// +kubebuilder:validation:Optional
 	DBInstanceEndpointID *string `json:"dbInstanceEndpointId,omitempty" tf:"db_instance_endpoint_id,omitempty"`
 
