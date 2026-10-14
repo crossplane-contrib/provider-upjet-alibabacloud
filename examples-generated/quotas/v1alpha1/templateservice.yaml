@@ -9,4 +9,4 @@ metadata:
 spec:
   forProvider:
     region: cn-beijing
-    serviceStatus: "1"
+    serviceStatus: 1

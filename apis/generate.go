@@ -27,6 +27,15 @@ Copyright 2021 Upbound Inc.
 // Generate deepcopy methodsets and CRD manifests
 //go:generate go run -tags generate sigs.k8s.io/controller-tools/cmd/controller-gen object:headerFile=../hack/boilerplate.go.txt paths=./... crd:allowDangerousTypes=true,crdVersions=v1 output:artifacts:config=../package/crds
 
+// upjet's example generator carries scraped Terraform HCL example values
+// through without coercing them to the field's schema type, so a numeric
+// field documented upstream as e.g. pending_window_in_days = "7" ends up
+// quoted in examples-generated/**/*.yaml even though the CRD (generated
+// just above) types it as a number, which fails Create validation outright.
+// This must run after controller-gen, which is what produces the CRDs this
+// script reads field types from.
+//go:generate bash -c "cd .. && python3 scripts/fix-example-numeric-types.py"
+
 // Generate crossplane-runtime methodsets (resource.Claim, etc)
 //go:generate go run -tags generate github.com/crossplane/crossplane-tools/cmd/angryjet generate-methodsets --header-file=../hack/boilerplate.go.txt ./...
 
