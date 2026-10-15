@@ -95,8 +95,6 @@ spec:
                       the bursting_enabled and provisioned_iops parameters become
                       applicable; they are rejected by the API for other categories.'
                     type: string
-                  dedicatedBlockStorageClusterId:
-                    type: string
                   deleteAutoSnapshot:
                     description: 'Specifies whether to delete the automatic snapshots
                       of the disk when the disk is released. Default value: false.'
@@ -392,8 +390,6 @@ spec:
                       elastic_ephemeral_disk_premium. NOTE: When category is cloud_auto,
                       the bursting_enabled and provisioned_iops parameters become
                       applicable; they are rejected by the API for other categories.'
-                    type: string
-                  dedicatedBlockStorageClusterId:
                     type: string
                   deleteAutoSnapshot:
                     description: 'Specifies whether to delete the automatic snapshots
@@ -849,8 +845,6 @@ spec:
                   createTime:
                     description: (Available since v1.237.0) The time when the disk
                       was created.
-                    type: string
-                  dedicatedBlockStorageClusterId:
                     type: string
                   deleteAutoSnapshot:
                     description: 'Specifies whether to delete the automatic snapshots

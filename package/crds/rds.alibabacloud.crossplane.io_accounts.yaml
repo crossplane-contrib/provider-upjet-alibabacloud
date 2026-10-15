@@ -83,7 +83,9 @@ spec:
                     description: The name of the database account.
                     type: string
                   accountPasswordSecretRef:
-                    description: The password of the account.
+                    description: The password of the account. It conflicts with password,
+                      kms_encrypted_password and account_password_wo, and one of the
+                      four password sources must be set.
                     properties:
                       key:
                         description: The key to select.
@@ -183,8 +185,9 @@ spec:
                         type: object
                     type: object
                   kmsEncryptedPassword:
-                    description: An KMS encrypts password used to a db account. If
-                      the account_password is filled in, this field will be ignored.
+                    description: An KMS encrypts password used to a db account. It
+                      conflicts with account_password, password and account_password_wo,
+                      and one of the four password sources must be set.
                     type: string
                   kmsEncryptionContext:
                     additionalProperties:
@@ -232,7 +235,9 @@ spec:
                     description: The name of the database account.
                     type: string
                   accountPasswordSecretRef:
-                    description: The password of the account.
+                    description: The password of the account. It conflicts with password,
+                      kms_encrypted_password and account_password_wo, and one of the
+                      four password sources must be set.
                     properties:
                       key:
                         description: The key to select.
@@ -332,8 +337,9 @@ spec:
                         type: object
                     type: object
                   kmsEncryptedPassword:
-                    description: An KMS encrypts password used to a db account. If
-                      the account_password is filled in, this field will be ignored.
+                    description: An KMS encrypts password used to a db account. It
+                      conflicts with account_password, password and account_password_wo,
+                      and one of the four password sources must be set.
                     type: string
                   kmsEncryptionContext:
                     additionalProperties:
@@ -554,8 +560,9 @@ spec:
                       <db_instance_id>:<account_name>.
                     type: string
                   kmsEncryptedPassword:
-                    description: An KMS encrypts password used to a db account. If
-                      the account_password is filled in, this field will be ignored.
+                    description: An KMS encrypts password used to a db account. It
+                      conflicts with account_password, password and account_password_wo,
+                      and one of the four password sources must be set.
                     type: string
                   kmsEncryptionContext:
                     additionalProperties:

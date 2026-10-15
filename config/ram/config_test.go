@@ -5,6 +5,7 @@
 package ram_test
 
 import (
+	"context"
 	"strings"
 	"testing"
 
@@ -21,7 +22,10 @@ import (
 // RolePolicyAttachment.roleName and to the two Group references after the
 // aliases were removed.
 func TestReferenceExtractorsPointAtLiveFields(t *testing.T) {
-	p := providerconfig.GetProvider()
+	p, err := providerconfig.GetProvider(context.Background(), true)
+	if err != nil {
+		t.Fatalf("cannot build the generation provider configuration: %v", err)
+	}
 
 	for _, tc := range []struct {
 		resource string
@@ -73,7 +77,10 @@ func TestReferenceExtractorsPointAtLiveFields(t *testing.T) {
 // is the general form of the bug above: it catches a new deletion breaking an
 // existing reference, which is otherwise invisible until a reconcile.
 func TestNoReferenceExtractsADeletedField(t *testing.T) {
-	p := providerconfig.GetProvider()
+	p, err := providerconfig.GetProvider(context.Background(), true)
+	if err != nil {
+		t.Fatalf("cannot build the generation provider configuration: %v", err)
+	}
 	for name, r := range p.Resources {
 		for field, ref := range r.References {
 			param := extractedParam(ref.Extractor)

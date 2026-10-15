@@ -82,8 +82,7 @@ spec:
                       8 to 32 characters in length. It must contain at least three
                       of the following character types: uppercase letters, lowercase
                       letters, digits, and special characters. Special characters
-                      include !@ # $ % ^ & * ( ) _ + - =. You have to specify one
-                      of account_password and kms_encrypted_password fields.'
+                      include !@ # $ % ^ & * ( ) _ + - =. It conflicts with account_password_wo.'
                     properties:
                       key:
                         description: The key to select.
@@ -193,7 +192,7 @@ spec:
                   kmsEncryptedPassword:
                     description: An KMS encrypts password used to a Tair (Redis OSS-Compatible)
                       And Memcache (KVStore) account. If the account_password is filled
-                      in, this field will be ignored.
+                      in, this field will be ignored. It conflicts with account_password_wo.
                     type: string
                   kmsEncryptionContext:
                     additionalProperties:
@@ -232,8 +231,7 @@ spec:
                       8 to 32 characters in length. It must contain at least three
                       of the following character types: uppercase letters, lowercase
                       letters, digits, and special characters. Special characters
-                      include !@ # $ % ^ & * ( ) _ + - =. You have to specify one
-                      of account_password and kms_encrypted_password fields.'
+                      include !@ # $ % ^ & * ( ) _ + - =. It conflicts with account_password_wo.'
                     properties:
                       key:
                         description: The key to select.
@@ -343,7 +341,7 @@ spec:
                   kmsEncryptedPassword:
                     description: An KMS encrypts password used to a Tair (Redis OSS-Compatible)
                       And Memcache (KVStore) account. If the account_password is filled
-                      in, this field will be ignored.
+                      in, this field will be ignored. It conflicts with account_password_wo.
                     type: string
                   kmsEncryptionContext:
                     additionalProperties:
@@ -561,7 +559,7 @@ spec:
                   kmsEncryptedPassword:
                     description: An KMS encrypts password used to a Tair (Redis OSS-Compatible)
                       And Memcache (KVStore) account. If the account_password is filled
-                      in, this field will be ignored.
+                      in, this field will be ignored. It conflicts with account_password_wo.
                     type: string
                   kmsEncryptionContext:
                     additionalProperties:

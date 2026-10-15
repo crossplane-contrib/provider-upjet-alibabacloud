@@ -21,7 +21,7 @@ type AccountInitParameters struct {
 	// The name of the database account.
 	AccountName *string `json:"accountName,omitempty" tf:"account_name,omitempty"`
 
-	// The password of the account.
+	// The password of the account. It conflicts with password, kms_encrypted_password and account_password_wo, and one of the four password sources must be set.
 	AccountPasswordSecretRef *v1.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
 
 	// The account type. Valid values:
@@ -43,7 +43,7 @@ type AccountInitParameters struct {
 	// +kubebuilder:validation:Optional
 	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
-	// An KMS encrypts password used to a db account. If the account_password is filled in, this field will be ignored.
+	// An KMS encrypts password used to a db account. It conflicts with account_password, password and account_password_wo, and one of the four password sources must be set.
 	KMSEncryptedPassword *string `json:"kmsEncryptedPassword,omitempty" tf:"kms_encrypted_password,omitempty"`
 
 	// An KMS encryption context used to decrypt kms_encrypted_password before creating or updating a db account with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.
@@ -77,7 +77,7 @@ type AccountObservation struct {
 	// The resource ID of Account. The value is formatted <db_instance_id>:<account_name>.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// An KMS encrypts password used to a db account. If the account_password is filled in, this field will be ignored.
+	// An KMS encrypts password used to a db account. It conflicts with account_password, password and account_password_wo, and one of the four password sources must be set.
 	KMSEncryptedPassword *string `json:"kmsEncryptedPassword,omitempty" tf:"kms_encrypted_password,omitempty"`
 
 	// An KMS encryption context used to decrypt kms_encrypted_password before creating or updating a db account with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.
@@ -101,7 +101,7 @@ type AccountParameters struct {
 	// +kubebuilder:validation:Optional
 	AccountName *string `json:"accountName,omitempty" tf:"account_name,omitempty"`
 
-	// The password of the account.
+	// The password of the account. It conflicts with password, kms_encrypted_password and account_password_wo, and one of the four password sources must be set.
 	// +kubebuilder:validation:Optional
 	AccountPasswordSecretRef *v1.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
 
@@ -127,7 +127,7 @@ type AccountParameters struct {
 	// +kubebuilder:validation:Optional
 	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
-	// An KMS encrypts password used to a db account. If the account_password is filled in, this field will be ignored.
+	// An KMS encrypts password used to a db account. It conflicts with account_password, password and account_password_wo, and one of the four password sources must be set.
 	// +kubebuilder:validation:Optional
 	KMSEncryptedPassword *string `json:"kmsEncryptedPassword,omitempty" tf:"kms_encrypted_password,omitempty"`
 

@@ -1015,9 +1015,6 @@ type KubernetesNodePoolInitParameters struct {
 	// Rotary configuration. See rolling_policy below.
 	RollingPolicy []RollingPolicyInitParameters `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
 
-	// Rollout policy is used to specify the strategy when the node pool is rolling update. This field works when node pool updating. Please use rolling_policy to instead it from provider version 1.185.0. See rollout_policy below.
-	RolloutPolicy []RolloutPolicyInitParameters `json:"rolloutPolicy,omitempty" tf:"rollout_policy,omitempty"`
-
 	// The runtime name of containers. If not set, the cluster runtime will be used as the node pool runtime. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container.
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
 
@@ -1100,7 +1097,7 @@ type KubernetesNodePoolInitParameters struct {
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// A List of Kubernetes taints to assign to the nodes. Detailed below. More information in Taints and Toleration. See taints below.
-	Taints []KubernetesNodePoolTaintsInitParameters `json:"taints,omitempty" tf:"taints,omitempty"`
+	Taints []TaintsInitParameters `json:"taints,omitempty" tf:"taints,omitempty"`
 
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	TeeConfig []TeeConfigInitParameters `json:"teeConfig,omitempty" tf:"tee_config,omitempty"`
@@ -1289,9 +1286,6 @@ type KubernetesNodePoolObservation struct {
 	// Rotary configuration. See rolling_policy below.
 	RollingPolicy []RollingPolicyObservation `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
 
-	// Rollout policy is used to specify the strategy when the node pool is rolling update. This field works when node pool updating. Please use rolling_policy to instead it from provider version 1.185.0. See rollout_policy below.
-	RolloutPolicy []RolloutPolicyObservation `json:"rolloutPolicy,omitempty" tf:"rollout_policy,omitempty"`
-
 	// The runtime name of containers. If not set, the cluster runtime will be used as the node pool runtime. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container.
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
 
@@ -1366,7 +1360,7 @@ type KubernetesNodePoolObservation struct {
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// A List of Kubernetes taints to assign to the nodes. Detailed below. More information in Taints and Toleration. See taints below.
-	Taints []KubernetesNodePoolTaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
+	Taints []TaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
 
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	TeeConfig []TeeConfigObservation `json:"teeConfig,omitempty" tf:"tee_config,omitempty"`
@@ -1387,9 +1381,6 @@ type KubernetesNodePoolObservation struct {
 
 	// Node custom data, base64-encoded.
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
-
-	// The ID of the resource supplied above. The value is formulated as <cluster_id>:<node_pool_id>.
-	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
 	// The vswitches used by node pool workers.
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
@@ -1624,10 +1615,6 @@ type KubernetesNodePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	RollingPolicy []RollingPolicyParameters `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
 
-	// Rollout policy is used to specify the strategy when the node pool is rolling update. This field works when node pool updating. Please use rolling_policy to instead it from provider version 1.185.0. See rollout_policy below.
-	// +kubebuilder:validation:Optional
-	RolloutPolicy []RolloutPolicyParameters `json:"rolloutPolicy,omitempty" tf:"rollout_policy,omitempty"`
-
 	// The runtime name of containers. If not set, the cluster runtime will be used as the node pool runtime. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container.
 	// +kubebuilder:validation:Optional
 	RuntimeName *string `json:"runtimeName,omitempty" tf:"runtime_name,omitempty"`
@@ -1733,7 +1720,7 @@ type KubernetesNodePoolParameters struct {
 
 	// A List of Kubernetes taints to assign to the nodes. Detailed below. More information in Taints and Toleration. See taints below.
 	// +kubebuilder:validation:Optional
-	Taints []KubernetesNodePoolTaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
+	Taints []TaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
 
 	// The configuration about confidential computing for the cluster. See tee_config below.
 	// +kubebuilder:validation:Optional
@@ -1775,45 +1762,6 @@ type KubernetesNodePoolParameters struct {
 	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 }
 
-type KubernetesNodePoolTaintsInitParameters struct {
-
-	// The scheduling policy.
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// The value of a taint.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type KubernetesNodePoolTaintsObservation struct {
-
-	// The scheduling policy.
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	Key *string `json:"key,omitempty" tf:"key,omitempty"`
-
-	// The value of a taint.
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
-type KubernetesNodePoolTaintsParameters struct {
-
-	// The scheduling policy.
-	// +kubebuilder:validation:Optional
-	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
-
-	// The key of a taint.
-	// +kubebuilder:validation:Optional
-	Key *string `json:"key" tf:"key,omitempty"`
-
-	// The value of a taint.
-	// +kubebuilder:validation:Optional
-	Value *string `json:"value,omitempty" tf:"value,omitempty"`
-}
-
 type LabelsInitParameters struct {
 
 	// The label key.
@@ -1845,7 +1793,7 @@ type LabelsParameters struct {
 
 type ManagementInitParameters struct {
 
-	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired.
+	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired. When auto_repair is true, this feature requires the node-lifecycle-controller and ack-node-problem-detector addons to be installed; see cs_kubernetes_addon for installation.
 	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
 
 	// Automatic repair node policy. See auto_repair_policy below.
@@ -1878,7 +1826,7 @@ type ManagementInitParameters struct {
 
 type ManagementObservation struct {
 
-	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired.
+	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired. When auto_repair is true, this feature requires the node-lifecycle-controller and ack-node-problem-detector addons to be installed; see cs_kubernetes_addon for installation.
 	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
 
 	// Automatic repair node policy. See auto_repair_policy below.
@@ -1911,7 +1859,7 @@ type ManagementObservation struct {
 
 type ManagementParameters struct {
 
-	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired.
+	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired. When auto_repair is true, this feature requires the node-lifecycle-controller and ack-node-problem-detector addons to be installed; see cs_kubernetes_addon for installation.
 	// +kubebuilder:validation:Optional
 	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
 
@@ -2117,25 +2065,6 @@ type RollingPolicyParameters struct {
 	PausePolicy *string `json:"pausePolicy,omitempty" tf:"pause_policy,omitempty"`
 }
 
-type RolloutPolicyInitParameters struct {
-
-	// Maximum number of unavailable nodes during rolling upgrade. The value of this field should be greater than 0, and if it's set to a number less than or equal to 0, the default setting will be used. Please use max_parallelism to instead it from provider version 1.185.0.
-	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
-}
-
-type RolloutPolicyObservation struct {
-
-	// Maximum number of unavailable nodes during rolling upgrade. The value of this field should be greater than 0, and if it's set to a number less than or equal to 0, the default setting will be used. Please use max_parallelism to instead it from provider version 1.185.0.
-	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
-}
-
-type RolloutPolicyParameters struct {
-
-	// Maximum number of unavailable nodes during rolling upgrade. The value of this field should be greater than 0, and if it's set to a number less than or equal to 0, the default setting will be used. Please use max_parallelism to instead it from provider version 1.185.0.
-	// +kubebuilder:validation:Optional
-	MaxUnavailable *float64 `json:"maxUnavailable,omitempty" tf:"max_unavailable,omitempty"`
-}
-
 type ScalingConfigInitParameters struct {
 
 	// Peak EIP bandwidth. Its valid value range [1~500] in Mbps. It works if is_bond_eip=true. Default to 5.
@@ -2242,6 +2171,45 @@ type SpotPriceLimitParameters struct {
 	// The maximum price of a single instance.
 	// +kubebuilder:validation:Optional
 	PriceLimit *string `json:"priceLimit,omitempty" tf:"price_limit,omitempty"`
+}
+
+type TaintsInitParameters struct {
+
+	// The scheduling policy.
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	// The key of a taint.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of a taint.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TaintsObservation struct {
+
+	// The scheduling policy.
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	// The key of a taint.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of a taint.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TaintsParameters struct {
+
+	// The scheduling policy.
+	// +kubebuilder:validation:Optional
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	// The key of a taint.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The value of a taint.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type TeeConfigInitParameters struct {

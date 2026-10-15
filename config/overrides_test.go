@@ -5,6 +5,7 @@
 package config_test
 
 import (
+	"context"
 	"strings"
 	"testing"
 
@@ -79,7 +80,10 @@ func TestDocumentationForEmptyCodeSpans(t *testing.T) {
 	// assert it across the real configured provider rather than only in table
 	// cases.
 	t.Run("NoEmptySpanSurvivesInAnyConfiguredResource", func(t *testing.T) {
-		p := providerconfig.GetProvider()
+		p, err := providerconfig.GetProvider(context.Background(), true)
+		if err != nil {
+			t.Fatalf("cannot build the generation provider configuration: %v", err)
+		}
 		for name, r := range p.Resources {
 			if r.MetaResource == nil {
 				continue

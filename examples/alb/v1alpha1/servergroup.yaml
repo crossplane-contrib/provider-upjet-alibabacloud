@@ -85,7 +85,7 @@ metadata:
 spec:
   forProvider:
     description: crossplane-example
-    name: crossplane-example
+    securityGroupName: crossplane-example
     region: cn-beijing
     vpcIdSelector:
       matchLabels:

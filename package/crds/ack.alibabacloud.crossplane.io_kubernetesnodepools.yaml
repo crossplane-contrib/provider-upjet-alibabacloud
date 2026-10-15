@@ -832,7 +832,9 @@ spec:
                         autoRepair:
                           description: 'Whether to enable automatic repair. Valid
                             values: true: Automatic repair. false: not automatically
-                            repaired.'
+                            repaired. When auto_repair is true, this feature requires
+                            the node-lifecycle-controller and ack-node-problem-detector
+                            addons to be installed; see cs_kubernetes_addon for installation.'
                           type: boolean
                         autoRepairPolicy:
                           description: Automatic repair node policy. See auto_repair_policy
@@ -1149,22 +1151,6 @@ spec:
                           description: 'The auto-pause policy during node upgrade.
                             Valid values:'
                           type: string
-                      type: object
-                    type: array
-                  rolloutPolicy:
-                    description: Rollout policy is used to specify the strategy when
-                      the node pool is rolling update. This field works when node
-                      pool updating. Please use rolling_policy to instead it from
-                      provider version 1.185.0. See rollout_policy below.
-                    items:
-                      properties:
-                        maxUnavailable:
-                          description: Maximum number of unavailable nodes during
-                            rolling upgrade. The value of this field should be greater
-                            than 0, and if it's set to a number less than or equal
-                            to 0, the default setting will be used. Please use max_parallelism
-                            to instead it from provider version 1.185.0.
-                          type: number
                       type: object
                     type: array
                   runtimeName:
@@ -2405,7 +2391,9 @@ spec:
                         autoRepair:
                           description: 'Whether to enable automatic repair. Valid
                             values: true: Automatic repair. false: not automatically
-                            repaired.'
+                            repaired. When auto_repair is true, this feature requires
+                            the node-lifecycle-controller and ack-node-problem-detector
+                            addons to be installed; see cs_kubernetes_addon for installation.'
                           type: boolean
                         autoRepairPolicy:
                           description: Automatic repair node policy. See auto_repair_policy
@@ -2718,22 +2706,6 @@ spec:
                           description: 'The auto-pause policy during node upgrade.
                             Valid values:'
                           type: string
-                      type: object
-                    type: array
-                  rolloutPolicy:
-                    description: Rollout policy is used to specify the strategy when
-                      the node pool is rolling update. This field works when node
-                      pool updating. Please use rolling_policy to instead it from
-                      provider version 1.185.0. See rollout_policy below.
-                    items:
-                      properties:
-                        maxUnavailable:
-                          description: Maximum number of unavailable nodes during
-                            rolling upgrade. The value of this field should be greater
-                            than 0, and if it's set to a number less than or equal
-                            to 0, the default setting will be used. Please use max_parallelism
-                            to instead it from provider version 1.185.0.
-                          type: number
                       type: object
                     type: array
                   runtimeName:
@@ -3968,7 +3940,9 @@ spec:
                         autoRepair:
                           description: 'Whether to enable automatic repair. Valid
                             values: true: Automatic repair. false: not automatically
-                            repaired.'
+                            repaired. When auto_repair is true, this feature requires
+                            the node-lifecycle-controller and ack-node-problem-detector
+                            addons to be installed; see cs_kubernetes_addon for installation.'
                           type: boolean
                         autoRepairPolicy:
                           description: Automatic repair node policy. See auto_repair_policy
@@ -4185,22 +4159,6 @@ spec:
                           description: 'The auto-pause policy during node upgrade.
                             Valid values:'
                           type: string
-                      type: object
-                    type: array
-                  rolloutPolicy:
-                    description: Rollout policy is used to specify the strategy when
-                      the node pool is rolling update. This field works when node
-                      pool updating. Please use rolling_policy to instead it from
-                      provider version 1.185.0. See rollout_policy below.
-                    items:
-                      properties:
-                        maxUnavailable:
-                          description: Maximum number of unavailable nodes during
-                            rolling upgrade. The value of this field should be greater
-                            than 0, and if it's set to a number less than or equal
-                            to 0, the default setting will be used. Please use max_parallelism
-                            to instead it from provider version 1.185.0.
-                          type: number
                       type: object
                     type: array
                   runtimeName:
@@ -4434,10 +4392,6 @@ spec:
                     type: array
                   userData:
                     description: Node custom data, base64-encoded.
-                    type: string
-                  vpcId:
-                    description: The ID of the resource supplied above. The value
-                      is formulated as <cluster_id>:<node_pool_id>.
                     type: string
                   vswitchIds:
                     description: The vswitches used by node pool workers.

@@ -123,7 +123,6 @@ func (tr *KubernetesNodePool) LateInitialize(attrs []byte) (bool, error) {
 	opts = append(opts, resource.WithNameFilter("Name"))
 	opts = append(opts, resource.WithNameFilter("NodeCount"))
 	opts = append(opts, resource.WithNameFilter("Platform"))
-	opts = append(opts, resource.WithNameFilter("RolloutPolicy"))
 
 	li := resource.NewGenericLateInitializer(opts...)
 	return li.LateInitialize(&tr.Spec.ForProvider, params)

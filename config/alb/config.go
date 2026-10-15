@@ -11,7 +11,6 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("alicloud_alb_acl", func(r *config.Resource) {
 		r.ShortGroup = string(common.ALB)
 		r.Kind = "Acl"
-		delete(r.TerraformResource.Schema, "acl_entries")
 	})
 	p.AddResourceConfigurator("alicloud_alb_acl_entry_attachment", func(r *config.Resource) {
 		r.ShortGroup = string(common.ALB)
@@ -51,8 +50,6 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_ssl_certificates_service_certificate",
 			Extractor:     common.PathAlbCertificateIdExtractor,
 		}
-		delete(r.TerraformResource.Schema, "acl_config")
-		delete(r.TerraformResource.Schema, "xforwarded_for_config")
 	})
 	p.AddResourceConfigurator("alicloud_alb_listener_acl_attachment", func(r *config.Resource) {
 		r.ShortGroup = string(common.ALB)

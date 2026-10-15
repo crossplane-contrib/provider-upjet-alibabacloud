@@ -57,9 +57,9 @@ func Configure(p *config.Provider) {
 		// failing the refresh with "only one of `name,sync_rule_name` can be
 		// specified" — the rule creates but never reaches Ready. Skipping
 		// late-init alone is insufficient (the value is still read back), so
-		// drop the dead "name" field from the schema entirely; "sync_rule_name"
-		// fully replaces it.
-		delete(r.TerraformResource.Schema, "name")
+		// "name" is dropped during code generation instead; see
+		// generationOnlySchemaOmissions in config/schema_omissions.go.
+		// "sync_rule_name" fully replaces it.
 	})
 
 	p.AddResourceConfigurator("alicloud_cr_endpoint_acl_policy", func(r *config.Resource) {
