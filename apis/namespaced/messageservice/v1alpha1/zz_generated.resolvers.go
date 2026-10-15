@@ -8,7 +8,8 @@ package v1alpha1
 
 import (
 	"context"
-	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/ram/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/kms/v1alpha1"
+	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/ram/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
@@ -59,6 +60,50 @@ func (mg *EndpointAcl) ResolveReferences(ctx context.Context, c client.Reader) e
 	return nil
 }
 
+// ResolveReferences of this Queue.
+func (mg *Queue) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KMSKeyID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.KMSKeyIDRef,
+		Selector:     mg.Spec.ForProvider.KMSKeyIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.KeyList{},
+			Managed: &v1alpha1.Key{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.KMSKeyID")
+	}
+	mg.Spec.ForProvider.KMSKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.KMSKeyIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KMSKeyID),
+		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.KMSKeyIDRef,
+		Selector:     mg.Spec.InitProvider.KMSKeyIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.KeyList{},
+			Managed: &v1alpha1.Key{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.KMSKeyID")
+	}
+	mg.Spec.InitProvider.KMSKeyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.KMSKeyIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Subscription.
 func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPINamespacedResolver(c, mg)
@@ -73,8 +118,8 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.ForProvider.StsRoleArnRef,
 		Selector:     mg.Spec.ForProvider.StsRoleArnSelector,
 		To: reference.To{
-			List:    &v1alpha1.RoleList{},
-			Managed: &v1alpha1.Role{},
+			List:    &v1alpha11.RoleList{},
+			Managed: &v1alpha11.Role{},
 		},
 	})
 	if err != nil {
@@ -107,8 +152,8 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 		Reference:    mg.Spec.InitProvider.StsRoleArnRef,
 		Selector:     mg.Spec.InitProvider.StsRoleArnSelector,
 		To: reference.To{
-			List:    &v1alpha1.RoleList{},
-			Managed: &v1alpha1.Role{},
+			List:    &v1alpha11.RoleList{},
+			Managed: &v1alpha11.Role{},
 		},
 	})
 	if err != nil {

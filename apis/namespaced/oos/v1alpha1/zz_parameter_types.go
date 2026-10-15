@@ -35,7 +35,7 @@ type ParameterInitParameters struct {
 	// The data type of the common parameter. Valid values: String and StringList.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
-	// The value of the common parameter. The value must be 1 to 4096 characters in length.
+	// The value of the common parameter. The value must be 1 to 4096 characters in length. Exactly one of value and value_wo can be set.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -63,7 +63,7 @@ type ParameterObservation struct {
 	// The data type of the common parameter. Valid values: String and StringList.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
-	// The value of the common parameter. The value must be 1 to 4096 characters in length.
+	// The value of the common parameter. The value must be 1 to 4096 characters in length. Exactly one of value and value_wo can be set.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
@@ -99,7 +99,7 @@ type ParameterParameters struct {
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
-	// The value of the common parameter. The value must be 1 to 4096 characters in length.
+	// The value of the common parameter. The value must be 1 to 4096 characters in length. Exactly one of value and value_wo can be set.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
@@ -142,7 +142,6 @@ type Parameter struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.parameterName) || (has(self.initProvider) && has(self.initProvider.parameterName))",message="spec.forProvider.parameterName is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.type) || (has(self.initProvider) && has(self.initProvider.type))",message="spec.forProvider.type is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.value) || (has(self.initProvider) && has(self.initProvider.value))",message="spec.forProvider.value is a required parameter"
 	Spec   ParameterSpec   `json:"spec"`
 	Status ParameterStatus `json:"status,omitempty"`
 }

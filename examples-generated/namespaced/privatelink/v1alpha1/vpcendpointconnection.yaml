@@ -9,7 +9,7 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
-    bandwidth: "1024"
+    bandwidth: 1024
     endpointIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example

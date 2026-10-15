@@ -240,7 +240,10 @@ spec:
                               type: object
                           type: object
                         storageDomain:
-                          description: Storage domain name.
+                          description: Storage domain name. The API returns this value
+                            with an https:// prefix; the prefix is optional in the
+                            configuration and is ignored when comparing the configured
+                            value with the returned one.
                           type: string
                         storageDomainRef:
                           description: Reference to a EeInstance in cr to populate
@@ -516,7 +519,10 @@ spec:
                               type: object
                           type: object
                         storageDomain:
-                          description: Storage domain name.
+                          description: Storage domain name. The API returns this value
+                            with an https:// prefix; the prefix is optional in the
+                            configuration and is ignored when comparing the configured
+                            value with the returned one.
                           type: string
                         storageDomainRef:
                           description: Reference to a EeInstance in cr to populate
@@ -693,7 +699,10 @@ spec:
                           description: Instance domain name.
                           type: string
                         storageDomain:
-                          description: Storage domain name.
+                          description: Storage domain name. The API returns this value
+                            with an https:// prefix; the prefix is optional in the
+                            configuration and is ignored when comparing the configured
+                            value with the returned one.
                           type: string
                       type: object
                     type: array

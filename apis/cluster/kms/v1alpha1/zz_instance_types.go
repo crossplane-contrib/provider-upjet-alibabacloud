@@ -142,7 +142,7 @@ type InstanceInitParameters struct {
 	// Maximum number of Secrets. The attribute is valid when the attribute payment_type is Subscription.
 	SecretNum *float64 `json:"secretNum,omitempty" tf:"secret_num,omitempty"`
 
-	// The computation performance level of the KMS instance. The attribute is valid when the attribute payment_type is Subscription.
+	// The computation performance level of the KMS instance. Valid values: 0, 200, 1000, 2000 and 4000. The attribute is valid when the attribute payment_type is Subscription. Valid values 1000 and above require a KMS 3.0 instance (product_version = 3): a legacy instance with spec = 200 cannot be directly upgraded to a higher spec, and the instance must be upgraded to KMS 3.0 first. For more information, see How to enable, view, upgrade, and renew KMS instances.
 	Spec *float64 `json:"spec,omitempty" tf:"spec,omitempty"`
 
 	// Key-value map of resource tags.
@@ -246,7 +246,7 @@ type InstanceObservation struct {
 	// Maximum number of Secrets. The attribute is valid when the attribute payment_type is Subscription.
 	SecretNum *float64 `json:"secretNum,omitempty" tf:"secret_num,omitempty"`
 
-	// The computation performance level of the KMS instance. The attribute is valid when the attribute payment_type is Subscription.
+	// The computation performance level of the KMS instance. Valid values: 0, 200, 1000, 2000 and 4000. The attribute is valid when the attribute payment_type is Subscription. Valid values 1000 and above require a KMS 3.0 instance (product_version = 3): a legacy instance with spec = 200 cannot be directly upgraded to a higher spec, and the instance must be upgraded to KMS 3.0 first. For more information, see How to enable, view, upgrade, and renew KMS instances.
 	Spec *float64 `json:"spec,omitempty" tf:"spec,omitempty"`
 
 	// Instance status.
@@ -332,7 +332,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	SecretNum *float64 `json:"secretNum,omitempty" tf:"secret_num,omitempty"`
 
-	// The computation performance level of the KMS instance. The attribute is valid when the attribute payment_type is Subscription.
+	// The computation performance level of the KMS instance. Valid values: 0, 200, 1000, 2000 and 4000. The attribute is valid when the attribute payment_type is Subscription. Valid values 1000 and above require a KMS 3.0 instance (product_version = 3): a legacy instance with spec = 200 cannot be directly upgraded to a higher spec, and the instance must be upgraded to KMS 3.0 first. For more information, see How to enable, view, upgrade, and renew KMS instances.
 	// +kubebuilder:validation:Optional
 	Spec *float64 `json:"spec,omitempty" tf:"spec,omitempty"`
 

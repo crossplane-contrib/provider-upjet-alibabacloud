@@ -339,6 +339,25 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mg.Spec.ForProvider.KeyName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.KeyNameRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.ForProvider.ResourcePoolOptions); i3++ {
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIds),
+			Extract:       resource.ExtractResourceID(),
+			Namespace:     mg.GetNamespace(),
+			References:    mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIdsRefs,
+			Selector:      mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIdsSelector,
+			To: reference.To{
+				List:    &v1alpha1.CapacityReservationList{},
+				Managed: &v1alpha1.CapacityReservation{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIds")
+		}
+		mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIds = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.ResourcePoolOptions[i3].PrivatePoolIdsRefs = mrsp.ResolvedReferences
+
+	}
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
@@ -426,6 +445,25 @@ func (mg *KubernetesNodePool) ResolveReferences(ctx context.Context, c client.Re
 	mg.Spec.InitProvider.KeyName = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.KeyNameRef = rsp.ResolvedReference
 
+	for i3 := 0; i3 < len(mg.Spec.InitProvider.ResourcePoolOptions); i3++ {
+		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
+			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIds),
+			Extract:       resource.ExtractResourceID(),
+			Namespace:     mg.GetNamespace(),
+			References:    mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIdsRefs,
+			Selector:      mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIdsSelector,
+			To: reference.To{
+				List:    &v1alpha1.CapacityReservationList{},
+				Managed: &v1alpha1.CapacityReservation{},
+			},
+		})
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIds")
+		}
+		mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIds = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.ResourcePoolOptions[i3].PrivatePoolIdsRefs = mrsp.ResolvedReferences
+
+	}
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),

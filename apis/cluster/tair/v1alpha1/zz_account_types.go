@@ -18,7 +18,7 @@ type AccountInitParameters struct {
 	// The name of the account. The name must meet the following requirements:
 	AccountName *string `json:"accountName,omitempty" tf:"account_name,omitempty"`
 
-	// The password of the account. The password must be 8 to 32 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include !@ # $ % ^ & * ( ) _ + - =. You have to specify one of account_password and kms_encrypted_password fields.
+	// The password of the account. The password must be 8 to 32 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include !@ # $ % ^ & * ( ) _ + - =. It conflicts with account_password_wo.
 	AccountPasswordSecretRef *v1.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
 
 	// The privilege of account access database. Default value: RoleReadWrite
@@ -43,7 +43,7 @@ type AccountInitParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
-	// An KMS encrypts password used to a Tair (Redis OSS-Compatible) And Memcache (KVStore) account. If the account_password is filled in, this field will be ignored.
+	// An KMS encrypts password used to a Tair (Redis OSS-Compatible) And Memcache (KVStore) account. If the account_password is filled in, this field will be ignored. It conflicts with account_password_wo.
 	KMSEncryptedPassword *string `json:"kmsEncryptedPassword,omitempty" tf:"kms_encrypted_password,omitempty"`
 
 	// An KMS encryption context used to decrypt kms_encrypted_password before creating or updating a Tair (Redis OSS-Compatible) And Memcache (KVStore) account with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.
@@ -71,7 +71,7 @@ type AccountObservation struct {
 	// The Id of instance in which account belongs (The engine version of instance must be 4.0 or 4.0+).
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
-	// An KMS encrypts password used to a Tair (Redis OSS-Compatible) And Memcache (KVStore) account. If the account_password is filled in, this field will be ignored.
+	// An KMS encrypts password used to a Tair (Redis OSS-Compatible) And Memcache (KVStore) account. If the account_password is filled in, this field will be ignored. It conflicts with account_password_wo.
 	KMSEncryptedPassword *string `json:"kmsEncryptedPassword,omitempty" tf:"kms_encrypted_password,omitempty"`
 
 	// An KMS encryption context used to decrypt kms_encrypted_password before creating or updating a Tair (Redis OSS-Compatible) And Memcache (KVStore) account with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.
@@ -88,7 +88,7 @@ type AccountParameters struct {
 	// +kubebuilder:validation:Optional
 	AccountName *string `json:"accountName,omitempty" tf:"account_name,omitempty"`
 
-	// The password of the account. The password must be 8 to 32 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include !@ # $ % ^ & * ( ) _ + - =. You have to specify one of account_password and kms_encrypted_password fields.
+	// The password of the account. The password must be 8 to 32 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include !@ # $ % ^ & * ( ) _ + - =. It conflicts with account_password_wo.
 	// +kubebuilder:validation:Optional
 	AccountPasswordSecretRef *v1.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
 
@@ -118,7 +118,7 @@ type AccountParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
-	// An KMS encrypts password used to a Tair (Redis OSS-Compatible) And Memcache (KVStore) account. If the account_password is filled in, this field will be ignored.
+	// An KMS encrypts password used to a Tair (Redis OSS-Compatible) And Memcache (KVStore) account. If the account_password is filled in, this field will be ignored. It conflicts with account_password_wo.
 	// +kubebuilder:validation:Optional
 	KMSEncryptedPassword *string `json:"kmsEncryptedPassword,omitempty" tf:"kms_encrypted_password,omitempty"`
 

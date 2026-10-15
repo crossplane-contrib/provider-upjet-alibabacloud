@@ -69,10 +69,6 @@ spec:
                     description: The description of the RAM role. The description
                       must be 1 to 1024 characters in length.
                     type: string
-                  document:
-                    description: Field document has been deprecated from provider
-                      version 1.252.0. New field assume_role_policy_document instead.
-                    type: string
                   force:
                     description: 'Specifies whether to force delete the Role. Default
                       value: false. Valid values:'
@@ -81,10 +77,6 @@ spec:
                     description: 'The maximum session time of the RAM role. Default
                       value: 3600. Valid values: 3600 to 43200.'
                     type: number
-                  name:
-                    description: Field name has been deprecated from provider version
-                      1.252.0. New field role_name instead.
-                    type: string
                   roleName:
                     description: The name of the RAM role.
                     type: string
@@ -118,10 +110,6 @@ spec:
                     description: The description of the RAM role. The description
                       must be 1 to 1024 characters in length.
                     type: string
-                  document:
-                    description: Field document has been deprecated from provider
-                      version 1.252.0. New field assume_role_policy_document instead.
-                    type: string
                   force:
                     description: 'Specifies whether to force delete the Role. Default
                       value: false. Valid values:'
@@ -130,10 +118,6 @@ spec:
                     description: 'The maximum session time of the RAM role. Default
                       value: 3600. Valid values: 3600 to 43200.'
                     type: number
-                  name:
-                    description: Field name has been deprecated from provider version
-                      1.252.0. New field role_name instead.
-                    type: string
                   roleName:
                     description: The name of the RAM role.
                     type: string
@@ -225,10 +209,6 @@ spec:
                     description: The description of the RAM role. The description
                       must be 1 to 1024 characters in length.
                     type: string
-                  document:
-                    description: Field document has been deprecated from provider
-                      version 1.252.0. New field assume_role_policy_document instead.
-                    type: string
                   force:
                     description: 'Specifies whether to force delete the Role. Default
                       value: false. Valid values:'
@@ -240,10 +220,6 @@ spec:
                     description: 'The maximum session time of the RAM role. Default
                       value: 3600. Valid values: 3600 to 43200.'
                     type: number
-                  name:
-                    description: Field name has been deprecated from provider version
-                      1.252.0. New field role_name instead.
-                    type: string
                   roleId:
                     description: The ID of the RAM role.
                     type: string

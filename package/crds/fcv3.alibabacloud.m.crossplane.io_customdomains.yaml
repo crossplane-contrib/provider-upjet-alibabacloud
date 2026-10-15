@@ -97,6 +97,98 @@ spec:
                           type: object
                       type: object
                     type: array
+                  certificateId:
+                    description: The ID of an SSL certificate managed by SSL Certificates
+                      Service (CAS). When set, the provider resolves the certificate
+                      and private key from the referenced SSL certificate and binds
+                      them as the HTTPS certificate for the custom domain, so that
+                      a certificate managed in SSL Certificates Service can be referenced
+                      without pasting the PEM material. It conflicts with cert_config.0.certificate
+                      and cert_config.0.private_key. The resolved private key is never
+                      persisted to state.
+                    type: string
+                  certificateIdRef:
+                    description: Reference to a Certificate in sslcertificatesservice
+                      to populate certificateId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  certificateIdSelector:
+                    description: Selector for a Certificate in sslcertificatesservice
+                      to populate certificateId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   corsConfig:
                     description: Cross-Origin Resource Sharing (CORS) configuration,
                       used to control which origins can access resources under the
@@ -123,7 +215,7 @@ spec:
                         allowOrigins:
                           description: List of allowed origins. Supports wildcard
                             '*' to allow all origins (when AllowCredentials is false),
-                            specific domains like 'https://example.com', or an array
+                            specific domains like https://example.com, or an array
                             of multiple domains.
                           items:
                             type: string
@@ -389,6 +481,98 @@ spec:
                           type: object
                       type: object
                     type: array
+                  certificateId:
+                    description: The ID of an SSL certificate managed by SSL Certificates
+                      Service (CAS). When set, the provider resolves the certificate
+                      and private key from the referenced SSL certificate and binds
+                      them as the HTTPS certificate for the custom domain, so that
+                      a certificate managed in SSL Certificates Service can be referenced
+                      without pasting the PEM material. It conflicts with cert_config.0.certificate
+                      and cert_config.0.private_key. The resolved private key is never
+                      persisted to state.
+                    type: string
+                  certificateIdRef:
+                    description: Reference to a Certificate in sslcertificatesservice
+                      to populate certificateId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  certificateIdSelector:
+                    description: Selector for a Certificate in sslcertificatesservice
+                      to populate certificateId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                   corsConfig:
                     description: Cross-Origin Resource Sharing (CORS) configuration,
                       used to control which origins can access resources under the
@@ -415,7 +599,7 @@ spec:
                         allowOrigins:
                           description: List of allowed origins. Supports wildcard
                             '*' to allow all origins (when AllowCredentials is false),
-                            specific domains like 'https://example.com', or an array
+                            specific domains like https://example.com, or an array
                             of multiple domains.
                           items:
                             type: string
@@ -721,6 +905,16 @@ spec:
                           type: string
                       type: object
                     type: array
+                  certificateId:
+                    description: The ID of an SSL certificate managed by SSL Certificates
+                      Service (CAS). When set, the provider resolves the certificate
+                      and private key from the referenced SSL certificate and binds
+                      them as the HTTPS certificate for the custom domain, so that
+                      a certificate managed in SSL Certificates Service can be referenced
+                      without pasting the PEM material. It conflicts with cert_config.0.certificate
+                      and cert_config.0.private_key. The resolved private key is never
+                      persisted to state.
+                    type: string
                   corsConfig:
                     description: Cross-Origin Resource Sharing (CORS) configuration,
                       used to control which origins can access resources under the
@@ -747,7 +941,7 @@ spec:
                         allowOrigins:
                           description: List of allowed origins. Supports wildcard
                             '*' to allow all origins (when AllowCredentials is false),
-                            specific domains like 'https://example.com', or an array
+                            specific domains like https://example.com, or an array
                             of multiple domains.
                           items:
                             type: string

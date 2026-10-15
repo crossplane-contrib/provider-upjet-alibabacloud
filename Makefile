@@ -7,6 +7,12 @@ PROJECT_NAME := provider-$(PROVIDER_NAME)
 PROJECT_REPO ?= github.com/crossplane-contrib/$(PROJECT_NAME)
 
 SUBPACKAGES ?= monolith
+# The release workflow asks for "*" so it does not have to carry a hand-written
+# list of every service group; expand it to the family config package plus each
+# service, which is exactly what gets published.
+ifeq ($(strip $(SUBPACKAGES)),*)
+override SUBPACKAGES := $(filter-out monolith,$(shell find cmd/provider -mindepth 1 -maxdepth 1 -type d | cut -d/ -f3 | sort))
+endif
 
 # Family provider package resolution
 XPKG_SKIP_DEP_RESOLUTION := true
@@ -21,13 +27,14 @@ export TERRAFORM_PROVIDER_SOURCE ?= aliyun/alicloud
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/aliyun/terraform-provider-alicloud
 # NOTE: This pins the registry release used to generate config/schema.json.
 # The Go code the provider actually runs is pinned separately, in go.mod, and
-# for a prerelease it appears there only as an opaque pseudo-version
-# (v1.290.1-0.<timestamp>-<commit>) plus a replace directive. The two must refer
-# to the same upstream commit. Nothing enforces it mechanically, but
-# TestSchemaSourcesAgree in config/ fails if they drift far enough apart that a
-# configured resource is missing from either source.
-export TERRAFORM_PROVIDER_VERSION ?= 2.0.0-beta4
-export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-alicloud
+# since the tag declares no /v2 module path it appears there only as an
+# opaque pseudo-version (v1.294.1-0.<timestamp>-<commit>) plus a replace
+# directive. The two must refer to the same upstream commit.
+# TestSchemaVersionsMatch in config/ enforces this directly, by resolving
+# this tag's commit and comparing it against the pseudo-version's commit
+# suffix; TestSchemaSourcesAgree separately fails if the two sources drift
+# far enough apart that a configured resource is missing from either.
+export TERRAFORM_PROVIDER_VERSION ?= 2.0.0
 export TERRAFORM_DOCS_PATH ?= website/docs/r
 
 
@@ -58,30 +65,41 @@ NPROCS ?= 1
 # to half the number of CPU cores.
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
-GO_REQUIRED_VERSION ?= 1.24.1
-# Must track GOLANGCI_VERSION in .github/workflows/ci.yml. CI lints with the
-# golangci-lint GitHub action rather than this target, so the two drifted:
-# .golangci.yml is in the version "2" config format, which a v1 binary cannot
-# parse, leaving `make lint` (and therefore `make reviewable`) broken while CI
-# stayed green.
-GOLANGCILINT_VERSION ?= 2.12.2
+# Derived from go.mod so it cannot go stale, matching provider-upjet-aws and
+# provider-upjet-gcp.
+GO_REQUIRED_VERSION ?= $(shell grep -E '^go ' go.mod | awk '{print $$2}')
+# Must track GOLANGCI_VERSION in .github/workflows/ci.yml, but without the
+# leading "v": build/makelib/golang.mk builds the download URL as
+# v$(GOLANGCILINT_VERSION), so a copy of ci.yml's "v2.14.0" would request tag
+# vv2.14.0 and 404.
+#
+# CI lints with the golangci-lint GitHub action rather than this target, so the
+# two are free to drift. When they did, `make lint` (and therefore
+# `make reviewable`) failed outright while CI stayed green. A v1 binary refuses
+# this repo at the version gate, reporting that the Go version used to build
+# golangci-lint is lower than the targeted Go version, and never reaches
+# .golangci.yml, which is in the version "2" format a v1 binary also cannot
+# read. Either alone is disqualifying; the gate is simply the one that fires
+# first.
+GOLANGCILINT_VERSION ?= 2.14.0
 UPTEST_LOCAL_VERSION = v0.13.0
 UPTEST_LOCAL_CHANNEL = stable
 KUSTOMIZE_VERSION = v5.3.0
 YQ_VERSION = v4.40.5
-CROSSPLANE_VERSION = 2.0.2
+CROSSPLANE_VERSION = 2.4.2
 CRDDIFF_VERSION = v0.12.1
 GO_STATIC_PACKAGES ?= $(GO_PROJECT)/cmd/generator ${SUBPACKAGES:%=$(GO_PROJECT)/cmd/provider/%}
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
-GO_SUBDIRS += cmd internal apis
+GO_SUBDIRS += cmd internal apis config
 -include build/makelib/golang.mk
 
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.30.0
-UP_VERSION = v0.41.0
-UP_CHANNEL = stable
+KIND_VERSION = v0.33.0
+# The up CLI was removed from the build submodule in favour of the Crossplane
+# CLI, which is what provider-upjet-aws and -gcp use for `xpkg batch`.
+CROSSPLANE_CLI_VERSION = v2.5.0
 UPTEST_VERSION = v2.2.0
 -include build/makelib/k8s_tools.mk
 
@@ -136,7 +154,7 @@ fallthrough: submodules
 
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.
-build.init: $(UP) check-terraform-version
+build.init: $(CROSSPLANE_CLI) check-terraform-version
 
 # ====================================================================================
 # Setup Terraform for fetching provider schema
@@ -167,7 +185,18 @@ $(TERRAFORM_PROVIDER_SCHEMA): $(TERRAFORM)
 	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) providers schema -json=true > $(TERRAFORM_PROVIDER_SCHEMA) 2>> $(TERRAFORM_WORKDIR)/terraform-logs.txt
 	@$(OK) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
 
+# The clone is --depth 1 --branch v<version>, so HEAD is always exactly the tag.
+# A clone left over from a different pin would otherwise be reused silently:
+# provider-metadata.yaml is scraped from these docs, and upjet derives reference
+# extractors from it, so generating against the wrong version produces a tree
+# that builds and tests clean while encoding the previous provider's API
+# relationships.
 pull-docs:
+	@if [ -d "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" ] && \
+		[ "$$(git -C "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" describe --tags --exact-match 2>/dev/null)" != "v$(TERRAFORM_PROVIDER_VERSION)" ]; then \
+		$(INFO) refreshing provider docs for v$(TERRAFORM_PROVIDER_VERSION); \
+		rm -rf "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)"; \
+	fi
 	@if [ ! -d "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" ]; then \
   		mkdir -p "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)" && \
 		git clone -c advice.detachedHead=false --depth 1 --filter=blob:none --branch "v$(TERRAFORM_PROVIDER_VERSION)" --sparse "$(TERRAFORM_PROVIDER_REPO)" "$(WORK_DIR)/$(TERRAFORM_PROVIDER_SOURCE)"; \
@@ -214,8 +243,7 @@ run: go.build
 
 # ====================================================================================
 # End to End Testing
-CROSSPLANE_VERSION = 2.0.2
-CROSSPLANE_NAMESPACE = upbound-system
+CROSSPLANE_VERSION = 2.4.2
 -include build/makelib/local.xpkg.mk
 -include build/makelib/controlplane.mk
 
@@ -244,17 +272,21 @@ CR=./examples/cluster/cr/v1alpha1
 ECS=./examples/cluster/ecs/v1alpha1
 KMS=./examples/cluster/kms/v1alpha1
 MESSAGESERVICE=./examples/cluster/messageservice/v1alpha1
+NLB=./examples/cluster/nlb/v1alpha1
 OOS=./examples/cluster/oos/v1alpha1
 OSS=./examples/cluster/oss/v1alpha1
 POLARDB=./examples/cluster/polardb/v1alpha1
 PRIVATELINK=./examples/cluster/privatelink/v1alpha1
 QUOTAS=./examples/cluster/quotas/v1alpha1
 RAM=./examples/cluster/ram/v1alpha1
+SSLCERTIFICATESSERVICE=./examples/cluster/sslcertificatesservice/v1alpha1
+SLS=./examples/cluster/sls/v1alpha1
+RDS=./examples/cluster/rds/v1alpha1
 TAIR=./examples/cluster/tait/v1alpha1
 VPC=./examples/cluster/vpc/v1alpha1
 UPTEST_EXAMPLE_LIST_ACK=$(ACK)/autoscalingconfig.yaml,$(ACK)/edgekubernetes.yaml,$(ACK)/kubernetesaddon.yaml,$(ACK)/kubernetesnodepool.yaml,$(ACK)/kubernetespermissions.yaml,$(ACK)/managedkubernetes.yaml,$(ACK)/serverlesskubernetes.yaml
 UPTEST_EXAMPLE_LIST_ACKONE=$(ACKONE)/cluster.yaml,$(ACKONE)/membershipattachment.yaml
-UPTEST_EXAMPLE_LIST_ALB=$(ALB)/acl.yaml,$(ALB)/aclentryattachment.yaml,$(ALB)/ascript.yaml,$(ALB)/healthchecktemplate.yaml,$(ALB)/listener.yaml,$(ALB)/listeneraclattachment.yaml,$(ALB)/loadbalancer.yaml,$(ALB)/loadbalancersecuritygroupattachment.yaml,$(ALB)/loadbalancerzoneshiftedattachment.yaml,$(ALB)/rule.yaml,$(ALB)/securitupolicy.yaml,$(ALB)/servergroup.yaml
+UPTEST_EXAMPLE_LIST_ALB=$(ALB)/acl.yaml,$(ALB)/aclentryattachment.yaml,$(ALB)/ascript.yaml,$(ALB)/healthchecktemplate.yaml,$(ALB)/listener.yaml,$(ALB)/listeneraclattachment.yaml,$(ALB)/listeneradditionalcertificateattachment.yaml,$(ALB)/loadbalancer.yaml,$(ALB)/loadbalancersecuritygroupattachment.yaml,$(ALB)/loadbalancerzoneshiftedattachment.yaml,$(ALB)/rule.yaml,$(ALB)/securitupolicy.yaml,$(ALB)/servergroup.yaml
 UPTEST_EXAMPLE_LIST_ALIDNS=$(ALIDNS)/addreddpool.yaml,$(ALIDNS)/customline.yaml,$(ALIDNS)/domain.yaml,$(ALIDNS)/domainattachment.yaml,$(ALIDNS)/domaingroup.yaml,$(ALIDNS)/gtminstance.yaml,$(ALIDNS)/instance.yaml,$(ALIDNS)/monitorconfig.yaml,$(ALIDNS)/record.yaml
 UPTEST_EXAMPLE_LIST_ALIKAFKA=$(ALIKAFKA)/consumergroup.yaml,$(ALIKAFKA)/instance.yaml,$(ALIKAFKA)/instanceallowedipattachment.yaml,$(ALIKAFKA)/saslacl.yaml,$(ALIKAFKA)/sasluser.yaml,$(ALIKAFKA)/scheduledscalingrule.yaml,$(ALIKAFKA)/topic.yaml
 UPTEST_EXAMPLE_LIST_CDN=$(CDN)/domain.yaml,$(CDN)/domainconfig.yaml,$(CDN)/fctrigger.yaml
@@ -270,12 +302,16 @@ UPTEST_EXAMPLE_LIST_CR=$(CR)/chain.yaml,$(CR)/chartnamespace.yaml,$(CR)/chartrep
 UPTEST_EXAMPLE_LIST_ECS=$(ECS)/command.yaml,$(ECS)/disk.yaml,$(ECS)/diskattachment.yaml,$(ECS)/instance.yaml,$(ECS)/keypair.yaml,$(ECS)/keypairattachment.yaml,$(ECS)/launchtemplate.yaml,$(ECS)/networkinterface.yaml,$(ECS)/networkinterfaceattachment.yaml,$(ECS)/networkinterfacepermissionspermission.yaml,$(ECS)/securitygroup.yaml,$(ECS)/securitygrouprule.yaml
 UPTEST_EXAMPLE_LIST_KMS=$(KMS)/alias.yaml,$(KMS)/key.yaml,$(KMS)/instance.yaml,$(KMS)/secret.yaml
 UPTEST_EXAMPLE_LIST_MESSAGESERVICE=$(MESSAGESERVICE)/endpoint.yaml,$(MESSAGESERVICE)/endpointacl.yaml,$(MESSAGESERVICE)/queue.yaml,$(MESSAGESERVICE)/subscription.yaml,$(MESSAGESERVICE)/topic.yaml
+UPTEST_EXAMPLE_LIST_NLB=$(NLB)/loadbalancer.yaml
 UPTEST_EXAMPLE_LIST_OOS=$(OOS)/application.yaml,$(OOS)/applicationgroup.yaml,$(OOS)/defaultpatchbaseline.yaml,$(OOS)/execution.yaml,$(OOS)/parameter.yaml,$(OOS)/patchbaseline.yaml,$(OOS)/secretparameter.yaml,$(OOS)/servicesetting.yaml,$(OOS)/stateconfiguration.yaml,$(OOS)/template.yaml
 UPTEST_EXAMPLE_LIST_OSS=$(OSS)/accesscontrol.yaml,$(OSS)/accountpublicaccessblock.yaml,$(OSS)/bucket.yaml,$(OSS)/bucketaccessmonitor.yaml,$(OSS)/bucketacl.yaml,$(OSS)/bucketcname.yaml,$(OSS)/bucketcnametoken.yaml,$(OSS)/bucketcors.yaml,$(OSS)/bucketdataredundancytransition.yaml,$(OSS)/buckethttpsconfig.yaml,$(OSS)/bucketlogging.yaml,$(OSS)/bucketmetaquery.yaml,$(OSS)/bucketobject.yaml,$(OSS)/bucketpolicy.yaml,$(OSS)/bucketpublicaccessblock.yaml,$(OSS)/bucketreferer.yaml,$(OSS)/bucketreplication.yaml,$(OSS)/bucketrequestpayment.yaml,$(OSS)/bucketserversideencryption.yaml,$(OSS)/bucketstytle.yaml,$(OSS)/buckettransferacceleration.yaml,$(OSS)/bucketuserdefinedlogfields.yaml,$(OSS)/bucketversioning.yaml,$(OSS)/bucketwebsite.yaml,$(OSS)/bucketworm.yaml
 UPTEST_EXAMPLE_LIST_POLARDB=$(POLARDB)/account.yaml,$(POLARDB)/accountprivilege.yaml,$(POLARDB)/backuppolicy.yaml,$(POLARDB)/cluster.yaml,$(POLARDB)/clusterendpoint.yaml,$(POLARDB)/database.yaml,$(POLARDB)/endpoint.yaml,$(POLARDB)/endpointaddress.yaml,$(POLARDB)/globaldatabasenetwork.yaml,$(POLARDB)/parametergroup.yaml,$(POLARDB)/primaryendpoint.yaml
 UPTEST_EXAMPLE_LIST_PRIVATELINK=$(PRIVATELINK)/vpcendpoint.yaml,$(PRIVATELINK)/vpcendpointconnection.yaml,$(PRIVATELINK)/vpcendpointservice.yaml,$(PRIVATELINK)/vpcendpointserviceresource.yaml,$(PRIVATELINK)/vpcendpointserviceuser.yaml,$(PRIVATELINK)/vpcendpointservicezone.yaml
 UPTEST_EXAMPLE_LIST_QUOTAS=$(QUOTAS)/quotaalarm.yaml,$(QUOTAS)/quotaapplication.yaml,$(QUOTAS)/templateapplications.yaml,$(QUOTAS)/templatequota.yaml,$(QUOTAS)/templateservice.yaml
 UPTEST_EXAMPLE_LIST_RAM=$(RAM)/accesskey.yaml,$(RAM)/accountalias.yaml,$(RAM)/accountpasswordpolicy.yaml,$(RAM)/group.yaml,$(RAM)/groupmembership.yaml,$(RAM)/grouppolicyattachment.yaml,$(RAM)/loginprofile.yaml,$(RAM)/passwordpolicy.yaml,$(RAM)/policy.yaml,$(RAM)/role.yaml,$(RAM)/rolepolicyattachment.yaml,$(RAM)/samlprovider.yaml,$(RAM)/user.yaml,$(RAM)/usergroupattachment.yaml,$(RAM)/userpolicyattachment.yaml
+UPTEST_EXAMPLE_LIST_SSLCERTIFICATESSERVICE=$(SSLCERTIFICATESSERVICE)/certificate.yaml
+UPTEST_EXAMPLE_LIST_SLS=$(SLS)/project.yaml,$(SLS)/store.yaml,$(SLS)/storeindex.yaml,$(SLS)/machinegroup.yaml,$(SLS)/logtailconfig.yaml,$(SLS)/logtailattachment.yaml
+UPTEST_EXAMPLE_LIST_RDS=$(RDS)/instance.yaml,$(RDS)/database.yaml,$(RDS)/account.yaml
 UPTEST_EXAMPLE_LIST_TAIR=$(TAIR)/account.yaml,$(TAIR)/auditlogconfig.yaml,$(TAIR)/connection.yaml,$(TAIR)/instance.yaml,$(TAIR)/tairinstance.yaml
 UPTEST_EXAMPLE_LIST_VPC=$(VPC)/vpc.yaml
 UPTEST_EXAMPLE_LIST ?= $(VPC)/vpc.yaml
@@ -296,7 +332,7 @@ local-deploy.%: controlplane.up
 		$(MAKE) local.xpkg.deploy.provider.$(PROJECT_NAME)-$${api}; \
 		$(INFO) running locally built $(PROJECT_NAME)-$${api}; \
 		$(KUBECTL) wait provider.pkg $(PROJECT_NAME)-$${api} --for condition=Healthy --timeout 5m; \
-		$(KUBECTL) -n upbound-system wait --for=condition=Available deployment --all --timeout=5m; \
+		$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) wait --for=condition=Available deployment --all --timeout=5m; \
 		$(OK) running locally built $(PROJECT_NAME)-$${api}; \
 	done || $(FAIL)
 
@@ -352,7 +388,8 @@ BASE_REF = $(shell git rev-parse --verify --quiet "$${GITHUB_BASE_REF}" >/dev/nu
 
 crddiff:
 	@$(INFO) Checking breaking CRD schema changes
-	@if [ -z "$(BASE_REF)" ]; then \
+	@breaking=0 ; \
+	if [ -z "$(BASE_REF)" ]; then \
 		echo "Cannot resolve base ref \"$${GITHUB_BASE_REF}\"; is the checkout shallow? Skipping." ; \
 	else \
 	for crd in $${MODIFIED_CRD_LIST}; do \
@@ -366,9 +403,11 @@ crddiff:
 			printf "\033[31m"; echo "Breaking change detected!"; printf "\033[0m" ; \
 			echo "$${changes_detected}" ; \
 			echo ; \
+			breaking=1 ; \
 		fi ; \
 	done ; \
-	fi
+	fi ; \
+	if [[ $$breaking != 0 ]] ; then $(FAIL) ; fi
 	@$(OK) Checking breaking CRD schema changes
 
 schema-version-diff:
@@ -385,7 +424,11 @@ schema-version-diff:
 	fi
 	@$(OK) Checking for native state schema version changes
 
-.PHONY: cobertura submodules fallthrough run crds.clean
+# Resolve the subpackage list for the release workflow, which reads stdout.
+print-subpackages:
+	@echo $(SUBPACKAGES)
+
+.PHONY: cobertura submodules fallthrough run crds.clean print-subpackages
 
 # ====================================================================================
 # Special Targets

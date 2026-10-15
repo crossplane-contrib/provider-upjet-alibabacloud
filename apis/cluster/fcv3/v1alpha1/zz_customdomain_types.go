@@ -89,7 +89,7 @@ type CorsConfigInitParameters struct {
 	// List of allowed HTTP methods, such as GET, POST, PUT, DELETE, etc.
 	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
 
-	// List of allowed origins. Supports wildcard '*' to allow all origins (when AllowCredentials is false), specific domains like 'https://example.com', or an array of multiple domains.
+	// List of allowed origins. Supports wildcard '*' to allow all origins (when AllowCredentials is false), specific domains like https://example.com, or an array of multiple domains.
 	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
 
 	// List of response headers that can be exposed to the browser.
@@ -110,7 +110,7 @@ type CorsConfigObservation struct {
 	// List of allowed HTTP methods, such as GET, POST, PUT, DELETE, etc.
 	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
 
-	// List of allowed origins. Supports wildcard '*' to allow all origins (when AllowCredentials is false), specific domains like 'https://example.com', or an array of multiple domains.
+	// List of allowed origins. Supports wildcard '*' to allow all origins (when AllowCredentials is false), specific domains like https://example.com, or an array of multiple domains.
 	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
 
 	// List of response headers that can be exposed to the browser.
@@ -134,7 +134,7 @@ type CorsConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	AllowMethods []*string `json:"allowMethods,omitempty" tf:"allow_methods,omitempty"`
 
-	// List of allowed origins. Supports wildcard '*' to allow all origins (when AllowCredentials is false), specific domains like 'https://example.com', or an array of multiple domains.
+	// List of allowed origins. Supports wildcard '*' to allow all origins (when AllowCredentials is false), specific domains like https://example.com, or an array of multiple domains.
 	// +kubebuilder:validation:Optional
 	AllowOrigins []*string `json:"allowOrigins,omitempty" tf:"allow_origins,omitempty"`
 
@@ -154,6 +154,19 @@ type CustomDomainInitParameters struct {
 
 	// HTTPS certificate information See cert_config below.
 	CertConfig []CertConfigInitParameters `json:"certConfig,omitempty" tf:"cert_config,omitempty"`
+
+	// The ID of an SSL certificate managed by SSL Certificates Service (CAS). When set, the provider resolves the certificate and private key from the referenced SSL certificate and binds them as the HTTPS certificate for the custom domain, so that a certificate managed in SSL Certificates Service can be referenced without pasting the PEM material. It conflicts with cert_config.0.certificate and cert_config.0.private_key. The resolved private key is never persisted to state.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/sslcertificatesservice/v1alpha1.Certificate
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	CertificateID *string `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
+
+	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
+	// +kubebuilder:validation:Optional
+	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+
+	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
+	// +kubebuilder:validation:Optional
+	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
 
 	// Cross-Origin Resource Sharing (CORS) configuration, used to control which origins can access resources under the custom domain. See cors_config below.
 	CorsConfig []CorsConfigInitParameters `json:"corsConfig,omitempty" tf:"cors_config,omitempty"`
@@ -187,6 +200,9 @@ type CustomDomainObservation struct {
 
 	// HTTPS certificate information See cert_config below.
 	CertConfig []CertConfigObservation `json:"certConfig,omitempty" tf:"cert_config,omitempty"`
+
+	// The ID of an SSL certificate managed by SSL Certificates Service (CAS). When set, the provider resolves the certificate and private key from the referenced SSL certificate and binds them as the HTTPS certificate for the custom domain, so that a certificate managed in SSL Certificates Service can be referenced without pasting the PEM material. It conflicts with cert_config.0.certificate and cert_config.0.private_key. The resolved private key is never persisted to state.
+	CertificateID *string `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
 
 	// Cross-Origin Resource Sharing (CORS) configuration, used to control which origins can access resources under the custom domain. See cors_config below.
 	CorsConfig []CorsConfigObservation `json:"corsConfig,omitempty" tf:"cors_config,omitempty"`
@@ -228,6 +244,20 @@ type CustomDomainParameters struct {
 	// HTTPS certificate information See cert_config below.
 	// +kubebuilder:validation:Optional
 	CertConfig []CertConfigParameters `json:"certConfig,omitempty" tf:"cert_config,omitempty"`
+
+	// The ID of an SSL certificate managed by SSL Certificates Service (CAS). When set, the provider resolves the certificate and private key from the referenced SSL certificate and binds them as the HTTPS certificate for the custom domain, so that a certificate managed in SSL Certificates Service can be referenced without pasting the PEM material. It conflicts with cert_config.0.certificate and cert_config.0.private_key. The resolved private key is never persisted to state.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/sslcertificatesservice/v1alpha1.Certificate
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	CertificateID *string `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
+
+	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
+	// +kubebuilder:validation:Optional
+	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+
+	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
+	// +kubebuilder:validation:Optional
+	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
 
 	// Cross-Origin Resource Sharing (CORS) configuration, used to control which origins can access resources under the custom domain. See cors_config below.
 	// +kubebuilder:validation:Optional

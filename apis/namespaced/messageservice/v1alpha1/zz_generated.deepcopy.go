@@ -538,6 +538,26 @@ func (in *QueueInitParameters) DeepCopyInto(out *QueueInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EnableSse != nil {
+		in, out := &in.EnableSse, &out.EnableSse
+		*out = new(bool)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyIDRef != nil {
+		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.KMSKeyIDSelector != nil {
+		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.LoggingEnabled != nil {
 		in, out := &in.LoggingEnabled, &out.LoggingEnabled
 		*out = new(bool)
@@ -565,6 +585,16 @@ func (in *QueueInitParameters) DeepCopyInto(out *QueueInitParameters) {
 	}
 	if in.QueueType != nil {
 		in, out := &in.QueueType, &out.QueueType
+		*out = new(string)
+		**out = **in
+	}
+	if in.SseAlgorithm != nil {
+		in, out := &in.SseAlgorithm, &out.SseAlgorithm
+		*out = new(string)
+		**out = **in
+	}
+	if in.SseType != nil {
+		in, out := &in.SseType, &out.SseType
 		*out = new(string)
 		**out = **in
 	}
@@ -653,8 +683,23 @@ func (in *QueueObservation) DeepCopyInto(out *QueueObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EnableSse != nil {
+		in, out := &in.EnableSse, &out.EnableSse
+		*out = new(bool)
+		**out = **in
+	}
+	if in.EncryptionEnabled != nil {
+		in, out := &in.EncryptionEnabled, &out.EncryptionEnabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
 		*out = new(string)
 		**out = **in
 	}
@@ -685,6 +730,16 @@ func (in *QueueObservation) DeepCopyInto(out *QueueObservation) {
 	}
 	if in.QueueType != nil {
 		in, out := &in.QueueType, &out.QueueType
+		*out = new(string)
+		**out = **in
+	}
+	if in.SseAlgorithm != nil {
+		in, out := &in.SseAlgorithm, &out.SseAlgorithm
+		*out = new(string)
+		**out = **in
+	}
+	if in.SseType != nil {
+		in, out := &in.SseType, &out.SseType
 		*out = new(string)
 		**out = **in
 	}
@@ -736,6 +791,26 @@ func (in *QueueParameters) DeepCopyInto(out *QueueParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.EnableSse != nil {
+		in, out := &in.EnableSse, &out.EnableSse
+		*out = new(bool)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyIDRef != nil {
+		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.KMSKeyIDSelector != nil {
+		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.LoggingEnabled != nil {
 		in, out := &in.LoggingEnabled, &out.LoggingEnabled
 		*out = new(bool)
@@ -768,6 +843,16 @@ func (in *QueueParameters) DeepCopyInto(out *QueueParameters) {
 	}
 	if in.Region != nil {
 		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
+	if in.SseAlgorithm != nil {
+		in, out := &in.SseAlgorithm, &out.SseAlgorithm
+		*out = new(string)
+		**out = **in
+	}
+	if in.SseType != nil {
+		in, out := &in.SseType, &out.SseType
 		*out = new(string)
 		**out = **in
 	}

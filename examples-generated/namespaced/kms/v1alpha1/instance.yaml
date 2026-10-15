@@ -34,21 +34,21 @@ spec:
       vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: share-vsw3
-    keyNum: "1000"
+    keyNum: 1000
     log: "0"
-    logStorage: "0"
+    logStorage: 0
     paymentType: Subscription
-    period: "1"
+    period: 1
     productVersion: "3"
     region: cn-beijing
-    renewPeriod: "3"
+    renewPeriod: 3
     renewStatus: ManualRenewal
-    secretNum: "0"
-    spec: "1000"
+    secretNum: 0
+    spec: 1000
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vswitch
-    vpcNum: "7"
+    vpcNum: 7
     vswitchIdsRefs:
     - name: vswitch-j
     zoneIdsRefs:

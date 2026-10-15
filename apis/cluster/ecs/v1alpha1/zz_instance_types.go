@@ -15,6 +15,9 @@ import (
 
 type CPUOptionsInitParameters struct {
 
+	// The CPU accelerators to enable on the instance, such as the Intel vQAT (QuickAssist Technology) accelerator. Valid values are determined by the API and not yet documented; currently vqat is the only valid value, and invalid values are rejected by the API at apply time.
+	Accelerators []*string `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
 	// The maximum number of partitions in the storage set.
 	CoreCount *float64 `json:"coreCount,omitempty" tf:"core_count,omitempty"`
 
@@ -27,6 +30,9 @@ type CPUOptionsInitParameters struct {
 
 type CPUOptionsObservation struct {
 
+	// The CPU accelerators to enable on the instance, such as the Intel vQAT (QuickAssist Technology) accelerator. Valid values are determined by the API and not yet documented; currently vqat is the only valid value, and invalid values are rejected by the API at apply time.
+	Accelerators []*string `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
 	// The maximum number of partitions in the storage set.
 	CoreCount *float64 `json:"coreCount,omitempty" tf:"core_count,omitempty"`
 
@@ -38,6 +44,10 @@ type CPUOptionsObservation struct {
 }
 
 type CPUOptionsParameters struct {
+
+	// The CPU accelerators to enable on the instance, such as the Intel vQAT (QuickAssist Technology) accelerator. Valid values are determined by the API and not yet documented; currently vqat is the only valid value, and invalid values are rejected by the API at apply time.
+	// +kubebuilder:validation:Optional
+	Accelerators []*string `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// The maximum number of partitions in the storage set.
 	// +kubebuilder:validation:Optional
@@ -247,9 +257,10 @@ type InstanceInitParameters struct {
 	CPUOptions []CPUOptionsInitParameters `json:"cpuOptions,omitempty" tf:"cpu_options,omitempty"`
 
 	// Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+	// -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
 	CreditSpecification *string `json:"creditSpecification,omitempty" tf:"credit_specification,omitempty"`
 
-	// The list of data disks created with instance. See data_disks below.
+	// The list of data disks created with instance. Note: The parameter is immutable after resource creation. This resource only configures these disks during instance creation; it does not update or refresh the inline disk settings. See data_disks below.
 	DataDisks []InstanceDataDisksInitParameters `json:"dataDisks,omitempty" tf:"data_disks,omitempty"`
 
 	// The ID of the dedicated host on which to create the instance. If you set the DedicatedHostId parameter, the spot_strategy and spot_price_limit parameters cannot be set. This is because preemptible instances cannot be created on dedicated hosts.
@@ -272,6 +283,9 @@ type InstanceInitParameters struct {
 
 	// Specifies whether to enable the Jumbo Frames feature for the instance. Valid values: true, false.
 	EnableJumboFrame *bool `json:"enableJumboFrame,omitempty" tf:"enable_jumbo_frame,omitempty"`
+
+	// Specifies whether to enable network encryption for the instance. Valid values: true, false.
+	EnableNetworkEncryption *bool `json:"enableNetworkEncryption,omitempty" tf:"enable_network_encryption,omitempty"`
 
 	// If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
 	// However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
@@ -312,7 +326,7 @@ type InstanceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageIDSelector *v1.Selector `json:"imageIdSelector,omitempty" tf:"-"`
 
-	// The options of images. See image_options below.
+	// The options of images. Note: The parameter is immutable after resource creation. See image_options below.
 	ImageOptions []InstanceImageOptionsInitParameters `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
 
 	// Whether to change instance disks charge type when changing instance charge type.
@@ -339,7 +353,7 @@ type InstanceInitParameters struct {
 	// Maximum outgoing bandwidth to the public network, measured in Mbps (Mega bit per second). Value range:  [0, 100]. NOTE: From version 1.243.0, the default value 0 will be removed.
 	InternetMaxBandwidthOut *float64 `json:"internetMaxBandwidthOut,omitempty" tf:"internet_max_bandwidth_out,omitempty"`
 
-	// Whether to use outdated instance type.
+	// Whether to use outdated instance type. Note: The parameter is immutable after resource creation. It only controls the I/O optimization option sent when creating the instance.
 	IsOutdated *bool `json:"isOutdated,omitempty" tf:"is_outdated,omitempty"`
 
 	// An KMS encrypts password used to an instance. If the password is filled in, this field will be ignored. When it is changed, the instance will reboot to make the change take effect.
@@ -398,7 +412,7 @@ type InstanceInitParameters struct {
 	// The communication mode of the Primary ENI. Default value: Standard. Valid values:
 	NetworkInterfaceTrafficMode *string `json:"networkInterfaceTrafficMode,omitempty" tf:"network_interface_traffic_mode,omitempty"`
 
-	// The list of network interfaces created with instance. See network_interfaces below.
+	// The list of network interfaces created with instance. Note: The parameter is immutable after resource creation. See network_interfaces below.
 	NetworkInterfaces []InstanceNetworkInterfacesInitParameters `json:"networkInterfaces,omitempty" tf:"network_interfaces,omitempty"`
 
 	// The operation type. It is valid when instance_charge_type is PrePaid. Default value: upgrade. Valid values: upgrade, downgrade. NOTE:  When the new instance type specified by the instance_type parameter has lower specifications than the current instance type, you must set operator_type to downgrade.
@@ -465,7 +479,7 @@ type InstanceInitParameters struct {
 	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
 	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
-	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1.
+	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1. Note: The parameter is immutable after resource creation. This resource sends it only when creating the instance.
 	SpotDuration *float64 `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
 
 	// The interruption mode of the spot instance. Default value: Terminate. Valid values:
@@ -660,9 +674,10 @@ type InstanceObservation struct {
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+	// -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
 	CreditSpecification *string `json:"creditSpecification,omitempty" tf:"credit_specification,omitempty"`
 
-	// The list of data disks created with instance. See data_disks below.
+	// The list of data disks created with instance. Note: The parameter is immutable after resource creation. This resource only configures these disks during instance creation; it does not update or refresh the inline disk settings. See data_disks below.
 	DataDisks []InstanceDataDisksObservation `json:"dataDisks,omitempty" tf:"data_disks,omitempty"`
 
 	// The ID of the dedicated host on which to create the instance. If you set the DedicatedHostId parameter, the spot_strategy and spot_price_limit parameters cannot be set. This is because preemptible instances cannot be created on dedicated hosts.
@@ -688,6 +703,9 @@ type InstanceObservation struct {
 
 	// Specifies whether to enable the Jumbo Frames feature for the instance. Valid values: true, false.
 	EnableJumboFrame *bool `json:"enableJumboFrame,omitempty" tf:"enable_jumbo_frame,omitempty"`
+
+	// Specifies whether to enable network encryption for the instance. Valid values: true, false.
+	EnableNetworkEncryption *bool `json:"enableNetworkEncryption,omitempty" tf:"enable_network_encryption,omitempty"`
 
 	// (Available since v1.232.0) The expiration time of the instance.
 	ExpiredTime *string `json:"expiredTime,omitempty" tf:"expired_time,omitempty"`
@@ -725,7 +743,7 @@ type InstanceObservation struct {
 	// The Image to use for the instance. ECS instance's image can be replaced via changing image_id. If you do not use launch_template_id or launch_template_name to specify a launch template, you must specify image_id. How the change is applied is controlled by the provider argument features.ecs_instance.replace_on_image_update:
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
 
-	// The options of images. See image_options below.
+	// The options of images. Note: The parameter is immutable after resource creation. See image_options below.
 	ImageOptions []InstanceImageOptionsObservation `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
 
 	// Whether to change instance disks charge type when changing instance charge type.
@@ -752,7 +770,7 @@ type InstanceObservation struct {
 	// Maximum outgoing bandwidth to the public network, measured in Mbps (Mega bit per second). Value range:  [0, 100]. NOTE: From version 1.243.0, the default value 0 will be removed.
 	InternetMaxBandwidthOut *float64 `json:"internetMaxBandwidthOut,omitempty" tf:"internet_max_bandwidth_out,omitempty"`
 
-	// Whether to use outdated instance type.
+	// Whether to use outdated instance type. Note: The parameter is immutable after resource creation. It only controls the I/O optimization option sent when creating the instance.
 	IsOutdated *bool `json:"isOutdated,omitempty" tf:"is_outdated,omitempty"`
 
 	// An KMS encrypts password used to an instance. If the password is filled in, this field will be ignored. When it is changed, the instance will reboot to make the change take effect.
@@ -796,7 +814,7 @@ type InstanceObservation struct {
 	// The communication mode of the Primary ENI. Default value: Standard. Valid values:
 	NetworkInterfaceTrafficMode *string `json:"networkInterfaceTrafficMode,omitempty" tf:"network_interface_traffic_mode,omitempty"`
 
-	// The list of network interfaces created with instance. See network_interfaces below.
+	// The list of network interfaces created with instance. Note: The parameter is immutable after resource creation. See network_interfaces below.
 	NetworkInterfaces []InstanceNetworkInterfacesObservation `json:"networkInterfaces,omitempty" tf:"network_interfaces,omitempty"`
 
 	// The operation type. It is valid when instance_charge_type is PrePaid. Default value: upgrade. Valid values: upgrade, downgrade. NOTE:  When the new instance type specified by the instance_type parameter has lower specifications than the current instance type, you must set operator_type to downgrade.
@@ -861,7 +879,7 @@ type InstanceObservation struct {
 	// Specifies whether to enable the source and destination IP address check feature. We recommend that you enable the feature to improve network security. Valid values: true, false.
 	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
-	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1.
+	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1. Note: The parameter is immutable after resource creation. This resource sends it only when creating the instance.
 	SpotDuration *float64 `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
 
 	// The interruption mode of the spot instance. Default value: Terminate. Valid values:
@@ -963,10 +981,11 @@ type InstanceParameters struct {
 	CPUOptions []CPUOptionsParameters `json:"cpuOptions,omitempty" tf:"cpu_options,omitempty"`
 
 	// Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+	// -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
 	// +kubebuilder:validation:Optional
 	CreditSpecification *string `json:"creditSpecification,omitempty" tf:"credit_specification,omitempty"`
 
-	// The list of data disks created with instance. See data_disks below.
+	// The list of data disks created with instance. Note: The parameter is immutable after resource creation. This resource only configures these disks during instance creation; it does not update or refresh the inline disk settings. See data_disks below.
 	// +kubebuilder:validation:Optional
 	DataDisks []InstanceDataDisksParameters `json:"dataDisks,omitempty" tf:"data_disks,omitempty"`
 
@@ -997,6 +1016,10 @@ type InstanceParameters struct {
 	// Specifies whether to enable the Jumbo Frames feature for the instance. Valid values: true, false.
 	// +kubebuilder:validation:Optional
 	EnableJumboFrame *bool `json:"enableJumboFrame,omitempty" tf:"enable_jumbo_frame,omitempty"`
+
+	// Specifies whether to enable network encryption for the instance. Valid values: true, false.
+	// +kubebuilder:validation:Optional
+	EnableNetworkEncryption *bool `json:"enableNetworkEncryption,omitempty" tf:"enable_network_encryption,omitempty"`
 
 	// If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
 	// However, because of changing instance charge type has CPU core count quota limitation, so strongly recommand that "Don't modify instance charge type frequentlly in one month".
@@ -1046,7 +1069,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ImageIDSelector *v1.Selector `json:"imageIdSelector,omitempty" tf:"-"`
 
-	// The options of images. See image_options below.
+	// The options of images. Note: The parameter is immutable after resource creation. See image_options below.
 	// +kubebuilder:validation:Optional
 	ImageOptions []InstanceImageOptionsParameters `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
 
@@ -1081,7 +1104,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	InternetMaxBandwidthOut *float64 `json:"internetMaxBandwidthOut,omitempty" tf:"internet_max_bandwidth_out,omitempty"`
 
-	// Whether to use outdated instance type.
+	// Whether to use outdated instance type. Note: The parameter is immutable after resource creation. It only controls the I/O optimization option sent when creating the instance.
 	// +kubebuilder:validation:Optional
 	IsOutdated *bool `json:"isOutdated,omitempty" tf:"is_outdated,omitempty"`
 
@@ -1153,7 +1176,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkInterfaceTrafficMode *string `json:"networkInterfaceTrafficMode,omitempty" tf:"network_interface_traffic_mode,omitempty"`
 
-	// The list of network interfaces created with instance. See network_interfaces below.
+	// The list of network interfaces created with instance. Note: The parameter is immutable after resource creation. See network_interfaces below.
 	// +kubebuilder:validation:Optional
 	NetworkInterfaces []InstanceNetworkInterfacesParameters `json:"networkInterfaces,omitempty" tf:"network_interfaces,omitempty"`
 
@@ -1243,7 +1266,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
 
-	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1.
+	// The retention time of the preemptive instance in hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration 2~6 is under invitation test, please submit a work order if you need to open. If the value is 0, the mode is no protection period. Default value is 1. Note: The parameter is immutable after resource creation. This resource sends it only when creating the instance.
 	// +kubebuilder:validation:Optional
 	SpotDuration *float64 `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
 

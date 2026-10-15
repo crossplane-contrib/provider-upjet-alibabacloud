@@ -825,7 +825,9 @@ spec:
                         autoRepair:
                           description: 'Whether to enable automatic repair. Valid
                             values: true: Automatic repair. false: not automatically
-                            repaired.'
+                            repaired. When auto_repair is true, this feature requires
+                            the node-lifecycle-controller and ack-node-problem-detector
+                            addons to be installed; see cs_kubernetes_addon for installation.'
                           type: boolean
                         autoRepairPolicy:
                           description: Automatic repair node policy. See auto_repair_policy
@@ -1015,6 +1017,111 @@ spec:
                   resourceGroupId:
                     description: The ID of the resource group
                     type: string
+                  resourcePoolOptions:
+                    description: |-
+                      The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+                      The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+                    items:
+                      properties:
+                        privatePoolIds:
+                          description: |-
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+                          items:
+                            type: string
+                          type: array
+                        privatePoolIdsRefs:
+                          description: References to CapacityReservation in ecs to
+                            populate privatePoolIds.
+                          items:
+                            description: A NamespacedReference to a named object.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        privatePoolIdsSelector:
+                          description: Selector for a list of CapacityReservation
+                            in ecs to populate privatePoolIds.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            namespace:
+                              description: Namespace for the selector
+                              type: string
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        strategy:
+                          description: |-
+                            The resource pool strategy used when launching instances. Default value: None. Valid values:
+                            The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+                          type: string
+                      type: object
+                    type: array
                   rollingPolicy:
                     description: Rotary configuration. See rolling_policy below.
                     items:
@@ -2303,7 +2410,9 @@ spec:
                         autoRepair:
                           description: 'Whether to enable automatic repair. Valid
                             values: true: Automatic repair. false: not automatically
-                            repaired.'
+                            repaired. When auto_repair is true, this feature requires
+                            the node-lifecycle-controller and ack-node-problem-detector
+                            addons to be installed; see cs_kubernetes_addon for installation.'
                           type: boolean
                         autoRepairPolicy:
                           description: Automatic repair node policy. See auto_repair_policy
@@ -2489,6 +2598,111 @@ spec:
                   resourceGroupId:
                     description: The ID of the resource group
                     type: string
+                  resourcePoolOptions:
+                    description: |-
+                      The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+                      The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+                    items:
+                      properties:
+                        privatePoolIds:
+                          description: |-
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+                          items:
+                            type: string
+                          type: array
+                        privatePoolIdsRefs:
+                          description: References to CapacityReservation in ecs to
+                            populate privatePoolIds.
+                          items:
+                            description: A NamespacedReference to a named object.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              namespace:
+                                description: Namespace of the referenced object
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          type: array
+                        privatePoolIdsSelector:
+                          description: Selector for a list of CapacityReservation
+                            in ecs to populate privatePoolIds.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            namespace:
+                              description: Namespace for the selector
+                              type: string
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        strategy:
+                          description: |-
+                            The resource pool strategy used when launching instances. Default value: None. Valid values:
+                            The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+                          type: string
+                      type: object
+                    type: array
                   rollingPolicy:
                     description: Rotary configuration. See rolling_policy below.
                     items:
@@ -3655,7 +3869,9 @@ spec:
                         autoRepair:
                           description: 'Whether to enable automatic repair. Valid
                             values: true: Automatic repair. false: not automatically
-                            repaired.'
+                            repaired. When auto_repair is true, this feature requires
+                            the node-lifecycle-controller and ack-node-problem-detector
+                            addons to be installed; see cs_kubernetes_addon for installation.'
                           type: boolean
                         autoRepairPolicy:
                           description: Automatic repair node policy. See auto_repair_policy
@@ -3829,6 +4045,26 @@ spec:
                   resourceGroupId:
                     description: The ID of the resource group
                     type: string
+                  resourcePoolOptions:
+                    description: |-
+                      The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+                      The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+                    items:
+                      properties:
+                        privatePoolIds:
+                          description: |-
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+                            The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+                          items:
+                            type: string
+                          type: array
+                        strategy:
+                          description: |-
+                            The resource pool strategy used when launching instances. Default value: None. Valid values:
+                            The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+                          type: string
+                      type: object
+                    type: array
                   rollingPolicy:
                     description: Rotary configuration. See rolling_policy below.
                     items:

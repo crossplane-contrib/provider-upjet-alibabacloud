@@ -28,6 +28,12 @@ type ClusterInitParameters struct {
 	// -> NOTE: If CreationOption is set to CloneFromRDS, the value of this parameter must be LATEST. When clone to a historical backup set, you must specify a specific backup set ID. When clone to a specific point in time, specify a YYYY-MM-DDThh:mm:ssZ format UTC timestamp.
 	CloneDataPoint *string `json:"cloneDataPoint,omitempty" tf:"clone_data_point,omitempty"`
 
+	// The node class for CN (Coordinator Node) in a distributed cluster. For example: polar.pg.x4.medium. This argument conflicts with db_node_class and must be specified together with dn_node_class when creating a distributed cluster.
+	CnNodeClass *string `json:"cnNodeClass,omitempty" tf:"cn_node_class,omitempty"`
+
+	// The desired number of CN (Coordinator Node) nodes in a distributed cluster. Valid values: 1 or more.
+	CnNodeNum *float64 `json:"cnNodeNum,omitempty" tf:"cn_node_num,omitempty"`
+
 	// Specifies whether to enable or disable SQL data collector. Valid values are Enable, Disabled.
 	CollectorStatus *string `json:"collectorStatus,omitempty" tf:"collector_status,omitempty"`
 
@@ -48,13 +54,13 @@ type ClusterInitParameters struct {
 	// Database minor version. Value options can refer to the latest docs CreateDBCluster DBMinorVersion. This parameter takes effect only when db_type is MySQL and db_version is 8.0.
 	DBMinorVersion *string `json:"dbMinorVersion,omitempty" tf:"db_minor_version,omitempty"`
 
-	// The db_node_class of cluster node.
+	// The db_node_class of cluster node. Required for non-distributed clusters.
 	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
 	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
 	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
 	DBNodeClass *string `json:"dbNodeClass,omitempty" tf:"db_node_class,omitempty"`
 
-	// Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16].
+	// Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16]. This argument does not apply to distributed clusters and conflicts with cn_node_num and dn_node_num.
 	// -> NOTE: To avoid adding or removing multiple read-only nodes by mistake, the system allows you to add or remove one read-only node at a time.
 	DBNodeCount *float64 `json:"dbNodeCount,omitempty" tf:"db_node_count,omitempty"`
 
@@ -81,6 +87,12 @@ type ClusterInitParameters struct {
 
 	// The description of cluster.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The node class for DN (Data Node) in a distributed cluster. For example: polar.pg.x4.medium. This argument conflicts with db_node_class and must be specified together with cn_node_class when creating a distributed cluster.
+	DnNodeClass *string `json:"dnNodeClass,omitempty" tf:"dn_node_class,omitempty"`
+
+	// The desired number of DN (Data Node) nodes in a distributed cluster. Valid values: 2 or more.
+	DnNodeNum *float64 `json:"dnNodeNum,omitempty" tf:"dn_node_num,omitempty"`
 
 	// Specifies whether to enable automatic rotation of the TDE encryption key. Default to false. Valid values are true, false. This parameter takes effect only after TDE is enabled.
 	EnableAutomaticRotation *bool `json:"enableAutomaticRotation,omitempty" tf:"enable_automatic_rotation,omitempty"`
@@ -138,7 +150,7 @@ type ClusterInitParameters struct {
 	// Maintainable time period format of the instance: HH:MMZ-HH:MMZ (UTC time)
 	MaintainTime *string `json:"maintainTime,omitempty" tf:"maintain_time,omitempty"`
 
-	// Use as db_node_class change class, define upgrade or downgrade. Valid values are Upgrade, Downgrade, Default to Upgrade.
+	// Defines whether a db_node_class, cn_node_class, or dn_node_class change is an upgrade or downgrade. Valid values are Upgrade, Downgrade. Default to Upgrade.
 	ModifyType *string `json:"modifyType,omitempty" tf:"modify_type,omitempty"`
 
 	// The ID of the parameter template
@@ -343,6 +355,16 @@ type ClusterObservation struct {
 	// -> NOTE: If CreationOption is set to CloneFromRDS, the value of this parameter must be LATEST. When clone to a historical backup set, you must specify a specific backup set ID. When clone to a specific point in time, specify a YYYY-MM-DDThh:mm:ssZ format UTC timestamp.
 	CloneDataPoint *string `json:"cloneDataPoint,omitempty" tf:"clone_data_point,omitempty"`
 
+	// The node class for CN (Coordinator Node) in a distributed cluster. For example: polar.pg.x4.medium. This argument conflicts with db_node_class and must be specified together with dn_node_class when creating a distributed cluster.
+	CnNodeClass *string `json:"cnNodeClass,omitempty" tf:"cn_node_class,omitempty"`
+
+	// (Available since v1.293.0) The IDs of the CN (Coordinator Node) nodes in a distributed cluster.
+	// +listType=set
+	CnNodeIds []*string `json:"cnNodeIds,omitempty" tf:"cn_node_ids,omitempty"`
+
+	// The desired number of CN (Coordinator Node) nodes in a distributed cluster. Valid values: 1 or more.
+	CnNodeNum *float64 `json:"cnNodeNum,omitempty" tf:"cn_node_num,omitempty"`
+
 	// Specifies whether to enable or disable SQL data collector. Valid values are Enable, Disabled.
 	CollectorStatus *string `json:"collectorStatus,omitempty" tf:"collector_status,omitempty"`
 
@@ -369,13 +391,13 @@ type ClusterObservation struct {
 	// Database minor version. Value options can refer to the latest docs CreateDBCluster DBMinorVersion. This parameter takes effect only when db_type is MySQL and db_version is 8.0.
 	DBMinorVersion *string `json:"dbMinorVersion,omitempty" tf:"db_minor_version,omitempty"`
 
-	// The db_node_class of cluster node.
+	// The db_node_class of cluster node. Required for non-distributed clusters.
 	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
 	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
 	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
 	DBNodeClass *string `json:"dbNodeClass,omitempty" tf:"db_node_class,omitempty"`
 
-	// Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16].
+	// Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16]. This argument does not apply to distributed clusters and conflicts with cn_node_num and dn_node_num.
 	// -> NOTE: To avoid adding or removing multiple read-only nodes by mistake, the system allows you to add or remove one read-only node at a time.
 	DBNodeCount *float64 `json:"dbNodeCount,omitempty" tf:"db_node_count,omitempty"`
 
@@ -405,6 +427,16 @@ type ClusterObservation struct {
 
 	// The description of cluster.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The node class for DN (Data Node) in a distributed cluster. For example: polar.pg.x4.medium. This argument conflicts with db_node_class and must be specified together with cn_node_class when creating a distributed cluster.
+	DnNodeClass *string `json:"dnNodeClass,omitempty" tf:"dn_node_class,omitempty"`
+
+	// (Available since v1.293.0) The IDs of the DN (Data Node) nodes in a distributed cluster.
+	// +listType=set
+	DnNodeIds []*string `json:"dnNodeIds,omitempty" tf:"dn_node_ids,omitempty"`
+
+	// The desired number of DN (Data Node) nodes in a distributed cluster. Valid values: 2 or more.
+	DnNodeNum *float64 `json:"dnNodeNum,omitempty" tf:"dn_node_num,omitempty"`
 
 	// Specifies whether to enable automatic rotation of the TDE encryption key. Default to false. Valid values are true, false. This parameter takes effect only after TDE is enabled.
 	EnableAutomaticRotation *bool `json:"enableAutomaticRotation,omitempty" tf:"enable_automatic_rotation,omitempty"`
@@ -465,7 +497,7 @@ type ClusterObservation struct {
 	// Maintainable time period format of the instance: HH:MMZ-HH:MMZ (UTC time)
 	MaintainTime *string `json:"maintainTime,omitempty" tf:"maintain_time,omitempty"`
 
-	// Use as db_node_class change class, define upgrade or downgrade. Valid values are Upgrade, Downgrade, Default to Upgrade.
+	// Defines whether a db_node_class, cn_node_class, or dn_node_class change is an upgrade or downgrade. Valid values are Upgrade, Downgrade. Default to Upgrade.
 	ModifyType *string `json:"modifyType,omitempty" tf:"modify_type,omitempty"`
 
 	// The ID of the parameter template
@@ -645,6 +677,14 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	CloneDataPoint *string `json:"cloneDataPoint,omitempty" tf:"clone_data_point,omitempty"`
 
+	// The node class for CN (Coordinator Node) in a distributed cluster. For example: polar.pg.x4.medium. This argument conflicts with db_node_class and must be specified together with dn_node_class when creating a distributed cluster.
+	// +kubebuilder:validation:Optional
+	CnNodeClass *string `json:"cnNodeClass,omitempty" tf:"cn_node_class,omitempty"`
+
+	// The desired number of CN (Coordinator Node) nodes in a distributed cluster. Valid values: 1 or more.
+	// +kubebuilder:validation:Optional
+	CnNodeNum *float64 `json:"cnNodeNum,omitempty" tf:"cn_node_num,omitempty"`
+
 	// Specifies whether to enable or disable SQL data collector. Valid values are Enable, Disabled.
 	// +kubebuilder:validation:Optional
 	CollectorStatus *string `json:"collectorStatus,omitempty" tf:"collector_status,omitempty"`
@@ -671,14 +711,14 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	DBMinorVersion *string `json:"dbMinorVersion,omitempty" tf:"db_minor_version,omitempty"`
 
-	// The db_node_class of cluster node.
+	// The db_node_class of cluster node. Required for non-distributed clusters.
 	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
 	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
 	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
 	// +kubebuilder:validation:Optional
 	DBNodeClass *string `json:"dbNodeClass,omitempty" tf:"db_node_class,omitempty"`
 
-	// Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16].
+	// Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16]. This argument does not apply to distributed clusters and conflicts with cn_node_num and dn_node_num.
 	// -> NOTE: To avoid adding or removing multiple read-only nodes by mistake, the system allows you to add or remove one read-only node at a time.
 	// +kubebuilder:validation:Optional
 	DBNodeCount *float64 `json:"dbNodeCount,omitempty" tf:"db_node_count,omitempty"`
@@ -713,6 +753,14 @@ type ClusterParameters struct {
 	// The description of cluster.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The node class for DN (Data Node) in a distributed cluster. For example: polar.pg.x4.medium. This argument conflicts with db_node_class and must be specified together with cn_node_class when creating a distributed cluster.
+	// +kubebuilder:validation:Optional
+	DnNodeClass *string `json:"dnNodeClass,omitempty" tf:"dn_node_class,omitempty"`
+
+	// The desired number of DN (Data Node) nodes in a distributed cluster. Valid values: 2 or more.
+	// +kubebuilder:validation:Optional
+	DnNodeNum *float64 `json:"dnNodeNum,omitempty" tf:"dn_node_num,omitempty"`
 
 	// Specifies whether to enable automatic rotation of the TDE encryption key. Default to false. Valid values are true, false. This parameter takes effect only after TDE is enabled.
 	// +kubebuilder:validation:Optional
@@ -785,7 +833,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	MaintainTime *string `json:"maintainTime,omitempty" tf:"maintain_time,omitempty"`
 
-	// Use as db_node_class change class, define upgrade or downgrade. Valid values are Upgrade, Downgrade, Default to Upgrade.
+	// Defines whether a db_node_class, cn_node_class, or dn_node_class change is an upgrade or downgrade. Valid values are Upgrade, Downgrade. Default to Upgrade.
 	// +kubebuilder:validation:Optional
 	ModifyType *string `json:"modifyType,omitempty" tf:"modify_type,omitempty"`
 
@@ -1153,7 +1201,6 @@ type ClusterStatus struct {
 type Cluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dbNodeClass) || (has(self.initProvider) && has(self.initProvider.dbNodeClass))",message="spec.forProvider.dbNodeClass is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dbType) || (has(self.initProvider) && has(self.initProvider.dbType))",message="spec.forProvider.dbType is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dbVersion) || (has(self.initProvider) && has(self.initProvider.dbVersion))",message="spec.forProvider.dbVersion is a required parameter"
 	Spec   ClusterSpec   `json:"spec"`

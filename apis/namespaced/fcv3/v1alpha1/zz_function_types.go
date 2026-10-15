@@ -1274,10 +1274,10 @@ type PreStopParameters struct {
 type RegistryConfigAuthConfigInitParameters struct {
 
 	// The password of the image registry.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The username of the image registry.
-	UserNameSecretRef *v1.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
+	UserNameSecretRef *v1.LocalSecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
 }
 
 type RegistryConfigAuthConfigObservation struct {
@@ -1287,11 +1287,11 @@ type RegistryConfigAuthConfigParameters struct {
 
 	// The password of the image registry.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v1.LocalSecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The username of the image registry.
 	// +kubebuilder:validation:Optional
-	UserNameSecretRef *v1.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
+	UserNameSecretRef *v1.LocalSecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
 }
 
 type RegistryConfigCertConfigInitParameters struct {

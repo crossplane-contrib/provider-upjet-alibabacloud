@@ -17,7 +17,7 @@ type GroupPolicyAttachmentInitParameters struct {
 
 	// The name of the group.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/ram/v1alpha1.Group
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("group_name",false)
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
 
 	// Reference to a Group in ram to populate groupName.
@@ -74,7 +74,7 @@ type GroupPolicyAttachmentParameters struct {
 
 	// The name of the group.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/ram/v1alpha1.Group
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("group_name",false)
 	// +kubebuilder:validation:Optional
 	GroupName *string `json:"groupName,omitempty" tf:"group_name,omitempty"`
 

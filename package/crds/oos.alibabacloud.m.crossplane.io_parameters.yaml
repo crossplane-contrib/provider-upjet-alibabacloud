@@ -93,7 +93,8 @@ spec:
                     type: string
                   value:
                     description: The value of the common parameter. The value must
-                      be 1 to 4096 characters in length.
+                      be 1 to 4096 characters in length. Exactly one of value and
+                      value_wo can be set.
                     type: string
                 type: object
               initProvider:
@@ -139,7 +140,8 @@ spec:
                     type: string
                   value:
                     description: The value of the common parameter. The value must
-                      be 1 to 4096 characters in length.
+                      be 1 to 4096 characters in length. Exactly one of value and
+                      value_wo can be set.
                     type: string
                 type: object
               managementPolicies:
@@ -209,10 +211,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.type)
                 || (has(self.initProvider) && has(self.initProvider.type))'
-            - message: spec.forProvider.value is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.value)
-                || (has(self.initProvider) && has(self.initProvider.value))'
           status:
             description: ParameterStatus defines the observed state of Parameter.
             properties:
@@ -251,7 +249,8 @@ spec:
                     type: string
                   value:
                     description: The value of the common parameter. The value must
-                      be 1 to 4096 characters in length.
+                      be 1 to 4096 characters in length. Exactly one of value and
+                      value_wo can be set.
                     type: string
                 type: object
               conditions:

@@ -47,10 +47,10 @@ type InvocationInitParameters struct {
 	// +mapType=granular
 	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
-	// Specifies how to run the command. Valid values: Once, Period, NextRebootOnly, EveryReboot. Default value: When timed is set to false and Frequency is not specified, the default value of repeat_mode is Once. When Timed is set to true and Frequency is specified, period is used as the value of RepeatMode regardless of whether repeat_mode is specified.
+	// Specifies how to run the command. Valid values: Once, Period, NextRebootOnly, EveryReboot. Default value: When frequency is not specified, the default value of repeat_mode is Once. When frequency is specified, Period is used as the value of repeat_mode regardless of whether repeat_mode is specified.
 	RepeatMode *string `json:"repeatMode,omitempty" tf:"repeat_mode,omitempty"`
 
-	// Specifies whether to periodically run the command. Default value: false.
+	// Specifies whether to periodically run the command. Default value: false. NOTE: This parameter has been deprecated by the ECS API and no longer takes effect. To run a command periodically, set repeat_mode to Period and specify frequency instead. Existing configurations in which timed is set to true together with frequency are not affected because the command runs periodically as long as frequency is specified.
 	Timed *bool `json:"timed,omitempty" tf:"timed,omitempty"`
 
 	// The username that is used to run the command on the ECS instance.
@@ -77,13 +77,13 @@ type InvocationObservation struct {
 	// +mapType=granular
 	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
-	// Specifies how to run the command. Valid values: Once, Period, NextRebootOnly, EveryReboot. Default value: When timed is set to false and Frequency is not specified, the default value of repeat_mode is Once. When Timed is set to true and Frequency is specified, period is used as the value of RepeatMode regardless of whether repeat_mode is specified.
+	// Specifies how to run the command. Valid values: Once, Period, NextRebootOnly, EveryReboot. Default value: When frequency is not specified, the default value of repeat_mode is Once. When frequency is specified, Period is used as the value of repeat_mode regardless of whether repeat_mode is specified.
 	RepeatMode *string `json:"repeatMode,omitempty" tf:"repeat_mode,omitempty"`
 
 	// The status of the resource.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// Specifies whether to periodically run the command. Default value: false.
+	// Specifies whether to periodically run the command. Default value: false. NOTE: This parameter has been deprecated by the ECS API and no longer takes effect. To run a command periodically, set repeat_mode to Period and specify frequency instead. Existing configurations in which timed is set to true together with frequency are not affected because the command runs periodically as long as frequency is specified.
 	Timed *bool `json:"timed,omitempty" tf:"timed,omitempty"`
 
 	// The username that is used to run the command on the ECS instance.
@@ -136,11 +136,11 @@ type InvocationParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
-	// Specifies how to run the command. Valid values: Once, Period, NextRebootOnly, EveryReboot. Default value: When timed is set to false and Frequency is not specified, the default value of repeat_mode is Once. When Timed is set to true and Frequency is specified, period is used as the value of RepeatMode regardless of whether repeat_mode is specified.
+	// Specifies how to run the command. Valid values: Once, Period, NextRebootOnly, EveryReboot. Default value: When frequency is not specified, the default value of repeat_mode is Once. When frequency is specified, Period is used as the value of repeat_mode regardless of whether repeat_mode is specified.
 	// +kubebuilder:validation:Optional
 	RepeatMode *string `json:"repeatMode,omitempty" tf:"repeat_mode,omitempty"`
 
-	// Specifies whether to periodically run the command. Default value: false.
+	// Specifies whether to periodically run the command. Default value: false. NOTE: This parameter has been deprecated by the ECS API and no longer takes effect. To run a command periodically, set repeat_mode to Period and specify frequency instead. Existing configurations in which timed is set to true together with frequency are not affected because the command runs periodically as long as frequency is specified.
 	// +kubebuilder:validation:Optional
 	Timed *bool `json:"timed,omitempty" tf:"timed,omitempty"`
 

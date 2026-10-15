@@ -291,8 +291,14 @@ spec:
                       when the attribute payment_type is Subscription.
                     type: number
                   spec:
-                    description: The computation performance level of the KMS instance.
-                      The attribute is valid when the attribute payment_type is Subscription.
+                    description: 'The computation performance level of the KMS instance.
+                      Valid values: 0, 200, 1000, 2000 and 4000. The attribute is
+                      valid when the attribute payment_type is Subscription. Valid
+                      values 1000 and above require a KMS 3.0 instance (product_version
+                      = 3): a legacy instance with spec = 200 cannot be directly upgraded
+                      to a higher spec, and the instance must be upgraded to KMS 3.0
+                      first. For more information, see How to enable, view, upgrade,
+                      and renew KMS instances.'
                     type: number
                   tags:
                     additionalProperties:
@@ -812,8 +818,14 @@ spec:
                       when the attribute payment_type is Subscription.
                     type: number
                   spec:
-                    description: The computation performance level of the KMS instance.
-                      The attribute is valid when the attribute payment_type is Subscription.
+                    description: 'The computation performance level of the KMS instance.
+                      Valid values: 0, 200, 1000, 2000 and 4000. The attribute is
+                      valid when the attribute payment_type is Subscription. Valid
+                      values 1000 and above require a KMS 3.0 instance (product_version
+                      = 3): a legacy instance with spec = 200 cannot be directly upgraded
+                      to a higher spec, and the instance must be upgraded to KMS 3.0
+                      first. For more information, see How to enable, view, upgrade,
+                      and renew KMS instances.'
                     type: number
                   tags:
                     additionalProperties:
@@ -1235,8 +1247,14 @@ spec:
                       when the attribute payment_type is Subscription.
                     type: number
                   spec:
-                    description: The computation performance level of the KMS instance.
-                      The attribute is valid when the attribute payment_type is Subscription.
+                    description: 'The computation performance level of the KMS instance.
+                      Valid values: 0, 200, 1000, 2000 and 4000. The attribute is
+                      valid when the attribute payment_type is Subscription. Valid
+                      values 1000 and above require a KMS 3.0 instance (product_version
+                      = 3): a legacy instance with spec = 200 cannot be directly upgraded
+                      to a higher spec, and the instance must be upgraded to KMS 3.0
+                      first. For more information, see How to enable, view, upgrade,
+                      and renew KMS instances.'
                     type: number
                   status:
                     description: Instance status.

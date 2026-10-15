@@ -1966,17 +1966,17 @@ type ResourcePoolOptionsInitParameters struct {
 
 	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
 	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.CapacityReservation
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/ecs/v1alpha1.CapacityReservation
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PrivatePoolIds []*string `json:"privatePoolIds,omitempty" tf:"private_pool_ids,omitempty"`
 
 	// References to CapacityReservation in ecs to populate privatePoolIds.
 	// +kubebuilder:validation:Optional
-	PrivatePoolIdsRefs []v1.Reference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
+	PrivatePoolIdsRefs []v1.NamespacedReference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of CapacityReservation in ecs to populate privatePoolIds.
 	// +kubebuilder:validation:Optional
-	PrivatePoolIdsSelector *v1.Selector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
+	PrivatePoolIdsSelector *v1.NamespacedSelector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
 
 	// The resource pool strategy used when launching instances. Default value: None. Valid values:
 	// The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
@@ -1998,18 +1998,18 @@ type ResourcePoolOptionsParameters struct {
 
 	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
 	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.CapacityReservation
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/ecs/v1alpha1.CapacityReservation
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PrivatePoolIds []*string `json:"privatePoolIds,omitempty" tf:"private_pool_ids,omitempty"`
 
 	// References to CapacityReservation in ecs to populate privatePoolIds.
 	// +kubebuilder:validation:Optional
-	PrivatePoolIdsRefs []v1.Reference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
+	PrivatePoolIdsRefs []v1.NamespacedReference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of CapacityReservation in ecs to populate privatePoolIds.
 	// +kubebuilder:validation:Optional
-	PrivatePoolIdsSelector *v1.Selector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
+	PrivatePoolIdsSelector *v1.NamespacedSelector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
 
 	// The resource pool strategy used when launching instances. Default value: None. Valid values:
 	// The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).

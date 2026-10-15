@@ -64,7 +64,7 @@ type QueueInitParameters struct {
 	EnableSse *bool `json:"enableSse,omitempty" tf:"enable_sse,omitempty"`
 
 	// The ID of the customer master key (CMK) in Key Management Service (KMS). This parameter is required when sse_type is set to KMS.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/kms/v1alpha1.Key
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// Reference to a Key in kms to populate kmsKeyId.
@@ -176,7 +176,7 @@ type QueueParameters struct {
 	EnableSse *bool `json:"enableSse,omitempty" tf:"enable_sse,omitempty"`
 
 	// The ID of the customer master key (CMK) in Key Management Service (KMS). This parameter is required when sse_type is set to KMS.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/kms/v1alpha1.Key
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 

@@ -15,6 +15,7 @@ import (
 	healthchecktemplate "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/healthchecktemplate"
 	listener "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/listener"
 	listeneraclattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/listeneraclattachment"
+	listeneradditionalcertificateattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/listeneradditionalcertificateattachment"
 	loadbalancer "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/loadbalancer"
 	loadbalancersecuritygroupattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/loadbalancersecuritygroupattachment"
 	loadbalancerzoneshiftedattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/loadbalancerzoneshiftedattachment"
@@ -33,6 +34,7 @@ func Setup_alb(mgr ctrl.Manager, o controller.Options) error {
 		healthchecktemplate.Setup,
 		listener.Setup,
 		listeneraclattachment.Setup,
+		listeneradditionalcertificateattachment.Setup,
 		loadbalancer.Setup,
 		loadbalancersecuritygroupattachment.Setup,
 		loadbalancerzoneshiftedattachment.Setup,
@@ -57,6 +59,7 @@ func SetupGated_alb(mgr ctrl.Manager, o controller.Options) error {
 		healthchecktemplate.SetupGated,
 		listener.SetupGated,
 		listeneraclattachment.SetupGated,
+		listeneradditionalcertificateattachment.SetupGated,
 		loadbalancer.SetupGated,
 		loadbalancersecuritygroupattachment.SetupGated,
 		loadbalancerzoneshiftedattachment.SetupGated,
@@ -80,6 +83,7 @@ func SetupWebhookWithManager_alb(mgr ctrl.Manager) error {
 		healthchecktemplate.SetupWebhookWithManager,
 		listener.SetupWebhookWithManager,
 		listeneraclattachment.SetupWebhookWithManager,
+		listeneradditionalcertificateattachment.SetupWebhookWithManager,
 		loadbalancer.SetupWebhookWithManager,
 		loadbalancersecuritygroupattachment.SetupWebhookWithManager,
 		loadbalancerzoneshiftedattachment.SetupWebhookWithManager,

@@ -11,9 +11,9 @@ spec:
   forProvider:
     aliyunUids:
     - ${alicloud_resource_manager_account.account.id}
-    desireValue: "1"
+    desireValue: 1
     envLanguage: zh
-    noticeType: "0"
+    noticeType: 0
     productCode: quotas
     quotaActionCode: quotas.label_multi/A
     quotaCategory: WhiteListLabel

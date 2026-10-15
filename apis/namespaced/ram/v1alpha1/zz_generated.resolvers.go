@@ -68,7 +68,7 @@ func (mg *GroupMembership) ResolveReferences(ctx context.Context, c client.Reade
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GroupName),
-		Extract:      resource.ExtractParamPath("name", false),
+		Extract:      resource.ExtractParamPath("group_name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.GroupNameRef,
 		Selector:     mg.Spec.ForProvider.GroupNameSelector,
@@ -102,7 +102,7 @@ func (mg *GroupMembership) ResolveReferences(ctx context.Context, c client.Reade
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.GroupName),
-		Extract:      resource.ExtractParamPath("name", false),
+		Extract:      resource.ExtractParamPath("group_name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.GroupNameRef,
 		Selector:     mg.Spec.InitProvider.GroupNameSelector,
@@ -146,7 +146,7 @@ func (mg *GroupPolicyAttachment) ResolveReferences(ctx context.Context, c client
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GroupName),
-		Extract:      resource.ExtractParamPath("name", false),
+		Extract:      resource.ExtractParamPath("group_name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.GroupNameRef,
 		Selector:     mg.Spec.ForProvider.GroupNameSelector,
@@ -197,7 +197,7 @@ func (mg *GroupPolicyAttachment) ResolveReferences(ctx context.Context, c client
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.GroupName),
-		Extract:      resource.ExtractParamPath("name", false),
+		Extract:      resource.ExtractParamPath("group_name", false),
 		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.GroupNameRef,
 		Selector:     mg.Spec.InitProvider.GroupNameSelector,

@@ -78,6 +78,15 @@ spec:
                     description: The options of cpu. See cpu_options below.
                     items:
                       properties:
+                        accelerators:
+                          description: The CPU accelerators to enable on the instance,
+                            such as the Intel vQAT (QuickAssist Technology) accelerator.
+                            Valid values are determined by the API and not yet documented;
+                            currently vqat is the only valid value, and invalid values
+                            are rejected by the API at apply time.
+                          items:
+                            type: string
+                          type: array
                         coreCount:
                           description: The maximum number of partitions in the storage
                             set.
@@ -92,12 +101,16 @@ spec:
                       type: object
                     type: array
                   creditSpecification:
-                    description: 'Performance mode of the t5 burstable instance. Valid
-                      values: ''Standard'', ''Unlimited''.'
+                    description: |-
+                      Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+                      -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
                     type: string
                   dataDisks:
-                    description: The list of data disks created with instance. See
-                      data_disks below.
+                    description: 'The list of data disks created with instance. Note:
+                      The parameter is immutable after resource creation. This resource
+                      only configures these disks during instance creation; it does
+                      not update or refresh the inline disk settings. See data_disks
+                      below.'
                     items:
                       properties:
                         autoSnapshotPolicyId:
@@ -267,6 +280,10 @@ spec:
                     description: 'Specifies whether to enable the Jumbo Frames feature
                       for the instance. Valid values: true, false.'
                     type: boolean
+                  enableNetworkEncryption:
+                    description: 'Specifies whether to enable network encryption for
+                      the instance. Valid values: true, false.'
+                    type: boolean
                   forceDelete:
                     description: |-
                       If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
@@ -384,7 +401,8 @@ spec:
                         type: object
                     type: object
                   imageOptions:
-                    description: The options of images. See image_options below.
+                    description: 'The options of images. Note: The parameter is immutable
+                      after resource creation. See image_options below.'
                     items:
                       properties:
                         loginAsNonRoot:
@@ -449,7 +467,9 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   isOutdated:
-                    description: Whether to use outdated instance type.
+                    description: 'Whether to use outdated instance type. Note: The
+                      parameter is immutable after resource creation. It only controls
+                      the I/O optimization option sent when creating the instance.'
                     type: boolean
                   keyName:
                     description: |-
@@ -691,8 +711,9 @@ spec:
                       value: Standard. Valid values:'
                     type: string
                   networkInterfaces:
-                    description: The list of network interfaces created with instance.
-                      See network_interfaces below.
+                    description: 'The list of network interfaces created with instance.
+                      Note: The parameter is immutable after resource creation. See
+                      network_interfaces below.'
                     items:
                       properties:
                         networkCardIndex:
@@ -915,7 +936,9 @@ spec:
                       hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration
                       2~6 is under invitation test, please submit a work order if
                       you need to open. If the value is 0, the mode is no protection
-                      period. Default value is 1.'
+                      period. Default value is 1. Note: The parameter is immutable
+                      after resource creation. This resource sends it only when creating
+                      the instance.'
                     type: number
                   spotInterruptionBehavior:
                     description: 'The interruption mode of the spot instance. Default
@@ -1227,6 +1250,15 @@ spec:
                     description: The options of cpu. See cpu_options below.
                     items:
                       properties:
+                        accelerators:
+                          description: The CPU accelerators to enable on the instance,
+                            such as the Intel vQAT (QuickAssist Technology) accelerator.
+                            Valid values are determined by the API and not yet documented;
+                            currently vqat is the only valid value, and invalid values
+                            are rejected by the API at apply time.
+                          items:
+                            type: string
+                          type: array
                         coreCount:
                           description: The maximum number of partitions in the storage
                             set.
@@ -1241,12 +1273,16 @@ spec:
                       type: object
                     type: array
                   creditSpecification:
-                    description: 'Performance mode of the t5 burstable instance. Valid
-                      values: ''Standard'', ''Unlimited''.'
+                    description: |-
+                      Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+                      -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
                     type: string
                   dataDisks:
-                    description: The list of data disks created with instance. See
-                      data_disks below.
+                    description: 'The list of data disks created with instance. Note:
+                      The parameter is immutable after resource creation. This resource
+                      only configures these disks during instance creation; it does
+                      not update or refresh the inline disk settings. See data_disks
+                      below.'
                     items:
                       properties:
                         autoSnapshotPolicyId:
@@ -1416,6 +1452,10 @@ spec:
                     description: 'Specifies whether to enable the Jumbo Frames feature
                       for the instance. Valid values: true, false.'
                     type: boolean
+                  enableNetworkEncryption:
+                    description: 'Specifies whether to enable network encryption for
+                      the instance. Valid values: true, false.'
+                    type: boolean
                   forceDelete:
                     description: |-
                       If it is true, the PrePaid instance will be change to PostPaid and then deleted forcibly.
@@ -1533,7 +1573,8 @@ spec:
                         type: object
                     type: object
                   imageOptions:
-                    description: The options of images. See image_options below.
+                    description: 'The options of images. Note: The parameter is immutable
+                      after resource creation. See image_options below.'
                     items:
                       properties:
                         loginAsNonRoot:
@@ -1598,7 +1639,9 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   isOutdated:
-                    description: Whether to use outdated instance type.
+                    description: 'Whether to use outdated instance type. Note: The
+                      parameter is immutable after resource creation. It only controls
+                      the I/O optimization option sent when creating the instance.'
                     type: boolean
                   keyName:
                     description: |-
@@ -1840,8 +1883,9 @@ spec:
                       value: Standard. Valid values:'
                     type: string
                   networkInterfaces:
-                    description: The list of network interfaces created with instance.
-                      See network_interfaces below.
+                    description: 'The list of network interfaces created with instance.
+                      Note: The parameter is immutable after resource creation. See
+                      network_interfaces below.'
                     items:
                       properties:
                         networkCardIndex:
@@ -2060,7 +2104,9 @@ spec:
                       hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration
                       2~6 is under invitation test, please submit a work order if
                       you need to open. If the value is 0, the mode is no protection
-                      period. Default value is 1.'
+                      period. Default value is 1. Note: The parameter is immutable
+                      after resource creation. This resource sends it only when creating
+                      the instance.'
                     type: number
                   spotInterruptionBehavior:
                     description: 'The interruption mode of the spot instance. Default
@@ -2425,6 +2471,15 @@ spec:
                     description: The options of cpu. See cpu_options below.
                     items:
                       properties:
+                        accelerators:
+                          description: The CPU accelerators to enable on the instance,
+                            such as the Intel vQAT (QuickAssist Technology) accelerator.
+                            Valid values are determined by the API and not yet documented;
+                            currently vqat is the only valid value, and invalid values
+                            are rejected by the API at apply time.
+                          items:
+                            type: string
+                          type: array
                         coreCount:
                           description: The maximum number of partitions in the storage
                             set.
@@ -2443,12 +2498,16 @@ spec:
                       was created.
                     type: string
                   creditSpecification:
-                    description: 'Performance mode of the t5 burstable instance. Valid
-                      values: ''Standard'', ''Unlimited''.'
+                    description: |-
+                      Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
+                      -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
                     type: string
                   dataDisks:
-                    description: The list of data disks created with instance. See
-                      data_disks below.
+                    description: 'The list of data disks created with instance. Note:
+                      The parameter is immutable after resource creation. This resource
+                      only configures these disks during instance creation; it does
+                      not update or refresh the inline disk settings. See data_disks
+                      below.'
                     items:
                       properties:
                         autoSnapshotPolicyId:
@@ -2542,6 +2601,10 @@ spec:
                     description: 'Specifies whether to enable the Jumbo Frames feature
                       for the instance. Valid values: true, false.'
                     type: boolean
+                  enableNetworkEncryption:
+                    description: 'Specifies whether to enable network encryption for
+                      the instance. Valid values: true, false.'
+                    type: boolean
                   expiredTime:
                     description: (Available since v1.232.0) The expiration time of
                       the instance.
@@ -2586,7 +2649,8 @@ spec:
                       is controlled by the provider argument features.ecs_instance.replace_on_image_update:'
                     type: string
                   imageOptions:
-                    description: The options of images. See image_options below.
+                    description: 'The options of images. Note: The parameter is immutable
+                      after resource creation. See image_options below.'
                     items:
                       properties:
                         loginAsNonRoot:
@@ -2651,7 +2715,9 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   isOutdated:
-                    description: Whether to use outdated instance type.
+                    description: 'Whether to use outdated instance type. Note: The
+                      parameter is immutable after resource creation. It only controls
+                      the I/O optimization option sent when creating the instance.'
                     type: boolean
                   keyName:
                     description: |-
@@ -2734,8 +2800,9 @@ spec:
                       value: Standard. Valid values:'
                     type: string
                   networkInterfaces:
-                    description: The list of network interfaces created with instance.
-                      See network_interfaces below.
+                    description: 'The list of network interfaces created with instance.
+                      Note: The parameter is immutable after resource creation. See
+                      network_interfaces below.'
                     items:
                       properties:
                         networkCardIndex:
@@ -2867,7 +2934,9 @@ spec:
                       hours. Valid values: 0, 1, 2, 3, 4, 5, 6. Retention duration
                       2~6 is under invitation test, please submit a work order if
                       you need to open. If the value is 0, the mode is no protection
-                      period. Default value is 1.'
+                      period. Default value is 1. Note: The parameter is immutable
+                      after resource creation. This resource sends it only when creating
+                      the instance.'
                     type: number
                   spotInterruptionBehavior:
                     description: 'The interruption mode of the spot instance. Default

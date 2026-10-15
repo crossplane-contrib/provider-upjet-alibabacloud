@@ -163,8 +163,10 @@ spec:
                       field. Read RFC2616 Content-Encoding for further details.
                     type: string
                   contentMd5:
-                    description: The MD5 value of the content. Read MD5 for computing
-                      method.
+                    description: The MD5 digest of the content for OSS data-integrity
+                      verification. Values that are neither a valid hex MD5 digest
+                      nor valid base64 are rejected by the provider. Read MD5 for
+                      the computing method.
                     type: string
                   contentType:
                     description: A standard MIME type describing the format of the
@@ -405,8 +407,10 @@ spec:
                       field. Read RFC2616 Content-Encoding for further details.
                     type: string
                   contentMd5:
-                    description: The MD5 value of the content. Read MD5 for computing
-                      method.
+                    description: The MD5 digest of the content for OSS data-integrity
+                      verification. Values that are neither a valid hex MD5 digest
+                      nor valid base64 are rejected by the provider. Read MD5 for
+                      the computing method.
                     type: string
                   contentType:
                     description: A standard MIME type describing the format of the
@@ -621,8 +625,10 @@ spec:
                     description: the content length of request.
                     type: string
                   contentMd5:
-                    description: The MD5 value of the content. Read MD5 for computing
-                      method.
+                    description: The MD5 digest of the content for OSS data-integrity
+                      verification. Values that are neither a valid hex MD5 digest
+                      nor valid base64 are rejected by the provider. Read MD5 for
+                      the computing method.
                     type: string
                   contentType:
                     description: A standard MIME type describing the format of the

@@ -248,6 +248,46 @@ func (mg *ListenerAclAttachment) SetWriteConnectionSecretToReference(r *xpv1.Loc
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this ListenerAdditionalCertificateAttachment.
+func (mg *ListenerAdditionalCertificateAttachment) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this ListenerAdditionalCertificateAttachment.
+func (mg *ListenerAdditionalCertificateAttachment) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ListenerAdditionalCertificateAttachment.
+func (mg *ListenerAdditionalCertificateAttachment) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this ListenerAdditionalCertificateAttachment.
+func (mg *ListenerAdditionalCertificateAttachment) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ListenerAdditionalCertificateAttachment.
+func (mg *ListenerAdditionalCertificateAttachment) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this ListenerAdditionalCertificateAttachment.
+func (mg *ListenerAdditionalCertificateAttachment) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ListenerAdditionalCertificateAttachment.
+func (mg *ListenerAdditionalCertificateAttachment) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this ListenerAdditionalCertificateAttachment.
+func (mg *ListenerAdditionalCertificateAttachment) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this LoadBalancer.
 func (mg *LoadBalancer) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)

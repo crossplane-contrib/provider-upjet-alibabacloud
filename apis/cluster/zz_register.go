@@ -22,13 +22,17 @@ import (
 	v1alpha1fcv3 "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/fcv3/v1alpha1"
 	v1alpha1kms "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/kms/v1alpha1"
 	v1alpha1messageservice "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/messageservice/v1alpha1"
+	v1alpha1nlb "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/nlb/v1alpha1"
 	v1alpha1oos "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/oos/v1alpha1"
 	v1alpha1oss "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/oss/v1alpha1"
 	v1alpha1polardb "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/polardb/v1alpha1"
 	v1alpha1privatelink "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/privatelink/v1alpha1"
 	v1alpha1quotas "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/quotas/v1alpha1"
 	v1alpha1ram "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/ram/v1alpha1"
+	v1alpha1rds "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/rds/v1alpha1"
 	v1alpha1slb "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/slb/v1alpha1"
+	v1alpha1sls "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/sls/v1alpha1"
+	v1alpha1sslcertificatesservice "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/sslcertificatesservice/v1alpha1"
 	v1alpha1tair "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/tair/v1alpha1"
 	v1alpha1cluster "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/v1alpha1"
 	v1beta1 "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/v1beta1"
@@ -50,13 +54,17 @@ func init() {
 		v1alpha1fcv3.SchemeBuilder.AddToScheme,
 		v1alpha1kms.SchemeBuilder.AddToScheme,
 		v1alpha1messageservice.SchemeBuilder.AddToScheme,
+		v1alpha1nlb.SchemeBuilder.AddToScheme,
 		v1alpha1oos.SchemeBuilder.AddToScheme,
 		v1alpha1oss.SchemeBuilder.AddToScheme,
 		v1alpha1polardb.SchemeBuilder.AddToScheme,
 		v1alpha1privatelink.SchemeBuilder.AddToScheme,
 		v1alpha1quotas.SchemeBuilder.AddToScheme,
 		v1alpha1ram.SchemeBuilder.AddToScheme,
+		v1alpha1rds.SchemeBuilder.AddToScheme,
 		v1alpha1slb.SchemeBuilder.AddToScheme,
+		v1alpha1sls.SchemeBuilder.AddToScheme,
+		v1alpha1sslcertificatesservice.SchemeBuilder.AddToScheme,
 		v1alpha1tair.SchemeBuilder.AddToScheme,
 		v1alpha1cluster.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,

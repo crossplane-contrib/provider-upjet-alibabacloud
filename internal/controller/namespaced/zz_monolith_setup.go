@@ -25,6 +25,7 @@ import (
 	healthchecktemplate "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/healthchecktemplate"
 	listener "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/listener"
 	listeneraclattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/listeneraclattachment"
+	listeneradditionalcertificateattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/listeneradditionalcertificateattachment"
 	loadbalancer "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/loadbalancer"
 	loadbalancersecuritygroupattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/loadbalancersecuritygroupattachment"
 	loadbalancerzoneshiftedattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/alb/loadbalancerzoneshiftedattachment"
@@ -121,6 +122,7 @@ import (
 	queue "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/messageservice/queue"
 	subscription "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/messageservice/subscription"
 	topicmessageservice "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/messageservice/topic"
+	loadbalancernlb "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/nlb/loadbalancer"
 	application "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/oos/application"
 	applicationgroup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/oos/applicationgroup"
 	defaultpatchbaseline "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/oos/defaultpatchbaseline"
@@ -195,12 +197,36 @@ import (
 	user "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/ram/user"
 	usergroupattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/ram/usergroupattachment"
 	userpolicyattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/ram/userpolicyattachment"
+	accountrds "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/account"
+	backup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/backup"
+	backuppolicyrds "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/backuppolicy"
+	connection "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/connection"
+	databaserds "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/database"
+	dbinstanceendpoint "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/dbinstanceendpoint"
+	dbinstanceendpointaddress "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/dbinstanceendpointaddress"
+	dbnode "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/dbnode"
+	dbproxy "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/dbproxy"
+	dbproxypublic "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/dbproxypublic"
+	instancerds "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/instance"
+	instancecrossbackuppolicy "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/instancecrossbackuppolicy"
+	parametergrouprds "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/parametergroup"
+	readonlyinstance "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/readonlyinstance"
+	readwritesplittingconnection "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/readwritesplittingconnection"
+	servicelinkedrole "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/servicelinkedrole"
+	whitelisttemplate "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/whitelisttemplate"
 	aclslb "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/slb/acl"
 	listenerslb "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/slb/listener"
 	loadbalancerslb "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/slb/loadbalancer"
+	logtailattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/sls/logtailattachment"
+	logtailconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/sls/logtailconfig"
+	machinegroup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/sls/machinegroup"
+	project "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/sls/project"
+	store "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/sls/store"
+	storeindex "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/sls/storeindex"
+	certificate "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/sslcertificatesservice/certificate"
 	accounttair "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/tair/account"
 	auditlogconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/tair/auditlogconfig"
-	connection "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/tair/connection"
+	connectiontair "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/tair/connection"
 	instancetair "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/tair/instance"
 	tairinstance "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/tair/tairinstance"
 	routetable "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/vpc/routetable"
@@ -228,6 +254,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		healthchecktemplate.Setup,
 		listener.Setup,
 		listeneraclattachment.Setup,
+		listeneradditionalcertificateattachment.Setup,
 		loadbalancer.Setup,
 		loadbalancersecuritygroupattachment.Setup,
 		loadbalancerzoneshiftedattachment.Setup,
@@ -324,6 +351,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		queue.Setup,
 		subscription.Setup,
 		topicmessageservice.Setup,
+		loadbalancernlb.Setup,
 		application.Setup,
 		applicationgroup.Setup,
 		defaultpatchbaseline.Setup,
@@ -398,12 +426,36 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		user.Setup,
 		usergroupattachment.Setup,
 		userpolicyattachment.Setup,
+		accountrds.Setup,
+		backup.Setup,
+		backuppolicyrds.Setup,
+		connection.Setup,
+		databaserds.Setup,
+		dbinstanceendpoint.Setup,
+		dbinstanceendpointaddress.Setup,
+		dbnode.Setup,
+		dbproxy.Setup,
+		dbproxypublic.Setup,
+		instancerds.Setup,
+		instancecrossbackuppolicy.Setup,
+		parametergrouprds.Setup,
+		readonlyinstance.Setup,
+		readwritesplittingconnection.Setup,
+		servicelinkedrole.Setup,
+		whitelisttemplate.Setup,
 		aclslb.Setup,
 		listenerslb.Setup,
 		loadbalancerslb.Setup,
+		logtailattachment.Setup,
+		logtailconfig.Setup,
+		machinegroup.Setup,
+		project.Setup,
+		store.Setup,
+		storeindex.Setup,
+		certificate.Setup,
 		accounttair.Setup,
 		auditlogconfig.Setup,
-		connection.Setup,
+		connectiontair.Setup,
 		instancetair.Setup,
 		tairinstance.Setup,
 		routetable.Setup,
@@ -437,6 +489,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		healthchecktemplate.SetupGated,
 		listener.SetupGated,
 		listeneraclattachment.SetupGated,
+		listeneradditionalcertificateattachment.SetupGated,
 		loadbalancer.SetupGated,
 		loadbalancersecuritygroupattachment.SetupGated,
 		loadbalancerzoneshiftedattachment.SetupGated,
@@ -533,6 +586,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		queue.SetupGated,
 		subscription.SetupGated,
 		topicmessageservice.SetupGated,
+		loadbalancernlb.SetupGated,
 		application.SetupGated,
 		applicationgroup.SetupGated,
 		defaultpatchbaseline.SetupGated,
@@ -607,12 +661,36 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		user.SetupGated,
 		usergroupattachment.SetupGated,
 		userpolicyattachment.SetupGated,
+		accountrds.SetupGated,
+		backup.SetupGated,
+		backuppolicyrds.SetupGated,
+		connection.SetupGated,
+		databaserds.SetupGated,
+		dbinstanceendpoint.SetupGated,
+		dbinstanceendpointaddress.SetupGated,
+		dbnode.SetupGated,
+		dbproxy.SetupGated,
+		dbproxypublic.SetupGated,
+		instancerds.SetupGated,
+		instancecrossbackuppolicy.SetupGated,
+		parametergrouprds.SetupGated,
+		readonlyinstance.SetupGated,
+		readwritesplittingconnection.SetupGated,
+		servicelinkedrole.SetupGated,
+		whitelisttemplate.SetupGated,
 		aclslb.SetupGated,
 		listenerslb.SetupGated,
 		loadbalancerslb.SetupGated,
+		logtailattachment.SetupGated,
+		logtailconfig.SetupGated,
+		machinegroup.SetupGated,
+		project.SetupGated,
+		store.SetupGated,
+		storeindex.SetupGated,
+		certificate.SetupGated,
 		accounttair.SetupGated,
 		auditlogconfig.SetupGated,
-		connection.SetupGated,
+		connectiontair.SetupGated,
 		instancetair.SetupGated,
 		tairinstance.SetupGated,
 		routetable.SetupGated,
@@ -645,6 +723,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		healthchecktemplate.SetupWebhookWithManager,
 		listener.SetupWebhookWithManager,
 		listeneraclattachment.SetupWebhookWithManager,
+		listeneradditionalcertificateattachment.SetupWebhookWithManager,
 		loadbalancer.SetupWebhookWithManager,
 		loadbalancersecuritygroupattachment.SetupWebhookWithManager,
 		loadbalancerzoneshiftedattachment.SetupWebhookWithManager,
@@ -741,6 +820,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		queue.SetupWebhookWithManager,
 		subscription.SetupWebhookWithManager,
 		topicmessageservice.SetupWebhookWithManager,
+		loadbalancernlb.SetupWebhookWithManager,
 		application.SetupWebhookWithManager,
 		applicationgroup.SetupWebhookWithManager,
 		defaultpatchbaseline.SetupWebhookWithManager,
@@ -815,12 +895,36 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		user.SetupWebhookWithManager,
 		usergroupattachment.SetupWebhookWithManager,
 		userpolicyattachment.SetupWebhookWithManager,
+		accountrds.SetupWebhookWithManager,
+		backup.SetupWebhookWithManager,
+		backuppolicyrds.SetupWebhookWithManager,
+		connection.SetupWebhookWithManager,
+		databaserds.SetupWebhookWithManager,
+		dbinstanceendpoint.SetupWebhookWithManager,
+		dbinstanceendpointaddress.SetupWebhookWithManager,
+		dbnode.SetupWebhookWithManager,
+		dbproxy.SetupWebhookWithManager,
+		dbproxypublic.SetupWebhookWithManager,
+		instancerds.SetupWebhookWithManager,
+		instancecrossbackuppolicy.SetupWebhookWithManager,
+		parametergrouprds.SetupWebhookWithManager,
+		readonlyinstance.SetupWebhookWithManager,
+		readwritesplittingconnection.SetupWebhookWithManager,
+		servicelinkedrole.SetupWebhookWithManager,
+		whitelisttemplate.SetupWebhookWithManager,
 		aclslb.SetupWebhookWithManager,
 		listenerslb.SetupWebhookWithManager,
 		loadbalancerslb.SetupWebhookWithManager,
+		logtailattachment.SetupWebhookWithManager,
+		logtailconfig.SetupWebhookWithManager,
+		machinegroup.SetupWebhookWithManager,
+		project.SetupWebhookWithManager,
+		store.SetupWebhookWithManager,
+		storeindex.SetupWebhookWithManager,
+		certificate.SetupWebhookWithManager,
 		accounttair.SetupWebhookWithManager,
 		auditlogconfig.SetupWebhookWithManager,
-		connection.SetupWebhookWithManager,
+		connectiontair.SetupWebhookWithManager,
 		instancetair.SetupWebhookWithManager,
 		tairinstance.SetupWebhookWithManager,
 		routetable.SetupWebhookWithManager,

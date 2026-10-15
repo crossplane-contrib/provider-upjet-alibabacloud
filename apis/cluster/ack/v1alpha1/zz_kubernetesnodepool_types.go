@@ -1008,6 +1008,10 @@ type KubernetesNodePoolInitParameters struct {
 	// The ID of the resource group
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
+	// The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+	// The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+	ResourcePoolOptions []ResourcePoolOptionsInitParameters `json:"resourcePoolOptions,omitempty" tf:"resource_pool_options,omitempty"`
+
 	// Rotary configuration. See rolling_policy below.
 	RollingPolicy []RollingPolicyInitParameters `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
 
@@ -1274,6 +1278,10 @@ type KubernetesNodePoolObservation struct {
 
 	// The ID of the resource group
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
+
+	// The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+	// The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+	ResourcePoolOptions []ResourcePoolOptionsObservation `json:"resourcePoolOptions,omitempty" tf:"resource_pool_options,omitempty"`
 
 	// Rotary configuration. See rolling_policy below.
 	RollingPolicy []RollingPolicyObservation `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
@@ -1598,6 +1606,11 @@ type KubernetesNodePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
+	// The resource pool and resource pool strategy used when launching instances. See resource_pool_options below.
+	// The resource pool and resource pool strategy used when launching instances. It only takes effect when creating PostPaid (pay-as-you-go) instances, and cannot be set together with `private_pool_options`.
+	// +kubebuilder:validation:Optional
+	ResourcePoolOptions []ResourcePoolOptionsParameters `json:"resourcePoolOptions,omitempty" tf:"resource_pool_options,omitempty"`
+
 	// Rotary configuration. See rolling_policy below.
 	// +kubebuilder:validation:Optional
 	RollingPolicy []RollingPolicyParameters `json:"rollingPolicy,omitempty" tf:"rolling_policy,omitempty"`
@@ -1780,7 +1793,7 @@ type LabelsParameters struct {
 
 type ManagementInitParameters struct {
 
-	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired.
+	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired. When auto_repair is true, this feature requires the node-lifecycle-controller and ack-node-problem-detector addons to be installed; see cs_kubernetes_addon for installation.
 	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
 
 	// Automatic repair node policy. See auto_repair_policy below.
@@ -1813,7 +1826,7 @@ type ManagementInitParameters struct {
 
 type ManagementObservation struct {
 
-	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired.
+	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired. When auto_repair is true, this feature requires the node-lifecycle-controller and ack-node-problem-detector addons to be installed; see cs_kubernetes_addon for installation.
 	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
 
 	// Automatic repair node policy. See auto_repair_policy below.
@@ -1846,7 +1859,7 @@ type ManagementObservation struct {
 
 type ManagementParameters struct {
 
-	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired.
+	// Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired. When auto_repair is true, this feature requires the node-lifecycle-controller and ack-node-problem-detector addons to be installed; see cs_kubernetes_addon for installation.
 	// +kubebuilder:validation:Optional
 	AutoRepair *bool `json:"autoRepair,omitempty" tf:"auto_repair,omitempty"`
 
@@ -1946,6 +1959,61 @@ type ReservedMemoryParameters struct {
 	// The NUMA node.
 	// +kubebuilder:validation:Optional
 	NumaNode *float64 `json:"numaNode,omitempty" tf:"numa_node,omitempty"`
+}
+
+type ResourcePoolOptionsInitParameters struct {
+
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/ecs/v1alpha1.CapacityReservation
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	PrivatePoolIds []*string `json:"privatePoolIds,omitempty" tf:"private_pool_ids,omitempty"`
+
+	// References to CapacityReservation in ecs to populate privatePoolIds.
+	// +kubebuilder:validation:Optional
+	PrivatePoolIdsRefs []v1.Reference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of CapacityReservation in ecs to populate privatePoolIds.
+	// +kubebuilder:validation:Optional
+	PrivatePoolIdsSelector *v1.Selector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
+
+	// The resource pool strategy used when launching instances. Default value: None. Valid values:
+	// The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
+}
+
+type ResourcePoolOptionsObservation struct {
+
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+	PrivatePoolIds []*string `json:"privatePoolIds,omitempty" tf:"private_pool_ids,omitempty"`
+
+	// The resource pool strategy used when launching instances. Default value: None. Valid values:
+	// The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
+}
+
+type ResourcePoolOptionsParameters struct {
+
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
+	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/ecs/v1alpha1.CapacityReservation
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	PrivatePoolIds []*string `json:"privatePoolIds,omitempty" tf:"private_pool_ids,omitempty"`
+
+	// References to CapacityReservation in ecs to populate privatePoolIds.
+	// +kubebuilder:validation:Optional
+	PrivatePoolIdsRefs []v1.Reference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of CapacityReservation in ecs to populate privatePoolIds.
+	// +kubebuilder:validation:Optional
+	PrivatePoolIdsSelector *v1.Selector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
+
+	// The resource pool strategy used when launching instances. Default value: None. Valid values:
+	// The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
+	// +kubebuilder:validation:Optional
+	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
 }
 
 type RollingPolicyInitParameters struct {

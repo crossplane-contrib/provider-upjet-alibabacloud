@@ -11,34 +11,35 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
 type ListenerAdditionalCertificateAttachmentInitParameters struct {
 
 	// The Certificate ID.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sslcertificatesservice/v1alpha1.Certificate
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/sslcertificatesservice/v1alpha1.Certificate
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.AlbCertificateIdExtractor()
 	CertificateID *string `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
 
 	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+	CertificateIDRef *v1.NamespacedReference `json:"certificateIdRef,omitempty" tf:"-"`
 
 	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
+	CertificateIDSelector *v1.NamespacedSelector `json:"certificateIdSelector,omitempty" tf:"-"`
 
 	// The ID of the ALB listener.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alb/v1alpha1.Listener
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/alb/v1alpha1.Listener
 	ListenerID *string `json:"listenerId,omitempty" tf:"listener_id,omitempty"`
 
 	// Reference to a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDRef *v1.Reference `json:"listenerIdRef,omitempty" tf:"-"`
+	ListenerIDRef *v1.NamespacedReference `json:"listenerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
+	ListenerIDSelector *v1.NamespacedSelector `json:"listenerIdSelector,omitempty" tf:"-"`
 }
 
 type ListenerAdditionalCertificateAttachmentObservation struct {
@@ -62,31 +63,31 @@ type ListenerAdditionalCertificateAttachmentObservation struct {
 type ListenerAdditionalCertificateAttachmentParameters struct {
 
 	// The Certificate ID.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sslcertificatesservice/v1alpha1.Certificate
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/sslcertificatesservice/v1alpha1.Certificate
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.AlbCertificateIdExtractor()
 	// +kubebuilder:validation:Optional
 	CertificateID *string `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
 
 	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+	CertificateIDRef *v1.NamespacedReference `json:"certificateIdRef,omitempty" tf:"-"`
 
 	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
+	CertificateIDSelector *v1.NamespacedSelector `json:"certificateIdSelector,omitempty" tf:"-"`
 
 	// The ID of the ALB listener.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alb/v1alpha1.Listener
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/alb/v1alpha1.Listener
 	// +kubebuilder:validation:Optional
 	ListenerID *string `json:"listenerId,omitempty" tf:"listener_id,omitempty"`
 
 	// Reference to a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDRef *v1.Reference `json:"listenerIdRef,omitempty" tf:"-"`
+	ListenerIDRef *v1.NamespacedReference `json:"listenerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
+	ListenerIDSelector *v1.NamespacedSelector `json:"listenerIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -96,8 +97,8 @@ type ListenerAdditionalCertificateAttachmentParameters struct {
 
 // ListenerAdditionalCertificateAttachmentSpec defines the desired state of ListenerAdditionalCertificateAttachment
 type ListenerAdditionalCertificateAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ListenerAdditionalCertificateAttachmentParameters `json:"forProvider"`
+	v2.ManagedResourceSpec `json:",inline"`
+	ForProvider            ListenerAdditionalCertificateAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -126,7 +127,7 @@ type ListenerAdditionalCertificateAttachmentStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,alibabacloud}
+// +kubebuilder:resource:scope=Namespaced,categories={crossplane,managed,alibabacloud}
 type ListenerAdditionalCertificateAttachment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

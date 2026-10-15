@@ -61,6 +61,9 @@ type ClusterEndpointInitParameters struct {
 
 	// Specifies how to modify the SSL encryption status. Valid values: Disable, Enable, Update.
 	SSLEnabled *string `json:"sslEnabled,omitempty" tf:"ssl_enabled,omitempty"`
+
+	// Specifies whether to enable global consistency (high-performance mode). Valid values are on and off. Before setting this argument to on, set ConsistLevel in endpoint_config to 0 (eventual consistency).
+	SccMode *string `json:"sccMode,omitempty" tf:"scc_mode,omitempty"`
 }
 
 type ClusterEndpointObservation struct {
@@ -119,6 +122,9 @@ type ClusterEndpointObservation struct {
 
 	// The time when the SSL certificate expires. The time follows the ISO 8601 standard in the yyyy-MM-ddTHH:mm:ssZ format. The time is displayed in UTC.
 	SSLExpireTime *string `json:"sslExpireTime,omitempty" tf:"ssl_expire_time,omitempty"`
+
+	// Specifies whether to enable global consistency (high-performance mode). Valid values are on and off. Before setting this argument to on, set ConsistLevel in endpoint_config to 0 (eventual consistency).
+	SccMode *string `json:"sccMode,omitempty" tf:"scc_mode,omitempty"`
 }
 
 type ClusterEndpointParameters struct {
@@ -185,6 +191,10 @@ type ClusterEndpointParameters struct {
 	// Specifies how to modify the SSL encryption status. Valid values: Disable, Enable, Update.
 	// +kubebuilder:validation:Optional
 	SSLEnabled *string `json:"sslEnabled,omitempty" tf:"ssl_enabled,omitempty"`
+
+	// Specifies whether to enable global consistency (high-performance mode). Valid values are on and off. Before setting this argument to on, set ConsistLevel in endpoint_config to 0 (eventual consistency).
+	// +kubebuilder:validation:Optional
+	SccMode *string `json:"sccMode,omitempty" tf:"scc_mode,omitempty"`
 }
 
 // ClusterEndpointSpec defines the desired state of ClusterEndpoint

@@ -75,8 +75,8 @@ spec:
                       The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
                     type: string
                   dnsHostnameStatus:
-                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
-                      DISABLED.'
+                    description: 'Whether to enable the DNS hostname feature. Valid
+                      values: ENABLED, DISABLED.'
                     type: string
                   dryRun:
                     description: 'Whether to PreCheck only this request. Value:'
@@ -195,8 +195,8 @@ spec:
                       The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
                     type: string
                   dnsHostnameStatus:
-                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
-                      DISABLED.'
+                    description: 'Whether to enable the DNS hostname feature. Valid
+                      values: ENABLED, DISABLED.'
                     type: string
                   dryRun:
                     description: 'Whether to PreCheck only this request. Value:'
@@ -364,8 +364,8 @@ spec:
                       The description must be 1 to 256 characters in length, and cannot start with http:// or https://.
                     type: string
                   dnsHostnameStatus:
-                    description: 'The status of VPC DNS Hostname. Valid values: ENABLED,
-                      DISABLED.'
+                    description: 'Whether to enable the DNS hostname feature. Valid
+                      values: ENABLED, DISABLED.'
                     type: string
                   dryRun:
                     description: 'Whether to PreCheck only this request. Value:'

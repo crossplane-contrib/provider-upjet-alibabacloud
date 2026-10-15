@@ -258,6 +258,16 @@ spec:
                           type: object
                       type: object
                     type: array
+                  features:
+                    description: Features for the image. See features below.
+                    items:
+                      properties:
+                        nvmeSupport:
+                          description: 'Specifies whether to support the Non-Volatile
+                            Memory Express (NVMe) protocol. Valid values:'
+                          type: string
+                      type: object
+                    type: array
                   imageName:
                     description: 'The name of the image. The image_name must be 2
                       to 128 characters in length. The image_name must start with
@@ -497,6 +507,16 @@ spec:
                           type: object
                       type: object
                     type: array
+                  features:
+                    description: Features for the image. See features below.
+                    items:
+                      properties:
+                        nvmeSupport:
+                          description: 'Specifies whether to support the Non-Volatile
+                            Memory Express (NVMe) protocol. Valid values:'
+                          type: string
+                      type: object
+                    type: array
                   imageName:
                     description: 'The name of the image. The image_name must be 2
                       to 128 characters in length. The image_name must start with
@@ -622,6 +642,16 @@ spec:
                         ossObject:
                           description: The name (key) of the object that the uploaded
                             image is stored as in the OSS bucket.
+                          type: string
+                      type: object
+                    type: array
+                  features:
+                    description: Features for the image. See features below.
+                    items:
+                      properties:
+                        nvmeSupport:
+                          description: 'Specifies whether to support the Non-Volatile
+                            Memory Express (NVMe) protocol. Valid values:'
                           type: string
                       type: object
                     type: array

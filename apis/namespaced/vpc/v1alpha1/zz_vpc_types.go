@@ -37,7 +37,7 @@ type VPCInitParameters struct {
 	// The status of ClassicLink function. Field 'classic_link_enabled' has been deprecated from provider version 1.286.0. The underlying ClassicLink feature has been deprecated by Alibaba Cloud and this field will be removed in a future version. For more information, see the deprecated API references EnableVpcClassicLink and DisableVpcClassicLink.
 	ClassicLinkEnabled *bool `json:"classicLinkEnabled,omitempty" tf:"classic_link_enabled,omitempty"`
 
-	// The status of VPC DNS Hostname. Valid values: ENABLED, DISABLED.
+	// Whether to enable the DNS hostname feature. Valid values: ENABLED, DISABLED.
 	DNSHostnameStatus *string `json:"dnsHostnameStatus,omitempty" tf:"dns_hostname_status,omitempty"`
 
 	// The new description of the VPC.
@@ -114,7 +114,7 @@ type VPCObservation struct {
 	// The creation time of the VPC.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	// The status of VPC DNS Hostname. Valid values: ENABLED, DISABLED.
+	// Whether to enable the DNS hostname feature. Valid values: ENABLED, DISABLED.
 	DNSHostnameStatus *string `json:"dnsHostnameStatus,omitempty" tf:"dns_hostname_status,omitempty"`
 
 	// The new description of the VPC.
@@ -211,7 +211,7 @@ type VPCParameters struct {
 	// +kubebuilder:validation:Optional
 	ClassicLinkEnabled *bool `json:"classicLinkEnabled,omitempty" tf:"classic_link_enabled,omitempty"`
 
-	// The status of VPC DNS Hostname. Valid values: ENABLED, DISABLED.
+	// Whether to enable the DNS hostname feature. Valid values: ENABLED, DISABLED.
 	// +kubebuilder:validation:Optional
 	DNSHostnameStatus *string `json:"dnsHostnameStatus,omitempty" tf:"dns_hostname_status,omitempty"`
 

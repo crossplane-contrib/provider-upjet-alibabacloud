@@ -13,6 +13,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     region: cn-beijing
+    sccMode: "on"
 
 ---
 

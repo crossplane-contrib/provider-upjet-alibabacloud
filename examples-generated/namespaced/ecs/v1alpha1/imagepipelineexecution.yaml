@@ -35,9 +35,9 @@ spec:
     deleteInstanceOnFailure: true
     description: example
     imageName: example-image-pipeline
-    internetMaxBandwidthOut: "5"
+    internetMaxBandwidthOut: 5
     region: cn-beijing
-    systemDiskSize: "40"
+    systemDiskSize: 40
     toRegionId:
     - cn-beijing
     vswitchIdSelector:
