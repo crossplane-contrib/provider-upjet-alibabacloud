@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	"github.com/crossplane/crossplane-runtime/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -1496,7 +1496,7 @@ func (in *SecretInitParameters) DeepCopyInto(out *SecretInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	out.SecretDataSecretRef = in.SecretDataSecretRef
+	in.SecretDataSecretRef.DeepCopyInto(&out.SecretDataSecretRef)
 	if in.SecretDataType != nil {
 		in, out := &in.SecretDataType, &out.SecretDataType
 		*out = new(string)
@@ -1788,7 +1788,7 @@ func (in *SecretParameters) DeepCopyInto(out *SecretParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	out.SecretDataSecretRef = in.SecretDataSecretRef
+	in.SecretDataSecretRef.DeepCopyInto(&out.SecretDataSecretRef)
 	if in.SecretDataType != nil {
 		in, out := &in.SecretDataType, &out.SecretDataType
 		*out = new(string)
