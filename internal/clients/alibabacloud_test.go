@@ -10,11 +10,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/crossplane/upjet/pkg/terraform"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/crossplane-contrib/provider-alibabacloud/apis/v1beta1"
+	v1beta1 "github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/v1beta1"
 )
 
 func TestBuildProviderConfiguration(t *testing.T) {
@@ -47,15 +47,13 @@ func TestBuildProviderConfigurationUsesTypedAssumeRole(t *testing.T) {
 		"assume_role": map[string]any{
 			"role_arn": "acs:ram::1234567890123456:role/from-secret",
 		},
-	}, &v1beta1.ProviderConfig{
-		Spec: v1beta1.ProviderConfigSpec{
-			AssumeRole: &v1beta1.AssumeRoleOptions{
-				RoleARN:           roleARN,
-				SessionName:       &sessionName,
-				Policy:            &policy,
-				SessionExpiration: &sessionExpiration,
-				ExternalID:        &externalID,
-			},
+	}, &v1beta1.ProviderConfigSpec{
+		AssumeRole: &v1beta1.AssumeRoleOptions{
+			RoleARN:           roleARN,
+			SessionName:       &sessionName,
+			Policy:            &policy,
+			SessionExpiration: &sessionExpiration,
+			ExternalID:        &externalID,
 		},
 	})
 
@@ -80,15 +78,13 @@ func TestBuildProviderConfigurationUsesAssumeRoleWithOIDC(t *testing.T) {
 	roleSessionName := "crossplane"
 	sessionExpiration := 3600
 
-	cfg := buildProviderConfiguration("cn-hangzhou", map[string]any{}, &v1beta1.ProviderConfig{
-		Spec: v1beta1.ProviderConfigSpec{
-			AssumeRoleWithOIDC: &v1beta1.AssumeRoleWithOIDCOptions{
-				RoleARN:           roleARN,
-				OIDCProviderARN:   oidcProviderARN,
-				OIDCTokenFile:     oidcTokenFile,
-				RoleSessionName:   &roleSessionName,
-				SessionExpiration: &sessionExpiration,
-			},
+	cfg := buildProviderConfiguration("cn-hangzhou", map[string]any{}, &v1beta1.ProviderConfigSpec{
+		AssumeRoleWithOIDC: &v1beta1.AssumeRoleWithOIDCOptions{
+			RoleARN:           roleARN,
+			OIDCProviderARN:   oidcProviderARN,
+			OIDCTokenFile:     oidcTokenFile,
+			RoleSessionName:   &roleSessionName,
+			SessionExpiration: &sessionExpiration,
 		},
 	})
 
@@ -107,7 +103,7 @@ func TestBuildProviderConfigurationUsesAssumeRoleWithOIDC(t *testing.T) {
 }
 
 func TestValidateProviderConfigRejectsDynamicAuthInSecret(t *testing.T) {
-	err := validateProviderConfig(&v1beta1.ProviderConfig{}, map[string]any{
+	err := validateProviderConfig(&v1beta1.ProviderConfigSpec{}, map[string]any{
 		"assume_role": map[string]any{
 			"role_arn": "acs:ram::1234567890123456:role/from-secret",
 		},
@@ -121,12 +117,10 @@ func TestValidateProviderConfigRequiresOIDCTokenFile(t *testing.T) {
 	roleARN := "acs:ram::1234567890123456:role/crossplane-oidc"
 	oidcProviderARN := "acs:ram::1234567890123456:oidc-provider/ack"
 
-	err := validateProviderConfig(&v1beta1.ProviderConfig{
-		Spec: v1beta1.ProviderConfigSpec{
-			AssumeRoleWithOIDC: &v1beta1.AssumeRoleWithOIDCOptions{
-				RoleARN:         roleARN,
-				OIDCProviderARN: oidcProviderARN,
-			},
+	err := validateProviderConfig(&v1beta1.ProviderConfigSpec{
+		AssumeRoleWithOIDC: &v1beta1.AssumeRoleWithOIDCOptions{
+			RoleARN:         roleARN,
+			OIDCProviderARN: oidcProviderARN,
 		},
 	}, nil)
 	if err == nil {
@@ -136,12 +130,10 @@ func TestValidateProviderConfigRequiresOIDCTokenFile(t *testing.T) {
 
 func TestValidateProviderConfigUsesDifferentSessionExpirationMaximums(t *testing.T) {
 	tooLongForAssumeRole := 43200
-	err := validateProviderConfig(&v1beta1.ProviderConfig{
-		Spec: v1beta1.ProviderConfigSpec{
-			AssumeRole: &v1beta1.AssumeRoleOptions{
-				RoleARN:           "acs:ram::1234567890123456:role/crossplane",
-				SessionExpiration: &tooLongForAssumeRole,
-			},
+	err := validateProviderConfig(&v1beta1.ProviderConfigSpec{
+		AssumeRole: &v1beta1.AssumeRoleOptions{
+			RoleARN:           "acs:ram::1234567890123456:role/crossplane",
+			SessionExpiration: &tooLongForAssumeRole,
 		},
 	}, nil)
 	if err == nil {
@@ -149,14 +141,12 @@ func TestValidateProviderConfigUsesDifferentSessionExpirationMaximums(t *testing
 	}
 
 	oidcMax := 43200
-	err = validateProviderConfig(&v1beta1.ProviderConfig{
-		Spec: v1beta1.ProviderConfigSpec{
-			AssumeRoleWithOIDC: &v1beta1.AssumeRoleWithOIDCOptions{
-				RoleARN:           "acs:ram::1234567890123456:role/crossplane-oidc",
-				OIDCProviderARN:   "acs:ram::1234567890123456:oidc-provider/ack",
-				OIDCTokenFile:     "/var/run/secrets/ack.alibabacloud.com/rrsa-tokens/token",
-				SessionExpiration: &oidcMax,
-			},
+	err = validateProviderConfig(&v1beta1.ProviderConfigSpec{
+		AssumeRoleWithOIDC: &v1beta1.AssumeRoleWithOIDCOptions{
+			RoleARN:           "acs:ram::1234567890123456:role/crossplane-oidc",
+			OIDCProviderARN:   "acs:ram::1234567890123456:oidc-provider/ack",
+			OIDCTokenFile:     "/var/run/secrets/ack.alibabacloud.com/rrsa-tokens/token",
+			SessionExpiration: &oidcMax,
 		},
 	}, nil)
 	if err != nil {

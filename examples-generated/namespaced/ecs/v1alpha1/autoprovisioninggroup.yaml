@@ -1,0 +1,103 @@
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: AutoProvisioningGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autoprovisioninggroup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    launchTemplateConfig:
+    - instanceType: ecs.n1.small
+      maxPrice: "2"
+      vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default
+      weightedCapacity: "2"
+    launchTemplateIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: template
+    payAsYouGoTargetCapacity: "1"
+    region: cn-beijing
+    spotTargetCapacity: "2"
+    totalTargetCapacity: "4"
+
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: LaunchTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autoprovisioninggroup
+  labels:
+    testing.upbound.io/example-name: template
+  name: template
+  namespace: upbound-system
+spec:
+  forProvider:
+    imageId: ${data.alicloud_images.default.images[0].id}
+    instanceType: ecs.n1.tiny
+    launchTemplateName: ${var.name}
+    region: cn-beijing
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autoprovisioninggroup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    name: ${var.name}
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autoprovisioninggroup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/16
+    region: cn-beijing
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/autoprovisioninggroup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones[0].id}

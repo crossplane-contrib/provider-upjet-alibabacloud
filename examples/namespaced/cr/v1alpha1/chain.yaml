@@ -1,0 +1,114 @@
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: Chain
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-chain-1
+  labels:
+    testing.crossplane.io/example-name: test-chain-1
+  name: test-chain-1
+spec:
+  forProvider:
+    region: us-west-1
+    chainConfig:
+    - nodes:
+      - enable: true
+        nodeConfig:
+        - denyPolicy:
+          - {}
+        nodeName: DOCKER_IMAGE_BUILD
+      - enable: true
+        nodeConfig:
+        - denyPolicy:
+          - {}
+        nodeName: DOCKER_IMAGE_PUSH
+      - enable: true
+        nodeConfig:
+        - denyPolicy:
+          - action: BLOCK_DELETE_TAG
+            issueCount: "1"
+            issueLevel: MEDIUM
+            logic: AND
+        nodeName: VULNERABILITY_SCANNING
+      routers:
+      - from:
+        - nodeName: DOCKER_IMAGE_BUILD
+        to:
+        - nodeName: DOCKER_IMAGE_PUSH
+      - from:
+        - nodeName: DOCKER_IMAGE_PUSH
+        to:
+        - nodeName: VULNERABILITY_SCANNING
+    chainName: test-chain-1
+    description: Test delivery chain for Container Registry
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-chain-1
+    repoNameSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-repo-for-chain-1
+    repoNamespaceNameSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-namespace-for-chain-1
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeRepo
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-repo-for-chain-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-repo-for-chain-1
+  name: test-ee-repo-for-chain-1
+spec:
+  forProvider:
+    region: us-west-1
+    detail: Test EE repository for delivery chain
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-chain-1
+    name: test-ee-repo-for-chain-1
+    namespaceSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-namespace-for-chain-1
+    repoType: PUBLIC
+    summary: Test EE repository for delivery chain
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeNamespace
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-namespace-for-chain-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-namespace-for-chain-1
+  name: test-ee-namespace-for-chain-1
+spec:
+  forProvider:
+    region: us-west-1
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-chain-1
+    name: test-ee-namespace-for-chain-1
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-instance-for-chain-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-instance-for-chain-1
+  name: test-ee-instance-for-chain-1
+spec:
+  forProvider:
+    region: us-west-1
+    instanceName: cr-ee-test-chain-2
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    renewPeriod: 1
+    renewalStatus: AutoRenewal

@@ -1,0 +1,56 @@
+---
+apiVersion: ack.alibabacloud.m.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-mk8s-1
+    uptest.upbound.io/timeout: "2400"
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-mk8s-1
+  name: test-ack-v1alpha1-mk8s-1
+spec:
+  forProvider:
+    region: us-west-1
+    clusterSpec: ack.pro.small
+    newNatGateway: true
+    podCidr: 10.0.0.0/16
+    serviceCidr: 172.16.0.0/20
+    slbInternetEnabled: true
+    vswitchIdsSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-mk8s-vswitch-1
+---
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-mk8s-vpc-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-mk8s-vpc-1
+  name: test-ack-v1alpha1-mk8s-vpc-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    vpcName: test-ack-v1alpha1-mk8s-vpc-1
+    region: us-west-1
+---
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-mk8s-vswitch-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-mk8s-vswitch-1
+  name: test-ack-v1alpha1-mk8s-vswitch-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-mk8s-vpc-1
+    vswitchName: test-ack-v1alpha1-mk8s-vswitch-1
+    zoneId: us-west-1b
+    region: us-west-1

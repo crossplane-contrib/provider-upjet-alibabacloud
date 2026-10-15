@@ -1,0 +1,63 @@
+---
+apiVersion: ackone.alibabacloud.m.crossplane.io/v1alpha1
+kind: MembershipAttachment
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ackone-v1alpha1-membershipattachment-1
+  labels:
+    testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1
+  name: test-ackone-v1alpha1-membershipattachment-1
+spec:
+  forProvider:
+    clusterId: test-ackone-v1alpha1-membershipattachment-1-cluster-1
+    subClusterId: test-ackone-v1alpha1-membershipattachment-1-sub-cluster-id-1
+---
+apiVersion: ackone.alibabacloud.m.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ackone-v1alpha1-membershipattachment-1-cluster-1
+  labels:
+    testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-cluster-1
+  name: test-ackone-v1alpha1-membershipattachment-1-cluster-1
+spec:
+  forProvider:
+    argocdEnabled: false
+    network:
+    - vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
+      vswitches:
+      - foo2 # replace with vswitchId
+---
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ackone-v1alpha1-membershipattachment-1-vpc-1
+  labels:
+    testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
+  name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+---
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ackone-v1alpha1-membershipattachment-1-vswitch-1
+  labels:
+    testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vswitch-1
+  name: test-ackone-v1alpha1-membershipattachment-1-vswitch-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
+    zoneId: us-west-1-b

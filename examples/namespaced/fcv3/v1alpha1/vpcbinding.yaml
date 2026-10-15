@@ -1,0 +1,60 @@
+apiVersion: fcv3.alibabacloud.m.crossplane.io/v1alpha1
+kind: VpcBinding
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/vpcbinding
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    functionNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpcbinding
+    region: cn-hangzhou
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vpcbinding
+
+---
+
+apiVersion: fcv3.alibabacloud.m.crossplane.io/v1alpha1
+kind: Function
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/vpcbinding
+  labels:
+    testing.upbound.io/example-name: vpcbinding
+  name: vpcbinding
+spec:
+  forProvider:
+    code:
+      - zipFile: "UEsDBBQACAAIAAAAAAAAAAAAAAAAAAAAAAAIAAAAaW5kZXgucHmEkEFKxEAQRfd9ig9ZTCJOooIwDMwNXLqXnnQlaalUhU5lRj2KZ/FOXkESGR114bJ/P/7jV4b1xRq1hijtFpM1682cuNgPmgysbRulPT0fRxXnMtwrSPyeCdYRokSLnuMLJTTkbUqEvDMbxm1VdcRD6Tk+T1LW2ldB66knsYdA5iNX17ebm6tN2VnPhcswMPmREPuBacb+CiapLarAj9gT6/H97dVlCNScY3mtYvRkxdZlwDKDEnanPWVLdrdkeXEGlFEazVdfPVHaVeHc3N15CUwppwOJXeK7HshAB8NuOU7J6sP4SRXuH/EvbUfMiqMmDqv5M5FNSfAj/wgAAP//UEsHCPl//NYAAQAArwEAAFBLAQIUABQACAAIAAAAAAD5f/zWAAEAAK8BAAAIAAAAAAAAAAAAAAAAAAAAAABpbmRleC5weVBLBQYAAAAAAQABADYAAAA2AQAAAAA="
+    cpu: 0.5
+    diskSize: 512
+    functionName: crossplane-example-for-function-vpcbinding-20250725
+    handler: index.Handler
+    logConfig:
+      - logBeginRule: None
+    memorySize: 512
+    region: cn-hangzhou
+    runtime: python3.9
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: fcv3/v1alpha1/vpcbinding
+  labels:
+    testing.upbound.io/example-name: vpcbinding
+  name: vpcbinding
+spec:
+  forProvider:
+    cidrBlock: 10.0.0.0/8
+    region: cn-hangzhou
+    vpcName: crossplane-example-for-function-vpcbinding-20250725

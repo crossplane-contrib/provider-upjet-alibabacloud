@@ -1,0 +1,16 @@
+# A ClusterProviderConfig is the cluster-scoped credential of the modern API
+# group. Namespaced managed resources reference it by kind, and it is what they
+# resolve to when spec.providerConfigRef is omitted entirely. Use it to share
+# one credential across namespaces; use a namespaced ProviderConfig when each
+# namespace should carry its own.
+apiVersion: alibabacloud.m.crossplane.io/v1beta1
+kind: ClusterProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: example-creds
+      namespace: crossplane-system
+      key: credentials

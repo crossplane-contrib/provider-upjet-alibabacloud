@@ -1,0 +1,87 @@
+apiVersion: tair.alibabacloud.m.crossplane.io/v1alpha1
+kind: AuditLogConfig
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/auditlogconfig
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    region: cn-hangzhou
+    dbAudit: true
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    retention: 1
+
+---
+
+apiVersion: tair.alibabacloud.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/auditlogconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-hangzhou
+    config:
+      appendonly: "yes"
+      lazyfree-lazy-eviction: "yes"
+    dbInstanceName: crossplane_example
+    engineVersion: "5.0"
+    instanceClass: redis.master.large.default
+    instanceType: Redis
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
+    securityIps:
+    - 10.23.12.24
+    tags:
+      Created: TF
+      For: example
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneId: cn-hangzhou-b
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/auditlogconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-hangzhou
+    cidrBlock: 10.4.0.0/16
+    vpcName: crossplane_example
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/auditlogconfig
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-hangzhou
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: crossplane_example
+    zoneId: cn-hangzhou-b
