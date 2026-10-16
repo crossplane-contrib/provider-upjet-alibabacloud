@@ -28,8 +28,8 @@ func Configure(p *config.Provider) {
 		// both Optional and Computed. The provider populates it on every read;
 		// upjet then late-initializes it back into the spec and re-sends it on
 		// the next apply alongside partition_num, which keeps the instance from
-		// settling. Drop the dead field; "partition_num" fully replaces it.
-		delete(r.TerraformResource.Schema, "topic_quota")
+		// settling. Dropped during code generation; see generationOnlySchemaOmissions
+		// in config/schema_omissions.go. "partition_num" fully replaces it.
 	})
 
 	p.AddResourceConfigurator("alicloud_alikafka_topic", func(r *config.Resource) {
@@ -49,9 +49,9 @@ func Configure(p *config.Provider) {
 		// As of provider v1.268.0 "description" is deprecated in favor of the new
 		// "remark" field and is now both Optional and Computed. Keeping it would
 		// let upjet late-initialize the provider-populated value back into the
-		// spec and re-send it on the next apply, fighting "remark". Drop the dead
-		// field; "remark" replaces it.
-		delete(r.TerraformResource.Schema, "description")
+		// spec and re-send it on the next apply, fighting "remark". Dropped
+		// during code generation; see generationOnlySchemaOmissions in
+		// config/schema_omissions.go. "remark" replaces it.
 	})
 
 	p.AddResourceConfigurator("alicloud_alikafka_scheduled_scaling_rule", func(r *config.Resource) {

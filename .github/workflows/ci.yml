@@ -13,6 +13,11 @@ env:
   GO_VERSION: '1.27.2'
   GOLANGCI_VERSION: 'v2.15.0'
   DOCKER_BUILDX_VERSION: 'v0.38.0'
+  # go mod download intermittently fails against proxy.golang.org with
+  # "stream error ... INTERNAL_ERROR; received from peer" on this runner,
+  # a known flaky-HTTP/2 interaction with the module proxy. Forcing HTTP/1.1
+  # for the Go toolchain's own HTTP client avoids it. Same fix as e2e.yaml.
+  GODEBUG: 'http2client=0'
 
   # Common users. We can't run a step 'if secrets.XXX != ""' but we can run a
   # step 'if env.XXX != ""', so we copy these to succinctly test whether
@@ -43,6 +48,10 @@ jobs:
         with:
           submodules: true
 
+      - name: Fetch base branch for PR
+        if: github.event_name == 'pull_request'
+        run: git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+
       - name: Get modified CRDs
         id: modified-crds
         uses: tj-actions/changed-files@24d32ffd492484c1d75e0c0b894501ddb9d30d62 # v47
@@ -50,13 +59,16 @@ jobs:
           files: |
             package/crds/**
       - name: Report breaking CRD OpenAPI v3 schema changes
-        if: steps.modified-crds.outputs.any_changed == 'true'
+        # Both targets compare the working tree against $GITHUB_BASE_REF,
+        # which is only set on pull_request events; on push it's empty, so
+        # the diff is against the tree itself and always passes trivially.
+        if: github.event_name == 'pull_request' && steps.modified-crds.outputs.any_changed == 'true'
         env:
           MODIFIED_CRD_LIST: ${{ steps.modified-crds.outputs.all_changed_files }}
         run: |
           make crddiff
       - name: Report native schema version changes
-        if: ${{ inputs.upjet-based-provider }}
+        if: github.event_name == 'pull_request' && steps.modified-crds.outputs.any_changed == 'true'
         run: |
           make schema-version-diff
 
@@ -146,6 +158,12 @@ jobs:
 
       - name: Install scraper
         run: go get github.com/crossplane/upjet/cmd/scraper@v1.9.0
+
+      - name: Install PyYAML
+        # make generate runs scripts/fix-example-numeric-types.py, which
+        # needs this. Installed explicitly rather than relying on the runner
+        # image happening to have it already.
+        run: pip install --user pyyaml
 
       - name: Check Diff
         run: make check-diff

@@ -112,6 +112,25 @@ type ImageImportDiskDeviceMappingParameters struct {
 	OssObjectSelector *v1.Selector `json:"ossObjectSelector,omitempty" tf:"-"`
 }
 
+type ImageImportFeaturesInitParameters struct {
+
+	// Specifies whether to support the Non-Volatile Memory Express (NVMe) protocol. Valid values:
+	NvmeSupport *string `json:"nvmeSupport,omitempty" tf:"nvme_support,omitempty"`
+}
+
+type ImageImportFeaturesObservation struct {
+
+	// Specifies whether to support the Non-Volatile Memory Express (NVMe) protocol. Valid values:
+	NvmeSupport *string `json:"nvmeSupport,omitempty" tf:"nvme_support,omitempty"`
+}
+
+type ImageImportFeaturesParameters struct {
+
+	// Specifies whether to support the Non-Volatile Memory Express (NVMe) protocol. Valid values:
+	// +kubebuilder:validation:Optional
+	NvmeSupport *string `json:"nvmeSupport,omitempty" tf:"nvme_support,omitempty"`
+}
+
 type ImageImportInitParameters struct {
 
 	// The architecture of the image. Default value: x86_64. Valid values: x86_64, i386.
@@ -125,6 +144,9 @@ type ImageImportInitParameters struct {
 
 	// The information about the custom image. See disk_device_mapping below.
 	DiskDeviceMapping []ImageImportDiskDeviceMappingInitParameters `json:"diskDeviceMapping,omitempty" tf:"disk_device_mapping,omitempty"`
+
+	// Features for the image. See features below.
+	Features []ImageImportFeaturesInitParameters `json:"features,omitempty" tf:"features,omitempty"`
 
 	// The name of the image. The image_name must be 2 to 128 characters in length. The image_name must start with a letter and cannot start with acs: or aliyun. The image_name cannot contain http:// or https://. The image_name can contain letters, digits, periods (.), colons (:), underscores (_), and hyphens (-).
 	ImageName *string `json:"imageName,omitempty" tf:"image_name,omitempty"`
@@ -153,6 +175,9 @@ type ImageImportObservation struct {
 
 	// The information about the custom image. See disk_device_mapping below.
 	DiskDeviceMapping []ImageImportDiskDeviceMappingObservation `json:"diskDeviceMapping,omitempty" tf:"disk_device_mapping,omitempty"`
+
+	// Features for the image. See features below.
+	Features []ImageImportFeaturesObservation `json:"features,omitempty" tf:"features,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -187,6 +212,10 @@ type ImageImportParameters struct {
 	// The information about the custom image. See disk_device_mapping below.
 	// +kubebuilder:validation:Optional
 	DiskDeviceMapping []ImageImportDiskDeviceMappingParameters `json:"diskDeviceMapping,omitempty" tf:"disk_device_mapping,omitempty"`
+
+	// Features for the image. See features below.
+	// +kubebuilder:validation:Optional
+	Features []ImageImportFeaturesParameters `json:"features,omitempty" tf:"features,omitempty"`
 
 	// The name of the image. The image_name must be 2 to 128 characters in length. The image_name must start with a letter and cannot start with acs: or aliyun. The image_name cannot contain http:// or https://. The image_name can contain letters, digits, periods (.), colons (:), underscores (_), and hyphens (-).
 	// +kubebuilder:validation:Optional

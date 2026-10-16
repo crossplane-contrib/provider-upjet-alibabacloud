@@ -120,6 +120,7 @@ spec:
                     type: object
                   keySecretRef:
                     description: The private key of a non-SM certificate in PEM format.
+                      It conflicts with key_wo.
                     properties:
                       key:
                         description: The key to select.
@@ -230,6 +231,7 @@ spec:
                     type: object
                   keySecretRef:
                     description: The private key of a non-SM certificate in PEM format.
+                      It conflicts with key_wo.
                     properties:
                       key:
                         description: The key to select.

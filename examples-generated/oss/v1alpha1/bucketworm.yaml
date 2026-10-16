@@ -12,7 +12,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: defaulthNMfIF
     region: cn-beijing
-    retentionPeriodInDays: "1"
+    retentionPeriodInDays: 1
     status: InProgress
 
 ---

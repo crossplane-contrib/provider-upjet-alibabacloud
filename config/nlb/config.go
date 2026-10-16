@@ -29,14 +29,12 @@ func Configure(p *config.Provider) {
 		// Both the flat protection fields and their replacement blocks
 		// (deletion_protection_config, modification_protection_config) are
 		// Optional+Computed, so upjet would late-initialize both forms into
-		// spec.forProvider and they would then compete with each other. Drop
-		// the flat ones so only the canonical blocks are managed: upstream
-		// appends the flat fields after zone_mappings, outside the alphabetical
-		// argument list, and the blocks cover every field they do
-		// (enabled/reason, status/reason) plus a read-only enabled_time.
-		delete(r.TerraformResource.Schema, "deletion_protection_enabled")    // -> deletion_protection_config.enabled
-		delete(r.TerraformResource.Schema, "deletion_protection_reason")     // -> deletion_protection_config.reason
-		delete(r.TerraformResource.Schema, "modification_protection_status") // -> modification_protection_config.status
-		delete(r.TerraformResource.Schema, "modification_protection_reason") // -> modification_protection_config.reason
+		// spec.forProvider and they would then compete with each other. The
+		// flat ones are dropped during code generation (see
+		// generationOnlySchemaOmissions in config/schema_omissions.go) so only
+		// the canonical blocks are managed: upstream appends the flat fields
+		// after zone_mappings, outside the alphabetical argument list, and the
+		// blocks cover every field they do (enabled/reason, status/reason)
+		// plus a read-only enabled_time.
 	})
 }

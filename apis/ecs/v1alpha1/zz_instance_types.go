@@ -15,6 +15,9 @@ import (
 
 type CPUOptionsInitParameters struct {
 
+	// The CPU accelerators to enable on the instance, such as the Intel vQAT (QuickAssist Technology) accelerator. Valid values are determined by the API and not yet documented; currently vqat is the only valid value, and invalid values are rejected by the API at apply time.
+	Accelerators []*string `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
 	// The maximum number of partitions in the storage set.
 	CoreCount *float64 `json:"coreCount,omitempty" tf:"core_count,omitempty"`
 
@@ -27,6 +30,9 @@ type CPUOptionsInitParameters struct {
 
 type CPUOptionsObservation struct {
 
+	// The CPU accelerators to enable on the instance, such as the Intel vQAT (QuickAssist Technology) accelerator. Valid values are determined by the API and not yet documented; currently vqat is the only valid value, and invalid values are rejected by the API at apply time.
+	Accelerators []*string `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
+
 	// The maximum number of partitions in the storage set.
 	CoreCount *float64 `json:"coreCount,omitempty" tf:"core_count,omitempty"`
 
@@ -38,6 +44,10 @@ type CPUOptionsObservation struct {
 }
 
 type CPUOptionsParameters struct {
+
+	// The CPU accelerators to enable on the instance, such as the Intel vQAT (QuickAssist Technology) accelerator. Valid values are determined by the API and not yet documented; currently vqat is the only valid value, and invalid values are rejected by the API at apply time.
+	// +kubebuilder:validation:Optional
+	Accelerators []*string `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
 	// The maximum number of partitions in the storage set.
 	// +kubebuilder:validation:Optional
