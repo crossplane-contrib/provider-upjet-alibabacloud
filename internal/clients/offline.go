@@ -76,6 +76,15 @@ const (
 // placeholders keep the two known construction-time probes (GetCallerIdentity
 // and BssOpenApi QueryAvailableInstances) from firing; everything beyond that
 // is left to the request failing on its own.
+//
+// As of the pinned provider (v1.294.1), only one CustomizeDiff in the whole
+// alicloud provider makes a cloud call - alicloud_mse_cluster's
+// QueryClusterInfo - and it is not among the resources this provider exposes.
+// The nine CustomizeDiffs on exposed resources (alicloud_instance,
+// alicloud_alb_server_group, alicloud_ecs_launch_template,
+// alicloud_nlb_load_balancer, and the unexposed remainder) are pure
+// computation over the diff, so the limitation is currently theoretical.
+// Re-audit when the upstream provider pin changes.
 func OfflineTerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
 	return func(ctx context.Context, c client.Client, mg xpresource.Managed) (terraform.Setup, error) {
 		lmg, ok := mg.(xpresource.LegacyManaged) //nolint:staticcheck // cluster-scoped MRs are legacy by definition
