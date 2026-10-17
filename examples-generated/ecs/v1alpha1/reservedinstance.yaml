@@ -9,7 +9,7 @@ metadata:
 spec:
   forProvider:
     description: ReservedInstance
-    instanceAmount: 1
+    instanceAmount: "1"
     instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
     offeringType: All Upfront
     periodUnit: Month
