@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ReadonlyInstanceInitParameters struct {
@@ -64,11 +64,11 @@ type ReadonlyInstanceInitParameters struct {
 
 	// Reference to a Instance in rds to populate engineVersion.
 	// +kubebuilder:validation:Optional
-	EngineVersionRef *v1.Reference `json:"engineVersionRef,omitempty" tf:"-"`
+	EngineVersionRef *v2.Reference `json:"engineVersionRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate engineVersion.
 	// +kubebuilder:validation:Optional
-	EngineVersionSelector *v1.Selector `json:"engineVersionSelector,omitempty" tf:"-"`
+	EngineVersionSelector *v2.Selector `json:"engineVersionSelector,omitempty" tf:"-"`
 
 	// Set it to true to make some parameter efficient when modifying them. Default to false.
 	ForceRestart *bool `json:"forceRestart,omitempty" tf:"force_restart,omitempty"`
@@ -92,11 +92,11 @@ type ReadonlyInstanceInitParameters struct {
 
 	// Reference to a Instance in rds to populate masterDbInstanceId.
 	// +kubebuilder:validation:Optional
-	MasterDBInstanceIDRef *v1.Reference `json:"masterDbInstanceIdRef,omitempty" tf:"-"`
+	MasterDBInstanceIDRef *v2.Reference `json:"masterDbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate masterDbInstanceId.
 	// +kubebuilder:validation:Optional
-	MasterDBInstanceIDSelector *v1.Selector `json:"masterDbInstanceIdSelector,omitempty" tf:"-"`
+	MasterDBInstanceIDSelector *v2.Selector `json:"masterDbInstanceIdSelector,omitempty" tf:"-"`
 
 	// The method that is used to modify the IP address whitelist. Default value: Cover. Valid values:
 	ModifyMode *string `json:"modifyMode,omitempty" tf:"modify_mode,omitempty"`
@@ -127,7 +127,7 @@ type ReadonlyInstanceInitParameters struct {
 	ServerCert *string `json:"serverCert,omitempty" tf:"server_cert,omitempty"`
 
 	// The private key of the server certificate. This parameter is supported only when the instance runs PostgreSQL with standard or enhanced SSDs. If you set the CAType parameter to custom, you must also specify this parameter. It is valid only when ssl_enabled  = 1.
-	ServerKeySecretRef *v1.SecretKeySelector `json:"serverKeySecretRef,omitempty" tf:"-"`
+	ServerKeySecretRef *v2.SecretKeySelector `json:"serverKeySecretRef,omitempty" tf:"-"`
 
 	// The specific point in time when you want to perform the update. Specify the time in the ISO 8601 standard in the yyyy-MM-ddTHH:mm:ssZ format. It is valid only when upgrade_db_instance_kernel_version = true. The time must be in UTC.
 	SwitchTime *string `json:"switchTime,omitempty" tf:"switch_time,omitempty"`
@@ -152,11 +152,11 @@ type ReadonlyInstanceInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The network type of the IP address whitelist. Default value: MIX. Valid values:
 	WhitelistNetworkType *string `json:"whitelistNetworkType,omitempty" tf:"whitelist_network_type,omitempty"`
@@ -168,11 +168,11 @@ type ReadonlyInstanceInitParameters struct {
 
 	// Reference to a Instance in rds to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDRef *v1.Reference `json:"zoneIdRef,omitempty" tf:"-"`
+	ZoneIDRef *v2.Reference `json:"zoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDSelector *v1.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
+	ZoneIDSelector *v2.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }
 
 type ReadonlyInstanceObservation struct {
@@ -372,11 +372,11 @@ type ReadonlyInstanceParameters struct {
 
 	// Reference to a Instance in rds to populate engineVersion.
 	// +kubebuilder:validation:Optional
-	EngineVersionRef *v1.Reference `json:"engineVersionRef,omitempty" tf:"-"`
+	EngineVersionRef *v2.Reference `json:"engineVersionRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate engineVersion.
 	// +kubebuilder:validation:Optional
-	EngineVersionSelector *v1.Selector `json:"engineVersionSelector,omitempty" tf:"-"`
+	EngineVersionSelector *v2.Selector `json:"engineVersionSelector,omitempty" tf:"-"`
 
 	// Set it to true to make some parameter efficient when modifying them. Default to false.
 	// +kubebuilder:validation:Optional
@@ -406,11 +406,11 @@ type ReadonlyInstanceParameters struct {
 
 	// Reference to a Instance in rds to populate masterDbInstanceId.
 	// +kubebuilder:validation:Optional
-	MasterDBInstanceIDRef *v1.Reference `json:"masterDbInstanceIdRef,omitempty" tf:"-"`
+	MasterDBInstanceIDRef *v2.Reference `json:"masterDbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate masterDbInstanceId.
 	// +kubebuilder:validation:Optional
-	MasterDBInstanceIDSelector *v1.Selector `json:"masterDbInstanceIdSelector,omitempty" tf:"-"`
+	MasterDBInstanceIDSelector *v2.Selector `json:"masterDbInstanceIdSelector,omitempty" tf:"-"`
 
 	// The method that is used to modify the IP address whitelist. Default value: Cover. Valid values:
 	// +kubebuilder:validation:Optional
@@ -456,7 +456,7 @@ type ReadonlyInstanceParameters struct {
 
 	// The private key of the server certificate. This parameter is supported only when the instance runs PostgreSQL with standard or enhanced SSDs. If you set the CAType parameter to custom, you must also specify this parameter. It is valid only when ssl_enabled  = 1.
 	// +kubebuilder:validation:Optional
-	ServerKeySecretRef *v1.SecretKeySelector `json:"serverKeySecretRef,omitempty" tf:"-"`
+	ServerKeySecretRef *v2.SecretKeySelector `json:"serverKeySecretRef,omitempty" tf:"-"`
 
 	// The specific point in time when you want to perform the update. Specify the time in the ISO 8601 standard in the yyyy-MM-ddTHH:mm:ssZ format. It is valid only when upgrade_db_instance_kernel_version = true. The time must be in UTC.
 	// +kubebuilder:validation:Optional
@@ -487,11 +487,11 @@ type ReadonlyInstanceParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The network type of the IP address whitelist. Default value: MIX. Valid values:
 	// +kubebuilder:validation:Optional
@@ -505,11 +505,11 @@ type ReadonlyInstanceParameters struct {
 
 	// Reference to a Instance in rds to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDRef *v1.Reference `json:"zoneIdRef,omitempty" tf:"-"`
+	ZoneIDRef *v2.Reference `json:"zoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDSelector *v1.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
+	ZoneIDSelector *v2.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }
 
 type ReadonlyInstanceParametersInitParameters struct {
@@ -543,8 +543,8 @@ type ReadonlyInstanceParametersParameters struct {
 
 // ReadonlyInstanceSpec defines the desired state of ReadonlyInstance
 type ReadonlyInstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ReadonlyInstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ReadonlyInstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -560,8 +560,8 @@ type ReadonlyInstanceSpec struct {
 
 // ReadonlyInstanceStatus defines the observed state of ReadonlyInstance.
 type ReadonlyInstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ReadonlyInstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ReadonlyInstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

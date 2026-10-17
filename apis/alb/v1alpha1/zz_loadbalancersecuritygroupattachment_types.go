@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LoadBalancerSecurityGroupAttachmentInitParameters struct {
@@ -24,11 +24,11 @@ type LoadBalancerSecurityGroupAttachmentInitParameters struct {
 
 	// Reference to a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+	LoadBalancerIDRef *v2.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
 	// Selector for a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+	LoadBalancerIDSelector *v2.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
 	// The ID of the security group.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -36,11 +36,11 @@ type LoadBalancerSecurityGroupAttachmentInitParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 }
 
 type LoadBalancerSecurityGroupAttachmentObservation struct {
@@ -71,11 +71,11 @@ type LoadBalancerSecurityGroupAttachmentParameters struct {
 
 	// Reference to a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+	LoadBalancerIDRef *v2.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
 	// Selector for a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+	LoadBalancerIDSelector *v2.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -89,17 +89,17 @@ type LoadBalancerSecurityGroupAttachmentParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 }
 
 // LoadBalancerSecurityGroupAttachmentSpec defines the desired state of LoadBalancerSecurityGroupAttachment
 type LoadBalancerSecurityGroupAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LoadBalancerSecurityGroupAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LoadBalancerSecurityGroupAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -115,8 +115,8 @@ type LoadBalancerSecurityGroupAttachmentSpec struct {
 
 // LoadBalancerSecurityGroupAttachmentStatus defines the observed state of LoadBalancerSecurityGroupAttachment.
 type LoadBalancerSecurityGroupAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LoadBalancerSecurityGroupAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LoadBalancerSecurityGroupAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ClusterInitParameters struct {
@@ -85,11 +85,11 @@ type NetworkInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// Switch to which the cluster belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -97,11 +97,11 @@ type NetworkInitParameters struct {
 
 	// References to Vswitch in vpc to populate vswitches.
 	// +kubebuilder:validation:Optional
-	VswitchesRefs []v1.Reference `json:"vswitchesRefs,omitempty" tf:"-"`
+	VswitchesRefs []v2.Reference `json:"vswitchesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitches.
 	// +kubebuilder:validation:Optional
-	VswitchesSelector *v1.Selector `json:"vswitchesSelector,omitempty" tf:"-"`
+	VswitchesSelector *v2.Selector `json:"vswitchesSelector,omitempty" tf:"-"`
 }
 
 type NetworkObservation struct {
@@ -126,11 +126,11 @@ type NetworkParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// Switch to which the cluster belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -139,17 +139,17 @@ type NetworkParameters struct {
 
 	// References to Vswitch in vpc to populate vswitches.
 	// +kubebuilder:validation:Optional
-	VswitchesRefs []v1.Reference `json:"vswitchesRefs,omitempty" tf:"-"`
+	VswitchesRefs []v2.Reference `json:"vswitchesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitches.
 	// +kubebuilder:validation:Optional
-	VswitchesSelector *v1.Selector `json:"vswitchesSelector,omitempty" tf:"-"`
+	VswitchesSelector *v2.Selector `json:"vswitchesSelector,omitempty" tf:"-"`
 }
 
 // ClusterSpec defines the desired state of Cluster
 type ClusterSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ClusterParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ClusterParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -165,8 +165,8 @@ type ClusterSpec struct {
 
 // ClusterStatus defines the observed state of Cluster.
 type ClusterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClusterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClusterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

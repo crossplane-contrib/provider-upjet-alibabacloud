@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ExecutionInitParameters struct {
@@ -47,11 +47,11 @@ type ExecutionInitParameters struct {
 
 	// Reference to a Template in oos to populate templateName.
 	// +kubebuilder:validation:Optional
-	TemplateNameRef *v1.Reference `json:"templateNameRef,omitempty" tf:"-"`
+	TemplateNameRef *v2.Reference `json:"templateNameRef,omitempty" tf:"-"`
 
 	// Selector for a Template in oos to populate templateName.
 	// +kubebuilder:validation:Optional
-	TemplateNameSelector *v1.Selector `json:"templateNameSelector,omitempty" tf:"-"`
+	TemplateNameSelector *v2.Selector `json:"templateNameSelector,omitempty" tf:"-"`
 
 	// The version of execution template.
 	TemplateVersion *string `json:"templateVersion,omitempty" tf:"template_version,omitempty"`
@@ -178,11 +178,11 @@ type ExecutionParameters struct {
 
 	// Reference to a Template in oos to populate templateName.
 	// +kubebuilder:validation:Optional
-	TemplateNameRef *v1.Reference `json:"templateNameRef,omitempty" tf:"-"`
+	TemplateNameRef *v2.Reference `json:"templateNameRef,omitempty" tf:"-"`
 
 	// Selector for a Template in oos to populate templateName.
 	// +kubebuilder:validation:Optional
-	TemplateNameSelector *v1.Selector `json:"templateNameSelector,omitempty" tf:"-"`
+	TemplateNameSelector *v2.Selector `json:"templateNameSelector,omitempty" tf:"-"`
 
 	// The version of execution template.
 	// +kubebuilder:validation:Optional
@@ -191,8 +191,8 @@ type ExecutionParameters struct {
 
 // ExecutionSpec defines the desired state of Execution
 type ExecutionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ExecutionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ExecutionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -208,8 +208,8 @@ type ExecutionSpec struct {
 
 // ExecutionStatus defines the observed state of Execution.
 type ExecutionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ExecutionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ExecutionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

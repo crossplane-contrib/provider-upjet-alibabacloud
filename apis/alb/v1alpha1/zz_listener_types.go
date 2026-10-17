@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessLogTracingConfigInitParameters struct {
@@ -80,11 +80,11 @@ type CertificatesInitParameters struct {
 
 	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+	CertificateIDRef *v2.Reference `json:"certificateIdRef,omitempty" tf:"-"`
 
 	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
+	CertificateIDSelector *v2.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
 }
 
 type CertificatesObservation struct {
@@ -103,11 +103,11 @@ type CertificatesParameters struct {
 
 	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+	CertificateIDRef *v2.Reference `json:"certificateIdRef,omitempty" tf:"-"`
 
 	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
+	CertificateIDSelector *v2.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
 }
 
 type DefaultActionsInitParameters struct {
@@ -205,11 +205,11 @@ type ListenerInitParameters struct {
 
 	// Reference to a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+	LoadBalancerIDRef *v2.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
 	// Selector for a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+	LoadBalancerIDSelector *v2.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
 	// Configuration Associated with the QuIC Listening See quic_config below.
 	QuicConfig []QuicConfigInitParameters `json:"quicConfig,omitempty" tf:"quic_config,omitempty"`
@@ -223,11 +223,11 @@ type ListenerInitParameters struct {
 
 	// Reference to a SecurityPolicy in alb to populate securityPolicyId.
 	// +kubebuilder:validation:Optional
-	SecurityPolicyIDRef *v1.Reference `json:"securityPolicyIdRef,omitempty" tf:"-"`
+	SecurityPolicyIDRef *v2.Reference `json:"securityPolicyIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityPolicy in alb to populate securityPolicyId.
 	// +kubebuilder:validation:Optional
-	SecurityPolicyIDSelector *v1.Selector `json:"securityPolicyIdSelector,omitempty" tf:"-"`
+	SecurityPolicyIDSelector *v2.Selector `json:"securityPolicyIdSelector,omitempty" tf:"-"`
 
 	// The Current IP Address of the Listened State
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
@@ -368,11 +368,11 @@ type ListenerParameters struct {
 
 	// Reference to a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+	LoadBalancerIDRef *v2.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
 	// Selector for a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+	LoadBalancerIDSelector *v2.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
 	// Configuration Associated with the QuIC Listening See quic_config below.
 	// +kubebuilder:validation:Optional
@@ -394,11 +394,11 @@ type ListenerParameters struct {
 
 	// Reference to a SecurityPolicy in alb to populate securityPolicyId.
 	// +kubebuilder:validation:Optional
-	SecurityPolicyIDRef *v1.Reference `json:"securityPolicyIdRef,omitempty" tf:"-"`
+	SecurityPolicyIDRef *v2.Reference `json:"securityPolicyIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityPolicy in alb to populate securityPolicyId.
 	// +kubebuilder:validation:Optional
-	SecurityPolicyIDSelector *v1.Selector `json:"securityPolicyIdSelector,omitempty" tf:"-"`
+	SecurityPolicyIDSelector *v2.Selector `json:"securityPolicyIdSelector,omitempty" tf:"-"`
 
 	// The Current IP Address of the Listened State
 	// +kubebuilder:validation:Optional
@@ -452,11 +452,11 @@ type ServerGroupTuplesInitParameters struct {
 
 	// Reference to a ServerGroup in alb to populate serverGroupId.
 	// +kubebuilder:validation:Optional
-	ServerGroupIDRef *v1.Reference `json:"serverGroupIdRef,omitempty" tf:"-"`
+	ServerGroupIDRef *v2.Reference `json:"serverGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a ServerGroup in alb to populate serverGroupId.
 	// +kubebuilder:validation:Optional
-	ServerGroupIDSelector *v1.Selector `json:"serverGroupIdSelector,omitempty" tf:"-"`
+	ServerGroupIDSelector *v2.Selector `json:"serverGroupIdSelector,omitempty" tf:"-"`
 }
 
 type ServerGroupTuplesObservation struct {
@@ -475,11 +475,11 @@ type ServerGroupTuplesParameters struct {
 
 	// Reference to a ServerGroup in alb to populate serverGroupId.
 	// +kubebuilder:validation:Optional
-	ServerGroupIDRef *v1.Reference `json:"serverGroupIdRef,omitempty" tf:"-"`
+	ServerGroupIDRef *v2.Reference `json:"serverGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a ServerGroup in alb to populate serverGroupId.
 	// +kubebuilder:validation:Optional
-	ServerGroupIDSelector *v1.Selector `json:"serverGroupIdSelector,omitempty" tf:"-"`
+	ServerGroupIDSelector *v2.Selector `json:"serverGroupIdSelector,omitempty" tf:"-"`
 }
 
 type XForwardedForConfigInitParameters struct {
@@ -663,8 +663,8 @@ type XForwardedForConfigParameters struct {
 
 // ListenerSpec defines the desired state of Listener
 type ListenerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ListenerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ListenerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -680,8 +680,8 @@ type ListenerSpec struct {
 
 // ListenerStatus defines the observed state of Listener.
 type ListenerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ListenerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ListenerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

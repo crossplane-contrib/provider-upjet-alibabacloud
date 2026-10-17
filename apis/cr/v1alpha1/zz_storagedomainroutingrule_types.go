@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RoutesInitParameters struct {
@@ -25,11 +25,11 @@ type RoutesInitParameters struct {
 
 	// Reference to a EeInstance in cr to populate instanceDomain.
 	// +kubebuilder:validation:Optional
-	InstanceDomainRef *v1.Reference `json:"instanceDomainRef,omitempty" tf:"-"`
+	InstanceDomainRef *v2.Reference `json:"instanceDomainRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceDomain.
 	// +kubebuilder:validation:Optional
-	InstanceDomainSelector *v1.Selector `json:"instanceDomainSelector,omitempty" tf:"-"`
+	InstanceDomainSelector *v2.Selector `json:"instanceDomainSelector,omitempty" tf:"-"`
 
 	// Storage domain name. The API returns this value with an https:// prefix; the prefix is optional in the configuration and is ignored when comparing the configured value with the returned one.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
@@ -38,11 +38,11 @@ type RoutesInitParameters struct {
 
 	// Reference to a EeInstance in cr to populate storageDomain.
 	// +kubebuilder:validation:Optional
-	StorageDomainRef *v1.Reference `json:"storageDomainRef,omitempty" tf:"-"`
+	StorageDomainRef *v2.Reference `json:"storageDomainRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate storageDomain.
 	// +kubebuilder:validation:Optional
-	StorageDomainSelector *v1.Selector `json:"storageDomainSelector,omitempty" tf:"-"`
+	StorageDomainSelector *v2.Selector `json:"storageDomainSelector,omitempty" tf:"-"`
 }
 
 type RoutesObservation struct {
@@ -71,11 +71,11 @@ type RoutesParameters struct {
 
 	// Reference to a EeInstance in cr to populate instanceDomain.
 	// +kubebuilder:validation:Optional
-	InstanceDomainRef *v1.Reference `json:"instanceDomainRef,omitempty" tf:"-"`
+	InstanceDomainRef *v2.Reference `json:"instanceDomainRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceDomain.
 	// +kubebuilder:validation:Optional
-	InstanceDomainSelector *v1.Selector `json:"instanceDomainSelector,omitempty" tf:"-"`
+	InstanceDomainSelector *v2.Selector `json:"instanceDomainSelector,omitempty" tf:"-"`
 
 	// Storage domain name. The API returns this value with an https:// prefix; the prefix is optional in the configuration and is ignored when comparing the configured value with the returned one.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
@@ -85,11 +85,11 @@ type RoutesParameters struct {
 
 	// Reference to a EeInstance in cr to populate storageDomain.
 	// +kubebuilder:validation:Optional
-	StorageDomainRef *v1.Reference `json:"storageDomainRef,omitempty" tf:"-"`
+	StorageDomainRef *v2.Reference `json:"storageDomainRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate storageDomain.
 	// +kubebuilder:validation:Optional
-	StorageDomainSelector *v1.Selector `json:"storageDomainSelector,omitempty" tf:"-"`
+	StorageDomainSelector *v2.Selector `json:"storageDomainSelector,omitempty" tf:"-"`
 }
 
 type StorageDomainRoutingRuleInitParameters struct {
@@ -101,11 +101,11 @@ type StorageDomainRoutingRuleInitParameters struct {
 
 	// Reference to a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Domain name routing entry See routes below.
 	Routes []RoutesInitParameters `json:"routes,omitempty" tf:"routes,omitempty"`
@@ -139,11 +139,11 @@ type StorageDomainRoutingRuleParameters struct {
 
 	// Reference to a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -157,8 +157,8 @@ type StorageDomainRoutingRuleParameters struct {
 
 // StorageDomainRoutingRuleSpec defines the desired state of StorageDomainRoutingRule
 type StorageDomainRoutingRuleSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     StorageDomainRoutingRuleParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   StorageDomainRoutingRuleParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -174,8 +174,8 @@ type StorageDomainRoutingRuleSpec struct {
 
 // StorageDomainRoutingRuleStatus defines the observed state of StorageDomainRoutingRule.
 type StorageDomainRoutingRuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        StorageDomainRoutingRuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               StorageDomainRoutingRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

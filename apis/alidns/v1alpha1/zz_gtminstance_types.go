@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AlertConfigInitParameters struct {
@@ -75,11 +75,11 @@ type GtmInstanceInitParameters struct {
 
 	// References to AlarmContactGroup in cloudmonitorservice to populate alertGroup.
 	// +kubebuilder:validation:Optional
-	AlertGroupRefs []v1.Reference `json:"alertGroupRefs,omitempty" tf:"-"`
+	AlertGroupRefs []v2.Reference `json:"alertGroupRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AlarmContactGroup in cloudmonitorservice to populate alertGroup.
 	// +kubebuilder:validation:Optional
-	AlertGroupSelector *v1.Selector `json:"alertGroupSelector,omitempty" tf:"-"`
+	AlertGroupSelector *v2.Selector `json:"alertGroupSelector,omitempty" tf:"-"`
 
 	// The access type of the CNAME domain name. Valid value: PUBLIC.
 	CnameType *string `json:"cnameType,omitempty" tf:"cname_type,omitempty"`
@@ -217,11 +217,11 @@ type GtmInstanceParameters struct {
 
 	// References to AlarmContactGroup in cloudmonitorservice to populate alertGroup.
 	// +kubebuilder:validation:Optional
-	AlertGroupRefs []v1.Reference `json:"alertGroupRefs,omitempty" tf:"-"`
+	AlertGroupRefs []v2.Reference `json:"alertGroupRefs,omitempty" tf:"-"`
 
 	// Selector for a list of AlarmContactGroup in cloudmonitorservice to populate alertGroup.
 	// +kubebuilder:validation:Optional
-	AlertGroupSelector *v1.Selector `json:"alertGroupSelector,omitempty" tf:"-"`
+	AlertGroupSelector *v2.Selector `json:"alertGroupSelector,omitempty" tf:"-"`
 
 	// The access type of the CNAME domain name. Valid value: PUBLIC.
 	// +kubebuilder:validation:Optional
@@ -303,8 +303,8 @@ type GtmInstanceParameters struct {
 
 // GtmInstanceSpec defines the desired state of GtmInstance
 type GtmInstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GtmInstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GtmInstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -320,8 +320,8 @@ type GtmInstanceSpec struct {
 
 // GtmInstanceStatus defines the observed state of GtmInstance.
 type GtmInstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GtmInstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GtmInstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

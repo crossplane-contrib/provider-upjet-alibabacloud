@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"strings"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/fieldpath"
 	"k8s.io/apimachinery/pkg/runtime"
 

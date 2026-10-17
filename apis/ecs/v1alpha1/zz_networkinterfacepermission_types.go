@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkInterfacePermissionInitParameters struct {
@@ -27,11 +27,11 @@ type NetworkInterfacePermissionInitParameters struct {
 
 	// Reference to a NetworkInterface in ecs to populate networkInterfaceId.
 	// +kubebuilder:validation:Optional
-	NetworkInterfaceIDRef *v1.Reference `json:"networkInterfaceIdRef,omitempty" tf:"-"`
+	NetworkInterfaceIDRef *v2.Reference `json:"networkInterfaceIdRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkInterface in ecs to populate networkInterfaceId.
 	// +kubebuilder:validation:Optional
-	NetworkInterfaceIDSelector *v1.Selector `json:"networkInterfaceIdSelector,omitempty" tf:"-"`
+	NetworkInterfaceIDSelector *v2.Selector `json:"networkInterfaceIdSelector,omitempty" tf:"-"`
 
 	// The permissions of the Network Interface. Valid values: InstanceAttach. InstanceAttach: Allows authorized users to mount your ENI to the other ECS instance. The ECS instance must be in the same zone as the ENI.
 	Permission *string `json:"permission,omitempty" tf:"permission,omitempty"`
@@ -74,11 +74,11 @@ type NetworkInterfacePermissionParameters struct {
 
 	// Reference to a NetworkInterface in ecs to populate networkInterfaceId.
 	// +kubebuilder:validation:Optional
-	NetworkInterfaceIDRef *v1.Reference `json:"networkInterfaceIdRef,omitempty" tf:"-"`
+	NetworkInterfaceIDRef *v2.Reference `json:"networkInterfaceIdRef,omitempty" tf:"-"`
 
 	// Selector for a NetworkInterface in ecs to populate networkInterfaceId.
 	// +kubebuilder:validation:Optional
-	NetworkInterfaceIDSelector *v1.Selector `json:"networkInterfaceIdSelector,omitempty" tf:"-"`
+	NetworkInterfaceIDSelector *v2.Selector `json:"networkInterfaceIdSelector,omitempty" tf:"-"`
 
 	// The permissions of the Network Interface. Valid values: InstanceAttach. InstanceAttach: Allows authorized users to mount your ENI to the other ECS instance. The ECS instance must be in the same zone as the ENI.
 	// +kubebuilder:validation:Optional
@@ -92,8 +92,8 @@ type NetworkInterfacePermissionParameters struct {
 
 // NetworkInterfacePermissionSpec defines the desired state of NetworkInterfacePermission
 type NetworkInterfacePermissionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NetworkInterfacePermissionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NetworkInterfacePermissionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -109,8 +109,8 @@ type NetworkInterfacePermissionSpec struct {
 
 // NetworkInterfacePermissionStatus defines the observed state of NetworkInterfacePermission.
 type NetworkInterfacePermissionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkInterfacePermissionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkInterfacePermissionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

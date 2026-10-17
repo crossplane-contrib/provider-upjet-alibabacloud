@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AclEntryAttachmentInitParameters struct {
@@ -21,11 +21,11 @@ type AclEntryAttachmentInitParameters struct {
 
 	// Reference to a Acl in alb to populate aclId.
 	// +kubebuilder:validation:Optional
-	ACLIDRef *v1.Reference `json:"aclIdRef,omitempty" tf:"-"`
+	ACLIDRef *v2.Reference `json:"aclIdRef,omitempty" tf:"-"`
 
 	// Selector for a Acl in alb to populate aclId.
 	// +kubebuilder:validation:Optional
-	ACLIDSelector *v1.Selector `json:"aclIdSelector,omitempty" tf:"-"`
+	ACLIDSelector *v2.Selector `json:"aclIdSelector,omitempty" tf:"-"`
 
 	// The description of the entry. Only valid when entry is set. The description must be 1 to 256 characters in length.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -67,11 +67,11 @@ type AclEntryAttachmentParameters struct {
 
 	// Reference to a Acl in alb to populate aclId.
 	// +kubebuilder:validation:Optional
-	ACLIDRef *v1.Reference `json:"aclIdRef,omitempty" tf:"-"`
+	ACLIDRef *v2.Reference `json:"aclIdRef,omitempty" tf:"-"`
 
 	// Selector for a Acl in alb to populate aclId.
 	// +kubebuilder:validation:Optional
-	ACLIDSelector *v1.Selector `json:"aclIdSelector,omitempty" tf:"-"`
+	ACLIDSelector *v2.Selector `json:"aclIdSelector,omitempty" tf:"-"`
 
 	// The description of the entry. Only valid when entry is set. The description must be 1 to 256 characters in length.
 	// +kubebuilder:validation:Optional
@@ -125,8 +125,8 @@ type EntriesParameters struct {
 
 // AclEntryAttachmentSpec defines the desired state of AclEntryAttachment
 type AclEntryAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AclEntryAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AclEntryAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -142,8 +142,8 @@ type AclEntryAttachmentSpec struct {
 
 // AclEntryAttachmentStatus defines the observed state of AclEntryAttachment.
 type AclEntryAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AclEntryAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AclEntryAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

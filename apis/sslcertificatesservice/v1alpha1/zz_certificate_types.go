@@ -10,13 +10,13 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CertificateInitParameters struct {
 
 	// The content of a non-SM certificate in PEM format.
-	CertSecretRef *v1.SecretKeySelector `json:"certSecretRef,omitempty" tf:"-"`
+	CertSecretRef *v2.SecretKeySelector `json:"certSecretRef,omitempty" tf:"-"`
 
 	// A custom name for the certificate. The name can be up to 64 characters long and can contain any character type, such as letters, numbers, and underscores. NOTE: From version 1.260.1, certificate_name can be modified.
 	CertificateName *string `json:"certificateName,omitempty" tf:"certificate_name,omitempty"`
@@ -25,10 +25,10 @@ type CertificateInitParameters struct {
 	EncryptCert *string `json:"encryptCert,omitempty" tf:"encrypt_cert,omitempty"`
 
 	// The private key of an SM encryption certificate in PEM format.
-	EncryptPrivateKeySecretRef *v1.SecretKeySelector `json:"encryptPrivateKeySecretRef,omitempty" tf:"-"`
+	EncryptPrivateKeySecretRef *v2.SecretKeySelector `json:"encryptPrivateKeySecretRef,omitempty" tf:"-"`
 
 	// The private key of a non-SM certificate in PEM format. It conflicts with key_wo.
-	KeySecretRef *v1.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
+	KeySecretRef *v2.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 
 	// The ID of the resource group.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -37,7 +37,7 @@ type CertificateInitParameters struct {
 	SignCert *string `json:"signCert,omitempty" tf:"sign_cert,omitempty"`
 
 	// The private key of an SM signing certificate in PEM format.
-	SignPrivateKeySecretRef *v1.SecretKeySelector `json:"signPrivateKeySecretRef,omitempty" tf:"-"`
+	SignPrivateKeySecretRef *v2.SecretKeySelector `json:"signPrivateKeySecretRef,omitempty" tf:"-"`
 
 	// Key-value map of resource tags.
 	// +mapType=granular
@@ -70,7 +70,7 @@ type CertificateParameters struct {
 
 	// The content of a non-SM certificate in PEM format.
 	// +kubebuilder:validation:Optional
-	CertSecretRef *v1.SecretKeySelector `json:"certSecretRef,omitempty" tf:"-"`
+	CertSecretRef *v2.SecretKeySelector `json:"certSecretRef,omitempty" tf:"-"`
 
 	// A custom name for the certificate. The name can be up to 64 characters long and can contain any character type, such as letters, numbers, and underscores. NOTE: From version 1.260.1, certificate_name can be modified.
 	// +kubebuilder:validation:Optional
@@ -82,11 +82,11 @@ type CertificateParameters struct {
 
 	// The private key of an SM encryption certificate in PEM format.
 	// +kubebuilder:validation:Optional
-	EncryptPrivateKeySecretRef *v1.SecretKeySelector `json:"encryptPrivateKeySecretRef,omitempty" tf:"-"`
+	EncryptPrivateKeySecretRef *v2.SecretKeySelector `json:"encryptPrivateKeySecretRef,omitempty" tf:"-"`
 
 	// The private key of a non-SM certificate in PEM format. It conflicts with key_wo.
 	// +kubebuilder:validation:Optional
-	KeySecretRef *v1.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
+	KeySecretRef *v2.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -103,7 +103,7 @@ type CertificateParameters struct {
 
 	// The private key of an SM signing certificate in PEM format.
 	// +kubebuilder:validation:Optional
-	SignPrivateKeySecretRef *v1.SecretKeySelector `json:"signPrivateKeySecretRef,omitempty" tf:"-"`
+	SignPrivateKeySecretRef *v2.SecretKeySelector `json:"signPrivateKeySecretRef,omitempty" tf:"-"`
 
 	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
@@ -113,8 +113,8 @@ type CertificateParameters struct {
 
 // CertificateSpec defines the desired state of Certificate
 type CertificateSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CertificateParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CertificateParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -130,8 +130,8 @@ type CertificateSpec struct {
 
 // CertificateStatus defines the observed state of Certificate.
 type CertificateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CertificateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CertificateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

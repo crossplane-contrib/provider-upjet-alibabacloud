@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConfluentConfigInitParameters struct {
@@ -248,11 +248,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+	KMSKeyIDRef *v2.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
+	KMSKeyIDSelector *v2.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
 
 	// Name of your Kafka instance. The length should between 3 and 64 characters. If not set, will use instance id as instance name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -275,11 +275,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroup.
 	// +kubebuilder:validation:Optional
-	SecurityGroupRef *v1.Reference `json:"securityGroupRef,omitempty" tf:"-"`
+	SecurityGroupRef *v2.Reference `json:"securityGroupRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroup.
 	// +kubebuilder:validation:Optional
-	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+	SecurityGroupSelector *v2.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
 	// The zones among which you want to deploy the instance. For more information, see How to use it.
 	SelectedZones []*string `json:"selectedZones,omitempty" tf:"selected_zones,omitempty"`
@@ -304,11 +304,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The ID of attaching vswitch to instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -316,19 +316,19 @@ type InstanceInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIDsRefs []v1.Reference `json:"vswitchIDsRefs,omitempty" tf:"-"`
+	VswitchIDsRefs []v2.Reference `json:"vswitchIDsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIDsSelector *v1.Selector `json:"vswitchIDsSelector,omitempty" tf:"-"`
+	VswitchIDsSelector *v2.Selector `json:"vswitchIDsSelector,omitempty" tf:"-"`
 
 	// The IDs of the vSwitches with which the instance is associated.
 	// -> NOTE: If instance_type is set to alikafka or alikafka_serverless, vswitch_ids is required. When instance_type is set to alikafka_confluent, you must specify at least one of the vswitch_id and vswitch_ids, and if you specify both vswitch_id and vswitch_ids, only the vswitch_ids takes effect.
@@ -539,11 +539,11 @@ type InstanceParameters struct {
 
 	// Reference to a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+	KMSKeyIDRef *v2.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
+	KMSKeyIDSelector *v2.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
 
 	// Name of your Kafka instance. The length should between 3 and 64 characters. If not set, will use instance id as instance name.
 	// +kubebuilder:validation:Optional
@@ -577,11 +577,11 @@ type InstanceParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroup.
 	// +kubebuilder:validation:Optional
-	SecurityGroupRef *v1.Reference `json:"securityGroupRef,omitempty" tf:"-"`
+	SecurityGroupRef *v2.Reference `json:"securityGroupRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroup.
 	// +kubebuilder:validation:Optional
-	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+	SecurityGroupSelector *v2.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
 	// The zones among which you want to deploy the instance. For more information, see How to use it.
 	// +kubebuilder:validation:Optional
@@ -612,11 +612,11 @@ type InstanceParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The ID of attaching vswitch to instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -625,19 +625,19 @@ type InstanceParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIDsRefs []v1.Reference `json:"vswitchIDsRefs,omitempty" tf:"-"`
+	VswitchIDsRefs []v2.Reference `json:"vswitchIDsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIDsSelector *v1.Selector `json:"vswitchIDsSelector,omitempty" tf:"-"`
+	VswitchIDsSelector *v2.Selector `json:"vswitchIDsSelector,omitempty" tf:"-"`
 
 	// The IDs of the vSwitches with which the instance is associated.
 	// -> NOTE: If instance_type is set to alikafka or alikafka_serverless, vswitch_ids is required. When instance_type is set to alikafka_confluent, you must specify at least one of the vswitch_id and vswitch_ids, and if you specify both vswitch_id and vswitch_ids, only the vswitch_ids takes effect.
@@ -683,8 +683,8 @@ type ServerlessConfigParameters struct {
 
 // InstanceSpec defines the desired state of Instance
 type InstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -700,8 +700,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

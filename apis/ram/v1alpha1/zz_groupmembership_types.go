@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GroupMembershipInitParameters struct {
@@ -22,11 +22,11 @@ type GroupMembershipInitParameters struct {
 
 	// Reference to a Group in ram to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameRef *v1.Reference `json:"groupNameRef,omitempty" tf:"-"`
+	GroupNameRef *v2.Reference `json:"groupNameRef,omitempty" tf:"-"`
 
 	// Selector for a Group in ram to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameSelector *v1.Selector `json:"groupNameSelector,omitempty" tf:"-"`
+	GroupNameSelector *v2.Selector `json:"groupNameSelector,omitempty" tf:"-"`
 
 	// Set of user name which will be added to group. Each name can have a string of 1 to 64 characters, must contain only alphanumeric characters or hyphens, such as "-",".","_", and must not begin with a hyphen.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.User
@@ -36,11 +36,11 @@ type GroupMembershipInitParameters struct {
 
 	// References to User in ram to populate userNames.
 	// +kubebuilder:validation:Optional
-	UserNamesRefs []v1.Reference `json:"userNamesRefs,omitempty" tf:"-"`
+	UserNamesRefs []v2.Reference `json:"userNamesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of User in ram to populate userNames.
 	// +kubebuilder:validation:Optional
-	UserNamesSelector *v1.Selector `json:"userNamesSelector,omitempty" tf:"-"`
+	UserNamesSelector *v2.Selector `json:"userNamesSelector,omitempty" tf:"-"`
 }
 
 type GroupMembershipObservation struct {
@@ -66,11 +66,11 @@ type GroupMembershipParameters struct {
 
 	// Reference to a Group in ram to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameRef *v1.Reference `json:"groupNameRef,omitempty" tf:"-"`
+	GroupNameRef *v2.Reference `json:"groupNameRef,omitempty" tf:"-"`
 
 	// Selector for a Group in ram to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameSelector *v1.Selector `json:"groupNameSelector,omitempty" tf:"-"`
+	GroupNameSelector *v2.Selector `json:"groupNameSelector,omitempty" tf:"-"`
 
 	// Set of user name which will be added to group. Each name can have a string of 1 to 64 characters, must contain only alphanumeric characters or hyphens, such as "-",".","_", and must not begin with a hyphen.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.User
@@ -81,17 +81,17 @@ type GroupMembershipParameters struct {
 
 	// References to User in ram to populate userNames.
 	// +kubebuilder:validation:Optional
-	UserNamesRefs []v1.Reference `json:"userNamesRefs,omitempty" tf:"-"`
+	UserNamesRefs []v2.Reference `json:"userNamesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of User in ram to populate userNames.
 	// +kubebuilder:validation:Optional
-	UserNamesSelector *v1.Selector `json:"userNamesSelector,omitempty" tf:"-"`
+	UserNamesSelector *v2.Selector `json:"userNamesSelector,omitempty" tf:"-"`
 }
 
 // GroupMembershipSpec defines the desired state of GroupMembership
 type GroupMembershipSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GroupMembershipParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GroupMembershipParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -107,8 +107,8 @@ type GroupMembershipSpec struct {
 
 // GroupMembershipStatus defines the observed state of GroupMembership.
 type GroupMembershipStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GroupMembershipObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GroupMembershipObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

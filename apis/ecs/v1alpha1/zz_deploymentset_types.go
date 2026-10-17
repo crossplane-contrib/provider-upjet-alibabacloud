@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DeploymentSetInitParameters struct {
@@ -71,8 +71,8 @@ type DeploymentSetParameters struct {
 
 // DeploymentSetSpec defines the desired state of DeploymentSet
 type DeploymentSetSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DeploymentSetParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DeploymentSetParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -88,8 +88,8 @@ type DeploymentSetSpec struct {
 
 // DeploymentSetStatus defines the observed state of DeploymentSet.
 type DeploymentSetStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DeploymentSetObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DeploymentSetObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

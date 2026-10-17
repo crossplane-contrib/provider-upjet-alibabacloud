@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type KeyPairAttachmentInitParameters struct {
@@ -27,11 +27,11 @@ type KeyPairAttachmentInitParameters struct {
 
 	// References to Instance in ecs to populate instanceIds.
 	// +kubebuilder:validation:Optional
-	InstanceRefs []v1.Reference `json:"instanceRefs,omitempty" tf:"-"`
+	InstanceRefs []v2.Reference `json:"instanceRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Instance in ecs to populate instanceIds.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The name of the SSH key pair.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.KeyPair
@@ -39,11 +39,11 @@ type KeyPairAttachmentInitParameters struct {
 
 	// Reference to a KeyPair in ecs to populate keyPairName.
 	// +kubebuilder:validation:Optional
-	KeyPairNameRef *v1.Reference `json:"keyPairNameRef,omitempty" tf:"-"`
+	KeyPairNameRef *v2.Reference `json:"keyPairNameRef,omitempty" tf:"-"`
 
 	// Selector for a KeyPair in ecs to populate keyPairName.
 	// +kubebuilder:validation:Optional
-	KeyPairNameSelector *v1.Selector `json:"keyPairNameSelector,omitempty" tf:"-"`
+	KeyPairNameSelector *v2.Selector `json:"keyPairNameSelector,omitempty" tf:"-"`
 }
 
 type KeyPairAttachmentObservation struct {
@@ -78,11 +78,11 @@ type KeyPairAttachmentParameters struct {
 
 	// References to Instance in ecs to populate instanceIds.
 	// +kubebuilder:validation:Optional
-	InstanceRefs []v1.Reference `json:"instanceRefs,omitempty" tf:"-"`
+	InstanceRefs []v2.Reference `json:"instanceRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Instance in ecs to populate instanceIds.
 	// +kubebuilder:validation:Optional
-	InstanceSelector *v1.Selector `json:"instanceSelector,omitempty" tf:"-"`
+	InstanceSelector *v2.Selector `json:"instanceSelector,omitempty" tf:"-"`
 
 	// The name of the SSH key pair.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.KeyPair
@@ -91,11 +91,11 @@ type KeyPairAttachmentParameters struct {
 
 	// Reference to a KeyPair in ecs to populate keyPairName.
 	// +kubebuilder:validation:Optional
-	KeyPairNameRef *v1.Reference `json:"keyPairNameRef,omitempty" tf:"-"`
+	KeyPairNameRef *v2.Reference `json:"keyPairNameRef,omitempty" tf:"-"`
 
 	// Selector for a KeyPair in ecs to populate keyPairName.
 	// +kubebuilder:validation:Optional
-	KeyPairNameSelector *v1.Selector `json:"keyPairNameSelector,omitempty" tf:"-"`
+	KeyPairNameSelector *v2.Selector `json:"keyPairNameSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -105,8 +105,8 @@ type KeyPairAttachmentParameters struct {
 
 // KeyPairAttachmentSpec defines the desired state of KeyPairAttachment
 type KeyPairAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     KeyPairAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   KeyPairAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -122,8 +122,8 @@ type KeyPairAttachmentSpec struct {
 
 // KeyPairAttachmentStatus defines the observed state of KeyPairAttachment.
 type KeyPairAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        KeyPairAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               KeyPairAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

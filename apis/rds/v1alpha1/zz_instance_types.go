@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BabelfishConfigInitParameters struct {
@@ -19,7 +19,7 @@ type BabelfishConfigInitParameters struct {
 	BabelfishEnabled *string `json:"babelfishEnabled,omitempty" tf:"babelfish_enabled,omitempty"`
 
 	// The password of the administrator account. The password must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. It must be 8 to 32 characters in length. The password can contain any of the following characters:! @ # $ % ^ & * () _ + - =
-	MasterUserPasswordSecretRef v1.SecretKeySelector `json:"masterUserPasswordSecretRef" tf:"-"`
+	MasterUserPasswordSecretRef v2.SecretKeySelector `json:"masterUserPasswordSecretRef" tf:"-"`
 
 	// The name of the administrator account. The name can contain lowercase letters, digits, and underscores (_). It must start with a letter and end with a letter or digit. It can be up to 63 characters in length and cannot start with pg.
 	MasterUsername *string `json:"masterUsername,omitempty" tf:"master_username,omitempty"`
@@ -48,7 +48,7 @@ type BabelfishConfigParameters struct {
 
 	// The password of the administrator account. The password must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. It must be 8 to 32 characters in length. The password can contain any of the following characters:! @ # $ % ^ & * () _ + - =
 	// +kubebuilder:validation:Optional
-	MasterUserPasswordSecretRef v1.SecretKeySelector `json:"masterUserPasswordSecretRef" tf:"-"`
+	MasterUserPasswordSecretRef v2.SecretKeySelector `json:"masterUserPasswordSecretRef" tf:"-"`
 
 	// The name of the administrator account. The name can contain lowercase letters, digits, and underscores (_). It must start with a letter and end with a letter or digit. It can be up to 63 characters in length and cannot start with pg.
 	// +kubebuilder:validation:Optional
@@ -90,7 +90,7 @@ type InstanceInitParameters struct {
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
 
 	// The public key of the CA that issues client certificates. This parameter is supported only when the instance runs PostgreSQL with standard or enhanced SSDs. If you set the ClientCAEbabled parameter to 1, you must also specify this parameter.
-	ClientCACertSecretRef *v1.SecretKeySelector `json:"clientCaCertSecretRef,omitempty" tf:"-"`
+	ClientCACertSecretRef *v2.SecretKeySelector `json:"clientCaCertSecretRef,omitempty" tf:"-"`
 
 	// Specifies whether to enable the public key of the CA that issues client certificates. This parameter is supported only when the instance runs PostgreSQL with standard or enhanced SSDs. Valid values:
 	ClientCAEnabled *float64 `json:"clientCaEnabled,omitempty" tf:"client_ca_enabled,omitempty"`
@@ -238,11 +238,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+	RoleArnRef *v2.Reference `json:"roleArnRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
+	RoleArnSelector *v2.Selector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// The sql collector keep time of the instance. Valid values are 30, 180, 365, 1095, 1825, Default to 30.
 	// -> NOTE: This parameter takes effect when sql_collector_status is set to Enabled and does not take effect when sql_collector_status is set to Disabled.
@@ -259,21 +259,21 @@ type InstanceInitParameters struct {
 	SSLAction *string `json:"sslAction,omitempty" tf:"ssl_action,omitempty"`
 
 	// The custom certificate.
-	SSLCertificateSecretRef *v1.SecretKeySelector `json:"sslCertificateSecretRef,omitempty" tf:"-"`
+	SSLCertificateSecretRef *v2.SecretKeySelector `json:"sslCertificateSecretRef,omitempty" tf:"-"`
 
 	// The internal or public endpoint for which the server certificate needs to be created or updated.
 	SSLConnectionString *string `json:"sslConnectionString,omitempty" tf:"ssl_connection_string,omitempty"`
 
 	// The password of the certificate.
-	SSLPasswordSecretRef *v1.SecretKeySelector `json:"sslPasswordSecretRef,omitempty" tf:"-"`
+	SSLPasswordSecretRef *v2.SecretKeySelector `json:"sslPasswordSecretRef,omitempty" tf:"-"`
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRefs []v1.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
+	SecurityGroupIDRefs []v2.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// , Available since v1.69.0) The list IDs to join ECS Security Group. At most supports three security groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -293,10 +293,10 @@ type InstanceInitParameters struct {
 	SecurityIps []*string `json:"securityIps,omitempty" tf:"security_ips,omitempty"`
 
 	// The content of the server certificate. This parameter is supported only when the instance runs PostgreSQL or MySQL with standard or enhanced SSDs. If you set the CAType parameter to custom, you must also specify this parameter. NOTE: From version 1.231.0, server_cert start  support MySQL engine.
-	ServerCertSecretRef *v1.SecretKeySelector `json:"serverCertSecretRef,omitempty" tf:"-"`
+	ServerCertSecretRef *v2.SecretKeySelector `json:"serverCertSecretRef,omitempty" tf:"-"`
 
 	// The private key of the server certificate. This parameter is supported only when the instance runs PostgreSQL or MySQL with standard or enhanced SSDs. If you set the CAType parameter to custom, you must also specify this parameter. NOTE: From version 1.231.0, server_key start support MySQL engine.
-	ServerKeySecretRef *v1.SecretKeySelector `json:"serverKeySecretRef,omitempty" tf:"-"`
+	ServerKeySecretRef *v2.SecretKeySelector `json:"serverKeySecretRef,omitempty" tf:"-"`
 
 	// The settings of the serverless instance. This parameter is required when you create a serverless instance. This parameter takes effect only when you create an ApsaraDB RDS for Serverless instance. See serverless_config below.
 	ServerlessConfig []ServerlessConfigInitParameters `json:"serverlessConfig,omitempty" tf:"serverless_config,omitempty"`
@@ -325,7 +325,7 @@ type InstanceInitParameters struct {
 	TargetMinorVersion *string `json:"targetMinorVersion,omitempty" tf:"target_minor_version,omitempty"`
 
 	// The file that contains the certificate..
-	TdeCertificateSecretRef *v1.SecretKeySelector `json:"tdeCertificateSecretRef,omitempty" tf:"-"`
+	TdeCertificateSecretRef *v2.SecretKeySelector `json:"tdeCertificateSecretRef,omitempty" tf:"-"`
 
 	// The name of the database for which you want to enable TDE. You can specify up to 50 database names in a single request. If you specify multiple database names, separate the database names with commas (,).
 	TdeDBName *string `json:"tdeDbName,omitempty" tf:"tde_db_name,omitempty"`
@@ -334,10 +334,10 @@ type InstanceInitParameters struct {
 	TdeEncryptionKey *string `json:"tdeEncryptionKey,omitempty" tf:"tde_encryption_key,omitempty"`
 
 	// The password of the certificate.
-	TdePasswordSecretRef *v1.SecretKeySelector `json:"tdePasswordSecretRef,omitempty" tf:"-"`
+	TdePasswordSecretRef *v2.SecretKeySelector `json:"tdePasswordSecretRef,omitempty" tf:"-"`
 
 	// The file that contains the private key of the certificate..
-	TdePrivateKeySecretRef *v1.SecretKeySelector `json:"tdePrivateKeySecretRef,omitempty" tf:"-"`
+	TdePrivateKeySecretRef *v2.SecretKeySelector `json:"tdePrivateKeySecretRef,omitempty" tf:"-"`
 
 	// The TDE(Transparent Data Encryption) status. After TDE is turned on, it cannot be turned off. See more engine and engineVersion limitation.
 	TdeStatus *string `json:"tdeStatus,omitempty" tf:"tde_status,omitempty"`
@@ -360,11 +360,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// (ForceNew, Optional) The virtual switch ID to launch DB instances in one VPC. If there are multiple vswitches, separate them with commas.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -373,11 +373,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The network type of the IP address whitelist. Default value: MIX. Valid values:
 	WhitelistNetworkType *string `json:"whitelistNetworkType,omitempty" tf:"whitelist_network_type,omitempty"`
@@ -727,7 +727,7 @@ type InstanceParameters struct {
 
 	// The public key of the CA that issues client certificates. This parameter is supported only when the instance runs PostgreSQL with standard or enhanced SSDs. If you set the ClientCAEbabled parameter to 1, you must also specify this parameter.
 	// +kubebuilder:validation:Optional
-	ClientCACertSecretRef *v1.SecretKeySelector `json:"clientCaCertSecretRef,omitempty" tf:"-"`
+	ClientCACertSecretRef *v2.SecretKeySelector `json:"clientCaCertSecretRef,omitempty" tf:"-"`
 
 	// Specifies whether to enable the public key of the CA that issues client certificates. This parameter is supported only when the instance runs PostgreSQL with standard or enhanced SSDs. Valid values:
 	// +kubebuilder:validation:Optional
@@ -926,11 +926,11 @@ type InstanceParameters struct {
 
 	// Reference to a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+	RoleArnRef *v2.Reference `json:"roleArnRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
+	RoleArnSelector *v2.Selector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// The sql collector keep time of the instance. Valid values are 30, 180, 365, 1095, 1825, Default to 30.
 	// -> NOTE: This parameter takes effect when sql_collector_status is set to Enabled and does not take effect when sql_collector_status is set to Disabled.
@@ -951,7 +951,7 @@ type InstanceParameters struct {
 
 	// The custom certificate.
 	// +kubebuilder:validation:Optional
-	SSLCertificateSecretRef *v1.SecretKeySelector `json:"sslCertificateSecretRef,omitempty" tf:"-"`
+	SSLCertificateSecretRef *v2.SecretKeySelector `json:"sslCertificateSecretRef,omitempty" tf:"-"`
 
 	// The internal or public endpoint for which the server certificate needs to be created or updated.
 	// +kubebuilder:validation:Optional
@@ -959,15 +959,15 @@ type InstanceParameters struct {
 
 	// The password of the certificate.
 	// +kubebuilder:validation:Optional
-	SSLPasswordSecretRef *v1.SecretKeySelector `json:"sslPasswordSecretRef,omitempty" tf:"-"`
+	SSLPasswordSecretRef *v2.SecretKeySelector `json:"sslPasswordSecretRef,omitempty" tf:"-"`
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRefs []v1.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
+	SecurityGroupIDRefs []v2.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// , Available since v1.69.0) The list IDs to join ECS Security Group. At most supports three security groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -992,11 +992,11 @@ type InstanceParameters struct {
 
 	// The content of the server certificate. This parameter is supported only when the instance runs PostgreSQL or MySQL with standard or enhanced SSDs. If you set the CAType parameter to custom, you must also specify this parameter. NOTE: From version 1.231.0, server_cert start  support MySQL engine.
 	// +kubebuilder:validation:Optional
-	ServerCertSecretRef *v1.SecretKeySelector `json:"serverCertSecretRef,omitempty" tf:"-"`
+	ServerCertSecretRef *v2.SecretKeySelector `json:"serverCertSecretRef,omitempty" tf:"-"`
 
 	// The private key of the server certificate. This parameter is supported only when the instance runs PostgreSQL or MySQL with standard or enhanced SSDs. If you set the CAType parameter to custom, you must also specify this parameter. NOTE: From version 1.231.0, server_key start support MySQL engine.
 	// +kubebuilder:validation:Optional
-	ServerKeySecretRef *v1.SecretKeySelector `json:"serverKeySecretRef,omitempty" tf:"-"`
+	ServerKeySecretRef *v2.SecretKeySelector `json:"serverKeySecretRef,omitempty" tf:"-"`
 
 	// The settings of the serverless instance. This parameter is required when you create a serverless instance. This parameter takes effect only when you create an ApsaraDB RDS for Serverless instance. See serverless_config below.
 	// +kubebuilder:validation:Optional
@@ -1034,7 +1034,7 @@ type InstanceParameters struct {
 
 	// The file that contains the certificate..
 	// +kubebuilder:validation:Optional
-	TdeCertificateSecretRef *v1.SecretKeySelector `json:"tdeCertificateSecretRef,omitempty" tf:"-"`
+	TdeCertificateSecretRef *v2.SecretKeySelector `json:"tdeCertificateSecretRef,omitempty" tf:"-"`
 
 	// The name of the database for which you want to enable TDE. You can specify up to 50 database names in a single request. If you specify multiple database names, separate the database names with commas (,).
 	// +kubebuilder:validation:Optional
@@ -1046,11 +1046,11 @@ type InstanceParameters struct {
 
 	// The password of the certificate.
 	// +kubebuilder:validation:Optional
-	TdePasswordSecretRef *v1.SecretKeySelector `json:"tdePasswordSecretRef,omitempty" tf:"-"`
+	TdePasswordSecretRef *v2.SecretKeySelector `json:"tdePasswordSecretRef,omitempty" tf:"-"`
 
 	// The file that contains the private key of the certificate..
 	// +kubebuilder:validation:Optional
-	TdePrivateKeySecretRef *v1.SecretKeySelector `json:"tdePrivateKeySecretRef,omitempty" tf:"-"`
+	TdePrivateKeySecretRef *v2.SecretKeySelector `json:"tdePrivateKeySecretRef,omitempty" tf:"-"`
 
 	// The TDE(Transparent Data Encryption) status. After TDE is turned on, it cannot be turned off. See more engine and engineVersion limitation.
 	// +kubebuilder:validation:Optional
@@ -1079,11 +1079,11 @@ type InstanceParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// (ForceNew, Optional) The virtual switch ID to launch DB instances in one VPC. If there are multiple vswitches, separate them with commas.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -1093,11 +1093,11 @@ type InstanceParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The network type of the IP address whitelist. Default value: MIX. Valid values:
 	// +kubebuilder:validation:Optional
@@ -1287,8 +1287,8 @@ type ServerlessConfigParameters struct {
 
 // InstanceSpec defines the desired state of Instance
 type InstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1304,8 +1304,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

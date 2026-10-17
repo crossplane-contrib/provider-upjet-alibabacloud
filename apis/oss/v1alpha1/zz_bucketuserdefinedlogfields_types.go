@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BucketUserDefinedLogFieldsInitParameters struct {
@@ -21,11 +21,11 @@ type BucketUserDefinedLogFieldsInitParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Container for custom request header configuration information.
 	// +listType=set
@@ -62,11 +62,11 @@ type BucketUserDefinedLogFieldsParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Container for custom request header configuration information.
 	// +kubebuilder:validation:Optional
@@ -86,8 +86,8 @@ type BucketUserDefinedLogFieldsParameters struct {
 
 // BucketUserDefinedLogFieldsSpec defines the desired state of BucketUserDefinedLogFields
 type BucketUserDefinedLogFieldsSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BucketUserDefinedLogFieldsParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BucketUserDefinedLogFieldsParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -103,8 +103,8 @@ type BucketUserDefinedLogFieldsSpec struct {
 
 // BucketUserDefinedLogFieldsStatus defines the observed state of BucketUserDefinedLogFields.
 type BucketUserDefinedLogFieldsStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BucketUserDefinedLogFieldsObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BucketUserDefinedLogFieldsObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ImageExportInitParameters struct {
@@ -21,11 +21,11 @@ type ImageExportInitParameters struct {
 
 	// Reference to a Image in ecs to populate imageId.
 	// +kubebuilder:validation:Optional
-	ImageIDRef *v1.Reference `json:"imageIdRef,omitempty" tf:"-"`
+	ImageIDRef *v2.Reference `json:"imageIdRef,omitempty" tf:"-"`
 
 	// Selector for a Image in ecs to populate imageId.
 	// +kubebuilder:validation:Optional
-	ImageIDSelector *v1.Selector `json:"imageIdSelector,omitempty" tf:"-"`
+	ImageIDSelector *v2.Selector `json:"imageIdSelector,omitempty" tf:"-"`
 
 	// Save the exported OSS bucket.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
@@ -33,11 +33,11 @@ type ImageExportInitParameters struct {
 
 	// Reference to a Bucket in oss to populate ossBucket.
 	// +kubebuilder:validation:Optional
-	OssBucketRef *v1.Reference `json:"ossBucketRef,omitempty" tf:"-"`
+	OssBucketRef *v2.Reference `json:"ossBucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate ossBucket.
 	// +kubebuilder:validation:Optional
-	OssBucketSelector *v1.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
+	OssBucketSelector *v2.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
 
 	// The prefix of your OSS Object. It can be composed of numbers or letters, and the character length is 1 ~ 30.
 	OssPrefix *string `json:"ossPrefix,omitempty" tf:"oss_prefix,omitempty"`
@@ -67,11 +67,11 @@ type ImageExportParameters struct {
 
 	// Reference to a Image in ecs to populate imageId.
 	// +kubebuilder:validation:Optional
-	ImageIDRef *v1.Reference `json:"imageIdRef,omitempty" tf:"-"`
+	ImageIDRef *v2.Reference `json:"imageIdRef,omitempty" tf:"-"`
 
 	// Selector for a Image in ecs to populate imageId.
 	// +kubebuilder:validation:Optional
-	ImageIDSelector *v1.Selector `json:"imageIdSelector,omitempty" tf:"-"`
+	ImageIDSelector *v2.Selector `json:"imageIdSelector,omitempty" tf:"-"`
 
 	// Save the exported OSS bucket.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
@@ -80,11 +80,11 @@ type ImageExportParameters struct {
 
 	// Reference to a Bucket in oss to populate ossBucket.
 	// +kubebuilder:validation:Optional
-	OssBucketRef *v1.Reference `json:"ossBucketRef,omitempty" tf:"-"`
+	OssBucketRef *v2.Reference `json:"ossBucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate ossBucket.
 	// +kubebuilder:validation:Optional
-	OssBucketSelector *v1.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
+	OssBucketSelector *v2.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
 
 	// The prefix of your OSS Object. It can be composed of numbers or letters, and the character length is 1 ~ 30.
 	// +kubebuilder:validation:Optional
@@ -98,8 +98,8 @@ type ImageExportParameters struct {
 
 // ImageExportSpec defines the desired state of ImageExport
 type ImageExportSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ImageExportParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ImageExportParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -115,8 +115,8 @@ type ImageExportSpec struct {
 
 // ImageExportStatus defines the observed state of ImageExport.
 type ImageExportStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ImageExportObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ImageExportObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

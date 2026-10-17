@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ListenerAdditionalCertificateAttachmentInitParameters struct {
@@ -22,11 +22,11 @@ type ListenerAdditionalCertificateAttachmentInitParameters struct {
 
 	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+	CertificateIDRef *v2.Reference `json:"certificateIdRef,omitempty" tf:"-"`
 
 	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
+	CertificateIDSelector *v2.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
 
 	// The ID of the ALB listener.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alb/v1alpha1.Listener
@@ -34,11 +34,11 @@ type ListenerAdditionalCertificateAttachmentInitParameters struct {
 
 	// Reference to a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDRef *v1.Reference `json:"listenerIdRef,omitempty" tf:"-"`
+	ListenerIDRef *v2.Reference `json:"listenerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
+	ListenerIDSelector *v2.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
 }
 
 type ListenerAdditionalCertificateAttachmentObservation struct {
@@ -69,11 +69,11 @@ type ListenerAdditionalCertificateAttachmentParameters struct {
 
 	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+	CertificateIDRef *v2.Reference `json:"certificateIdRef,omitempty" tf:"-"`
 
 	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
+	CertificateIDSelector *v2.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
 
 	// The ID of the ALB listener.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alb/v1alpha1.Listener
@@ -82,11 +82,11 @@ type ListenerAdditionalCertificateAttachmentParameters struct {
 
 	// Reference to a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDRef *v1.Reference `json:"listenerIdRef,omitempty" tf:"-"`
+	ListenerIDRef *v2.Reference `json:"listenerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
+	ListenerIDSelector *v2.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -96,8 +96,8 @@ type ListenerAdditionalCertificateAttachmentParameters struct {
 
 // ListenerAdditionalCertificateAttachmentSpec defines the desired state of ListenerAdditionalCertificateAttachment
 type ListenerAdditionalCertificateAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ListenerAdditionalCertificateAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ListenerAdditionalCertificateAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -113,8 +113,8 @@ type ListenerAdditionalCertificateAttachmentSpec struct {
 
 // ListenerAdditionalCertificateAttachmentStatus defines the observed state of ListenerAdditionalCertificateAttachment.
 type ListenerAdditionalCertificateAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ListenerAdditionalCertificateAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ListenerAdditionalCertificateAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
