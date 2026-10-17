@@ -41,6 +41,6 @@ spec:
     instanceName: pl-example-2
     instanceType: Basic
     paymentType: Subscription
-    period: 1
+    period: "1"
     region: cn-beijing
     renewalStatus: ManualRenewal

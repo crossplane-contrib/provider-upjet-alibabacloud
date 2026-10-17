@@ -23,6 +23,9 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/statemetrics"
 	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/diffserver"
+	"k8s.io/apimachinery/pkg/runtime"
+	corev1 "k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/tools/leaderelection/resourcelock"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
@@ -41,9 +44,19 @@ func main() {
 		maxReconcileRate        = app.Flag("max-reconcile-rate", "The global maximum rate per second at which resources may be checked for drift from the desired state.").Default("10").Int()
 
 		enableManagementPolicies = app.Flag("enable-management-policies", "Enable support for Management Policies.").Default("true").Envar("ENABLE_MANAGEMENT_POLICIES").Bool()
+
+		// Running the provider's controllers is the default command, so that
+		// the provider keeps behaving as it did before the internal commands
+		// were introduced, i.e. when it's invoked without any arguments.
+		startCmd = app.Command("start", "Start the provider's controllers.").Default()
+
+		internalCmd   = app.Command("internal", "Commands used internally by the Crossplane ecosystem. No compatibility guarantees are made for them.")
+		diffServerCmd = internalCmd.Command("diff-server", "Start a gRPC server serving the provider diff services.")
+		diffNetwork   = diffServerCmd.Flag("network", "The network the diff gRPC server listens on.").Default("tcp").Envar("DIFF_SERVER_NETWORK").Enum("tcp", "unix")
+		diffAddress   = diffServerCmd.Flag("address", "The address the diff gRPC server listens on. A socket path when the network is unix.").Default(":9099").Envar("DIFF_SERVER_ADDRESS").String()
 	)
 
-	kingpin.MustParse(app.Parse(os.Args[1:]))
+	cmd := kingpin.MustParse(app.Parse(os.Args[1:]))
 
 	zl := zap.New(zap.UseDevMode(*debug))
 	log := logging.NewLogrLogger(zl.WithName("provider-upjet-alibabacloud{{ if ne .Group "monolith" }}-{{ .Group }}{{ end }}"))
@@ -52,6 +65,39 @@ func main() {
 		// *very* verbose even at info level, so we only provide it a real
 		// logger when we're running in debug mode.
 		ctrl.SetLogger(zl)
+	}
+
+	ctx := context.Background()
+	provider, err := config.GetProvider(ctx, false)
+	kingpin.FatalIfError(err, "Cannot initialize the provider configuration")
+
+	switch cmd {
+	case diffServerCmd.FullCommand():
+		// The diff server only needs to deserialize this provider's managed
+		// resources, so its scheme holds just the provider's APIs plus the
+		// Kubernetes core APIs the request's object store may carry
+		// (ProviderConfigs reference Secrets, which are core objects).
+		diffScheme := runtime.NewScheme()
+		kingpin.FatalIfError(corev1.AddToScheme(diffScheme), "Cannot add Kubernetes core APIs to the diff server scheme")
+		kingpin.FatalIfError(apis.AddToScheme(diffScheme), "Cannot add AlibabaCloud APIs to the diff server scheme")
+
+		s := diffserver.NewServer(
+			diffserver.WithProviderConfigurations(provider),
+			diffserver.WithLogger(log),
+			diffserver.WithTerraformSetupFn(clients.OfflineTerraformSetupBuilder(provider.TerraformProvider)),
+			{{ if ne .Group "monolith" }}
+			// This package's controllers reconcile a single API group, while
+			// its scheme and provider configuration cover all of them. Declare
+			// the package's group so that a plan request for any other one is
+			// declined rather than answered from a configuration that does not
+			// run here.
+			diffserver.WithAPIGroups("{{ .Group }}"),
+			{{ end }}
+		)
+		kingpin.FatalIfError(s.Serve(ctrl.SetupSignalHandler(), *diffNetwork, *diffAddress, diffScheme), "Cannot run the diff gRPC server")
+		return
+	case startCmd.FullCommand():
+		// the provider's controllers are started below.
 	}
 
 	log.Debug("Starting", "sync-period", syncPeriod.String(), "poll-interval", pollInterval.String(), "max-reconcile-rate", *maxReconcileRate)
@@ -77,10 +123,6 @@ func main() {
 
 	metrics.Registry.MustRegister(metricRecorder)
 	metrics.Registry.MustRegister(stateMetrics)
-
-	ctx := context.Background()
-	provider, err := config.GetProvider(ctx, false)
-	kingpin.FatalIfError(err, "Cannot initialize the provider configuration")
 
 	o := tjcontroller.Options{
 		Options: xpcontroller.Options{

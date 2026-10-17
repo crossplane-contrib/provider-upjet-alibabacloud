@@ -8,16 +8,16 @@ metadata:
   name: default
 spec:
   forProvider:
-    durationMinutes: 100
+    durationMinutes: "100"
     enable: false
-    firstScheduledTime: 1769578000000
+    firstScheduledTime: "1769578000000"
     instanceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
     region: cn-beijing
     repeatType: Weekly
-    reservedPubFlow: 200
-    reservedSubFlow: 200
+    reservedPubFlow: "200"
+    reservedSubFlow: "200"
     ruleName: ${var.name}
     scheduleType: repeat
     timeZone: GMT+8
@@ -41,7 +41,7 @@ metadata:
 spec:
   forProvider:
     config: '{"enable.acl":"true"}'
-    deployType: 4
+    deployType: "4"
     instanceType: alikafka_serverless
     region: cn-beijing
     securityGroupSelector:
