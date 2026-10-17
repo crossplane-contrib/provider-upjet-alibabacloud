@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccountPrivilegeInitParameters struct {
@@ -22,11 +22,11 @@ type AccountPrivilegeInitParameters struct {
 
 	// Reference to a Account in polardb to populate accountName.
 	// +kubebuilder:validation:Optional
-	AccountNameRef *v1.Reference `json:"accountNameRef,omitempty" tf:"-"`
+	AccountNameRef *v2.Reference `json:"accountNameRef,omitempty" tf:"-"`
 
 	// Selector for a Account in polardb to populate accountName.
 	// +kubebuilder:validation:Optional
-	AccountNameSelector *v1.Selector `json:"accountNameSelector,omitempty" tf:"-"`
+	AccountNameSelector *v2.Selector `json:"accountNameSelector,omitempty" tf:"-"`
 
 	// The privilege of one account access database. Valid values: ["ReadOnly", "ReadWrite"], ["DMLOnly", "DDLOnly"] added since version v1.101.0. Default to "ReadOnly".
 	AccountPrivilege *string `json:"accountPrivilege,omitempty" tf:"account_privilege,omitempty"`
@@ -38,11 +38,11 @@ type AccountPrivilegeInitParameters struct {
 
 	// Reference to a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDRef *v1.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
+	DBClusterIDRef *v2.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
+	DBClusterIDSelector *v2.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// List of specified database name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/polardb/v1alpha1.Database
@@ -52,11 +52,11 @@ type AccountPrivilegeInitParameters struct {
 
 	// References to Database in polardb to populate dbNames.
 	// +kubebuilder:validation:Optional
-	DBNamesRefs []v1.Reference `json:"dbNamesRefs,omitempty" tf:"-"`
+	DBNamesRefs []v2.Reference `json:"dbNamesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Database in polardb to populate dbNames.
 	// +kubebuilder:validation:Optional
-	DBNamesSelector *v1.Selector `json:"dbNamesSelector,omitempty" tf:"-"`
+	DBNamesSelector *v2.Selector `json:"dbNamesSelector,omitempty" tf:"-"`
 }
 
 type AccountPrivilegeObservation struct {
@@ -88,11 +88,11 @@ type AccountPrivilegeParameters struct {
 
 	// Reference to a Account in polardb to populate accountName.
 	// +kubebuilder:validation:Optional
-	AccountNameRef *v1.Reference `json:"accountNameRef,omitempty" tf:"-"`
+	AccountNameRef *v2.Reference `json:"accountNameRef,omitempty" tf:"-"`
 
 	// Selector for a Account in polardb to populate accountName.
 	// +kubebuilder:validation:Optional
-	AccountNameSelector *v1.Selector `json:"accountNameSelector,omitempty" tf:"-"`
+	AccountNameSelector *v2.Selector `json:"accountNameSelector,omitempty" tf:"-"`
 
 	// The privilege of one account access database. Valid values: ["ReadOnly", "ReadWrite"], ["DMLOnly", "DDLOnly"] added since version v1.101.0. Default to "ReadOnly".
 	// +kubebuilder:validation:Optional
@@ -106,11 +106,11 @@ type AccountPrivilegeParameters struct {
 
 	// Reference to a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDRef *v1.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
+	DBClusterIDRef *v2.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
+	DBClusterIDSelector *v2.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// List of specified database name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/polardb/v1alpha1.Database
@@ -121,11 +121,11 @@ type AccountPrivilegeParameters struct {
 
 	// References to Database in polardb to populate dbNames.
 	// +kubebuilder:validation:Optional
-	DBNamesRefs []v1.Reference `json:"dbNamesRefs,omitempty" tf:"-"`
+	DBNamesRefs []v2.Reference `json:"dbNamesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Database in polardb to populate dbNames.
 	// +kubebuilder:validation:Optional
-	DBNamesSelector *v1.Selector `json:"dbNamesSelector,omitempty" tf:"-"`
+	DBNamesSelector *v2.Selector `json:"dbNamesSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -135,8 +135,8 @@ type AccountPrivilegeParameters struct {
 
 // AccountPrivilegeSpec defines the desired state of AccountPrivilege
 type AccountPrivilegeSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AccountPrivilegeParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AccountPrivilegeParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -152,8 +152,8 @@ type AccountPrivilegeSpec struct {
 
 // AccountPrivilegeStatus defines the observed state of AccountPrivilege.
 type AccountPrivilegeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AccountPrivilegeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AccountPrivilegeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

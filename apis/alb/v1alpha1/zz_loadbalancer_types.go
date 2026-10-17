@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccessLogConfigInitParameters struct {
@@ -173,11 +173,11 @@ type LoadBalancerInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The zones and vSwitches. You must specify at least two zones. See zone_mappings below.
 	ZoneMappings []ZoneMappingsInitParameters `json:"zoneMappings,omitempty" tf:"zone_mappings,omitempty"`
@@ -328,11 +328,11 @@ type LoadBalancerParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The zones and vSwitches. You must specify at least two zones. See zone_mappings below.
 	// +kubebuilder:validation:Optional
@@ -386,11 +386,11 @@ type ZoneMappingsInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The ID of the zone to which the SLB instance belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -399,11 +399,11 @@ type ZoneMappingsInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDRef *v1.Reference `json:"zoneIdRef,omitempty" tf:"-"`
+	ZoneIDRef *v2.Reference `json:"zoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDSelector *v1.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
+	ZoneIDSelector *v2.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }
 
 type ZoneMappingsObservation struct {
@@ -455,11 +455,11 @@ type ZoneMappingsParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The ID of the zone to which the SLB instance belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -469,17 +469,17 @@ type ZoneMappingsParameters struct {
 
 	// Reference to a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDRef *v1.Reference `json:"zoneIdRef,omitempty" tf:"-"`
+	ZoneIDRef *v2.Reference `json:"zoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDSelector *v1.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
+	ZoneIDSelector *v2.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }
 
 // LoadBalancerSpec defines the desired state of LoadBalancer
 type LoadBalancerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LoadBalancerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LoadBalancerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -495,8 +495,8 @@ type LoadBalancerSpec struct {
 
 // LoadBalancerStatus defines the observed state of LoadBalancer.
 type LoadBalancerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LoadBalancerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LoadBalancerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

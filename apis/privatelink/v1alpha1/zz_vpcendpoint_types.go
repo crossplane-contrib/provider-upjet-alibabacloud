@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type VpcEndpointInitParameters struct {
@@ -48,11 +48,11 @@ type VpcEndpointInitParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupRefs []v1.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
+	SecurityGroupRefs []v2.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+	SecurityGroupSelector *v2.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
 	// The ID of the endpoint service with which the endpoint is associated.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/privatelink/v1alpha1.VPCEndpointService
@@ -60,11 +60,11 @@ type VpcEndpointInitParameters struct {
 
 	// Reference to a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDRef *v1.Reference `json:"serviceIdRef,omitempty" tf:"-"`
+	ServiceIDRef *v2.Reference `json:"serviceIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDSelector *v1.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
+	ServiceIDSelector *v2.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
 
 	// The name of the endpoint service with which the endpoint is associated.
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
@@ -85,11 +85,11 @@ type VpcEndpointInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The number of private IP addresses that are assigned to an elastic network interface (ENI) in each zone. Only 1 is returned.
 	ZonePrivateIPAddressCount *float64 `json:"zonePrivateIpAddressCount,omitempty" tf:"zone_private_ip_address_count,omitempty"`
@@ -221,11 +221,11 @@ type VpcEndpointParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupRefs []v1.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
+	SecurityGroupRefs []v2.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+	SecurityGroupSelector *v2.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
 	// The ID of the endpoint service with which the endpoint is associated.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/privatelink/v1alpha1.VPCEndpointService
@@ -234,11 +234,11 @@ type VpcEndpointParameters struct {
 
 	// Reference to a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDRef *v1.Reference `json:"serviceIdRef,omitempty" tf:"-"`
+	ServiceIDRef *v2.Reference `json:"serviceIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDSelector *v1.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
+	ServiceIDSelector *v2.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
 
 	// The name of the endpoint service with which the endpoint is associated.
 	// +kubebuilder:validation:Optional
@@ -264,11 +264,11 @@ type VpcEndpointParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The number of private IP addresses that are assigned to an elastic network interface (ENI) in each zone. Only 1 is returned.
 	// +kubebuilder:validation:Optional
@@ -277,8 +277,8 @@ type VpcEndpointParameters struct {
 
 // VpcEndpointSpec defines the desired state of VpcEndpoint
 type VpcEndpointSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     VpcEndpointParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   VpcEndpointParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -294,8 +294,8 @@ type VpcEndpointSpec struct {
 
 // VpcEndpointStatus defines the observed state of VpcEndpoint.
 type VpcEndpointStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        VpcEndpointObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               VpcEndpointObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

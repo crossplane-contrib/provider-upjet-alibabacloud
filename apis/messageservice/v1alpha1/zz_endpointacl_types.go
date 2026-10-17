@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EndpointAclInitParameters struct {
@@ -29,11 +29,11 @@ type EndpointAclInitParameters struct {
 
 	// Reference to a Endpoint in messageservice to populate endpointType.
 	// +kubebuilder:validation:Optional
-	EndpointTypeRef *v1.Reference `json:"endpointTypeRef,omitempty" tf:"-"`
+	EndpointTypeRef *v2.Reference `json:"endpointTypeRef,omitempty" tf:"-"`
 
 	// Selector for a Endpoint in messageservice to populate endpointType.
 	// +kubebuilder:validation:Optional
-	EndpointTypeSelector *v1.Selector `json:"endpointTypeSelector,omitempty" tf:"-"`
+	EndpointTypeSelector *v2.Selector `json:"endpointTypeSelector,omitempty" tf:"-"`
 }
 
 type EndpointAclObservation struct {
@@ -71,11 +71,11 @@ type EndpointAclParameters struct {
 
 	// Reference to a Endpoint in messageservice to populate endpointType.
 	// +kubebuilder:validation:Optional
-	EndpointTypeRef *v1.Reference `json:"endpointTypeRef,omitempty" tf:"-"`
+	EndpointTypeRef *v2.Reference `json:"endpointTypeRef,omitempty" tf:"-"`
 
 	// Selector for a Endpoint in messageservice to populate endpointType.
 	// +kubebuilder:validation:Optional
-	EndpointTypeSelector *v1.Selector `json:"endpointTypeSelector,omitempty" tf:"-"`
+	EndpointTypeSelector *v2.Selector `json:"endpointTypeSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -85,8 +85,8 @@ type EndpointAclParameters struct {
 
 // EndpointAclSpec defines the desired state of EndpointAcl
 type EndpointAclSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     EndpointAclParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   EndpointAclParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -102,8 +102,8 @@ type EndpointAclSpec struct {
 
 // EndpointAclStatus defines the observed state of EndpointAcl.
 type EndpointAclStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EndpointAclObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EndpointAclObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ChainConfigInitParameters struct {
@@ -60,11 +60,11 @@ type ChainInitParameters struct {
 
 	// Reference to a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The name of CR Enterprise Edition repository. NOTE: This parameter must specify a correct value, otherwise the created resource will be incorrect.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeRepo
@@ -73,11 +73,11 @@ type ChainInitParameters struct {
 
 	// Reference to a EeRepo in cr to populate repoName.
 	// +kubebuilder:validation:Optional
-	RepoNameRef *v1.Reference `json:"repoNameRef,omitempty" tf:"-"`
+	RepoNameRef *v2.Reference `json:"repoNameRef,omitempty" tf:"-"`
 
 	// Selector for a EeRepo in cr to populate repoName.
 	// +kubebuilder:validation:Optional
-	RepoNameSelector *v1.Selector `json:"repoNameSelector,omitempty" tf:"-"`
+	RepoNameSelector *v2.Selector `json:"repoNameSelector,omitempty" tf:"-"`
 
 	// The name of CR Enterprise Edition namespace. NOTE: This parameter must specify the correct value, otherwise the created resource will be incorrect.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
@@ -86,11 +86,11 @@ type ChainInitParameters struct {
 
 	// Reference to a EeNamespace in cr to populate repoNamespaceName.
 	// +kubebuilder:validation:Optional
-	RepoNamespaceNameRef *v1.Reference `json:"repoNamespaceNameRef,omitempty" tf:"-"`
+	RepoNamespaceNameRef *v2.Reference `json:"repoNamespaceNameRef,omitempty" tf:"-"`
 
 	// Selector for a EeNamespace in cr to populate repoNamespaceName.
 	// +kubebuilder:validation:Optional
-	RepoNamespaceNameSelector *v1.Selector `json:"repoNamespaceNameSelector,omitempty" tf:"-"`
+	RepoNamespaceNameSelector *v2.Selector `json:"repoNamespaceNameSelector,omitempty" tf:"-"`
 }
 
 type ChainObservation struct {
@@ -142,11 +142,11 @@ type ChainParameters struct {
 
 	// Reference to a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -161,11 +161,11 @@ type ChainParameters struct {
 
 	// Reference to a EeRepo in cr to populate repoName.
 	// +kubebuilder:validation:Optional
-	RepoNameRef *v1.Reference `json:"repoNameRef,omitempty" tf:"-"`
+	RepoNameRef *v2.Reference `json:"repoNameRef,omitempty" tf:"-"`
 
 	// Selector for a EeRepo in cr to populate repoName.
 	// +kubebuilder:validation:Optional
-	RepoNameSelector *v1.Selector `json:"repoNameSelector,omitempty" tf:"-"`
+	RepoNameSelector *v2.Selector `json:"repoNameSelector,omitempty" tf:"-"`
 
 	// The name of CR Enterprise Edition namespace. NOTE: This parameter must specify the correct value, otherwise the created resource will be incorrect.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
@@ -175,11 +175,11 @@ type ChainParameters struct {
 
 	// Reference to a EeNamespace in cr to populate repoNamespaceName.
 	// +kubebuilder:validation:Optional
-	RepoNamespaceNameRef *v1.Reference `json:"repoNamespaceNameRef,omitempty" tf:"-"`
+	RepoNamespaceNameRef *v2.Reference `json:"repoNamespaceNameRef,omitempty" tf:"-"`
 
 	// Selector for a EeNamespace in cr to populate repoNamespaceName.
 	// +kubebuilder:validation:Optional
-	RepoNamespaceNameSelector *v1.Selector `json:"repoNamespaceNameSelector,omitempty" tf:"-"`
+	RepoNamespaceNameSelector *v2.Selector `json:"repoNamespaceNameSelector,omitempty" tf:"-"`
 }
 
 type DenyPolicyInitParameters struct {
@@ -358,8 +358,8 @@ type ToParameters struct {
 
 // ChainSpec defines the desired state of Chain
 type ChainSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ChainParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ChainParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -375,8 +375,8 @@ type ChainSpec struct {
 
 // ChainStatus defines the observed state of Chain.
 type ChainStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ChainObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ChainObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

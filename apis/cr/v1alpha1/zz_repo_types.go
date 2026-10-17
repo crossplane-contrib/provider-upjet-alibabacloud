@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DomainListInitParameters struct {
@@ -46,11 +46,11 @@ type RepoInitParameters struct {
 
 	// Reference to a RegistryNamespace in cr to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.Reference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryNamespace in cr to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 
 	// PUBLIC or PRIVATE, repo's visibility.
 	RepoType *string `json:"repoType,omitempty" tf:"repo_type,omitempty"`
@@ -101,11 +101,11 @@ type RepoParameters struct {
 
 	// Reference to a RegistryNamespace in cr to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.Reference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a RegistryNamespace in cr to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -123,8 +123,8 @@ type RepoParameters struct {
 
 // RepoSpec defines the desired state of Repo
 type RepoSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RepoParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RepoParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -140,8 +140,8 @@ type RepoSpec struct {
 
 // RepoStatus defines the observed state of Repo.
 type RepoStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RepoObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RepoObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

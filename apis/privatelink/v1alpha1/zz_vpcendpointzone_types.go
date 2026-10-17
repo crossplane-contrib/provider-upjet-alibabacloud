@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type VpcEndpointZoneInitParameters struct {
@@ -24,11 +24,11 @@ type VpcEndpointZoneInitParameters struct {
 
 	// Reference to a VpcEndpoint in privatelink to populate endpointId.
 	// +kubebuilder:validation:Optional
-	EndpointIDRef *v1.Reference `json:"endpointIdRef,omitempty" tf:"-"`
+	EndpointIDRef *v2.Reference `json:"endpointIdRef,omitempty" tf:"-"`
 
 	// Selector for a VpcEndpoint in privatelink to populate endpointId.
 	// +kubebuilder:validation:Optional
-	EndpointIDSelector *v1.Selector `json:"endpointIdSelector,omitempty" tf:"-"`
+	EndpointIDSelector *v2.Selector `json:"endpointIdSelector,omitempty" tf:"-"`
 
 	// The IP address of the endpoint ENI.
 	EniIP *string `json:"eniIp,omitempty" tf:"eni_ip,omitempty"`
@@ -39,11 +39,11 @@ type VpcEndpointZoneInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The zone ID.
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
@@ -89,11 +89,11 @@ type VpcEndpointZoneParameters struct {
 
 	// Reference to a VpcEndpoint in privatelink to populate endpointId.
 	// +kubebuilder:validation:Optional
-	EndpointIDRef *v1.Reference `json:"endpointIdRef,omitempty" tf:"-"`
+	EndpointIDRef *v2.Reference `json:"endpointIdRef,omitempty" tf:"-"`
 
 	// Selector for a VpcEndpoint in privatelink to populate endpointId.
 	// +kubebuilder:validation:Optional
-	EndpointIDSelector *v1.Selector `json:"endpointIdSelector,omitempty" tf:"-"`
+	EndpointIDSelector *v2.Selector `json:"endpointIdSelector,omitempty" tf:"-"`
 
 	// The IP address of the endpoint ENI.
 	// +kubebuilder:validation:Optional
@@ -111,11 +111,11 @@ type VpcEndpointZoneParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The zone ID.
 	// +kubebuilder:validation:Optional
@@ -124,8 +124,8 @@ type VpcEndpointZoneParameters struct {
 
 // VpcEndpointZoneSpec defines the desired state of VpcEndpointZone
 type VpcEndpointZoneSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     VpcEndpointZoneParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   VpcEndpointZoneParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -141,8 +141,8 @@ type VpcEndpointZoneSpec struct {
 
 // VpcEndpointZoneStatus defines the observed state of VpcEndpointZone.
 type VpcEndpointZoneStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        VpcEndpointZoneObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               VpcEndpointZoneObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

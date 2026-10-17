@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AddonsInitParameters struct {
@@ -153,7 +153,7 @@ type EdgeKubernetesInitParameters struct {
 	NodeCidrMask *float64 `json:"nodeCidrMask,omitempty" tf:"node_cidr_mask,omitempty"`
 
 	// The password of ssh login cluster node. You have to specify one of password, key_name kms_encrypted_password fields.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// [Flannel Specific] The CIDR block for the pod network when using Flannel.
 	PodCidr *string `json:"podCidr,omitempty" tf:"pod_cidr,omitempty"`
@@ -179,11 +179,11 @@ type EdgeKubernetesInitParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
@@ -230,11 +230,11 @@ type EdgeKubernetesInitParameters struct {
 
 	// References to Vswitch in vpc to populate workerVswitchIds.
 	// +kubebuilder:validation:Optional
-	WorkerVswitchIDsRefs []v1.Reference `json:"workerVswitchIDsRefs,omitempty" tf:"-"`
+	WorkerVswitchIDsRefs []v2.Reference `json:"workerVswitchIDsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate workerVswitchIds.
 	// +kubebuilder:validation:Optional
-	WorkerVswitchIDsSelector *v1.Selector `json:"workerVswitchIDsSelector,omitempty" tf:"-"`
+	WorkerVswitchIDsSelector *v2.Selector `json:"workerVswitchIDsSelector,omitempty" tf:"-"`
 
 	// The vswitches used by workers.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -461,7 +461,7 @@ type EdgeKubernetesParameters struct {
 
 	// The password of ssh login cluster node. You have to specify one of password, key_name kms_encrypted_password fields.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// [Flannel Specific] The CIDR block for the pod network when using Flannel.
 	// +kubebuilder:validation:Optional
@@ -499,11 +499,11 @@ type EdgeKubernetesParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The CIDR block for the service network. It cannot be duplicated with the VPC CIDR and CIDR used by Kubernetes cluster in VPC, cannot be modified after creation.
 	// +kubebuilder:validation:Optional
@@ -564,11 +564,11 @@ type EdgeKubernetesParameters struct {
 
 	// References to Vswitch in vpc to populate workerVswitchIds.
 	// +kubebuilder:validation:Optional
-	WorkerVswitchIDsRefs []v1.Reference `json:"workerVswitchIDsRefs,omitempty" tf:"-"`
+	WorkerVswitchIDsRefs []v2.Reference `json:"workerVswitchIDsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate workerVswitchIds.
 	// +kubebuilder:validation:Optional
-	WorkerVswitchIDsSelector *v1.Selector `json:"workerVswitchIDsSelector,omitempty" tf:"-"`
+	WorkerVswitchIDsSelector *v2.Selector `json:"workerVswitchIDsSelector,omitempty" tf:"-"`
 
 	// The vswitches used by workers.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -755,8 +755,8 @@ type WorkerNodesParameters struct {
 
 // EdgeKubernetesSpec defines the desired state of EdgeKubernetes
 type EdgeKubernetesSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     EdgeKubernetesParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   EdgeKubernetesParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -772,8 +772,8 @@ type EdgeKubernetesSpec struct {
 
 // EdgeKubernetesStatus defines the observed state of EdgeKubernetes.
 type EdgeKubernetesStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EdgeKubernetesObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EdgeKubernetesObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

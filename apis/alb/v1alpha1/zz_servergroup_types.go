@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConnectionDrainConfigInitParameters struct {
@@ -236,11 +236,11 @@ type ServerGroupInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 }
 
 type ServerGroupObservation struct {
@@ -404,11 +404,11 @@ type ServerGroupParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 }
 
 type ServersInitParameters struct {
@@ -429,11 +429,11 @@ type ServersInitParameters struct {
 
 	// Reference to a Instance in ecs to populate serverId.
 	// +kubebuilder:validation:Optional
-	ServerIDRef *v1.Reference `json:"serverIdRef,omitempty" tf:"-"`
+	ServerIDRef *v2.Reference `json:"serverIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in ecs to populate serverId.
 	// +kubebuilder:validation:Optional
-	ServerIDSelector *v1.Selector `json:"serverIdSelector,omitempty" tf:"-"`
+	ServerIDSelector *v2.Selector `json:"serverIdSelector,omitempty" tf:"-"`
 
 	// The IP address of the backend server. You can specify at most 200 servers in each call.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance
@@ -442,11 +442,11 @@ type ServersInitParameters struct {
 
 	// Reference to a Instance in ecs to populate serverIp.
 	// +kubebuilder:validation:Optional
-	ServerIPRef *v1.Reference `json:"serverIpRef,omitempty" tf:"-"`
+	ServerIPRef *v2.Reference `json:"serverIpRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in ecs to populate serverIp.
 	// +kubebuilder:validation:Optional
-	ServerIPSelector *v1.Selector `json:"serverIpSelector,omitempty" tf:"-"`
+	ServerIPSelector *v2.Selector `json:"serverIpSelector,omitempty" tf:"-"`
 
 	// The type of the backend server. You can specify at most 200 servers in each call. Default values:
 	ServerType *string `json:"serverType,omitempty" tf:"server_type,omitempty"`
@@ -507,11 +507,11 @@ type ServersParameters struct {
 
 	// Reference to a Instance in ecs to populate serverId.
 	// +kubebuilder:validation:Optional
-	ServerIDRef *v1.Reference `json:"serverIdRef,omitempty" tf:"-"`
+	ServerIDRef *v2.Reference `json:"serverIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in ecs to populate serverId.
 	// +kubebuilder:validation:Optional
-	ServerIDSelector *v1.Selector `json:"serverIdSelector,omitempty" tf:"-"`
+	ServerIDSelector *v2.Selector `json:"serverIdSelector,omitempty" tf:"-"`
 
 	// The IP address of the backend server. You can specify at most 200 servers in each call.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance
@@ -521,11 +521,11 @@ type ServersParameters struct {
 
 	// Reference to a Instance in ecs to populate serverIp.
 	// +kubebuilder:validation:Optional
-	ServerIPRef *v1.Reference `json:"serverIpRef,omitempty" tf:"-"`
+	ServerIPRef *v2.Reference `json:"serverIpRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in ecs to populate serverIp.
 	// +kubebuilder:validation:Optional
-	ServerIPSelector *v1.Selector `json:"serverIpSelector,omitempty" tf:"-"`
+	ServerIPSelector *v2.Selector `json:"serverIpSelector,omitempty" tf:"-"`
 
 	// The type of the backend server. You can specify at most 200 servers in each call. Default values:
 	// +kubebuilder:validation:Optional
@@ -645,8 +645,8 @@ type UchConfigParameters struct {
 
 // ServerGroupSpec defines the desired state of ServerGroup
 type ServerGroupSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServerGroupParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServerGroupParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -662,8 +662,8 @@ type ServerGroupSpec struct {
 
 // ServerGroupStatus defines the observed state of ServerGroup.
 type ServerGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServerGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServerGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

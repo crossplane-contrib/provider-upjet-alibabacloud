@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AsyncInvokeConfigInitParameters struct {
@@ -27,11 +27,11 @@ type AsyncInvokeConfigInitParameters struct {
 
 	// Reference to a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameRef *v1.Reference `json:"functionNameRef,omitempty" tf:"-"`
+	FunctionNameRef *v2.Reference `json:"functionNameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameSelector *v1.Selector `json:"functionNameSelector,omitempty" tf:"-"`
+	FunctionNameSelector *v2.Selector `json:"functionNameSelector,omitempty" tf:"-"`
 
 	// Event maximum survival time
 	MaxAsyncEventAgeInSeconds *float64 `json:"maxAsyncEventAgeInSeconds,omitempty" tf:"max_async_event_age_in_seconds,omitempty"`
@@ -93,11 +93,11 @@ type AsyncInvokeConfigParameters struct {
 
 	// Reference to a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameRef *v1.Reference `json:"functionNameRef,omitempty" tf:"-"`
+	FunctionNameRef *v2.Reference `json:"functionNameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameSelector *v1.Selector `json:"functionNameSelector,omitempty" tf:"-"`
+	FunctionNameSelector *v2.Selector `json:"functionNameSelector,omitempty" tf:"-"`
 
 	// Event maximum survival time
 	// +kubebuilder:validation:Optional
@@ -155,11 +155,11 @@ type OnFailureInitParameters struct {
 
 	// Reference to a Function in fcv3 to populate destination.
 	// +kubebuilder:validation:Optional
-	DestinationRef *v1.Reference `json:"destinationRef,omitempty" tf:"-"`
+	DestinationRef *v2.Reference `json:"destinationRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate destination.
 	// +kubebuilder:validation:Optional
-	DestinationSelector *v1.Selector `json:"destinationSelector,omitempty" tf:"-"`
+	DestinationSelector *v2.Selector `json:"destinationSelector,omitempty" tf:"-"`
 }
 
 type OnFailureObservation struct {
@@ -178,11 +178,11 @@ type OnFailureParameters struct {
 
 	// Reference to a Function in fcv3 to populate destination.
 	// +kubebuilder:validation:Optional
-	DestinationRef *v1.Reference `json:"destinationRef,omitempty" tf:"-"`
+	DestinationRef *v2.Reference `json:"destinationRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate destination.
 	// +kubebuilder:validation:Optional
-	DestinationSelector *v1.Selector `json:"destinationSelector,omitempty" tf:"-"`
+	DestinationSelector *v2.Selector `json:"destinationSelector,omitempty" tf:"-"`
 }
 
 type OnSuccessInitParameters struct {
@@ -194,11 +194,11 @@ type OnSuccessInitParameters struct {
 
 	// Reference to a Function in fcv3 to populate destination.
 	// +kubebuilder:validation:Optional
-	DestinationRef *v1.Reference `json:"destinationRef,omitempty" tf:"-"`
+	DestinationRef *v2.Reference `json:"destinationRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate destination.
 	// +kubebuilder:validation:Optional
-	DestinationSelector *v1.Selector `json:"destinationSelector,omitempty" tf:"-"`
+	DestinationSelector *v2.Selector `json:"destinationSelector,omitempty" tf:"-"`
 }
 
 type OnSuccessObservation struct {
@@ -217,17 +217,17 @@ type OnSuccessParameters struct {
 
 	// Reference to a Function in fcv3 to populate destination.
 	// +kubebuilder:validation:Optional
-	DestinationRef *v1.Reference `json:"destinationRef,omitempty" tf:"-"`
+	DestinationRef *v2.Reference `json:"destinationRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate destination.
 	// +kubebuilder:validation:Optional
-	DestinationSelector *v1.Selector `json:"destinationSelector,omitempty" tf:"-"`
+	DestinationSelector *v2.Selector `json:"destinationSelector,omitempty" tf:"-"`
 }
 
 // AsyncInvokeConfigSpec defines the desired state of AsyncInvokeConfig
 type AsyncInvokeConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AsyncInvokeConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AsyncInvokeConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -243,8 +243,8 @@ type AsyncInvokeConfigSpec struct {
 
 // AsyncInvokeConfigStatus defines the observed state of AsyncInvokeConfig.
 type AsyncInvokeConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AsyncInvokeConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AsyncInvokeConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

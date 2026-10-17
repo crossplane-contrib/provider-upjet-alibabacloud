@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InvocationInitParameters struct {
@@ -21,11 +21,11 @@ type InvocationInitParameters struct {
 
 	// Reference to a Command in ecs to populate commandId.
 	// +kubebuilder:validation:Optional
-	CommandIDRef *v1.Reference `json:"commandIdRef,omitempty" tf:"-"`
+	CommandIDRef *v2.Reference `json:"commandIdRef,omitempty" tf:"-"`
 
 	// Selector for a Command in ecs to populate commandId.
 	// +kubebuilder:validation:Optional
-	CommandIDSelector *v1.Selector `json:"commandIdSelector,omitempty" tf:"-"`
+	CommandIDSelector *v2.Selector `json:"commandIdSelector,omitempty" tf:"-"`
 
 	// The schedule on which the recurring execution of the command takes place. Take note of the following items:
 	Frequency *string `json:"frequency,omitempty" tf:"frequency,omitempty"`
@@ -37,11 +37,11 @@ type InvocationInitParameters struct {
 
 	// References to Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRefs []v1.Reference `json:"instanceIdRefs,omitempty" tf:"-"`
+	InstanceIDRefs []v2.Reference `json:"instanceIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The key-value pairs of custom parameters to be passed in when the custom parameter feature is enabled.  Number of custom parameters: 0 to 10.
 	// +mapType=granular
@@ -102,11 +102,11 @@ type InvocationParameters struct {
 
 	// Reference to a Command in ecs to populate commandId.
 	// +kubebuilder:validation:Optional
-	CommandIDRef *v1.Reference `json:"commandIdRef,omitempty" tf:"-"`
+	CommandIDRef *v2.Reference `json:"commandIdRef,omitempty" tf:"-"`
 
 	// Selector for a Command in ecs to populate commandId.
 	// +kubebuilder:validation:Optional
-	CommandIDSelector *v1.Selector `json:"commandIdSelector,omitempty" tf:"-"`
+	CommandIDSelector *v2.Selector `json:"commandIdSelector,omitempty" tf:"-"`
 
 	// The schedule on which the recurring execution of the command takes place. Take note of the following items:
 	// +kubebuilder:validation:Optional
@@ -120,11 +120,11 @@ type InvocationParameters struct {
 
 	// References to Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRefs []v1.Reference `json:"instanceIdRefs,omitempty" tf:"-"`
+	InstanceIDRefs []v2.Reference `json:"instanceIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The key-value pairs of custom parameters to be passed in when the custom parameter feature is enabled.  Number of custom parameters: 0 to 10.
 	// +kubebuilder:validation:Optional
@@ -155,8 +155,8 @@ type InvocationParameters struct {
 
 // InvocationSpec defines the desired state of Invocation
 type InvocationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InvocationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InvocationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -172,8 +172,8 @@ type InvocationSpec struct {
 
 // InvocationStatus defines the observed state of Invocation.
 type InvocationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InvocationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InvocationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BucketRequestPaymentInitParameters struct {
@@ -21,11 +21,11 @@ type BucketRequestPaymentInitParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The payer of the request and traffic fees.Valid values: BucketOwner: request and traffic fees are paid by the bucket owner. Requester: request and traffic fees are paid by the requester.
 	Payer *string `json:"payer,omitempty" tf:"payer,omitempty"`
@@ -52,11 +52,11 @@ type BucketRequestPaymentParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The payer of the request and traffic fees.Valid values: BucketOwner: request and traffic fees are paid by the bucket owner. Requester: request and traffic fees are paid by the requester.
 	// +kubebuilder:validation:Optional
@@ -70,8 +70,8 @@ type BucketRequestPaymentParameters struct {
 
 // BucketRequestPaymentSpec defines the desired state of BucketRequestPayment
 type BucketRequestPaymentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BucketRequestPaymentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BucketRequestPaymentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -87,8 +87,8 @@ type BucketRequestPaymentSpec struct {
 
 // BucketRequestPaymentStatus defines the observed state of BucketRequestPayment.
 type BucketRequestPaymentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BucketRequestPaymentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BucketRequestPaymentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

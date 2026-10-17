@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ChartRepositoryInitParameters struct {
@@ -22,11 +22,11 @@ type ChartRepositoryInitParameters struct {
 
 	// Reference to a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The name of the repository that you want to create.
 	RepoName *string `json:"repoName,omitempty" tf:"repo_name,omitempty"`
@@ -38,11 +38,11 @@ type ChartRepositoryInitParameters struct {
 
 	// Reference to a ChartNamespace in cr to populate repoNamespaceName.
 	// +kubebuilder:validation:Optional
-	RepoNamespaceNameRef *v1.Reference `json:"repoNamespaceNameRef,omitempty" tf:"-"`
+	RepoNamespaceNameRef *v2.Reference `json:"repoNamespaceNameRef,omitempty" tf:"-"`
 
 	// Selector for a ChartNamespace in cr to populate repoNamespaceName.
 	// +kubebuilder:validation:Optional
-	RepoNamespaceNameSelector *v1.Selector `json:"repoNamespaceNameSelector,omitempty" tf:"-"`
+	RepoNamespaceNameSelector *v2.Selector `json:"repoNamespaceNameSelector,omitempty" tf:"-"`
 
 	// The default repository type. Valid values: PUBLIC,PRIVATE.
 	RepoType *string `json:"repoType,omitempty" tf:"repo_type,omitempty"`
@@ -82,11 +82,11 @@ type ChartRepositoryParameters struct {
 
 	// Reference to a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -105,11 +105,11 @@ type ChartRepositoryParameters struct {
 
 	// Reference to a ChartNamespace in cr to populate repoNamespaceName.
 	// +kubebuilder:validation:Optional
-	RepoNamespaceNameRef *v1.Reference `json:"repoNamespaceNameRef,omitempty" tf:"-"`
+	RepoNamespaceNameRef *v2.Reference `json:"repoNamespaceNameRef,omitempty" tf:"-"`
 
 	// Selector for a ChartNamespace in cr to populate repoNamespaceName.
 	// +kubebuilder:validation:Optional
-	RepoNamespaceNameSelector *v1.Selector `json:"repoNamespaceNameSelector,omitempty" tf:"-"`
+	RepoNamespaceNameSelector *v2.Selector `json:"repoNamespaceNameSelector,omitempty" tf:"-"`
 
 	// The default repository type. Valid values: PUBLIC,PRIVATE.
 	// +kubebuilder:validation:Optional
@@ -122,8 +122,8 @@ type ChartRepositoryParameters struct {
 
 // ChartRepositorySpec defines the desired state of ChartRepository
 type ChartRepositorySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ChartRepositoryParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ChartRepositoryParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -139,8 +139,8 @@ type ChartRepositorySpec struct {
 
 // ChartRepositoryStatus defines the observed state of ChartRepository.
 type ChartRepositoryStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ChartRepositoryObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ChartRepositoryObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

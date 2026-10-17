@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CertificateConfigInitParameters struct {
@@ -28,10 +28,10 @@ type CertificateConfigInitParameters struct {
 	CertType *string `json:"certType,omitempty" tf:"cert_type,omitempty"`
 
 	// The content of the private key. If the certificate is not enabled, you do not need to enter the content of the private key. To configure the certificate, enter the content of the private key.
-	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+	PrivateKeySecretRef *v2.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// The content of the security certificate. If the certificate is not enabled, you do not need to enter the content of the security certificate. Please enter the content of the certificate to configure the certificate.
-	ServerCertificateSecretRef *v1.SecretKeySelector `json:"serverCertificateSecretRef,omitempty" tf:"-"`
+	ServerCertificateSecretRef *v2.SecretKeySelector `json:"serverCertificateSecretRef,omitempty" tf:"-"`
 
 	// Whether the HTTPS certificate is enabled. Value:
 	ServerCertificateStatus *string `json:"serverCertificateStatus,omitempty" tf:"server_certificate_status,omitempty"`
@@ -75,11 +75,11 @@ type CertificateConfigParameters struct {
 
 	// The content of the private key. If the certificate is not enabled, you do not need to enter the content of the private key. To configure the certificate, enter the content of the private key.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+	PrivateKeySecretRef *v2.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 
 	// The content of the security certificate. If the certificate is not enabled, you do not need to enter the content of the security certificate. Please enter the content of the certificate to configure the certificate.
 	// +kubebuilder:validation:Optional
-	ServerCertificateSecretRef *v1.SecretKeySelector `json:"serverCertificateSecretRef,omitempty" tf:"-"`
+	ServerCertificateSecretRef *v2.SecretKeySelector `json:"serverCertificateSecretRef,omitempty" tf:"-"`
 
 	// Whether the HTTPS certificate is enabled. Value:
 	// +kubebuilder:validation:Optional
@@ -270,8 +270,8 @@ type SourcesParameters struct {
 
 // DomainSpec defines the desired state of Domain
 type DomainSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DomainParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DomainParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -287,8 +287,8 @@ type DomainSpec struct {
 
 // DomainStatus defines the observed state of Domain.
 type DomainStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DomainObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DomainObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

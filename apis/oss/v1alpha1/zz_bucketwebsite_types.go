@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BucketWebsiteInitParameters struct {
@@ -21,11 +21,11 @@ type BucketWebsiteInitParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The container that holds the error page configuration information. See error_document below.
 	ErrorDocument []ErrorDocumentInitParameters `json:"errorDocument,omitempty" tf:"error_document,omitempty"`
@@ -64,11 +64,11 @@ type BucketWebsiteParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The container that holds the error page configuration information. See error_document below.
 	// +kubebuilder:validation:Optional
@@ -280,7 +280,7 @@ type MirrorAuthInitParameters struct {
 	AccessKeyID *string `json:"accessKeyId,omitempty" tf:"access_key_id,omitempty"`
 
 	// Mirroring back to the source station back to the source SK will be automatically desensitized when obtaining the configuration.
-	AccessKeySecretSecretRef *v1.SecretKeySelector `json:"accessKeySecretSecretRef,omitempty" tf:"-"`
+	AccessKeySecretSecretRef *v2.SecretKeySelector `json:"accessKeySecretSecretRef,omitempty" tf:"-"`
 
 	// Authentication type of mirror return Source
 	AuthType *string `json:"authType,omitempty" tf:"auth_type,omitempty"`
@@ -309,7 +309,7 @@ type MirrorAuthParameters struct {
 
 	// Mirroring back to the source station back to the source SK will be automatically desensitized when obtaining the configuration.
 	// +kubebuilder:validation:Optional
-	AccessKeySecretSecretRef *v1.SecretKeySelector `json:"accessKeySecretSecretRef,omitempty" tf:"-"`
+	AccessKeySecretSecretRef *v2.SecretKeySelector `json:"accessKeySecretSecretRef,omitempty" tf:"-"`
 
 	// Authentication type of mirror return Source
 	// +kubebuilder:validation:Optional
@@ -1011,8 +1011,8 @@ type TaggingsParameters struct {
 
 // BucketWebsiteSpec defines the desired state of BucketWebsite
 type BucketWebsiteSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BucketWebsiteParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BucketWebsiteParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1028,8 +1028,8 @@ type BucketWebsiteSpec struct {
 
 // BucketWebsiteStatus defines the observed state of BucketWebsite.
 type BucketWebsiteStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BucketWebsiteObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BucketWebsiteObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

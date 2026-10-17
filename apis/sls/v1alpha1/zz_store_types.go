@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EncryptConfInitParameters struct {
@@ -112,11 +112,11 @@ type StoreInitParameters struct {
 
 	// Reference to a Project in sls to populate projectName.
 	// +kubebuilder:validation:Optional
-	ProjectNameRef *v1.Reference `json:"projectNameRef,omitempty" tf:"-"`
+	ProjectNameRef *v2.Reference `json:"projectNameRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate projectName.
 	// +kubebuilder:validation:Optional
-	ProjectNameSelector *v1.Selector `json:"projectNameSelector,omitempty" tf:"-"`
+	ProjectNameSelector *v2.Selector `json:"projectNameSelector,omitempty" tf:"-"`
 
 	// The data retention time (in days). Valid values: [1-3650]. Default to 30. Log store data will be stored permanently when the value is 3650.
 	RetentionPeriod *float64 `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
@@ -232,11 +232,11 @@ type StoreParameters struct {
 
 	// Reference to a Project in sls to populate projectName.
 	// +kubebuilder:validation:Optional
-	ProjectNameRef *v1.Reference `json:"projectNameRef,omitempty" tf:"-"`
+	ProjectNameRef *v2.Reference `json:"projectNameRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate projectName.
 	// +kubebuilder:validation:Optional
-	ProjectNameSelector *v1.Selector `json:"projectNameSelector,omitempty" tf:"-"`
+	ProjectNameSelector *v2.Selector `json:"projectNameSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -268,11 +268,11 @@ type UserCmkInfoInitParameters struct {
 
 	// Reference to a Key in kms to populate cmkKeyId.
 	// +kubebuilder:validation:Optional
-	CmkKeyIDRef *v1.Reference `json:"cmkKeyIdRef,omitempty" tf:"-"`
+	CmkKeyIDRef *v2.Reference `json:"cmkKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate cmkKeyId.
 	// +kubebuilder:validation:Optional
-	CmkKeyIDSelector *v1.Selector `json:"cmkKeyIdSelector,omitempty" tf:"-"`
+	CmkKeyIDSelector *v2.Selector `json:"cmkKeyIdSelector,omitempty" tf:"-"`
 
 	// Region id where the user master key id is located.
 	RegionID *string `json:"regionId,omitempty" tf:"region_id,omitempty"`
@@ -304,11 +304,11 @@ type UserCmkInfoParameters struct {
 
 	// Reference to a Key in kms to populate cmkKeyId.
 	// +kubebuilder:validation:Optional
-	CmkKeyIDRef *v1.Reference `json:"cmkKeyIdRef,omitempty" tf:"-"`
+	CmkKeyIDRef *v2.Reference `json:"cmkKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate cmkKeyId.
 	// +kubebuilder:validation:Optional
-	CmkKeyIDSelector *v1.Selector `json:"cmkKeyIdSelector,omitempty" tf:"-"`
+	CmkKeyIDSelector *v2.Selector `json:"cmkKeyIdSelector,omitempty" tf:"-"`
 
 	// Region id where the user master key id is located.
 	// +kubebuilder:validation:Optional
@@ -317,8 +317,8 @@ type UserCmkInfoParameters struct {
 
 // StoreSpec defines the desired state of Store
 type StoreSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     StoreParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   StoreParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -334,8 +334,8 @@ type StoreSpec struct {
 
 // StoreStatus defines the observed state of Store.
 type StoreStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        StoreObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               StoreObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

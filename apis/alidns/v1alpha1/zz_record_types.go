@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RecordInitParameters struct {
@@ -21,11 +21,11 @@ type RecordInitParameters struct {
 
 	// Reference to a Domain in alidns to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameRef *v1.Reference `json:"domainNameRef,omitempty" tf:"-"`
+	DomainNameRef *v2.Reference `json:"domainNameRef,omitempty" tf:"-"`
 
 	// Selector for a Domain in alidns to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameSelector *v1.Selector `json:"domainNameSelector,omitempty" tf:"-"`
+	DomainNameSelector *v2.Selector `json:"domainNameSelector,omitempty" tf:"-"`
 
 	// User language.
 	Lang *string `json:"lang,omitempty" tf:"lang,omitempty"`
@@ -106,11 +106,11 @@ type RecordParameters struct {
 
 	// Reference to a Domain in alidns to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameRef *v1.Reference `json:"domainNameRef,omitempty" tf:"-"`
+	DomainNameRef *v2.Reference `json:"domainNameRef,omitempty" tf:"-"`
 
 	// Selector for a Domain in alidns to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameSelector *v1.Selector `json:"domainNameSelector,omitempty" tf:"-"`
+	DomainNameSelector *v2.Selector `json:"domainNameSelector,omitempty" tf:"-"`
 
 	// User language.
 	// +kubebuilder:validation:Optional
@@ -160,8 +160,8 @@ type RecordParameters struct {
 
 // RecordSpec defines the desired state of Record
 type RecordSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RecordParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RecordParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -177,8 +177,8 @@ type RecordSpec struct {
 
 // RecordStatus defines the observed state of Record.
 type RecordStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RecordObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RecordObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceAllowedIPAttachmentInitParameters struct {
@@ -28,11 +28,11 @@ type InstanceAllowedIPAttachmentInitParameters struct {
 
 	// Reference to a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The Port range. Valid Value: 9092/9092, 9093/9093, 9094/9094, 9095/9095. NOTE: From version 1.179.0, port_range can be set to 9093/9093. From version 1.219.0, port_range can be set to 9094/9094, 9095/9095.
 	PortRange *string `json:"portRange,omitempty" tf:"port_range,omitempty"`
@@ -74,11 +74,11 @@ type InstanceAllowedIPAttachmentParameters struct {
 
 	// Reference to a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The Port range. Valid Value: 9092/9092, 9093/9093, 9094/9094, 9095/9095. NOTE: From version 1.179.0, port_range can be set to 9093/9093. From version 1.219.0, port_range can be set to 9094/9094, 9095/9095.
 	// +kubebuilder:validation:Optional
@@ -92,8 +92,8 @@ type InstanceAllowedIPAttachmentParameters struct {
 
 // InstanceAllowedIPAttachmentSpec defines the desired state of InstanceAllowedIPAttachment
 type InstanceAllowedIPAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceAllowedIPAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceAllowedIPAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -109,8 +109,8 @@ type InstanceAllowedIPAttachmentSpec struct {
 
 // InstanceAllowedIPAttachmentStatus defines the observed state of InstanceAllowedIPAttachment.
 type InstanceAllowedIPAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceAllowedIPAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceAllowedIPAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

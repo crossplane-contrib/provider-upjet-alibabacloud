@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoProvisioningGroupInitParameters struct {
@@ -39,11 +39,11 @@ type AutoProvisioningGroupInitParameters struct {
 
 	// Reference to a LaunchTemplate in ecs to populate launchTemplateId.
 	// +kubebuilder:validation:Optional
-	LaunchTemplateIDRef *v1.Reference `json:"launchTemplateIdRef,omitempty" tf:"-"`
+	LaunchTemplateIDRef *v2.Reference `json:"launchTemplateIdRef,omitempty" tf:"-"`
 
 	// Selector for a LaunchTemplate in ecs to populate launchTemplateId.
 	// +kubebuilder:validation:Optional
-	LaunchTemplateIDSelector *v1.Selector `json:"launchTemplateIdSelector,omitempty" tf:"-"`
+	LaunchTemplateIDSelector *v2.Selector `json:"launchTemplateIdSelector,omitempty" tf:"-"`
 
 	// The version of the instance launch template associated with the auto provisioning group.
 	LaunchTemplateVersion *string `json:"launchTemplateVersion,omitempty" tf:"launch_template_version,omitempty"`
@@ -184,11 +184,11 @@ type AutoProvisioningGroupParameters struct {
 
 	// Reference to a LaunchTemplate in ecs to populate launchTemplateId.
 	// +kubebuilder:validation:Optional
-	LaunchTemplateIDRef *v1.Reference `json:"launchTemplateIdRef,omitempty" tf:"-"`
+	LaunchTemplateIDRef *v2.Reference `json:"launchTemplateIdRef,omitempty" tf:"-"`
 
 	// Selector for a LaunchTemplate in ecs to populate launchTemplateId.
 	// +kubebuilder:validation:Optional
-	LaunchTemplateIDSelector *v1.Selector `json:"launchTemplateIdSelector,omitempty" tf:"-"`
+	LaunchTemplateIDSelector *v2.Selector `json:"launchTemplateIdSelector,omitempty" tf:"-"`
 
 	// The version of the instance launch template associated with the auto provisioning group.
 	// +kubebuilder:validation:Optional
@@ -266,11 +266,11 @@ type LaunchTemplateConfigInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The weight of the instance type specified in the Nth extended configurations of the launch template.
 	WeightedCapacity *string `json:"weightedCapacity,omitempty" tf:"weighted_capacity,omitempty"`
@@ -316,11 +316,11 @@ type LaunchTemplateConfigParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The weight of the instance type specified in the Nth extended configurations of the launch template.
 	// +kubebuilder:validation:Optional
@@ -329,8 +329,8 @@ type LaunchTemplateConfigParameters struct {
 
 // AutoProvisioningGroupSpec defines the desired state of AutoProvisioningGroup
 type AutoProvisioningGroupSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AutoProvisioningGroupParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AutoProvisioningGroupParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -346,8 +346,8 @@ type AutoProvisioningGroupSpec struct {
 
 // AutoProvisioningGroupStatus defines the observed state of AutoProvisioningGroup.
 type AutoProvisioningGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AutoProvisioningGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AutoProvisioningGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

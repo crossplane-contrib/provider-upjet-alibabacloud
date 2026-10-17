@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SecretParameterInitParameters struct {
@@ -31,11 +31,11 @@ type SecretParameterInitParameters struct {
 
 	// Reference to a Key in kms to populate keyId.
 	// +kubebuilder:validation:Optional
-	KeyIDRef *v1.Reference `json:"keyIdRef,omitempty" tf:"-"`
+	KeyIDRef *v2.Reference `json:"keyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate keyId.
 	// +kubebuilder:validation:Optional
-	KeyIDSelector *v1.Selector `json:"keyIdSelector,omitempty" tf:"-"`
+	KeyIDSelector *v2.Selector `json:"keyIdSelector,omitempty" tf:"-"`
 
 	// The ID of the Resource Group.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -51,7 +51,7 @@ type SecretParameterInitParameters struct {
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
 	// The value of the encryption parameter. The value must be 1 to 4096 characters in length.
-	ValueSecretRef v1.SecretKeySelector `json:"valueSecretRef" tf:"-"`
+	ValueSecretRef v2.SecretKeySelector `json:"valueSecretRef" tf:"-"`
 }
 
 type SecretParameterObservation struct {
@@ -110,11 +110,11 @@ type SecretParameterParameters struct {
 
 	// Reference to a Key in kms to populate keyId.
 	// +kubebuilder:validation:Optional
-	KeyIDRef *v1.Reference `json:"keyIdRef,omitempty" tf:"-"`
+	KeyIDRef *v2.Reference `json:"keyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate keyId.
 	// +kubebuilder:validation:Optional
-	KeyIDSelector *v1.Selector `json:"keyIdSelector,omitempty" tf:"-"`
+	KeyIDSelector *v2.Selector `json:"keyIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -140,13 +140,13 @@ type SecretParameterParameters struct {
 
 	// The value of the encryption parameter. The value must be 1 to 4096 characters in length.
 	// +kubebuilder:validation:Optional
-	ValueSecretRef v1.SecretKeySelector `json:"valueSecretRef" tf:"-"`
+	ValueSecretRef v2.SecretKeySelector `json:"valueSecretRef" tf:"-"`
 }
 
 // SecretParameterSpec defines the desired state of SecretParameter
 type SecretParameterSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SecretParameterParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SecretParameterParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -162,8 +162,8 @@ type SecretParameterSpec struct {
 
 // SecretParameterStatus defines the observed state of SecretParameter.
 type SecretParameterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SecretParameterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SecretParameterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

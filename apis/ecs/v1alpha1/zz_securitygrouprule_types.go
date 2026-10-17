@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SecurityGroupRuleInitParameters struct {
@@ -49,11 +49,11 @@ type SecurityGroupRuleInitParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The Alibaba Cloud account of the target security group owner when security groups are authorized across accounts. This field may not take effect. Use source_group_owner_id instead. This parameter is invalid if cidr_ip has already been set.
 	SourceGroupOwnerAccount *string `json:"sourceGroupOwnerAccount,omitempty" tf:"source_group_owner_account,omitempty"`
@@ -67,11 +67,11 @@ type SecurityGroupRuleInitParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate sourceSecurityGroupId.
 	// +kubebuilder:validation:Optional
-	SourceSecurityGroupIDRef *v1.Reference `json:"sourceSecurityGroupIdRef,omitempty" tf:"-"`
+	SourceSecurityGroupIDRef *v2.Reference `json:"sourceSecurityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate sourceSecurityGroupId.
 	// +kubebuilder:validation:Optional
-	SourceSecurityGroupIDSelector *v1.Selector `json:"sourceSecurityGroupIdSelector,omitempty" tf:"-"`
+	SourceSecurityGroupIDSelector *v2.Selector `json:"sourceSecurityGroupIdSelector,omitempty" tf:"-"`
 
 	// The type of the Security Group Rule. Valid values:
 	// Type of rule, ingress (inbound) or egress (outbound).
@@ -181,11 +181,11 @@ type SecurityGroupRuleParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The Alibaba Cloud account of the target security group owner when security groups are authorized across accounts. This field may not take effect. Use source_group_owner_id instead. This parameter is invalid if cidr_ip has already been set.
 	// +kubebuilder:validation:Optional
@@ -202,11 +202,11 @@ type SecurityGroupRuleParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate sourceSecurityGroupId.
 	// +kubebuilder:validation:Optional
-	SourceSecurityGroupIDRef *v1.Reference `json:"sourceSecurityGroupIdRef,omitempty" tf:"-"`
+	SourceSecurityGroupIDRef *v2.Reference `json:"sourceSecurityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate sourceSecurityGroupId.
 	// +kubebuilder:validation:Optional
-	SourceSecurityGroupIDSelector *v1.Selector `json:"sourceSecurityGroupIdSelector,omitempty" tf:"-"`
+	SourceSecurityGroupIDSelector *v2.Selector `json:"sourceSecurityGroupIdSelector,omitempty" tf:"-"`
 
 	// The type of the Security Group Rule. Valid values:
 	// Type of rule, ingress (inbound) or egress (outbound).
@@ -216,8 +216,8 @@ type SecurityGroupRuleParameters struct {
 
 // SecurityGroupRuleSpec defines the desired state of SecurityGroupRule
 type SecurityGroupRuleSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SecurityGroupRuleParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SecurityGroupRuleParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -233,8 +233,8 @@ type SecurityGroupRuleSpec struct {
 
 // SecurityGroupRuleStatus defines the observed state of SecurityGroupRule.
 type SecurityGroupRuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SecurityGroupRuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SecurityGroupRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

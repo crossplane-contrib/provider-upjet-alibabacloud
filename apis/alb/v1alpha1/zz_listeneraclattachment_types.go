@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ListenerAclAttachmentInitParameters struct {
@@ -21,11 +21,11 @@ type ListenerAclAttachmentInitParameters struct {
 
 	// Reference to a Acl in alb to populate aclId.
 	// +kubebuilder:validation:Optional
-	ACLIDRef *v1.Reference `json:"aclIdRef,omitempty" tf:"-"`
+	ACLIDRef *v2.Reference `json:"aclIdRef,omitempty" tf:"-"`
 
 	// Selector for a Acl in alb to populate aclId.
 	// +kubebuilder:validation:Optional
-	ACLIDSelector *v1.Selector `json:"aclIdSelector,omitempty" tf:"-"`
+	ACLIDSelector *v2.Selector `json:"aclIdSelector,omitempty" tf:"-"`
 
 	// Access control type:
 	ACLType *string `json:"aclType,omitempty" tf:"acl_type,omitempty"`
@@ -36,11 +36,11 @@ type ListenerAclAttachmentInitParameters struct {
 
 	// Reference to a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDRef *v1.Reference `json:"listenerIdRef,omitempty" tf:"-"`
+	ListenerIDRef *v2.Reference `json:"listenerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
+	ListenerIDSelector *v2.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
 }
 
 type ListenerAclAttachmentObservation struct {
@@ -70,11 +70,11 @@ type ListenerAclAttachmentParameters struct {
 
 	// Reference to a Acl in alb to populate aclId.
 	// +kubebuilder:validation:Optional
-	ACLIDRef *v1.Reference `json:"aclIdRef,omitempty" tf:"-"`
+	ACLIDRef *v2.Reference `json:"aclIdRef,omitempty" tf:"-"`
 
 	// Selector for a Acl in alb to populate aclId.
 	// +kubebuilder:validation:Optional
-	ACLIDSelector *v1.Selector `json:"aclIdSelector,omitempty" tf:"-"`
+	ACLIDSelector *v2.Selector `json:"aclIdSelector,omitempty" tf:"-"`
 
 	// Access control type:
 	// +kubebuilder:validation:Optional
@@ -87,11 +87,11 @@ type ListenerAclAttachmentParameters struct {
 
 	// Reference to a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDRef *v1.Reference `json:"listenerIdRef,omitempty" tf:"-"`
+	ListenerIDRef *v2.Reference `json:"listenerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
+	ListenerIDSelector *v2.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -101,8 +101,8 @@ type ListenerAclAttachmentParameters struct {
 
 // ListenerAclAttachmentSpec defines the desired state of ListenerAclAttachment
 type ListenerAclAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ListenerAclAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ListenerAclAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -118,8 +118,8 @@ type ListenerAclAttachmentSpec struct {
 
 // ListenerAclAttachmentStatus defines the observed state of ListenerAclAttachment.
 type ListenerAclAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ListenerAclAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ListenerAclAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

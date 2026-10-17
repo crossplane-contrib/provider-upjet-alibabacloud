@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupPolicyInitParameters struct {
@@ -64,11 +64,11 @@ type BackupPolicyInitParameters struct {
 
 	// Reference to a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Instance log backup local retention hours. Valid when the enable_backup_log is true. Valid values: 0-168.
 	LocalLogRetentionHours *float64 `json:"localLogRetentionHours,omitempty" tf:"local_log_retention_hours,omitempty"`
@@ -238,11 +238,11 @@ type BackupPolicyParameters struct {
 
 	// Reference to a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Instance log backup local retention hours. Valid when the enable_backup_log is true. Valid values: 0-168.
 	// +kubebuilder:validation:Optional
@@ -285,8 +285,8 @@ type BackupPolicyParameters struct {
 
 // BackupPolicySpec defines the desired state of BackupPolicy
 type BackupPolicySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BackupPolicyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BackupPolicyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -302,8 +302,8 @@ type BackupPolicySpec struct {
 
 // BackupPolicyStatus defines the observed state of BackupPolicy.
 type BackupPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackupPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackupPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

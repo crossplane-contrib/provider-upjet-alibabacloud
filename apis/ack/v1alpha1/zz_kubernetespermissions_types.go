@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type KubernetesPermissionsInitParameters struct {
@@ -24,11 +24,11 @@ type KubernetesPermissionsInitParameters struct {
 
 	// Reference to a User in ram to populate uid.
 	// +kubebuilder:validation:Optional
-	UIDRef *v1.Reference `json:"uidRef,omitempty" tf:"-"`
+	UIDRef *v2.Reference `json:"uidRef,omitempty" tf:"-"`
 
 	// Selector for a User in ram to populate uid.
 	// +kubebuilder:validation:Optional
-	UIDSelector *v1.Selector `json:"uidSelector,omitempty" tf:"-"`
+	UIDSelector *v2.Selector `json:"uidSelector,omitempty" tf:"-"`
 }
 
 type KubernetesPermissionsObservation struct {
@@ -61,11 +61,11 @@ type KubernetesPermissionsParameters struct {
 
 	// Reference to a User in ram to populate uid.
 	// +kubebuilder:validation:Optional
-	UIDRef *v1.Reference `json:"uidRef,omitempty" tf:"-"`
+	UIDRef *v2.Reference `json:"uidRef,omitempty" tf:"-"`
 
 	// Selector for a User in ram to populate uid.
 	// +kubebuilder:validation:Optional
-	UIDSelector *v1.Selector `json:"uidSelector,omitempty" tf:"-"`
+	UIDSelector *v2.Selector `json:"uidSelector,omitempty" tf:"-"`
 }
 
 type PermissionsInitParameters struct {
@@ -78,11 +78,11 @@ type PermissionsInitParameters struct {
 
 	// Reference to a ManagedKubernetes in ack to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterIDRefs *v1.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
+	ClusterIDRefs *v2.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
 
 	// Selector for a ManagedKubernetes in ack to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
+	ClusterIDSelector *v2.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
 
 	// Specifies whether to perform a custom authorization. To perform a custom authorization, the value of is_custom must be true, and set role_name to a custom cluster role.
 	IsCustom *bool `json:"isCustom,omitempty" tf:"is_custom,omitempty"`
@@ -95,11 +95,11 @@ type PermissionsInitParameters struct {
 
 	// Reference to a Role in ram to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleIDRefs *v1.Reference `json:"roleIdRefs,omitempty" tf:"-"`
+	RoleIDRefs *v2.Reference `json:"roleIdRefs,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleIDSelector *v1.Selector `json:"roleIdSelector,omitempty" tf:"-"`
+	RoleIDSelector *v2.Selector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// Specifies the predefined role that you want to assign. Valid values admin, ops, dev, restricted and the custom cluster roles.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
@@ -143,11 +143,11 @@ type PermissionsParameters struct {
 
 	// Reference to a ManagedKubernetes in ack to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterIDRefs *v1.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
+	ClusterIDRefs *v2.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
 
 	// Selector for a ManagedKubernetes in ack to populate cluster.
 	// +kubebuilder:validation:Optional
-	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
+	ClusterIDSelector *v2.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
 
 	// Specifies whether to perform a custom authorization. To perform a custom authorization, the value of is_custom must be true, and set role_name to a custom cluster role.
 	// +kubebuilder:validation:Optional
@@ -163,11 +163,11 @@ type PermissionsParameters struct {
 
 	// Reference to a Role in ram to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleIDRefs *v1.Reference `json:"roleIdRefs,omitempty" tf:"-"`
+	RoleIDRefs *v2.Reference `json:"roleIdRefs,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleIDSelector *v1.Selector `json:"roleIdSelector,omitempty" tf:"-"`
+	RoleIDSelector *v2.Selector `json:"roleIdSelector,omitempty" tf:"-"`
 
 	// Specifies the predefined role that you want to assign. Valid values admin, ops, dev, restricted and the custom cluster roles.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
@@ -183,8 +183,8 @@ type PermissionsParameters struct {
 
 // KubernetesPermissionsSpec defines the desired state of KubernetesPermissions
 type KubernetesPermissionsSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     KubernetesPermissionsParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   KubernetesPermissionsParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -200,8 +200,8 @@ type KubernetesPermissionsSpec struct {
 
 // KubernetesPermissionsStatus defines the observed state of KubernetesPermissions.
 type KubernetesPermissionsStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        KubernetesPermissionsObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               KubernetesPermissionsObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

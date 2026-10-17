@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BucketCnameTokenInitParameters struct {
@@ -21,11 +21,11 @@ type BucketCnameTokenInitParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The custom domain
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
@@ -55,11 +55,11 @@ type BucketCnameTokenParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The custom domain
 	// +kubebuilder:validation:Optional
@@ -73,8 +73,8 @@ type BucketCnameTokenParameters struct {
 
 // BucketCnameTokenSpec defines the desired state of BucketCnameToken
 type BucketCnameTokenSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BucketCnameTokenParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BucketCnameTokenParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -90,8 +90,8 @@ type BucketCnameTokenSpec struct {
 
 // BucketCnameTokenStatus defines the observed state of BucketCnameToken.
 type BucketCnameTokenStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BucketCnameTokenObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BucketCnameTokenObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

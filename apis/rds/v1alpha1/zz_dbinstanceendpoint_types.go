@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DBInstanceEndpointInitParameters struct {
@@ -28,11 +28,11 @@ type DBInstanceEndpointInitParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// The information about the node that is configured for the endpoint.  It contains two sub-fields(node_id and weight). See node_items below.
 	NodeItems []NodeItemsInitParameters `json:"nodeItems,omitempty" tf:"node_items,omitempty"`
@@ -46,11 +46,11 @@ type DBInstanceEndpointInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The vSwitch ID of the internal endpoint.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -58,11 +58,11 @@ type DBInstanceEndpointInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 type DBInstanceEndpointObservation struct {
@@ -125,11 +125,11 @@ type DBInstanceEndpointParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// The information about the node that is configured for the endpoint.  It contains two sub-fields(node_id and weight). See node_items below.
 	// +kubebuilder:validation:Optional
@@ -151,11 +151,11 @@ type DBInstanceEndpointParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The vSwitch ID of the internal endpoint.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -164,11 +164,11 @@ type DBInstanceEndpointParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 type NodeItemsInitParameters struct {
@@ -180,11 +180,11 @@ type NodeItemsInitParameters struct {
 
 	// Reference to a DBNode in rds to populate nodeId.
 	// +kubebuilder:validation:Optional
-	NodeIDRef *v1.Reference `json:"nodeIdRef,omitempty" tf:"-"`
+	NodeIDRef *v2.Reference `json:"nodeIdRef,omitempty" tf:"-"`
 
 	// Selector for a DBNode in rds to populate nodeId.
 	// +kubebuilder:validation:Optional
-	NodeIDSelector *v1.Selector `json:"nodeIdSelector,omitempty" tf:"-"`
+	NodeIDSelector *v2.Selector `json:"nodeIdSelector,omitempty" tf:"-"`
 
 	// The weight of the node. Read requests are distributed based on the weight.Valid values: 0 to 100.
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
@@ -209,11 +209,11 @@ type NodeItemsParameters struct {
 
 	// Reference to a DBNode in rds to populate nodeId.
 	// +kubebuilder:validation:Optional
-	NodeIDRef *v1.Reference `json:"nodeIdRef,omitempty" tf:"-"`
+	NodeIDRef *v2.Reference `json:"nodeIdRef,omitempty" tf:"-"`
 
 	// Selector for a DBNode in rds to populate nodeId.
 	// +kubebuilder:validation:Optional
-	NodeIDSelector *v1.Selector `json:"nodeIdSelector,omitempty" tf:"-"`
+	NodeIDSelector *v2.Selector `json:"nodeIdSelector,omitempty" tf:"-"`
 
 	// The weight of the node. Read requests are distributed based on the weight.Valid values: 0 to 100.
 	// +kubebuilder:validation:Optional
@@ -222,8 +222,8 @@ type NodeItemsParameters struct {
 
 // DBInstanceEndpointSpec defines the desired state of DBInstanceEndpoint
 type DBInstanceEndpointSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DBInstanceEndpointParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DBInstanceEndpointParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -239,8 +239,8 @@ type DBInstanceEndpointSpec struct {
 
 // DBInstanceEndpointStatus defines the observed state of DBInstanceEndpoint.
 type DBInstanceEndpointStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DBInstanceEndpointObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DBInstanceEndpointObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

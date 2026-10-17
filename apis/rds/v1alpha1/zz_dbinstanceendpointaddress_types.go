@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DBInstanceEndpointAddressInitParameters struct {
@@ -25,11 +25,11 @@ type DBInstanceEndpointAddressInitParameters struct {
 
 	// Reference to a DBInstanceEndpoint in rds to populate dbInstanceEndpointId.
 	// +kubebuilder:validation:Optional
-	DBInstanceEndpointIDRef *v1.Reference `json:"dbInstanceEndpointIdRef,omitempty" tf:"-"`
+	DBInstanceEndpointIDRef *v2.Reference `json:"dbInstanceEndpointIdRef,omitempty" tf:"-"`
 
 	// Selector for a DBInstanceEndpoint in rds to populate dbInstanceEndpointId.
 	// +kubebuilder:validation:Optional
-	DBInstanceEndpointIDSelector *v1.Selector `json:"dbInstanceEndpointIdSelector,omitempty" tf:"-"`
+	DBInstanceEndpointIDSelector *v2.Selector `json:"dbInstanceEndpointIdSelector,omitempty" tf:"-"`
 
 	// The ID of the instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Instance
@@ -38,11 +38,11 @@ type DBInstanceEndpointAddressInitParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// The port number of the public endpoint.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
@@ -89,11 +89,11 @@ type DBInstanceEndpointAddressParameters struct {
 
 	// Reference to a DBInstanceEndpoint in rds to populate dbInstanceEndpointId.
 	// +kubebuilder:validation:Optional
-	DBInstanceEndpointIDRef *v1.Reference `json:"dbInstanceEndpointIdRef,omitempty" tf:"-"`
+	DBInstanceEndpointIDRef *v2.Reference `json:"dbInstanceEndpointIdRef,omitempty" tf:"-"`
 
 	// Selector for a DBInstanceEndpoint in rds to populate dbInstanceEndpointId.
 	// +kubebuilder:validation:Optional
-	DBInstanceEndpointIDSelector *v1.Selector `json:"dbInstanceEndpointIdSelector,omitempty" tf:"-"`
+	DBInstanceEndpointIDSelector *v2.Selector `json:"dbInstanceEndpointIdSelector,omitempty" tf:"-"`
 
 	// The ID of the instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Instance
@@ -103,11 +103,11 @@ type DBInstanceEndpointAddressParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// The port number of the public endpoint.
 	// +kubebuilder:validation:Optional
@@ -121,8 +121,8 @@ type DBInstanceEndpointAddressParameters struct {
 
 // DBInstanceEndpointAddressSpec defines the desired state of DBInstanceEndpointAddress
 type DBInstanceEndpointAddressSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DBInstanceEndpointAddressParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DBInstanceEndpointAddressParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -138,8 +138,8 @@ type DBInstanceEndpointAddressSpec struct {
 
 // DBInstanceEndpointAddressStatus defines the observed state of DBInstanceEndpointAddress.
 type DBInstanceEndpointAddressStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DBInstanceEndpointAddressObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DBInstanceEndpointAddressObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

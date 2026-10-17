@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CookieConfigInitParameters struct {
@@ -149,11 +149,11 @@ type ForwardGroupConfigServerGroupTuplesInitParameters struct {
 
 	// Reference to a ServerGroup in alb to populate serverGroupId.
 	// +kubebuilder:validation:Optional
-	ServerGroupIDRef *v1.Reference `json:"serverGroupIdRef,omitempty" tf:"-"`
+	ServerGroupIDRef *v2.Reference `json:"serverGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a ServerGroup in alb to populate serverGroupId.
 	// +kubebuilder:validation:Optional
-	ServerGroupIDSelector *v1.Selector `json:"serverGroupIdSelector,omitempty" tf:"-"`
+	ServerGroupIDSelector *v2.Selector `json:"serverGroupIdSelector,omitempty" tf:"-"`
 
 	// The Weight of server group. Default value: 100. Valid values: 0 to 100.
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
@@ -178,11 +178,11 @@ type ForwardGroupConfigServerGroupTuplesParameters struct {
 
 	// Reference to a ServerGroup in alb to populate serverGroupId.
 	// +kubebuilder:validation:Optional
-	ServerGroupIDRef *v1.Reference `json:"serverGroupIdRef,omitempty" tf:"-"`
+	ServerGroupIDRef *v2.Reference `json:"serverGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a ServerGroup in alb to populate serverGroupId.
 	// +kubebuilder:validation:Optional
-	ServerGroupIDSelector *v1.Selector `json:"serverGroupIdSelector,omitempty" tf:"-"`
+	ServerGroupIDSelector *v2.Selector `json:"serverGroupIdSelector,omitempty" tf:"-"`
 
 	// The Weight of server group. Default value: 100. Valid values: 0 to 100.
 	// +kubebuilder:validation:Optional
@@ -864,11 +864,11 @@ type RuleInitParameters struct {
 
 	// Reference to a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDRef *v1.Reference `json:"listenerIdRef,omitempty" tf:"-"`
+	ListenerIDRef *v2.Reference `json:"listenerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
+	ListenerIDSelector *v2.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
 
 	// The priority of the rule. Valid values: 1 to 10000. A smaller value indicates a higher priority.
 	Priority *float64 `json:"priority,omitempty" tf:"priority,omitempty"`
@@ -929,11 +929,11 @@ type RuleParameters struct {
 
 	// Reference to a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDRef *v1.Reference `json:"listenerIdRef,omitempty" tf:"-"`
+	ListenerIDRef *v2.Reference `json:"listenerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
+	ListenerIDSelector *v2.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
 
 	// The priority of the rule. Valid values: 1 to 10000. A smaller value indicates a higher priority.
 	// +kubebuilder:validation:Optional
@@ -1097,8 +1097,8 @@ type ValuesParameters struct {
 
 // RuleSpec defines the desired state of Rule
 type RuleSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RuleParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RuleParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1114,8 +1114,8 @@ type RuleSpec struct {
 
 // RuleStatus defines the observed state of Rule.
 type RuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

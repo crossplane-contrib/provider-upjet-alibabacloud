@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ServiceSettingInitParameters struct {
@@ -22,11 +22,11 @@ type ServiceSettingInitParameters struct {
 
 	// Reference to a Bucket in oss to populate deliveryOssBucketName.
 	// +kubebuilder:validation:Optional
-	DeliveryOssBucketNameRef *v1.Reference `json:"deliveryOssBucketNameRef,omitempty" tf:"-"`
+	DeliveryOssBucketNameRef *v2.Reference `json:"deliveryOssBucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate deliveryOssBucketName.
 	// +kubebuilder:validation:Optional
-	DeliveryOssBucketNameSelector *v1.Selector `json:"deliveryOssBucketNameSelector,omitempty" tf:"-"`
+	DeliveryOssBucketNameSelector *v2.Selector `json:"deliveryOssBucketNameSelector,omitempty" tf:"-"`
 
 	// Is the recording function for the OSS delivery template enabled.
 	DeliveryOssEnabled *bool `json:"deliveryOssEnabled,omitempty" tf:"delivery_oss_enabled,omitempty"`
@@ -44,11 +44,11 @@ type ServiceSettingInitParameters struct {
 
 	// Reference to a Project in sls to populate deliverySlsProjectName.
 	// +kubebuilder:validation:Optional
-	DeliverySlsProjectNameRef *v1.Reference `json:"deliverySlsProjectNameRef,omitempty" tf:"-"`
+	DeliverySlsProjectNameRef *v2.Reference `json:"deliverySlsProjectNameRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate deliverySlsProjectName.
 	// +kubebuilder:validation:Optional
-	DeliverySlsProjectNameSelector *v1.Selector `json:"deliverySlsProjectNameSelector,omitempty" tf:"-"`
+	DeliverySlsProjectNameSelector *v2.Selector `json:"deliverySlsProjectNameSelector,omitempty" tf:"-"`
 }
 
 type ServiceSettingObservation struct {
@@ -81,11 +81,11 @@ type ServiceSettingParameters struct {
 
 	// Reference to a Bucket in oss to populate deliveryOssBucketName.
 	// +kubebuilder:validation:Optional
-	DeliveryOssBucketNameRef *v1.Reference `json:"deliveryOssBucketNameRef,omitempty" tf:"-"`
+	DeliveryOssBucketNameRef *v2.Reference `json:"deliveryOssBucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate deliveryOssBucketName.
 	// +kubebuilder:validation:Optional
-	DeliveryOssBucketNameSelector *v1.Selector `json:"deliveryOssBucketNameSelector,omitempty" tf:"-"`
+	DeliveryOssBucketNameSelector *v2.Selector `json:"deliveryOssBucketNameSelector,omitempty" tf:"-"`
 
 	// Is the recording function for the OSS delivery template enabled.
 	// +kubebuilder:validation:Optional
@@ -107,11 +107,11 @@ type ServiceSettingParameters struct {
 
 	// Reference to a Project in sls to populate deliverySlsProjectName.
 	// +kubebuilder:validation:Optional
-	DeliverySlsProjectNameRef *v1.Reference `json:"deliverySlsProjectNameRef,omitempty" tf:"-"`
+	DeliverySlsProjectNameRef *v2.Reference `json:"deliverySlsProjectNameRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate deliverySlsProjectName.
 	// +kubebuilder:validation:Optional
-	DeliverySlsProjectNameSelector *v1.Selector `json:"deliverySlsProjectNameSelector,omitempty" tf:"-"`
+	DeliverySlsProjectNameSelector *v2.Selector `json:"deliverySlsProjectNameSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -121,8 +121,8 @@ type ServiceSettingParameters struct {
 
 // ServiceSettingSpec defines the desired state of ServiceSetting
 type ServiceSettingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServiceSettingParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServiceSettingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -138,8 +138,8 @@ type ServiceSettingSpec struct {
 
 // ServiceSettingStatus defines the observed state of ServiceSetting.
 type ServiceSettingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceSettingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceSettingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

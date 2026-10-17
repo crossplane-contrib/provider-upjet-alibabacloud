@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ChartNamespaceInitParameters struct {
@@ -28,11 +28,11 @@ type ChartNamespaceInitParameters struct {
 
 	// Reference to a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The name of the namespace that you want to create.
 	NamespaceName *string `json:"namespaceName,omitempty" tf:"namespace_name,omitempty"`
@@ -74,11 +74,11 @@ type ChartNamespaceParameters struct {
 
 	// Reference to a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The name of the namespace that you want to create.
 	// +kubebuilder:validation:Optional
@@ -92,8 +92,8 @@ type ChartNamespaceParameters struct {
 
 // ChartNamespaceSpec defines the desired state of ChartNamespace
 type ChartNamespaceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ChartNamespaceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ChartNamespaceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -109,8 +109,8 @@ type ChartNamespaceSpec struct {
 
 // ChartNamespaceStatus defines the observed state of ChartNamespace.
 type ChartNamespaceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ChartNamespaceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ChartNamespaceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

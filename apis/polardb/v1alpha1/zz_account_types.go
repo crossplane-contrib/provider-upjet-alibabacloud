@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccountInitParameters struct {
@@ -25,7 +25,7 @@ type AccountInitParameters struct {
 	AccountName *string `json:"accountName,omitempty" tf:"account_name,omitempty"`
 
 	// The account password. It conflicts with kms_encrypted_password and account_password_wo, and one of account_password, kms_encrypted_password and account_password_wo must be set. Must  meet the following requirements:
-	AccountPasswordSecretRef *v1.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
+	AccountPasswordSecretRef *v2.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
 
 	// The time when the password for the database account expires.
 	AccountPasswordValidTime *string `json:"accountPasswordValidTime,omitempty" tf:"account_password_valid_time,omitempty"`
@@ -40,11 +40,11 @@ type AccountInitParameters struct {
 
 	// Reference to a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDRef *v1.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
+	DBClusterIDRef *v2.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
+	DBClusterIDSelector *v2.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// An KMS encrypts password used to a db account. It conflicts with account_password and account_password_wo, and one of account_password, kms_encrypted_password and account_password_wo must be set.
 	KMSEncryptedPassword *string `json:"kmsEncryptedPassword,omitempty" tf:"kms_encrypted_password,omitempty"`
@@ -104,7 +104,7 @@ type AccountParameters struct {
 
 	// The account password. It conflicts with kms_encrypted_password and account_password_wo, and one of account_password, kms_encrypted_password and account_password_wo must be set. Must  meet the following requirements:
 	// +kubebuilder:validation:Optional
-	AccountPasswordSecretRef *v1.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
+	AccountPasswordSecretRef *v2.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
 
 	// The time when the password for the database account expires.
 	// +kubebuilder:validation:Optional
@@ -122,11 +122,11 @@ type AccountParameters struct {
 
 	// Reference to a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDRef *v1.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
+	DBClusterIDRef *v2.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
+	DBClusterIDSelector *v2.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// An KMS encrypts password used to a db account. It conflicts with account_password and account_password_wo, and one of account_password, kms_encrypted_password and account_password_wo must be set.
 	// +kubebuilder:validation:Optional
@@ -145,8 +145,8 @@ type AccountParameters struct {
 
 // AccountSpec defines the desired state of Account
 type AccountSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AccountParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AccountParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -162,8 +162,8 @@ type AccountSpec struct {
 
 // AccountStatus defines the observed state of Account.
 type AccountStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AccountObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AccountObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ApplicationGroupInitParameters struct {
@@ -25,11 +25,11 @@ type ApplicationGroupInitParameters struct {
 
 	// Reference to a Application in oos to populate applicationName.
 	// +kubebuilder:validation:Optional
-	ApplicationNameRef *v1.Reference `json:"applicationNameRef,omitempty" tf:"-"`
+	ApplicationNameRef *v2.Reference `json:"applicationNameRef,omitempty" tf:"-"`
 
 	// Selector for a Application in oos to populate applicationName.
 	// +kubebuilder:validation:Optional
-	ApplicationNameSelector *v1.Selector `json:"applicationNameSelector,omitempty" tf:"-"`
+	ApplicationNameSelector *v2.Selector `json:"applicationNameSelector,omitempty" tf:"-"`
 
 	// The region ID of the deployment.
 	DeployRegionID *string `json:"deployRegionId,omitempty" tf:"deploy_region_id,omitempty"`
@@ -84,11 +84,11 @@ type ApplicationGroupParameters struct {
 
 	// Reference to a Application in oos to populate applicationName.
 	// +kubebuilder:validation:Optional
-	ApplicationNameRef *v1.Reference `json:"applicationNameRef,omitempty" tf:"-"`
+	ApplicationNameRef *v2.Reference `json:"applicationNameRef,omitempty" tf:"-"`
 
 	// Selector for a Application in oos to populate applicationName.
 	// +kubebuilder:validation:Optional
-	ApplicationNameSelector *v1.Selector `json:"applicationNameSelector,omitempty" tf:"-"`
+	ApplicationNameSelector *v2.Selector `json:"applicationNameSelector,omitempty" tf:"-"`
 
 	// The region ID of the deployment.
 	// +kubebuilder:validation:Optional
@@ -115,8 +115,8 @@ type ApplicationGroupParameters struct {
 
 // ApplicationGroupSpec defines the desired state of ApplicationGroup
 type ApplicationGroupSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ApplicationGroupParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ApplicationGroupParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -132,8 +132,8 @@ type ApplicationGroupSpec struct {
 
 // ApplicationGroupStatus defines the observed state of ApplicationGroup.
 type ApplicationGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ApplicationGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ApplicationGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GroupPolicyAttachmentInitParameters struct {
@@ -22,11 +22,11 @@ type GroupPolicyAttachmentInitParameters struct {
 
 	// Reference to a Group in ram to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameRef *v1.Reference `json:"groupNameRef,omitempty" tf:"-"`
+	GroupNameRef *v2.Reference `json:"groupNameRef,omitempty" tf:"-"`
 
 	// Selector for a Group in ram to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameSelector *v1.Selector `json:"groupNameSelector,omitempty" tf:"-"`
+	GroupNameSelector *v2.Selector `json:"groupNameSelector,omitempty" tf:"-"`
 
 	// The name of the policy.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Policy
@@ -35,11 +35,11 @@ type GroupPolicyAttachmentInitParameters struct {
 
 	// Reference to a Policy in ram to populate policyName.
 	// +kubebuilder:validation:Optional
-	PolicyNameRef *v1.Reference `json:"policyNameRef,omitempty" tf:"-"`
+	PolicyNameRef *v2.Reference `json:"policyNameRef,omitempty" tf:"-"`
 
 	// Selector for a Policy in ram to populate policyName.
 	// +kubebuilder:validation:Optional
-	PolicyNameSelector *v1.Selector `json:"policyNameSelector,omitempty" tf:"-"`
+	PolicyNameSelector *v2.Selector `json:"policyNameSelector,omitempty" tf:"-"`
 
 	// Policy type.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Policy
@@ -48,11 +48,11 @@ type GroupPolicyAttachmentInitParameters struct {
 
 	// Reference to a Policy in ram to populate policyType.
 	// +kubebuilder:validation:Optional
-	PolicyTypeRef *v1.Reference `json:"policyTypeRef,omitempty" tf:"-"`
+	PolicyTypeRef *v2.Reference `json:"policyTypeRef,omitempty" tf:"-"`
 
 	// Selector for a Policy in ram to populate policyType.
 	// +kubebuilder:validation:Optional
-	PolicyTypeSelector *v1.Selector `json:"policyTypeSelector,omitempty" tf:"-"`
+	PolicyTypeSelector *v2.Selector `json:"policyTypeSelector,omitempty" tf:"-"`
 }
 
 type GroupPolicyAttachmentObservation struct {
@@ -80,11 +80,11 @@ type GroupPolicyAttachmentParameters struct {
 
 	// Reference to a Group in ram to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameRef *v1.Reference `json:"groupNameRef,omitempty" tf:"-"`
+	GroupNameRef *v2.Reference `json:"groupNameRef,omitempty" tf:"-"`
 
 	// Selector for a Group in ram to populate groupName.
 	// +kubebuilder:validation:Optional
-	GroupNameSelector *v1.Selector `json:"groupNameSelector,omitempty" tf:"-"`
+	GroupNameSelector *v2.Selector `json:"groupNameSelector,omitempty" tf:"-"`
 
 	// The name of the policy.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Policy
@@ -94,11 +94,11 @@ type GroupPolicyAttachmentParameters struct {
 
 	// Reference to a Policy in ram to populate policyName.
 	// +kubebuilder:validation:Optional
-	PolicyNameRef *v1.Reference `json:"policyNameRef,omitempty" tf:"-"`
+	PolicyNameRef *v2.Reference `json:"policyNameRef,omitempty" tf:"-"`
 
 	// Selector for a Policy in ram to populate policyName.
 	// +kubebuilder:validation:Optional
-	PolicyNameSelector *v1.Selector `json:"policyNameSelector,omitempty" tf:"-"`
+	PolicyNameSelector *v2.Selector `json:"policyNameSelector,omitempty" tf:"-"`
 
 	// Policy type.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Policy
@@ -108,17 +108,17 @@ type GroupPolicyAttachmentParameters struct {
 
 	// Reference to a Policy in ram to populate policyType.
 	// +kubebuilder:validation:Optional
-	PolicyTypeRef *v1.Reference `json:"policyTypeRef,omitempty" tf:"-"`
+	PolicyTypeRef *v2.Reference `json:"policyTypeRef,omitempty" tf:"-"`
 
 	// Selector for a Policy in ram to populate policyType.
 	// +kubebuilder:validation:Optional
-	PolicyTypeSelector *v1.Selector `json:"policyTypeSelector,omitempty" tf:"-"`
+	PolicyTypeSelector *v2.Selector `json:"policyTypeSelector,omitempty" tf:"-"`
 }
 
 // GroupPolicyAttachmentSpec defines the desired state of GroupPolicyAttachment
 type GroupPolicyAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GroupPolicyAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GroupPolicyAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -134,8 +134,8 @@ type GroupPolicyAttachmentSpec struct {
 
 // GroupPolicyAttachmentStatus defines the observed state of GroupPolicyAttachment.
 type GroupPolicyAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GroupPolicyAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GroupPolicyAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

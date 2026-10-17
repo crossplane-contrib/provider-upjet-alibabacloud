@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BucketServerSideEncryptionInitParameters struct {
@@ -21,11 +21,11 @@ type BucketServerSideEncryptionInitParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The algorithm used to encrypt objects. If this element is not specified, objects are encrypted by using AES256. This element is valid only when the value of SSEAlgorithm is set to KMS.
 	KMSDataEncryption *string `json:"kmsDataEncryption,omitempty" tf:"kms_data_encryption,omitempty"`
@@ -37,11 +37,11 @@ type BucketServerSideEncryptionInitParameters struct {
 
 	// Reference to a Key in kms to populate kmsMasterKeyId.
 	// +kubebuilder:validation:Optional
-	KMSMasterKeyIDRef *v1.Reference `json:"kmsMasterKeyIdRef,omitempty" tf:"-"`
+	KMSMasterKeyIDRef *v2.Reference `json:"kmsMasterKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsMasterKeyId.
 	// +kubebuilder:validation:Optional
-	KMSMasterKeyIDSelector *v1.Selector `json:"kmsMasterKeyIdSelector,omitempty" tf:"-"`
+	KMSMasterKeyIDSelector *v2.Selector `json:"kmsMasterKeyIdSelector,omitempty" tf:"-"`
 
 	// The server-side encryption method. Valid Values: KMS, AES256.
 	SseAlgorithm *string `json:"sseAlgorithm,omitempty" tf:"sse_algorithm,omitempty"`
@@ -74,11 +74,11 @@ type BucketServerSideEncryptionParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The algorithm used to encrypt objects. If this element is not specified, objects are encrypted by using AES256. This element is valid only when the value of SSEAlgorithm is set to KMS.
 	// +kubebuilder:validation:Optional
@@ -92,11 +92,11 @@ type BucketServerSideEncryptionParameters struct {
 
 	// Reference to a Key in kms to populate kmsMasterKeyId.
 	// +kubebuilder:validation:Optional
-	KMSMasterKeyIDRef *v1.Reference `json:"kmsMasterKeyIdRef,omitempty" tf:"-"`
+	KMSMasterKeyIDRef *v2.Reference `json:"kmsMasterKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsMasterKeyId.
 	// +kubebuilder:validation:Optional
-	KMSMasterKeyIDSelector *v1.Selector `json:"kmsMasterKeyIdSelector,omitempty" tf:"-"`
+	KMSMasterKeyIDSelector *v2.Selector `json:"kmsMasterKeyIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -110,8 +110,8 @@ type BucketServerSideEncryptionParameters struct {
 
 // BucketServerSideEncryptionSpec defines the desired state of BucketServerSideEncryption
 type BucketServerSideEncryptionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BucketServerSideEncryptionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BucketServerSideEncryptionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -127,8 +127,8 @@ type BucketServerSideEncryptionSpec struct {
 
 // BucketServerSideEncryptionStatus defines the observed state of BucketServerSideEncryption.
 type BucketServerSideEncryptionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BucketServerSideEncryptionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BucketServerSideEncryptionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
