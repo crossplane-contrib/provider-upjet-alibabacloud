@@ -56,4 +56,4 @@ spec:
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
-    zoneId: us-west-1-b
+    zoneId: cn-beijing-h

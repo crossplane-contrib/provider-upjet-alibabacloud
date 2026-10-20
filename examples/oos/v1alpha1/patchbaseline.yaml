@@ -11,4 +11,4 @@ spec:
     approvalRules: '{"PatchRules":[{"EnableNonSecurity":true,"PatchFilterGroup":[{"Values":["*"],"Key":"Product"},{"Values":["Security","Bugfix"],"Key":"Classification"},{"Values":["Critical","Important"],"Key":"Severity"}],"ApproveAfterDays":7,"ComplianceLevel":"Unspecified"}]}'
     operationSystem: Windows
     patchBaselineName: crossplane-example-patchbaseline
-    region: us-west-1
+    region: cn-beijing

@@ -14,7 +14,7 @@ spec:
     quotaAlarmName: test-quotas-v1alpha1-quotaalarm
     quotaDimensions:
       - key: regionId
-        value: cn-hangzhou
+        value: cn-beijing
     region: cn-beijing
     thresholdPercent: 80
     thresholdType: used

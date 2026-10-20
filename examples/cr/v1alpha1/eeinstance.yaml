@@ -9,7 +9,7 @@ metadata:
   name: test-ee-instance-1
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     instanceName: cr-ee-test-inst-1
     instanceType: Advanced
     paymentType: Subscription

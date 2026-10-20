@@ -8,8 +8,8 @@ metadata:
   name: instance
 spec:
   forProvider:
-    region: cn-zhangjiakou
-    availabilityZone: cn-zhangjiakou-a
+    region: cn-beijing
+    availabilityZone: cn-beijing-h
     dataDisks:
     - category: cloud_essd
       description: disk2
@@ -43,7 +43,7 @@ metadata:
   name: group
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: cn-beijing
     description: foo
     securityGroupName: crossplane-example
     vpcIdSelector:
@@ -62,7 +62,7 @@ metadata:
   name: vpc
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: cn-beijing
     cidrBlock: 172.16.0.0/16
     vpcName: crossplane-example
 
@@ -78,10 +78,10 @@ metadata:
   name: vswitch
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: cn-beijing
     cidrBlock: 172.16.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpc
     vswitchName: crossplane-example
-    zoneId: cn-zhangjiakou-a
+    zoneId: cn-beijing-h

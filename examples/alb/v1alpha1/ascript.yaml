@@ -14,7 +14,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: for-ascript
     position: RequestHead
-    region: cn-hangzhou
+    region: cn-beijing
     scriptContent: time()
 
 ---
@@ -42,7 +42,7 @@ spec:
     loadBalancerIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-ascript
-    region: cn-hangzhou
+    region: cn-beijing
 
 ---
 
@@ -62,7 +62,7 @@ spec:
     - payType: PayAsYouGo
     loadBalancerEdition: Standard
     loadBalancerName: crossplane-example
-    region: cn-hangzhou
+    region: cn-beijing
 #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     tags:
       Created: TF
@@ -98,7 +98,7 @@ spec:
     healthCheckConfig:
     - healthCheckEnabled: false
     protocol: HTTP
-    region: cn-hangzhou
+    region: cn-beijing
 #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     serverGroupName: crossplane-example
     stickySessionConfig:
@@ -122,7 +122,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
-    region: cn-hangzhou
+    region: cn-beijing
     vpcName: crossplane-example
 
 ---
@@ -138,12 +138,12 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.1.0/24
-    region: cn-hangzhou
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-ascript
     vswitchName: crossplane-example_1
-    zoneId: cn-hangzhou-h
+    zoneId: cn-beijing-f
 
 ---
 
@@ -158,9 +158,9 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.2.0/24
-    region: cn-hangzhou
+    region: cn-beijing
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-ascript
     vswitchName: crossplane-example_2
-    zoneId: cn-hangzhou-g
+    zoneId: cn-beijing-g

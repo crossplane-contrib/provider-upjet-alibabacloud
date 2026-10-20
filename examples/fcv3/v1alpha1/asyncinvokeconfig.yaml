@@ -24,7 +24,7 @@ spec:
     maxAsyncEventAgeInSeconds: 1
     maxAsyncRetryAttempts: 1
     qualifier: LATEST
-    region: cn-hangzhou
+    region: cn-beijing
 
 ---
 
@@ -47,7 +47,7 @@ spec:
     logConfig:
       - logBeginRule: None
     memorySize: 512
-    region: cn-hangzhou
+    region: cn-beijing
     runtime: python3.9
 
 ---
@@ -71,5 +71,5 @@ spec:
     logConfig:
       - logBeginRule: None
     memorySize: 512
-    region: cn-hangzhou
+    region: cn-beijing
     runtime: python3.9

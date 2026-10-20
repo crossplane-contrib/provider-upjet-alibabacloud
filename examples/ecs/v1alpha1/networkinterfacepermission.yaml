@@ -8,7 +8,7 @@ metadata:
   name: example
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: cn-beijing
     accountId: "1234567890"
     force: true
     networkInterfaceIdSelector:
@@ -28,7 +28,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: cn-beijing
     description: crossplane-example
     networkInterfaceName: crossplane-example
     primaryIpAddress: 172.17.3.100
@@ -54,7 +54,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: cn-beijing
     securityGroupName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -72,7 +72,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: cn-beijing
     cidrBlock: 172.17.3.0/24
     vpcName: crossplane-example
 
@@ -88,10 +88,10 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: cn-beijing
     cidrBlock: 172.17.3.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane-example
-    zoneId: cn-zhangjiakou-a
+    zoneId: cn-beijing-h

@@ -15,7 +15,7 @@ metadata:
   name: test-ack-v1alpha1-asc-1
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     clusterIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-asc-mk8s-1
@@ -46,7 +46,7 @@ metadata:
   name: test-ack-v1alpha1-asc-mk8s-1
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     clusterSpec: ack.pro.small
     newNatGateway: true
     podCidr: 10.0.0.0/16
@@ -68,7 +68,7 @@ spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
     vpcName: test-ack-v1alpha1-asc-vpc-1
-    region: us-west-1
+    region: cn-beijing
 ---
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: Vswitch
@@ -85,8 +85,8 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-asc-vpc-1
     vswitchName: test-ack-v1alpha1-asc-vswitch-1
-    zoneId: us-west-1b
-    region: us-west-1
+    zoneId: cn-beijing-h
+    region: cn-beijing
 #---
 # The Role below may be needed if permissions are not yet specified.
 #

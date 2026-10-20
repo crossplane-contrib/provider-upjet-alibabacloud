@@ -11,7 +11,7 @@ metadata:
   name: kubernetes-example
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     clusterDomain: cluster.local
     customSan: www.example.com
     deletionProtection: false
@@ -46,7 +46,7 @@ metadata:
   name: kubernetes-vpc
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     cidrBlock: 10.0.0.0/8
 ---
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
@@ -59,12 +59,12 @@ metadata:
   name: vswitch-ids-dependency-master-1
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     cidrBlock: 10.1.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: kubernetes-vpc
-    zoneId: us-west-1a
+    zoneId: cn-beijing-h
 ---
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: Vswitch
@@ -76,12 +76,12 @@ metadata:
   name: vswitch-ids-dependency-master-2
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     cidrBlock: 10.2.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: kubernetes-vpc
-    zoneId: us-west-1a
+    zoneId: cn-beijing-h
 ---
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: Vswitch
@@ -93,12 +93,12 @@ metadata:
   name: vswitch-ids-dependency-master-3
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     cidrBlock: 10.3.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: kubernetes-vpc
-    zoneId: us-west-1a
+    zoneId: cn-beijing-h
 ---
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: Vswitch
@@ -110,12 +110,12 @@ metadata:
   name: vswitch-ids-dependency-pod
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     cidrBlock: 10.4.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: kubernetes-vpc
-    zoneId: us-west-1a
+    zoneId: cn-beijing-h
 ---
 apiVersion: v1
 kind: Secret

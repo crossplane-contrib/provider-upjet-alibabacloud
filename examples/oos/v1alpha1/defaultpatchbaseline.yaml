@@ -11,7 +11,7 @@ spec:
     patchBaselineNameSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    region: us-west-1
+    region: cn-beijing
 
 ---
 
@@ -29,4 +29,4 @@ spec:
     description: crossplane-example-defaultpatchbaseline
     operationSystem: Windows
     patchBaselineName: crossplane-example-defaultpatchbaseline
-    region: us-west-1
+    region: cn-beijing

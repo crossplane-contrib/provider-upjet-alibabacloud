@@ -15,7 +15,7 @@ spec:
     desireValue: 1001
     dimensions:
       - key: regionId
-        value: cn-hangzhou
+        value: cn-beijing
     envLanguage: zh
     noticeType: 3
     productCode: gws

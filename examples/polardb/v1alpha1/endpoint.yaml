@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-hangzhou
+    region: cn-beijing
     dbClusterIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -26,7 +26,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-hangzhou
+    region: cn-beijing
     dbNodeClass: polar.mysql.x4.medium
     dbType: MySQL
     dbVersion: "8.0"
@@ -48,7 +48,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-hangzhou
+    region: cn-beijing
     cidrBlock: 172.16.0.0/16
     vpcName: crossplane-example
 
@@ -64,10 +64,10 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-hangzhou
+    region: cn-beijing
     cidrBlock: 172.16.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane-example
-    zoneId: cn-hangzhou-i
+    zoneId: cn-beijing-l

@@ -93,7 +93,7 @@ spec:
     logConfig:
       - logBeginRule: None
     memorySize: 512
-    region: cn-hangzhou
+    region: cn-beijing
     runtime: python3.9
     environmentVariables:
       TestEnvKey: "TestEnvVal"
