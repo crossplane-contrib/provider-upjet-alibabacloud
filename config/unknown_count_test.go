@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
+	rdsv1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1"
 	providerconfig "github.com/crossplane-contrib/provider-alibabacloud/config"
 )
 
@@ -125,12 +126,7 @@ func TestUnknownComputedCountSuppression(t *testing.T) {
 // spec.forProvider plus the id, shimmed through cty.
 func importedState(t *testing.T, res *schema.Resource, params map[string]any, id string) *terraform.InstanceState {
 	t.Helper()
-	m := make(map[string]any, len(params)+1)
-	for k, v := range params {
-		m[k] = v
-	}
-	m["id"] = id
-	v, err := schema.JSONMapToStateValue(m, res.CoreConfigSchema())
+	v, err := schema.JSONMapToStateValue(stateMap(params, id), res.CoreConfigSchema())
 	if err != nil {
 		t.Fatalf("cannot convert the state map to cty: %v", err)
 	}
@@ -140,4 +136,95 @@ func importedState(t *testing.T, res *schema.Resource, params map[string]any, id
 	}
 	s.ID = id
 	return s
+}
+
+// TestUnknownComputedCountSuppressionAfterRestart covers the other way the
+// cached state is lost: a provider restart. The state Create leaves behind
+// carries the empty sets as "<field>.#" = "0" and diffs clean, but the
+// generated observation fields are omitempty, so the round trip through
+// status.atProvider that upjet rebuilds the state from drops them, and the
+// same NewComputed counts come back.
+func TestUnknownComputedCountSuppressionAfterRestart(t *testing.T) {
+	p, err := providerconfig.GetProvider(context.Background(), false)
+	if err != nil {
+		t.Fatalf("cannot build the runtime provider configuration: %v", err)
+	}
+	r := p.Resources["alicloud_db_instance"]
+	res := r.TerraformResource
+	counts := []string{"babelfish_config.#", "parameters.#", "security_group_ids.#"}
+
+	params := rdsInstanceParams()
+	created := rdsInstanceParams()
+	for _, k := range []string{"babelfish_config", "parameters", "security_group_ids"} {
+		created[k] = []any{}
+	}
+	cfg := terraform.NewResourceConfigRaw(params)
+	diff := func(s *terraform.InstanceState) *terraform.InstanceDiff {
+		t.Helper()
+		d, err := schema.InternalMap(res.Schema).Diff(context.Background(), s, cfg, nil, nil, false)
+		if err != nil {
+			t.Fatalf("cannot compute the diff: %v", err)
+		}
+		if d == nil {
+			d = terraform.NewInstanceDiff()
+		}
+		return d
+	}
+
+	// Control: the cached post-create state has the zero counts and no diff.
+	cached := importedState(t, res, created, "rm-example")
+	for _, k := range counts {
+		if cached.Attributes[k] != "0" {
+			t.Fatalf("precondition: post-create state has %q = %q, want \"0\"", k, cached.Attributes[k])
+		}
+		if d := diff(cached).Attributes[k]; d != nil {
+			t.Fatalf("precondition: post-create state diffs on %q: %#v", k, d)
+		}
+	}
+
+	// Restart: the state goes out through status.atProvider and back.
+	v, err := schema.JSONMapToStateValue(stateMap(created, "rm-example"), res.CoreConfigSchema())
+	if err != nil {
+		t.Fatalf("cannot convert the state map to cty: %v", err)
+	}
+	obs, err := schema.StateValueToJSONMap(v, res.CoreConfigSchema().ImpliedType())
+	if err != nil {
+		t.Fatalf("cannot convert the state to a JSON map: %v", err)
+	}
+	mg := &rdsv1alpha1.Instance{}
+	if err := mg.SetObservation(obs); err != nil {
+		t.Fatalf("SetObservation: %v", err)
+	}
+	atProvider, err := mg.GetObservation()
+	if err != nil {
+		t.Fatalf("GetObservation: %v", err)
+	}
+	rebuilt := importedState(t, res, atProvider, "rm-example")
+
+	d := diff(rebuilt)
+	for _, k := range counts {
+		if d.Attributes[k] == nil {
+			t.Fatalf("precondition: state rebuilt from status.atProvider no longer diffs on %q; this test no longer reproduces the bug", k)
+		}
+	}
+	d, err = r.TerraformCustomDiff(d, rebuilt, cfg)
+	if err != nil {
+		t.Fatalf("TerraformCustomDiff: %v", err)
+	}
+	for _, k := range counts {
+		if dd := d.Attributes[k]; dd != nil {
+			t.Errorf("%q: want dropped, got %#v", k, dd)
+		}
+	}
+}
+
+// stateMap is params plus the id, the JSON map upjet's Connect converts to the
+// prior state.
+func stateMap(params map[string]any, id string) map[string]any {
+	m := make(map[string]any, len(params)+1)
+	for k, v := range params {
+		m[k] = v
+	}
+	m["id"] = id
+	return m
 }
