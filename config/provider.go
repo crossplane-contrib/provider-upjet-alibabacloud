@@ -124,6 +124,7 @@ func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider
 		AddExternalTagsField(),
 		DocumentationForTags(),
 		DocumentationForEmptyCodeSpans(),
+		UnknownComputedCountSuppression(),
 	}
 
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
