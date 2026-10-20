@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     dataDisks:
     - category: cloud
       deleteWithInstance: true
@@ -71,7 +71,7 @@ spec:
     vswitchIdSelector:
       matchLabels:
         testing.upbound.io/example-name: launchtemplate
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a
 
 ---
 
@@ -85,7 +85,7 @@ metadata:
   name: launchtemplate
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     keyPairName: crossplane-example-for-launchtemplate
 
 ---
@@ -100,7 +100,7 @@ metadata:
   name: launchtemplate
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     securityGroupName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -118,7 +118,7 @@ metadata:
   name: launchtemplate
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 172.17.0.0/16
     vpcName: crossplane-example
 
@@ -134,10 +134,10 @@ metadata:
   name: launchtemplate
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 172.17.3.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: launchtemplate
     vswitchName: crossplane-example
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a

@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     instanceClass: tair.rdb.2g
     instanceType: tair_rdb
     paymentType: PayAsYouGo
@@ -21,7 +21,7 @@ spec:
     vswitchIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-tairinstance
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a
 
 ---
 
@@ -35,7 +35,7 @@ metadata:
   name: for-tairinstance
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 10.4.0.0/16
     vpcName: crossplane_example
 
@@ -51,10 +51,10 @@ metadata:
   name: for-tairinstance
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 10.4.1.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-tairinstance
     vswitchName: crossplane_example
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a

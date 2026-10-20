@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucketpolicy
@@ -27,5 +28,6 @@ metadata:
   name: bucketpolicy
 spec:
   forProvider:
+    region: us-west-1
     bucket: crossplane-example-bucketpolicy-202504081600
     storageClass: Standard

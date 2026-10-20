@@ -25,7 +25,7 @@ spec:
       healthyThreshold: 3
       unhealthyThreshold: 3
     protocol: HTTP
-    region: cn-beijing
+    region: us-west-1
 #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.example.groups.0.id}
     serverGroupName: crossplane-example
     servers:
@@ -61,11 +61,11 @@ metadata:
   name: for-servergroup
 spec:
   forProvider:
-    availabilityZone: cn-beijing-f
+    availabilityZone: us-west-1a
     imageId: ubuntu_18_04_x64_20G_alibase_20240223.vhd
     instanceName: crossplane-example
     instanceType: ecs.sn1ne.large
-    region: cn-beijing
+    region: us-west-1
     securityGroupRefs:
     - name: for-servergroup
     vswitchIdSelector:
@@ -86,7 +86,7 @@ spec:
   forProvider:
     description: crossplane-example
     securityGroupName: crossplane-example
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-servergroup
@@ -104,7 +104,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example
 
 ---
@@ -120,9 +120,9 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-servergroup
     vswitchName: crossplane-example
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a

@@ -30,7 +30,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: listener
     protocol: http
-    region: cn-beijing
+    region: us-west-1
     requestTimeout: 80
     stickySession: "on"
     stickySessionType: insert
@@ -53,7 +53,7 @@ spec:
   forProvider:
     ipVersion: ipv4
     name: terraformslbaclconfig-123
-    region: cn-beijing
+    region: us-west-1
 
 ---
 
@@ -71,4 +71,4 @@ spec:
     instanceChargeType: PayByCLCU
     internetChargeType: PayByTraffic
     loadBalancerName: terraformslbloadbalancerconfig-123
-    region: cn-beijing
+    region: us-west-1

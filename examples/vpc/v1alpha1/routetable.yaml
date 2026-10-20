@@ -10,7 +10,7 @@ spec:
   forProvider:
     associateType: VSwitch
     description: test-description
-    region: cn-beijing
+    region: us-west-1
     routeTableName: crossplane-example-for-route-table-20250725
     vpcIdSelector:
       matchLabels:
@@ -28,5 +28,5 @@ metadata:
   name: routetable
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example-for-route-table-20250725

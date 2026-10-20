@@ -10,6 +10,6 @@ spec:
   forProvider:
     applicationName: crossplane-example-application
     description: crossplane-example-application
-    region: cn-beijing
+    region: us-west-1
     tags:
       Created: TF

@@ -18,7 +18,7 @@ spec:
     listenerIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-listener-additional-certificate-attachment
-    region: cn-beijing
+    region: us-west-1
 
 ---
 
@@ -106,7 +106,7 @@ spec:
     loadBalancerIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-listener-additional-certificate-attachment
-    region: cn-beijing
+    region: us-west-1
 
 ---
 
@@ -128,7 +128,7 @@ spec:
     loadBalancerName: crossplane-example
     modificationProtectionConfig:
       - status: NonProtection
-    region: cn-beijing
+    region: us-west-1
     tags:
       Created: crossplane
     vpcIdSelector:
@@ -163,7 +163,7 @@ spec:
     healthCheckConfig:
       - healthCheckEnabled: false
     protocol: HTTP
-    region: cn-beijing
+    region: us-west-1
     serverGroupName: crossplane-example
     stickySessionConfig:
       - stickySessionEnabled: false
@@ -184,7 +184,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example
 
 ---
@@ -200,12 +200,12 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.1.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-listener-additional-certificate-attachment
     vswitchName: crossplane-example_1
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a
 
 ---
 
@@ -220,9 +220,9 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.2.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-listener-additional-certificate-attachment
     vswitchName: crossplane-example_2
-    zoneId: cn-beijing-g
+    zoneId: us-west-1b

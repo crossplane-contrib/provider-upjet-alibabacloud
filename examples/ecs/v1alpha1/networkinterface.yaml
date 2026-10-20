@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     description: Basic test
     networkInterfaceName: crossplane-example
     primaryIpAddress: 192.168.0.2
@@ -34,7 +34,7 @@ metadata:
   name: eni
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     securityGroupName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -52,7 +52,7 @@ metadata:
   name: eni
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 192.168.0.0/16
     vpcName: crossplane-example
 
@@ -68,10 +68,10 @@ metadata:
   name: eni
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 192.168.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: eni
     vswitchName: crossplane-example
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a

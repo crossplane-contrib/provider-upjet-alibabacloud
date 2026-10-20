@@ -9,7 +9,7 @@ metadata:
   name: test-storage-routing-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     instanceIdSelector:
       matchLabels:
         testing.crossplane.io/example-name: test-ee-instance-for-storage-1
@@ -36,7 +36,7 @@ metadata:
   name: test-ee-instance-for-storage-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     instanceName: cr-ee-test-storage-2
     instanceType: Advanced
     paymentType: Subscription

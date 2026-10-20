@@ -10,6 +10,7 @@ metadata:
   name: test-ackone-v1alpha1-cluster-1
 spec:
   forProvider:
+    region: us-west-1
     network:
       - vpcIdSelector:
           matchLabels:
@@ -29,6 +30,7 @@ metadata:
   name: test-ackone-v1alpha1-cluster-1-vpc
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.0.0/12
     vpcName: test-ackone-v1alpha1-cluster-1-vpc
 ---
@@ -43,9 +45,10 @@ metadata:
   name: test-ackone-v1alpha1-cluster-1-vswitch
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.2.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ackone-v1alpha1-cluster-1-vpc
     vswitchName: test-ackone-v1alpha1-cluster-1-vswitch
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a

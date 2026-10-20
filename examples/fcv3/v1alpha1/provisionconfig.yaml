@@ -14,7 +14,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: provisionconfig
     qualifier: LATEST
-    region: cn-beijing
+    region: us-west-1
     scheduledActions:
     - endTime: "2035-10-10T10:10:10Z"
       name: s1
@@ -82,5 +82,5 @@ spec:
       logstore: config-operation-log
       project: k8s-log-c18db9c90b50240319f9cbe7eae26bda0
     memorySize: 512
-    region: cn-beijing
+    region: us-west-1
     runtime: python3.10

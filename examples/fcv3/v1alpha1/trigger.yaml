@@ -14,7 +14,7 @@ spec:
         testing.upbound.io/example-name: trigger
     invocationRole: "acs:ram::1511928242963727:role/aliyuncdneventnotificationrole"
     qualifier: LATEST
-    region: cn-beijing
+    region: us-west-1
     sourceArn: acs:cdn:*:1511928242963727
     triggerConfig: '${jsonencode({ "eventName" : "CachedObjectsPushed", "eventVersion"
       : "1.0.0", "notes" : "example", "filter" : { "domain" : ["example.com"] } })}'
@@ -42,5 +42,5 @@ spec:
     logConfig:
     - logBeginRule: None
     memorySize: 512
-    region: cn-beijing
+    region: us-west-1
     runtime: python3.9

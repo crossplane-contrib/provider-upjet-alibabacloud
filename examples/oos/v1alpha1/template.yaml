@@ -31,7 +31,7 @@ spec:
             "Action": "ACS::ExecuteApi"
           }]
       }
-    region: cn-beijing
+    region: us-west-1
     tags:
       Created: TF
       For: acceptance Test

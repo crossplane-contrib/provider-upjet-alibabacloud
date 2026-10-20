@@ -10,7 +10,7 @@ spec:
   forProvider:
     description: From TF Test
     parameters: '{"Status":"Running"}'
-    region: cn-beijing
+    region: us-west-1
     templateNameSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -50,7 +50,7 @@ spec:
             "Action": "ACS::ExecuteApi"
           }]
       }
-    region: cn-beijing
+    region: us-west-1
     tags:
       Created: TF
       For: acceptance Test

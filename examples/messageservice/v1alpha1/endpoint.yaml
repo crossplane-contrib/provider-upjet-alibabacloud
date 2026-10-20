@@ -8,5 +8,6 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     endpointEnabled: true
     endpointType: public

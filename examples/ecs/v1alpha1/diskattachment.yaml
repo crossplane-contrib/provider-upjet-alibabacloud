@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     diskIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -28,7 +28,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     category: cloud_efficiency
     deleteAutoSnapshot: true
     description: Test For Terraform
@@ -39,7 +39,7 @@ spec:
     tags:
       Created: TF
       Environment: Acceptance-test
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a
 
 ---
 
@@ -53,8 +53,8 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
-    availabilityZone: cn-beijing-h
+    region: us-west-1
+    availabilityZone: us-west-1a
     hostName: crossplane-example
     imageId: ubuntu_18_04_64_20G_alibase_20190624.vhd
     instanceName: crossplane-example
@@ -77,7 +77,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     description: New security group
     securityGroupName: crossplane-example
     vpcIdSelector:
@@ -96,7 +96,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 10.4.0.0/16
     vpcName: crossplane-example
 
@@ -112,9 +112,9 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 10.4.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a

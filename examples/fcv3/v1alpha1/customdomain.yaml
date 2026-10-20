@@ -46,7 +46,7 @@ spec:
         namespace: crossplane-system
     customDomainName: "luoyu-test.devsapp.net"
     protocol: HTTP,HTTPS
-    region: cn-beijing
+    region: us-west-1
     routeConfig:
     - routes:
       - functionName: crossplane-example-for-function-customdomain-20250724
@@ -121,7 +121,7 @@ spec:
     logConfig:
       - logBeginRule: None
     memorySize: 512
-    region: cn-beijing
+    region: us-west-1
     runtime: python3.9
 
 ---

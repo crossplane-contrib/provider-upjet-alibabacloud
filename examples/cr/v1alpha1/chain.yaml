@@ -9,7 +9,7 @@ metadata:
   name: test-chain-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     chainConfig:
     - nodes:
       - enable: true
@@ -61,7 +61,7 @@ metadata:
   name: test-ee-repo-for-chain-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     detail: Test EE repository for delivery chain
     instanceIdSelector:
       matchLabels:
@@ -83,7 +83,7 @@ metadata:
   name: test-ee-namespace-for-chain-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     autoCreate: false
     defaultVisibility: PUBLIC
     instanceIdSelector:
@@ -101,7 +101,7 @@ metadata:
   name: test-ee-instance-for-chain-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     instanceName: cr-ee-test-chain-2
     instanceType: Advanced
     paymentType: Subscription

@@ -12,7 +12,7 @@ spec:
     addressType: Internet
     loadBalancerName: crossplane-example-nlb
     loadBalancerType: Network
-    region: cn-beijing
+    region: us-west-1
     tags:
       Created: crossplane
     vpcIdSelector:
@@ -45,7 +45,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example-nlb
 
 ---
@@ -61,12 +61,12 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.1.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: nlb-loadbalancer
     vswitchName: crossplane-example-nlb_1
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a
 
 ---
 
@@ -81,9 +81,9 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.2.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: nlb-loadbalancer
     vswitchName: crossplane-example-nlb_2
-    zoneId: cn-beijing-g
+    zoneId: us-west-1b

@@ -13,7 +13,7 @@ spec:
         testing.upbound.io/example-name: default
     deliveryOssEnabled: true
     deliveryOssKeyPrefix: path1/
-    region: cn-beijing
+    region: us-west-1
 
 ---
 
@@ -28,7 +28,7 @@ metadata:
 spec:
   forProvider:
     bucket: crossplane-example-oos-servicesetting
-    region: cn-beijing
+    region: us-west-1
 
 ---
 
@@ -46,4 +46,4 @@ spec:
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    region: cn-beijing
+    region: us-west-1

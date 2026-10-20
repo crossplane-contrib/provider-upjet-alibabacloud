@@ -10,7 +10,7 @@ spec:
   forProvider:
     description: example_value
     parameterName: crossplane-example-parameter
-    region: cn-beijing
+    region: us-west-1
     tags:
       Created: TF
       For: OosParameter

@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     dbClusterIpArray:
     - dbClusterIpArrayName: default
       securityIps:
@@ -38,7 +38,7 @@ metadata:
   name: for-polardb-cluster
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 172.16.0.0/16
     vpcName: crossplane-example
 
@@ -54,10 +54,10 @@ metadata:
   name: for-polardb-cluster
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 172.16.1.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-polardb-cluster
     vswitchName: crossplane-example
-    zoneId: cn-beijing-l
+    zoneId: us-west-1a

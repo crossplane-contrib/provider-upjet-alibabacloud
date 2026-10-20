@@ -22,7 +22,7 @@
 #   entry         - the allowed source CIDR, e.g. "192.168.1.0/24".
 #   moduleName    - the module the ACL applies to, e.g. "Registry".
 #   description   - optional free-text description.
-#   region        - the instance's region, e.g. "cn-beijing".
+#   region        - the instance's region, e.g. "us-west-1".
 #
 # ---------------------------------------------------------------------------
 # Why there is no runnable example (a provider-only test is not feasible)
@@ -103,7 +103,7 @@
 #     name: allow-office-cidr
 #   spec:
 #     forProvider:
-#       region: cn-beijing
+#       region: us-west-1
 #       instanceIdSelector:
 #         matchLabels:
 #           example: cr-ee
@@ -143,7 +143,7 @@ metadata:
   name: test-ee-instance-for-acl-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     instanceName: cr-ee-test-acl-2
     instanceType: Advanced
     paymentType: Subscription
@@ -161,7 +161,7 @@ spec:
 #   name: test-endpoint-acl-1
 # spec:
 #   forProvider:
-#     region: cn-beijing
+#     region: us-west-1
 #     endpointType: internet
 #     entry: 192.168.1.0/24
 #     description: test-endpoint-acl-1

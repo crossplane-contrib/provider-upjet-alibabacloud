@@ -12,11 +12,11 @@ spec:
     applicationNameSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    deployRegionId: cn-beijing
+    deployRegionId: us-west-1
     description: crossplane-example-appgroup
     importTagKey: example_key
     importTagValue: example_value
-    region: cn-beijing
+    region: us-west-1
 
 ---
 
@@ -32,6 +32,6 @@ spec:
   forProvider:
     applicationName: crossplane-example-application
     description: crossplane-example-application
-    region: cn-beijing
+    region: us-west-1
     tags:
       Created: TF

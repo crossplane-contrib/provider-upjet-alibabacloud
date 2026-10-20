@@ -11,7 +11,7 @@ spec:
     functionNameSelector:
       matchLabels:
         testing.upbound.io/example-name: vpcbinding
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpcbinding
@@ -37,7 +37,7 @@ spec:
     logConfig:
       - logBeginRule: None
     memorySize: 512
-    region: cn-beijing
+    region: us-west-1
     runtime: python3.9
 
 ---
@@ -53,5 +53,5 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.0.0.0/8
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example-for-function-vpcbinding-20250725

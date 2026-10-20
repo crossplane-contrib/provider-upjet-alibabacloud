@@ -9,7 +9,7 @@ metadata:
   name: test-vpc-endpoint-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     enableCreateDnsRecordInPvzt: true
     moduleName: Registry
     instanceIdSelector:
@@ -32,7 +32,7 @@ metadata:
   name: test-vpc-for-endpoint-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 172.16.0.0/12
     vpcName: test-vpc-for-endpoint-1
 ---
@@ -46,9 +46,9 @@ metadata:
   name: test-vsw-for-endpoint-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 172.16.0.0/21
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a
     vswitchName: test-vsw-for-endpoint-1
     vpcIdSelector:
       matchLabels:
@@ -64,7 +64,7 @@ metadata:
   name: test-ee-instance-for-vpc-endpoint-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     instanceName: cr-ee-test-vpc-ep-2
     instanceType: Advanced
     paymentType: Subscription

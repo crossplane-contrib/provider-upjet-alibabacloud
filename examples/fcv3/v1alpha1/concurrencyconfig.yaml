@@ -11,7 +11,7 @@ spec:
     functionNameSelector:
       matchLabels:
         testing.upbound.io/example-name: concurrencyconfig
-    region: cn-beijing
+    region: us-west-1
     reservedConcurrency: 100
 
 ---
@@ -35,5 +35,5 @@ spec:
     logConfig:
       - logBeginRule: None
     memorySize: 512
-    region: cn-beijing
+    region: us-west-1
     runtime: python3.9

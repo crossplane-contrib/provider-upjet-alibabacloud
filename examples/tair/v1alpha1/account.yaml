@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     accountName: tfexamplename
     accountPasswordSecretRef:
       key: password
@@ -30,7 +30,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     config:
       appendonly: "yes"
       lazyfree-lazy-eviction: "yes"
@@ -47,7 +47,7 @@ spec:
     vswitchIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a
 
 ---
 
@@ -61,7 +61,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 10.4.0.0/16
     vpcName: crossplane_example
 
@@ -77,13 +77,13 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 10.4.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane_example
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a
 
 ---
 

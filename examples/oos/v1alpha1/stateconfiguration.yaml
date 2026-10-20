@@ -11,7 +11,7 @@ spec:
     configureMode: ApplyOnly
     description: terraform-example
     parameters: '{"policy": {"ACS:Application": {"Collection": "Enabled"}}}'
-    region: cn-beijing
+    region: us-west-1
     scheduleExpression: 1 hour
     scheduleType: rate
     tags:

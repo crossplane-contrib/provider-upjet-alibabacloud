@@ -9,7 +9,7 @@ metadata:
   name: test-chart-repo-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     instanceIdSelector:
       matchLabels:
         testing.crossplane.io/example-name: test-ee-instance-for-chart-repo-1
@@ -30,7 +30,7 @@ metadata:
   name: test-chart-ns-for-repo-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     autoCreateRepo: false
     defaultRepoType: PUBLIC
     instanceIdSelector:
@@ -48,7 +48,7 @@ metadata:
   name: test-ee-instance-for-chart-repo-1
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     instanceName: cr-ee-test-chart-repo-2
     instanceType: Advanced
     paymentType: Subscription
