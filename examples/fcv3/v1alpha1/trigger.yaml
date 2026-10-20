@@ -16,8 +16,7 @@ spec:
     qualifier: LATEST
     region: us-west-1
     sourceArn: acs:cdn:*:1511928242963727
-    triggerConfig: '${jsonencode({ "eventName" : "CachedObjectsPushed", "eventVersion"
-      : "1.0.0", "notes" : "example", "filter" : { "domain" : ["example.com"] } })}'
+    triggerConfig: '{"eventName":"CachedObjectsPushed","eventVersion":"1.0.0","notes":"example","filter":{"domain":["example.com"]}}'
     triggerName: crossplane-example-for-function-trigger-20250724
     triggerType: cdn_events
 
