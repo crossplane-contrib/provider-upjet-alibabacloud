@@ -125,9 +125,7 @@ func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1
 	cfg := terraform.ProviderConfiguration{
 		"region": region,
 	}
-	if e := slsEndpointSeed(region); e != nil {
-		cfg["endpoints"] = []any{e}
-	}
+	cfg["endpoints"] = []any{endpointSeeds(region)}
 	for _, key := range providerCredentialKeys {
 		v, ok := creds[key]
 		if !ok {
@@ -147,28 +145,51 @@ func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1
 	return cfg
 }
 
-// slsEndpointSeed returns an endpoints block that pins Simple Log Service to
-// its regional endpoint, or nil when there is no region or the user overrides
-// the endpoint through the environment.
+// locationReadonlyEndpoint is the Location service endpoint served from
+// outside mainland China; location.aliyuncs.com, upstream's default, is served
+// from mainland China.
+const locationReadonlyEndpoint = "location-readonly.aliyuncs.com"
+
+// endpointSeeds returns the provider's endpoints block.
+//
+// Most products resolve their endpoint through the Location service before
+// their first API call. Upstream asks location.aliyuncs.com first, which is in
+// mainland China, and moves to location-readonly.aliyuncs.com only after the
+// first attempt times out, inside a two-minute retry. Many reads and creates
+// give up after one minute, so whenever mainland China is slow to reach -- as
+// from outside it, routinely -- they time out. Products with no fallback
+// endpoint upstream (regularProductEndpoint), SLB and PolarDB among them, fail
+// outright. Asking location-readonly first avoids the wait, and it is the
+// endpoint upstream would retry with anyway.
+//
+// SLS is also pinned to its regional endpoint (see slsEndpoint).
+func endpointSeeds(region string) map[string]any {
+	seeds := map[string]any{"location": locationReadonlyEndpoint}
+	if e := slsEndpoint(region); e != "" {
+		seeds["log"] = e
+	}
+	return seeds
+}
+
+// slsEndpoint returns Simple Log Service's regional endpoint, or "" when there
+// is no region or the user overrides the endpoint through the environment.
 //
 // Upstream looks the SLS endpoint up under the "log" key
 // (productCodeToConfigEndpoints) but caches what it resolves under "sls", so
-// the cache never hits and every SLS API call repeats the Location service
-// lookup. That lookup goes to mainland China and retries for two minutes, and
-// SLS reads wrap their call in a one-minute retry, so whenever Location is slow
-// to reach every SLS read times out. Seeding "log" makes the first lookup hit.
-// The value is what upstream's own fallback (regularProductEndpoint) computes,
-// and what Location returns for these regions.
-func slsEndpointSeed(region string) map[string]any {
+// the cache never hits and every SLS API call repeats the Location lookup.
+// Seeding "log" makes the first lookup hit. The value is what upstream's own
+// fallback (regularProductEndpoint) computes, and what Location returns for
+// these regions.
+func slsEndpoint(region string) string {
 	if region == "" {
-		return nil
+		return ""
 	}
 	for _, env := range []string{"ALIBABA_CLOUD_ENDPOINT_SLS", "SLS_ENDPOINT"} {
 		if strings.TrimSpace(os.Getenv(env)) != "" {
-			return nil
+			return ""
 		}
 	}
-	return map[string]any{"log": fmt.Sprintf("%s.log.aliyuncs.com", region)}
+	return fmt.Sprintf("%s.log.aliyuncs.com", region)
 }
 
 func assumeRoleConfiguration(assumeRole *v1beta1.AssumeRoleOptions) map[string]any {
