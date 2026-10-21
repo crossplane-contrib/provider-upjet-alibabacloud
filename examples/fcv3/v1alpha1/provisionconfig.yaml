@@ -75,12 +75,6 @@ spec:
     diskSize: 512
     functionName: crossplane-example-for-provisionconfig-20250724
     handler: index.Handler
-    logConfig:
-    - enableInstanceMetrics: true
-      enableRequestMetrics: true
-      logBeginRule: None
-      logstore: config-operation-log
-      project: k8s-log-c18db9c90b50240319f9cbe7eae26bda0
     memorySize: 512
     region: us-west-1
     runtime: python3.10
