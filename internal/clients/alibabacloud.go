@@ -81,7 +81,7 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
 
 		ps.Configuration = buildProviderConfiguration(region, creds, pc)
 		ps.Configuration["configuration_source"] = getUserAgent()
-		return ps, errors.Wrap(configureNoForkAlibabaCloudClient(ctx, &ps, *tfProvider), "failed to configure the no-fork AlibabaCloud client")
+		return ps, errors.Wrap(metaCache.configure(ctx, &ps, *tfProvider), "failed to configure the no-fork AlibabaCloud client")
 	}
 }
 
