@@ -10,6 +10,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/aliyun/terraform-provider-alicloud/alicloud"
 	"github.com/crossplane/upjet/pkg/terraform"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -30,9 +31,48 @@ func TestBuildProviderConfiguration(t *testing.T) {
 		"access_key":     "ak",
 		"secret_key":     "sk",
 		"security_token": "token",
+		"endpoints":      []any{map[string]any{"log": "cn-hangzhou.log.aliyuncs.com"}},
 	}
 	if !reflect.DeepEqual(map[string]any(cfg), want) {
 		t.Fatalf("unexpected provider configuration:\n got: %#v\nwant: %#v", cfg, want)
+	}
+}
+
+func TestSLSEndpointSeed(t *testing.T) {
+	t.Setenv("ALIBABA_CLOUD_ENDPOINT_SLS", "")
+	t.Setenv("SLS_ENDPOINT", "")
+	if got := slsEndpointSeed("us-west-1"); !reflect.DeepEqual(got, map[string]any{"log": "us-west-1.log.aliyuncs.com"}) {
+		t.Errorf("us-west-1: got %#v", got)
+	}
+	if got := slsEndpointSeed(""); got != nil {
+		t.Errorf("no region: want nil, got %#v", got)
+	}
+	for _, env := range []string{"ALIBABA_CLOUD_ENDPOINT_SLS", "SLS_ENDPOINT"} {
+		t.Run(env, func(t *testing.T) {
+			t.Setenv(env, "custom.example.com")
+			if got := slsEndpointSeed("us-west-1"); got != nil {
+				t.Errorf("with %s set: want nil so the override wins, got %#v", env, got)
+			}
+		})
+	}
+}
+
+// TestSLSEndpointSeedFitsProviderSchema checks the seeded endpoints block
+// survives the real upstream provider schema with its "log" key intact; the
+// provider's configure stores each key of that block in the client's endpoint
+// cache, where loadApiEndpoint looks SLS up.
+func TestSLSEndpointSeedFitsProviderSchema(t *testing.T) {
+	t.Setenv("ALIBABA_CLOUD_ENDPOINT_SLS", "")
+	t.Setenv("SLS_ENDPOINT", "")
+	cfg := buildProviderConfiguration("us-west-1", map[string]any{"access_key": "ak", "secret_key": "sk"}, nil)
+	p := alicloud.Provider()
+	d := schema.TestResourceDataRaw(t, p.Schema, cfg)
+	set, ok := d.Get("endpoints").(*schema.Set)
+	if !ok || set.Len() != 1 {
+		t.Fatalf("endpoints block did not survive the provider schema: %#v", d.Get("endpoints"))
+	}
+	if got := set.List()[0].(map[string]any)["log"]; got != "us-west-1.log.aliyuncs.com" {
+		t.Fatalf("endpoints.log: want us-west-1.log.aliyuncs.com, got %#v", got)
 	}
 }
 

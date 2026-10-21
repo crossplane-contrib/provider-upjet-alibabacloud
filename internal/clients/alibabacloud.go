@@ -8,6 +8,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
@@ -124,6 +125,9 @@ func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1
 	cfg := terraform.ProviderConfiguration{
 		"region": region,
 	}
+	if e := slsEndpointSeed(region); e != nil {
+		cfg["endpoints"] = []any{e}
+	}
 	for _, key := range providerCredentialKeys {
 		v, ok := creds[key]
 		if !ok {
@@ -141,6 +145,30 @@ func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1
 		cfg["assume_role_with_oidc"] = []any{assumeRoleWithOIDCConfiguration(pc.Spec.AssumeRoleWithOIDC)}
 	}
 	return cfg
+}
+
+// slsEndpointSeed returns an endpoints block that pins Simple Log Service to
+// its regional endpoint, or nil when there is no region or the user overrides
+// the endpoint through the environment.
+//
+// Upstream looks the SLS endpoint up under the "log" key
+// (productCodeToConfigEndpoints) but caches what it resolves under "sls", so
+// the cache never hits and every SLS API call repeats the Location service
+// lookup. That lookup goes to mainland China and retries for two minutes, and
+// SLS reads wrap their call in a one-minute retry, so whenever Location is slow
+// to reach every SLS read times out. Seeding "log" makes the first lookup hit.
+// The value is what upstream's own fallback (regularProductEndpoint) computes,
+// and what Location returns for these regions.
+func slsEndpointSeed(region string) map[string]any {
+	if region == "" {
+		return nil
+	}
+	for _, env := range []string{"ALIBABA_CLOUD_ENDPOINT_SLS", "SLS_ENDPOINT"} {
+		if strings.TrimSpace(os.Getenv(env)) != "" {
+			return nil
+		}
+	}
+	return map[string]any{"log": fmt.Sprintf("%s.log.aliyuncs.com", region)}
 }
 
 func assumeRoleConfiguration(assumeRole *v1beta1.AssumeRoleOptions) map[string]any {
