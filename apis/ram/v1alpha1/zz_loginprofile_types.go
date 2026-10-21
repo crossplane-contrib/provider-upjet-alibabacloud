@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LoginProfileInitParameters struct {
@@ -26,16 +26,16 @@ type LoginProfileInitParameters struct {
 
 	// The user name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.User
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	UserName *string `json:"userName,omitempty" tf:"user_name,omitempty"`
 
 	// Reference to a User in ram to populate userName.
 	// +kubebuilder:validation:Optional
-	UserNameRef *v1.Reference `json:"userNameRef,omitempty" tf:"-"`
+	UserNameRef *v2.Reference `json:"userNameRef,omitempty" tf:"-"`
 
 	// Selector for a User in ram to populate userName.
 	// +kubebuilder:validation:Optional
-	UserNameSelector *v1.Selector `json:"userNameSelector,omitempty" tf:"-"`
+	UserNameSelector *v2.Selector `json:"userNameSelector,omitempty" tf:"-"`
 }
 
 type LoginProfileObservation struct {
@@ -75,23 +75,23 @@ type LoginProfileParameters struct {
 
 	// The user name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.User
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	UserName *string `json:"userName,omitempty" tf:"user_name,omitempty"`
 
 	// Reference to a User in ram to populate userName.
 	// +kubebuilder:validation:Optional
-	UserNameRef *v1.Reference `json:"userNameRef,omitempty" tf:"-"`
+	UserNameRef *v2.Reference `json:"userNameRef,omitempty" tf:"-"`
 
 	// Selector for a User in ram to populate userName.
 	// +kubebuilder:validation:Optional
-	UserNameSelector *v1.Selector `json:"userNameSelector,omitempty" tf:"-"`
+	UserNameSelector *v2.Selector `json:"userNameSelector,omitempty" tf:"-"`
 }
 
 // LoginProfileSpec defines the desired state of LoginProfile
 type LoginProfileSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LoginProfileParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LoginProfileParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -107,8 +107,8 @@ type LoginProfileSpec struct {
 
 // LoginProfileStatus defines the observed state of LoginProfile.
 type LoginProfileStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LoginProfileObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LoginProfileObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

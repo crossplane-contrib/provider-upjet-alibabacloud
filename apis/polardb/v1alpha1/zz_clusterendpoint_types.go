@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ClusterEndpointInitParameters struct {
@@ -28,11 +28,11 @@ type ClusterEndpointInitParameters struct {
 
 	// Reference to a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDRef *v1.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
+	DBClusterIDRef *v2.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
+	DBClusterIDSelector *v2.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// The name of the endpoint.
 	DBEndpointDescription *string `json:"dbEndpointDescription,omitempty" tf:"db_endpoint_description,omitempty"`
@@ -145,11 +145,11 @@ type ClusterEndpointParameters struct {
 
 	// Reference to a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDRef *v1.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
+	DBClusterIDRef *v2.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
+	DBClusterIDSelector *v2.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// The name of the endpoint.
 	// +kubebuilder:validation:Optional
@@ -199,8 +199,8 @@ type ClusterEndpointParameters struct {
 
 // ClusterEndpointSpec defines the desired state of ClusterEndpoint
 type ClusterEndpointSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ClusterEndpointParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ClusterEndpointParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -216,8 +216,8 @@ type ClusterEndpointSpec struct {
 
 // ClusterEndpointStatus defines the observed state of ClusterEndpoint.
 type ClusterEndpointStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClusterEndpointObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClusterEndpointObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

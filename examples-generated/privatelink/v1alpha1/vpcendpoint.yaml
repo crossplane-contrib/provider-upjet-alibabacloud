@@ -26,7 +26,8 @@ spec:
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: defaultbFzA4a
-    zonePrivateIpAddressCount: 1
+    zonePrivateIpAddressCount: "1"
+
 ---
 
 apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1

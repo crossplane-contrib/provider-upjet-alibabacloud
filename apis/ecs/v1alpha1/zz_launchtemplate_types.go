@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ImageOptionsInitParameters struct {
@@ -164,11 +164,11 @@ type LaunchTemplateInitParameters struct {
 
 	// Reference to a DeploymentSet in ecs to populate deploymentSetId.
 	// +kubebuilder:validation:Optional
-	DeploymentSetIDRef *v1.Reference `json:"deploymentSetIdRef,omitempty" tf:"-"`
+	DeploymentSetIDRef *v2.Reference `json:"deploymentSetIdRef,omitempty" tf:"-"`
 
 	// Selector for a DeploymentSet in ecs to populate deploymentSetId.
 	// +kubebuilder:validation:Optional
-	DeploymentSetIDSelector *v1.Selector `json:"deploymentSetIdSelector,omitempty" tf:"-"`
+	DeploymentSetIDSelector *v2.Selector `json:"deploymentSetIdSelector,omitempty" tf:"-"`
 
 	// Description of instance launch template version 1. It can be [2, 256] characters in length. It cannot start with "http://" or "https://". The default value is null.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -224,11 +224,11 @@ type LaunchTemplateInitParameters struct {
 
 	// Reference to a KeyPair in ecs to populate keyPairName.
 	// +kubebuilder:validation:Optional
-	KeyPairNameRef *v1.Reference `json:"keyPairNameRef,omitempty" tf:"-"`
+	KeyPairNameRef *v2.Reference `json:"keyPairNameRef,omitempty" tf:"-"`
 
 	// Selector for a KeyPair in ecs to populate keyPairName.
 	// +kubebuilder:validation:Optional
-	KeyPairNameSelector *v1.Selector `json:"keyPairNameSelector,omitempty" tf:"-"`
+	KeyPairNameSelector *v2.Selector `json:"keyPairNameSelector,omitempty" tf:"-"`
 
 	// The name of Launch Template.
 	LaunchTemplateName *string `json:"launchTemplateName,omitempty" tf:"launch_template_name,omitempty"`
@@ -266,11 +266,11 @@ type LaunchTemplateInitParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The ID of security group N to which to assign the instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -280,11 +280,11 @@ type LaunchTemplateInitParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupRefs []v1.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
+	SecurityGroupRefs []v2.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+	SecurityGroupSelector *v2.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
 	// The protection period of the preemptible instance. Unit: hours. Valid values: 0, 1, 2, 3, 4, 5, and 6. Default to: 1.
 	SpotDuration *string `json:"spotDuration,omitempty" tf:"spot_duration,omitempty"`
@@ -321,11 +321,11 @@ type LaunchTemplateInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The description of the launch template version. The description must be 2 to 256 characters in length and cannot start with http:// or https://.
 	VersionDescription *string `json:"versionDescription,omitempty" tf:"version_description,omitempty"`
@@ -336,11 +336,11 @@ type LaunchTemplateInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The zone ID of the instance.
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
@@ -362,29 +362,29 @@ type LaunchTemplateNetworkInterfacesInitParameters struct {
 
 	// The security group ID must be one in the same VPC.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The VSwitch ID for ENI. The instance must be in the same zone of the same VPC network as the ENI, but they may belong to different VSwitches.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 type LaunchTemplateNetworkInterfacesObservation struct {
@@ -428,31 +428,31 @@ type LaunchTemplateNetworkInterfacesParameters struct {
 
 	// The security group ID must be one in the same VPC.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The VSwitch ID for ENI. The instance must be in the same zone of the same VPC network as the ENI, but they may belong to different VSwitches.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 type LaunchTemplateObservation struct {
@@ -638,11 +638,11 @@ type LaunchTemplateParameters struct {
 
 	// Reference to a DeploymentSet in ecs to populate deploymentSetId.
 	// +kubebuilder:validation:Optional
-	DeploymentSetIDRef *v1.Reference `json:"deploymentSetIdRef,omitempty" tf:"-"`
+	DeploymentSetIDRef *v2.Reference `json:"deploymentSetIdRef,omitempty" tf:"-"`
 
 	// Selector for a DeploymentSet in ecs to populate deploymentSetId.
 	// +kubebuilder:validation:Optional
-	DeploymentSetIDSelector *v1.Selector `json:"deploymentSetIdSelector,omitempty" tf:"-"`
+	DeploymentSetIDSelector *v2.Selector `json:"deploymentSetIdSelector,omitempty" tf:"-"`
 
 	// Description of instance launch template version 1. It can be [2, 256] characters in length. It cannot start with "http://" or "https://". The default value is null.
 	// +kubebuilder:validation:Optional
@@ -715,11 +715,11 @@ type LaunchTemplateParameters struct {
 
 	// Reference to a KeyPair in ecs to populate keyPairName.
 	// +kubebuilder:validation:Optional
-	KeyPairNameRef *v1.Reference `json:"keyPairNameRef,omitempty" tf:"-"`
+	KeyPairNameRef *v2.Reference `json:"keyPairNameRef,omitempty" tf:"-"`
 
 	// Selector for a KeyPair in ecs to populate keyPairName.
 	// +kubebuilder:validation:Optional
-	KeyPairNameSelector *v1.Selector `json:"keyPairNameSelector,omitempty" tf:"-"`
+	KeyPairNameSelector *v2.Selector `json:"keyPairNameSelector,omitempty" tf:"-"`
 
 	// The name of Launch Template.
 	// +kubebuilder:validation:Optional
@@ -773,11 +773,11 @@ type LaunchTemplateParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The ID of security group N to which to assign the instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -788,11 +788,11 @@ type LaunchTemplateParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupRefs []v1.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
+	SecurityGroupRefs []v2.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+	SecurityGroupSelector *v2.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
 	// The protection period of the preemptible instance. Unit: hours. Valid values: 0, 1, 2, 3, 4, 5, and 6. Default to: 1.
 	// +kubebuilder:validation:Optional
@@ -839,11 +839,11 @@ type LaunchTemplateParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The description of the launch template version. The description must be 2 to 256 characters in length and cannot start with http:// or https://.
 	// +kubebuilder:validation:Optional
@@ -856,11 +856,11 @@ type LaunchTemplateParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The zone ID of the instance.
 	// +kubebuilder:validation:Optional
@@ -968,8 +968,8 @@ type SystemDiskParameters struct {
 
 // LaunchTemplateSpec defines the desired state of LaunchTemplate
 type LaunchTemplateSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LaunchTemplateParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LaunchTemplateParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -985,8 +985,8 @@ type LaunchTemplateSpec struct {
 
 // LaunchTemplateStatus defines the observed state of LaunchTemplate.
 type LaunchTemplateStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LaunchTemplateObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LaunchTemplateObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

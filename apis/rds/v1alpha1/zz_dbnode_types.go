@@ -10,23 +10,23 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DBNodeInitParameters struct {
 
 	// The specification information of the node.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("instance_type",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("instance_type",false)
 	ClassCode *string `json:"classCode,omitempty" tf:"class_code,omitempty"`
 
 	// Reference to a Instance in rds to populate classCode.
 	// +kubebuilder:validation:Optional
-	ClassCodeRef *v1.Reference `json:"classCodeRef,omitempty" tf:"-"`
+	ClassCodeRef *v2.Reference `json:"classCodeRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate classCode.
 	// +kubebuilder:validation:Optional
-	ClassCodeSelector *v1.Selector `json:"classCodeSelector,omitempty" tf:"-"`
+	ClassCodeSelector *v2.Selector `json:"classCodeSelector,omitempty" tf:"-"`
 
 	// The Id of instance that can run database.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Instance
@@ -35,24 +35,24 @@ type DBNodeInitParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// The zone ID of the node.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("zone_id",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("zone_id",false)
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 
 	// Reference to a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDRef *v1.Reference `json:"zoneIdRef,omitempty" tf:"-"`
+	ZoneIDRef *v2.Reference `json:"zoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDSelector *v1.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
+	ZoneIDSelector *v2.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }
 
 type DBNodeObservation struct {
@@ -83,17 +83,17 @@ type DBNodeParameters struct {
 
 	// The specification information of the node.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("instance_type",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("instance_type",false)
 	// +kubebuilder:validation:Optional
 	ClassCode *string `json:"classCode,omitempty" tf:"class_code,omitempty"`
 
 	// Reference to a Instance in rds to populate classCode.
 	// +kubebuilder:validation:Optional
-	ClassCodeRef *v1.Reference `json:"classCodeRef,omitempty" tf:"-"`
+	ClassCodeRef *v2.Reference `json:"classCodeRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate classCode.
 	// +kubebuilder:validation:Optional
-	ClassCodeSelector *v1.Selector `json:"classCodeSelector,omitempty" tf:"-"`
+	ClassCodeSelector *v2.Selector `json:"classCodeSelector,omitempty" tf:"-"`
 
 	// The Id of instance that can run database.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Instance
@@ -103,11 +103,11 @@ type DBNodeParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -116,23 +116,23 @@ type DBNodeParameters struct {
 
 	// The zone ID of the node.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("zone_id",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("zone_id",false)
 	// +kubebuilder:validation:Optional
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 
 	// Reference to a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDRef *v1.Reference `json:"zoneIdRef,omitempty" tf:"-"`
+	ZoneIDRef *v2.Reference `json:"zoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDSelector *v1.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
+	ZoneIDSelector *v2.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }
 
 // DBNodeSpec defines the desired state of DBNode
 type DBNodeSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DBNodeParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DBNodeParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -148,8 +148,8 @@ type DBNodeSpec struct {
 
 // DBNodeStatus defines the observed state of DBNode.
 type DBNodeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DBNodeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DBNodeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

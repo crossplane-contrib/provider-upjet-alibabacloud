@@ -10,23 +10,23 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DefaultPatchBaselineInitParameters struct {
 
 	// The name of the patch baseline.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oos/v1alpha1.PatchBaseline
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PatchBaselineName *string `json:"patchBaselineName,omitempty" tf:"patch_baseline_name,omitempty"`
 
 	// Reference to a PatchBaseline in oos to populate patchBaselineName.
 	// +kubebuilder:validation:Optional
-	PatchBaselineNameRef *v1.Reference `json:"patchBaselineNameRef,omitempty" tf:"-"`
+	PatchBaselineNameRef *v2.Reference `json:"patchBaselineNameRef,omitempty" tf:"-"`
 
 	// Selector for a PatchBaseline in oos to populate patchBaselineName.
 	// +kubebuilder:validation:Optional
-	PatchBaselineNameSelector *v1.Selector `json:"patchBaselineNameSelector,omitempty" tf:"-"`
+	PatchBaselineNameSelector *v2.Selector `json:"patchBaselineNameSelector,omitempty" tf:"-"`
 }
 
 type DefaultPatchBaselineObservation struct {
@@ -45,17 +45,17 @@ type DefaultPatchBaselineParameters struct {
 
 	// The name of the patch baseline.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oos/v1alpha1.PatchBaseline
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PatchBaselineName *string `json:"patchBaselineName,omitempty" tf:"patch_baseline_name,omitempty"`
 
 	// Reference to a PatchBaseline in oos to populate patchBaselineName.
 	// +kubebuilder:validation:Optional
-	PatchBaselineNameRef *v1.Reference `json:"patchBaselineNameRef,omitempty" tf:"-"`
+	PatchBaselineNameRef *v2.Reference `json:"patchBaselineNameRef,omitempty" tf:"-"`
 
 	// Selector for a PatchBaseline in oos to populate patchBaselineName.
 	// +kubebuilder:validation:Optional
-	PatchBaselineNameSelector *v1.Selector `json:"patchBaselineNameSelector,omitempty" tf:"-"`
+	PatchBaselineNameSelector *v2.Selector `json:"patchBaselineNameSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -65,8 +65,8 @@ type DefaultPatchBaselineParameters struct {
 
 // DefaultPatchBaselineSpec defines the desired state of DefaultPatchBaseline
 type DefaultPatchBaselineSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DefaultPatchBaselineParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DefaultPatchBaselineParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -82,8 +82,8 @@ type DefaultPatchBaselineSpec struct {
 
 // DefaultPatchBaselineStatus defines the observed state of DefaultPatchBaseline.
 type DefaultPatchBaselineStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DefaultPatchBaselineObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DefaultPatchBaselineObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

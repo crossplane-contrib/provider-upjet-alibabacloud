@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AddressInitParameters struct {
@@ -86,11 +86,11 @@ type AddressPoolInitParameters struct {
 
 	// Reference to a GtmInstance in alidns to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a GtmInstance in alidns to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The load balancing policy of the address pool. Valid values:ALL_RR or RATIO. ALL_RR: returns all addresses. RATIO: returns addresses by weight.
 	LbaStrategy *string `json:"lbaStrategy,omitempty" tf:"lba_strategy,omitempty"`
@@ -136,11 +136,11 @@ type AddressPoolParameters struct {
 
 	// Reference to a GtmInstance in alidns to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a GtmInstance in alidns to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The load balancing policy of the address pool. Valid values:ALL_RR or RATIO. ALL_RR: returns all addresses. RATIO: returns addresses by weight.
 	// +kubebuilder:validation:Optional
@@ -158,8 +158,8 @@ type AddressPoolParameters struct {
 
 // AddressPoolSpec defines the desired state of AddressPool
 type AddressPoolSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AddressPoolParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AddressPoolParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -175,8 +175,8 @@ type AddressPoolSpec struct {
 
 // AddressPoolStatus defines the observed state of AddressPool.
 type AddressPoolStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AddressPoolObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AddressPoolObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ClusterInitParameters struct {
@@ -200,11 +200,11 @@ type ClusterInitParameters struct {
 
 	// Reference to a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+	RoleArnRef *v2.Reference `json:"roleArnRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
+	RoleArnSelector *v2.Selector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// Number of Read-only Columnar Nodes. Valid values: 0 to 7. This parameter is valid only for serverless clusters. This parameter is required when there are column nodes that support steady-state serverless.
 	ScaleApRoNumMax *float64 `json:"scaleApRoNumMax,omitempty" tf:"scale_ap_ro_num_max,omitempty"`
@@ -229,11 +229,11 @@ type ClusterInitParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRefs []v1.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
+	SecurityGroupIDRefs []v2.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The ID of the security group. Separate multiple security groups with commas (,). You can add a maximum of three security groups to a cluster.
 	// -> NOTE: Because of data backup and migration, change DB cluster type and storage would cost 15~20 minutes. Please make full preparation before changing them.
@@ -313,11 +313,11 @@ type ClusterInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The virtual switch ID to launch DB instances in one VPC.
 	// -> NOTE: If vswitch_id is not specified, system will get a vswitch belongs to the user automatically.
@@ -327,11 +327,11 @@ type ClusterInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The Zone to launch the DB cluster. it supports multiple zone.
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
@@ -901,11 +901,11 @@ type ClusterParameters struct {
 
 	// Reference to a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+	RoleArnRef *v2.Reference `json:"roleArnRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
+	RoleArnSelector *v2.Selector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// Number of Read-only Columnar Nodes. Valid values: 0 to 7. This parameter is valid only for serverless clusters. This parameter is required when there are column nodes that support steady-state serverless.
 	// +kubebuilder:validation:Optional
@@ -937,11 +937,11 @@ type ClusterParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRefs []v1.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
+	SecurityGroupIDRefs []v2.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The ID of the security group. Separate multiple security groups with commas (,). You can add a maximum of three security groups to a cluster.
 	// -> NOTE: Because of data backup and migration, change DB cluster type and storage would cost 15~20 minutes. Please make full preparation before changing them.
@@ -1041,11 +1041,11 @@ type ClusterParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The virtual switch ID to launch DB instances in one VPC.
 	// -> NOTE: If vswitch_id is not specified, system will get a vswitch belongs to the user automatically.
@@ -1056,11 +1056,11 @@ type ClusterParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The Zone to launch the DB cluster. it supports multiple zone.
 	// +kubebuilder:validation:Optional
@@ -1167,8 +1167,8 @@ type ParametersParameters struct {
 
 // ClusterSpec defines the desired state of Cluster
 type ClusterSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ClusterParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ClusterParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1184,8 +1184,8 @@ type ClusterSpec struct {
 
 // ClusterStatus defines the observed state of Cluster.
 type ClusterStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ClusterObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ClusterObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -8,11 +8,12 @@ package v1alpha1
 
 import (
 	"context"
+
 	v1alpha12 "github.com/crossplane-contrib/provider-alibabacloud/apis/alb/v1alpha1"
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1"
 	v1alpha13 "github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1"
 	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -28,6 +29,7 @@ func (mg *VpcEndpoint) ResolveReferences(ctx context.Context, c client.Reader) e
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.SecurityGroupRefs,
 		Selector:      mg.Spec.ForProvider.SecurityGroupSelector,
 		To: reference.To{
@@ -44,6 +46,7 @@ func (mg *VpcEndpoint) ResolveReferences(ctx context.Context, c client.Reader) e
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ServiceIDRef,
 		Selector:     mg.Spec.ForProvider.ServiceIDSelector,
 		To: reference.To{
@@ -60,6 +63,7 @@ func (mg *VpcEndpoint) ResolveReferences(ctx context.Context, c client.Reader) e
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
@@ -76,6 +80,7 @@ func (mg *VpcEndpoint) ResolveReferences(ctx context.Context, c client.Reader) e
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.SecurityGroupRefs,
 		Selector:      mg.Spec.InitProvider.SecurityGroupSelector,
 		To: reference.To{
@@ -92,6 +97,7 @@ func (mg *VpcEndpoint) ResolveReferences(ctx context.Context, c client.Reader) e
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ServiceIDRef,
 		Selector:     mg.Spec.InitProvider.ServiceIDSelector,
 		To: reference.To{
@@ -108,6 +114,7 @@ func (mg *VpcEndpoint) ResolveReferences(ctx context.Context, c client.Reader) e
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
@@ -134,6 +141,7 @@ func (mg *VpcEndpointConnection) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EndpointID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.EndpointIDRef,
 		Selector:     mg.Spec.ForProvider.EndpointIDSelector,
 		To: reference.To{
@@ -150,6 +158,7 @@ func (mg *VpcEndpointConnection) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ServiceIDRef,
 		Selector:     mg.Spec.ForProvider.ServiceIDSelector,
 		To: reference.To{
@@ -166,6 +175,7 @@ func (mg *VpcEndpointConnection) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EndpointID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.EndpointIDRef,
 		Selector:     mg.Spec.InitProvider.EndpointIDSelector,
 		To: reference.To{
@@ -182,6 +192,7 @@ func (mg *VpcEndpointConnection) ResolveReferences(ctx context.Context, c client
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ServiceIDRef,
 		Selector:     mg.Spec.InitProvider.ServiceIDSelector,
 		To: reference.To{
@@ -208,6 +219,7 @@ func (mg *VpcEndpointServiceResource) ResolveReferences(ctx context.Context, c c
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ResourceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ResourceIDRef,
 		Selector:     mg.Spec.ForProvider.ResourceIDSelector,
 		To: reference.To{
@@ -224,6 +236,7 @@ func (mg *VpcEndpointServiceResource) ResolveReferences(ctx context.Context, c c
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ServiceIDRef,
 		Selector:     mg.Spec.ForProvider.ServiceIDSelector,
 		To: reference.To{
@@ -240,6 +253,7 @@ func (mg *VpcEndpointServiceResource) ResolveReferences(ctx context.Context, c c
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ResourceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ResourceIDRef,
 		Selector:     mg.Spec.InitProvider.ResourceIDSelector,
 		To: reference.To{
@@ -256,6 +270,7 @@ func (mg *VpcEndpointServiceResource) ResolveReferences(ctx context.Context, c c
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ServiceIDRef,
 		Selector:     mg.Spec.InitProvider.ServiceIDSelector,
 		To: reference.To{
@@ -282,6 +297,7 @@ func (mg *VpcEndpointServiceUser) ResolveReferences(ctx context.Context, c clien
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ServiceIDRef,
 		Selector:     mg.Spec.ForProvider.ServiceIDSelector,
 		To: reference.To{
@@ -298,6 +314,7 @@ func (mg *VpcEndpointServiceUser) ResolveReferences(ctx context.Context, c clien
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.UserID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.UserIDRef,
 		Selector:     mg.Spec.ForProvider.UserIDSelector,
 		To: reference.To{
@@ -314,6 +331,7 @@ func (mg *VpcEndpointServiceUser) ResolveReferences(ctx context.Context, c clien
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ServiceIDRef,
 		Selector:     mg.Spec.InitProvider.ServiceIDSelector,
 		To: reference.To{
@@ -330,6 +348,7 @@ func (mg *VpcEndpointServiceUser) ResolveReferences(ctx context.Context, c clien
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.UserID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.UserIDRef,
 		Selector:     mg.Spec.InitProvider.UserIDSelector,
 		To: reference.To{
@@ -356,6 +375,7 @@ func (mg *VpcEndpointZone) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EndpointID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.EndpointIDRef,
 		Selector:     mg.Spec.ForProvider.EndpointIDSelector,
 		To: reference.To{
@@ -372,6 +392,7 @@ func (mg *VpcEndpointZone) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VswitchID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VswitchIDRef,
 		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
 		To: reference.To{
@@ -388,6 +409,7 @@ func (mg *VpcEndpointZone) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EndpointID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.EndpointIDRef,
 		Selector:     mg.Spec.InitProvider.EndpointIDSelector,
 		To: reference.To{
@@ -404,6 +426,7 @@ func (mg *VpcEndpointZone) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VswitchID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VswitchIDRef,
 		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
 		To: reference.To{

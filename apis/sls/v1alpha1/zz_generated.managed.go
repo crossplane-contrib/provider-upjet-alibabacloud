@@ -6,7 +6,7 @@
 
 package v1alpha1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+import xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this LogtailAttachment.
 func (mg *LogtailAttachment) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
@@ -26,11 +26,6 @@ func (mg *LogtailAttachment) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this LogtailAttachment.
 func (mg *LogtailAttachment) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this LogtailAttachment.
-func (mg *LogtailAttachment) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this LogtailAttachment.
@@ -58,11 +53,6 @@ func (mg *LogtailAttachment) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this LogtailAttachment.
-func (mg *LogtailAttachment) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this LogtailAttachment.
 func (mg *LogtailAttachment) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -86,11 +76,6 @@ func (mg *LogtailConfig) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this LogtailConfig.
 func (mg *LogtailConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this LogtailConfig.
-func (mg *LogtailConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this LogtailConfig.
@@ -118,11 +103,6 @@ func (mg *LogtailConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this LogtailConfig.
-func (mg *LogtailConfig) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this LogtailConfig.
 func (mg *LogtailConfig) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -146,11 +126,6 @@ func (mg *MachineGroup) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this MachineGroup.
 func (mg *MachineGroup) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this MachineGroup.
-func (mg *MachineGroup) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this MachineGroup.
@@ -178,11 +153,6 @@ func (mg *MachineGroup) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this MachineGroup.
-func (mg *MachineGroup) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this MachineGroup.
 func (mg *MachineGroup) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -206,11 +176,6 @@ func (mg *Project) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this Project.
 func (mg *Project) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this Project.
-func (mg *Project) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this Project.
@@ -238,11 +203,6 @@ func (mg *Project) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this Project.
-func (mg *Project) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this Project.
 func (mg *Project) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -266,11 +226,6 @@ func (mg *Store) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this Store.
 func (mg *Store) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this Store.
-func (mg *Store) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this Store.
@@ -298,11 +253,6 @@ func (mg *Store) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this Store.
-func (mg *Store) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this Store.
 func (mg *Store) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -328,11 +278,6 @@ func (mg *StoreIndex) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this StoreIndex.
-func (mg *StoreIndex) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this StoreIndex.
 func (mg *StoreIndex) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -356,11 +301,6 @@ func (mg *StoreIndex) SetManagementPolicies(r xpv1.ManagementPolicies) {
 // SetProviderConfigReference of this StoreIndex.
 func (mg *StoreIndex) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this StoreIndex.
-func (mg *StoreIndex) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this StoreIndex.

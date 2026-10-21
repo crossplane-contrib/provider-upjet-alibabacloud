@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccelerationInfoInitParameters struct {
@@ -28,7 +28,7 @@ type AccelerationInfoParameters struct {
 type CodeInitParameters struct {
 
 	// The CRC-64 value of the function code package.
-	ChecksumSecretRef *v1.SecretKeySelector `json:"checksumSecretRef,omitempty" tf:"-"`
+	ChecksumSecretRef *v2.SecretKeySelector `json:"checksumSecretRef,omitempty" tf:"-"`
 
 	// The name of the OSS Bucket that stores the function code ZIP package.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
@@ -36,11 +36,11 @@ type CodeInitParameters struct {
 
 	// Reference to a Bucket in oss to populate ossBucketName.
 	// +kubebuilder:validation:Optional
-	OssBucketNameRef *v1.Reference `json:"ossBucketNameRef,omitempty" tf:"-"`
+	OssBucketNameRef *v2.Reference `json:"ossBucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate ossBucketName.
 	// +kubebuilder:validation:Optional
-	OssBucketNameSelector *v1.Selector `json:"ossBucketNameSelector,omitempty" tf:"-"`
+	OssBucketNameSelector *v2.Selector `json:"ossBucketNameSelector,omitempty" tf:"-"`
 
 	// The name of the OSS Object that stores the function code ZIP package.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.BucketObject
@@ -48,11 +48,11 @@ type CodeInitParameters struct {
 
 	// Reference to a BucketObject in oss to populate ossObjectName.
 	// +kubebuilder:validation:Optional
-	OssObjectNameRef *v1.Reference `json:"ossObjectNameRef,omitempty" tf:"-"`
+	OssObjectNameRef *v2.Reference `json:"ossObjectNameRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in oss to populate ossObjectName.
 	// +kubebuilder:validation:Optional
-	OssObjectNameSelector *v1.Selector `json:"ossObjectNameSelector,omitempty" tf:"-"`
+	OssObjectNameSelector *v2.Selector `json:"ossObjectNameSelector,omitempty" tf:"-"`
 
 	// The Base 64 encoding of the function code ZIP package.
 	ZipFile *string `json:"zipFile,omitempty" tf:"zip_file,omitempty"`
@@ -74,7 +74,7 @@ type CodeParameters struct {
 
 	// The CRC-64 value of the function code package.
 	// +kubebuilder:validation:Optional
-	ChecksumSecretRef *v1.SecretKeySelector `json:"checksumSecretRef,omitempty" tf:"-"`
+	ChecksumSecretRef *v2.SecretKeySelector `json:"checksumSecretRef,omitempty" tf:"-"`
 
 	// The name of the OSS Bucket that stores the function code ZIP package.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
@@ -83,11 +83,11 @@ type CodeParameters struct {
 
 	// Reference to a Bucket in oss to populate ossBucketName.
 	// +kubebuilder:validation:Optional
-	OssBucketNameRef *v1.Reference `json:"ossBucketNameRef,omitempty" tf:"-"`
+	OssBucketNameRef *v2.Reference `json:"ossBucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate ossBucketName.
 	// +kubebuilder:validation:Optional
-	OssBucketNameSelector *v1.Selector `json:"ossBucketNameSelector,omitempty" tf:"-"`
+	OssBucketNameSelector *v2.Selector `json:"ossBucketNameSelector,omitempty" tf:"-"`
 
 	// The name of the OSS Object that stores the function code ZIP package.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.BucketObject
@@ -96,11 +96,11 @@ type CodeParameters struct {
 
 	// Reference to a BucketObject in oss to populate ossObjectName.
 	// +kubebuilder:validation:Optional
-	OssObjectNameRef *v1.Reference `json:"ossObjectNameRef,omitempty" tf:"-"`
+	OssObjectNameRef *v2.Reference `json:"ossObjectNameRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in oss to populate ossObjectName.
 	// +kubebuilder:validation:Optional
-	OssObjectNameSelector *v1.Selector `json:"ossObjectNameSelector,omitempty" tf:"-"`
+	OssObjectNameSelector *v2.Selector `json:"ossObjectNameSelector,omitempty" tf:"-"`
 
 	// The Base 64 encoding of the function code ZIP package.
 	// +kubebuilder:validation:Optional
@@ -444,11 +444,11 @@ type FunctionInitParameters struct {
 
 	// References to LayerVersion in fcv3 to populate layers.
 	// +kubebuilder:validation:Optional
-	LayerRefs []v1.Reference `json:"layerRefs,omitempty" tf:"-"`
+	LayerRefs []v2.Reference `json:"layerRefs,omitempty" tf:"-"`
 
 	// Selector for a list of LayerVersion in fcv3 to populate layers.
 	// +kubebuilder:validation:Optional
-	LayerSelector *v1.Selector `json:"layerSelector,omitempty" tf:"-"`
+	LayerSelector *v2.Selector `json:"layerSelector,omitempty" tf:"-"`
 
 	// The list of layers.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/fcv3/v1alpha1.LayerVersion
@@ -478,11 +478,11 @@ type FunctionInitParameters struct {
 
 	// Reference to a Role in ram to populate role.
 	// +kubebuilder:validation:Optional
-	RoleRef *v1.Reference `json:"roleRef,omitempty" tf:"-"`
+	RoleRef *v2.Reference `json:"roleRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate role.
 	// +kubebuilder:validation:Optional
-	RoleSelector *v1.Selector `json:"roleSelector,omitempty" tf:"-"`
+	RoleSelector *v2.Selector `json:"roleSelector,omitempty" tf:"-"`
 
 	// Function runtime type
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
@@ -711,11 +711,11 @@ type FunctionParameters struct {
 
 	// References to LayerVersion in fcv3 to populate layers.
 	// +kubebuilder:validation:Optional
-	LayerRefs []v1.Reference `json:"layerRefs,omitempty" tf:"-"`
+	LayerRefs []v2.Reference `json:"layerRefs,omitempty" tf:"-"`
 
 	// Selector for a list of LayerVersion in fcv3 to populate layers.
 	// +kubebuilder:validation:Optional
-	LayerSelector *v1.Selector `json:"layerSelector,omitempty" tf:"-"`
+	LayerSelector *v2.Selector `json:"layerSelector,omitempty" tf:"-"`
 
 	// The list of layers.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/fcv3/v1alpha1.LayerVersion
@@ -757,11 +757,11 @@ type FunctionParameters struct {
 
 	// Reference to a Role in ram to populate role.
 	// +kubebuilder:validation:Optional
-	RoleRef *v1.Reference `json:"roleRef,omitempty" tf:"-"`
+	RoleRef *v2.Reference `json:"roleRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate role.
 	// +kubebuilder:validation:Optional
-	RoleSelector *v1.Selector `json:"roleSelector,omitempty" tf:"-"`
+	RoleSelector *v2.Selector `json:"roleSelector,omitempty" tf:"-"`
 
 	// Function runtime type
 	// +kubebuilder:validation:Optional
@@ -1273,10 +1273,10 @@ type PreStopParameters struct {
 type RegistryConfigAuthConfigInitParameters struct {
 
 	// The password of the image registry.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The username of the image registry.
-	UserNameSecretRef *v1.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
+	UserNameSecretRef *v2.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
 }
 
 type RegistryConfigAuthConfigObservation struct {
@@ -1286,11 +1286,11 @@ type RegistryConfigAuthConfigParameters struct {
 
 	// The password of the image registry.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The username of the image registry.
 	// +kubebuilder:validation:Optional
-	UserNameSecretRef *v1.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
+	UserNameSecretRef *v2.SecretKeySelector `json:"userNameSecretRef,omitempty" tf:"-"`
 }
 
 type RegistryConfigCertConfigInitParameters struct {
@@ -1385,11 +1385,11 @@ type VPCConfigInitParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// VPC network ID
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.VPC
@@ -1397,19 +1397,19 @@ type VPCConfigInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VSwitchIDRefs []v1.Reference `json:"vSwitchIdRefs,omitempty" tf:"-"`
+	VSwitchIDRefs []v2.Reference `json:"vSwitchIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VSwitchIDSelector *v1.Selector `json:"vSwitchIdSelector,omitempty" tf:"-"`
+	VSwitchIDSelector *v2.Selector `json:"vSwitchIdSelector,omitempty" tf:"-"`
 
 	// Switch List
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -1439,11 +1439,11 @@ type VPCConfigParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// VPC network ID
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.VPC
@@ -1452,19 +1452,19 @@ type VPCConfigParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VSwitchIDRefs []v1.Reference `json:"vSwitchIdRefs,omitempty" tf:"-"`
+	VSwitchIDRefs []v2.Reference `json:"vSwitchIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VSwitchIDSelector *v1.Selector `json:"vSwitchIdSelector,omitempty" tf:"-"`
+	VSwitchIDSelector *v2.Selector `json:"vSwitchIdSelector,omitempty" tf:"-"`
 
 	// Switch List
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -1476,8 +1476,8 @@ type VPCConfigParameters struct {
 
 // FunctionSpec defines the desired state of Function
 type FunctionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     FunctionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   FunctionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1493,8 +1493,8 @@ type FunctionSpec struct {
 
 // FunctionStatus defines the observed state of Function.
 type FunctionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FunctionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FunctionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

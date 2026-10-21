@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type VpcBindingInitParameters struct {
@@ -21,11 +21,11 @@ type VpcBindingInitParameters struct {
 
 	// Reference to a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameRef *v1.Reference `json:"functionNameRef,omitempty" tf:"-"`
+	FunctionNameRef *v2.Reference `json:"functionNameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameSelector *v1.Selector `json:"functionNameSelector,omitempty" tf:"-"`
+	FunctionNameSelector *v2.Selector `json:"functionNameSelector,omitempty" tf:"-"`
 
 	// VPC instance ID
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.VPC
@@ -33,11 +33,11 @@ type VpcBindingInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 }
 
 type VpcBindingObservation struct {
@@ -61,11 +61,11 @@ type VpcBindingParameters struct {
 
 	// Reference to a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameRef *v1.Reference `json:"functionNameRef,omitempty" tf:"-"`
+	FunctionNameRef *v2.Reference `json:"functionNameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameSelector *v1.Selector `json:"functionNameSelector,omitempty" tf:"-"`
+	FunctionNameSelector *v2.Selector `json:"functionNameSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -79,17 +79,17 @@ type VpcBindingParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 }
 
 // VpcBindingSpec defines the desired state of VpcBinding
 type VpcBindingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     VpcBindingParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   VpcBindingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -105,8 +105,8 @@ type VpcBindingSpec struct {
 
 // VpcBindingStatus defines the observed state of VpcBinding.
 type VpcBindingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        VpcBindingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               VpcBindingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

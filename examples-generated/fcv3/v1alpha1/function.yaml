@@ -19,7 +19,7 @@ spec:
       ossObjectNameSelector:
         matchLabels:
           testing.upbound.io/example-name: default
-    cpu: 0.5
+    cpu: "0.5"
     customRuntimeConfig:
     - args:
       - app.py
@@ -30,36 +30,37 @@ spec:
       - -c
       - example
       healthCheckConfig:
-      - failureThreshold: 3
+      - failureThreshold: "3"
         httpGetUrl: /ready
-        initialDelaySeconds: 1
-        periodSeconds: 10
-        successThreshold: 1
-        timeoutSeconds: 1
-      port: 9000
+        initialDelaySeconds: "1"
+        periodSeconds: "10"
+        successThreshold: "1"
+        timeoutSeconds: "1"
+      port: "9000"
     description: Create
-    diskSize: 512
+    diskSize: "512"
     environmentVariables:
       EnvKey: EnvVal
     functionName: ${var.name}-${random_uuid.default.result}
     handler: index.handler
-    instanceConcurrency: 2
+    instanceConcurrency: "2"
     instanceLifecycleConfig:
     - initializer:
       - handler: index.init
-        timeout: 1
+        timeout: "1"
       preStop:
       - handler: index.stop
-        timeout: 1
+        timeout: "1"
     internetAccess: "true"
     layerRefs:
     - name: example
     logConfig:
     - logBeginRule: None
-    memorySize: 512
+    memorySize: "512"
     region: cn-beijing
     runtime: custom.debian10
-    timeout: 3
+    timeout: "3"
+
 ---
 
 apiVersion: oss.alibabacloud.crossplane.io/v1alpha1

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DiskAttachmentInitParameters struct {
@@ -27,11 +27,11 @@ type DiskAttachmentInitParameters struct {
 
 	// Reference to a Disk in ecs to populate diskId.
 	// +kubebuilder:validation:Optional
-	DiskIDRef *v1.Reference `json:"diskIdRef,omitempty" tf:"-"`
+	DiskIDRef *v2.Reference `json:"diskIdRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in ecs to populate diskId.
 	// +kubebuilder:validation:Optional
-	DiskIDSelector *v1.Selector `json:"diskIdSelector,omitempty" tf:"-"`
+	DiskIDSelector *v2.Selector `json:"diskIdSelector,omitempty" tf:"-"`
 
 	// ID of the Instance to attach to.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance
@@ -39,11 +39,11 @@ type DiskAttachmentInitParameters struct {
 
 	// Reference to a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The name of key pair
 	KeyPairName *string `json:"keyPairName,omitempty" tf:"key_pair_name,omitempty"`
@@ -96,11 +96,11 @@ type DiskAttachmentParameters struct {
 
 	// Reference to a Disk in ecs to populate diskId.
 	// +kubebuilder:validation:Optional
-	DiskIDRef *v1.Reference `json:"diskIdRef,omitempty" tf:"-"`
+	DiskIDRef *v2.Reference `json:"diskIdRef,omitempty" tf:"-"`
 
 	// Selector for a Disk in ecs to populate diskId.
 	// +kubebuilder:validation:Optional
-	DiskIDSelector *v1.Selector `json:"diskIdSelector,omitempty" tf:"-"`
+	DiskIDSelector *v2.Selector `json:"diskIdSelector,omitempty" tf:"-"`
 
 	// ID of the Instance to attach to.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance
@@ -109,11 +109,11 @@ type DiskAttachmentParameters struct {
 
 	// Reference to a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The name of key pair
 	// +kubebuilder:validation:Optional
@@ -131,8 +131,8 @@ type DiskAttachmentParameters struct {
 
 // DiskAttachmentSpec defines the desired state of DiskAttachment
 type DiskAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DiskAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DiskAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -148,8 +148,8 @@ type DiskAttachmentSpec struct {
 
 // DiskAttachmentStatus defines the observed state of DiskAttachment.
 type DiskAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DiskAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DiskAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

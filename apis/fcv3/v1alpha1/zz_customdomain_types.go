@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuthConfigInitParameters struct {
@@ -51,7 +51,7 @@ type CertConfigInitParameters struct {
 	Certificate *string `json:"certificate,omitempty" tf:"certificate,omitempty"`
 
 	// Private Key in PEM format
-	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+	PrivateKeySecretRef *v2.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 }
 
 type CertConfigObservation struct {
@@ -75,7 +75,7 @@ type CertConfigParameters struct {
 
 	// Private Key in PEM format
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+	PrivateKeySecretRef *v2.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 }
 
 type CorsConfigInitParameters struct {
@@ -157,16 +157,16 @@ type CustomDomainInitParameters struct {
 
 	// The ID of an SSL certificate managed by SSL Certificates Service (CAS). When set, the provider resolves the certificate and private key from the referenced SSL certificate and binds them as the HTTPS certificate for the custom domain, so that a certificate managed in SSL Certificates Service can be referenced without pasting the PEM material. It conflicts with cert_config.0.certificate and cert_config.0.private_key. The resolved private key is never persisted to state.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sslcertificatesservice/v1alpha1.Certificate
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	CertificateID *string `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
 
 	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+	CertificateIDRef *v2.Reference `json:"certificateIdRef,omitempty" tf:"-"`
 
 	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
+	CertificateIDSelector *v2.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
 
 	// Cross-Origin Resource Sharing (CORS) configuration, used to control which origins can access resources under the custom domain. See cors_config below.
 	CorsConfig []CorsConfigInitParameters `json:"corsConfig,omitempty" tf:"cors_config,omitempty"`
@@ -247,17 +247,17 @@ type CustomDomainParameters struct {
 
 	// The ID of an SSL certificate managed by SSL Certificates Service (CAS). When set, the provider resolves the certificate and private key from the referenced SSL certificate and binds them as the HTTPS certificate for the custom domain, so that a certificate managed in SSL Certificates Service can be referenced without pasting the PEM material. It conflicts with cert_config.0.certificate and cert_config.0.private_key. The resolved private key is never persisted to state.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sslcertificatesservice/v1alpha1.Certificate
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	CertificateID *string `json:"certificateId,omitempty" tf:"certificate_id,omitempty"`
 
 	// Reference to a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDRef *v1.Reference `json:"certificateIdRef,omitempty" tf:"-"`
+	CertificateIDRef *v2.Reference `json:"certificateIdRef,omitempty" tf:"-"`
 
 	// Selector for a Certificate in sslcertificatesservice to populate certificateId.
 	// +kubebuilder:validation:Optional
-	CertificateIDSelector *v1.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
+	CertificateIDSelector *v2.Selector `json:"certificateIdSelector,omitempty" tf:"-"`
 
 	// Cross-Origin Resource Sharing (CORS) configuration, used to control which origins can access resources under the custom domain. See cors_config below.
 	// +kubebuilder:validation:Optional
@@ -413,11 +413,11 @@ type RoutesInitParameters struct {
 
 	// Reference to a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameRef *v1.Reference `json:"functionNameRef,omitempty" tf:"-"`
+	FunctionNameRef *v2.Reference `json:"functionNameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameSelector *v1.Selector `json:"functionNameSelector,omitempty" tf:"-"`
+	FunctionNameSelector *v2.Selector `json:"functionNameSelector,omitempty" tf:"-"`
 
 	// List of supported HTTP methods
 	Methods []*string `json:"methods,omitempty" tf:"methods,omitempty"`
@@ -459,11 +459,11 @@ type RoutesParameters struct {
 
 	// Reference to a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameRef *v1.Reference `json:"functionNameRef,omitempty" tf:"-"`
+	FunctionNameRef *v2.Reference `json:"functionNameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameSelector *v1.Selector `json:"functionNameSelector,omitempty" tf:"-"`
+	FunctionNameSelector *v2.Selector `json:"functionNameSelector,omitempty" tf:"-"`
 
 	// List of supported HTTP methods
 	// +kubebuilder:validation:Optional
@@ -571,8 +571,8 @@ type WildcardRulesParameters struct {
 
 // CustomDomainSpec defines the desired state of CustomDomain
 type CustomDomainSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CustomDomainParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CustomDomainParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -588,8 +588,8 @@ type CustomDomainSpec struct {
 
 // CustomDomainStatus defines the observed state of CustomDomain.
 type CustomDomainStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CustomDomainObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CustomDomainObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

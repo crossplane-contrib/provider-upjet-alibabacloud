@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AbortMultipartUploadInitParameters struct {
@@ -509,16 +509,16 @@ type LoggingInitParameters struct {
 
 	// The name of the bucket that will receive the log objects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	TargetBucket *string `json:"targetBucket,omitempty" tf:"target_bucket,omitempty"`
 
 	// Reference to a Bucket in oss to populate targetBucket.
 	// +kubebuilder:validation:Optional
-	TargetBucketRef *v1.Reference `json:"targetBucketRef,omitempty" tf:"-"`
+	TargetBucketRef *v2.Reference `json:"targetBucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate targetBucket.
 	// +kubebuilder:validation:Optional
-	TargetBucketSelector *v1.Selector `json:"targetBucketSelector,omitempty" tf:"-"`
+	TargetBucketSelector *v2.Selector `json:"targetBucketSelector,omitempty" tf:"-"`
 
 	// To specify a key prefix for log objects.
 	TargetPrefix *string `json:"targetPrefix,omitempty" tf:"target_prefix,omitempty"`
@@ -537,17 +537,17 @@ type LoggingParameters struct {
 
 	// The name of the bucket that will receive the log objects.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	TargetBucket *string `json:"targetBucket,omitempty" tf:"target_bucket,omitempty"`
 
 	// Reference to a Bucket in oss to populate targetBucket.
 	// +kubebuilder:validation:Optional
-	TargetBucketRef *v1.Reference `json:"targetBucketRef,omitempty" tf:"-"`
+	TargetBucketRef *v2.Reference `json:"targetBucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate targetBucket.
 	// +kubebuilder:validation:Optional
-	TargetBucketSelector *v1.Selector `json:"targetBucketSelector,omitempty" tf:"-"`
+	TargetBucketSelector *v2.Selector `json:"targetBucketSelector,omitempty" tf:"-"`
 
 	// To specify a key prefix for log objects.
 	// +kubebuilder:validation:Optional
@@ -661,16 +661,16 @@ type ServerSideEncryptionRuleInitParameters struct {
 
 	// The alibaba cloud KMS master key ID used for the SSE-KMS encryption.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSMasterKeyID *string `json:"kmsMasterKeyId,omitempty" tf:"kms_master_key_id,omitempty"`
 
 	// Reference to a Key in kms to populate kmsMasterKeyId.
 	// +kubebuilder:validation:Optional
-	KMSMasterKeyIDRef *v1.Reference `json:"kmsMasterKeyIdRef,omitempty" tf:"-"`
+	KMSMasterKeyIDRef *v2.Reference `json:"kmsMasterKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsMasterKeyId.
 	// +kubebuilder:validation:Optional
-	KMSMasterKeyIDSelector *v1.Selector `json:"kmsMasterKeyIdSelector,omitempty" tf:"-"`
+	KMSMasterKeyIDSelector *v2.Selector `json:"kmsMasterKeyIdSelector,omitempty" tf:"-"`
 
 	// The server-side encryption algorithm to use. Possible values: AES256 and KMS.
 	SseAlgorithm *string `json:"sseAlgorithm,omitempty" tf:"sse_algorithm,omitempty"`
@@ -696,17 +696,17 @@ type ServerSideEncryptionRuleParameters struct {
 
 	// The alibaba cloud KMS master key ID used for the SSE-KMS encryption.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSMasterKeyID *string `json:"kmsMasterKeyId,omitempty" tf:"kms_master_key_id,omitempty"`
 
 	// Reference to a Key in kms to populate kmsMasterKeyId.
 	// +kubebuilder:validation:Optional
-	KMSMasterKeyIDRef *v1.Reference `json:"kmsMasterKeyIdRef,omitempty" tf:"-"`
+	KMSMasterKeyIDRef *v2.Reference `json:"kmsMasterKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsMasterKeyId.
 	// +kubebuilder:validation:Optional
-	KMSMasterKeyIDSelector *v1.Selector `json:"kmsMasterKeyIdSelector,omitempty" tf:"-"`
+	KMSMasterKeyIDSelector *v2.Selector `json:"kmsMasterKeyIdSelector,omitempty" tf:"-"`
 
 	// The server-side encryption algorithm to use. Possible values: AES256 and KMS.
 	// +kubebuilder:validation:Optional
@@ -873,8 +873,8 @@ type WebsiteParameters struct {
 
 // BucketSpec defines the desired state of Bucket
 type BucketSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BucketParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BucketParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -890,8 +890,8 @@ type BucketSpec struct {
 
 // BucketStatus defines the observed state of Bucket.
 type BucketStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BucketObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BucketObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

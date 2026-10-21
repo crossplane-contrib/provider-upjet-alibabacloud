@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SaslACLInitParameters struct {
@@ -26,16 +26,16 @@ type SaslACLInitParameters struct {
 
 	// The resource name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alikafka/v1alpha1.Topic
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("topic",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("topic",false)
 	ACLResourceName *string `json:"aclResourceName,omitempty" tf:"acl_resource_name,omitempty"`
 
 	// Reference to a Topic in alikafka to populate aclResourceName.
 	// +kubebuilder:validation:Optional
-	ACLResourceNameRef *v1.Reference `json:"aclResourceNameRef,omitempty" tf:"-"`
+	ACLResourceNameRef *v2.Reference `json:"aclResourceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in alikafka to populate aclResourceName.
 	// +kubebuilder:validation:Optional
-	ACLResourceNameSelector *v1.Selector `json:"aclResourceNameSelector,omitempty" tf:"-"`
+	ACLResourceNameSelector *v2.Selector `json:"aclResourceNameSelector,omitempty" tf:"-"`
 
 	// Match the pattern. Valid values:
 	ACLResourcePatternType *string `json:"aclResourcePatternType,omitempty" tf:"acl_resource_pattern_type,omitempty"`
@@ -54,11 +54,11 @@ type SaslACLInitParameters struct {
 
 	// Reference to a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The user name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alikafka/v1alpha1.SaslUser
@@ -67,11 +67,11 @@ type SaslACLInitParameters struct {
 
 	// Reference to a SaslUser in alikafka to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameRef *v1.Reference `json:"usernameRef,omitempty" tf:"-"`
+	UsernameRef *v2.Reference `json:"usernameRef,omitempty" tf:"-"`
 
 	// Selector for a SaslUser in alikafka to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameSelector *v1.Selector `json:"usernameSelector,omitempty" tf:"-"`
+	UsernameSelector *v2.Selector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
 type SaslACLObservation struct {
@@ -124,17 +124,17 @@ type SaslACLParameters struct {
 
 	// The resource name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alikafka/v1alpha1.Topic
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("topic",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("topic",false)
 	// +kubebuilder:validation:Optional
 	ACLResourceName *string `json:"aclResourceName,omitempty" tf:"acl_resource_name,omitempty"`
 
 	// Reference to a Topic in alikafka to populate aclResourceName.
 	// +kubebuilder:validation:Optional
-	ACLResourceNameRef *v1.Reference `json:"aclResourceNameRef,omitempty" tf:"-"`
+	ACLResourceNameRef *v2.Reference `json:"aclResourceNameRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in alikafka to populate aclResourceName.
 	// +kubebuilder:validation:Optional
-	ACLResourceNameSelector *v1.Selector `json:"aclResourceNameSelector,omitempty" tf:"-"`
+	ACLResourceNameSelector *v2.Selector `json:"aclResourceNameSelector,omitempty" tf:"-"`
 
 	// Match the pattern. Valid values:
 	// +kubebuilder:validation:Optional
@@ -157,11 +157,11 @@ type SaslACLParameters struct {
 
 	// Reference to a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -176,17 +176,17 @@ type SaslACLParameters struct {
 
 	// Reference to a SaslUser in alikafka to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameRef *v1.Reference `json:"usernameRef,omitempty" tf:"-"`
+	UsernameRef *v2.Reference `json:"usernameRef,omitempty" tf:"-"`
 
 	// Selector for a SaslUser in alikafka to populate username.
 	// +kubebuilder:validation:Optional
-	UsernameSelector *v1.Selector `json:"usernameSelector,omitempty" tf:"-"`
+	UsernameSelector *v2.Selector `json:"usernameSelector,omitempty" tf:"-"`
 }
 
 // SaslACLSpec defines the desired state of SaslACL
 type SaslACLSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SaslACLParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SaslACLParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -202,8 +202,8 @@ type SaslACLSpec struct {
 
 // SaslACLStatus defines the observed state of SaslACL.
 type SaslACLStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SaslACLObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SaslACLObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

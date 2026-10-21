@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type SubscriptionDlqPolicyInitParameters struct {
@@ -69,11 +69,11 @@ type SubscriptionInitParameters struct {
 
 	// Reference to a Role in ram to populate stsRoleArn.
 	// +kubebuilder:validation:Optional
-	StsRoleArnRef *v1.Reference `json:"stsRoleArnRef,omitempty" tf:"-"`
+	StsRoleArnRef *v2.Reference `json:"stsRoleArnRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate stsRoleArn.
 	// +kubebuilder:validation:Optional
-	StsRoleArnSelector *v1.Selector `json:"stsRoleArnSelector,omitempty" tf:"-"`
+	StsRoleArnSelector *v2.Selector `json:"stsRoleArnSelector,omitempty" tf:"-"`
 
 	// Two topics subscription on a single account in the same topic cannot have the same name. A topic subscription name must start with an English letter or a digit, and can contain English letters, digits, and hyphens, with the length not exceeding 255 characters.
 	SubscriptionName *string `json:"subscriptionName,omitempty" tf:"subscription_name,omitempty"`
@@ -85,11 +85,11 @@ type SubscriptionInitParameters struct {
 
 	// Reference to a Topic in messageservice to populate topicName.
 	// +kubebuilder:validation:Optional
-	TopicNameRef *v1.Reference `json:"topicNameRef,omitempty" tf:"-"`
+	TopicNameRef *v2.Reference `json:"topicNameRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in messageservice to populate topicName.
 	// +kubebuilder:validation:Optional
-	TopicNameSelector *v1.Selector `json:"topicNameSelector,omitempty" tf:"-"`
+	TopicNameSelector *v2.Selector `json:"topicNameSelector,omitempty" tf:"-"`
 }
 
 type SubscriptionObservation struct {
@@ -167,11 +167,11 @@ type SubscriptionParameters struct {
 
 	// Reference to a Role in ram to populate stsRoleArn.
 	// +kubebuilder:validation:Optional
-	StsRoleArnRef *v1.Reference `json:"stsRoleArnRef,omitempty" tf:"-"`
+	StsRoleArnRef *v2.Reference `json:"stsRoleArnRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate stsRoleArn.
 	// +kubebuilder:validation:Optional
-	StsRoleArnSelector *v1.Selector `json:"stsRoleArnSelector,omitempty" tf:"-"`
+	StsRoleArnSelector *v2.Selector `json:"stsRoleArnSelector,omitempty" tf:"-"`
 
 	// Two topics subscription on a single account in the same topic cannot have the same name. A topic subscription name must start with an English letter or a digit, and can contain English letters, digits, and hyphens, with the length not exceeding 255 characters.
 	// +kubebuilder:validation:Optional
@@ -185,17 +185,17 @@ type SubscriptionParameters struct {
 
 	// Reference to a Topic in messageservice to populate topicName.
 	// +kubebuilder:validation:Optional
-	TopicNameRef *v1.Reference `json:"topicNameRef,omitempty" tf:"-"`
+	TopicNameRef *v2.Reference `json:"topicNameRef,omitempty" tf:"-"`
 
 	// Selector for a Topic in messageservice to populate topicName.
 	// +kubebuilder:validation:Optional
-	TopicNameSelector *v1.Selector `json:"topicNameSelector,omitempty" tf:"-"`
+	TopicNameSelector *v2.Selector `json:"topicNameSelector,omitempty" tf:"-"`
 }
 
 // SubscriptionSpec defines the desired state of Subscription
 type SubscriptionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     SubscriptionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   SubscriptionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -211,8 +211,8 @@ type SubscriptionSpec struct {
 
 // SubscriptionStatus defines the observed state of Subscription.
 type SubscriptionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        SubscriptionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               SubscriptionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

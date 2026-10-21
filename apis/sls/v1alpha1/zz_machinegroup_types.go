@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type MachineGroupInitParameters struct {
@@ -32,11 +32,11 @@ type MachineGroupInitParameters struct {
 
 	// Reference to a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// The topic of a machine group.
 	Topic *string `json:"topic,omitempty" tf:"topic,omitempty"`
@@ -87,11 +87,11 @@ type MachineGroupParameters struct {
 
 	// Reference to a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -105,8 +105,8 @@ type MachineGroupParameters struct {
 
 // MachineGroupSpec defines the desired state of MachineGroup
 type MachineGroupSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     MachineGroupParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   MachineGroupParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -122,8 +122,8 @@ type MachineGroupSpec struct {
 
 // MachineGroupStatus defines the observed state of MachineGroup.
 type MachineGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        MachineGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               MachineGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

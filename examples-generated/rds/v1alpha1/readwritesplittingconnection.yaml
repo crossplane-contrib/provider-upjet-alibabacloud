@@ -32,7 +32,7 @@ spec:
     engineVersion: "5.6"
     instanceChargeType: Postpaid
     instanceName: ${var.name}
-    instanceStorage: 20
+    instanceStorage: "20"
     instanceType: ${data.alicloud_db_instance_classes.example.instance_classes.1.instance_class}
     region: cn-beijing
     securityIps:
@@ -58,7 +58,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     instanceName: ${var.name}readonly
-    instanceStorage: 20
+    instanceStorage: "20"
     instanceType: ${data.alicloud_db_instance_classes.example.instance_classes.1.instance_class}
     masterDbInstanceIdSelector:
       matchLabels:

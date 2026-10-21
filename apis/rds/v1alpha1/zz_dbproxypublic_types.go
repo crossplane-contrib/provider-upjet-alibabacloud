@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DBProxyPublicInitParameters struct {
@@ -25,27 +25,27 @@ type DBProxyPublicInitParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// The network type of the new database proxy connection address,This resource defaults to Public.
 	DBProxyConnectionStringNetType *string `json:"dbProxyConnectionStringNetType,omitempty" tf:"db_proxy_connection_string_net_type,omitempty"`
 
 	// Database proxy connection address ID.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.DBProxy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("db_proxy_endpoint_id",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("db_proxy_endpoint_id",true)
 	DBProxyEndpointID *string `json:"dbProxyEndpointId,omitempty" tf:"db_proxy_endpoint_id,omitempty"`
 
 	// Reference to a DBProxy in rds to populate dbProxyEndpointId.
 	// +kubebuilder:validation:Optional
-	DBProxyEndpointIDRef *v1.Reference `json:"dbProxyEndpointIdRef,omitempty" tf:"-"`
+	DBProxyEndpointIDRef *v2.Reference `json:"dbProxyEndpointIdRef,omitempty" tf:"-"`
 
 	// Selector for a DBProxy in rds to populate dbProxyEndpointId.
 	// +kubebuilder:validation:Optional
-	DBProxyEndpointIDSelector *v1.Selector `json:"dbProxyEndpointIdSelector,omitempty" tf:"-"`
+	DBProxyEndpointIDSelector *v2.Selector `json:"dbProxyEndpointIdSelector,omitempty" tf:"-"`
 
 	// (Not required, Optional)The port for the new database proxy connection address is 3306 by default for MySQL and 5432 by default for PostgreSQL, which can be customized.
 	DBProxyNewConnectStringPort *string `json:"dbProxyNewConnectStringPort,omitempty" tf:"db_proxy_new_connect_string_port,omitempty"`
@@ -86,11 +86,11 @@ type DBProxyPublicParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// The network type of the new database proxy connection address,This resource defaults to Public.
 	// +kubebuilder:validation:Optional
@@ -98,17 +98,17 @@ type DBProxyPublicParameters struct {
 
 	// Database proxy connection address ID.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.DBProxy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("db_proxy_endpoint_id",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("db_proxy_endpoint_id",true)
 	// +kubebuilder:validation:Optional
 	DBProxyEndpointID *string `json:"dbProxyEndpointId,omitempty" tf:"db_proxy_endpoint_id,omitempty"`
 
 	// Reference to a DBProxy in rds to populate dbProxyEndpointId.
 	// +kubebuilder:validation:Optional
-	DBProxyEndpointIDRef *v1.Reference `json:"dbProxyEndpointIdRef,omitempty" tf:"-"`
+	DBProxyEndpointIDRef *v2.Reference `json:"dbProxyEndpointIdRef,omitempty" tf:"-"`
 
 	// Selector for a DBProxy in rds to populate dbProxyEndpointId.
 	// +kubebuilder:validation:Optional
-	DBProxyEndpointIDSelector *v1.Selector `json:"dbProxyEndpointIdSelector,omitempty" tf:"-"`
+	DBProxyEndpointIDSelector *v2.Selector `json:"dbProxyEndpointIdSelector,omitempty" tf:"-"`
 
 	// (Not required, Optional)The port for the new database proxy connection address is 3306 by default for MySQL and 5432 by default for PostgreSQL, which can be customized.
 	// +kubebuilder:validation:Optional
@@ -122,8 +122,8 @@ type DBProxyPublicParameters struct {
 
 // DBProxyPublicSpec defines the desired state of DBProxyPublic
 type DBProxyPublicSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DBProxyPublicParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DBProxyPublicParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -139,8 +139,8 @@ type DBProxyPublicSpec struct {
 
 // DBProxyPublicStatus defines the observed state of DBProxyPublic.
 type DBProxyPublicStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DBProxyPublicObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DBProxyPublicObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

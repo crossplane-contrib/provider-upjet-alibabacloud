@@ -36,7 +36,7 @@ spec:
     engineVersion: "5.7"
     instanceChargeType: Postpaid
     instanceName: ${var.name}
-    instanceStorage: 20
+    instanceStorage: "20"
     instanceType: rds.mysql.c1.large
     region: cn-beijing
     vswitchIdSelector:
@@ -59,7 +59,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     instanceName: ${var.name}readonly
-    instanceStorage: 20
+    instanceStorage: "20"
     instanceType: rds.mysql.c1.large
     masterDbInstanceIdSelector:
       matchLabels:

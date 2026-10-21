@@ -8,10 +8,11 @@ package v1alpha1
 
 import (
 	"context"
+
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1"
 	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -27,6 +28,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.SecurityGroupIDRefs,
 		Selector:      mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -43,6 +45,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
@@ -60,6 +63,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ZoneMappings[i3].VswitchID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ZoneMappings[i3].VswitchIDRef,
 			Selector:     mg.Spec.ForProvider.ZoneMappings[i3].VswitchIDSelector,
 			To: reference.To{
@@ -78,6 +82,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ZoneMappings[i3].ZoneID),
 			Extract:      common.VSwitchZoneIdExtractor(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ZoneMappings[i3].ZoneIDRef,
 			Selector:     mg.Spec.ForProvider.ZoneMappings[i3].ZoneIDSelector,
 			To: reference.To{
@@ -95,6 +100,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.SecurityGroupIDRefs,
 		Selector:      mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -111,6 +117,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
@@ -128,6 +135,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ZoneMappings[i3].VswitchID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ZoneMappings[i3].VswitchIDRef,
 			Selector:     mg.Spec.InitProvider.ZoneMappings[i3].VswitchIDSelector,
 			To: reference.To{
@@ -146,6 +154,7 @@ func (mg *LoadBalancer) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ZoneMappings[i3].ZoneID),
 			Extract:      common.VSwitchZoneIdExtractor(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ZoneMappings[i3].ZoneIDRef,
 			Selector:     mg.Spec.InitProvider.ZoneMappings[i3].ZoneIDSelector,
 			To: reference.To{

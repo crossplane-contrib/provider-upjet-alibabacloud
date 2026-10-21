@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EeRepoInitParameters struct {
@@ -20,32 +20,32 @@ type EeRepoInitParameters struct {
 
 	// The ID of the Container Registry Enterprise Edition instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// Reference to a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The name of the image repository.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The name of the namespace to which the image repository belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Reference to a EeNamespace in cr to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.Reference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a EeNamespace in cr to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 
 	// The type of the repository. Valid values:
 	RepoType *string `json:"repoType,omitempty" tf:"repo_type,omitempty"`
@@ -95,17 +95,17 @@ type EeRepoParameters struct {
 
 	// The ID of the Container Registry Enterprise Edition instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeInstance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
 	// Reference to a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a EeInstance in cr to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The name of the image repository.
 	// +kubebuilder:validation:Optional
@@ -113,17 +113,17 @@ type EeRepoParameters struct {
 
 	// The name of the namespace to which the image repository belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.EeNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",false)
 	// +kubebuilder:validation:Optional
 	Namespace *string `json:"namespace,omitempty" tf:"namespace,omitempty"`
 
 	// Reference to a EeNamespace in cr to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceRef *v1.Reference `json:"namespaceRef,omitempty" tf:"-"`
+	NamespaceRef *v2.Reference `json:"namespaceRef,omitempty" tf:"-"`
 
 	// Selector for a EeNamespace in cr to populate namespace.
 	// +kubebuilder:validation:Optional
-	NamespaceSelector *v1.Selector `json:"namespaceSelector,omitempty" tf:"-"`
+	NamespaceSelector *v2.Selector `json:"namespaceSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -145,8 +145,8 @@ type EeRepoParameters struct {
 
 // EeRepoSpec defines the desired state of EeRepo
 type EeRepoSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     EeRepoParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   EeRepoParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -162,8 +162,8 @@ type EeRepoSpec struct {
 
 // EeRepoStatus defines the observed state of EeRepo.
 type EeRepoStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EeRepoObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EeRepoObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

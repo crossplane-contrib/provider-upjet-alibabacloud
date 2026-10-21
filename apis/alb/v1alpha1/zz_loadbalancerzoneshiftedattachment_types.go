@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LoadBalancerZoneShiftedAttachmentInitParameters struct {
@@ -21,11 +21,11 @@ type LoadBalancerZoneShiftedAttachmentInitParameters struct {
 
 	// Reference to a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+	LoadBalancerIDRef *v2.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
 	// Selector for a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+	LoadBalancerIDSelector *v2.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
 	// The VSwitch corresponding to the zone. By default, each zone uses one VSwitch and one subnet.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -33,24 +33,24 @@ type LoadBalancerZoneShiftedAttachmentInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The ID of the zone.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("zone_id",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("zone_id",false)
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 
 	// Reference to a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDRef *v1.Reference `json:"zoneIdRef,omitempty" tf:"-"`
+	ZoneIDRef *v2.Reference `json:"zoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDSelector *v1.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
+	ZoneIDSelector *v2.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }
 
 type LoadBalancerZoneShiftedAttachmentObservation struct {
@@ -80,11 +80,11 @@ type LoadBalancerZoneShiftedAttachmentParameters struct {
 
 	// Reference to a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+	LoadBalancerIDRef *v2.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
 	// Selector for a LoadBalancer in alb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+	LoadBalancerIDSelector *v2.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -98,31 +98,31 @@ type LoadBalancerZoneShiftedAttachmentParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The ID of the zone.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("zone_id",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("zone_id",false)
 	// +kubebuilder:validation:Optional
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
 
 	// Reference to a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDRef *v1.Reference `json:"zoneIdRef,omitempty" tf:"-"`
+	ZoneIDRef *v2.Reference `json:"zoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate zoneId.
 	// +kubebuilder:validation:Optional
-	ZoneIDSelector *v1.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
+	ZoneIDSelector *v2.Selector `json:"zoneIdSelector,omitempty" tf:"-"`
 }
 
 // LoadBalancerZoneShiftedAttachmentSpec defines the desired state of LoadBalancerZoneShiftedAttachment
 type LoadBalancerZoneShiftedAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LoadBalancerZoneShiftedAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LoadBalancerZoneShiftedAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -138,8 +138,8 @@ type LoadBalancerZoneShiftedAttachmentSpec struct {
 
 // LoadBalancerZoneShiftedAttachmentStatus defines the observed state of LoadBalancerZoneShiftedAttachment.
 type LoadBalancerZoneShiftedAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LoadBalancerZoneShiftedAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LoadBalancerZoneShiftedAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

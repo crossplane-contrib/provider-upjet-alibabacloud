@@ -8,12 +8,13 @@ package v1alpha1
 
 import (
 	"context"
+
 	v1alpha12 "github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1"
 	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1"
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	resource "github.com/crossplane/upjet/pkg/resource"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -28,6 +29,7 @@ func (mg *Account) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.ForProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -44,6 +46,7 @@ func (mg *Account) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.InitProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -70,6 +73,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.ForProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -86,6 +90,7 @@ func (mg *Backup) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.InitProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -112,6 +117,7 @@ func (mg *BackupPolicy) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.InstanceIDRef,
 		Selector:     mg.Spec.ForProvider.InstanceIDSelector,
 		To: reference.To{
@@ -128,6 +134,7 @@ func (mg *BackupPolicy) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.InstanceIDRef,
 		Selector:     mg.Spec.InitProvider.InstanceIDSelector,
 		To: reference.To{
@@ -154,6 +161,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.InstanceIDRef,
 		Selector:     mg.Spec.ForProvider.InstanceIDSelector,
 		To: reference.To{
@@ -170,6 +178,7 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.InstanceIDRef,
 		Selector:     mg.Spec.InitProvider.InstanceIDSelector,
 		To: reference.To{
@@ -196,6 +205,7 @@ func (mg *DBInstanceEndpoint) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.ForProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -213,6 +223,7 @@ func (mg *DBInstanceEndpoint) ResolveReferences(ctx context.Context, c client.Re
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NodeItems[i3].NodeID),
 			Extract:      resource.ExtractParamPath("node_id", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.NodeItems[i3].NodeIDRef,
 			Selector:     mg.Spec.ForProvider.NodeItems[i3].NodeIDSelector,
 			To: reference.To{
@@ -230,6 +241,7 @@ func (mg *DBInstanceEndpoint) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
@@ -246,6 +258,7 @@ func (mg *DBInstanceEndpoint) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VswitchID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VswitchIDRef,
 		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
 		To: reference.To{
@@ -262,6 +275,7 @@ func (mg *DBInstanceEndpoint) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.InitProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -279,6 +293,7 @@ func (mg *DBInstanceEndpoint) ResolveReferences(ctx context.Context, c client.Re
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NodeItems[i3].NodeID),
 			Extract:      resource.ExtractParamPath("node_id", true),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.NodeItems[i3].NodeIDRef,
 			Selector:     mg.Spec.InitProvider.NodeItems[i3].NodeIDSelector,
 			To: reference.To{
@@ -296,6 +311,7 @@ func (mg *DBInstanceEndpoint) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
@@ -312,6 +328,7 @@ func (mg *DBInstanceEndpoint) ResolveReferences(ctx context.Context, c client.Re
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VswitchID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VswitchIDRef,
 		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
 		To: reference.To{
@@ -338,6 +355,7 @@ func (mg *DBInstanceEndpointAddress) ResolveReferences(ctx context.Context, c cl
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBInstanceEndpointID),
 		Extract:      resource.ExtractParamPath("db_instance_endpoint_id", true),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBInstanceEndpointIDRef,
 		Selector:     mg.Spec.ForProvider.DBInstanceEndpointIDSelector,
 		To: reference.To{
@@ -354,6 +372,7 @@ func (mg *DBInstanceEndpointAddress) ResolveReferences(ctx context.Context, c cl
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.ForProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -370,6 +389,7 @@ func (mg *DBInstanceEndpointAddress) ResolveReferences(ctx context.Context, c cl
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBInstanceEndpointID),
 		Extract:      resource.ExtractParamPath("db_instance_endpoint_id", true),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBInstanceEndpointIDRef,
 		Selector:     mg.Spec.InitProvider.DBInstanceEndpointIDSelector,
 		To: reference.To{
@@ -386,6 +406,7 @@ func (mg *DBInstanceEndpointAddress) ResolveReferences(ctx context.Context, c cl
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.InitProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -412,6 +433,7 @@ func (mg *DBNode) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClassCode),
 		Extract:      resource.ExtractParamPath("instance_type", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ClassCodeRef,
 		Selector:     mg.Spec.ForProvider.ClassCodeSelector,
 		To: reference.To{
@@ -428,6 +450,7 @@ func (mg *DBNode) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.ForProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -444,6 +467,7 @@ func (mg *DBNode) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ZoneID),
 		Extract:      resource.ExtractParamPath("zone_id", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ZoneIDRef,
 		Selector:     mg.Spec.ForProvider.ZoneIDSelector,
 		To: reference.To{
@@ -460,6 +484,7 @@ func (mg *DBNode) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClassCode),
 		Extract:      resource.ExtractParamPath("instance_type", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ClassCodeRef,
 		Selector:     mg.Spec.InitProvider.ClassCodeSelector,
 		To: reference.To{
@@ -476,6 +501,7 @@ func (mg *DBNode) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.InitProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -492,6 +518,7 @@ func (mg *DBNode) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ZoneID),
 		Extract:      resource.ExtractParamPath("zone_id", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ZoneIDRef,
 		Selector:     mg.Spec.InitProvider.ZoneIDSelector,
 		To: reference.To{
@@ -518,6 +545,7 @@ func (mg *DBProxy) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.InstanceIDRef,
 		Selector:     mg.Spec.ForProvider.InstanceIDSelector,
 		To: reference.To{
@@ -535,6 +563,7 @@ func (mg *DBProxy) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ReadOnlyInstanceWeight[i3].InstanceID),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.ReadOnlyInstanceWeight[i3].InstanceIDRef,
 			Selector:     mg.Spec.ForProvider.ReadOnlyInstanceWeight[i3].InstanceIDSelector,
 			To: reference.To{
@@ -552,6 +581,7 @@ func (mg *DBProxy) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
@@ -568,6 +598,7 @@ func (mg *DBProxy) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VswitchID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VswitchIDRef,
 		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
 		To: reference.To{
@@ -584,6 +615,7 @@ func (mg *DBProxy) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.InstanceIDRef,
 		Selector:     mg.Spec.InitProvider.InstanceIDSelector,
 		To: reference.To{
@@ -601,6 +633,7 @@ func (mg *DBProxy) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ReadOnlyInstanceWeight[i3].InstanceID),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.ReadOnlyInstanceWeight[i3].InstanceIDRef,
 			Selector:     mg.Spec.InitProvider.ReadOnlyInstanceWeight[i3].InstanceIDSelector,
 			To: reference.To{
@@ -618,6 +651,7 @@ func (mg *DBProxy) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
@@ -634,6 +668,7 @@ func (mg *DBProxy) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VswitchID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VswitchIDRef,
 		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
 		To: reference.To{
@@ -660,6 +695,7 @@ func (mg *DBProxyPublic) ResolveReferences(ctx context.Context, c client.Reader)
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.ForProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -676,6 +712,7 @@ func (mg *DBProxyPublic) ResolveReferences(ctx context.Context, c client.Reader)
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DBProxyEndpointID),
 		Extract:      resource.ExtractParamPath("db_proxy_endpoint_id", true),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DBProxyEndpointIDRef,
 		Selector:     mg.Spec.ForProvider.DBProxyEndpointIDSelector,
 		To: reference.To{
@@ -692,6 +729,7 @@ func (mg *DBProxyPublic) ResolveReferences(ctx context.Context, c client.Reader)
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBInstanceIDRef,
 		Selector:     mg.Spec.InitProvider.DBInstanceIDSelector,
 		To: reference.To{
@@ -708,6 +746,7 @@ func (mg *DBProxyPublic) ResolveReferences(ctx context.Context, c client.Reader)
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DBProxyEndpointID),
 		Extract:      resource.ExtractParamPath("db_proxy_endpoint_id", true),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DBProxyEndpointIDRef,
 		Selector:     mg.Spec.InitProvider.DBProxyEndpointIDSelector,
 		To: reference.To{
@@ -734,6 +773,7 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.InstanceIDRef,
 		Selector:     mg.Spec.ForProvider.InstanceIDSelector,
 		To: reference.To{
@@ -750,6 +790,7 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.InstanceIDRef,
 		Selector:     mg.Spec.InitProvider.InstanceIDSelector,
 		To: reference.To{
@@ -777,6 +818,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoleArn),
 		Extract:      common.RoleArnExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.RoleArnRef,
 		Selector:     mg.Spec.ForProvider.RoleArnSelector,
 		To: reference.To{
@@ -793,6 +835,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.SecurityGroupIDRefs,
 		Selector:      mg.Spec.ForProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -809,6 +852,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
@@ -825,6 +869,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VswitchID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VswitchIDRef,
 		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
 		To: reference.To{
@@ -841,6 +886,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoleArn),
 		Extract:      common.RoleArnExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.RoleArnRef,
 		Selector:     mg.Spec.InitProvider.RoleArnSelector,
 		To: reference.To{
@@ -857,6 +903,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.SecurityGroupIds),
 		Extract:       reference.ExternalName(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.SecurityGroupIDRefs,
 		Selector:      mg.Spec.InitProvider.SecurityGroupIDSelector,
 		To: reference.To{
@@ -873,6 +920,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
@@ -889,6 +937,7 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VswitchID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VswitchIDRef,
 		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
 		To: reference.To{
@@ -915,6 +964,7 @@ func (mg *InstanceCrossBackupPolicy) ResolveReferences(ctx context.Context, c cl
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.InstanceIDRef,
 		Selector:     mg.Spec.ForProvider.InstanceIDSelector,
 		To: reference.To{
@@ -931,6 +981,7 @@ func (mg *InstanceCrossBackupPolicy) ResolveReferences(ctx context.Context, c cl
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.InstanceIDRef,
 		Selector:     mg.Spec.InitProvider.InstanceIDSelector,
 		To: reference.To{
@@ -957,6 +1008,7 @@ func (mg *ReadWriteSplittingConnection) ResolveReferences(ctx context.Context, c
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.InstanceIDRef,
 		Selector:     mg.Spec.ForProvider.InstanceIDSelector,
 		To: reference.To{
@@ -973,6 +1025,7 @@ func (mg *ReadWriteSplittingConnection) ResolveReferences(ctx context.Context, c
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.InstanceIDRef,
 		Selector:     mg.Spec.InitProvider.InstanceIDSelector,
 		To: reference.To{
@@ -999,6 +1052,7 @@ func (mg *ReadonlyInstance) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EngineVersion),
 		Extract:      resource.ExtractParamPath("engine_version", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.EngineVersionRef,
 		Selector:     mg.Spec.ForProvider.EngineVersionSelector,
 		To: reference.To{
@@ -1015,6 +1069,7 @@ func (mg *ReadonlyInstance) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.MasterDBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.MasterDBInstanceIDRef,
 		Selector:     mg.Spec.ForProvider.MasterDBInstanceIDSelector,
 		To: reference.To{
@@ -1031,6 +1086,7 @@ func (mg *ReadonlyInstance) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VswitchID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VswitchIDRef,
 		Selector:     mg.Spec.ForProvider.VswitchIDSelector,
 		To: reference.To{
@@ -1047,6 +1103,7 @@ func (mg *ReadonlyInstance) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ZoneID),
 		Extract:      resource.ExtractParamPath("zone_id", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ZoneIDRef,
 		Selector:     mg.Spec.ForProvider.ZoneIDSelector,
 		To: reference.To{
@@ -1063,6 +1120,7 @@ func (mg *ReadonlyInstance) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EngineVersion),
 		Extract:      resource.ExtractParamPath("engine_version", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.EngineVersionRef,
 		Selector:     mg.Spec.InitProvider.EngineVersionSelector,
 		To: reference.To{
@@ -1079,6 +1137,7 @@ func (mg *ReadonlyInstance) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MasterDBInstanceID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.MasterDBInstanceIDRef,
 		Selector:     mg.Spec.InitProvider.MasterDBInstanceIDSelector,
 		To: reference.To{
@@ -1095,6 +1154,7 @@ func (mg *ReadonlyInstance) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VswitchID),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VswitchIDRef,
 		Selector:     mg.Spec.InitProvider.VswitchIDSelector,
 		To: reference.To{
@@ -1111,6 +1171,7 @@ func (mg *ReadonlyInstance) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ZoneID),
 		Extract:      resource.ExtractParamPath("zone_id", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ZoneIDRef,
 		Selector:     mg.Spec.InitProvider.ZoneIDSelector,
 		To: reference.To{

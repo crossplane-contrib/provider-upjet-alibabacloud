@@ -10,49 +10,49 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type RolePolicyAttachmentInitParameters struct {
 
 	// The name of the policy.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Policy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("policy_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("policy_name",false)
 	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
 
 	// Reference to a Policy in ram to populate policyName.
 	// +kubebuilder:validation:Optional
-	PolicyNameRef *v1.Reference `json:"policyNameRef,omitempty" tf:"-"`
+	PolicyNameRef *v2.Reference `json:"policyNameRef,omitempty" tf:"-"`
 
 	// Selector for a Policy in ram to populate policyName.
 	// +kubebuilder:validation:Optional
-	PolicyNameSelector *v1.Selector `json:"policyNameSelector,omitempty" tf:"-"`
+	PolicyNameSelector *v2.Selector `json:"policyNameSelector,omitempty" tf:"-"`
 
 	// Policy type.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Policy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("type",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("type",true)
 	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
 
 	// Reference to a Policy in ram to populate policyType.
 	// +kubebuilder:validation:Optional
-	PolicyTypeRef *v1.Reference `json:"policyTypeRef,omitempty" tf:"-"`
+	PolicyTypeRef *v2.Reference `json:"policyTypeRef,omitempty" tf:"-"`
 
 	// Selector for a Policy in ram to populate policyType.
 	// +kubebuilder:validation:Optional
-	PolicyTypeSelector *v1.Selector `json:"policyTypeSelector,omitempty" tf:"-"`
+	PolicyTypeSelector *v2.Selector `json:"policyTypeSelector,omitempty" tf:"-"`
 
 	// The RAM role name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("role_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("role_name",false)
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
 	// Reference to a Role in ram to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleNameRef *v1.Reference `json:"roleNameRef,omitempty" tf:"-"`
+	RoleNameRef *v2.Reference `json:"roleNameRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleNameSelector *v1.Selector `json:"roleNameSelector,omitempty" tf:"-"`
+	RoleNameSelector *v2.Selector `json:"roleNameSelector,omitempty" tf:"-"`
 }
 
 type RolePolicyAttachmentObservation struct {
@@ -74,51 +74,51 @@ type RolePolicyAttachmentParameters struct {
 
 	// The name of the policy.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Policy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("policy_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("policy_name",false)
 	// +kubebuilder:validation:Optional
 	PolicyName *string `json:"policyName,omitempty" tf:"policy_name,omitempty"`
 
 	// Reference to a Policy in ram to populate policyName.
 	// +kubebuilder:validation:Optional
-	PolicyNameRef *v1.Reference `json:"policyNameRef,omitempty" tf:"-"`
+	PolicyNameRef *v2.Reference `json:"policyNameRef,omitempty" tf:"-"`
 
 	// Selector for a Policy in ram to populate policyName.
 	// +kubebuilder:validation:Optional
-	PolicyNameSelector *v1.Selector `json:"policyNameSelector,omitempty" tf:"-"`
+	PolicyNameSelector *v2.Selector `json:"policyNameSelector,omitempty" tf:"-"`
 
 	// Policy type.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Policy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("type",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("type",true)
 	// +kubebuilder:validation:Optional
 	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
 
 	// Reference to a Policy in ram to populate policyType.
 	// +kubebuilder:validation:Optional
-	PolicyTypeRef *v1.Reference `json:"policyTypeRef,omitempty" tf:"-"`
+	PolicyTypeRef *v2.Reference `json:"policyTypeRef,omitempty" tf:"-"`
 
 	// Selector for a Policy in ram to populate policyType.
 	// +kubebuilder:validation:Optional
-	PolicyTypeSelector *v1.Selector `json:"policyTypeSelector,omitempty" tf:"-"`
+	PolicyTypeSelector *v2.Selector `json:"policyTypeSelector,omitempty" tf:"-"`
 
 	// The RAM role name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1.Role
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("role_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("role_name",false)
 	// +kubebuilder:validation:Optional
 	RoleName *string `json:"roleName,omitempty" tf:"role_name,omitempty"`
 
 	// Reference to a Role in ram to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleNameRef *v1.Reference `json:"roleNameRef,omitempty" tf:"-"`
+	RoleNameRef *v2.Reference `json:"roleNameRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate roleName.
 	// +kubebuilder:validation:Optional
-	RoleNameSelector *v1.Selector `json:"roleNameSelector,omitempty" tf:"-"`
+	RoleNameSelector *v2.Selector `json:"roleNameSelector,omitempty" tf:"-"`
 }
 
 // RolePolicyAttachmentSpec defines the desired state of RolePolicyAttachment
 type RolePolicyAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     RolePolicyAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   RolePolicyAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -134,8 +134,8 @@ type RolePolicyAttachmentSpec struct {
 
 // RolePolicyAttachmentStatus defines the observed state of RolePolicyAttachment.
 type RolePolicyAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        RolePolicyAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               RolePolicyAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

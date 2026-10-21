@@ -10,24 +10,24 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DomainAttachmentInitParameters struct {
 
 	// The domain names bound to the DNS instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alidns/v1alpha1.Domain
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("domain_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("domain_name",false)
 	// +listType=set
 	DomainNames []*string `json:"domainNames,omitempty" tf:"domain_names,omitempty"`
 
 	// References to Domain in alidns to populate domainNames.
 	// +kubebuilder:validation:Optional
-	DomainNamesRefs []v1.Reference `json:"domainNamesRefs,omitempty" tf:"-"`
+	DomainNamesRefs []v2.Reference `json:"domainNamesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Domain in alidns to populate domainNames.
 	// +kubebuilder:validation:Optional
-	DomainNamesSelector *v1.Selector `json:"domainNamesSelector,omitempty" tf:"-"`
+	DomainNamesSelector *v2.Selector `json:"domainNamesSelector,omitempty" tf:"-"`
 
 	// The id of the DNS instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alidns/v1alpha1.Instance
@@ -35,11 +35,11 @@ type DomainAttachmentInitParameters struct {
 
 	// Reference to a Instance in alidns to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alidns to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 }
 
 type DomainAttachmentObservation struct {
@@ -59,18 +59,18 @@ type DomainAttachmentParameters struct {
 
 	// The domain names bound to the DNS instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alidns/v1alpha1.Domain
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("domain_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("domain_name",false)
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	DomainNames []*string `json:"domainNames,omitempty" tf:"domain_names,omitempty"`
 
 	// References to Domain in alidns to populate domainNames.
 	// +kubebuilder:validation:Optional
-	DomainNamesRefs []v1.Reference `json:"domainNamesRefs,omitempty" tf:"-"`
+	DomainNamesRefs []v2.Reference `json:"domainNamesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Domain in alidns to populate domainNames.
 	// +kubebuilder:validation:Optional
-	DomainNamesSelector *v1.Selector `json:"domainNamesSelector,omitempty" tf:"-"`
+	DomainNamesSelector *v2.Selector `json:"domainNamesSelector,omitempty" tf:"-"`
 
 	// The id of the DNS instance.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alidns/v1alpha1.Instance
@@ -79,11 +79,11 @@ type DomainAttachmentParameters struct {
 
 	// Reference to a Instance in alidns to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alidns to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -93,8 +93,8 @@ type DomainAttachmentParameters struct {
 
 // DomainAttachmentSpec defines the desired state of DomainAttachment
 type DomainAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DomainAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DomainAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -110,8 +110,8 @@ type DomainAttachmentSpec struct {
 
 // DomainAttachmentStatus defines the observed state of DomainAttachment.
 type DomainAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DomainAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DomainAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

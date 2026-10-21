@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DeleteOptionsInitParameters struct {
@@ -221,11 +221,11 @@ type KubernetesInitParameters struct {
 
 	// References to Vswitch in vpc to populate masterVswitchIds.
 	// +kubebuilder:validation:Optional
-	MasterVswitchIdsRefs []v1.Reference `json:"masterVswitchIdsRefs,omitempty" tf:"-"`
+	MasterVswitchIdsRefs []v2.Reference `json:"masterVswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate masterVswitchIds.
 	// +kubebuilder:validation:Optional
-	MasterVswitchIdsSelector *v1.Selector `json:"masterVswitchIdsSelector,omitempty" tf:"-"`
+	MasterVswitchIdsSelector *v2.Selector `json:"masterVswitchIdsSelector,omitempty" tf:"-"`
 
 	// The kubernetes cluster's name. It is unique in one Alicloud account.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -243,7 +243,7 @@ type KubernetesInitParameters struct {
 	OsType *string `json:"osType,omitempty" tf:"os_type,omitempty"`
 
 	// The password of ssh login cluster node. You have to specify one of password key_name kms_encrypted_password fields.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The architecture of the nodes that run pods, its valid value AliyunLinux, AliyunLinux3. Default to AliyunLinux3.
 	Platform *string `json:"platform,omitempty" tf:"platform,omitempty"`
@@ -257,11 +257,11 @@ type KubernetesInitParameters struct {
 
 	// References to Vswitch in vpc to populate podVswitchIds.
 	// +kubebuilder:validation:Optional
-	PodVswitchIdsRefs []v1.Reference `json:"podVswitchIdsRefs,omitempty" tf:"-"`
+	PodVswitchIdsRefs []v2.Reference `json:"podVswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate podVswitchIds.
 	// +kubebuilder:validation:Optional
-	PodVswitchIdsSelector *v1.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
+	PodVswitchIdsSelector *v2.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
 
 	// kube-proxy proxy mode. Default: ipvs. Options: iptables, ipvs, nftables.
 	ProxyMode *string `json:"proxyMode,omitempty" tf:"proxy_mode,omitempty"`
@@ -284,11 +284,11 @@ type KubernetesInitParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The issuer of the Service Account token for Service Account Token Volume Projection, corresponds to the iss field in the token payload. Set this to "https://kubernetes.default.svc" to enable the Token Volume Projection feature (requires specifying api_audiences as well). From cluster version 1.22+, Service Account Token Volume Projection will be enabled by default.
 	ServiceAccountIssuer *string `json:"serviceAccountIssuer,omitempty" tf:"service_account_issuer,omitempty"`
@@ -621,11 +621,11 @@ type KubernetesParameters struct {
 
 	// References to Vswitch in vpc to populate masterVswitchIds.
 	// +kubebuilder:validation:Optional
-	MasterVswitchIdsRefs []v1.Reference `json:"masterVswitchIdsRefs,omitempty" tf:"-"`
+	MasterVswitchIdsRefs []v2.Reference `json:"masterVswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate masterVswitchIds.
 	// +kubebuilder:validation:Optional
-	MasterVswitchIdsSelector *v1.Selector `json:"masterVswitchIdsSelector,omitempty" tf:"-"`
+	MasterVswitchIdsSelector *v2.Selector `json:"masterVswitchIdsSelector,omitempty" tf:"-"`
 
 	// The kubernetes cluster's name. It is unique in one Alicloud account.
 	// +kubebuilder:validation:Optional
@@ -649,7 +649,7 @@ type KubernetesParameters struct {
 
 	// The password of ssh login cluster node. You have to specify one of password key_name kms_encrypted_password fields.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The architecture of the nodes that run pods, its valid value AliyunLinux, AliyunLinux3. Default to AliyunLinux3.
 	// +kubebuilder:validation:Optional
@@ -666,11 +666,11 @@ type KubernetesParameters struct {
 
 	// References to Vswitch in vpc to populate podVswitchIds.
 	// +kubebuilder:validation:Optional
-	PodVswitchIdsRefs []v1.Reference `json:"podVswitchIdsRefs,omitempty" tf:"-"`
+	PodVswitchIdsRefs []v2.Reference `json:"podVswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate podVswitchIds.
 	// +kubebuilder:validation:Optional
-	PodVswitchIdsSelector *v1.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
+	PodVswitchIdsSelector *v2.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
 
 	// kube-proxy proxy mode. Default: ipvs. Options: iptables, ipvs, nftables.
 	// +kubebuilder:validation:Optional
@@ -704,11 +704,11 @@ type KubernetesParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The issuer of the Service Account token for Service Account Token Volume Projection, corresponds to the iss field in the token payload. Set this to "https://kubernetes.default.svc" to enable the Token Volume Projection feature (requires specifying api_audiences as well). From cluster version 1.22+, Service Account Token Volume Projection will be enabled by default.
 	// +kubebuilder:validation:Optional
@@ -793,8 +793,8 @@ type MasterNodesParameters struct {
 
 // KubernetesSpec defines the desired state of Kubernetes
 type KubernetesSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     KubernetesParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   KubernetesParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -810,8 +810,8 @@ type KubernetesSpec struct {
 
 // KubernetesStatus defines the observed state of Kubernetes.
 type KubernetesStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        KubernetesObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               KubernetesObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -32,11 +32,11 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     line: default
-    priority: 1
+    priority: "1"
     region: cn-beijing
     rr: _dnsauth
     status: ENABLE
-    ttl: 600
+    ttl: "600"
     type: TXT
     value: ${alicloud_oss_bucket_cname_token.defaultZaWJfG.token}
 
