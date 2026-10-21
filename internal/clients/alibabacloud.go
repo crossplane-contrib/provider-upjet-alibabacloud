@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
@@ -74,6 +75,9 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
 		if validateErr := validateProviderConfig(pc, creds); validateErr != nil {
 			return ps, errors.Wrap(validateErr, errInvalidProviderConfig)
 		}
+		if validateErr := validateEndpoints(pc, endpointKeys(tfProvider)); validateErr != nil {
+			return ps, errors.Wrap(validateErr, errInvalidProviderConfig)
+		}
 
 		region, err := getRegion(mg, creds)
 		if err != nil {
@@ -125,7 +129,13 @@ func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1
 	cfg := terraform.ProviderConfiguration{
 		"region": region,
 	}
-	cfg["endpoints"] = []any{endpointSeeds(region)}
+	endpoints := endpointSeeds(region)
+	if pc != nil {
+		for k, v := range pc.Spec.Endpoints {
+			endpoints[k] = v
+		}
+	}
+	cfg["endpoints"] = []any{endpoints}
 	for _, key := range providerCredentialKeys {
 		v, ok := creds[key]
 		if !ok {
@@ -143,6 +153,47 @@ func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1
 		cfg["assume_role_with_oidc"] = []any{assumeRoleWithOIDCConfiguration(pc.Spec.AssumeRoleWithOIDC)}
 	}
 	return cfg
+}
+
+// endpointKeys returns the keys the Terraform provider's endpoints block
+// accepts.
+func endpointKeys(p *schema.Provider) map[string]bool {
+	keys := map[string]bool{}
+	s, ok := p.Schema["endpoints"]
+	if !ok {
+		return keys
+	}
+	r, ok := s.Elem.(*schema.Resource)
+	if !ok {
+		return keys
+	}
+	for k := range r.Schema {
+		keys[k] = true
+	}
+	return keys
+}
+
+// validateEndpoints rejects spec.endpoints keys the Terraform provider does not
+// know, and empty values. The provider would otherwise fail to configure on
+// every reconcile with a less specific error.
+func validateEndpoints(pc *v1beta1.ProviderConfig, known map[string]bool) error {
+	if pc == nil {
+		return nil
+	}
+	var unknown []string
+	for k, v := range pc.Spec.Endpoints {
+		if strings.TrimSpace(v) == "" {
+			return errors.Errorf("spec.endpoints.%s must not be empty", k)
+		}
+		if !known[k] {
+			unknown = append(unknown, k)
+		}
+	}
+	if len(unknown) > 0 {
+		sort.Strings(unknown)
+		return errors.Errorf("spec.endpoints has unknown keys %s; keys are the Terraform provider's endpoint names, such as vpc, slb, log or location", strings.Join(unknown, ", "))
+	}
+	return nil
 }
 
 // locationReadonlyEndpoint is the Location service endpoint served from

@@ -1,0 +1,19 @@
+apiVersion: alibabacloud.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: endpoints
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: example-creds
+      namespace: crossplane-system
+      key: credentials
+  # Keys are the Terraform provider's endpoint names. Every service not listed
+  # here is resolved through the Location service.
+  endpoints:
+    # Resolve endpoints from mainland China instead of the default,
+    # location-readonly.aliyuncs.com.
+    location: location.aliyuncs.com
+    # Reach VPC through its private (VPC) endpoint.
+    vpc: vpc-vpc.cn-hangzhou.aliyuncs.com
