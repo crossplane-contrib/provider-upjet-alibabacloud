@@ -19,12 +19,12 @@ spec:
       size: 20
     imageId: ubuntu_22_04_x64_20G_alibase_20260522.vhd
     instanceName: crossplane-example
-    instanceType: ecs.g6.large
+    instanceType: ecs.g9i.large
     internetMaxBandwidthOut: 10
     securityGroupSelector:
       matchLabels:
         testing.upbound.io/example-name: group
-    systemDiskCategory: cloud_efficiency
+    systemDiskCategory: cloud_essd
     systemDiskDescription: test_foo_system_disk_description
     systemDiskName: crossplane-example
     vswitchIdSelector:

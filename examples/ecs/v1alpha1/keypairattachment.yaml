@@ -46,7 +46,8 @@ spec:
     availabilityZone: us-west-1a
     imageId: ubuntu_22_04_x64_20G_alibase_20260522.vhd
     instanceName: crossplane-example
-    instanceType: ecs.g6.large
+    instanceType: ecs.g9i.large
+    systemDiskCategory: cloud_essd
     internetChargeType: PayByBandwidth
     securityGroupRefs:
     - name: keypairattach

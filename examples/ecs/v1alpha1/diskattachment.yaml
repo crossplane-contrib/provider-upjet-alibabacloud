@@ -29,13 +29,13 @@ metadata:
 spec:
   forProvider:
     region: us-west-1
-    category: cloud_efficiency
+    category: cloud_essd
     deleteAutoSnapshot: true
     description: Test For Terraform
     diskName: crossplane-example
     enableAutoSnapshot: true
     encrypted: true
-    size: 500
+    size: 20
     tags:
       Created: TF
       Environment: Acceptance-test
@@ -58,7 +58,8 @@ spec:
     hostName: crossplane-example
     imageId: ubuntu_22_04_x64_20G_alibase_20260522.vhd
     instanceName: crossplane-example
-    instanceType: ecs.g6.large
+    instanceType: ecs.g9i.large
+    systemDiskCategory: cloud_essd
     securityGroupRefs:
     - name: default
     vswitchIdSelector:

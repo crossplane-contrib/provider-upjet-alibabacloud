@@ -10,14 +10,14 @@ spec:
   forProvider:
     region: us-west-1
     dataDisks:
-    - category: cloud
+    - category: cloud_essd
       deleteWithInstance: true
       description: description
       encrypted: false
       name: disk1
       performanceLevel: PL0
       size: 20
-    - category: cloud
+    - category: cloud_essd
       deleteWithInstance: true
       description: description2
       encrypted: false
@@ -29,7 +29,7 @@ spec:
     imageId: ubuntu_22_04_x64_20G_alibase_20260522.vhd
     instanceChargeType: PrePaid
     instanceName: crossplane-example
-    instanceType: ecs.g6.large
+    instanceType: ecs.g9i.large
     internetChargeType: PayByBandwidth
     internetMaxBandwidthIn: 5
     internetMaxBandwidthOut: 5
@@ -56,7 +56,7 @@ spec:
     spotPriceLimit: 5
     spotStrategy: SpotWithPriceLimit
     systemDisk:
-    - category: cloud_ssd
+    - category: cloud_essd
       deleteWithInstance: false
       description: Test For Terraform
       name: crossplane-example
