@@ -43,7 +43,7 @@ spec:
     vswitchIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    zoneId: us-west-1a
+    zoneId: us-west-1b
 
 ---
 
@@ -79,4 +79,4 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane_example
-    zoneId: us-west-1a
+    zoneId: us-west-1b
