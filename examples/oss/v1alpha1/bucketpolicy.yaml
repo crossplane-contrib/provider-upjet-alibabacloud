@@ -12,9 +12,7 @@ spec:
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucketpolicy
-    policy: '${jsonencode({ "Version" : "1", "Statement" : [{ "Action" : ["oss:PutObject",
-      "oss:GetObject"], "Effect" : "Deny", "Principal" : ["1234567890"], "Resource"
-      : ["acs:oss:*:1234567890:*/*"] }] })}'
+    policy: '{"Version":"1","Statement":[{"Action":["oss:PutObject","oss:GetObject"],"Effect":"Deny","Principal":["1234567890"],"Resource":["acs:oss:*:1234567890:*/*"]}]}'
 
 ---
 
