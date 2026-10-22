@@ -26,19 +26,24 @@ import (
 // the user already set.
 //
 // A configured element matches a state element when every field set in the
-// configuration has the same value in state, recursing into nested blocks;
-// fields left empty in the configuration are the provider's to fill. When each
-// configured element matches a distinct state element and the counts agree,
-// nothing the user asked for differs and the field's diff is dropped. Any
-// other difference -- a changed or added value, an added or removed element --
-// is kept.
+// configuration has the same value in state, recursing into nested blocks. A
+// field left empty in the configuration matches when it is Computed -- the
+// provider's to fill -- or when state holds its zero value: late
+// initialization cannot represent a false or 0 it observed, so it leaves an
+// empty element (alicloud_instance image_options churned this way). An empty
+// field facing a non-zero, non-Computed value is a real change and does not
+// match. When each configured element matches a distinct state element and
+// the counts agree, nothing the user asked for differs and the field's diff is
+// dropped. Any other difference -- a changed or added value, an added or
+// removed element -- is kept.
 func SuppressSetChurn(res *schema.Resource, diff *terraform.InstanceDiff, state *terraform.InstanceState, cfg *terraform.ResourceConfig) {
 	if res == nil || diff == nil || state == nil || state.ID == "" || cfg == nil {
 		return
 	}
 	var d *schema.ResourceData
 	for field, s := range res.Schema {
-		if s.Type != schema.TypeSet || !hasOptionalComputed(s) {
+		elem, ok := s.Elem.(*schema.Resource)
+		if s.Type != schema.TypeSet || !ok {
 			continue
 		}
 		prefix := field + "."
@@ -59,7 +64,7 @@ func SuppressSetChurn(res *schema.Resource, diff *terraform.InstanceDiff, state 
 		if d == nil {
 			d = res.Data(state)
 		}
-		if !matchValue(want, d.Get(field)) {
+		if !matchValue(want, d.Get(field), elem) {
 			continue
 		}
 		for k := range diff.Attributes {
@@ -70,28 +75,12 @@ func SuppressSetChurn(res *schema.Resource, diff *terraform.InstanceDiff, state 
 	}
 }
 
-// hasOptionalComputed reports whether a set's elements, at any depth, have an
-// Optional+Computed field, the only kind that can cause the churn.
-func hasOptionalComputed(s *schema.Schema) bool {
-	r, ok := s.Elem.(*schema.Resource)
-	if !ok {
-		return false
-	}
-	for _, es := range r.Schema {
-		if es.Optional && es.Computed {
-			return true
-		}
-		if hasOptionalComputed(es) {
-			return true
-		}
-	}
-	return false
-}
-
 // matchValue reports whether the configured value want is satisfied by the
-// state value got: maps match on the keys set in want, and lists and sets
-// match element for element, in any order.
-func matchValue(want, got interface{}) bool {
+// state value got. elem is the schema of the elements when want is a list or
+// set of nested blocks, or of the block itself when want is a map; it is nil
+// for scalars and lists of scalars. Lists and sets match element for element,
+// in any order.
+func matchValue(want, got interface{}, elem *schema.Resource) bool {
 	if s, ok := got.(*schema.Set); ok {
 		got = s.List()
 	}
@@ -101,11 +90,24 @@ func matchValue(want, got interface{}) bool {
 		if !ok {
 			return false
 		}
-		for k, wv := range w {
+		if elem == nil {
+			for k, wv := range w {
+				if !isEmpty(wv) && !matchValue(wv, g[k], nil) {
+					return false
+				}
+			}
+			return true
+		}
+		for k, es := range elem.Schema {
+			wv, gv := w[k], g[k]
 			if isEmpty(wv) {
+				if !es.Computed && !isZero(gv) {
+					return false
+				}
 				continue
 			}
-			if !matchValue(wv, g[k]) {
+			sub, _ := es.Elem.(*schema.Resource)
+			if !matchValue(wv, gv, sub) {
 				return false
 			}
 		}
@@ -119,7 +121,7 @@ func matchValue(want, got interface{}) bool {
 		for _, wv := range w {
 			found := false
 			for i, gv := range g {
-				if !used[i] && matchValue(wv, gv) {
+				if !used[i] && matchValue(wv, gv, elem) {
 					used[i] = true
 					found = true
 					break
@@ -133,6 +135,24 @@ func matchValue(want, got interface{}) bool {
 	default:
 		return fmt.Sprint(want) == fmt.Sprint(got)
 	}
+}
+
+// isZero reports whether a state value is absent or its type's zero value.
+func isZero(v interface{}) bool {
+	if s, ok := v.(*schema.Set); ok {
+		return s.Len() == 0
+	}
+	switch t := v.(type) {
+	case nil:
+		return true
+	case bool:
+		return !t
+	case int:
+		return t == 0
+	case float64:
+		return t == 0
+	}
+	return isEmpty(v)
 }
 
 func isEmpty(v interface{}) bool {

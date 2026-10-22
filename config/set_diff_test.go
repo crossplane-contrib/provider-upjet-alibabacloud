@@ -186,3 +186,75 @@ func TestALBServerGroupServersChurn(t *testing.T) {
 		t.Error("an added server must still produce a servers diff")
 	}
 }
+
+// TestInstanceImageOptionsChurn reproduces the ECS Instance that updated on
+// every reconcile: late initialization leaves an empty image_options element
+// when the cloud reports login_as_non_root=false, and the empty element hashes
+// differently from {login_as_non_root: false}. login_as_non_root is Optional
+// but not Computed, so the match must rest on false being the zero value;
+// clearing a non-zero value must still be a change.
+func TestInstanceImageOptionsChurn(t *testing.T) {
+	p, err := providerconfig.GetProvider(context.Background(), false)
+	if err != nil {
+		t.Fatalf("cannot build the runtime provider configuration: %v", err)
+	}
+	r := p.Resources["alicloud_instance"]
+	res := r.TerraformResource
+
+	stateWith := func(loginAsNonRoot bool) *terraform.InstanceState {
+		t.Helper()
+		v, err := schema.JSONMapToStateValue(map[string]any{
+			"id":            "i-x",
+			"region":        "us-west-1",
+			"instance_type": "ecs.g9i.large",
+			"image_options": []any{map[string]any{"login_as_non_root": loginAsNonRoot}},
+		}, res.CoreConfigSchema())
+		if err != nil {
+			t.Fatalf("cannot convert the state: %v", err)
+		}
+		s, err := res.ShimInstanceStateFromValue(v)
+		if err != nil {
+			t.Fatalf("cannot shim the state: %v", err)
+		}
+		s.ID = "i-x"
+		return s
+	}
+	churn := func(state *terraform.InstanceState, imageOptions []any, suppress bool) []string {
+		t.Helper()
+		params := map[string]any{"region": "us-west-1", "instance_type": "ecs.g9i.large", "image_options": imageOptions}
+		cfg := terraform.NewResourceConfigRaw(params)
+		d, err := schema.InternalMap(res.Schema).Diff(context.Background(), state, cfg, nil, nil, false)
+		if err != nil {
+			t.Fatalf("cannot compute the diff: %v", err)
+		}
+		if d == nil {
+			return nil
+		}
+		if suppress {
+			if d, err = r.TerraformCustomDiff(d, state, cfg); err != nil {
+				t.Fatalf("TerraformCustomDiff: %v", err)
+			}
+		}
+		var out []string
+		for k := range d.Attributes {
+			if strings.HasPrefix(k, "image_options.") {
+				out = append(out, k)
+			}
+		}
+		return out
+	}
+
+	empty := []any{map[string]any{}}
+	if c := churn(stateWith(false), empty, false); len(c) == 0 {
+		t.Fatal("precondition: the plugin SDK no longer reports image_options churn; this test no longer reproduces the bug")
+	}
+	if c := churn(stateWith(false), empty, true); len(c) != 0 {
+		t.Errorf("empty element vs observed false: want no diff, got %v", c)
+	}
+	if c := churn(stateWith(false), []any{map[string]any{"login_as_non_root": true}}, true); len(c) == 0 {
+		t.Error("a user's login_as_non_root=true must still produce a diff")
+	}
+	if c := churn(stateWith(true), empty, true); len(c) == 0 {
+		t.Error("an empty element against a non-zero, non-Computed value must still produce a diff")
+	}
+}
