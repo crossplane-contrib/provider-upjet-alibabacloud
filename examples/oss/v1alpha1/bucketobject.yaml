@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucketobject
@@ -26,6 +27,7 @@ metadata:
   name: bucketobject
 spec:
   forProvider:
+    region: us-west-1
     bucket: crossplane-example-bucketobject-202504081600
 
 ---
@@ -40,6 +42,7 @@ metadata:
   name: bucketobject
 spec:
   forProvider:
+    region: us-west-1
     acl: private
     bucketSelector:
       matchLabels:

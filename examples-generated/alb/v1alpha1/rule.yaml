@@ -11,7 +11,7 @@ spec:
     listenerIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    priority: "555"
+    priority: 555
     region: cn-beijing
     ruleActions:
     - forwardGroupConfig:
@@ -19,7 +19,7 @@ spec:
         - serverGroupIdSelector:
             matchLabels:
               testing.upbound.io/example-name: default
-      order: "9"
+      order: 9
       type: ForwardGroup
     ruleConditions:
     - cookieConfig:

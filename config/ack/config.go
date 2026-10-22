@@ -159,7 +159,6 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_vswitch",
 		}
 
-		delete(r.TerraformResource.Schema, "security_group_id")
 	})
 
 	p.AddResourceConfigurator("alicloud_cs_kubernetes_permissions", func(r *config.Resource) {

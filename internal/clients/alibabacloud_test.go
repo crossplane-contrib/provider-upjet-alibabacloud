@@ -5,13 +5,22 @@
 package clients
 
 import (
+	"context"
 	"reflect"
+	"strings"
 	"testing"
+
+	"github.com/aliyun/terraform-provider-alicloud/alicloud"
+	"github.com/crossplane/upjet/pkg/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/apis/v1beta1"
 )
 
 func TestBuildProviderConfiguration(t *testing.T) {
+	t.Setenv("ALIBABA_CLOUD_ENDPOINT_SLS", "")
+	t.Setenv("SLS_ENDPOINT", "")
 	cfg := buildProviderConfiguration("cn-hangzhou", map[string]any{
 		"access_key":     "ak",
 		"secret_key":     "sk",
@@ -24,9 +33,56 @@ func TestBuildProviderConfiguration(t *testing.T) {
 		"access_key":     "ak",
 		"secret_key":     "sk",
 		"security_token": "token",
+		"endpoints": []any{map[string]any{
+			"location": "location-readonly.aliyuncs.com",
+			"log":      "cn-hangzhou.log.aliyuncs.com",
+		}},
 	}
 	if !reflect.DeepEqual(map[string]any(cfg), want) {
 		t.Fatalf("unexpected provider configuration:\n got: %#v\nwant: %#v", cfg, want)
+	}
+}
+
+func TestEndpointSeeds(t *testing.T) {
+	t.Setenv("ALIBABA_CLOUD_ENDPOINT_SLS", "")
+	t.Setenv("SLS_ENDPOINT", "")
+	want := map[string]any{"location": "location-readonly.aliyuncs.com", "log": "us-west-1.log.aliyuncs.com"}
+	if got := endpointSeeds("us-west-1"); !reflect.DeepEqual(got, want) {
+		t.Errorf("us-west-1: want %#v, got %#v", want, got)
+	}
+	if got := endpointSeeds(""); !reflect.DeepEqual(got, map[string]any{"location": "location-readonly.aliyuncs.com"}) {
+		t.Errorf("no region: want only the location seed, got %#v", got)
+	}
+	for _, env := range []string{"ALIBABA_CLOUD_ENDPOINT_SLS", "SLS_ENDPOINT"} {
+		t.Run(env, func(t *testing.T) {
+			t.Setenv(env, "custom.example.com")
+			if got := endpointSeeds("us-west-1"); got["log"] != nil {
+				t.Errorf("with %s set: want no log seed so the override wins, got %#v", env, got)
+			}
+		})
+	}
+}
+
+// TestEndpointSeedsFitProviderSchema checks the seeded endpoints block survives
+// the real upstream provider schema with its keys intact: configure stores
+// "log" in the client's endpoint cache, where loadApiEndpoint looks SLS up, and
+// "location" in Config.LocationEndpoint, which the Location lookup asks.
+func TestEndpointSeedsFitProviderSchema(t *testing.T) {
+	t.Setenv("ALIBABA_CLOUD_ENDPOINT_SLS", "")
+	t.Setenv("SLS_ENDPOINT", "")
+	cfg := buildProviderConfiguration("us-west-1", map[string]any{"access_key": "ak", "secret_key": "sk"}, nil)
+	p := alicloud.Provider()
+	d := schema.TestResourceDataRaw(t, p.Schema, cfg)
+	set, ok := d.Get("endpoints").(*schema.Set)
+	if !ok || set.Len() != 1 {
+		t.Fatalf("endpoints block did not survive the provider schema: %#v", d.Get("endpoints"))
+	}
+	got := set.List()[0].(map[string]any)
+	if got["log"] != "us-west-1.log.aliyuncs.com" {
+		t.Errorf("endpoints.log: want us-west-1.log.aliyuncs.com, got %#v", got["log"])
+	}
+	if got["location"] != "location-readonly.aliyuncs.com" {
+		t.Errorf("endpoints.location: want location-readonly.aliyuncs.com, got %#v", got["location"])
 	}
 }
 
@@ -155,5 +211,54 @@ func TestValidateProviderConfigUsesDifferentSessionExpirationMaximums(t *testing
 	}, nil)
 	if err != nil {
 		t.Fatalf("unexpected assumeRoleWithOIDC sessionExpiration error: %v", err)
+	}
+}
+
+// configureNoForkAlibabaCloudClient relies on p.Configure assigning p.meta
+// from whatever p.ConfigureContextFunc returns, so a fake provider stands in
+// for the real one: it declares one Required field and fails in the same way
+// the real provider does when a credential is missing or of the wrong type
+// (e.g. a nested assume_role block), without needing real credentials or a
+// live Terraform provider.
+func fakeCredentialedProvider() schema.Provider {
+	return schema.Provider{
+		Schema: map[string]*schema.Schema{
+			"access_key": {Type: schema.TypeString, Required: true},
+		},
+		ConfigureContextFunc: func(_ context.Context, d *schema.ResourceData) (any, diag.Diagnostics) {
+			if d.Get("access_key").(string) == "" {
+				return nil, diag.Diagnostics{{
+					Severity: diag.Error,
+					Summary:  "missing access_key",
+					Detail:   "access_key must be set",
+				}}
+			}
+			return "configured", nil
+		},
+	}
+}
+
+func TestConfigureNoForkAlibabaCloudClientMissingCredentials(t *testing.T) {
+	ps := &terraform.Setup{Configuration: terraform.ProviderConfiguration{}}
+
+	err := configureNoForkAlibabaCloudClient(context.Background(), ps, fakeCredentialedProvider())
+	if err == nil {
+		t.Fatal("expected an error configuring the provider without access_key")
+	}
+	if !strings.Contains(err.Error(), "missing access_key") || !strings.Contains(err.Error(), "access_key must be set") {
+		t.Fatalf("expected the error to surface both the diagnostic's Summary and Detail, got: %v", err)
+	}
+}
+
+func TestConfigureNoForkAlibabaCloudClientSucceeds(t *testing.T) {
+	ps := &terraform.Setup{Configuration: terraform.ProviderConfiguration{
+		"access_key": "ak",
+	}}
+
+	if err := configureNoForkAlibabaCloudClient(context.Background(), ps, fakeCredentialedProvider()); err != nil {
+		t.Fatalf("unexpected error configuring the provider: %v", err)
+	}
+	if ps.Meta != "configured" {
+		t.Fatalf("expected ps.Meta to be set from the provider's ConfigureContextFunc, got: %#v", ps.Meta)
 	}
 }

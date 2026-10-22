@@ -104,12 +104,6 @@ type ListenerInitParameters struct {
 	// The timeout period of an idle connection. Unit: seconds. Default value: 15. Valid values: 1 to 60.
 	IdleTimeout *float64 `json:"idleTimeout,omitempty" tf:"idle_timeout,omitempty"`
 
-	InstancePort *float64 `json:"instancePort,omitempty" tf:"instance_port,omitempty"`
-
-	LBPort *float64 `json:"lbPort,omitempty" tf:"lb_port,omitempty"`
-
-	LBProtocol *string `json:"lbProtocol,omitempty" tf:"lb_protocol,omitempty"`
-
 	// Specifies whether to enable HTTP-to-HTTPS redirection. Default value: off. Valid values: on, off.
 	ListenerForward *string `json:"listenerForward,omitempty" tf:"listener_forward,omitempty"`
 
@@ -251,12 +245,6 @@ type ListenerObservation struct {
 
 	// The timeout period of an idle connection. Unit: seconds. Default value: 15. Valid values: 1 to 60.
 	IdleTimeout *float64 `json:"idleTimeout,omitempty" tf:"idle_timeout,omitempty"`
-
-	InstancePort *float64 `json:"instancePort,omitempty" tf:"instance_port,omitempty"`
-
-	LBPort *float64 `json:"lbPort,omitempty" tf:"lb_port,omitempty"`
-
-	LBProtocol *string `json:"lbProtocol,omitempty" tf:"lb_protocol,omitempty"`
 
 	// Specifies whether to enable HTTP-to-HTTPS redirection. Default value: off. Valid values: on, off.
 	ListenerForward *string `json:"listenerForward,omitempty" tf:"listener_forward,omitempty"`
@@ -420,15 +408,6 @@ type ListenerParameters struct {
 	// The timeout period of an idle connection. Unit: seconds. Default value: 15. Valid values: 1 to 60.
 	// +kubebuilder:validation:Optional
 	IdleTimeout *float64 `json:"idleTimeout,omitempty" tf:"idle_timeout,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	InstancePort *float64 `json:"instancePort,omitempty" tf:"instance_port,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	LBPort *float64 `json:"lbPort,omitempty" tf:"lb_port,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	LBProtocol *string `json:"lbProtocol,omitempty" tf:"lb_protocol,omitempty"`
 
 	// Specifies whether to enable HTTP-to-HTTPS redirection. Default value: off. Valid values: on, off.
 	// +kubebuilder:validation:Optional

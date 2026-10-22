@@ -137,9 +137,6 @@ type ServerlessKubernetesInitParameters struct {
 	// The cluster specifications of serverless kubernetes cluster, which can be empty. Valid values:
 	ClusterSpec *string `json:"clusterSpec,omitempty" tf:"cluster_spec,omitempty"`
 
-	// (Removed since v1.229.1) whether to create a v2 version cluster.
-	CreateV2Cluster *bool `json:"createV2Cluster,omitempty" tf:"create_v2_cluster,omitempty"`
-
 	// Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
 	// -> NOTE: Make sure you have specified all certificate SANs before updating. Updating this field will lead APIServer to restart.
 	CustomSan *string `json:"customSan,omitempty" tf:"custom_san,omitempty"`
@@ -164,9 +161,6 @@ type ServerlessKubernetesInitParameters struct {
 
 	// Whether to create internet eip for API Server. Default to false. Only works for Create Operation.
 	EndpointPublicAccessEnabled *bool `json:"endpointPublicAccessEnabled,omitempty" tf:"endpoint_public_access_enabled,omitempty"`
-
-	// (Removed since v1.229.1) Default false, when you want to change vpc_id and vswitch_id, you have to set this field to true, then the cluster will be recreated.
-	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
 	// The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	KubeConfig *string `json:"kubeConfig,omitempty" tf:"kube_config,omitempty"`
@@ -240,18 +234,6 @@ type ServerlessKubernetesInitParameters struct {
 
 	// Desired Kubernetes version. If you do not specify a value, the latest available version at resource creation is used.  Do not specify if cluster auto upgrade is enabled, see cluster_auto_upgrade for more information.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
-
-	// (Removed since v1.229.1) The vswitch where new kubernetes cluster will be located. Specify one vswitch's id, if it is not specified, a new VPC and VSwicth will be built. It must be in the zone which availability_zone specified.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
-
-	// Reference to a Vswitch in vpc to populate vswitchId.
-	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
-
-	// Selector for a Vswitch in vpc to populate vswitchId.
-	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The vswitches where new kubernetes cluster will be located.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
@@ -335,9 +317,6 @@ type ServerlessKubernetesObservation struct {
 	// The cluster specifications of serverless kubernetes cluster, which can be empty. Valid values:
 	ClusterSpec *string `json:"clusterSpec,omitempty" tf:"cluster_spec,omitempty"`
 
-	// (Removed since v1.229.1) whether to create a v2 version cluster.
-	CreateV2Cluster *bool `json:"createV2Cluster,omitempty" tf:"create_v2_cluster,omitempty"`
-
 	// Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
 	// -> NOTE: Make sure you have specified all certificate SANs before updating. Updating this field will lead APIServer to restart.
 	CustomSan *string `json:"customSan,omitempty" tf:"custom_san,omitempty"`
@@ -362,9 +341,6 @@ type ServerlessKubernetesObservation struct {
 
 	// Whether to create internet eip for API Server. Default to false. Only works for Create Operation.
 	EndpointPublicAccessEnabled *bool `json:"endpointPublicAccessEnabled,omitempty" tf:"endpoint_public_access_enabled,omitempty"`
-
-	// (Removed since v1.229.1) Default false, when you want to change vpc_id and vswitch_id, you have to set this field to true, then the cluster will be recreated.
-	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
 	// The Cluster ID of the serverless cluster.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -427,9 +403,6 @@ type ServerlessKubernetesObservation struct {
 	// Desired Kubernetes version. If you do not specify a value, the latest available version at resource creation is used.  Do not specify if cluster auto upgrade is enabled, see cluster_auto_upgrade for more information.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 
-	// (Removed since v1.229.1) The vswitch where new kubernetes cluster will be located. Specify one vswitch's id, if it is not specified, a new VPC and VSwicth will be built. It must be in the zone which availability_zone specified.
-	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
-
 	// The vswitches where new kubernetes cluster will be located.
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
 
@@ -478,10 +451,6 @@ type ServerlessKubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterSpec *string `json:"clusterSpec,omitempty" tf:"cluster_spec,omitempty"`
 
-	// (Removed since v1.229.1) whether to create a v2 version cluster.
-	// +kubebuilder:validation:Optional
-	CreateV2Cluster *bool `json:"createV2Cluster,omitempty" tf:"create_v2_cluster,omitempty"`
-
 	// Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
 	// -> NOTE: Make sure you have specified all certificate SANs before updating. Updating this field will lead APIServer to restart.
 	// +kubebuilder:validation:Optional
@@ -513,10 +482,6 @@ type ServerlessKubernetesParameters struct {
 	// Whether to create internet eip for API Server. Default to false. Only works for Create Operation.
 	// +kubebuilder:validation:Optional
 	EndpointPublicAccessEnabled *bool `json:"endpointPublicAccessEnabled,omitempty" tf:"endpoint_public_access_enabled,omitempty"`
-
-	// (Removed since v1.229.1) Default false, when you want to change vpc_id and vswitch_id, you have to set this field to true, then the cluster will be recreated.
-	// +kubebuilder:validation:Optional
-	ForceUpdate *bool `json:"forceUpdate,omitempty" tf:"force_update,omitempty"`
 
 	// The path of kube config, like ~/.kube/config. Please use the attribute output_file of new DataSource alicloud_cs_cluster_credential to replace it.
 	// +kubebuilder:validation:Optional
@@ -613,19 +578,6 @@ type ServerlessKubernetesParameters struct {
 	// Desired Kubernetes version. If you do not specify a value, the latest available version at resource creation is used.  Do not specify if cluster auto upgrade is enabled, see cluster_auto_upgrade for more information.
 	// +kubebuilder:validation:Optional
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
-
-	// (Removed since v1.229.1) The vswitch where new kubernetes cluster will be located. Specify one vswitch's id, if it is not specified, a new VPC and VSwicth will be built. It must be in the zone which availability_zone specified.
-	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +kubebuilder:validation:Optional
-	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
-
-	// Reference to a Vswitch in vpc to populate vswitchId.
-	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
-
-	// Selector for a Vswitch in vpc to populate vswitchId.
-	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 
 	// The vswitches where new kubernetes cluster will be located.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch

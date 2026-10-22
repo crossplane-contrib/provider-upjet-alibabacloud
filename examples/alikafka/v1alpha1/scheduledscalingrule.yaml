@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     ruleName: crossplane-example-scaling-rule
     scheduleType: repeat
     repeatType: Weekly
@@ -41,7 +41,7 @@ metadata:
   name: serverless
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     deployType: 4
     instanceType: alikafka_serverless
     specType: normal
@@ -69,7 +69,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -86,7 +86,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example-for-alikafka
     cidrBlock: 172.16.0.0/12
 
@@ -102,10 +102,10 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     vswitchName: crossplane-example-for-alikafka
     cidrBlock: 172.16.0.0/24
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

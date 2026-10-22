@@ -25,10 +25,16 @@ TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAF
 
 export TERRAFORM_PROVIDER_SOURCE ?= aliyun/alicloud
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/aliyun/terraform-provider-alicloud
-export TERRAFORM_PROVIDER_VERSION ?= 1.293.0
-export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-alicloud
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://releases.hashicorp.com/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/$(TERRAFORM_PROVIDER_VERSION)
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-alicloud_v$(TERRAFORM_PROVIDER_VERSION)
+# NOTE: This pins the registry release used to generate config/schema.json.
+# The Go code the provider actually runs is pinned separately, in go.mod, and
+# since the tag declares no /v2 module path it appears there only as an
+# opaque pseudo-version (v1.294.1-0.<timestamp>-<commit>) plus a replace
+# directive. The two must refer to the same upstream commit.
+# TestSchemaVersionsMatch in config/ enforces this directly, by resolving
+# this tag's commit and comparing it against the pseudo-version's commit
+# suffix; TestSchemaSourcesAgree separately fails if the two sources drift
+# far enough apart that a configured resource is missing from either.
+export TERRAFORM_PROVIDER_VERSION ?= 2.0.0
 export TERRAFORM_DOCS_PATH ?= website/docs/r
 
 
@@ -375,26 +381,29 @@ e2e-provider.%:
 	@$(MAKE) build-provider.$* local-deploy.$*
 	@$(MAKE) uptest
 
-crddiff: $(UPTEST)
+crddiff:
 	@$(INFO) Checking breaking CRD schema changes
-	@for crd in $${MODIFIED_CRD_LIST}; do \
+	@breaking=0 ; \
+	for crd in $${MODIFIED_CRD_LIST}; do \
 		if ! git cat-file -e "$${GITHUB_BASE_REF}:$${crd}" 2>/dev/null; then \
 			echo "CRD $${crd} does not exist in the $${GITHUB_BASE_REF} branch. Skipping..." ; \
 			continue ; \
 		fi ; \
 		echo "Checking $${crd} for breaking API changes..." ; \
-		changes_detected=$$($(UPTEST) crddiff revision <(git cat-file -p "$${GITHUB_BASE_REF}:$${crd}") "$${crd}" 2>&1) ; \
+		changes_detected=$$(go run github.com/upbound/uptest/cmd/crddiff@$(CRDDIFF_VERSION) revision --enable-upjet-extensions <(git cat-file -p "$${GITHUB_BASE_REF}:$${crd}") "$${crd}" 2>&1) ; \
 		if [[ $$? != 0 ]] ; then \
 			printf "\033[31m"; echo "Breaking change detected!"; printf "\033[0m" ; \
 			echo "$${changes_detected}" ; \
 			echo ; \
+			breaking=1 ; \
 		fi ; \
-	done
+	done ; \
+	if [[ $$breaking != 0 ]] ; then $(FAIL) ; fi
 	@$(OK) Checking breaking CRD schema changes
 
 schema-version-diff:
 	@$(INFO) Checking for native state schema version changes
-	@export PREV_PROVIDER_VERSION=$$(git cat-file -p "${GITHUB_BASE_REF}:Makefile" | sed -nr 's/^export[[:space:]]*TERRAFORM_PROVIDER_VERSION[[:space:]]*:=[[:space:]]*(.+)/\1/p'); \
+	@export PREV_PROVIDER_VERSION=$$(git cat-file -p "${GITHUB_BASE_REF}:Makefile" | sed -nr 's/^export[[:space:]]*TERRAFORM_PROVIDER_VERSION[[:space:]]*[?:]?=[[:space:]]*(.+)/\1/p'); \
 	echo Detected previous Terraform provider version: $${PREV_PROVIDER_VERSION}; \
 	echo Current Terraform provider version: $${TERRAFORM_PROVIDER_VERSION}; \
 	mkdir -p $(WORK_DIR); \

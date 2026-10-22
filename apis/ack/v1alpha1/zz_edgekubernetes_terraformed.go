@@ -121,7 +121,6 @@ func (tr *EdgeKubernetes) LateInitialize(attrs []byte) (bool, error) {
 	opts = append(opts, resource.WithNameFilter("ClientCert"))
 	opts = append(opts, resource.WithNameFilter("ClientKey"))
 	opts = append(opts, resource.WithNameFilter("ClusterCACert"))
-	opts = append(opts, resource.WithNameFilter("ForceUpdate"))
 	opts = append(opts, resource.WithNameFilter("IsEnterpriseSecurityGroup"))
 	opts = append(opts, resource.WithNameFilter("KubeConfig"))
 	opts = append(opts, resource.WithNameFilter("LogConfig"))
@@ -134,5 +133,5 @@ func (tr *EdgeKubernetes) LateInitialize(attrs []byte) (bool, error) {
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
 func (tr *EdgeKubernetes) GetTerraformSchemaVersion() int {
-	return 0
+	return 1
 }

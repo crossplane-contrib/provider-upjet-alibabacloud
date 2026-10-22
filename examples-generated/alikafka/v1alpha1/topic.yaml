@@ -23,7 +23,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     localTopic: "true"
-    partitionNum: "18"
+    partitionNum: 18
     region: cn-beijing
     remark: ${var.name}
     tags:
@@ -49,10 +49,10 @@ spec:
             "enable.acl" : "true"
           }
         )}
-    deployType: "5"
-    diskSize: "500"
-    diskType: "1"
-    ioMax: "20"
+    deployType: 5
+    diskSize: 500
+    diskType: 1
+    ioMax: 20
     name: ${var.name}
     partitionNum: 50
     region: cn-beijing

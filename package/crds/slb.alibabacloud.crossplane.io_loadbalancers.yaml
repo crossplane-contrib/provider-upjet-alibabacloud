@@ -102,10 +102,6 @@ spec:
                       takes effect when the value of payment_type (instance payment
                       mode) is PayAsYouGo (pay-as-you-go).
                     type: string
-                  internet:
-                    description: Field internet has been deprecated from provider
-                      version 1.124.0 New field address_type instead.
-                    type: boolean
                   internetChargeType:
                     description: Valid values are PayByBandwidth, PayByTraffic. If
                       this value is PayByBandwidth, then argument address_type must
@@ -439,10 +435,6 @@ spec:
                       takes effect when the value of payment_type (instance payment
                       mode) is PayAsYouGo (pay-as-you-go).
                     type: string
-                  internet:
-                    description: Field internet has been deprecated from provider
-                      version 1.124.0 New field address_type instead.
-                    type: boolean
                   internetChargeType:
                     description: Valid values are PayByBandwidth, PayByTraffic. If
                       this value is PayByBandwidth, then argument address_type must
@@ -934,10 +926,6 @@ spec:
                       takes effect when the value of payment_type (instance payment
                       mode) is PayAsYouGo (pay-as-you-go).
                     type: string
-                  internet:
-                    description: Field internet has been deprecated from provider
-                      version 1.124.0 New field address_type instead.
-                    type: boolean
                   internetChargeType:
                     description: Valid values are PayByBandwidth, PayByTraffic. If
                       this value is PayByBandwidth, then argument address_type must

@@ -83,9 +83,10 @@ spec:
                     description: 'The account name. Must meet the following requirements:'
                     type: string
                   accountPasswordSecretRef:
-                    description: 'The account password. You have to specify one of
-                      account_password and kms_encrypted_password fields. Must  meet
-                      the following requirements:'
+                    description: 'The account password. It conflicts with kms_encrypted_password
+                      and account_password_wo, and one of account_password, kms_encrypted_password
+                      and account_password_wo must be set. Must  meet the following
+                      requirements:'
                     properties:
                       key:
                         description: The key to select.
@@ -187,8 +188,10 @@ spec:
                         type: object
                     type: object
                   kmsEncryptedPassword:
-                    description: An KMS encrypts password used to a db account. If
-                      the account_password is filled in, this field will be ignored.
+                    description: An KMS encrypts password used to a db account. It
+                      conflicts with account_password and account_password_wo, and
+                      one of account_password, kms_encrypted_password and account_password_wo
+                      must be set.
                     type: string
                   kmsEncryptionContext:
                     additionalProperties:
@@ -227,9 +230,10 @@ spec:
                     description: 'The account name. Must meet the following requirements:'
                     type: string
                   accountPasswordSecretRef:
-                    description: 'The account password. You have to specify one of
-                      account_password and kms_encrypted_password fields. Must  meet
-                      the following requirements:'
+                    description: 'The account password. It conflicts with kms_encrypted_password
+                      and account_password_wo, and one of account_password, kms_encrypted_password
+                      and account_password_wo must be set. Must  meet the following
+                      requirements:'
                     properties:
                       key:
                         description: The key to select.
@@ -331,8 +335,10 @@ spec:
                         type: object
                     type: object
                   kmsEncryptedPassword:
-                    description: An KMS encrypts password used to a db account. If
-                      the account_password is filled in, this field will be ignored.
+                    description: An KMS encrypts password used to a db account. It
+                      conflicts with account_password and account_password_wo, and
+                      one of account_password, kms_encrypted_password and account_password_wo
+                      must be set.
                     type: string
                   kmsEncryptionContext:
                     additionalProperties:
@@ -546,8 +552,10 @@ spec:
                       formulated as <db_cluster_id>:<account_name>.
                     type: string
                   kmsEncryptedPassword:
-                    description: An KMS encrypts password used to a db account. If
-                      the account_password is filled in, this field will be ignored.
+                    description: An KMS encrypts password used to a db account. It
+                      conflicts with account_password and account_password_wo, and
+                      one of account_password, kms_encrypted_password and account_password_wo
+                      must be set.
                     type: string
                   kmsEncryptionContext:
                     additionalProperties:

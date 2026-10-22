@@ -92,6 +92,15 @@ spec:
                     description: The options of cpu. See cpu_options below.
                     items:
                       properties:
+                        accelerators:
+                          description: The CPU accelerators to enable on the instance,
+                            such as the Intel vQAT (QuickAssist Technology) accelerator.
+                            Valid values are determined by the API and not yet documented;
+                            currently vqat is the only valid value, and invalid values
+                            are rejected by the API at apply time.
+                          items:
+                            type: string
+                          type: array
                         coreCount:
                           description: The maximum number of partitions in the storage
                             set.
@@ -1218,6 +1227,15 @@ spec:
                     description: The options of cpu. See cpu_options below.
                     items:
                       properties:
+                        accelerators:
+                          description: The CPU accelerators to enable on the instance,
+                            such as the Intel vQAT (QuickAssist Technology) accelerator.
+                            Valid values are determined by the API and not yet documented;
+                            currently vqat is the only valid value, and invalid values
+                            are rejected by the API at apply time.
+                          items:
+                            type: string
+                          type: array
                         coreCount:
                           description: The maximum number of partitions in the storage
                             set.
@@ -2502,6 +2520,15 @@ spec:
                     description: The options of cpu. See cpu_options below.
                     items:
                       properties:
+                        accelerators:
+                          description: The CPU accelerators to enable on the instance,
+                            such as the Intel vQAT (QuickAssist Technology) accelerator.
+                            Valid values are determined by the API and not yet documented;
+                            currently vqat is the only valid value, and invalid values
+                            are rejected by the API at apply time.
+                          items:
+                            type: string
+                          type: array
                         coreCount:
                           description: The maximum number of partitions in the storage
                             set.

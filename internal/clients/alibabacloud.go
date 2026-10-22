@@ -8,6 +8,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
@@ -22,6 +23,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/crossplane/upjet/pkg/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	tfsdk "github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/apis/v1beta1"
 )
@@ -49,15 +53,9 @@ var providerSpecCredentialKeys = map[string]string{
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
 // returns Terraform provider setup configuration
-func TerraformSetupBuilder(version, providerSource, providerVersion string) terraform.SetupFn {
+func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
 	return func(ctx context.Context, c client.Client, mg resource.Managed) (terraform.Setup, error) {
-		ps := terraform.Setup{
-			Version: version,
-			Requirement: terraform.ProviderRequirement{
-				Source:  providerSource,
-				Version: providerVersion,
-			},
-		}
+		ps := terraform.Setup{}
 
 		configRef := mg.GetProviderConfigReference()
 		if configRef == nil {
@@ -84,14 +82,50 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 
 		ps.Configuration = buildProviderConfiguration(region, creds, pc)
 		ps.Configuration["configuration_source"] = getUserAgent()
-		return ps, nil
+		return ps, errors.Wrap(metaCache.configure(ctx, &ps, *tfProvider), "failed to configure the no-fork AlibabaCloud client")
 	}
+}
+
+// configureNoForkAlibabaCloudClient configures the Terraform provider with the
+// credentials resolved from the ProviderConfig and hands the resulting provider
+// meta to upjet, which passes it to the resource CRUD functions.
+//
+// Please be aware that this implementation relies on the schema.Provider
+// parameter p being a non-pointer. This is because the Terraform plugin SDK
+// normally configures the provider only once, and using a pointer argument here
+// would cause race conditions between resources referring to different
+// ProviderConfigs.
+func configureNoForkAlibabaCloudClient(ctx context.Context, ps *terraform.Setup, p schema.Provider) error {
+	diags := p.Configure(context.WithoutCancel(ctx), &tfsdk.ResourceConfig{
+		Config: ps.Configuration,
+	})
+	if diags != nil && diags.HasError() {
+		return errors.Errorf("failed to configure the provider: %s", formatDiagnostics(diags))
+	}
+	ps.Meta = p.Meta()
+	return nil
+}
+
+// formatDiagnostics renders diag.Diagnostics as Summary (: Detail) pairs, one
+// per line, instead of Go's default struct formatting for the slice, which
+// buries the actual message under every other field of each diag.Diagnostic.
+func formatDiagnostics(diags diag.Diagnostics) string {
+	msgs := make([]string, 0, len(diags))
+	for _, d := range diags {
+		msg := d.Summary
+		if d.Detail != "" {
+			msg = fmt.Sprintf("%s: %s", msg, d.Detail)
+		}
+		msgs = append(msgs, msg)
+	}
+	return strings.Join(msgs, "; ")
 }
 
 func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1.ProviderConfig) terraform.ProviderConfiguration {
 	cfg := terraform.ProviderConfiguration{
 		"region": region,
 	}
+	cfg["endpoints"] = []any{endpointSeeds(region)}
 	for _, key := range providerCredentialKeys {
 		v, ok := creds[key]
 		if !ok {
@@ -109,6 +143,53 @@ func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1
 		cfg["assume_role_with_oidc"] = []any{assumeRoleWithOIDCConfiguration(pc.Spec.AssumeRoleWithOIDC)}
 	}
 	return cfg
+}
+
+// locationReadonlyEndpoint is the Location service endpoint served from
+// outside mainland China; location.aliyuncs.com, upstream's default, is served
+// from mainland China.
+const locationReadonlyEndpoint = "location-readonly.aliyuncs.com"
+
+// endpointSeeds returns the provider's endpoints block.
+//
+// Most products resolve their endpoint through the Location service before
+// their first API call. Upstream asks location.aliyuncs.com first, which is in
+// mainland China, and moves to location-readonly.aliyuncs.com only after the
+// first attempt times out, inside a two-minute retry. Many reads and creates
+// give up after one minute, so whenever mainland China is slow to reach -- as
+// from outside it, routinely -- they time out. Products with no fallback
+// endpoint upstream (regularProductEndpoint), SLB and PolarDB among them, fail
+// outright. Asking location-readonly first avoids the wait, and it is the
+// endpoint upstream would retry with anyway.
+//
+// SLS is also pinned to its regional endpoint (see slsEndpoint).
+func endpointSeeds(region string) map[string]any {
+	seeds := map[string]any{"location": locationReadonlyEndpoint}
+	if e := slsEndpoint(region); e != "" {
+		seeds["log"] = e
+	}
+	return seeds
+}
+
+// slsEndpoint returns Simple Log Service's regional endpoint, or "" when there
+// is no region or the user overrides the endpoint through the environment.
+//
+// Upstream looks the SLS endpoint up under the "log" key
+// (productCodeToConfigEndpoints) but caches what it resolves under "sls", so
+// the cache never hits and every SLS API call repeats the Location lookup.
+// Seeding "log" makes the first lookup hit. The value is what upstream's own
+// fallback (regularProductEndpoint) computes, and what Location returns for
+// these regions.
+func slsEndpoint(region string) string {
+	if region == "" {
+		return ""
+	}
+	for _, env := range []string{"ALIBABA_CLOUD_ENDPOINT_SLS", "SLS_ENDPOINT"} {
+		if strings.TrimSpace(os.Getenv(env)) != "" {
+			return ""
+		}
+	}
+	return fmt.Sprintf("%s.log.aliyuncs.com", region)
 }
 
 func assumeRoleConfiguration(assumeRole *v1beta1.AssumeRoleOptions) map[string]any {

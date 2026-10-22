@@ -5,6 +5,7 @@
 package config_test
 
 import (
+	"context"
 	"testing"
 
 	"github.com/crossplane/upjet/pkg/registry"
@@ -14,7 +15,10 @@ import (
 )
 
 func TestRAMDeprecatedFields(t *testing.T) {
-	p := providerconfig.GetProvider()
+	p, err := providerconfig.GetProvider(context.Background(), true)
+	if err != nil {
+		t.Fatalf("cannot build the generation provider configuration: %v", err)
+	}
 	for _, tc := range []struct {
 		resource          string
 		removed, retained []string
@@ -53,7 +57,10 @@ func TestRAMSecurityPreferenceDocumentation(t *testing.T) {
 		{"ExistingKey", &registry.Resource{ArgumentDocs: map[string]string{"mfa_operation_for_login": "outdated", "other": "unchanged"}}, true},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
-			p := providerconfig.GetProvider()
+			p, err := providerconfig.GetProvider(context.Background(), true)
+			if err != nil {
+				t.Fatalf("cannot build the generation provider configuration: %v", err)
+			}
 			r := p.Resources["alicloud_ram_security_preference"]
 			r.MetaResource = tc.metadata
 			// Removing the unsupported field must still run when documentation is absent.

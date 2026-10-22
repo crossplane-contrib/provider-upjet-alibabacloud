@@ -9,6 +9,6 @@ metadata:
 spec:
   forProvider:
     description: Hello KMS
-    pendingWindowInDays: "7"
+    pendingWindowInDays: 7
     region: cn-beijing
     status: Enabled

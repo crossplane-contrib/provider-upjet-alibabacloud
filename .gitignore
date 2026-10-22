@@ -7,6 +7,7 @@ cover.out
 .DS_Store
 .kubeconfig
 *.bak
+__pycache__/
 
 # ignore IDE folders
 .vscode/

@@ -11,7 +11,6 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("alicloud_alb_acl", func(r *config.Resource) {
 		r.ShortGroup = string(common.ALB)
 		r.Kind = "Acl"
-		delete(r.TerraformResource.Schema, "acl_entries")
 	})
 	p.AddResourceConfigurator("alicloud_alb_acl_entry_attachment", func(r *config.Resource) {
 		r.ShortGroup = string(common.ALB)
@@ -34,6 +33,12 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_vswitch",
 			Extractor:     common.PathVSwitchZoneIdExtractor,
 		}
+		// zone_mappings elements carry Optional+Computed fields
+		// (intranet_address, allocation_id, eip_type) that the cloud fills
+		// in, which changes their set hashes and made every reconcile
+		// remove and re-add every zone mapping. A zone mapping is its zone
+		// and vSwitch.
+		common.SetElementsKeyedBy("zone_mappings", "zone_id", "vswitch_id")(r)
 	})
 	p.AddResourceConfigurator("alicloud_alb_listener", func(r *config.Resource) {
 		r.ShortGroup = string(common.ALB)
@@ -51,8 +56,6 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_ssl_certificates_service_certificate",
 			Extractor:     common.PathAlbCertificateIdExtractor,
 		}
-		delete(r.TerraformResource.Schema, "acl_config")
-		delete(r.TerraformResource.Schema, "xforwarded_for_config")
 	})
 	p.AddResourceConfigurator("alicloud_alb_listener_acl_attachment", func(r *config.Resource) {
 		r.ShortGroup = string(common.ALB)

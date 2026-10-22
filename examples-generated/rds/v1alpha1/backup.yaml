@@ -29,6 +29,6 @@ spec:
     engine: MySQL
     engineVersion: "5.6"
     instanceChargeType: Postpaid
-    instanceStorage: "30"
+    instanceStorage: 30
     instanceType: rds.mysql.t1.small
     region: cn-beijing

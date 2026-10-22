@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     allowEmptyReferer: true
     allowTruncateQueryString: true
     bucketSelector:
@@ -32,5 +33,6 @@ metadata:
   name: bucketreferer
 spec:
   forProvider:
+    region: us-west-1
     bucket: crossplane-example-bucketreferer-202504081600
     storageClass: Standard

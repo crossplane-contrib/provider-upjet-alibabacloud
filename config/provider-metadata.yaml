@@ -4198,7 +4198,7 @@ resources:
             X_delayed_message: ': By declaring this type of Exchange, you can customize the Header attribute x-delay of the message to specify the delivery delay time period, in milliseconds. Messages will be delivered to the corresponding Queue after the time period defined in the x-delay according to the routing rules. The routing rule depends on the Exchange route type specified in the x-delayed-type.'
             alternate_exchange: '- (Optional) The alternate exchange. An alternate exchange is used to receive messages that fail to be routed to queues from the current exchange.'
             auto_delete_state: '- (Required, ForceNew) Specifies whether to automatically delete the exchange. Valid values:'
-            create_time: '- CreateTime'
+            create_time: '- The time when the exchange was created. Unix timestamp, to millisecond level.'
             exchange_name: '- (Required, ForceNew) The name of the exchange that you want to create. The exchange name must meet the following conventions:'
             exchange_type: '- (Required, ForceNew) The Exchange type. Value:'
             "false": ': If the last queue that is bound to the exchange is unbound, the exchange is not automatically deleted.'
@@ -4294,7 +4294,7 @@ resources:
         argumentDocs:
             auth_model: '- (Optional, Available since v1.285.0) The authentication mode of the instance. Default value: ram. Valid values:'
             auto_renew: '- (Optional, Available since v1.129.0) Renewal method. Automatic renewal: true; Manual renewal: false. When RenewalStatus has a value, the value of RenewalStatus shall prevail.'
-            create_time: '- OrderCreateTime.'
+            create_time: '- The time when the order was created. Unix timestamp, to millisecond level.'
             dedicated: ': Dedicated architecture, applicable to reserved + elastic (dedicated) editions.'
             edition: '- (Optional, Available since v1.266.0) The deployment architecture for Serverless instances. Valid values:'
             encrypted_instance: '- (Optional, ForceNew, Computed) Whether to enable storage encryption when creating the instance. When set to true, kms_key_id must also be specified. AMQP currently supports storage encryption for the following SKU combinations:'
@@ -4544,7 +4544,6 @@ resources:
             auto_expire_state: '- (Optional) The auto-expiration time for the queue.'
             dead_letter_exchange: '- (Optional) The dead-letter exchange.'
             dead_letter_routing_key: '- (Optional) The dead-letter routing key.'
-            exclusive_state: '- (Removed since v1.266.0) Field exclusive_state has been removed from provider version 1.266.0.'
             "false": ': The queue is not automatically deleted.'
             id: '- The resource ID in terraform of Queue. It formats as <instance_id>:<virtual_host_name>:<queue_name>.'
             instance_id: '- (Required, ForceNew) The ID of the ApsaraMQ for RabbitMQ instance to which the queue belongs.'
@@ -4587,7 +4586,7 @@ resources:
                     }
         argumentDocs:
             access_key: '- (Required, ForceNew) Access key.'
-            create_time: '- The timestamp that indicates when the pair of static username and password was created.'
+            create_time: '- The time when the pair of static username and password was created. Unix timestamp, to millisecond level.'
             id: '- The resource ID in terraform of Static Account. It formats as <instance_id>:<access_key>.'
             instance_id: '- (Required, ForceNew) Amqp instance ID.'
             master_uid: '- The ID of the user''s primary account.'
@@ -5225,7 +5224,7 @@ resources:
             timeouts.create: '- (Defaults to 25 mins) Used when create the Instance.'
             timeouts.delete: '- (Defaults to 25 mins) Used when delete the Instance.'
             timeouts.update: '- (Defaults to 25 mins) Used when update the Instance.'
-            to_connect_vpc_ip_block: '- (Optional, Available since v1.228.0) The additional IP block that the VPC integration instance can access, conflict with delete_vpc_ip_block. See to_connect_vpc_ip_block below.'
+            to_connect_vpc_ip_block: '- (Optional, Available since v1.228.0) A list of additional IP block that the VPC integration instance can access, conflict with delete_vpc_ip_block. See to_connect_vpc_ip_block below.'
             user_vpc_id: '- (Optional, ForceNew) User''s VpcID.'
             vpc_connect: ': Vpc integration instance. When this type is selected, instance_cidr, user_vpc_id and zone_vswitch_security_group must be specified.'
             vpc_slb_intranet_enable: '- (Optional) Whether the slb of the Vpc supports.'
@@ -12317,7 +12316,6 @@ resources:
             cold_storage: '- (Optional, Available since v1.245.0) Whether to use cold storage. Valid values: ENABLE, DISABLE, default to DISABLE. When it''s set to ENABLE, cold storage will be used, and cold_storage cannot be set to DISABLE again.'
             connection_string: (Available since v1.196.0) - The connection string of the cluster.
             db_cluster_access_white_list: '- (Optional, Available since v1.145.0) The db cluster access white list. See db_cluster_access_white_list below.'
-            db_cluster_access_white_list.db_cluster_ip_array_attribute: '- (Optional, Removed) Field db_cluster_ip_array_attribute has been removed from provider.'
             db_cluster_access_white_list.db_cluster_ip_array_name: '- (Optional) Whitelist group name.'
             db_cluster_access_white_list.security_ip_list: '- (Optional) The IP address list under the whitelist group.'
             db_cluster_class: '- (Required, ForceNew) The DBCluster class. According to the category, db_cluster_class has two value ranges:'
@@ -12344,6 +12342,7 @@ resources:
             status: '- (Optional) The status of the resource. Valid values: Running,Creating,Deleting,Restarting,Preparing.'
             storage_type: '- (Required, ForceNew) Storage type of DBCluster. Valid values: cloud_essd, cloud_efficiency, cloud_essd_pl2, cloud_essd_pl3.'
             timeouts.create: '- (Defaults to 60 mins) Used when creating the Click House DBCluster (until it reaches the initial Running status).'
+            timeouts.delete: '- (Defaults to 60 mins) Used when delete the Click House DBCluster.'
             timeouts.update: '- (Defaults to 60 mins) Used when update the Click House DBCluster.'
             used_time: '- (Optional) The used time of DBCluster. It is valid and required when payment_type is Subscription. item choices: [1-9] when period is Month, [1-3] when period is Year.'
             vpc_id: '- (Optional, ForceNew, Available since v1.185.0) The id of the VPC.'
@@ -13048,6 +13047,46 @@ resources:
                 -> NOTE: From version 1.227.1, order must be set.
         importStatements:
             - $ terraform import alicloud_cloud_firewall_control_policy_order.example <acl_uuid>:<direction>
+    alicloud_cloud_firewall_fw_switch:
+        subCategory: Cloud Firewall
+        description: Provides a Alicloud Cloud Firewall Fw Switch resource.
+        name: alicloud_cloud_firewall_fw_switch
+        title: alicloud_cloud_firewall_fw_switch
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "internet_address": "203.0.113.1",
+                  "member_uid": 1412345678901234
+                }
+        argumentDocs:
+            ali_uid: '- AliUid.'
+            bind_instance_id: '- BindInstanceId.'
+            bind_instance_name: '- BindInstanceName.'
+            dry_run: '- (Optional) Specifies whether to precheck the request only. Valid values: true, false.'
+            en: ': English'
+            id: '- The ID of the resource supplied above.'
+            internet_address: '- (Required, ForceNew) The public IP address of the internet boundary firewall asset for which to enable or disable protection. It is also the unique ID of the resource.'
+            intranet_address: '- IntranetAddress.'
+            ip_version: '- (Optional, ForceNew, Computed) The IP version. Valid values: 4 (IPv4) and 6 (IPv6).'
+            lang: '- (Optional) The language type of the received message.'
+            member_uid: '- (Optional, ForceNew, Computed, Int) The UID of the Cloud Firewall member account.'
+            name: '- Name.'
+            note: '- Note.'
+            protect_status: '- The protection status of the asset. Valid values: open, opening, closed, closing.'
+            region_id: '- RegionId.'
+            region_status: '- RegionStatus.'
+            resource_instance_id: '- ResourceInstanceId.'
+            resource_type: '- The type of the asset public IP. Valid values: BastionHostIP, EcsEIP, EcsPublicIP, EIP, EniEIP, NatEIP, NatPublicIP, SlbEIP.'
+            sg_status: '- SgStatus.'
+            sg_status_time: '- SgStatusTime.'
+            sync_status: '- SyncStatus.'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Fw Switch.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Fw Switch.'
+            type: '- Type.'
+            zh: ': Chinese'
+        importStatements:
+            - $ terraform import alicloud_cloud_firewall_fw_switch.example <internet_address>
     alicloud_cloud_firewall_instance:
         subCategory: Cloud Firewall
         description: Provides an Alicloud Cloud Firewall Instance resource.
@@ -13081,7 +13120,6 @@ resources:
             cfw_account: '- (Optional, Available since v1.209.1, Bool) Whether to use multi-account. Valid values: true, false.'
             cfw_log: '- (Optional) Whether to use log audit. Valid values: true, false. NOTE: From version 1.232.0, When payment_type is set to PayAsYouGo, cfw_log can only be set to true, cfw_log cannot be modified to false.'
             cfw_log_storage: '- (Optional) The log storage capacity. NOTE: From version 1.232.0, When payment_type is set to PayAsYouGo, or cfw_log is set to false, cfw_log_storage will be ignored.'
-            cfw_service: '- (Removed since v1.209.1) Attribute cfw_service does not support longer, and it has been removed since v1.209.1.'
             create_time: '- The creation time.'
             end_time: '- The end time.'
             enterprise_version: '- The valid cfw_log_storage is [3000, 500000] with the step size 1000. Default Value: 3000. Unit: GB.'
@@ -16117,8 +16155,6 @@ resources:
             metric_dimensions: '- (Optional, Available since v1.173.0) Map of the resources associated with the alarm rule, such as "instanceId", "device" and "port". Each key''s value is a string, and it uses comma to split multiple items. For more information, see Metrics Reference.'
             metric_name: '- (Optional) The metric that is used to monitor the cloud service.'
             name: '- (Required) The name of the alert rule.'
-            notify_type: '- (Removed since v1.50.0) Field notify_type has been removed from provider version 1.50.0.'
-            operator: '- (Removed since v1.216.0) Field operator has been removed from provider version 1.216.0. New field escalations_critical.comparison_operator instead.'
             period: '- (Optional, Int) The statistical period of the metric. Unit: seconds. Default value: 300.'
             project: |-
                 - (Required, ForceNew) The namespace of the cloud service, such as acs_ecs_dashboard and acs_rds_dashboard. For more information, see Metrics Reference.
@@ -16130,7 +16166,7 @@ resources:
             prometheus.times: '- (Optional, Int) The number of consecutive triggers. If the number of times that the metric values meet the trigger conditions reaches the value of this parameter, CloudMonitor sends alert notifications.'
             silence_time: '- (Optional, Int) Notification silence period in the alarm state, in seconds. Default value: 86400. Valid value range: [300, 86400].'
             start_time: '- (Optional, Int, Deprecated since v1.50.0) Field start_time has been deprecated from provider version 1.50.0. New field effective_interval instead.'
-            statistics: '- (Removed since v1.216.0) Field statistics has been removed from provider version 1.216.0. New field escalations_critical.statistics instead.'
+            statistics: '- (Optional) The statistical method of the metric.'
             status: '- The status of the Alarm.'
             tags: '- (Optional, Available since v1.180.0) A mapping of tags to assign to the resource.'
             targets: '- (Optional, Set, Available since v1.216.0) Adds or modifies the push channels of an alert rule. See targets below.'
@@ -16138,11 +16174,10 @@ resources:
             targets.json_params: '- (Optional) The parameters of the alert callback. The parameters are in the JSON format.'
             targets.level: '- (Optional) The level of the alert. Valid values: Critical, Warn, Info.'
             targets.target_id: '- (Optional) The ID of the resource for which alerts are triggered. For more information about how to obtain the ID of the resource for which alerts are triggered, see DescribeMetricRuleTargets .'
-            threshold: '- (Removed since v1.216.0) Field threshold has been removed from provider version 1.216.0. New field escalations_critical.threshold instead.'
+            threshold: '- (Optional) The alert threshold.'
             timeouts.create: '- (Defaults to 1 mins) Used when create the Alarm.'
             timeouts.delete: '- (Defaults to 1 mins) Used when delete the Alarm.'
             timeouts.update: '- (Defaults to 1 mins) Used when update the Alarm.'
-            triggered_count: '- (Removed since v1.216.0) Field triggered_count has been removed from provider version 1.216.0. New field escalations_critical.times instead.'
             webhook: '- (Optional, Available since v1.46.0) The webhook that should be called when the alarm is triggered. Currently, only http protocol is supported. Default is empty string.'
         importStatements:
             - $ terraform import alicloud_cms_alarm.example <id>
@@ -19385,7 +19420,7 @@ resources:
                     }
         argumentDocs:
             detail: '- (Optional) The repository specific information. MarkDown format is supported, and the length limit is 2000.'
-            domain_list: '- (Optional) The repository domain list.'
+            domain_list: '- (Optional) A list of repository domain.'
             id: '- The id of Container Registry repository. The value is in format namespace/repository.'
             internal: '- Domain of internal endpoint, only in some regions.'
             name: '- (Required, ForceNew) Name of container registry repository.'
@@ -19771,13 +19806,13 @@ resources:
             api_server_internet: '- API Server Internet endpoint.'
             api_server_intranet: '- API Server Intranet endpoint.'
             availability_zone: '- (Optional) The ID of availability zone.'
-            certificate_authority: '- (Map, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.'
+            certificate_authority: '- (List, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.'
             client_cert: '- (Optional, Deprecated from v1.248.0) From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster''s kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.'
             client_key: '- (Optional, Deprecated from v1.248.0) From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster''s kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.'
             cluster_ca_cert: '- (Optional, Deprecated from v1.248.0) From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster''s kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.'
             cluster_cert: '- The base64 encoded cluster certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.'
             cluster_spec: '- (Optional, Available since v1.185.0) The cluster specifications of kubernetes cluster,which can be empty. Valid values:'
-            connections: '- (Map) Map of kubernetes cluster connection information.'
+            connections: '- (List) A list of kubernetes cluster connection information.'
             deletion_protection: '- (Optional, Available since v1.103.2)  Whether to enable cluster deletion protection.'
             force_update: '- (Removed) Whether to force the update of kubernetes cluster arguments. Default to false.'
             id: '- The ID of the container cluster.'
@@ -19804,7 +19839,7 @@ resources:
             rds_instances: '- (Optional, Available since v1.103.2) RDS instance list, You can choose which RDS instances whitelist to add instances to.'
             resource_group_id: '- (Optional, Available since v1.103.2) The ID of the resource group,by default these cloud resources are automatically assigned to the default resource group.'
             retain_resources: '- (Optional, Available since v1.141.0) Resources that are automatically created during cluster creation, including NAT gateways, SNAT rules, SLB instances, and RAM Role, will be deleted. Resources that are manually created after you create the cluster, such as SLB instances for Services, will also be deleted. If you need to retain resources, please configure with retain_resources. There are several aspects to pay attention to when using retain_resources to retain resources. After configuring retain_resources into the terraform configuration manifest file, you first need to run terraform apply.Then execute terraform destroy.'
-            runtime: '- (Optional, Available since v1.185.0) The runtime of containers. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container. See runtime below.'
+            runtime: '- (Optional, Available since v1.185.0) A list of runtime of containers. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container. See runtime below.'
             runtime.name: '- (Optional) The name of the runtime. Supported runtimes can be queried by data source alicloud_cs_kubernetes_version.'
             runtime.version: '- (Optional) The version of the runtime.'
             security_group_id: '- (Optional) The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.'
@@ -19925,14 +19960,14 @@ resources:
             api_server_internet: '- API Server Internet endpoint.'
             api_server_intranet: '- API Server Intranet endpoint.'
             availability_zone: '- (Removed since v1.212.0) The Zone where new kubernetes cluster will be located. If it is not be specified, the vswitch_ids should be set, its value will be vswitch''s zone.'
-            certificate_authority: '- (Map, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.'
+            certificate_authority: '- (List, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.'
             client_cert: '- (Optional, Deprecated from v1.248.0) From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster''s kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.'
             client_key: '- (Optional, Deprecated from v1.248.0) From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster''s kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.'
             cluster_ca_cert: '- (Optional, Deprecated from v1.248.0) From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster''s kubeconfig, you can also save the certificate_authority.cluster_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/cluster-ca-cert.pem) for replace it.'
             cluster_cert: '- The base64 encoded cluster certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.'
             cluster_domain: '- (Optional, ForceNew, Available since v1.103.2) Cluster local domain name, Default to cluster.local. A domain name consists of one or more sections separated by a decimal point (.), each of which is up to 63 characters long, and can be lowercase, numerals, and underscores (-), and must be lowercase or numerals at the beginning and end.'
             cluster_network_type: '- (Removed) The network that cluster uses, use flannel or terway.'
-            connections: '- (Map) Map of kubernetes cluster connection information.'
+            connections: '- (List) A list of kubernetes cluster connection information.'
             cpu_policy: '- (Removed since v1.212.0) Kubelet cpu policy. For Kubernetes 1.12.6 and later, its valid value is either static or none. Default to none.'
             custom_san: '- (Optional, ForceNew, Available since v1.103.2) Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).'
             delete: ': delete resources created by the cluster.'
@@ -19995,7 +20030,7 @@ resources:
             resource_group_id: '- (Optional, Available since v1.101.0) The ID of the resource group,by default these cloud resources are automatically assigned to the default resource group.'
             retain: ': retain resources created by the cluster.'
             retain_resources: '- (Optional, Available since v1.141.0) Resources that are automatically created during cluster creation, including NAT gateways, SNAT rules, SLB instances, and RAM Role, will be deleted. Resources that are manually created after you create the cluster, such as SLB instances for Services, will also be deleted. If you need to retain resources, please configure with retain_resources. There are several aspects to pay attention to when using retain_resources to retain resources. After configuring retain_resources into the terraform configuration manifest file, you first need to run terraform apply.Then execute terraform destroy.'
-            runtime: '- (Optional, Available since v1.103.2) The runtime of containers. If you select another container runtime, see How do I select between Docker and Sandboxed-Container. See runtime below.'
+            runtime: '- (Optional, Available since v1.103.2) A list of runtime containers. If you select another container runtime, see How do I select between Docker and Sandboxed-Container. See runtime below.'
             runtime.name: '- (Optional) The name of the runtime. Supported runtimes can be queried by data source alicloud_cs_kubernetes_version.'
             runtime.version: '- (Optional) The version of the runtime.'
             security_group_id: '- (Optional, ForceNew, Available since v1.91.0) The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.'
@@ -21342,7 +21377,7 @@ resources:
             limits: '- (Optional, Map, Available since v1.242.0) Memory resource limit.'
             login_as_non_root: '- (Optional, ForceNew) Whether the ECS instance is logged on as a ecs-user user. Valid value: true and false.'
             management: '- (Optional, Computed, Set) Managed node pool configuration. See management below.'
-            management.auto_repair: '- (Optional, Computed) Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired.'
+            management.auto_repair: '- (Optional, Computed) Whether to enable automatic repair. Valid values: true: Automatic repair. false: not automatically repaired. When auto_repair is true, this feature requires the node-lifecycle-controller and ack-node-problem-detector addons to be installed; see cs_kubernetes_addon for installation.'
             management.auto_repair_policy: '- (Optional, Computed, Set) Automatic repair node policy. See auto_repair_policy below.'
             management.auto_upgrade: '- (Optional, Computed) Specifies whether to enable auto update. Valid values: true: enables auto update. false: disables auto update.'
             management.auto_upgrade_policy: '- (Optional, Computed, Set) The auto update policy. See auto_upgrade_policy below.'
@@ -22174,7 +22209,7 @@ resources:
             auto_mode.enabled: '- (Optional, ForceNew) Whether to enable auto mode. Valid values: true, false. Only ACK managed Pro clusters support Auto Mode.'
             availability_zone: '- (Removed since v1.212.0) The Zone where new kubernetes cluster will be located. If it is not be specified, the vswitch_ids should be set, its value will be vswitch''s zone.'
             bind_vpcs: '- (Optional, Computed) The list of VPCs where the API Server access domain name takes effect. By default, the VPC of the cluster is included.'
-            certificate_authority: '- (Map, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.'
+            certificate_authority: '- (List, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.'
             channel: '- (Optional) The automatic cluster upgrade channel. Valid values: patch, stable, rapid.'
             client_cert: '- (Optional, Deprecated  from v1.248.0) From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster''s kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.'
             client_key: '- (Optional, Deprecated  from v1.248.0) From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster''s kubeconfig, you can also save the certificate_authority.client_key attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-key.pem) for replace it.'
@@ -22183,7 +22218,7 @@ resources:
             cluster_domain: '- (Optional, ForceNew, Available since v1.103.2) Cluster local domain name, Default to cluster.local. A domain name consists of one or more sections separated by a decimal point (.), each of which is up to 63 characters long, and can be lowercase, numerals, and underscores (-), and must be lowercase or numerals at the beginning and end.'
             cluster_network_type: '- (Removed) The network that cluster uses, use flannel or terway.'
             cluster_spec: '- (Optional, Available since v1.101.0) The cluster specifications of kubernetes cluster, which can be empty. Valid values:'
-            connections: '- Map of kubernetes cluster connection information.'
+            connections: '- A list of kubernetes cluster connection information.'
             control_plane_endpoints_config: '- (Optional, Available since v1.286.0) The cluster access configuration. See control_plane_endpoints_config below.'
             control_plane_endpoints_config.internal_dns_config: '- (Optional, Computed) The cluster internal domain name configuration, applicable to ACK managed clusters. See internal_dns_config below.'
             control_plane_endpoints_config.load_balancers_config: '- (Optional, Computed) The load balancing configuration for cluster access. See load_balancers_config below.'
@@ -22259,7 +22294,7 @@ resources:
             retain_resources: '- (Optional, Available since v1.141.0) Resources that are automatically created during cluster creation, including NAT gateways, SNAT rules, SLB instances, and RAM Role, will be deleted. Resources that are manually created after you create the cluster, such as SLB instances for Services, will also be deleted. If you need to retain resources, please configure with retain_resources. There are several aspects to pay attention to when using retain_resources to retain resources. After configuring retain_resources into the terraform configuration manifest file, you first need to run terraform apply.Then execute terraform destroy.'
             rrsa_metadata: '- (Optional, Available since v1.185.0) Nested attribute containing RRSA related data for your cluster.'
             rrsa_oidc_issuer_url: '- The issuer URL of RRSA OIDC Token.'
-            runtime: '- (Removed since v1.212.0) The runtime of containers. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container. See runtime below.'
+            runtime: '- (Removed since v1.212.0) A list of the runtime of the containers. If you select another container runtime, see Comparison of Docker, containerd, and Sandboxed-Container. See runtime below.'
             runtime.name: '- (Optional) The name of the runtime. Supported runtimes can be queried by data source alicloud_cs_kubernetes_version.'
             runtime.version: '- (Optional) The version of the runtime.'
             security_group_id: '- (Optional, Available since v1.91.0) The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.'
@@ -28078,13 +28113,14 @@ resources:
             destination_region_id: '- (Required, ForceNew) The ID of the region to which the disaster recovery site belongs.'
             destination_zone_id: '- (Required, ForceNew) The ID of the zone to which the disaster recovery site belongs.'
             disk_replica_group_name: '- (Optional, Available since v1.245.0) Consistent replication group name.'
+            enable_rtc: '- (Optional, Computed) Whether to enable replication time control. Default value: false.'
             group_name: '- (Deprecated since v1.245.0). Field ''group_name'' has been deprecated from provider version 1.245.0. New field ''disk_replica_group_name'' instead.'
             id: '- The ID of the resource supplied above.'
             one_shot: '- (Optional, Available since v1.245.0) Whether to synchronize immediately. Value range:'
             pair_ids: '- (Optional, Set, Available since v1.245.0) List of replication pair IDs contained in a consistent replication group.'
             resource_group_id: '- (Optional, Computed, Available since v1.245.0) resource group ID of enterprise'
             reverse_replicate: '- (Optional, Available since v1.245.0) Specifies whether to enable the reverse replication sub-feature. Valid values: true and false. Default value: true.'
-            rpo: '- (Optional, ForceNew, Int) The RPO value set by the consistency group in seconds. Currently only 900 seconds are supported.'
+            rpo: '- (Optional, Computed, Int) The RPO value set by the consistency group in seconds. Currently only 900 seconds are supported.'
             source_region_id: '- (Required, ForceNew) The ID of the region to which the production site belongs.'
             source_zone_id: '- (Required, ForceNew) The ID of the zone to which the production site belongs.'
             status: '- (Optional, Computed) The status of the consistent replication group. Possible values:'
@@ -28415,7 +28451,11 @@ resources:
                   ],
                   "resource_group_id": "${data.alicloud_resource_manager_resource_groups.default.ids.0}",
                   "solution_id": "mysql",
-                  "solution_instance_name": "${var.name}"
+                  "solution_instance_name": "${var.name}",
+                  "tags": {
+                    "Created": "Terraform",
+                    "For": "Example"
+                  }
                 }
               references:
                 parameters.parameter_value: var.zone_id
@@ -28432,6 +28472,7 @@ resources:
             solution_id: '- (Required, ForceNew) Solution ID.'
             solution_instance_name: '- (Optional, Computed) Solution Instance Name.'
             status: '- The status of the resource.'
+            tags: '- (Optional, Map) A mapping of tags to assign to the resource.'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Solution Instance.'
             timeouts.delete: '- (Defaults to 5 mins) Used when delete the Solution Instance.'
             timeouts.update: '- (Defaults to 5 mins) Used when update the Solution Instance.'
@@ -28864,9 +28905,9 @@ resources:
             data_disk_category: '- The category of the data disk.'
             data_disk_size: '- The size of the data disk. Unit: GiB.'
             desktop_group_name: '- (Optional) The name of the desktop group. The name must be 1 to 30 characters in length, and can contain letters, digits, colons (:), underscores (_), periods (.), and hyphens (-). It must start with a letter but cannot start with http:// or https://.'
-            directory_id: '- (Optional, ForceNew) The ID of the directory.'
+            directory_id: '- (Optional, ForceNew, Computed) The ID of the directory. This parameter is not publicly available yet.'
             directory_type: '- The type of the directory.'
-            end_user_ids: '- (Required, List) The list of IDs of the end users authorized to use the desktop group.'
+            end_user_ids: '- (Optional, List) The list of IDs of the end users authorized to use the desktop group. Reordering the IDs does not change the authorized users, and the configured order is kept after apply.'
             expired_time: '- The time when the subscription desktop group expires. The time follows the ISO 8601 standard in UTC.'
             gpu_count: '- The number of GPUs.'
             gpu_spec: '- The GPU specifications.'
@@ -28879,11 +28920,11 @@ resources:
             office_site_name: '- The name of the office network.'
             office_site_type: '- The type of the account system of the office network.'
             own_bundle_name: '- The name of the desktop template.'
-            pay_type: '- The billing method.'
+            pay_type: '- (Optional, Computed) The billing method of the desktop group. Valid values: PostPaid. If it is not set, the desktop group is created with the PostPaid billing method. Note: The parameter is immutable after resource creation.'
             policy_group_id: '- (Required) The ID of the policy group associated with the desktop group.'
             policy_group_name: '- The name of the policy group.'
             res_type: '- The type of the resource.'
-            scale_strategy_id: '- (Optional) The ID of the scaling policy.'
+            scale_strategy_id: '- (Optional) The ID of the scaling policy. This parameter is not publicly available yet.'
             system_disk_category: '- The category of the system disk.'
             system_disk_size: '- The size of the system disk. Unit: GiB.'
             timeouts.create: '- (Defaults to 5 mins) Used when create the Desktop Group.'
@@ -29452,8 +29493,6 @@ resources:
             dns_config.options: '- (Optional, Set) The structure of options. See options below.'
             dns_config.searches: '- (Optional, List) The list of DNS lookup domains.'
             dns_policy: '- (Optional, ForceNew, Available since v1.232.0) The policy of DNS. Default value: Default. Valid values: Default and None.'
-            eci_security_context: '- (Deprecated since 1.215.0, Optional, ForceNew, Set) The security context of the container group. See eci_security_context below.'
-            eci_security_context.sysctls: '- (Optional, ForceNew, Set) Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. See sysctls below.'
             eip_bandwidth: '- (Optional, Int, Available since v1.170.0) The bandwidth of the EIP. Default value: 5.'
             eip_instance_id: '- (Optional, Available since v1.170.0) The ID of the elastic IP address (EIP).'
             ephemeral_storage: '- (Optional, ForceNew, Int, Available since v1.262.0) The size of the temporary storage space to add. Unit: GiB.'
@@ -36810,14 +36849,19 @@ resources:
               references:
                 site_id: data.alicloud_esa_sites.default.sites.0.id
         argumentDocs:
+            cas: (Certificate Center Certificate)
             cas_id: '- (Optional) Cloud certificate ID.'
             cert_id: '- (Optional, ForceNew, Computed) The certificate Id.'
             cert_name: '- (Optional, Computed) The certificate name.'
             certificate: '- (Optional, Computed) Certificate content.'
             create_time: '- Creation time.'
             created_type: '- (Required) The certificate type.'
+            digicert_single: ': (Available since v1.294.0) DigiCert single-domain.'
+            digicert_wildcard: ': (Available since v1.294.0) DigiCert wildcard.'
             domains: '- (Optional, ForceNew) A list of domain names. Multiple domain names are separated by commas.'
+            free: ( Free certificate).
             id: '- The ID of the resource supplied above.The value is formulated as <site_id>:<cert_id>.'
+            lets_encrypt: ': Let''s Encrypt.'
             private_key: '- (Optional) The certificate private key.'
             region: |-
                 - (Optional, Computed) Region. This parameter is required if the type is CAS.
@@ -36828,7 +36872,8 @@ resources:
             timeouts.create: '- (Defaults to 5 mins) Used when create the Certificate.'
             timeouts.delete: '- (Defaults to 5 mins) Used when delete the Certificate.'
             timeouts.update: '- (Defaults to 5 mins) Used when update the Certificate.'
-            type: '- (Optional, ForceNew, Computed) Certificate type. Possible values: lets_encrypt: Let''s Encrypt certificate;'
+            type: '- (Optional, ForceNew, Computed) The certificate type. Valid values:'
+            upload: (custom upload certificate)
         importStatements:
             - $ terraform import alicloud_esa_certificate.example <site_id>:<cert_id>
     alicloud_esa_client_ca_certificate:
@@ -42596,7 +42641,6 @@ resources:
             enable_ipv6: '- (Optional) Whether IPv6 is enabled.'
             "false": ': closed.'
             id: '- The ID of the resource supplied above.'
-            include_cross_account_vbr: '- (Removed since v1.263.0) Field include_cross_account_vbr has been removed from provider version 1.263.0.'
             local_gateway_ip: '- (Required) The IPv4 address on the Alibaba Cloud side of the VBR instance.'
             local_ipv6_gateway_ip: '- (Optional) The IPv6 address on the Alibaba Cloud side of the VBR instance.'
             min_rx_interval: '- (Optional, Computed, Int) Configure the receiving interval of BFD packets. Values: 200 to 1000, in ms.'
@@ -45549,6 +45593,7 @@ resources:
             "5": ': Medium 1.'
             "8": ': Medium 2.'
             "10": ': Medium 3.'
+            Anycast: ': Automatic nearby access mode. You do not need to configure an acceleration area. Global Accelerator provides an Anycast EIP for multiple regions. Users connect to the nearest access point of the Alibaba Cloud network using the Anycast EIP.'
             AutoRenewal: ': Enable auto renewal.'
             BandwidthPackage: ': billed based on bandwidth plans.'
             CDT: ': billed based on data transfer.'
@@ -45559,6 +45604,7 @@ resources:
             accelerator_name: '- (Optional) The Name of the GA instance.'
             auto_renew_duration: '- (Optional, Int, Available since v1.146.0) Auto renewal period of an instance, in the unit of month. The value range is 1-12.'
             auto_use_coupon: '- (Optional, Bool) Use coupons to pay bills automatically. Default value: false. Valid values:'
+            bandwidth: '- (Optional, Int, Available since v1.294.0) The bandwidth of the GA instance. Unit: Mbps. Valid values: 200 to 5000. NOTE: This parameter is required only when access_mode in ip_set_config is set to Anycast.'
             bandwidth_billing_type: '- (Optional, ForceNew, Available since v1.205.0) The bandwidth billing method. Default value: BandwidthPackage. Valid values:'
             cross_border_mode: '- (Optional, Available since v1.208.1) The type of cross-border acceleration. Default value: bgpPro. Valid values: bgpPro, private. NOTE: cross_border_mode is valid only when cross_border_status is set to true.'
             cross_border_status: '- (Optional, Bool, Available since v1.208.1) Indicates whether cross-border acceleration is enabled. Default value: false. Valid values:'
@@ -45568,6 +45614,8 @@ resources:
                 : Disable.
                 NOTE: cross_border_status is valid only when bandwidth_billing_type is set to CDT.
             id: '- The resource ID in terraform of Accelerator. Value as accelerator_id.'
+            ip_set_config: '- (Optional, ForceNew, Available since v1.294.0) The configurations of the acceleration area. See ip_set_config below.'
+            ip_set_config.access_mode: '- (Optional, ForceNew) The access mode of the acceleration area. Valid value:'
             payment_type: '- (Optional, ForceNew, Available since v1.208.1) The payment type. Default value: Subscription. Valid values: PayAsYouGo, Subscription.'
             pricing_cycle: parameter is set to Month, the valid values for the duration parameter are 1 to 9.
             promotion_option_no: '- (Optional, Available since v1.208.1) The code of the coupon. NOTE: The promotion_option_no takes effect only for accounts registered on the international site (alibabacloud.com).'
@@ -45576,7 +45624,7 @@ resources:
             spec: '- (Optional) The instance type of the GA instance. Specification of global acceleration instance. Valid values:'
             status: '- The status of the GA instance.'
             tags: '- (Optional, Available since v1.207.1) A mapping of tags to assign to the resource.'
-            timeouts.create: '- (Defaults to 1 mins) Used when creating the Ga Accelerator.'
+            timeouts.create: '- (Defaults to 3 mins) Used when creating the Ga Accelerator.'
             timeouts.delete: '- (Defaults to 3 mins) Used when deleting the Ga Accelerator.'
             timeouts.update: '- (Defaults to 6 mins) Used when updating the Ga Accelerator.'
             "true": ': Enable.'
@@ -46828,6 +46876,87 @@ resources:
                       ],
                       "protocol": "UDP"
                     }
+            - name: default
+              manifest: |-
+                {
+                  "accelerator_id": "${alicloud_ga_accelerator.default.id}",
+                  "description": "terraform-example",
+                  "endpoint_configurations": [
+                    {
+                      "enable_clientip_preservation": false,
+                      "enable_proxy_protocol": true,
+                      "endpoint": "192.168.1.10",
+                      "type": "IpTarget",
+                      "vpc_id": "${alicloud_vpc.default.id}",
+                      "vswitch_ids": [
+                        "${alicloud_vswitch.default.id}"
+                      ],
+                      "weight": "20"
+                    }
+                  ],
+                  "endpoint_group_region": "${var.region}",
+                  "listener_id": "${alicloud_ga_listener.default.id}",
+                  "name": "terraform-example"
+                }
+              references:
+                accelerator_id: alicloud_ga_accelerator.default.id
+                endpoint_configurations.vpc_id: alicloud_vpc.default.id
+                endpoint_configurations.vswitch_ids: alicloud_vswitch.default.id
+                endpoint_group_region: var.region
+                listener_id: alicloud_ga_listener.default.id
+              dependencies:
+                alicloud_ga_accelerator.default: |-
+                    {
+                      "auto_use_coupon": true,
+                      "duration": 1,
+                      "spec": "1"
+                    }
+                alicloud_ga_bandwidth_package.default: |-
+                    {
+                      "bandwidth": 100,
+                      "bandwidth_type": "Basic",
+                      "billing_type": "PayBy95",
+                      "payment_type": "PayAsYouGo",
+                      "ratio": 30,
+                      "type": "Basic"
+                    }
+                alicloud_ga_bandwidth_package_attachment.default: |-
+                    {
+                      "accelerator_id": "${alicloud_ga_accelerator.default.id}",
+                      "bandwidth_package_id": "${alicloud_ga_bandwidth_package.default.id}"
+                    }
+                alicloud_ga_listener.default: |-
+                    {
+                      "accelerator_id": "${alicloud_ga_bandwidth_package_attachment.default.accelerator_id}",
+                      "client_affinity": "SOURCE_IP",
+                      "name": "terraform-example",
+                      "port_ranges": [
+                        {
+                          "from_port": 8080,
+                          "to_port": 8080
+                        }
+                      ],
+                      "protocol": "HTTP"
+                    }
+                alicloud_vpc.default: |-
+                    {
+                      "cidr_block": "192.168.0.0/16",
+                      "vpc_name": "terraform-example"
+                    }
+                alicloud_vswitch.default: |-
+                    {
+                      "cidr_block": "192.168.1.0/24",
+                      "vpc_id": "${alicloud_vpc.default.id}",
+                      "vswitch_name": "terraform-example",
+                      "zone_id": "cn-hangzhou-h"
+                    }
+                alicloud_vswitch.update: |-
+                    {
+                      "cidr_block": "192.168.2.0/24",
+                      "vpc_id": "${alicloud_vpc.default.id}",
+                      "vswitch_name": "terraform-example-update",
+                      "zone_id": "cn-hangzhou-i"
+                    }
         argumentDocs:
             ALB: ': (Available since v1.232.0) An Application Load Balancer (ALB) instance.'
             Domain: ': A custom domain name.'
@@ -46838,7 +46967,7 @@ resources:
                 or https: HTTPS protocol.
                 -> NOTE: From version 1.223.0, health_check_protocol can be set to TCP, HTTP, HTTPS.
             Ip: ': A custom IP address.'
-            IpTarget: ': (Available since v1.262.0) An Alibaba Cloud public IP address.'
+            IpTarget: ': (Available since v1.262.0) a custom private IP address.'
             NLB: ': (Available since v1.232.0) A Network Load Balancer (NLB) instance.'
             OSS: ': (Available since v1.232.0) An Object Storage Service (OSS) bucket.'
             PublicIp: ': An Alibaba Cloud public IP address.'
@@ -46855,8 +46984,8 @@ resources:
                 - (Optional, Available since v1.232.0) The private IP address of the ENI.
                 -> NOTE: sub_address is valid only when type is set to ENI.
             endpoint_configurations.type: '- (Required) The type of Endpoint N in the endpoint group. Valid values:'
-            endpoint_configurations.vpc_id: '- (Optional, Available since v1.262.0) The ID of the VPC.'
-            endpoint_configurations.vswitch_ids: '- (Optional, List, Available since v1.262.0) The IDs of vSwitches that are deployed in the VPC.'
+            endpoint_configurations.vpc_id: '- (Optional, Available since v1.262.0) The ID of the Virtual Private Cloud (VPC). This parameter is required only when the endpoint type is set to IpTarget.'
+            endpoint_configurations.vswitch_ids: '- (Optional, List, Available since v1.262.0) A list of vSwitches in the VPC. You can specify a maximum of two vSwitch IDs for an endpoint group of an intelligent routing listener. This parameter is required when the endpoint type is IpTarget. The vSwitch must belong to the VPC specified by the VpcId parameter.'
             endpoint_configurations.weight: |-
                 - (Required, Int) The weight of Endpoint N in the endpoint group. Valid values: 0 to 255.
                 -> NOTE: If the weight of a terminal node is set to 0, global acceleration will terminate the distribution of traffic to the terminal node. Please be careful.
@@ -47327,7 +47456,9 @@ resources:
         argumentDocs:
             account_description: '- (Optional) The description of the account.'
             account_name: '- (Required, ForceNew) The account name.'
-            account_password: '- (Required) AccountPassword'
+            account_password: '- (Optional, Sensitive) The password of the account. Exactly one of account_password and account_password_wo can be set.'
+            account_password_wo: '- (Optional, Available since v2.0.0-beta5) The write-only password of the account. It is only sent to the server when the resource is created or the account_password_wo_version changes and is never stored in the state or plan. It requires Terraform v1.11.0 or later and must be used together with account_password_wo_version. Exactly one of account_password and account_password_wo can be set.'
+            account_password_wo_version: '- (Optional, Available since v2.0.0-beta5) The version of the write-only password. The write-only password is re-sent to the server only when this argument changes, so it must be changed whenever account_password_wo changes.'
             account_type: '- (Optional, ForceNew, Available since v1.230.0) Account type. The value range is as follows:'
             database_name: '- (Optional, Available since v1.230.0) Database name, with the following restrictions:'
             db_instance_id: '- (Required, ForceNew) The Adb pg instance ID.'
@@ -50351,7 +50482,6 @@ resources:
             encrypt_type: '- (Optional, ForceNew, Available since v1.173.0) Source Encryption Type，It is valid only when vault_type is STANDARD or OTS_BACKUP. Default value: HBR_PRIVATE. Valid values:'
             id: '- The resource ID in terraform of Vault.'
             kms_key_id: '- (Optional, ForceNew, Available since v1.173.0) The key id or alias name of Alibaba Cloud Kms. It is required and valid only when encrypt_type is KMS.'
-            redundancy_type: '- (Removed since v1.209.1) The redundancy type of the vault. NOTE: Field redundancy_type has been removed from provider version 1.209.1.'
             region_id: '- (Available since v1.243.0) The ID of the region in which the backup vault resides.'
             resource_group_id: '- (Optional, Available since v1.243.0) The ID of the resource group.'
             status: '- The status of the Vault.'
@@ -50706,6 +50836,11 @@ resources:
                       "oss_object": "${alicloud_oss_bucket_object.default.id}"
                     }
                   ],
+                  "features": [
+                    {
+                      "nvme_support": "supported"
+                    }
+                  ],
                   "image_name": "${var.name}",
                   "license_type": "Auto",
                   "os_type": "linux",
@@ -50742,6 +50877,8 @@ resources:
             disk_device_mapping.format: '- (Optional, ForceNew) The format of the image. Valid values: RAW, VHD, qcow2.'
             disk_device_mapping.oss_bucket: '- (Optional, ForceNew) The OSS bucket where the image file is stored.'
             disk_device_mapping.oss_object: '- (Optional, ForceNew) The name (key) of the object that the uploaded image is stored as in the OSS bucket.'
+            features: '- (Optional, Computed) Features for the image. See features below.'
+            features.nvme_support: '- (Optional, Computed, Available since v1.294.0) Specifies whether to support the Non-Volatile Memory Express (NVMe) protocol. Valid values:'
             id: '- The resource ID in terraform of Image Import.'
             image_name: '- (Optional) The name of the image. The image_name must be 2 to 128 characters in length. The image_name must start with a letter and cannot start with acs: or aliyun. The image_name cannot contain http:// or https://. The image_name can contain letters, digits, periods (.), colons (:), underscores (_), and hyphens (-).'
             license_type: '- (Optional, ForceNew) The type of the license used to activate the operating system after the image is imported. Default value: Auto. Valid values: Auto, Aliyun, BYOL.'
@@ -50749,8 +50886,10 @@ resources:
             platform: |-
                 - (Optional, ForceNew) The operating system platform. More valid values refer to ImportImage OpenAPI.
                 -> NOTE: Before provider version 1.197.0, the default value of platform is Ubuntu.
+            supported: ': The image supports NVMe. Instances created from this image also support NVMe.'
             timeouts.create: '- (Defaults to 20 mins) Used when create the Image Import.'
             timeouts.delete: '- (Defaults to 20 mins) Used when delete the Image Import.'
+            unsupported: ': The image does not support NVMe. Instances created from this image do not support NVMe.'
         importStatements:
             - $ terraform import alicloud_image_import.example <id>
     alicloud_image_share_permission:
@@ -50913,6 +51052,34 @@ resources:
             timeouts.update: '- (Defaults to 5 mins) Used when update the Oidc Provider.'
         importStatements:
             - $ terraform import alicloud_ims_oidc_provider.example <id>
+    alicloud_ims_user:
+        subCategory: IMS
+        description: Provides a IMS User resource.
+        name: alicloud_ims_user
+        title: alicloud_ims_user
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "comments": "Managed by Terraform",
+                  "display_name": "Terraform Example",
+                  "user_principal_name": "terraform-example@${data.alicloud_ims_default_domain.example.default_domain}"
+                }
+        argumentDocs:
+            comments: '- (Optional) The remarks of the RAM user. The length is 1 to 128 characters.'
+            create_date: '- The time when the RAM user was created, in RFC 3339 format (UTC).'
+            display_name: '- (Required) The display name of the RAM user. The length is 1 to 24 characters.'
+            email: '- (Optional) The email address of the RAM user. This parameter is available only on the China site.'
+            id: '- The ID of the resource. Same as user_id.'
+            last_login_date: '- The time when the RAM user last logged on to the console, in RFC 3339 format (UTC). Empty if the user has never logged on.'
+            mobile_phone: '- (Optional) The mobile phone number of the RAM user, in the format <international area code>-<number>, for example 86-1444444****. This parameter is available only on the China site.'
+            provision_type: '- How the RAM user was created. Valid values: Manual, SCIM and CloudSSO.'
+            update_date: '- The time when the RAM user was last updated, in RFC 3339 format (UTC).'
+            user_id: '- The ID of the RAM user, for example 123456789000****.'
+            user_name: '- The name of the RAM user, the part of the logon name before the at sign (@).'
+            user_principal_name: '- (Required) The logon name of the RAM user, in the format <username>@<AccountAlias>.onaliyun.com. The total length is 1 to 128 characters, and <username> is 1 to 64 characters in length. Only letters, digits, periods (.), hyphens (-) and underscores (_) are allowed. The default domain can be read from the alicloud_ims_default_domain data source.'
+        importStatements:
+            - $ terraform import alicloud_ims_user.example <user_id>
     alicloud_instance:
         subCategory: ECS
         description: Provides an ECS instance resource.
@@ -51015,6 +51182,7 @@ resources:
             cloud_ssd: ': The SSD cloud disk.'
             cpu: '- The number of vCPUs.'
             cpu_options: '- (Optional, Set, Available since v1.267.0) The options of cpu. See cpu_options below.'
+            cpu_options.accelerators: '- (Optional, List, ForceNew, Available since v1.294.0) The CPU accelerators to enable on the instance, such as the Intel vQAT (QuickAssist Technology) accelerator. Valid values are determined by the API and not yet documented; currently vqat is the only valid value, and invalid values are rejected by the API at apply time.'
             cpu_options.core_count: '- (Optional, Int) The maximum number of partitions in the storage set.'
             cpu_options.threads_per_core: '- (Optional, Int) The number of threads per CPU core.'
             cpu_options.topology_type: '- (Optional) The CPU topology type of the instance. Valid values: ContinuousCoreToHTMapping, DiscreteCoreToHTMapping.'
@@ -51133,7 +51301,6 @@ resources:
             start_time: '- (Available since v1.232.0) The time when the instance was last started.'
             status: '- (Optional 1.85.0) The instance status. Valid values: ["Running", "Stopped"]. You can control the instance start and stop through this parameter. Default to Running.'
             stopped_mode: '- (Optional, Available since v1.170.0) The stop mode of the pay-as-you-go instance. Valid values: StopCharging,KeepCharging, Not-applicable. Default value: If the prerequisites required for enabling the economical mode are met, and you have enabled this mode in the ECS console, the default value is StopCharging. For more information, see "Enable the economical mode" in Economical mode. Otherwise, the default value is KeepCharging. Note: Not-applicable: Economical mode is not applicable to the instance.`'
-            subnet_id: '- (Removed since v1.210.0) The ID of the subnet. NOTE: Field subnet_id has been removed from provider version 1.210.0.'
             system_disk_auto_snapshot_policy_id: '- (Optional, Available since v1.73.0, Modifiable in 1.169.0) The ID of the automatic snapshot policy applied to the system disk. NOTE: If you want to use system_disk_auto_snapshot_policy_id, We recommend you to use the resource alicloud_ecs_auto_snapshot_policy_attachment.'
             system_disk_bursting_enabled: '- (Optional, Bool, Available since v1.250.0) Specifies whether to enable the performance burst feature for the system disk. Valid values:'
             system_disk_category: '- (Optional, ForceNew) Valid values are ephemeral_ssd, cloud_efficiency, cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry. only is used to some none I/O optimized instance. Valid values cloud_auto Available since v1.184.0.'
@@ -51356,7 +51523,9 @@ resources:
             ciphertext_blob: '- The ciphertext of the data key encrypted with the primary CMK version.'
             encryption_context: '- (Optional, ForceNew) The Encryption context. If you specify this parameter here, it is also required when you call the Decrypt API operation. For more information, see Encryption Context.'
             key_id: '- (Required, ForceNew) The globally unique ID of the CMK.'
-            plaintext: '- (Required, ForceNew) The plaintext to be encrypted which must be encoded in Base64.'
+            plaintext: '- (Optional, ForceNew) The plaintext to be encrypted which must be encoded in Base64. Exactly one of plaintext and plaintext_wo can be set.'
+            plaintext_wo: '- (Optional, Available since v2.0.0-beta5) The write-only plaintext to be encrypted which must be encoded in Base64. It is only sent to the server when the resource is created and is never stored in the state or plan. It requires Terraform v1.11.0 or later and must be used together with plaintext_wo_version. Exactly one of plaintext and plaintext_wo can be set.'
+            plaintext_wo_version: '- (Optional, ForceNew, Available since v2.0.0-beta5) The version of the write-only plaintext. The write-only plaintext is re-sent to the server only when this argument changes, so changing it recreates the resource with the new plaintext_wo value.'
         importStatements: []
     alicloud_kms_client_key:
         subCategory: KMS
@@ -51970,6 +52139,38 @@ resources:
             value_added_service: '- (Optional) The value added service type. Valid values:'
         importStatements:
             - $ terraform import alicloud_kms_value_added_service.example <id>
+    alicloud_kvcachestore_kv_cache_store:
+        subCategory: Kvcachestore
+        description: Provides a Alicloud Kvcachestore Kv Cache Store resource.
+        name: alicloud_kvcachestore_kv_cache_store
+        title: alicloud_kvcachestore_kv_cache_store
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "capacity": 307200,
+                  "description": "example kvcachestore instance",
+                  "hpn_zone": "b1",
+                  "name": "${var.name}",
+                  "zone_id": "cn-shanghai-cloudspe-b"
+                }
+              references:
+                name: var.name
+        argumentDocs:
+            capacity: '- (Required, Int) The storage capacity of the instance. Unit: GiB. The minimum value is 307200 (300 TiB), and the value must be a multiple of 307200.'
+            create_time: '- The creation time of the instance (ISO 8601).'
+            description: '- (Optional) The description of the instance.'
+            hpn_zone: '- (Required, ForceNew) The cluster ID (HPN zone) of the instance.'
+            id: '- The ID of the resource supplied above. The value is the KvcsId of the instance.'
+            name: '- (Optional) The name of the instance.'
+            payment_type: '- (Optional, ForceNew, Computed) The payment type of the instance. Valid values: PREPAY, POSTPAY.'
+            status: '- The status of the instance. Valid values: Creating, Available, InUse, Stopping, Stopped, Deleting.'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Kv Cache Store.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Kv Cache Store.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Kv Cache Store.'
+            zone_id: '- (Required, ForceNew) The zone ID of the instance.'
+        importStatements:
+            - $ terraform import alicloud_kvcachestore_kv_cache_store.example <kvcs_id>
     alicloud_kvstore_account:
         subCategory: Tair (Redis OSS-Compatible) And Memcache (KVStore)
         description: Provides a Alicloud Tair (Redis OSS-Compatible) And Memcache (KVStore) Account resource.
@@ -52023,13 +52224,15 @@ resources:
             RoleReadOnly: ': This value is only for Redis and Memcache'
             RoleReadWrite: ': This value is only for Redis and Memcache'
             account_name: '- (Required, ForceNew) The name of the account. The name must meet the following requirements:'
-            account_password: '- (Optional, Sensitive) The password of the account. The password must be 8 to 32 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include !@ # $ % ^ & * ( ) _ + - =. You have to specify one of account_password and kms_encrypted_password fields.'
+            account_password: '- (Optional, Sensitive) The password of the account. The password must be 8 to 32 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include !@ # $ % ^ & * ( ) _ + - =. It conflicts with account_password_wo.'
+            account_password_wo: '- (Optional, Available since v2.0.0-beta5) The write-only password of the account. It is only sent to the server when the resource is created or the account_password_wo_version changes and is never stored in the state or plan. It requires Terraform v1.11.0 or later and must be used together with account_password_wo_version. It conflicts with account_password and kms_encrypted_password.'
+            account_password_wo_version: '- (Optional, Available since v2.0.0-beta5) The version of the write-only password. The write-only password is re-sent to the server only when this argument changes, so it must be changed whenever account_password_wo changes.'
             account_privilege: '- (Optional) The privilege of account access database. Default value: RoleReadWrite'
             account_type: '- (Optional, ForceNew) Privilege type of account.'
             description: '- (Optional) Database description. It cannot begin with https://. It must start with a Chinese character or English letter. It can include Chinese and English characters, underlines (_), hyphens (-), and numbers. The length may be 2-256 characters.'
             id: '- The resource ID of Account. The value is formatted <instance_id>:<account_name>.'
             instance_id: '- (Required, ForceNew) The Id of instance in which account belongs (The engine version of instance must be 4.0 or 4.0+).'
-            kms_encrypted_password: '- (Optional) An KMS encrypts password used to a Tair (Redis OSS-Compatible) And Memcache (KVStore) account. If the account_password is filled in, this field will be ignored.'
+            kms_encrypted_password: '- (Optional) An KMS encrypts password used to a Tair (Redis OSS-Compatible) And Memcache (KVStore) account. If the account_password is filled in, this field will be ignored. It conflicts with account_password_wo.'
             kms_encryption_context: '- (Optional) An KMS encryption context used to decrypt kms_encrypted_password before creating or updating a Tair (Redis OSS-Compatible) And Memcache (KVStore) account with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.'
             status: '- The status of Tair (Redis OSS-Compatible) And Memcache (KVStore) Account.'
             timeouts.create: '- (Defaults to 6 mins) Used when create the Account.'
@@ -52397,7 +52600,6 @@ resources:
             kms_encryption_context: '- (Optional, MapString, Available since v1.57.1) An KMS encryption context used to decrypt kms_encrypted_password before creating or updating instance with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.'
             maintain_end_time: '- (Optional, Available since v1.56.0) The end time of the operation and maintenance time period of the KVStore DBInstance, in the format of HH:mmZ (UTC time).'
             maintain_start_time: '- (Optional, Available since v1.56.0) The start time of the operation and maintenance time period of the KVStore DBInstance, in the format of HH:mmZ (UTC time).'
-            modify_mode: '- (Removed since v1.216.0) The method of modifying the whitelist. NOTE: Field modify_mode has been removed from provider version 1.216.0.'
             node_type: '- (Optional, ForceNew) The node type. Valid values:'
             order_type: '- (Optional, Available since v1.101.0) Specifies a change type when you change the configuration of a subscription instance. Valid values: UPGRADE, DOWNGRADE. Default value: UPGRADE. UPGRADE means upgrades the configuration of a subscription instance. DOWNGRADE means downgrades the configuration of a subscription instance.'
             parameters: '- (Deprecated since v1.101.0) It has been deprecated from provider version 1.101.0 and config instead. See parameters below.'
@@ -52586,7 +52788,6 @@ resources:
             auto_renew: '- (Optional, Available since v1.249.0) Specifies whether to enable auto-renewal for the instance. Valid when the payment_type is Subscription. Default value: false. Valid values: true(enables auto-renewal), false(disables auto-renewal).'
             auto_renew_period: '- (Optional, Available since v1.249.0) The subscription duration that is supported by auto-renewal. Unit: months. Valid values: 1 to 12. This parameter is required only if the AutoRenew parameter is set to true.'
             cold_storage: '- (Optional, Int) The cold storage capacity of the instance. Unit: GB. Valid values: [800, 1000000].'
-            core_num: '- (Removed since v1.207.0) The core num. NOTE: Field core_num has been deprecated from provider version 1.188.0, and it has been removed from provider version 1.207.0.'
             core_single_storage: '- (Optional, Int, Available since v1.191.0) The multiple availability zone instances, CORE single node capacity. required if you want to create multiple availability zone instances. Valid values: 400 to 64000.'
             core_spec: '- (Optional, ForceNew) The core spec. When disk_category is local_ssd_pro or local_hdd_pro, this filed is valid.'
             deletion_proection: '- (Optional, Bool) The deletion protection of instance.'
@@ -52600,7 +52801,6 @@ resources:
             enabled_time_serires_engine: '- (Available since v1.163.0) Whether to enable time serires engine.'
             file_engine_node_count: '- (Optional, Int) The count of file engine.'
             file_engine_specification: '- (Optional) The specification of file engine. Valid values: lindorm.c.xlarge.'
-            group_name: '- (Removed since v1.211.0) The group name. NOTE: Field group_name has been removed from provider version 1.211.0.'
             id: '- The resource ID in terraform of Instance.'
             instance_name: '- (Optional) The name of the instance.'
             instance_storage: '- (Optional) The storage capacity of the instance. Unit: GB. Valid values: [80, 10485760], and the value must be divisible by 80.'
@@ -52613,8 +52813,6 @@ resources:
             lts_node_specification: '- (Optional) The specification of lindorm tunnel service. Valid values: lindorm.g.2xlarge, lindorm.g.xlarge.'
             multi_zone_combination: '- (Optional, ForceNew, Available since v1.191.0) The multi-zone combinations. Availability zone combinations are supported on the sale page. required if you need to create multiple availability zone instances. Valid values: ap-southeast-5abc-aliyun, cn-hangzhou-ehi-aliyun, cn-beijing-acd-aliyun, ap-southeast-1-abc-aliyun, cn-zhangjiakou-abc-aliyun, cn-shanghai-efg-aliyun, cn-shanghai-abd-aliyun, cn-hangzhou-bef-aliyun, cn-hangzhou-bce-aliyun, cn-beijing-fgh-aliyun, cn-shenzhen-abc-aliyun.'
             payment_type: '- (Required, ForceNew) The billing method. Valid values: PayAsYouGo and Subscription.'
-            phoenix_node_count: '- (Removed since v1.211.0) The count of phoenix. NOTE: Field phoenix_node_count has been removed from provider version 1.211.0.'
-            phoenix_node_specification: '- (Removed since v1.211.0) The specification of phoenix. NOTE: Field phoenix_node_specification has been removed from provider version 1.211.0.'
             pricing_cycle: '- (Optional) The pricing cycle. Valid when the payment_type is Subscription. Valid values: Month and Year.'
             primary_vswitch_id: '- (Optional, ForceNew, Available since v1.192.0) Multi-available zone instances, the virtual switch ID of the primary available zone, must be under the available zone corresponding to the PrimaryZoneId. required if you need to create multiple availability zone instances.'
             primary_zone_id: '- (Optional, ForceNew, Available since v1.192.0) Multi-availability zone instance with the availability zone ID of the main availability zone. required if you need to create multiple availability zone instances.'
@@ -52636,7 +52834,6 @@ resources:
             timeouts.create: '- (Defaults to 90 mins) Used when create the Instance.'
             timeouts.delete: '- (Defaults to 10 mins) Used when delete the Instance.'
             timeouts.update: '- (Defaults to 180 mins) Used when update the Instance.'
-            upgrade_type: '- (Removed since v1.207.0) The upgrade type. NOTE: Field upgrade_type has been deprecated from provider version 1.163.0, and it has been removed from provider version 1.207.0.'
             vpc_id: '- (Optional, ForceNew, Available since v1.185.0) The VPC ID of the instance.'
             vswitch_id: '- (Required, ForceNew) The vswitch id.'
             zone_id: '- (Optional, ForceNew) The zone ID of the instance.'
@@ -55393,28 +55590,42 @@ resources:
         argumentDocs:
             auto_backup: '- (Optional, Computed) Whether to enable automatic backup'
             auto_pay: '- (Optional, Available since v1.282.0) Whether to pay automatically.'
+            auto_renew: '- (Optional, ForceNew, Available since v1.294.0) Whether auto-renewal is enabled when the instance is created.'
             components: '- (Optional, Set) Instance component information. Includes Starter Edition/Standard Edition.'
             components.cu_num: '- (Required, Int) The number of CU. For example: 4'
             components.cu_type: '- (Optional, ForceNew, Computed) The calculation type. The default value is general, and the ram type needs to be opened with a work order.'
+            components.data_disk: '- (Optional, Set, Available since v1.294.0) The QueryNode data disk configuration. Only Type=query is supported. See data_disk below.'
             components.disk_size_type: '- (Optional, ForceNew, Computed) Default Normal. The Query Node is configured with the capacity type, performance type, and capacity type Large, and the rest are configured with Normal.'
+            components.pay_type: '- (Optional, ForceNew, Available since v1.294.0) The default is consistent with the cluster.'
             components.replica: '- (Required, Int) The number of component replicas. The number of highly available replicas must be greater than or equal to 2.'
             components.type: '- (Required) The component type. Different types need to be configured according to different versions.'
             configuration: '- (Optional) User-defined configuration'
             create_time: '- Instance creation time.'
             db_admin_password: '- (Optional) DB administrator password, which can be used to log in to attu.'
             db_version: '- (Required, ForceNew) Milvus kernel version. Supported versions: 2.4, 2.5, 2.6.'
+            enabled: '- (Optional, Available since v1.294.0) Whether to enable the QueryNode data disk.'
             encrypted: '- (Optional, ForceNew) Whether to use kms encryption. After enabling, you need to configure KmsKeyId. The default is false.'
+            expire_time: '- (Available since v1.294.0) The expiration time of the instance, which is returned by the package year and month cluster.'
             ha: '- (Optional) Whether to enable multiple copies of data'
-            id: '- The ID of the resource supplied above.'
+            id: '- The resource ID in terraform of Instance.'
             instance_name: '- (Required) Instance name. The length is limited to 1-64 characters and can only contain Chinese, letters, numbers,-,_'
+            is_multi_az_storage: '- (Optional, ForceNew, Available since v1.294.0) Whether multi-zone storage is enabled when the instance is created.'
             kms_key_id: '- (Optional, ForceNew) Kms Key encryption id, need to be encrypted set to true.'
+            load_replicas: '- (Optional, ForceNew, Int, Available since v1.294.0) The number of load replicas configured when the instance is created.'
             multi_zone_mode: '- (Optional, ForceNew) Availability Zone mode. The default Single.'
+            order_id: '- (Available since v1.294.0) Alibaba Cloud Order Number.'
             payment_duration: '- (Optional, Int) Instance Payment Duration'
             payment_duration_unit: '- (Optional) Paid unit , Enumeration value:'
             payment_type: '- (Required, ForceNew) Payment Type ,Enumeration value:'
-            region_id: '- regionId. For example: cn-hangzhou'
+            performance_level: '- (Optional, Available since v1.294.0) The ESSD performance level. Supported values: PL0, PL1, PL2, and PL3.'
+            promotion_no: '- (Optional, ForceNew, Available since v1.294.0) The promotion code used to create the instance.'
+            region_id: '- The regionId.'
             resource_group_id: '- (Optional, Computed) Resource Group ID'
-            status: '- Instance status. Value range:'
+            running_time: '- (Available since v1.294.0) Instance running time.'
+            security_group_ids: '- (Available since v1.294.0) Configured Security Group id.'
+            size: '- (Optional, Int, Available since v1.294.0) The data disk size in GiB.'
+            status: '- Instance status.'
+            storage_class: '- (Optional, Available since v1.294.0) The data disk StorageClass. Supported values: alicloud-disk-essd-pl0, alicloud-disk-essd-pl1, alicloud-disk-essd-pl2, and alicloud-disk-essd-pl3.'
             tags: '- (Optional, Map) User Defined Label'
             timeouts.create: '- (Defaults to 14 mins) Used when create the Instance.'
             timeouts.delete: '- (Defaults to 14 mins) Used when delete the Instance.'
@@ -56801,14 +57012,19 @@ resources:
         argumentDocs:
             accept_language: '- (Optional) The language type of the returned information. Valid values: zh, en.'
             cluster_id: '- (Optional, ForceNew, Computed, Available since v1.232.0) The id of the cluster.It is formatted to mse-xxxxxxxx.'
+            config_count: '- (Available since v1.279.1) The current number of configurations in the namespace.'
             id: '- The resource ID in terraform of Engine Namespace. It is formatted to <instance_id>:<namespace_id>.'
             instance_id: '- (Optional, ForceNew, Computed) The instance id of the cluster. It is formatted to mse-cn-xxxxxxxxxxx.Available since v1.232.0.'
             namespace_desc: '- (Optional, Computed, Available since v1.232.0)The description of the namespace.'
             namespace_id: '- (Optional, ForceNew, Computed, Available since v1.232.0) The id of Namespace.'
             namespace_show_name: '- (Required) The name of the Engine Namespace.'
+            quota: '- (Available since v1.279.1) The maximum number of configurations allowed in the namespace.'
+            service_count: '- (Available since v1.279.1) The current number of services registered to the namespace.'
+            source_type: '- (Available since v1.279.1) The source type of the namespace.'
             timeouts.create: '- (Defaults to 1 mins) Used when creating the Engine Namespace.'
             timeouts.delete: '- (Defaults to 1 mins) Used when deleting the Engine Namespace.'
             timeouts.update: '- (Defaults to 1 mins) Used when updating the Engine Namespace.'
+            type: '- (Available since v1.279.1) The type of the namespace.'
         importStatements:
             - $ terraform import alicloud_mse_engine_namespace.example <instance_id>:<namespace_id>
     alicloud_mse_gateway:
@@ -57390,7 +57606,7 @@ resources:
             timeouts.delete: '- (Defaults to 20 mins) Used when delete the File System.'
             timeouts.update: '- (Defaults to 10 mins) Used when update the File System.'
             vpc_id: 'and vswitch_id must be configured depends on file_system_type. Only CPFS file systems create a resource inside a VPC; for standard and extreme these fields are reserved by the interface and have not taken effect, so they should be left unset. The configuration rule for each file_system_type is as follows:'
-            vswitch_id: '- (Optional, ForceNew, Available since v1.153.0) The ID of the switch.'
+            vswitch_id: '- (Optional, ForceNew, Computed, Available since v1.153.0) The ID of the switch.'
             zone_id: '- (Optional, ForceNew, Computed) The zone ID.'
         importStatements:
             - $ terraform import alicloud_nas_file_system.example <id>
@@ -57573,7 +57789,7 @@ resources:
             timeouts.delete: '- (Defaults to 5 mins) Used when delete the Mount Target.'
             timeouts.update: '- (Defaults to 5 mins) Used when update the Mount Target.'
             vpc_id: '- (Optional, ForceNew, Available since v1.208.1) VPC ID.'
-            vswitch_id: '- (Optional, ForceNew) The ID of the switch.'
+            vswitch_id: '- (Optional, ForceNew, Computed) The ID of the switch.'
         importStatements:
             - $ terraform import alicloud_nas_mount_target.example <file_system_id>:<mount_target_domain>
     alicloud_nas_protocol_mount_target:
@@ -57930,12 +58146,6 @@ resources:
             access_mode.mode_value: '- (Optional, ForceNew) The mode of Access. Valid values:'
             access_mode.tunnel_type: '- (Optional, ForceNew) The type of Tunnel. Valid values: geneve. NOTE: tunnel_type takes effect only if mode_value is set to tunnel.'
             availability_mode: '- (Optional, ForceNew, Computed, Available since v1.285.0) The disaster recovery mode of the NAT gateway. NOTE: availability_mode requires nat_type to be set to Enhanced. Valid values:'
-            bandwidth_package_ids: '- (Removed since v1.121.0) The ID of the bandwidth package. NOTE: Field bandwidth_package_ids has been removed from provider version 1.121.0.'
-            bandwidth_packages: '- (Removed since v1.121.0) A list of bandwidth packages for the nat gatway. See bandwidth_packages below.'
-            bandwidth_packages.bandwidth: '- (Removed since v1.121.0) The bandwidth value of the current bandwidth package. NOTE: Field bandwidth has been removed from provider version 1.121.0.'
-            bandwidth_packages.ip_count: '- (Removed since v1.121.0) The IP number of the current bandwidth package. NOTE: Field ip_count has been removed from provider version 1.121.0.'
-            bandwidth_packages.public_ip_addresses: '- (Removed since v1.121.0) The public ip for bandwidth package. NOTE: Field public_ip_addresses has been removed from provider version 1.121.0.'
-            bandwidth_packages.zone: '- (Removed since v1.121.0) The AZ for the current bandwidth. NOTE: Field zone has been removed from provider version 1.121.0.'
             deletion_protection: '- (Optional, Available since v1.124.4) Whether enable the deletion protection or not. Default value: false.'
             description: '- (Optional) Description of the nat gateway, This description can have a string of 2 to 256 characters, It cannot begin with http:// or https://. Defaults to null.'
             dry_run: '- (Optional) Specifies whether to only precheck this request. Default value: false.'
@@ -57958,7 +58168,6 @@ resources:
             private_link_enabled: '- (Optional, ForceNew, Bool, Available since v1.235.0) Specifies whether to enable PrivateLink. Default value: false. Valid values:'
             route: ': Route mode.'
             snat_table_ids: '- The nat gateway will auto create a snat item.'
-            spec: '- (Removed since v1.121.0) The specification of the nat gateway. NOTE: Field spec has been deprecated from provider version 1.7.1, and it has been removed from provider version 1.121.0. New field specification instead.'
             specification: '- (Optional) The specification of the nat gateway. Valid values are Small, Middle and Large. Effective when internet_charge_type is PayBySpec and network_type is internet. Details refer to Nat Gateway Specification.'
             status: '- (Available since v1.121.0) The status of NAT gateway.'
             tags: '- (Optional, Available since v1.121.0) The tags of NAT gateway.'
@@ -58033,10 +58242,10 @@ resources:
         argumentDocs:
             create_time: '- The creation time of the resource.'
             custom: custom rule
-            description: '- (Optional) The description of the network ACL. The description must be 1 to 256 characters in length, and cannot start with http:// or https://.'
+            description: '- (Optional) The description of the network ACL. The description must be 1 to 256 characters in length, and cannot start with http:// or https://. Currently, the description is only returned by the API and is not displayed in the console. To configure the name displayed in the console, use network_acl_name.'
             egress_acl_entries: '- (Optional, Computed, List) Out direction rule information. See egress_acl_entries below.'
             egress_acl_entries.description: |-
-                - (Optional) The description of the outbound rule.
+                - (Optional) The description of the outbound rule. Currently, the description is only returned by the API and is not displayed in the console. To configure the name displayed in the console, use network_acl_entry_name.
                 The description must be 1 to 256 characters in length and cannot start with http:// or https.
             egress_acl_entries.destination_cidr_ip: '- (Optional) The destination CIDR block, or the prefix list instance ID.'
             egress_acl_entries.entry_type: |-
@@ -58046,7 +58255,7 @@ resources:
                 service Cloud service rules
             egress_acl_entries.ip_version: '- (Optional, Computed, Available since v1.220.0) The IP protocol version of the route entry. Valid values: "Ipv4" and "ipv6'''
             egress_acl_entries.network_acl_entry_name: |-
-                - (Optional) Name of the outbound rule entry.
+                - (Optional) Name of the outbound rule entry. Currently, this name is displayed in the console.
                 The name must be 1 to 128 characters in length and cannot start with http:// or https.
             egress_acl_entries.policy: '- (Optional) The action to be performed on network traffic that matches the rule. Valid values:'
             egress_acl_entries.port: |-
@@ -58057,12 +58266,12 @@ resources:
             id: '- The ID of the resource supplied above.'
             ingress_acl_entries: '- (Optional, Computed, List) Inward direction rule information. See ingress_acl_entries below.'
             ingress_acl_entries.description: |-
-                - (Optional) Description of the inbound rule.
+                - (Optional) Description of the inbound rule. Currently, the description is only returned by the API and is not displayed in the console. To configure the name displayed in the console, use network_acl_entry_name.
                 The description must be 1 to 256 characters in length and cannot start with http:// or https.
             ingress_acl_entries.entry_type: '- (Optional, Computed, Available since v1.220.0) The route entry type. Value'
             ingress_acl_entries.ip_version: '- (Optional, Computed, Available since v1.220.0) The IP protocol version of the route entry. Valid values: "Ipv4" and "ipv6'''
             ingress_acl_entries.network_acl_entry_name: |-
-                - (Optional) The name of the inbound rule entry.
+                - (Optional) The name of the inbound rule entry. Currently, this name is displayed in the console.
                 The name must be 1 to 128 characters in length and cannot start with http:// or https.
             ingress_acl_entries.policy: '- (Optional) The action to be performed on network traffic that matches the rule. Valid values:'
             ingress_acl_entries.port: |-
@@ -58073,7 +58282,7 @@ resources:
             ingress_acl_entries.source_cidr_ip: '- (Optional) The source CIDR block, or the prefix list instance ID.'
             name: '- (Deprecated since v1.122.0). Field ''name'' has been deprecated from provider version 1.122.0. New field ''network_acl_name'' instead.'
             network_acl_name: |-
-                - (Optional, Computed) The name of the network ACL.
+                - (Optional, Computed) The name of the network ACL. Currently, this name is displayed in the console.
                 The name must be 1 to 128 characters in length and cannot start with http:// or https.
             resources: '- (Optional, Computed, Set) The associated resource. See resources below.'
             resources.resource_id: '- (Required) The ID of the associated resource.'
@@ -59092,9 +59301,11 @@ resources:
                     }
         argumentDocs:
             $SERVER_IP: ': the private IP address of a backend server.'
+            Affinity: ': IPv4 requests are forwarded only to IPv4 backends; IPv6 requests are forwarded only to IPv6 backends.'
             DualStack: ': dual stack'
             Instance: ': allows you to add servers of the Ecs, Eni, or Eci type. This is the default value.'
             Ip: ': allows you to add servers by specifying IP addresses.'
+            NonAffinity: '(default): forwards requests to healthy backends regardless of IP version.'
             Qch: ': QUIC ID hashing. Requests that contain the same QUIC ID are forwarded to the same backend server.'
             TCP: (default)
             address_ip_version: '- (Optional, ForceNew, Computed) The protocol version. Valid values:'
@@ -59132,6 +59343,7 @@ resources:
                 Valid values: 2 to 10.
                 Default value: 2.
             id: '- The ID of the resource supplied above.'
+            ip_version_affinity_mode: '- (Optional, Computed, Available since v1.295.0) The traffic scheduling policy for dual-stack server groups. Valid values:'
             ipv4: '(default): IPv4'
             preserve_client_ip_enabled: '- (Optional, Computed) Specifies whether to enable client IP preservation. Valid values:'
             protocol: '- (Optional, ForceNew, Computed) The protocol used to forward requests to the backend servers. Valid values:'
@@ -59590,7 +59802,9 @@ resources:
             resource_group_id: '- (Optional, Computed) The ID of the Resource Group.'
             tags: '- (Optional) A mapping of tags to assign to the resource.'
             type: '- (Required, ForceNew) The data type of the common parameter. Valid values: String and StringList.'
-            value: '- (Required) The value of the common parameter. The value must be 1 to 4096 characters in length.'
+            value: '- (Optional, Computed) The value of the common parameter. The value must be 1 to 4096 characters in length. Exactly one of value and value_wo can be set.'
+            value_wo: '- (Optional, Available since v2.0.0-beta5) The write-only value of the common parameter. It is only sent to the server when the resource is created or updated and is never stored in the state or plan. The value must be 1 to 4096 characters in length. It requires Terraform v1.11.0 or later and must be used together with value_wo_version. Exactly one of value and value_wo can be set.'
+            value_wo_version: '- (Optional, Available since v2.0.0-beta5) The version of the write-only value. The write-only value is re-sent to the server only when this argument changes, so it must be changed whenever value_wo changes.'
         importStatements:
             - $ terraform import alicloud_oos_parameter.example <parameter_name>
     alicloud_oos_patch_baseline:
@@ -63582,13 +63796,15 @@ resources:
             account_description: '- (Optional) The description of the database account.'
             account_lock_state: '- (Optional, Available since v1.265.0) The lock status of the account. Valid values:'
             account_name: '- (Required, ForceNew) The account name. Must meet the following requirements:'
-            account_password: '- (Optional) The account password. You have to specify one of account_password and kms_encrypted_password fields. Must  meet the following requirements:'
+            account_password: '- (Optional) The account password. It conflicts with kms_encrypted_password and account_password_wo, and one of account_password, kms_encrypted_password and account_password_wo must be set. Must  meet the following requirements:'
             account_password_valid_time: '- (Optional, Available since v1.265.0) The time when the password for the database account expires.'
+            account_password_wo: '- (Optional, Available since v2.0.0-beta5) The write-only password of the account. It is only sent to the server when the resource is created or the account_password_wo_version changes and is never stored in the state or plan. It requires Terraform v1.11.0 or later and must be used together with account_password_wo_version. It conflicts with account_password and kms_encrypted_password, and one of account_password, kms_encrypted_password and account_password_wo must be set.'
+            account_password_wo_version: '- (Optional, Available since v2.0.0-beta5) The version of the write-only password. The write-only password is re-sent to the server only when this argument changes, so it must be changed whenever account_password_wo changes.'
             account_type: '- (Optional, ForceNew) The account type. Default value:Normal. Valid values: Normal, Super.'
             db_cluster_id: '- (Required, ForceNew) The cluster ID.'
             dynamodb_auth_password: '- (Sensitive, Available since v1.285.0) The DynamoDB authentication password. Only available for DynamoDB account type.'
             id: '- The ID of the resource supplied above.The value is formulated as <db_cluster_id>:<account_name>.'
-            kms_encrypted_password: '- (Optional) An KMS encrypts password used to a db account. If the account_password is filled in, this field will be ignored.'
+            kms_encrypted_password: '- (Optional) An KMS encrypts password used to a db account. It conflicts with account_password and account_password_wo, and one of account_password, kms_encrypted_password and account_password_wo must be set.'
             kms_encryption_context: '- (Optional) An KMS encryption context used to decrypt kms_encrypted_password before creating or updating a db account with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.'
             status: '- (Available since v1.265.0) The status of the database account.'
             timeouts.create: '- (Defaults to 8 mins) Used when create the Account.'
@@ -64213,7 +64429,8 @@ resources:
             - name: default
               manifest: |-
                 {
-                  "db_cluster_id": "${alicloud_polardb_cluster.default.id}"
+                  "db_cluster_id": "${alicloud_polardb_cluster.default.id}",
+                  "scc_mode": "on"
                 }
               references:
                 db_cluster_id: alicloud_polardb_cluster.default.id
@@ -64252,6 +64469,7 @@ resources:
             nodes: '- (Optional) Node id list for endpoint configuration. At least 2 nodes if specified, or if the cluster has more than 3 nodes, read-only endpoint is allowed to mount only one node. Default is all nodes.'
             port: '- (Optional) Port of the specified endpoint. Valid values: 3000 to 5999.'
             read_write_mode: '- (Optional) Read or write mode. Valid values are ReadWrite, ReadOnly. When creating a new custom endpoint, default to ReadOnly.'
+            scc_mode: '- (Optional, Computed, Available since v1.294.0) Specifies whether to enable global consistency (high-performance mode). Valid values are on and off. Before setting this argument to on, set ConsistLevel in endpoint_config to 0 (eventual consistency).'
             ssl_auto_rotate: |-
                 - (Optional) Specifies whether automatic rotation of SSL certificates is enabled. Valid values: Enable,Disable.
                 NOTE: For a PolarDB for MySQL cluster, this parameter is required, and only one connection string in each endpoint can enable the ssl, for other notes, see Configure SSL encryption.
@@ -66975,17 +67193,19 @@ resources:
         argumentDocs:
             account_description: '- (Optional) The description of the account. The value must be 2 to 256 characters in length. The value can contain letters, digits, underscores (_), and hyphens (-), and must start with a letter.'
             account_name: '- (Optional, ForceNew) The name of the database account.'
-            account_password: '- (Optional, Sensitive) The password of the account.'
+            account_password: '- (Optional, Sensitive) The password of the account. It conflicts with password, kms_encrypted_password and account_password_wo, and one of the four password sources must be set.'
+            account_password_wo: '- (Optional, Available since v2.0.0-beta5) The write-only password of the account. It is only sent to the server when the resource is created or the account_password_wo_version changes and is never stored in the state or plan. It requires Terraform v1.11.0 or later and must be used together with account_password_wo_version. It conflicts with account_password, password and kms_encrypted_password, and one of the four password sources must be set.'
+            account_password_wo_version: '- (Optional, Available since v2.0.0-beta5) The version of the write-only password. The write-only password is re-sent to the server only when this argument changes, so it must be changed whenever account_password_wo changes.'
             account_type: '- (Optional, ForceNew) The account type. Valid values:'
             check_policy: '- (Optional, Available since v1.266.0) Whether to apply password policy'
             db_instance_id: '- (Optional, ForceNew) The ID of the instance.'
             description: '- (Optional, Deprecated from v1.120.0) The attribute has been deprecated from 1.120.0 and using account_description instead.'
             id: '- The resource ID of Account. The value is formatted <db_instance_id>:<account_name>.'
             instance_id: '- (Optional, ForceNew, Deprecated from v1.120.0) The attribute has been deprecated from 1.120.0 and using db_instance_id instead.'
-            kms_encrypted_password: '- (Optional) An KMS encrypts password used to a db account. If the account_password is filled in, this field will be ignored.'
+            kms_encrypted_password: '- (Optional) An KMS encrypts password used to a db account. It conflicts with account_password, password and account_password_wo, and one of the four password sources must be set.'
             kms_encryption_context: '- (Optional, MapString) An KMS encryption context used to decrypt kms_encrypted_password before creating or updating a db account with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.'
             name: '- (Optional, ForceNew, Deprecated from v1.120.0) The attribute has been deprecated from 1.120.0 and using account_name instead.'
-            password: '- (Optional, Sensitive, Deprecated from v1.120.0) The attribute has been deprecated from 1.120.0 and using account_password instead.'
+            password: '- (Optional, Sensitive, Deprecated from v1.120.0) The attribute has been deprecated from 1.120.0 and using account_password instead. It conflicts with account_password, kms_encrypted_password and account_password_wo, and one of the four password sources must be set.'
             reset_permission_flag: '- (Optional, Available in v1.198.0+) Resets permissions flag of the privileged account. Default to false. Set it to true can resets permissions of the privileged account.'
             status: '- (Optional, Computed) The status of the resource. Valid values: Available, Unavailable.'
             timeouts.create: '- (Defaults to 30 mins) Used when create the Account.'
@@ -68496,7 +68716,7 @@ resources:
                       "name": "default-queue"
                     }
                   ],
-                  "engine_version": "vvr-8.0.10-flink-1.17",
+                  "engine_version": "vvr-8.0.11-flink-1.17",
                   "execution_mode": "STREAMING",
                   "namespace": "${alicloud_realtime_compute_vvp_instance.default.vvp_instance_name}-default",
                   "resource_id": "${alicloud_realtime_compute_vvp_instance.default.resource_id}"
@@ -68658,7 +68878,7 @@ resources:
                           "name": "default-queue"
                         }
                       ],
-                      "engine_version": "vvr-8.0.10-flink-1.17",
+                      "engine_version": "vvr-8.0.11-flink-1.17",
                       "execution_mode": "STREAMING",
                       "namespace": "${alicloud_realtime_compute_vvp_instance.default.vvp_instance_name}-default",
                       "resource_id": "${alicloud_realtime_compute_vvp_instance.default.resource_id}"
@@ -68886,6 +69106,77 @@ resources:
             workspace: '- (Optional, ForceNew, Computed) The ID of the workspace.'
         importStatements:
             - $ terraform import alicloud_realtime_compute_sql_file.example <workspace>:<namespace>:<sql_file_id>
+    alicloud_realtime_compute_variable:
+        subCategory: Realtime Compute
+        description: Provides a Alicloud Realtime Compute Variable resource.
+        name: alicloud_realtime_compute_variable
+        title: alicloud_realtime_compute_variable
+        examples:
+            - name: default
+              manifest: |-
+                {
+                  "kind": "Clear",
+                  "name": "${var.name}",
+                  "namespace": "${alicloud_realtime_compute_vvp_instance.default.vvp_instance_name}-default",
+                  "value": "YourPassword123!",
+                  "workspace": "${alicloud_realtime_compute_vvp_instance.default.resource_id}"
+                }
+              references:
+                name: var.name
+                workspace: alicloud_realtime_compute_vvp_instance.default.resource_id
+              dependencies:
+                alicloud_realtime_compute_vvp_instance.default: |-
+                    {
+                      "payment_type": "PayAsYouGo",
+                      "resource_spec": [
+                        {
+                          "cpu": "8",
+                          "memory_gb": "32"
+                        }
+                      ],
+                      "storage": [
+                        {
+                          "oss": [
+                            {
+                              "bucket": "${data.alicloud_oss_buckets.default.buckets.0.name}"
+                            }
+                          ]
+                        }
+                      ],
+                      "vpc_id": "${alicloud_vpc.default.id}",
+                      "vswitch_ids": [
+                        "${alicloud_vswitch.default.id}"
+                      ],
+                      "vvp_instance_name": "${var.name}",
+                      "zone_id": "${alicloud_vswitch.default.zone_id}"
+                    }
+                alicloud_vpc.default: |-
+                    {
+                      "cidr_block": "172.16.0.0/16",
+                      "is_default": false,
+                      "vpc_name": "${var.name}"
+                    }
+                alicloud_vswitch.default: |-
+                    {
+                      "cidr_block": "172.16.0.0/24",
+                      "is_default": false,
+                      "vpc_id": "${alicloud_vpc.default.id}",
+                      "vswitch_name": "${var.name}",
+                      "zone_id": "cn-hangzhou-i"
+                    }
+        argumentDocs:
+            description: '- (Optional) The description of the variable.'
+            id: '- The resource ID in terraform of Variable. It formats as <workspace>:<namespace>:<name>.'
+            kind: '- (Required, ForceNew) The kind of the variable. Valid values: Clear, Encrypted.'
+            name: '- (Required, ForceNew) The name of the variable.'
+            namespace: '- (Required, ForceNew) The name of the namespace.'
+            timeouts.create: '- (Defaults to 5 mins) Used when create the Variable.'
+            timeouts.delete: '- (Defaults to 5 mins) Used when delete the Variable.'
+            timeouts.update: '- (Defaults to 5 mins) Used when update the Variable.'
+            value: '- (Required) The value of the variable.'
+            workspace: '- (Required, ForceNew) The ID of the workspace.'
+        importStatements:
+            - $ terraform import alicloud_realtime_compute_variable.example <workspace>:<namespace>:<name>
     alicloud_realtime_compute_vvp_instance:
         subCategory: Realtime Compute
         description: Provides a Alicloud Realtime Compute Vvp Instance resource.
@@ -69749,12 +70040,10 @@ resources:
                       "policy_name": "${var.name}"
                     }
         argumentDocs:
-            create_date: '- (Removed from version 1.100.0) The time when the policy version was created.'
             id: '- The resource ID of policy version. The value is "<policy_name>:<version_id>".'
             is_default_version: '- (Optional, Deprecated from version 1.90.0) Specifies whether to set the policy version as the default version. Default to false.'
             policy_document: '- (Required, ForceNew) The content of the policy. The content must be 1 to 2,048 characters in length.'
             policy_name: '- (Required, ForceNew) The name of the policy. Name must be 1 to 128 characters in length and can contain letters, digits, and hyphens (-).'
-            version_id: '- (Removed from version 1.100.0) The ID of the policy version.'
         importStatements:
             - $ terraform import alicloud_resource_manager_policy_version.example tftest:v2
     alicloud_resource_manager_resource_directory:
@@ -69814,7 +70103,6 @@ resources:
                 resource_group_name: var.name
         argumentDocs:
             account_id: '- The ID of the Alibaba Cloud account to which the resource group belongs.'
-            create_date: '- (Removed since v1.114.0) The time when the resource group was created. NOTE: Field create_date has been removed from provider version 1.114.0.'
             display_name: '- (Required) The display name of the resource group. The name must be 1 to 50 characters in length.'
             id: '- The resource ID in terraform of Resource Group.'
             name: '- (Optional, ForceNew, Deprecated since v1.114.0) Field name has been deprecated from provider version 1.114.0. New field resource_group_name instead.'
@@ -69899,12 +70187,14 @@ resources:
         argumentDocs:
             arn: '- The resource descriptor of the role.'
             assume_role_policy_document: '- (Required) The content of the permissions strategy that plays a role.'
-            create_date: (Removed form v1.114.0) - Role creation time.
             description: '- (Optional, ForceNew) The description of the Resource Manager role.'
             id: '- This ID of Resource Manager role. The value is set to role_name.'
             max_session_duration: '- (Optional) Role maximum session time. Valid values: [3600-43200]. Default to 3600.'
             role_id: '- This ID of Resource Manager role. The value is set to role_name.'
-            role_name: '- (Required, ForceNew) Role Name. The length is 1 ~ 64 characters, which can include English letters, numbers, dots "." and dashes "-".'
+            role_name: |-
+                - (Required, ForceNew) Role Name. The length is 1 ~ 64 characters, which can include English letters, numbers, dots "." and dashes "-".
+                _
+                _## Attributes Reference
             update_date: '- Role update time.'
         importStatements:
             - $ terraform import alicloud_resource_manager_role.example testrd
@@ -70705,11 +70995,7 @@ resources:
             auto_deployment: |-
                 - (Optional, List, Available since v1.257.0) Automatic deployment setting information. Description
                 This parameter is required only if the PermissionModel is SERVICE_MANAGED. See auto_deployment below.
-            auto_deployment.account_ids: '- (Removed since v1.257.0). Field ''account_ids'' has been deprecated from provider version 1.257.0.'
             auto_deployment.enabled: '- (Optional, Available since v1.257.0) Enable or disable automatic deployment. Valid Values:'
-            auto_deployment.operation_description: '- (Removed since v1.257.0). Field ''operation_description'' has been deprecated from provider version 1.257.0. You should use resource alicloud_ros_stack_instance''s field ''operation_description''.'
-            auto_deployment.operation_preferences: '- (Removed since v1.257.0). Field ''operation_preferences'' has been deprecated from provider version 1.257.0. You should use resource alicloud_ros_stack_instance''s field ''operation_preferences''.'
-            auto_deployment.region_ids: '- (Removed since v1.257.0). Field ''region_ids'' has been deprecated from provider version 1.257.0.'
             auto_deployment.retain_stacks_on_account_removal: '- (Optional, Available since v1.257.0) Whether to retain the stack in the member account when the member account is deleted from the target folder. Valid values:'
             capabilities: '- (Optional, List, Available since v1.257.0) The list of resource stack group options. The maximum length is 1.'
             description: '- (Optional) The description of the stack group.'
@@ -71395,8 +71681,6 @@ resources:
             micro_registration: '- (Optional, Available since v1.198.0) Select the Nacos registry. Valid values: 0, 1, 2.'
             min_ready_instance_ratio: '- (Optional, Int) Minimum Survival Instance Percentage. NOTE: When min_ready_instances and min_ready_instance_ratio are passed at the same time, and the value of min_ready_instance_ratio is not -1, the min_ready_instance_ratio parameter shall prevail. Assuming that min_ready_instances is 5 and min_ready_instance_ratio is 50, 50 is used to calculate the minimum number of surviving instances.The value description is as follows:'
             min_ready_instances: '- (Optional, Int) The Minimum Available Instance. On the Change Had Promised during the Available Number of Instances to Be.'
-            mount_desc: '- (Removed since v1.211.0) Mount description. NOTE: Field mount_desc has been removed from provider version 1.211.0.'
-            mount_host: '- (Removed since v1.211.0) Mount point of NAS in application VPC. NOTE: Field mount_host has been removed from provider version 1.211.0.'
             name: '- environment variable name.'
             namespace_id: '- (Optional, ForceNew) SAE namespace ID. Only namespaces whose names are lowercase letters and dashes (-) are supported, and must start with a letter. The namespace can be obtained by calling the DescribeNamespaceList interface.'
             nas_configs: '- (Optional, Set, Available since v1.211.0) The configurations for mounting the NAS file system. See nas_configs below.'
@@ -71405,9 +71689,6 @@ resources:
             nas_configs.nas_id: (Optional) The ID of the NAS file system.
             nas_configs.nas_path: (Optional, Int) The directory in the NAS file system.
             nas_configs.read_only: '(Optional, Bool) Specifies whether the application can read data from or write data to resources in the directory of the NAS. Valid values: true and false. If you set read_only to false, the application has the read and write permissions.'
-            nas_id: |-
-                - (Removed since v1.211.0) ID of the mounted NAS, Must be in the same region as the cluster. It must have an available mount point creation quota, or its mount point must be on a switch in the VPC. If it is not filled in and the mountDescs field is present, a NAS will be automatically purchased and mounted on the switch in the VPC by default.
-                NOTE: Field nas_id has been removed from provider version 1.211.0.
             oss_ak_id: '- (Optional, Sensitive) OSS AccessKey ID.'
             oss_ak_secret: '- (Optional, Sensitive) OSS  AccessKey Secret.'
             oss_mount_descs: '- (Deprecated since v1.211.0) OSS mount description information. NOTE: Field oss_mount_descs has been deprecated from provider version 1.211.0. New field oss_mount_descs_v2 instead.'
@@ -71475,7 +71756,6 @@ resources:
             update_strategy_v2.batch_update: '- (Optional, Set) The phased release policy. See batch_update below.'
             update_strategy_v2.type: '(Optional) The type of the release policy. Valid values: GrayBatchUpdate and BatchUpdate.'
             value: '- Environment variable value or environment variable reference.'
-            version_id: '- (Removed since v1.211.0) Application version id. NOTE: Field version_id has been removed from provider version 1.211.0.'
             vpc_id: '- (Optional, ForceNew) The vpc id.'
             vswitch_id: '- (Optional) The vswitch id. NOTE: From version 1.211.0, vswitch_id can be modified.'
             war_start_options: '- (Optional) WAR package launch application option. Application default startup command: java $JAVA_OPTS $CATALINA_OPTS [-Options] org.apache.catalina.startup.Bootstrap "$@" start.'
@@ -72901,10 +73181,10 @@ resources:
             - name: service_linked_role
               manifest: '{}'
         argumentDocs:
-            id: '- The ID of the DataSource. The value is same as product_name. Valid Value: AliyunServiceRolePolicyForSas.'
+            id: '- The ID of the DataSource. Valid Value: AliyunServiceRolePolicyForSas.'
             status: '- The status of the service Associated role. Valid Values: true: Created. false: not created.'
-            timeouts.create: '- (Defaults to 1 mins) Used when create the Slr.'
-            timeouts.delete: '- (Defaults to 1 mins, Available since v1.163.0) Used when delete the Slr.'
+            timeouts.create: '- (Defaults to 1 min) Used when create the Slr.'
+            timeouts.delete: '- (Defaults to 1 min, Available since v1.163.0) Used when delete the Slr.'
         importStatements:
             - $ terraform import alicloud_security_center_service_linked_role.example <product_name>
     alicloud_security_group:
@@ -74620,7 +74900,6 @@ resources:
             delete_protection: '- (Optional) Whether enable the deletion protection or not. on: Enable deletion protection. off: Disable deletion protection. Default to off. Only postpaid instance support this function.'
             id: '- The ID of the load balancer.'
             instance_charge_type: '- (Optional, V1.193.0+) Support PayBySpec (default) and PayByCLCU, This parameter takes effect when the value of payment_type (instance payment mode) is PayAsYouGo (pay-as-you-go).'
-            internet: '- (Optional, Deprecated from v1.124.0) Field internet has been deprecated from provider version 1.124.0 New field address_type instead.'
             internet_charge_type: '- (Optional) Valid values are PayByBandwidth, PayByTraffic. If this value is PayByBandwidth, then argument address_type must be internet. Default is PayByTraffic. If load balancer launched in VPC, this value must be PayByTraffic. Before version 1.10.1, the valid values are paybybandwidth and paybytraffic.'
             load_balancer_name: |-
                 - (Optional) The name of the SLB. This name must be unique within your AliCloud account, can have a maximum of 80 characters,
@@ -74753,7 +75032,6 @@ resources:
             load_balancer_id: '- (Required, ForceNew) The Load Balancer ID which is used to launch a new master slave server group.'
             name: '- (Required, ForceNew) Name of the master slave server group.'
             servers: '- (Optional, ForceNew) A list of ECS instances to be added. Only two ECS instances can be supported in one resource. See servers below.'
-            servers.is_backup: '- (Removed from v1.63.0) Determine if the server is executing. Valid value 0, 1.'
             servers.port: '- (Required) The port used by the backend server. Valid value range: [1-65535].'
             servers.server_id: '- (Required) A list backend server ID (ECS instance ID).'
             servers.server_type: '- (Optional) The server type of the backend server. Valid value Master, Slave.'
@@ -76257,7 +76535,9 @@ resources:
             encrypt_cert: '- (Optional, ForceNew, Available since v1.260.1) The content of an SM encryption certificate in PEM format.'
             encrypt_private_key: '- (Optional, ForceNew, Available since v1.260.1) The private key of an SM encryption certificate in PEM format.'
             id: '- The ID of the resource supplied above.'
-            key: '- (Optional, ForceNew) The private key of a non-SM certificate in PEM format.'
+            key: '- (Optional, ForceNew) The private key of a non-SM certificate in PEM format. It conflicts with key_wo.'
+            key_wo: '- (Optional, Available since v2.0.0-beta5) The write-only private key of a non-SM certificate in PEM format. It is only sent to the server when the resource is created and is never stored in the state or plan. It requires Terraform v1.11.0 or later and must be used together with key_wo_version. It conflicts with key.'
+            key_wo_version: '- (Optional, ForceNew, Available since v2.0.0-beta5) The version of the write-only private key. The write-only private key is re-sent to the server only when this argument changes, so changing it recreates the resource with the new key_wo value.'
             lang: '- (Deprecated since v1.260.1) Field lang has been deprecated from provider version 1.260.1 and it will be removed in the future version.'
             name: '- (Optional, Deprecated since v1.129.0) Field name has been deprecated from provider version 1.129.0 and it will be removed in the future version. Please use the new attribute certificate_name instead.'
             resource_group_id: '- (Optional, Available since v1.260.1) The ID of the resource group.'
@@ -79792,7 +80072,6 @@ resources:
             nat_gateway_id: '- (Required, ForceNew) The ID of the Virtual Private Cloud (VPC) NAT gateway for which you want to create the NAT IP address.'
             nat_ip: '- (Optional, ForceNew) The NAT IP address to be created.'
             nat_ip_cidr: '- (Required, ForceNew) The CIDR block to which the NAT IP address belongs.'
-            nat_ip_cidr_id: '- (Removed since v1.274.0) Field nat_ip_cidr_id has been removed from provider version 1.274.0.'
             nat_ip_description: '- (Optional) The description of the NAT IP address. The description must be 2 to 256 characters in length and start with a letter. The description cannot start with http:// or https://.'
             nat_ip_id: '- Ihe ID of the Nat Ip.'
             nat_ip_name: '- (Optional) The name of the NAT IP address. The name must be 2 to 128 characters in length, and can contain letters, digits, periods (.), underscores (_), and hyphens (-). It must start with a letter. The name must start with a letter and cannot start with http:// or https://.'
@@ -81475,7 +81754,7 @@ resources:
             enable_nat_traversal: |-
                 - (Optional, Computed) This parameter is supported if you create an vpn attachment in single-tunnel mode.
                 Specifies whether to enable NAT traversal. Valid values:
-            enable_tunnels_bgp: '- (Optional, Computed, Available since v1.246.0) You can configure this parameter when you create a vpn attachment in dual-tunnel mode.Whether to enable the BGP function for the tunnel. Value: true or false (default).'
+            enable_tunnels_bgp: '- (Optional, Computed, Available since v1.246.0) You can configure this parameter when you create a vpn attachment in dual-tunnel mode.Whether to enable the BGP function for the tunnel. Value: true or false (default). When enabling BGP in-place (false to true), the tunnel_bgp_config blocks in tunnel_options_specification are submitted together so the API receives the required BGP configuration.'
             "false": '(default): starts IPsec negotiations when inbound traffic is received.'
             health_check_config: |-
                 - (Optional, Computed, List) This parameter is supported if you create an vpn attachment in single-tunnel mode.
@@ -81534,6 +81813,14 @@ resources:
             peer_asn: '- Peer asn.'
             peer_bgp_ip: '- Peer bgp ip.'
             psk: '- (Optional, Computed, Available since v1.246.0) The pre-shared key is used for identity authentication between the tunnel and the tunnel peer.'
+            psk.customer_gateway_id: '- (Required, Available since v1.246.0) The ID of the user gateway associated with the tunnel.'
+            psk.enable_dpd: '- (Optional, Computed, Available since v1.246.0) Whether the DPD (peer alive detection) function is enabled for the tunnel. Value:'
+            psk.enable_nat_traversal: '- (Optional, Computed, Available since v1.246.0) Whether the NAT crossing function is enabled for the tunnel. Value:'
+            psk.role: '- (Optional, Computed, Available since v1.276.0) The role reported by the service. The attachment create and update APIs do not accept this field. Configuration is accepted for backward compatibility but is ignored: it does not affect tunnel identity or trigger an update. State always reflects the role returned by the service.'
+            psk.tunnel_bgp_config: '- (Optional, Computed, List, Available since v1.246.0) Add the BGP configuration for the tunnel.'
+            psk.tunnel_ike_config: '- (Optional, Computed, List, Available since v1.246.0) Configuration information for the first phase negotiation. See tunnel_ike_config below.'
+            psk.tunnel_index: '- (Required, Int, Available since v1.246.0) The logical index identifying the tunnel. Each tunnel must have a unique index; configuration block order does not determine the index.'
+            psk.tunnel_ipsec_config: '- (Optional, Computed, List, Available since v1.246.0) Configuration information for the second-stage negotiation. See tunnel_ipsec_config below.'
             public: (default)
             remote_id: '- (Optional, Computed, Available since v1.246.0) Identifier of the tunnel peer, which is used for the first-stage negotiation. The length is limited to 100 characters and cannot contain spaces. The default value is the IP address of the user gateway associated with the tunnel.'
             remote_subnet: '- (Required) The CIDR block on the data center side. This CIDR block is used in Phase 2 negotiations.Separate multiple CIDR blocks with commas (,). Example: 192.168.3.0/24,192.168.4.0/24.The following routing modes are supported:'
@@ -81552,14 +81839,6 @@ resources:
             tunnel_cidr: '- (Optional, Computed, Available since v1.246.0) The BGP network segment of the tunnel. The network segment must be a network segment with a mask length of 30 in 169.254.0.0/16, and cannot be 169.254.0.0/30, 169.254.1.0/30, 169.254.2.0/30, 169.254.3.0/30, 169.254.4.0/30, 169.254.5.0/30, 169.254.6.0/30, and 169.254.169.252/30.'
             tunnel_id: '- The tunnel ID of IPsec-VPN connection.'
             tunnel_options_specification: '- (Optional, Computed, Set, Available since v1.246.0) Configure the tunnel.'
-            tunnel_options_specification.customer_gateway_id: '- (Required, Available since v1.246.0) The ID of the user gateway associated with the tunnel.'
-            tunnel_options_specification.enable_dpd: '- (Optional, Computed, Available since v1.246.0) Whether the DPD (peer alive detection) function is enabled for the tunnel. Value:'
-            tunnel_options_specification.enable_nat_traversal: '- (Optional, Computed, Available since v1.246.0) Whether the NAT crossing function is enabled for the tunnel. Value:'
-            tunnel_options_specification.role: '- (Optional, Computed, Available since v1.276.0) The role of the tunnel. Valid values: master, slave. The role is determined by the order in which the tunnel is added to the IPsec-VPN connection.'
-            tunnel_options_specification.tunnel_bgp_config: '- (Optional, Computed, List, Available since v1.246.0) Add the BGP configuration for the tunnel.'
-            tunnel_options_specification.tunnel_ike_config: '- (Optional, Computed, Set, Available since v1.246.0) Configuration information for the first phase negotiation. See tunnel_ike_config below.'
-            tunnel_options_specification.tunnel_index: '- (Required, Int, Available since v1.246.0) The order in which the tunnel was created.'
-            tunnel_options_specification.tunnel_ipsec_config: '- (Optional, Computed, List, Available since v1.246.0) Configuration information for the second-stage negotiation. See tunnel_ipsec_config below.'
             vpn_attachment_name: '- (Optional) vpn attachment name'
             zone_no: '- The zoneNo of tunnel.'
         importStatements:
