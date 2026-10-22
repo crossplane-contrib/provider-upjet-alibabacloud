@@ -81,7 +81,7 @@ GO_REQUIRED_VERSION ?= $(shell grep -E '^go ' go.mod | awk '{print $$2}')
 # .golangci.yml, which is in the version "2" format a v1 binary also cannot
 # read. Either alone is disqualifying; the gate is simply the one that fires
 # first.
-GOLANGCILINT_VERSION ?= 2.14.0
+GOLANGCILINT_VERSION ?= 2.15.0
 UPTEST_LOCAL_VERSION = v0.13.0
 UPTEST_LOCAL_CHANNEL = stable
 KUSTOMIZE_VERSION = v5.3.0

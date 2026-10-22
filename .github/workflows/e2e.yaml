@@ -9,7 +9,7 @@ on:
     types: [created]
 
 env:
-  GO_VERSION: "1.27.2"
+  GO_VERSION: "1.27.3"
   # go mod download intermittently fails against proxy.golang.org with
   # "stream error ... INTERNAL_ERROR; received from peer" on this runner,
   # a known flaky-HTTP/2 interaction with the module proxy. Forcing HTTP/1.1

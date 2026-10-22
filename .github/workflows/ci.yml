@@ -10,9 +10,9 @@ on:
 
 env:
   # Common versions
-  GO_VERSION: '1.27.2'
-  GOLANGCI_VERSION: 'v2.14.0'
-  DOCKER_BUILDX_VERSION: 'v0.38.0'
+  GO_VERSION: '1.27.3'
+  GOLANGCI_VERSION: 'v2.15.0'
+  DOCKER_BUILDX_VERSION: 'v0.38.1'
   # go mod download intermittently fails against proxy.golang.org with
   # "stream error ... INTERNAL_ERROR; received from peer" on this runner,
   # a known flaky-HTTP/2 interaction with the module proxy. Forcing HTTP/1.1
