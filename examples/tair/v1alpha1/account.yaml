@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     accountName: tfexamplename
     accountPasswordSecretRef:
       key: password
@@ -30,13 +30,13 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     config:
       appendonly: "yes"
       lazyfree-lazy-eviction: "yes"
     dbInstanceName: crossplane_example
     engineVersion: "5.0"
-    instanceClass: redis.master.large.default
+    instanceClass: redis.master.small.default
     instanceType: Redis
     securityIps:
     - 10.23.12.24
@@ -46,7 +46,7 @@ spec:
     vswitchIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    zoneId: us-west-1b
+    zoneId: cn-beijing-l
 
 ---
 
@@ -60,7 +60,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     cidrBlock: 10.4.0.0/16
     vpcName: crossplane_example
 
@@ -76,13 +76,13 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     cidrBlock: 10.4.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane_example
-    zoneId: us-west-1b
+    zoneId: cn-beijing-l
 
 ---
 
