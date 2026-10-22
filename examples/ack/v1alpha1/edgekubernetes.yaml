@@ -42,7 +42,7 @@ spec:
       size: "200"
     workerInstanceChargeType: PostPaid
     workerInstanceTypes:
-      - ecs.g6.large
+      - ecs.g9i.large
     workerNumber: 1
     workerVswitchIDsSelector:
       matchLabels:
