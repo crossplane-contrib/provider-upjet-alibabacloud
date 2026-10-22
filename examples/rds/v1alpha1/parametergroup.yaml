@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     engine: mysql
     engineVersion: "8.0"
     parameterGroupName: crossplane_example

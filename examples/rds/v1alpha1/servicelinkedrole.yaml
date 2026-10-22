@@ -13,5 +13,5 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     serviceName: AliyunServiceRoleForRdsPgsqlOnEcs

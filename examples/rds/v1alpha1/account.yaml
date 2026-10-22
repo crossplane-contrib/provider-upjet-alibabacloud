@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     accountName: crossplane_example
     accountType: Super
     accountDescription: crossplane-example
@@ -32,7 +32,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     engine: MySQL
     engineVersion: "8.0"
     category: Basic
@@ -41,7 +41,7 @@ spec:
     instanceName: crossplane-example
     instanceStorage: 20
     instanceType: mysql.n2.medium.1
-    zoneId: cn-beijing-l
+    zoneId: us-west-1a
     securityIps:
       - 10.0.0.0/8
     vswitchIdSelector:
@@ -60,7 +60,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 172.16.0.0/16
     vpcName: crossplane-example
 
@@ -76,13 +76,13 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 172.16.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane-example
-    zoneId: cn-beijing-l
+    zoneId: us-west-1a
 
 ---
 

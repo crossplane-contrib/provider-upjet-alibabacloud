@@ -8,6 +8,6 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     templateName: crossplane-example-whitelist
     ipWhiteList: 172.16.0.0/16
