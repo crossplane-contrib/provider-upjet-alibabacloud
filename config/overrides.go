@@ -335,3 +335,25 @@ func hasElementDiff(diff *terraform.InstanceDiff, field string) bool {
 	}
 	return false
 }
+
+// SetChurnSuppression drops the remove-and-re-add churn the plugin SDK reports
+// for a TypeSet field once the provider has filled in Optional+Computed fields
+// of its elements; see common.SuppressSetChurn. It found
+// alicloud_alb_load_balancer's zone_mappings churning on every reconcile, and
+// the same shape exists in other resources (ALB server group servers, listener
+// x-forwarded-for config, rule sticky sessions, ECS launch template disks).
+func SetChurnSuppression() config.ResourceOption {
+	return func(r *config.Resource) {
+		next := r.TerraformCustomDiff
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, state *terraform.InstanceState, cfg *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if next != nil {
+				var err error
+				if diff, err = next(diff, state, cfg); err != nil {
+					return nil, err
+				}
+			}
+			common.SuppressSetChurn(r.TerraformResource, diff, state, cfg)
+			return diff, nil
+		}
+	}
+}

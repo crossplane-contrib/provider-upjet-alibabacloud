@@ -113,3 +113,76 @@ func TestALBZoneMappingsChurn(t *testing.T) {
 		}
 	})
 }
+
+// TestALBServerGroupServersChurn checks the set-churn suppression compares only
+// what the user configured: a weight the cloud filled in is not a change, but a
+// user's own weight change, or an added server, still is. Keying the elements
+// by server_id alone would hide the weight change.
+func TestALBServerGroupServersChurn(t *testing.T) {
+	p, err := providerconfig.GetProvider(context.Background(), false)
+	if err != nil {
+		t.Fatalf("cannot build the runtime provider configuration: %v", err)
+	}
+	r := p.Resources["alicloud_alb_server_group"]
+	res := r.TerraformResource
+
+	observed := map[string]any{
+		"id":                "sgp-x",
+		"region":            "us-west-1",
+		"server_group_name": "example",
+		"servers": []any{map[string]any{
+			"server_type": "Ecs", "server_id": "i-1", "port": 80,
+			"weight": 100, "server_ip": "10.0.0.1", "remote_ip_enabled": false,
+		}},
+	}
+	v, err := schema.JSONMapToStateValue(observed, res.CoreConfigSchema())
+	if err != nil {
+		t.Fatalf("cannot convert the state: %v", err)
+	}
+	state, err := res.ShimInstanceStateFromValue(v)
+	if err != nil {
+		t.Fatalf("cannot shim the state: %v", err)
+	}
+	state.ID = "sgp-x"
+
+	server := func(extra map[string]any) map[string]any {
+		m := map[string]any{"server_type": "Ecs", "server_id": "i-1", "port": 80}
+		for k, v := range extra {
+			m[k] = v
+		}
+		return m
+	}
+	run := func(servers []any) []string {
+		t.Helper()
+		params := map[string]any{"region": "us-west-1", "server_group_name": "example", "servers": servers}
+		cfg := terraform.NewResourceConfigRaw(params)
+		d, err := schema.InternalMap(res.Schema).Diff(context.Background(), state, cfg, nil, nil, false)
+		if err != nil {
+			t.Fatalf("cannot compute the diff: %v", err)
+		}
+		if d == nil {
+			return nil
+		}
+		d, err = r.TerraformCustomDiff(d, state, cfg)
+		if err != nil {
+			t.Fatalf("TerraformCustomDiff: %v", err)
+		}
+		var out []string
+		for k := range d.Attributes {
+			if strings.HasPrefix(k, "servers.") {
+				out = append(out, k)
+			}
+		}
+		return out
+	}
+
+	if c := run([]any{server(nil)}); len(c) != 0 {
+		t.Errorf("cloud-filled weight/server_ip: want no servers diff, got %v", c)
+	}
+	if c := run([]any{server(map[string]any{"weight": 50})}); len(c) == 0 {
+		t.Error("a user's weight change must still produce a servers diff")
+	}
+	if c := run([]any{server(nil), server(map[string]any{"server_id": "i-2"})}); len(c) == 0 {
+		t.Error("an added server must still produce a servers diff")
+	}
+}
