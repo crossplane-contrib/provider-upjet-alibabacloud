@@ -9,7 +9,7 @@ metadata:
   name: test-ackone-v1alpha1-membershipattachment-1
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     clusterId: test-ackone-v1alpha1-membershipattachment-1-cluster-1
     subClusterId: test-ackone-v1alpha1-membershipattachment-1-sub-cluster-id-1
 ---
@@ -23,7 +23,7 @@ metadata:
   name: test-ackone-v1alpha1-membershipattachment-1-cluster-1
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     argocdEnabled: false
     network:
     - vpcIdSelector:
@@ -42,7 +42,7 @@ metadata:
   name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     cidrBlock: 10.4.0.0/16
 ---
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
@@ -55,9 +55,9 @@ metadata:
   name: test-ackone-v1alpha1-membershipattachment-1-vswitch-1
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     cidrBlock: 10.4.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
-    zoneId: us-west-1a
+    zoneId: cn-beijing-h
