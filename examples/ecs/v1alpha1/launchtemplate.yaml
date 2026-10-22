@@ -26,10 +26,10 @@ spec:
       size: 20
     description: crossplane-example
     hostName: crossplane-example
-    imageId: ubuntu_18_04_64_20G_alibase_20190624.vhd
+    imageId: ubuntu_22_04_x64_20G_alibase_20260522.vhd
     instanceChargeType: PrePaid
     instanceName: crossplane-example
-    instanceType: ecs.n4.large
+    instanceType: ecs.g6.large
     internetChargeType: PayByBandwidth
     internetMaxBandwidthIn: 5
     internetMaxBandwidthOut: 5

@@ -17,9 +17,9 @@ spec:
 #      kmsKeyId: ${alicloud_kms_key.key.id}
       name: disk2
       size: 20
-    imageId: ubuntu_18_04_64_20G_alibase_20190624.vhd
+    imageId: ubuntu_22_04_x64_20G_alibase_20260522.vhd
     instanceName: crossplane-example
-    instanceType: ecs.gn6v-c8g1.2xlarge
+    instanceType: ecs.g6.large
     internetMaxBandwidthOut: 10
     securityGroupSelector:
       matchLabels:
