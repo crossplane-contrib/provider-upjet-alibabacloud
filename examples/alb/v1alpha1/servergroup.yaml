@@ -62,9 +62,10 @@ metadata:
 spec:
   forProvider:
     availabilityZone: us-west-1a
-    imageId: ubuntu_18_04_x64_20G_alibase_20240223.vhd
+    imageId: ubuntu_22_04_x64_20G_alibase_20260522.vhd
     instanceName: crossplane-example
-    instanceType: ecs.sn1ne.large
+    instanceType: ecs.g9i.large
+    systemDiskCategory: cloud_essd
     region: us-west-1
     securityGroupRefs:
     - name: for-servergroup
