@@ -49,7 +49,7 @@ spec:
       name: logtail-ds
     clusterSpec: ack.pro.small
     newNatGateway: false
-    podCidr: 10.32.0.0/27
+    podCidr: 10.32.0.0/16
     serviceCidr: 172.20.0.0/23
     slbInternetEnabled: true
     vswitchIdsSelector:
