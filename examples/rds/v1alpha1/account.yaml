@@ -41,7 +41,7 @@ spec:
     instanceName: crossplane-example
     instanceStorage: 20
     instanceType: mysql.n2.medium.1
-    zoneId: us-west-1a
+    zoneId: us-west-1b
     securityIps:
       - 10.0.0.0/8
     vswitchIdSelector:
@@ -82,7 +82,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane-example
-    zoneId: us-west-1a
+    zoneId: us-west-1b
 
 ---
 
