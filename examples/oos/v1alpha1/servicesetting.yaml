@@ -13,6 +13,13 @@ spec:
         testing.upbound.io/example-name: default
     deliveryOssEnabled: true
     deliveryOssKeyPrefix: path1/
+    # Upstream's diff suppression on the deliveryOss* fields checks
+    # delivery_sls_enabled instead of delivery_oss_enabled, so the OSS bucket
+    # is only sent when SLS delivery is enabled too.
+    deliverySlsEnabled: true
+    deliverySlsProjectNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
     region: us-west-1
 
 ---
@@ -47,3 +54,19 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     region: us-west-1
+
+---
+
+apiVersion: sls.alibabacloud.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/servicesetting
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: us-west-1
+    projectName: crossplane-example-oos-${Rand.RFC1123Subdomain}
+    description: OOS service setting delivery target
