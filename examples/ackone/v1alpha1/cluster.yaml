@@ -4,7 +4,6 @@ kind: Cluster
 metadata:
   annotations:
     meta.upbound.io/example-id: test-ackone-v1alpha1-cluster-1
-    crossplane.io/external-name: test-ackone-v1alpha1-cluster-1
   labels:
     testing.upbound.io/example-name: test-ackone-v1alpha1-cluster-1
   name: test-ackone-v1alpha1-cluster-1
@@ -39,7 +38,6 @@ kind: Vswitch
 metadata:
   annotations:
     meta.upbound.io/example-id: test-ackone-v1alpha1-cluster-1-vswitch
-    crossplane.io/external-name: test-ackone-v1alpha1-cluster-1-vswitch
   labels:
     testing.upbound.io/example-name: test-ackone-v1alpha1-cluster-1-vswitch
   name: test-ackone-v1alpha1-cluster-1-vswitch
