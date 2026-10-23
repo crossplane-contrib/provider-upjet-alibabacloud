@@ -48,3 +48,36 @@ func TestAliKafkaChildDeleteWrapped(t *testing.T) {
 		}
 	}
 }
+
+// TestPolarDBChildReadWrapped checks that the PolarDB resources whose upstream
+// Read retries for minutes while their cluster is missing run through the
+// provider's Read wrapper at runtime.
+func TestPolarDBChildReadWrapped(t *testing.T) {
+	children := []string{
+		"alicloud_polardb_endpoint",
+		"alicloud_polardb_cluster_endpoint",
+		"alicloud_polardb_primary_endpoint",
+		"alicloud_polardb_database",
+	}
+	p, err := providerconfig.GetProvider(context.Background(), false)
+	if err != nil {
+		t.Fatalf("cannot build the runtime provider configuration: %v", err)
+	}
+	upstream := alicloud.Provider().ResourcesMap
+	for _, name := range children {
+		r, ok := p.Resources[name]
+		if !ok {
+			t.Errorf("%s is not configured", name)
+			continue
+		}
+		got := r.TerraformResource.Read //nolint:staticcheck // upstream implements these resources with the legacy Read field.
+		want := upstream[name].Read     //nolint:staticcheck // as above.
+		if got == nil || want == nil {
+			t.Errorf("%s: upstream no longer sets Read; the wrapper must follow it to the field it uses", name)
+			continue
+		}
+		if reflect.ValueOf(got).Pointer() == reflect.ValueOf(want).Pointer() {
+			t.Errorf("%s: Read is upstream's own function, not the provider's wrapper", name)
+		}
+	}
+}
