@@ -5,6 +5,7 @@ go 1.27.2
 require (
 	dario.cat/mergo v1.0.1
 	github.com/alecthomas/kingpin/v2 v2.4.0
+	github.com/alibabacloud-go/tea v1.5.2
 	github.com/aliyun/terraform-provider-alicloud v1.294.1-0.20261012080016-c7060a5b42ae
 	github.com/crossplane/crossplane-runtime v1.20.11
 	github.com/crossplane/crossplane-tools v0.0.0-20250725062323-29da02534659
@@ -41,7 +42,6 @@ require (
 	github.com/alibabacloud-go/endpoint-util v1.1.0 // indirect
 	github.com/alibabacloud-go/openapi-util v0.1.1 // indirect
 	github.com/alibabacloud-go/sts-20150401/v2 v2.0.2 // indirect
-	github.com/alibabacloud-go/tea v1.5.2 // indirect
 	github.com/alibabacloud-go/tea-oss-utils v1.1.0 // indirect
 	github.com/alibabacloud-go/tea-roa v1.3.4 // indirect
 	github.com/alibabacloud-go/tea-roa-utils v1.1.5 // indirect

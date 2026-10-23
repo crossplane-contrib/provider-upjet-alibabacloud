@@ -35,9 +35,6 @@ apiVersion: alikafka.alibabacloud.crossplane.io/v1alpha1
 kind: Instance
 metadata:
   annotations:
-    # Kafka children cannot be deleted once this Instance is released, and
-    # uptest deletes everything concurrently, so they go first explicitly.
-    uptest.upbound.io/pre-delete-hook: testhooks/delete-children.sh
     meta.upbound.io/example-id: alikafka/v1alpha1/sasluser
   labels:
     testing.upbound.io/example-name: default
