@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     preferredBackupTime: "02:00Z-03:00Z"
     preferredBackupPeriod:
       - Monday
@@ -30,7 +30,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     engine: MySQL
     engineVersion: "8.0"
     category: Basic
@@ -39,7 +39,7 @@ spec:
     instanceName: crossplane-example
     instanceStorage: 20
     instanceType: mysql.n2.medium.1
-    zoneId: us-west-1b
+    zoneId: cn-beijing-l
     securityIps:
       - 10.0.0.0/8
     vswitchIdSelector:
@@ -58,7 +58,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     cidrBlock: 172.16.0.0/16
     vpcName: crossplane-example
 
@@ -74,10 +74,10 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: us-west-1
+    region: cn-beijing
     cidrBlock: 172.16.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane-example
-    zoneId: us-west-1b
+    zoneId: cn-beijing-l
