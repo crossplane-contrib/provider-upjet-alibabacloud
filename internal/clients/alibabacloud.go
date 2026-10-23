@@ -177,7 +177,9 @@ func endpointSeeds(region string) map[string]any {
 // Upstream looks the SLS endpoint up under the "log" key
 // (productCodeToConfigEndpoints) but caches what it resolves under "sls", so
 // the cache never hits and every SLS API call repeats the Location lookup.
-// Seeding "log" makes the first lookup hit. The value is what upstream's own
+// Seeding "log" makes the first lookup hit (reported upstream as
+// https://github.com/aliyun/terraform-provider-alicloud/issues/11155). The
+// value is what upstream's own
 // fallback (regularProductEndpoint) computes, and what Location returns for
 // these regions.
 func slsEndpoint(region string) string {

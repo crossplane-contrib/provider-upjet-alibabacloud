@@ -16,6 +16,7 @@ spec:
     # Upstream's diff suppression on the deliveryOss* fields checks
     # delivery_sls_enabled instead of delivery_oss_enabled, so the OSS bucket
     # is only sent when SLS delivery is enabled too.
+    # https://github.com/aliyun/terraform-provider-alicloud/issues/11154
     deliverySlsEnabled: true
     deliverySlsProjectNameSelector:
       matchLabels:
