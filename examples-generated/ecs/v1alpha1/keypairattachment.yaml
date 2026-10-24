@@ -50,7 +50,7 @@ spec:
     instanceName: ${var.name}
     instanceType: ${data.alicloud_instance_types.default.instance_types.0.id}
     internetChargeType: PayByTraffic
-    internetMaxBandwidthOut: "10"
+    internetMaxBandwidthOut: 10
     region: cn-beijing
     securityGroupSelector:
       matchLabels:
