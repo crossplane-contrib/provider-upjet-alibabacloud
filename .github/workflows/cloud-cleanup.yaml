@@ -92,6 +92,13 @@ jobs:
           echo "::add-mask::${sk}"
           aliyun configure set --profile default --mode AK \
             --access-key-id "${ak}" --access-key-secret "${sk}" --region us-west-1 >/dev/null
+          # The script keeps the account ID out of its output, and so out of
+          # the summary; masking it covers anything else in the log. If the
+          # lookup fails, the script reports why.
+          account=$(aliyun sts GetCallerIdentity 2>/dev/null | jq -r '.AccountId // empty') || true
+          if [ -n "${account}" ]; then
+            echo "::add-mask::${account}"
+          fi
 
       # The repository is public, so the summary only shows ids, names,
       # descriptions and states, and no raw responses are uploaded. Both steps

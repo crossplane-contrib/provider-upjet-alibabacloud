@@ -21,6 +21,10 @@
 # id or name starts with a letter or digit and has only letters, digits, ".",
 # "_" and "-": every type's names fit, and nothing else can reach a command,
 # such as an OSS object path or an empty name.
+#
+# The output never shows the account ID, which some resource names contain,
+# such as SLS's audit projects: it reads "<account>" instead, because the
+# workflow publishes the output in a public repository.
 set -euo pipefail
 
 if ((BASH_VERSINFO[0] < 4)); then
@@ -128,14 +132,18 @@ describe_error() {
   head -1 <<<"${message}" | tr -d '`|' | cut -c1-200
 }
 
-# check_credentials fails unless the CLI can authenticate. Without it, a
-# rotated key would fail every call in the same way and hide what happened.
-# Run locally, it also says which identity is in use; not in CI, where the
-# output is public.
+# check_credentials fails unless the CLI can authenticate, and sets
+# ACCOUNT_ID. Without it, a rotated key would fail every call in the same way
+# and hide what happened. Run locally, it also says which identity is in use;
+# not in CI, where the output is public.
 check_credentials() {
   local out
   if ! out=$(aliyun sts GetCallerIdentity 2>&1); then
     echo "::error::cannot authenticate to Alibaba Cloud: $(describe_error "${out}")"
+    return 1
+  fi
+  if ! ACCOUNT_ID=$(jq -er '.AccountId | strings | select(test("^[0-9]+$"))' <<<"${out}" 2>/dev/null); then
+    echo "::error::cannot read the account ID from GetCallerIdentity, so it cannot be kept out of the output"
     return 1
   fi
   if [ "${GITHUB_ACTIONS:-}" != true ]; then
@@ -191,7 +199,6 @@ section() {
 }
 
 inventory() {
-  check_credentials
   echo "## Alibaba Cloud inventory"
   echo
   echo "Generated $(date -u +%Y-%m-%dT%H:%MZ)."
@@ -514,7 +521,6 @@ delete() {
     echo "::error::no targets given"
     return 1
   fi
-  check_credentials
   if [ "${CONFIRM:-}" != delete ]; then
     echo "::error::set CONFIRM=delete to delete these ${#targets[@]} targets"
     return 1
@@ -568,13 +574,19 @@ delete() {
   fi
 }
 
+# redact replaces the account ID in its input with "<account>".
+redact() { sed "s/${ACCOUNT_ID}/<account>/g"; }
+
 case "${1:-}" in
   inventory)
     shift
-    inventory "$@"
+    check_credentials
+    inventory "$@" | redact
     ;;
   delete)
-    delete "${2:?usage: $0 delete <targets-file>}"
+    targets_file="${2:?usage: $0 delete <targets-file>}"
+    check_credentials
+    delete "${targets_file}" | redact
     ;;
   types)
     types

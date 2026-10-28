@@ -55,7 +55,7 @@ for response in "${STUB_DIR}/response/${action}.p${page}" "${STUB_DIR}/response/
   fi
 done
 case "${action}" in
-  GetCallerIdentity) echo '{"Arn":"acs:ram::1:user/stub"}' ;;
+  GetCallerIdentity) echo '{"AccountId":"5550123456789","Arn":"acs:ram::5550123456789:user/stub"}' ;;
   ListPoliciesForRole) echo '{"Policies":{"Policy":[]}}' ;;
   ls) ;;
   *) echo '{}' ;;
@@ -106,6 +106,8 @@ check() {
 status_is() { [ "$(cat "${case_dir}/status")" = "$1" ]; }
 output_has() { grep -qF -- "$1" "${case_dir}/out"; }
 output_lacks() { ! grep -qF -- "$1" "${case_dir}/out"; }
+# report_lacks ignores the identity line, which only a local run prints.
+report_lacks() { ! grep -v '^Using ' "${case_dir}/out" | grep -qF -- "$1"; }
 called() { grep -qF -- "$1" "${case_dir}/calls"; }
 not_called() { ! grep -qF -- "$1" "${case_dir}/calls"; }
 first_line_of() { grep -nF -- "$1" "${case_dir}/calls" | head -1 | cut -d: -f1; }
@@ -121,6 +123,13 @@ for format in text json; do
     output_has "cannot authenticate to Alibaba Cloud: InvalidAccessKeyId.NotFound: stub error"
   check "a bad key deletes nothing (${format} errors)" not_called "DeleteVpc"
 done
+
+start no-account-id
+respond GetCallerIdentity '{"Arn":"acs:ram::5550123456789:user/stub"}'
+targets "us-west-1 vpc-a"
+check "a run without the account ID fails" status_is 1
+check "it says why" output_has "cannot read the account ID"
+check "it deletes nothing" not_called "DeleteVpc"
 
 start bad-credentials-inventory
 echo bad >"${case_dir}/creds"
@@ -247,6 +256,12 @@ targets "us-west-1 cms:tf-example"
 check "a contact group on page two is found" status_is 1
 check "page two was read" called "cms DescribeContactGroupList --PageSize 100 --PageNumber 2"
 
+start delete-redacts
+targets "us-west-1 sls:log-service-5550123456789-us-west-1"
+check "a delete names the target without the account ID" output_has "delete accepted for \`log-service-<account>-us-west-1\`"
+check "the delete output never shows the account ID" report_lacks "5550123456789"
+check "the CLI still gets the real name" called "--project log-service-5550123456789-us-west-1"
+
 start preparation-failure
 fail_with UpdateHubClusterFeature Forbidden.RAM
 targets "cn-beijing ackone:c123"
@@ -276,6 +291,7 @@ respond DescribeVpcs '{"TotalCount": 5, "Vpcs": {"Vpc": [{"VpcId": "vpc-1", "Vpc
 respond DescribeVSwitches '{"VSwitchSet": {}}'
 fail_with DescribeSecurityGroups Forbidden.RAM
 respond DescribeDBInstances '{"TotalRecordCount": 3, "Items": {"DBInstance": [{"DBInstanceId": "rm-1"}]}}'
+respond ListProject '{"projects": [{"projectName": "log-service-5550123456789-us-west-1"}]}'
 run inventory us-west-1 "" cn-beijing
 check "inventory succeeds" status_is 0
 check "truncation is shown" output_has "Showing 2 of 5."
@@ -285,6 +301,8 @@ check "a null cell is empty" output_has '| vpc-2 |  |'
 check "a section shows a bare target for a type with its own prefix" output_has "Target: \`us-west-1 <ID>\`"
 check "a renamed key is reported" output_has "Unexpected response: no \`.VSwitches.VSwitch\` in it. Top-level keys: \`VSwitchSet\`."
 check "a failed list is reported" output_has "Could not list: \`Forbidden.RAM: stub error\`"
+check "the account ID in a name is redacted" output_has "| log-service-<account>-us-west-1 |"
+check "the account ID appears nowhere" report_lacks "5550123456789"
 check "an empty region is skipped" [ "$(grep -c '^### ' "${case_dir}/out")" -eq 3 ]
 
 echo
