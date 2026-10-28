@@ -2,14 +2,19 @@
 # Deletes the security groups that Alibaba Cloud's Security Team adds to the
 # test account's VPCs, so that uptest can delete the VPCs.
 #
-# A few minutes after some ALB examples create their VPC, a security group
+# When some ALB examples' load balancer becomes active, a security group
 # named CloudSecurityTeamDefaultSecurityGroupName ("Created by Alibaba Cloud
-# Security Team") appears in it. The provider never created it and does not
-# know about it, so the VPC's delete fails with a dependency error until
+# Security Team") appears in its VPC. The provider never created it and does
+# not know about it, so the VPC's delete fails with a dependency error until
 # someone removes the group by hand, and the run hangs in its delete step
 # (runs 39956574647 and 40002095956). Not every ALB VPC gets one, and what
 # triggers it is not known, so this hook runs for every ALB example's VPC and
 # does nothing when there is no such group.
+#
+# The group stays in use until the load balancer, whose delete uptest has just
+# issued, is gone: deleting it fails with DependencyViolation meanwhile (run
+# 40660763709). The hook retries for up to UPTEST_SG_DELETE_TIMEOUT seconds,
+# well inside the 40m chainsaw exec budget for the whole delete step.
 #
 # It runs as a pre-delete hook on the VPC, inside the same script that issues
 # every other delete. A failing hook would stop the deletes after it and leak
@@ -25,6 +30,8 @@ set -uo pipefail
 
 KUBECTL="${KUBECTL:-kubectl}"
 GROUP_NAME="CloudSecurityTeamDefaultSecurityGroupName"
+TIMEOUT="${UPTEST_SG_DELETE_TIMEOUT:-900}"
+RETRY_WAIT="${UPTEST_SG_DELETE_RETRY_WAIT:-20}"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../.." && pwd)"
 WORK="$(mktemp -d)"
 trap 'rm -rf "${WORK}"' EXIT
@@ -72,6 +79,29 @@ write_config() {
   }
 }
 
+# delete_group <region> <vpc-id> <group-id> deletes the group, retrying while
+# it is still in use.
+delete_group() {
+  local region="$1" vpc_id="$2" group="$3" out code deadline=$((SECONDS + TIMEOUT)) waited=""
+  while :; do
+    if out=$(aliyun ecs DeleteSecurityGroup --config-path "${CONFIG}" \
+      --RegionId "${region}" --SecurityGroupId "${group}" 2>&1); then
+      say "deleted ${group} (${GROUP_NAME}) in ${vpc_id}"
+      return
+    fi
+    code=$(error_code "${out}")
+    if [ "${code}" != DependencyViolation ] || ((SECONDS >= deadline)); then
+      say "could not delete ${group} in ${vpc_id}: ${code}"
+      return
+    fi
+    if [ -z "${waited}" ]; then
+      say "${group} in ${vpc_id} is still in use; retrying every ${RETRY_WAIT}s for up to ${TIMEOUT}s"
+      waited=1
+    fi
+    sleep "${RETRY_WAIT}"
+  done
+}
+
 main() {
   local vpcs managed region vpc_id out groups group
   ensure_cli || return 0
@@ -106,12 +136,7 @@ main() {
         say "${group} in ${vpc_id} is managed by this test; leaving it"
         continue
       fi
-      if out=$(aliyun ecs DeleteSecurityGroup --config-path "${CONFIG}" \
-        --RegionId "${region}" --SecurityGroupId "${group}" 2>&1); then
-        say "deleted ${group} (${GROUP_NAME}) in ${vpc_id}"
-      else
-        say "could not delete ${group} in ${vpc_id}: $(error_code "${out}")"
-      fi
+      delete_group "${region}" "${vpc_id}" "${group}"
     done
   done <<<"${vpcs}"
 }
