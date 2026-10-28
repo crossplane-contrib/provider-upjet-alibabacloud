@@ -16,6 +16,12 @@
 # 40660763709). The hook retries for up to UPTEST_SG_DELETE_TIMEOUT seconds,
 # well inside the 40m chainsaw exec budget for the whole delete step.
 #
+# Uptest deletes every example in a run from one script, in order, so a hook
+# can run before the load balancers of later examples are deleted. Waiting on
+# their groups used up the budget (run 40680294705), so the hook skips any VPC
+# that still has a load balancer not being deleted; that VPC's own hook, which
+# runs after its load balancer's delete, handles it.
+#
 # It runs as a pre-delete hook on the VPC, inside the same script that issues
 # every other delete. A failing hook would stop the deletes after it and leak
 # resources, so this hook never fails: on any problem it says what went wrong
@@ -103,7 +109,7 @@ delete_group() {
 }
 
 main() {
-  local vpcs managed region vpc_id out groups group
+  local vpcs managed live region vpc_id out groups group
   ensure_cli || return 0
   write_config || return 0
 
@@ -114,9 +120,15 @@ main() {
   }
   managed=$("${KUBECTL}" get securitygroups.ecs.alibabacloud.crossplane.io -o json 2>/dev/null |
     jq -r '.items[].metadata.annotations["crossplane.io/external-name"] // empty') || managed=""
+  live=$("${KUBECTL}" get loadbalancers.alb.alibabacloud.crossplane.io -o json 2>/dev/null |
+    jq -r '.items[] | select(.metadata.deletionTimestamp == null) | .spec.forProvider.vpcId // .status.atProvider.vpcId // empty') || live=""
 
   while IFS=$'\t' read -r region vpc_id; do
     [[ "${vpc_id}" == vpc-* && -n "${region}" ]] || continue
+    if grep -qxF -- "${vpc_id}" <<<"${live}"; then
+      say "${vpc_id} still has a load balancer that is not being deleted; leaving it to that VPC's hook"
+      continue
+    fi
     if ! out=$(aliyun ecs DescribeSecurityGroups --config-path "${CONFIG}" \
       --RegionId "${region}" --VpcId "${vpc_id}" --SecurityGroupName "${GROUP_NAME}" --PageSize 50 2>&1); then
       say "could not list the security groups in ${vpc_id}: $(error_code "${out}")"
