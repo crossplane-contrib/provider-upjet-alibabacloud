@@ -107,7 +107,10 @@ spec:
     instanceName: crossplane-example
     instanceStorage: 20
     instanceType: mysql.n2.medium.2c
-    zoneId: cn-beijing-l
+    # The proxy runs in the instance's zone, and cn-beijing-l ran out of proxy
+    # capacity (InsufficientResourceCapacity from ModifyDBProxy, runs
+    # 39972692670 and 40065480312).
+    zoneId: cn-beijing-k
     securityIps:
       - 10.0.0.0/8
     vswitchIdSelector:
@@ -148,4 +151,4 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane-example
-    zoneId: cn-beijing-l
+    zoneId: cn-beijing-k
