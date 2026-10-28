@@ -30,14 +30,18 @@ spec:
   forProvider:
     region: cn-beijing
     engine: MySQL
-    engineVersion: "8.0"
-    category: Basic
-    dbInstanceStorageType: cloud_essd
+    # Upstream's cross-region backup policy needs High-availability with local
+    # SSDs, as in its own tests; Basic on cloud disks fails with
+    # IncorrectHostType (run 40044370842). mysql.x2.medium.2 is the smallest
+    # class DescribeAvailableClasses offers for this setup in cn-beijing.
+    engineVersion: "5.7"
+    category: HighAvailability
+    dbInstanceStorageType: local_ssd
     instanceChargeType: Postpaid
     instanceName: crossplane-example
     instanceStorage: 20
-    instanceType: mysql.n2.medium.1
-    zoneId: cn-beijing-l
+    instanceType: mysql.x2.medium.2
+    zoneId: cn-beijing-i
     securityIps:
       - 10.0.0.0/8
     vswitchIdSelector:
@@ -78,4 +82,4 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane-example
-    zoneId: cn-beijing-l
+    zoneId: cn-beijing-i
