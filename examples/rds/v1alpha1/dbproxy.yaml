@@ -88,8 +88,9 @@ spec:
     instanceType: mysql.n2.medium.2c
     # The proxy runs in the instance's zone, and cn-beijing-l ran out of proxy
     # capacity (InsufficientResourceCapacity from ModifyDBProxy, runs
-    # 39972692670 and 40065480312).
-    zoneId: cn-beijing-k
+    # 39972692670 and 40065480312). DescribeAvailableZones offers MySQL 8.0 HA on
+    # cloud ESSD only in cn-beijing-f, i and l.
+    zoneId: cn-beijing-i
     securityIps:
       - 10.0.0.0/8
     vswitchIdSelector:
@@ -130,4 +131,4 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane-example
-    zoneId: cn-beijing-k
+    zoneId: cn-beijing-i
