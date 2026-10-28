@@ -64,6 +64,32 @@
       "depNameTemplate": "docker/buildx"
     },
     {
+      // The cloud cleanup workflows download these tools from GitHub
+      // releases and verify them against the checksums file each release
+      // publishes, so bumping the version is all an update needs. The
+      // Cloud Cleanup Check workflow installs the CLI on every bump.
+      "customType": "regex",
+      "description": "Bump the Alibaba Cloud CLI used by the cloud cleanup workflow",
+      "managerFilePatterns": ["/^hack\\/install-aliyun-cli\\.sh$/"],
+      "matchStrings": [
+        "ALIYUN_CLI_VERSION=\"(?<currentValue>[^\"]+)\"\\n"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "aliyun/aliyun-cli",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
+      "customType": "regex",
+      "description": "Bump actionlint in the cloud cleanup check workflow",
+      "managerFilePatterns": ["/^\\.github\\/workflows\\/cloud-cleanup[^/]*\\.ya?ml$/"],
+      "matchStrings": [
+        "ACTIONLINT_VERSION: ['\"]?(?<currentValue>.*?)['\"]?\\n"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "rhysd/actionlint",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
       // We want a PR to bump uptest versions used through make variables in
       // the Makefile, taking it from the official Github repository releases.
       "customType": "regex",

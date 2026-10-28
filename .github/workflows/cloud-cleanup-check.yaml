@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# Lints the cloud cleanup workflow and script, and runs the script's tests
+# against a stub CLI. Nothing here talks to Alibaba Cloud.
+name: Cloud Cleanup Check
+
+on:
+  pull_request:
+    paths:
+      - hack/cloud-cleanup.sh
+      - hack/cloud-cleanup-test.sh
+      - hack/install-aliyun-cli.sh
+      - .github/workflows/cloud-cleanup.yaml
+      - .github/workflows/cloud-cleanup-check.yaml
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  ACTIONLINT_VERSION: "1.7.7"
+
+jobs:
+  cloud-cleanup-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Shellcheck
+        run: shellcheck hack/cloud-cleanup.sh hack/cloud-cleanup-test.sh hack/install-aliyun-cli.sh
+
+      - name: Actionlint
+        run: |
+          base="https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}"
+          archive="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          curl -fsSLO "${base}/${archive}"
+          curl -fsSL "${base}/actionlint_${ACTIONLINT_VERSION}_checksums.txt" | grep " ${archive}\$" | sha256sum -c -
+          tar -xzf "${archive}" actionlint
+          ./actionlint .github/workflows/cloud-cleanup.yaml .github/workflows/cloud-cleanup-check.yaml
+
+      - name: Test
+        run: hack/cloud-cleanup-test.sh
+
+      # The cleanup workflow installs the CLI the same way, so a version bump
+      # that breaks the download is caught here.
+      - name: Install Alibaba Cloud CLI
+        run: hack/install-aliyun-cli.sh

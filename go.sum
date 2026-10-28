@@ -186,8 +186,8 @@ github.com/cloudflare/circl v1.6.3/go.mod h1:2eXP6Qfat4O/Yhh8BznvKnJ+uzEoTQ6jVKJ
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
 github.com/cpuguy83/go-md2man/v2 v2.0.4/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
-github.com/crossplane/crossplane-runtime v1.20.11 h1:SSaSv7pCHnZ+aWGQ/y9Gp+YlzfMMTdOCZeFlHovHpds=
-github.com/crossplane/crossplane-runtime v1.20.11/go.mod h1:BMzTKvPFBHOSHzAM+1mHTDXH7+kj8fiLqpww62evxis=
+github.com/crossplane/crossplane-runtime v1.20.12 h1:sLsdITW9mLSxgDEQz2E4nbnVuKTNT7a0+Jdh5R9tY+w=
+github.com/crossplane/crossplane-runtime v1.20.12/go.mod h1:AbUGYOj4N6S5Ti1JcBv8AODrY9/EEhzp1nnb/cxwl3I=
 github.com/crossplane/crossplane-tools v0.0.0-20250725062323-29da02534659 h1:DtF8JafCl8vZIuiOjfWzd/XU1962gKNSquPEJ0HQUKU=
 github.com/crossplane/crossplane-tools v0.0.0-20250725062323-29da02534659/go.mod h1:8etxwmP4cZwJDwen4+PQlnc1tggltAhEfyyigmdHulQ=
 github.com/crossplane/upjet v1.9.0 h1:ocPUc7sEV289sESe68KGev/1f6H6uQZ/0ND1W79rsyA=
