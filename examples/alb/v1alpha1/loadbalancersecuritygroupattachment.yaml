@@ -77,6 +77,9 @@ kind: VPC
 metadata:
   annotations:
     meta.upbound.io/example-id: alb/v1alpha1/loadbalancersecuritygroupattachment
+    # Alibaba's Security Team can add a security group to this VPC, which
+    # blocks its delete; the hook removes it.
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-security-team-groups.sh
   labels:
     testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
   name: for-loadbalancersecuritygroupattachment
