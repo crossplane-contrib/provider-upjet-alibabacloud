@@ -115,7 +115,7 @@ func Configure(p *config.Provider) {
 	})
 	for _, name := range instanceChildren {
 		p.AddResourceConfigurator(name, func(r *config.Resource) {
-			r.TerraformResource.Delete = goneWithReleasedInstance(r.TerraformResource.Delete)
+			r.TerraformResource.Delete = goneWithReleasedInstance(r.TerraformResource.Delete) //nolint:staticcheck // upstream implements these resources with the legacy Delete field.
 		})
 	}
 }

@@ -132,7 +132,7 @@ func Configure(p *config.Provider) {
 	})
 	for _, name := range clusterChildren {
 		p.AddResourceConfigurator(name, func(r *config.Resource) {
-			r.TerraformResource.Read = goneWithCluster(r.TerraformResource.Read, clusterNotFound)
+			r.TerraformResource.Read = goneWithCluster(r.TerraformResource.Read, clusterNotFound) //nolint:staticcheck // upstream implements these resources with the legacy Read field.
 		})
 	}
 }

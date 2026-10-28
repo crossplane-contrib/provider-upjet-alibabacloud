@@ -36,7 +36,7 @@ import (
 // the counts agree, nothing the user asked for differs and the field's diff is
 // dropped. Any other difference -- a changed or added value, an added or
 // removed element -- is kept.
-func SuppressSetChurn(res *schema.Resource, diff *terraform.InstanceDiff, state *terraform.InstanceState, cfg *terraform.ResourceConfig) {
+func SuppressSetChurn(res *schema.Resource, diff *terraform.InstanceDiff, state *terraform.InstanceState, cfg *terraform.ResourceConfig) { //nolint:gocyclo
 	if res == nil || diff == nil || state == nil || state.ID == "" || cfg == nil {
 		return
 	}
@@ -80,7 +80,7 @@ func SuppressSetChurn(res *schema.Resource, diff *terraform.InstanceDiff, state 
 // set of nested blocks, or of the block itself when want is a map; it is nil
 // for scalars and lists of scalars. Lists and sets match element for element,
 // in any order.
-func matchValue(want, got interface{}, elem *schema.Resource) bool {
+func matchValue(want, got interface{}, elem *schema.Resource) bool { //nolint:gocyclo
 	if s, ok := got.(*schema.Set); ok {
 		got = s.List()
 	}
