@@ -134,6 +134,49 @@ jobs:
           OUTPUT=$(git log -1 --format='%H')
           echo "commit-sha=$OUTPUT" >> $GITHUB_OUTPUT
 
+      # This runner's route to some Alibaba Cloud regions, mainland China in
+      # particular, sometimes drops for half an hour or more. Every create then
+      # times out, and the run fails only when the apply step gives up after
+      # 40 minutes. Checking the VPC endpoint of each region the examples use
+      # first makes such a run fail within minutes, so it can be rerun. Any
+      # HTTP response counts as reachable; the endpoint answers a bare request
+      # with 400.
+      - name: Check Alibaba Cloud Connectivity
+        env:
+          UPTEST_EXAMPLE_LIST: ${{ needs.get-example-list.outputs.example_list }}
+        run: |
+          set -uo pipefail
+          IFS=',' read -r -a examples <<<"${UPTEST_EXAMPLE_LIST}"
+          regions=""
+          if [ "${#examples[@]}" -gt 0 ]; then
+            regions=$(grep -hE '^[[:space:]]+region:' "${examples[@]}" | awk '{print $2}' | tr -d "\"'" | sort -u)
+          fi
+          if [ -z "${regions}" ]; then
+            echo "No region checks required: the examples set no region"
+            exit 0
+          fi
+          failed=0
+          for region in ${regions}; do
+            [[ "${region}" =~ ^[a-z0-9-]+$ ]] || continue
+            host="vpc.${region}.aliyuncs.com"
+            reached=""
+            for attempt in 1 2 3 4 5 6; do
+              if curl -sS -o /dev/null --connect-timeout 10 --max-time 20 "https://${host}/"; then
+                reached=1
+                break
+              fi
+              echo "attempt ${attempt}: cannot reach ${host}"
+              sleep 20
+            done
+            if [ -n "${reached}" ]; then
+              echo "${host} is reachable"
+            else
+              echo "::error::cannot reach ${host} from this runner; rerun the tests later"
+              failed=1
+            fi
+          done
+          exit "${failed}"
+
       - name: Vendor Dependencies
         run: make vendor vendor.check
 
@@ -197,10 +240,22 @@ jobs:
           name: controlplane-dump
           path: ./_output/controlplane-dump
 
+      # Alibaba's Security Team adds a security group to some ALB examples'
+      # VPCs, attached to the load balancer, which blocks the VPC's delete.
+      # uptest's delete step removes it with a pre-delete hook, but a run that
+      # fails earlier skips that step and lands here. So request every delete
+      # first, letting the load balancers go, then run the same hook, which
+      # retries until the group is free, then wait for the deletes. The hook
+      # comes from the PR's checkout; branches without it skip that part.
       - name: Cleanup
         if: always()
         run: |
           eval $(make --no-print-directory build.vars)
+          ${KUBECTL} delete managed --all --wait=false || true
+          hook=examples/alb/v1alpha1/testhooks/delete-security-team-groups.sh
+          if [ -x "${hook}" ]; then
+            KUBECTL="${KUBECTL}" "${hook}" || true
+          fi
           ${KUBECTL} delete managed --all || true
 
       - name: Create Unsuccessful Status Check
