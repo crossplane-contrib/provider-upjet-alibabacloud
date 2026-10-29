@@ -36,6 +36,11 @@ kind: Instance
 metadata:
   annotations:
     meta.upbound.io/example-id: alikafka/v1alpha1/scheduledscalingrule
+    # The serverless instance was still creating when the 2400s default ran
+    # out (run 39966710918); upstream waits up to 60 minutes for the order and
+    # the start. Uptest spends this one budget across apply, import and
+    # delete, so it covers that wait plus a Kafka delete.
+    uptest.upbound.io/timeout: "7200"
   labels:
     testing.upbound.io/example-name: serverless
   name: serverless
