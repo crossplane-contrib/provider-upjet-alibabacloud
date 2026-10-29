@@ -197,10 +197,22 @@ jobs:
           name: controlplane-dump
           path: ./_output/controlplane-dump
 
+      # Alibaba's Security Team adds a security group to some ALB examples'
+      # VPCs, attached to the load balancer, which blocks the VPC's delete.
+      # uptest's delete step removes it with a pre-delete hook, but a run that
+      # fails earlier skips that step and lands here. So request every delete
+      # first, letting the load balancers go, then run the same hook, which
+      # retries until the group is free, then wait for the deletes. The hook
+      # comes from the PR's checkout; branches without it skip that part.
       - name: Cleanup
         if: always()
         run: |
           eval $(make --no-print-directory build.vars)
+          ${KUBECTL} delete managed --all --wait=false || true
+          hook=examples/alb/v1alpha1/testhooks/delete-security-team-groups.sh
+          if [ -x "${hook}" ]; then
+            KUBECTL="${KUBECTL}" "${hook}" || true
+          fi
           ${KUBECTL} delete managed --all || true
 
       - name: Create Unsuccessful Status Check
