@@ -147,7 +147,14 @@ jobs:
         run: |
           set -uo pipefail
           IFS=',' read -r -a examples <<<"${UPTEST_EXAMPLE_LIST}"
-          regions=$(grep -hE '^\s+region:' "${examples[@]}" | awk '{print $2}' | tr -d "\"'" | sort -u)
+          regions=""
+          if [ "${#examples[@]}" -gt 0 ]; then
+            regions=$(grep -hE '^[[:space:]]+region:' "${examples[@]}" | awk '{print $2}' | tr -d "\"'" | sort -u)
+          fi
+          if [ -z "${regions}" ]; then
+            echo "No region checks required: the examples set no region"
+            exit 0
+          fi
           failed=0
           for region in ${regions}; do
             [[ "${region}" =~ ^[a-z0-9-]+$ ]] || continue
