@@ -56,6 +56,7 @@
 "alicloud_cs_kubernetes_permissions",
 "alicloud_cs_managed_kubernetes",
 "alicloud_cs_serverless_kubernetes",
+"alicloud_db_account_privilege",
 "alicloud_db_backup_policy",
 "alicloud_db_connection",
 "alicloud_db_database",
