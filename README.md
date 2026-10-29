@@ -119,6 +119,24 @@ After applying a `ProviderConfig`, managed resources can reference it with
 `spec.providerConfigRef.name`. If omitted, resources use the `default`
 `ProviderConfig`.
 
+### Service Endpoints
+
+The provider finds most services' API endpoints through Alibaba Cloud's
+Location service. By default it asks `location-readonly.aliyuncs.com`, which is
+served from outside mainland China.
+
+`spec.endpoints` overrides the endpoint used for a service. Keys are the
+Terraform provider's endpoint names, such as `vpc`, `slb`, or `log` for Simple
+Log Service; `location` sets the Location service itself. Use it to reach
+services through private (VPC) endpoints, or to keep endpoint lookups inside
+mainland China with `location.aliyuncs.com`:
+
+```bash
+kubectl apply -f examples/providerconfig/v1beta1/providerconfig-endpoints.yaml
+```
+
+An unknown key or an empty value is reported as an invalid `ProviderConfig`.
+
 ## Test
 
 Add an environment variable to set the credentials for the target Alibaba
