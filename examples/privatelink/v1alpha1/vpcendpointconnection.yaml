@@ -32,7 +32,9 @@ spec:
     region: us-west-1
     securityGroupRefs:
     - name: example-for-connection
-    serviceId: ${alicloud_privatelink_vpc_endpoint_service.example.id}
+    serviceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-for-connection
     vpcEndpointName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -51,28 +53,12 @@ metadata:
 spec:
   forProvider:
     region: us-west-1
+    # The connection resource accepts the endpoint's connection, so the
+    # service must not accept it on its own. Like upstream's acceptance test,
+    # the service needs no load balancer for that.
     autoAcceptConnection: false
     connectBandwidth: 103
     serviceDescription: crossplane-example
-
----
-
-apiVersion: privatelink.alibabacloud.crossplane.io/v1alpha1
-kind: VpcEndpointServiceResource
-metadata:
-  annotations:
-    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointconnection
-  labels:
-    testing.upbound.io/example-name: example-for-connection
-  name: example-for-connection
-spec:
-  forProvider:
-    region: us-west-1
-    resourceId: ${alicloud_slb_load_balancer.example.id}
-    resourceType: slb
-    serviceIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example-for-connection
 
 ---
 
@@ -107,23 +93,3 @@ spec:
     region: us-west-1
     cidrBlock: 10.0.0.0/8
     vpcName: crossplane-example
-
----
-
-apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
-kind: Vswitch
-metadata:
-  annotations:
-    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointconnection
-  labels:
-    testing.upbound.io/example-name: example-for-connection
-  name: example-for-connection
-spec:
-  forProvider:
-    region: us-west-1
-    cidrBlock: 10.1.0.0/16
-    vpcIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example-for-connection
-    vswitchName: crossplane-example
-    zoneId: us-west-1a
