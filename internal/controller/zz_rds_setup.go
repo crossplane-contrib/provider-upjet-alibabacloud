@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/pkg/controller"
 
 	account "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/account"
+	accountprivilege "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/accountprivilege"
 	backup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/backup"
 	backuppolicy "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/backuppolicy"
 	connection "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/connection"
@@ -33,6 +34,7 @@ import (
 func Setup_rds(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		account.Setup,
+		accountprivilege.Setup,
 		backup.Setup,
 		backuppolicy.Setup,
 		connection.Setup,

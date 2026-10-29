@@ -198,6 +198,7 @@ import (
 	usergroupattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/ram/usergroupattachment"
 	userpolicyattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/ram/userpolicyattachment"
 	accountrds "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/account"
+	accountprivilegerds "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/accountprivilege"
 	backup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/backup"
 	backuppolicyrds "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/backuppolicy"
 	connection "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/connection"
@@ -427,6 +428,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		usergroupattachment.Setup,
 		userpolicyattachment.Setup,
 		accountrds.Setup,
+		accountprivilegerds.Setup,
 		backup.Setup,
 		backuppolicyrds.Setup,
 		connection.Setup,

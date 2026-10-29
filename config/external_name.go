@@ -245,6 +245,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_ssl_certificates_service_certificate": config.IdentifierFromProvider,
 	// RDS
 	"alicloud_db_backup_policy":                   config.IdentifierFromProvider,
+	"alicloud_db_account_privilege":               config.IdentifierFromProvider,
 	"alicloud_db_connection":                      config.IdentifierFromProvider,
 	"alicloud_db_database":                        config.IdentifierFromProvider,
 	"alicloud_db_instance":                        config.IdentifierFromProvider,
