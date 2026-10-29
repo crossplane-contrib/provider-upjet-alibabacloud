@@ -35,8 +35,11 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     instanceStorage: 20
-    # On local SSDs the read-only instance takes the primary's class, as in
-    # upstream's example.
+    # Unverified: the primary's class is rejected here with
+    # InvalidSaleComponentFault (run 40774653778). A read-only instance needs a
+    # read-only class, which ListClasses (CommodityCode rords) lists only for
+    # an existing primary. This example is left out of uptest until that class
+    # is known.
     instanceType: mysql.x2.medium.2
     dbInstanceStorageType: local_ssd
     zoneIdSelector:
