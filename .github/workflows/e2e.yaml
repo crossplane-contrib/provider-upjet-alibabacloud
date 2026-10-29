@@ -146,10 +146,19 @@ jobs:
           UPTEST_EXAMPLE_LIST: ${{ needs.get-example-list.outputs.example_list }}
         run: |
           set -uo pipefail
-          IFS=',' read -r -a examples <<<"${UPTEST_EXAMPLE_LIST}"
+          # The list has empty entries ("a.yaml,,b.yaml,"), so skip those.
+          # The step runs under bash -e, and grep exits 1 when no example sets
+          # a region, so that case must not end the step.
+          IFS=',' read -r -a entries <<<"${UPTEST_EXAMPLE_LIST}"
+          examples=()
+          for entry in "${entries[@]}"; do
+            if [ -n "${entry}" ]; then
+              examples+=("${entry}")
+            fi
+          done
           regions=""
           if [ "${#examples[@]}" -gt 0 ]; then
-            regions=$(grep -hE '^[[:space:]]+region:' "${examples[@]}" | awk '{print $2}' | tr -d "\"'" | sort -u)
+            regions=$({ grep -hE '^[[:space:]]+region:' "${examples[@]}" || true; } | awk '{print $2}' | tr -d "\"'" | sort -u)
           fi
           if [ -z "${regions}" ]; then
             echo "No region checks required: the examples set no region"
