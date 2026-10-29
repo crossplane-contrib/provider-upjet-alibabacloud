@@ -21,4 +21,4 @@ spec:
     quotaActionCode: quotas.label_multi/A
     quotaCategory: WhiteListLabel
     reason: test-quotas-v1alpha1-templateapplication
-    region: cn-beijing
+    region: us-west-1

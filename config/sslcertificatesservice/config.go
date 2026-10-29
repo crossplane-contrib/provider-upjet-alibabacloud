@@ -15,17 +15,17 @@ func Configure(p *config.Provider) {
 		r.Kind = "Certificate"
 
 		// "name" is deprecated in favour of "certificate_name" and "lang" is
-		// deprecated upstream; drop them so the CRD only exposes the current
-		// fields.
-		delete(r.TerraformResource.Schema, "name")
-		delete(r.TerraformResource.Schema, "lang")
+		// deprecated upstream; both are dropped during code generation, see
+		// generationOnlySchemaOmissions in config/schema_omissions.go, so the
+		// CRD only exposes the current fields.
 
 		// The certificate body is not flagged sensitive upstream, so upjet
-		// generates it as a plain string. Mark it sensitive so it is supplied
-		// via a Secret reference (certSecretRef), the same way the private key
+		// would generate it as a plain string. Marked sensitive during code
+		// generation instead; see generationOnlySensitiveFields in
+		// config/schema_omissions.go, so it is supplied via a Secret
+		// reference (certSecretRef), the same way the private key
 		// (keySecretRef) is. The SM2 dual-certificate bodies (encrypt_cert,
 		// sign_cert) can be made secret-backed the same way if needed.
-		r.TerraformResource.Schema["cert"].Sensitive = true
 
 		// Upstream marks certificate_name with
 		// AtLeastOneOf: ["certificate_name", "name"], so dropping "name" above

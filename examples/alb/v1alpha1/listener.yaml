@@ -21,7 +21,7 @@ spec:
     loadBalancerIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-listener
-    region: cn-beijing
+    region: us-west-1
 
 ---
 
@@ -43,7 +43,7 @@ spec:
     loadBalancerName: crossplane-example
     modificationProtectionConfig:
     - status: NonProtection
-    region: cn-beijing
+    region: us-west-1
 #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     tags:
       Created: TF
@@ -93,7 +93,7 @@ spec:
       healthyThreshold: 3
       unhealthyThreshold: 3
     protocol: HTTP
-    region: cn-beijing
+    region: us-west-1
 #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     serverGroupName: crossplane-example
     servers:
@@ -127,11 +127,12 @@ metadata:
   name: for-listener
 spec:
   forProvider:
-    availabilityZone: cn-beijing-f
-    imageId: ubuntu_18_04_x64_20G_alibase_20240223.vhd
+    availabilityZone: us-west-1a
+    imageId: ubuntu_22_04_x64_20G_alibase_20260522.vhd
     instanceName: crossplane-example
-    instanceType: ecs.sn1ne.large
-    region: cn-beijing
+    instanceType: ecs.g9i.large
+    systemDiskCategory: cloud_essd
+    region: us-west-1
     securityGroupRefs:
     - name: for-listener
     vswitchIdSelector:
@@ -151,7 +152,7 @@ metadata:
 spec:
   forProvider:
     description: crossplane-example
-    region: cn-beijing
+    region: us-west-1
     securityGroupName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -164,13 +165,16 @@ kind: VPC
 metadata:
   annotations:
     meta.upbound.io/example-id: alb/v1alpha1/listener
+    # Alibaba's Security Team can add a security group to this VPC, which
+    # blocks its delete; the hook removes it.
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-security-team-groups.sh
   labels:
     testing.upbound.io/example-name: for-listener
   name: for-listener
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example
 
 ---
@@ -186,12 +190,12 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.1.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-listener
     vswitchName: crossplane-example_1
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a
 
 ---
 
@@ -206,9 +210,9 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.2.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-listener
     vswitchName: crossplane-example_2
-    zoneId: cn-beijing-g
+    zoneId: us-west-1b

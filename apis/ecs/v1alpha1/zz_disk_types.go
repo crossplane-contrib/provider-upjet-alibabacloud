@@ -24,8 +24,6 @@ type DiskInitParameters struct {
 	// The category of the data disk. Default value: cloud_efficiency. Valid Values: cloud, cloud_efficiency, cloud_ssd, cloud_essd, cloud_auto, cloud_essd_entry, elastic_ephemeral_disk_standard, elastic_ephemeral_disk_premium. NOTE: When category is cloud_auto, the bursting_enabled and provisioned_iops parameters become applicable; they are rejected by the API for other categories.
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
 
-	DedicatedBlockStorageClusterID *string `json:"dedicatedBlockStorageClusterId,omitempty" tf:"dedicated_block_storage_cluster_id,omitempty"`
-
 	// Specifies whether to delete the automatic snapshots of the disk when the disk is released. Default value: false.
 	DeleteAutoSnapshot *bool `json:"deleteAutoSnapshot,omitempty" tf:"delete_auto_snapshot,omitempty"`
 
@@ -126,8 +124,6 @@ type DiskObservation struct {
 	// (Available since v1.237.0) The time when the disk was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
-	DedicatedBlockStorageClusterID *string `json:"dedicatedBlockStorageClusterId,omitempty" tf:"dedicated_block_storage_cluster_id,omitempty"`
-
 	// Specifies whether to delete the automatic snapshots of the disk when the disk is released. Default value: false.
 	DeleteAutoSnapshot *bool `json:"deleteAutoSnapshot,omitempty" tf:"delete_auto_snapshot,omitempty"`
 
@@ -217,9 +213,6 @@ type DiskParameters struct {
 	// The category of the data disk. Default value: cloud_efficiency. Valid Values: cloud, cloud_efficiency, cloud_ssd, cloud_essd, cloud_auto, cloud_essd_entry, elastic_ephemeral_disk_standard, elastic_ephemeral_disk_premium. NOTE: When category is cloud_auto, the bursting_enabled and provisioned_iops parameters become applicable; they are rejected by the API for other categories.
 	// +kubebuilder:validation:Optional
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	DedicatedBlockStorageClusterID *string `json:"dedicatedBlockStorageClusterId,omitempty" tf:"dedicated_block_storage_cluster_id,omitempty"`
 
 	// Specifies whether to delete the automatic snapshots of the disk when the disk is released. Default value: false.
 	// +kubebuilder:validation:Optional

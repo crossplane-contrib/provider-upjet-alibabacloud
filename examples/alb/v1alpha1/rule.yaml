@@ -12,7 +12,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: for-rule
     priority: 555
-    region: cn-beijing
+    region: us-west-1
     ruleActions:
     - forwardGroupConfig:
       - serverGroupTuples:
@@ -54,7 +54,7 @@ spec:
     loadBalancerIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-rule
-    region: cn-beijing
+    region: us-west-1
 
 ---
 
@@ -76,7 +76,7 @@ spec:
     loadBalancerName: crossplane-example
     modificationProtectionConfig:
       - status: NonProtection
-    region: cn-beijing
+    region: us-west-1
     #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     tags:
       Created: TF
@@ -112,7 +112,7 @@ spec:
     healthCheckConfig:
     - healthCheckEnabled: false
     protocol: HTTP
-    region: cn-beijing
+    region: us-west-1
 #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     serverGroupName: crossplane-example
     stickySessionConfig:
@@ -130,13 +130,16 @@ kind: VPC
 metadata:
   annotations:
     meta.upbound.io/example-id: alb/v1alpha1/rule
+    # Alibaba's Security Team can add a security group to this VPC, which
+    # blocks its delete; the hook removes it.
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-security-team-groups.sh
   labels:
     testing.upbound.io/example-name: for-rule
   name: for-rule
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example
 
 ---
@@ -152,12 +155,12 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.1.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-rule
     vswitchName: crossplane-example_1
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a
 
 ---
 
@@ -172,9 +175,9 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.2.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-rule
     vswitchName: crossplane-example_2
-    zoneId: cn-beijing-g
+    zoneId: us-west-1b

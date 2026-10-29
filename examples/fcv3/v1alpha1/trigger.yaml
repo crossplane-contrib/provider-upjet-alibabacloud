@@ -12,12 +12,11 @@ spec:
     functionNameSelector:
       matchLabels:
         testing.upbound.io/example-name: trigger
-    invocationRole: "acs:ram::1511928242963727:role/aliyuncdneventnotificationrole"
+    invocationRole: "acs:ram::${data.account_id}:role/aliyuncdneventnotificationrole"
     qualifier: LATEST
-    region: cn-hangzhou
-    sourceArn: acs:cdn:*:1511928242963727
-    triggerConfig: '${jsonencode({ "eventName" : "CachedObjectsPushed", "eventVersion"
-      : "1.0.0", "notes" : "example", "filter" : { "domain" : ["example.com"] } })}'
+    region: us-west-1
+    sourceArn: "acs:cdn:*:${data.account_id}"
+    triggerConfig: '{"eventName":"CachedObjectsPushed","eventVersion":"1.0.0","notes":"example","filter":{"domain":["example.com"]}}'
     triggerName: crossplane-example-for-function-trigger-20250724
     triggerType: cdn_events
 
@@ -42,5 +41,5 @@ spec:
     logConfig:
     - logBeginRule: None
     memorySize: 512
-    region: cn-hangzhou
+    region: us-west-1
     runtime: python3.9

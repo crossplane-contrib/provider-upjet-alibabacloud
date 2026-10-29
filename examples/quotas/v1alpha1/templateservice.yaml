@@ -12,5 +12,5 @@ metadata:
   name: test-quotas-v1alpha1-templateservice
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     serviceStatus: 1

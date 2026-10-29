@@ -986,11 +986,6 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.ModifyMode != nil {
-		in, out := &in.ModifyMode, &out.ModifyMode
-		*out = new(float64)
-		**out = **in
-	}
 	if in.OrderType != nil {
 		in, out := &in.OrderType, &out.OrderType
 		*out = new(string)
@@ -1423,11 +1418,6 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.ModifyMode != nil {
-		in, out := &in.ModifyMode, &out.ModifyMode
-		*out = new(float64)
-		**out = **in
-	}
 	if in.OrderType != nil {
 		in, out := &in.OrderType, &out.OrderType
 		*out = new(string)
@@ -1781,11 +1771,6 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	if in.MaintainStartTime != nil {
 		in, out := &in.MaintainStartTime, &out.MaintainStartTime
 		*out = new(string)
-		**out = **in
-	}
-	if in.ModifyMode != nil {
-		in, out := &in.ModifyMode, &out.ModifyMode
-		*out = new(float64)
 		**out = **in
 	}
 	if in.OrderType != nil {

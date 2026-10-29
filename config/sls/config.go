@@ -16,40 +16,33 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("alicloud_log_project", func(r *config.Resource) {
 		r.ShortGroup = string(common.SLS)
 		r.Kind = "Project"
-		// "name" is a deprecated alias of "project_name"; drop it so only the
-		// canonical field is generated.
-		delete(r.TerraformResource.Schema, "name")
-		// Upstream leaves project_name Optional+Computed only because the
-		// deprecated "name" alias could supply it instead. With that alias
-		// dropped there is no other way to name a project, so promote it to
-		// Required: otherwise a Project with just "region" set passes CRD
-		// admission and only fails later at plan time. Required and Computed
-		// are mutually exclusive in Terraform, so Computed is cleared too.
-		if s := r.TerraformResource.Schema["project_name"]; s != nil {
-			s.Required = true
-			s.Optional = false
-			s.Computed = false
-		}
+		// "name" is a deprecated alias of "project_name"; dropped during code
+		// generation (see generationOnlySchemaOmissions in
+		// config/schema_omissions.go) so only the canonical field is
+		// generated. Upstream leaves project_name Optional+Computed only
+		// because the deprecated "name" alias could supply it instead. With
+		// that alias dropped there is no other way to name a project, so mark
+		// it Required: otherwise a Project with just "region" set passes CRD
+		// admission and only fails later at plan time. MarkAsRequired records
+		// this without touching the live schema, unlike setting
+		// Required/Optional/Computed directly, which would mutate the schema
+		// the upstream CRUD functions execute against under no-fork.
+		r.MarkAsRequired("project_name")
 	})
 
 	p.AddResourceConfigurator("alicloud_log_store", func(r *config.Resource) {
 		r.ShortGroup = string(common.SLS)
 		r.Kind = "Store"
 		// "name"/"project" are deprecated aliases of "logstore_name"/"project_name".
-		delete(r.TerraformResource.Schema, "name")
-		delete(r.TerraformResource.Schema, "project")
 		// The scraped registry example still wires the deprecated "project" to
 		// alicloud_log_project's "name", which is deleted there as well. With the
 		// field gone no resolver is generated for it, so drop the dead reference.
 		delete(r.References, "project")
 		// Same reasoning as Project.project_name above: upstream documents
 		// logstore_name as "one of logstore_name, name", and the "name" alias is
-		// gone, so it is effectively mandatory.
-		if s := r.TerraformResource.Schema["logstore_name"]; s != nil {
-			s.Required = true
-			s.Optional = false
-			s.Computed = false
-		}
+		// gone, so it is effectively mandatory; MarkAsRequired records that
+		// without touching the live schema.
+		r.MarkAsRequired("logstore_name")
 		// project_name deliberately stays optional: every example supplies it
 		// through projectNameRef/projectNameSelector, and a Required field
 		// cannot be omitted in favour of a reference.

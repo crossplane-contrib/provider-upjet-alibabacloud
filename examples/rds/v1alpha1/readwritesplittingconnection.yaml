@@ -35,11 +35,13 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     instanceStorage: 20
-    # A read-only instance takes a read-only class: the primary's
-    # mysql.n2.medium.2c is rejected with InvalidSaleComponentFault. This one is
-    # High-availability with cloud disks, matching the primary.
-    instanceType: mysqlro.n2.small.1c
-    dbInstanceStorageType: cloud_essd
+    # Unverified: the primary's class is rejected here with
+    # InvalidSaleComponentFault (run 40774653778). A read-only instance needs a
+    # read-only class, which ListClasses (CommodityCode rords) lists only for
+    # an existing primary. This example is left out of uptest until that class
+    # is known.
+    instanceType: mysql.x2.medium.2
+    dbInstanceStorageType: local_ssd
     zoneIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -64,17 +66,19 @@ spec:
   forProvider:
     region: cn-beijing
     engine: MySQL
-    engineVersion: "8.0"
-    # Read-only instances require a High-availability primary, so this one is
-    # not Basic like the other RDS examples. HA classes use the "2c" suffix
-    # (mysql.n2.medium.2c); confirmed via aliyun rds DescribeAvailableClasses.
+    # The read/write splitting address is offered only on MySQL 5.6, and on
+    # MySQL 5.7 High-availability with local SSDs; MySQL 8.0 on cloud disks
+    # fails with OperationDenied.DBType (run 39993486952). Read-only instances
+    # also need a High-availability primary. mysql.x2.medium.2 is the smallest
+    # class DescribeAvailableClasses offers for this setup in cn-beijing.
+    engineVersion: "5.7"
     category: HighAvailability
-    dbInstanceStorageType: cloud_essd
+    dbInstanceStorageType: local_ssd
     instanceChargeType: Postpaid
     instanceName: crossplane-example
     instanceStorage: 20
-    instanceType: mysql.n2.medium.2c
-    zoneId: cn-beijing-l
+    instanceType: mysql.x2.medium.2
+    zoneId: cn-beijing-i
     securityIps:
       - 10.0.0.0/8
     vswitchIdSelector:
@@ -115,4 +119,4 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane-example
-    zoneId: cn-beijing-l
+    zoneId: cn-beijing-i

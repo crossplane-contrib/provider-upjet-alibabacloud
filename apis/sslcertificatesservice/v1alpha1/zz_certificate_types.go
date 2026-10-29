@@ -27,7 +27,7 @@ type CertificateInitParameters struct {
 	// The private key of an SM encryption certificate in PEM format.
 	EncryptPrivateKeySecretRef *v1.SecretKeySelector `json:"encryptPrivateKeySecretRef,omitempty" tf:"-"`
 
-	// The private key of a non-SM certificate in PEM format.
+	// The private key of a non-SM certificate in PEM format. It conflicts with key_wo.
 	KeySecretRef *v1.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 
 	// The ID of the resource group.
@@ -84,7 +84,7 @@ type CertificateParameters struct {
 	// +kubebuilder:validation:Optional
 	EncryptPrivateKeySecretRef *v1.SecretKeySelector `json:"encryptPrivateKeySecretRef,omitempty" tf:"-"`
 
-	// The private key of a non-SM certificate in PEM format.
+	// The private key of a non-SM certificate in PEM format. It conflicts with key_wo.
 	// +kubebuilder:validation:Optional
 	KeySecretRef *v1.SecretKeySelector `json:"keySecretRef,omitempty" tf:"-"`
 

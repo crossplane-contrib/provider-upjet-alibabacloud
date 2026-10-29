@@ -110,9 +110,6 @@ type InstanceInitParameters struct {
 	// The start time of the operation and maintenance time period of the KVStore DBInstance, in the format of HH:mmZ (UTC time).
 	MaintainStartTime *string `json:"maintainStartTime,omitempty" tf:"maintain_start_time,omitempty"`
 
-	// (Removed since v1.216.0) The method of modifying the whitelist. NOTE: Field modify_mode has been removed from provider version 1.216.0.
-	ModifyMode *float64 `json:"modifyMode,omitempty" tf:"modify_mode,omitempty"`
-
 	// Specifies a change type when you change the configuration of a subscription instance. Valid values: UPGRADE, DOWNGRADE. Default value: UPGRADE. UPGRADE means upgrades the configuration of a subscription instance. DOWNGRADE means downgrades the configuration of a subscription instance.
 	OrderType *string `json:"orderType,omitempty" tf:"order_type,omitempty"`
 
@@ -345,9 +342,6 @@ type InstanceObservation struct {
 	// The start time of the operation and maintenance time period of the KVStore DBInstance, in the format of HH:mmZ (UTC time).
 	MaintainStartTime *string `json:"maintainStartTime,omitempty" tf:"maintain_start_time,omitempty"`
 
-	// (Removed since v1.216.0) The method of modifying the whitelist. NOTE: Field modify_mode has been removed from provider version 1.216.0.
-	ModifyMode *float64 `json:"modifyMode,omitempty" tf:"modify_mode,omitempty"`
-
 	// Specifies a change type when you change the configuration of a subscription instance. Valid values: UPGRADE, DOWNGRADE. Default value: UPGRADE. UPGRADE means upgrades the configuration of a subscription instance. DOWNGRADE means downgrades the configuration of a subscription instance.
 	OrderType *string `json:"orderType,omitempty" tf:"order_type,omitempty"`
 
@@ -570,10 +564,6 @@ type InstanceParameters struct {
 	// The start time of the operation and maintenance time period of the KVStore DBInstance, in the format of HH:mmZ (UTC time).
 	// +kubebuilder:validation:Optional
 	MaintainStartTime *string `json:"maintainStartTime,omitempty" tf:"maintain_start_time,omitempty"`
-
-	// (Removed since v1.216.0) The method of modifying the whitelist. NOTE: Field modify_mode has been removed from provider version 1.216.0.
-	// +kubebuilder:validation:Optional
-	ModifyMode *float64 `json:"modifyMode,omitempty" tf:"modify_mode,omitempty"`
 
 	// Specifies a change type when you change the configuration of a subscription instance. Valid values: UPGRADE, DOWNGRADE. Default value: UPGRADE. UPGRADE means upgrades the configuration of a subscription instance. DOWNGRADE means downgrades the configuration of a subscription instance.
 	// +kubebuilder:validation:Optional

@@ -6,7 +6,6 @@ package rds
 
 import (
 	"github.com/crossplane/upjet/pkg/config"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/common"
 )
@@ -19,22 +18,18 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_vswitch",
 			Extractor:     common.PathIdExtractor,
 		}
-		// Drop the deprecated singular form for two reasons: its generated
-		// selector fields collide with the ones KnownReferences() produces for
-		// security_group_ids, and upstream declares
-		// ConflictsWith: ["security_group_ids"] while both are
+		// The deprecated singular form is dropped during code generation (see
+		// generationOnlySchemaOmissions in config/schema_omissions.go) for two
+		// reasons: its generated selector fields collide with the ones
+		// KnownReferences() produces for security_group_ids, and upstream
+		// declares ConflictsWith: ["security_group_ids"] while both are
 		// Optional+Computed, so late-init would populate the pair and every
 		// plan would then error.
-		delete(r.TerraformResource.Schema, "security_group_id")
 		// Neither secret is flagged Sensitive upstream, so upjet would emit
-		// both as plain strings in spec and status.atProvider. Mark them so
-		// they become secret references instead.
-		r.TerraformResource.Schema["server_key"].Sensitive = true
-		if bc := r.TerraformResource.Schema["babelfish_config"]; bc != nil {
-			if res, ok := bc.Elem.(*schema.Resource); ok {
-				res.Schema["master_user_password"].Sensitive = true
-			}
-		}
+		// both as plain strings in spec and status.atProvider. Marked
+		// sensitive during code generation instead; see
+		// generationOnlySensitiveFields in config/schema_omissions.go, so
+		// they become secret references.
 	})
 	p.AddResourceConfigurator("alicloud_db_readonly_instance", func(r *config.Resource) {
 		r.ShortGroup = string(common.RDS)
@@ -59,8 +54,8 @@ func Configure(p *config.Provider) {
 		// InvalidSaleComponentFault, so the reference can only ever produce an
 		// invalid value. Supply the class literally instead.
 		delete(r.References, "instance_type")
-		// Also not Sensitive upstream; same reasoning as alicloud_db_instance.
-		r.TerraformResource.Schema["server_key"].Sensitive = true
+		// Also not Sensitive upstream; same reasoning as alicloud_db_instance,
+		// handled the same way in generationOnlySensitiveFields.
 	})
 	// NOTE: alicloud_db_account and alicloud_db_account_privilege (the
 	// legacy account resources, superseded by alicloud_rds_account) are
@@ -76,13 +71,9 @@ func Configure(p *config.Provider) {
 		}
 		// These five aliases have no ConflictsWith upstream, but Read sets both
 		// the alias and its canonical field, so late-init would copy the
-		// aliases into spec alongside the canonical values. Drop them so only
-		// the canonical field is managed.
-		delete(r.TerraformResource.Schema, "backup_period")        // -> preferred_backup_period
-		delete(r.TerraformResource.Schema, "backup_time")          // -> preferred_backup_time
-		delete(r.TerraformResource.Schema, "log_backup")           // -> enable_backup_log
-		delete(r.TerraformResource.Schema, "log_retention_period") // -> log_backup_retention_period
-		delete(r.TerraformResource.Schema, "retention_period")     // -> backup_retention_period
+		// aliases into spec alongside the canonical values. Dropped during
+		// code generation; see generationOnlySchemaOmissions in
+		// config/schema_omissions.go, so only the canonical field is managed.
 	})
 	p.AddResourceConfigurator("alicloud_db_connection", func(r *config.Resource) {
 		r.ShortGroup = string(common.RDS)
@@ -99,14 +90,16 @@ func Configure(p *config.Provider) {
 		}
 		// "name" is a deprecated, computed alias of "data_base_name"; both
 		// being computed causes TF refresh to fail with a ConflictsWith error
-		// ("data_base_name" conflicts with "name"). Drop the deprecated one.
-		delete(r.TerraformResource.Schema, "name")
-		// With the alias gone there is no other way to name a database, and TF
-		// create errors if neither is set, so make it required at the CRD level
-		// rather than letting it fail at apply time.
-		r.TerraformResource.Schema["data_base_name"].Required = true
-		r.TerraformResource.Schema["data_base_name"].Optional = false
-		r.TerraformResource.Schema["data_base_name"].Computed = false
+		// ("data_base_name" conflicts with "name"). Dropped during code
+		// generation; see generationOnlySchemaOmissions in
+		// config/schema_omissions.go. With the alias gone there is no other
+		// way to name a database, and TF create errors if neither is set, so
+		// mark it required at the CRD level rather than letting it fail at
+		// apply time. MarkAsRequired records this without touching the live
+		// schema, unlike setting Required/Optional/Computed directly, which
+		// would mutate the schema the upstream CRUD functions execute
+		// against under no-fork.
+		r.MarkAsRequired("data_base_name")
 	})
 	p.AddResourceConfigurator("alicloud_db_read_write_splitting_connection", func(r *config.Resource) {
 		r.ShortGroup = string(common.RDS)
@@ -123,18 +116,13 @@ func Configure(p *config.Provider) {
 			Extractor:     common.PathIdExtractor,
 		}
 		// Deprecated, computed aliases that collide with their non-deprecated
-		// replacements on TF refresh (ConflictsWith). Drop each so only the
-		// canonical field is managed.
-		delete(r.TerraformResource.Schema, "name")        // -> account_name
-		delete(r.TerraformResource.Schema, "type")        // -> account_type
-		delete(r.TerraformResource.Schema, "instance_id") // -> db_instance_id
-		delete(r.TerraformResource.Schema, "description") // -> account_description
-		delete(r.TerraformResource.Schema, "password")    // -> account_password
-		// Same reasoning as data_base_name above: the alias is gone, so
-		// account_name is effectively mandatory.
-		r.TerraformResource.Schema["account_name"].Required = true
-		r.TerraformResource.Schema["account_name"].Optional = false
-		r.TerraformResource.Schema["account_name"].Computed = false
+		// replacements on TF refresh (ConflictsWith). Dropped during code
+		// generation; see generationOnlySchemaOmissions in
+		// config/schema_omissions.go. Same reasoning as data_base_name
+		// above: the alias is gone, so account_name is effectively
+		// mandatory; MarkAsRequired records that without touching the live
+		// schema.
+		r.MarkAsRequired("account_name")
 	})
 	p.AddResourceConfigurator("alicloud_rds_backup", func(r *config.Resource) {
 		r.ShortGroup = string(common.RDS)

@@ -6,6 +6,7 @@ package config
 
 import (
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/common"
@@ -15,6 +16,7 @@ import (
 	"github.com/crossplane/upjet/pkg/types/comments"
 	"github.com/crossplane/upjet/pkg/types/name"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/pkg/errors"
 )
 
@@ -225,6 +227,133 @@ func DocumentationForTags() config.ResourceOption {
 		}
 		if _, ok := r.MetaResource.ArgumentDocs["tags"]; ok {
 			r.MetaResource.ArgumentDocs["tags"] = "- (Optional) Key-value map of resource tags."
+		}
+	}
+}
+
+// UnknownComputedCountSuppression drops the "known after apply" count diffs
+// the plugin SDK reports for an Optional+Computed collection whose count is
+// absent from the prior state, on resources that already exist.
+//
+// Without a cached state -- after an import, or after a provider restart --
+// upjet rebuilds the prior state from status.atProvider, or from
+// spec.forProvider when that is empty. An empty collection survives neither:
+// it is omitted from both, so the rebuilt state carries no "<field>.#" key at
+// all, where a state produced by Create carries "<field>.#" = "0". Many
+// upstream Read functions only d.Set a collection when it is non-empty
+// (alicloud_db_instance never sets babelfish_config, and sets
+// security_group_ids and parameters only conditionally), so the refresh does
+// not restore the key either. schemaMap.diffSet then reports the count as
+// NewComputed, which makes the resource permanently not up to date, and when
+// the field is ForceNew Update refuses outright:
+//
+//	refuse to update the external resource because the following update
+//	requires replacing it: cannot change the value of the argument
+//	"babelfish_config.#" from "" to ""
+//
+// An Optional+Computed field left out of the configuration means "keep what
+// the provider has", so an unknown count with no configured value and no
+// element-level diff is not a change. Diffs for creates, configured fields and
+// element-level changes are left alone.
+func UnknownComputedCountSuppression() config.ResourceOption {
+	return func(r *config.Resource) {
+		next := r.TerraformCustomDiff
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, state *terraform.InstanceState, cfg *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if next != nil {
+				var err error
+				if diff, err = next(diff, state, cfg); err != nil {
+					return nil, err
+				}
+			}
+			suppressUnknownComputedCounts(r.TerraformResource.Schema, diff, state, cfg)
+			return diff, nil
+		}
+	}
+}
+
+func suppressUnknownComputedCounts(sm map[string]*schema.Schema, diff *terraform.InstanceDiff, state *terraform.InstanceState, cfg *terraform.ResourceConfig) { //nolint:gocyclo
+	if diff == nil || state == nil || state.ID == "" {
+		return
+	}
+	for k, d := range diff.Attributes {
+		if d == nil || !d.NewComputed || d.Old != "" {
+			continue
+		}
+		field, ok := strings.CutSuffix(k, ".#")
+		if !ok {
+			if field, ok = strings.CutSuffix(k, ".%"); !ok {
+				continue
+			}
+		}
+		if _, ok := state.Attributes[k]; ok {
+			continue
+		}
+		if s := schemaAt(sm, field); s == nil || !s.Optional || !s.Computed {
+			continue
+		}
+		if cfg != nil {
+			if _, ok := cfg.Get(field); ok {
+				continue
+			}
+		}
+		if hasElementDiff(diff, field) {
+			continue
+		}
+		delete(diff.Attributes, k)
+	}
+}
+
+// schemaAt returns the schema of the flatmap attribute path p, such as
+// "babelfish_config" or "network.0.ports", or nil if there is none.
+func schemaAt(sm map[string]*schema.Schema, p string) *schema.Schema {
+	var s *schema.Schema
+	for _, seg := range strings.Split(p, ".") {
+		if s != nil {
+			if _, err := strconv.Atoi(seg); err == nil {
+				continue
+			}
+			r, ok := s.Elem.(*schema.Resource)
+			if !ok {
+				return nil
+			}
+			sm = r.Schema
+		}
+		if s = sm[seg]; s == nil {
+			return nil
+		}
+	}
+	return s
+}
+
+// hasElementDiff reports whether diff changes any element of the collection
+// field, as opposed to only its count.
+func hasElementDiff(diff *terraform.InstanceDiff, field string) bool {
+	for k := range diff.Attributes {
+		if rest, ok := strings.CutPrefix(k, field+"."); ok && rest != "#" && rest != "%" {
+			return true
+		}
+	}
+	return false
+}
+
+// SetChurnSuppression drops the remove-and-re-add churn the plugin SDK reports
+// for a TypeSet field once the provider has filled in Optional+Computed fields
+// of its elements; see common.SuppressSetChurn. It found
+// alicloud_alb_load_balancer's zone_mappings churning on every reconcile, and
+// the same shape exists in other resources (ALB server group servers, listener
+// x-forwarded-for config, rule sticky sessions, ECS launch template disks).
+func SetChurnSuppression() config.ResourceOption {
+	return func(r *config.Resource) {
+		next := r.TerraformCustomDiff
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, state *terraform.InstanceState, cfg *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if next != nil {
+				var err error
+				if diff, err = next(diff, state, cfg); err != nil {
+					return nil, err
+				}
+			}
+			common.SuppressSetChurn(r.TerraformResource, diff, state, cfg)
+			return diff, nil
 		}
 	}
 }

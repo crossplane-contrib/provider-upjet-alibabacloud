@@ -215,11 +215,6 @@ spec:
                       period of the KVStore DBInstance, in the format of HH:mmZ (UTC
                       time).
                     type: string
-                  modifyMode:
-                    description: '(Removed since v1.216.0) The method of modifying
-                      the whitelist. NOTE: Field modify_mode has been removed from
-                      provider version 1.216.0.'
-                    type: number
                   orderType:
                     description: 'Specifies a change type when you change the configuration
                       of a subscription instance. Valid values: UPGRADE, DOWNGRADE.
@@ -749,11 +744,6 @@ spec:
                       period of the KVStore DBInstance, in the format of HH:mmZ (UTC
                       time).
                     type: string
-                  modifyMode:
-                    description: '(Removed since v1.216.0) The method of modifying
-                      the whitelist. NOTE: Field modify_mode has been removed from
-                      provider version 1.216.0.'
-                    type: number
                   orderType:
                     description: 'Specifies a change type when you change the configuration
                       of a subscription instance. Valid values: UPGRADE, DOWNGRADE.
@@ -1451,11 +1441,6 @@ spec:
                       period of the KVStore DBInstance, in the format of HH:mmZ (UTC
                       time).
                     type: string
-                  modifyMode:
-                    description: '(Removed since v1.216.0) The method of modifying
-                      the whitelist. NOTE: Field modify_mode has been removed from
-                      provider version 1.216.0.'
-                    type: number
                   orderType:
                     description: 'Specifies a change type when you change the configuration
                       of a subscription instance. Valid values: UPGRADE, DOWNGRADE.

@@ -118,26 +118,6 @@ func (tr *Kubernetes) LateInitialize(attrs []byte) (bool, error) {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
 	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
-	opts = append(opts, resource.WithNameFilter("AvailabilityZone"))
-	opts = append(opts, resource.WithNameFilter("CPUPolicy"))
-	opts = append(opts, resource.WithNameFilter("ExcludeAutoscalerNodes"))
-	opts = append(opts, resource.WithNameFilter("KubeConfig"))
-	opts = append(opts, resource.WithNameFilter("NodePortRange"))
-	opts = append(opts, resource.WithNameFilter("Taints"))
-	opts = append(opts, resource.WithNameFilter("UserData"))
-	opts = append(opts, resource.WithNameFilter("WorkerAutoRenew"))
-	opts = append(opts, resource.WithNameFilter("WorkerAutoRenewPeriod"))
-	opts = append(opts, resource.WithNameFilter("WorkerDataDisks"))
-	opts = append(opts, resource.WithNameFilter("WorkerDiskCategory"))
-	opts = append(opts, resource.WithNameFilter("WorkerDiskPerformanceLevel"))
-	opts = append(opts, resource.WithNameFilter("WorkerDiskSize"))
-	opts = append(opts, resource.WithNameFilter("WorkerDiskSnapshotPolicyID"))
-	opts = append(opts, resource.WithNameFilter("WorkerInstanceChargeType"))
-	opts = append(opts, resource.WithNameFilter("WorkerInstanceTypes"))
-	opts = append(opts, resource.WithNameFilter("WorkerNumber"))
-	opts = append(opts, resource.WithNameFilter("WorkerPeriod"))
-	opts = append(opts, resource.WithNameFilter("WorkerPeriodUnit"))
-	opts = append(opts, resource.WithNameFilter("WorkerVswitchIds"))
 
 	li := resource.NewGenericLateInitializer(opts...)
 	return li.LateInitialize(&tr.Spec.ForProvider, params)
@@ -145,5 +125,5 @@ func (tr *Kubernetes) LateInitialize(attrs []byte) (bool, error) {
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
 func (tr *Kubernetes) GetTerraformSchemaVersion() int {
-	return 0
+	return 1
 }

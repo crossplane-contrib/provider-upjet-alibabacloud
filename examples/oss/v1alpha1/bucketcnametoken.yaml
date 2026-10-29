@@ -8,6 +8,7 @@ metadata:
   name: defaultzawjfg
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucketcnametoken
@@ -25,5 +26,6 @@ metadata:
   name: bucketcnametoken
 spec:
   forProvider:
+    region: us-west-1
     bucket: crossplane-example-bucketcnametoken-202504081600
     storageClass: Standard

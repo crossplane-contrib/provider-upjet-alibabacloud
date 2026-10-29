@@ -18,6 +18,8 @@ spec:
       ossObjectSelector:
         matchLabels:
           testing.upbound.io/example-name: default
+    features:
+    - nvmeSupport: supported
     imageName: ${var.name}
     licenseType: Auto
     osType: linux
