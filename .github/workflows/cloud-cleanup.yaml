@@ -45,7 +45,7 @@ defaults:
 
 jobs:
   cleanup:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     steps:
       # Runs use the test account's credentials, so only the reviewed
