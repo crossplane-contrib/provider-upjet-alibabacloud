@@ -11,6 +11,11 @@ spec:
     eventMetaName: LogFileCreated
     eventMetaVersion: 1.0.0
     notes: example_value
-    roleArn: acs:ram::${data.alicloud_account.default.id}:role/aliyuncdneventnotificationrole
-    sourceArn: acs:cdn:*:${data.alicloud_account.default.id}:domain/example.com
-    triggerArn: acs:fc:${data.alicloud_regions.default.regions.0.id}:${data.alicloud_account.default.id}:services/FCTestService/functions/printEvent/triggers/testtrigger
+    # ${data.account_id} is filled in by uptest from the UPTEST_DATASOURCE
+    # secret, so the account ID stays out of this public repository. The
+    # role is CDN's event-notification role, which fcv3/trigger also uses.
+    # Like upstream's acceptance test, the trigger names an FC function that
+    # CDN does not check.
+    roleArn: "acs:ram::${data.account_id}:role/aliyuncdneventnotificationrole"
+    sourceArn: "acs:cdn:*:${data.account_id}:domain/example.com"
+    triggerArn: "acs:fc:us-west-1:${data.account_id}:services/FCTestService/functions/printEvent/triggers/testtrigger"
