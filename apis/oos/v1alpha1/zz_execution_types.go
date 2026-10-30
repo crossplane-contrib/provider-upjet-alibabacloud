@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type ExecutionInitParameters struct {
@@ -42,7 +42,7 @@ type ExecutionInitParameters struct {
 
 	// The name of execution template.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oos/v1alpha1.Template
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("template_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("template_name",false)
 	TemplateName *string `json:"templateName,omitempty" tf:"template_name,omitempty"`
 
 	// Reference to a Template in oos to populate templateName.
@@ -172,7 +172,7 @@ type ExecutionParameters struct {
 
 	// The name of execution template.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oos/v1alpha1.Template
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("template_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("template_name",false)
 	// +kubebuilder:validation:Optional
 	TemplateName *string `json:"templateName,omitempty" tf:"template_name,omitempty"`
 

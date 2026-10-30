@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type AuditLogConfigInitParameters struct {
@@ -436,7 +436,7 @@ type ManagedKubernetesInitParameters struct {
 
 	// - [Terway Specific] The vswitches for the pod network when using Terway. It is recommended that pod_vswitch_ids is not belong to vswitch_ids but must be in same availability zones. Only works for Create Operation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PodVswitchIds []*string `json:"podVswitchIds,omitempty" tf:"pod_vswitch_ids,omitempty"`
 
 	// References to Vswitch in vpc to populate podVswitchIds.
@@ -810,7 +810,7 @@ type ManagedKubernetesParameters struct {
 
 	// - [Terway Specific] The vswitches for the pod network when using Terway. It is recommended that pod_vswitch_ids is not belong to vswitch_ids but must be in same availability zones. Only works for Create Operation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PodVswitchIds []*string `json:"podVswitchIds,omitempty" tf:"pod_vswitch_ids,omitempty"`
 

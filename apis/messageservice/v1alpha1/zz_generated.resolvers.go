@@ -11,7 +11,7 @@ import (
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1"
 	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -26,6 +26,7 @@ func (mg *EndpointAcl) ResolveReferences(ctx context.Context, c client.Reader) e
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EndpointType),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.EndpointTypeRef,
 		Selector:     mg.Spec.ForProvider.EndpointTypeSelector,
 		To: reference.To{
@@ -42,6 +43,7 @@ func (mg *EndpointAcl) ResolveReferences(ctx context.Context, c client.Reader) e
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EndpointType),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.EndpointTypeRef,
 		Selector:     mg.Spec.InitProvider.EndpointTypeSelector,
 		To: reference.To{
@@ -68,6 +70,7 @@ func (mg *Queue) ResolveReferences(ctx context.Context, c client.Reader) error {
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KMSKeyID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.KMSKeyIDRef,
 		Selector:     mg.Spec.ForProvider.KMSKeyIDSelector,
 		To: reference.To{
@@ -84,6 +87,7 @@ func (mg *Queue) ResolveReferences(ctx context.Context, c client.Reader) error {
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KMSKeyID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.KMSKeyIDRef,
 		Selector:     mg.Spec.InitProvider.KMSKeyIDSelector,
 		To: reference.To{
@@ -110,6 +114,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.StsRoleArn),
 		Extract:      common.RoleArnExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.StsRoleArnRef,
 		Selector:     mg.Spec.ForProvider.StsRoleArnSelector,
 		To: reference.To{
@@ -126,6 +131,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TopicName),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.TopicNameRef,
 		Selector:     mg.Spec.ForProvider.TopicNameSelector,
 		To: reference.To{
@@ -142,6 +148,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.StsRoleArn),
 		Extract:      common.RoleArnExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.StsRoleArnRef,
 		Selector:     mg.Spec.InitProvider.StsRoleArnSelector,
 		To: reference.To{
@@ -158,6 +165,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TopicName),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.TopicNameRef,
 		Selector:     mg.Spec.InitProvider.TopicNameSelector,
 		To: reference.To{
