@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -242,12 +242,12 @@ func (in *AclEntryAttachmentInitParameters) DeepCopyInto(out *AclEntryAttachment
 	}
 	if in.ACLIDRef != nil {
 		in, out := &in.ACLIDRef, &out.ACLIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ACLIDSelector != nil {
 		in, out := &in.ACLIDSelector, &out.ACLIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
@@ -368,12 +368,12 @@ func (in *AclEntryAttachmentParameters) DeepCopyInto(out *AclEntryAttachmentPara
 	}
 	if in.ACLIDRef != nil {
 		in, out := &in.ACLIDRef, &out.ACLIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ACLIDSelector != nil {
 		in, out := &in.ACLIDSelector, &out.ACLIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
@@ -729,12 +729,12 @@ func (in *AscriptInitParameters) DeepCopyInto(out *AscriptInitParameters) {
 	}
 	if in.ListenerIDRef != nil {
 		in, out := &in.ListenerIDRef, &out.ListenerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ListenerIDSelector != nil {
 		in, out := &in.ListenerIDSelector, &out.ListenerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Position != nil {
@@ -895,12 +895,12 @@ func (in *AscriptParameters) DeepCopyInto(out *AscriptParameters) {
 	}
 	if in.ListenerIDRef != nil {
 		in, out := &in.ListenerIDRef, &out.ListenerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ListenerIDSelector != nil {
 		in, out := &in.ListenerIDSelector, &out.ListenerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Position != nil {
@@ -1035,12 +1035,12 @@ func (in *CertificatesInitParameters) DeepCopyInto(out *CertificatesInitParamete
 	}
 	if in.CertificateIDRef != nil {
 		in, out := &in.CertificateIDRef, &out.CertificateIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CertificateIDSelector != nil {
 		in, out := &in.CertificateIDSelector, &out.CertificateIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1085,12 +1085,12 @@ func (in *CertificatesParameters) DeepCopyInto(out *CertificatesParameters) {
 	}
 	if in.CertificateIDRef != nil {
 		in, out := &in.CertificateIDRef, &out.CertificateIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CertificateIDSelector != nil {
 		in, out := &in.CertificateIDSelector, &out.CertificateIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1920,12 +1920,12 @@ func (in *ForwardGroupConfigServerGroupTuplesInitParameters) DeepCopyInto(out *F
 	}
 	if in.ServerGroupIDRef != nil {
 		in, out := &in.ServerGroupIDRef, &out.ServerGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerGroupIDSelector != nil {
 		in, out := &in.ServerGroupIDSelector, &out.ServerGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Weight != nil {
@@ -1980,12 +1980,12 @@ func (in *ForwardGroupConfigServerGroupTuplesParameters) DeepCopyInto(out *Forwa
 	}
 	if in.ServerGroupIDRef != nil {
 		in, out := &in.ServerGroupIDRef, &out.ServerGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerGroupIDSelector != nil {
 		in, out := &in.ServerGroupIDSelector, &out.ServerGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Weight != nil {
@@ -2998,12 +2998,12 @@ func (in *ListenerAclAttachmentInitParameters) DeepCopyInto(out *ListenerAclAtta
 	}
 	if in.ACLIDRef != nil {
 		in, out := &in.ACLIDRef, &out.ACLIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ACLIDSelector != nil {
 		in, out := &in.ACLIDSelector, &out.ACLIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ACLType != nil {
@@ -3018,12 +3018,12 @@ func (in *ListenerAclAttachmentInitParameters) DeepCopyInto(out *ListenerAclAtta
 	}
 	if in.ListenerIDRef != nil {
 		in, out := &in.ListenerIDRef, &out.ListenerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ListenerIDSelector != nil {
 		in, out := &in.ListenerIDSelector, &out.ListenerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3120,12 +3120,12 @@ func (in *ListenerAclAttachmentParameters) DeepCopyInto(out *ListenerAclAttachme
 	}
 	if in.ACLIDRef != nil {
 		in, out := &in.ACLIDRef, &out.ACLIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ACLIDSelector != nil {
 		in, out := &in.ACLIDSelector, &out.ACLIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ACLType != nil {
@@ -3140,12 +3140,12 @@ func (in *ListenerAclAttachmentParameters) DeepCopyInto(out *ListenerAclAttachme
 	}
 	if in.ListenerIDRef != nil {
 		in, out := &in.ListenerIDRef, &out.ListenerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ListenerIDSelector != nil {
 		in, out := &in.ListenerIDSelector, &out.ListenerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -3237,12 +3237,12 @@ func (in *ListenerAdditionalCertificateAttachmentInitParameters) DeepCopyInto(ou
 	}
 	if in.CertificateIDRef != nil {
 		in, out := &in.CertificateIDRef, &out.CertificateIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CertificateIDSelector != nil {
 		in, out := &in.CertificateIDSelector, &out.CertificateIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ListenerID != nil {
@@ -3252,12 +3252,12 @@ func (in *ListenerAdditionalCertificateAttachmentInitParameters) DeepCopyInto(ou
 	}
 	if in.ListenerIDRef != nil {
 		in, out := &in.ListenerIDRef, &out.ListenerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ListenerIDSelector != nil {
 		in, out := &in.ListenerIDSelector, &out.ListenerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3354,12 +3354,12 @@ func (in *ListenerAdditionalCertificateAttachmentParameters) DeepCopyInto(out *L
 	}
 	if in.CertificateIDRef != nil {
 		in, out := &in.CertificateIDRef, &out.CertificateIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CertificateIDSelector != nil {
 		in, out := &in.CertificateIDSelector, &out.CertificateIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ListenerID != nil {
@@ -3369,12 +3369,12 @@ func (in *ListenerAdditionalCertificateAttachmentParameters) DeepCopyInto(out *L
 	}
 	if in.ListenerIDRef != nil {
 		in, out := &in.ListenerIDRef, &out.ListenerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ListenerIDSelector != nil {
 		in, out := &in.ListenerIDSelector, &out.ListenerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -3512,12 +3512,12 @@ func (in *ListenerInitParameters) DeepCopyInto(out *ListenerInitParameters) {
 	}
 	if in.LoadBalancerIDRef != nil {
 		in, out := &in.LoadBalancerIDRef, &out.LoadBalancerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoadBalancerIDSelector != nil {
 		in, out := &in.LoadBalancerIDSelector, &out.LoadBalancerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.QuicConfig != nil {
@@ -3539,12 +3539,12 @@ func (in *ListenerInitParameters) DeepCopyInto(out *ListenerInitParameters) {
 	}
 	if in.SecurityPolicyIDRef != nil {
 		in, out := &in.SecurityPolicyIDRef, &out.SecurityPolicyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityPolicyIDSelector != nil {
 		in, out := &in.SecurityPolicyIDSelector, &out.SecurityPolicyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Status != nil {
@@ -3845,12 +3845,12 @@ func (in *ListenerParameters) DeepCopyInto(out *ListenerParameters) {
 	}
 	if in.LoadBalancerIDRef != nil {
 		in, out := &in.LoadBalancerIDRef, &out.LoadBalancerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoadBalancerIDSelector != nil {
 		in, out := &in.LoadBalancerIDSelector, &out.LoadBalancerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.QuicConfig != nil {
@@ -3877,12 +3877,12 @@ func (in *ListenerParameters) DeepCopyInto(out *ListenerParameters) {
 	}
 	if in.SecurityPolicyIDRef != nil {
 		in, out := &in.SecurityPolicyIDRef, &out.SecurityPolicyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityPolicyIDSelector != nil {
 		in, out := &in.SecurityPolicyIDSelector, &out.SecurityPolicyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Status != nil {
@@ -4253,12 +4253,12 @@ func (in *LoadBalancerInitParameters) DeepCopyInto(out *LoadBalancerInitParamete
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneMappings != nil {
@@ -4567,12 +4567,12 @@ func (in *LoadBalancerParameters) DeepCopyInto(out *LoadBalancerParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneMappings != nil {
@@ -4636,12 +4636,12 @@ func (in *LoadBalancerSecurityGroupAttachmentInitParameters) DeepCopyInto(out *L
 	}
 	if in.LoadBalancerIDRef != nil {
 		in, out := &in.LoadBalancerIDRef, &out.LoadBalancerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoadBalancerIDSelector != nil {
 		in, out := &in.LoadBalancerIDSelector, &out.LoadBalancerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupID != nil {
@@ -4651,12 +4651,12 @@ func (in *LoadBalancerSecurityGroupAttachmentInitParameters) DeepCopyInto(out *L
 	}
 	if in.SecurityGroupIDRef != nil {
 		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4753,12 +4753,12 @@ func (in *LoadBalancerSecurityGroupAttachmentParameters) DeepCopyInto(out *LoadB
 	}
 	if in.LoadBalancerIDRef != nil {
 		in, out := &in.LoadBalancerIDRef, &out.LoadBalancerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoadBalancerIDSelector != nil {
 		in, out := &in.LoadBalancerIDSelector, &out.LoadBalancerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -4773,12 +4773,12 @@ func (in *LoadBalancerSecurityGroupAttachmentParameters) DeepCopyInto(out *LoadB
 	}
 	if in.SecurityGroupIDRef != nil {
 		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4900,12 +4900,12 @@ func (in *LoadBalancerZoneShiftedAttachmentInitParameters) DeepCopyInto(out *Loa
 	}
 	if in.LoadBalancerIDRef != nil {
 		in, out := &in.LoadBalancerIDRef, &out.LoadBalancerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoadBalancerIDSelector != nil {
 		in, out := &in.LoadBalancerIDSelector, &out.LoadBalancerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -4915,12 +4915,12 @@ func (in *LoadBalancerZoneShiftedAttachmentInitParameters) DeepCopyInto(out *Loa
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -4930,12 +4930,12 @@ func (in *LoadBalancerZoneShiftedAttachmentInitParameters) DeepCopyInto(out *Loa
 	}
 	if in.ZoneIDRef != nil {
 		in, out := &in.ZoneIDRef, &out.ZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneIDSelector != nil {
 		in, out := &in.ZoneIDSelector, &out.ZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -5032,12 +5032,12 @@ func (in *LoadBalancerZoneShiftedAttachmentParameters) DeepCopyInto(out *LoadBal
 	}
 	if in.LoadBalancerIDRef != nil {
 		in, out := &in.LoadBalancerIDRef, &out.LoadBalancerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoadBalancerIDSelector != nil {
 		in, out := &in.LoadBalancerIDSelector, &out.LoadBalancerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -5052,12 +5052,12 @@ func (in *LoadBalancerZoneShiftedAttachmentParameters) DeepCopyInto(out *LoadBal
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -5067,12 +5067,12 @@ func (in *LoadBalancerZoneShiftedAttachmentParameters) DeepCopyInto(out *LoadBal
 	}
 	if in.ZoneIDRef != nil {
 		in, out := &in.ZoneIDRef, &out.ZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneIDSelector != nil {
 		in, out := &in.ZoneIDSelector, &out.ZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -6798,12 +6798,12 @@ func (in *RuleInitParameters) DeepCopyInto(out *RuleInitParameters) {
 	}
 	if in.ListenerIDRef != nil {
 		in, out := &in.ListenerIDRef, &out.ListenerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ListenerIDSelector != nil {
 		in, out := &in.ListenerIDSelector, &out.ListenerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Priority != nil {
@@ -6958,12 +6958,12 @@ func (in *RuleParameters) DeepCopyInto(out *RuleParameters) {
 	}
 	if in.ListenerIDRef != nil {
 		in, out := &in.ListenerIDRef, &out.ListenerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ListenerIDSelector != nil {
 		in, out := &in.ListenerIDSelector, &out.ListenerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Priority != nil {
@@ -7505,12 +7505,12 @@ func (in *ServerGroupInitParameters) DeepCopyInto(out *ServerGroupInitParameters
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -7833,12 +7833,12 @@ func (in *ServerGroupParameters) DeepCopyInto(out *ServerGroupParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -7973,12 +7973,12 @@ func (in *ServerGroupTuplesInitParameters) DeepCopyInto(out *ServerGroupTuplesIn
 	}
 	if in.ServerGroupIDRef != nil {
 		in, out := &in.ServerGroupIDRef, &out.ServerGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerGroupIDSelector != nil {
 		in, out := &in.ServerGroupIDSelector, &out.ServerGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -8023,12 +8023,12 @@ func (in *ServerGroupTuplesParameters) DeepCopyInto(out *ServerGroupTuplesParame
 	}
 	if in.ServerGroupIDRef != nil {
 		in, out := &in.ServerGroupIDRef, &out.ServerGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerGroupIDSelector != nil {
 		in, out := &in.ServerGroupIDSelector, &out.ServerGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -8068,12 +8068,12 @@ func (in *ServersInitParameters) DeepCopyInto(out *ServersInitParameters) {
 	}
 	if in.ServerIDRef != nil {
 		in, out := &in.ServerIDRef, &out.ServerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerIDSelector != nil {
 		in, out := &in.ServerIDSelector, &out.ServerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerIP != nil {
@@ -8083,12 +8083,12 @@ func (in *ServersInitParameters) DeepCopyInto(out *ServersInitParameters) {
 	}
 	if in.ServerIPRef != nil {
 		in, out := &in.ServerIPRef, &out.ServerIPRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerIPSelector != nil {
 		in, out := &in.ServerIPSelector, &out.ServerIPSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerType != nil {
@@ -8198,12 +8198,12 @@ func (in *ServersParameters) DeepCopyInto(out *ServersParameters) {
 	}
 	if in.ServerIDRef != nil {
 		in, out := &in.ServerIDRef, &out.ServerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerIDSelector != nil {
 		in, out := &in.ServerIDSelector, &out.ServerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerIP != nil {
@@ -8213,12 +8213,12 @@ func (in *ServersParameters) DeepCopyInto(out *ServersParameters) {
 	}
 	if in.ServerIPRef != nil {
 		in, out := &in.ServerIPRef, &out.ServerIPRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerIPSelector != nil {
 		in, out := &in.ServerIPSelector, &out.ServerIPSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServerType != nil {
@@ -9132,12 +9132,12 @@ func (in *ZoneMappingsInitParameters) DeepCopyInto(out *ZoneMappingsInitParamete
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -9147,12 +9147,12 @@ func (in *ZoneMappingsInitParameters) DeepCopyInto(out *ZoneMappingsInitParamete
 	}
 	if in.ZoneIDRef != nil {
 		in, out := &in.ZoneIDRef, &out.ZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneIDSelector != nil {
 		in, out := &in.ZoneIDSelector, &out.ZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -9249,12 +9249,12 @@ func (in *ZoneMappingsParameters) DeepCopyInto(out *ZoneMappingsParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -9264,12 +9264,12 @@ func (in *ZoneMappingsParameters) DeepCopyInto(out *ZoneMappingsParameters) {
 	}
 	if in.ZoneIDRef != nil {
 		in, out := &in.ZoneIDRef, &out.ZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneIDSelector != nil {
 		in, out := &in.ZoneIDSelector, &out.ZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }

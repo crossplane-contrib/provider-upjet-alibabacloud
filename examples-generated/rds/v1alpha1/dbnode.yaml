@@ -38,7 +38,7 @@ spec:
     instanceName: ${var.name}
     instanceStorage: ${data.alicloud_db_instance_classes.default.instance_classes.0.storage_range.min}
     instanceType: ${data.alicloud_db_instance_classes.default.instance_classes.0.instance_class}
-    monitoringPeriod: "60"
+    monitoringPeriod: 60
     region: cn-beijing
     securityGroupIdRefs:
     - name: default

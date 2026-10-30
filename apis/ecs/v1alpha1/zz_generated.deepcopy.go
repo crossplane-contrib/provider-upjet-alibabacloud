@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -306,12 +306,12 @@ func (in *AutoProvisioningGroupInitParameters) DeepCopyInto(out *AutoProvisionin
 	}
 	if in.LaunchTemplateIDRef != nil {
 		in, out := &in.LaunchTemplateIDRef, &out.LaunchTemplateIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateIDSelector != nil {
 		in, out := &in.LaunchTemplateIDSelector, &out.LaunchTemplateIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateVersion != nil {
@@ -587,12 +587,12 @@ func (in *AutoProvisioningGroupParameters) DeepCopyInto(out *AutoProvisioningGro
 	}
 	if in.LaunchTemplateIDRef != nil {
 		in, out := &in.LaunchTemplateIDRef, &out.LaunchTemplateIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateIDSelector != nil {
 		in, out := &in.LaunchTemplateIDSelector, &out.LaunchTemplateIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateVersion != nil {
@@ -776,12 +776,12 @@ func (in *AutoSnapshotPolicyAttachmentInitParameters) DeepCopyInto(out *AutoSnap
 	}
 	if in.AutoSnapshotPolicyIDRef != nil {
 		in, out := &in.AutoSnapshotPolicyIDRef, &out.AutoSnapshotPolicyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AutoSnapshotPolicyIDSelector != nil {
 		in, out := &in.AutoSnapshotPolicyIDSelector, &out.AutoSnapshotPolicyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskID != nil {
@@ -791,12 +791,12 @@ func (in *AutoSnapshotPolicyAttachmentInitParameters) DeepCopyInto(out *AutoSnap
 	}
 	if in.DiskIDRef != nil {
 		in, out := &in.DiskIDRef, &out.DiskIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskIDSelector != nil {
 		in, out := &in.DiskIDSelector, &out.DiskIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -888,12 +888,12 @@ func (in *AutoSnapshotPolicyAttachmentParameters) DeepCopyInto(out *AutoSnapshot
 	}
 	if in.AutoSnapshotPolicyIDRef != nil {
 		in, out := &in.AutoSnapshotPolicyIDRef, &out.AutoSnapshotPolicyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AutoSnapshotPolicyIDSelector != nil {
 		in, out := &in.AutoSnapshotPolicyIDSelector, &out.AutoSnapshotPolicyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskID != nil {
@@ -903,12 +903,12 @@ func (in *AutoSnapshotPolicyAttachmentParameters) DeepCopyInto(out *AutoSnapshot
 	}
 	if in.DiskIDRef != nil {
 		in, out := &in.DiskIDRef, &out.DiskIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskIDSelector != nil {
 		in, out := &in.DiskIDSelector, &out.DiskIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -3449,12 +3449,12 @@ func (in *DiskAttachmentInitParameters) DeepCopyInto(out *DiskAttachmentInitPara
 	}
 	if in.DiskIDRef != nil {
 		in, out := &in.DiskIDRef, &out.DiskIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskIDSelector != nil {
 		in, out := &in.DiskIDSelector, &out.DiskIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceID != nil {
@@ -3464,12 +3464,12 @@ func (in *DiskAttachmentInitParameters) DeepCopyInto(out *DiskAttachmentInitPara
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KeyPairName != nil {
@@ -3601,12 +3601,12 @@ func (in *DiskAttachmentParameters) DeepCopyInto(out *DiskAttachmentParameters) 
 	}
 	if in.DiskIDRef != nil {
 		in, out := &in.DiskIDRef, &out.DiskIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskIDSelector != nil {
 		in, out := &in.DiskIDSelector, &out.DiskIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceID != nil {
@@ -3616,12 +3616,12 @@ func (in *DiskAttachmentParameters) DeepCopyInto(out *DiskAttachmentParameters) 
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KeyPairName != nil {
@@ -3881,12 +3881,12 @@ func (in *DiskInitParameters) DeepCopyInto(out *DiskInitParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyID != nil {
@@ -3896,12 +3896,12 @@ func (in *DiskInitParameters) DeepCopyInto(out *DiskInitParameters) {
 	}
 	if in.KMSKeyIDRef != nil {
 		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyIDSelector != nil {
 		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MultiAttach != nil {
@@ -4255,12 +4255,12 @@ func (in *DiskParameters) DeepCopyInto(out *DiskParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyID != nil {
@@ -4270,12 +4270,12 @@ func (in *DiskParameters) DeepCopyInto(out *DiskParameters) {
 	}
 	if in.KMSKeyIDRef != nil {
 		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyIDSelector != nil {
 		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MultiAttach != nil {
@@ -5682,12 +5682,12 @@ func (in *ImageCopyInitParameters) DeepCopyInto(out *ImageCopyInitParameters) {
 	}
 	if in.KMSKeyIDRef != nil {
 		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyIDSelector != nil {
 		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceImageID != nil {
@@ -5697,12 +5697,12 @@ func (in *ImageCopyInitParameters) DeepCopyInto(out *ImageCopyInitParameters) {
 	}
 	if in.SourceImageIDRef != nil {
 		in, out := &in.SourceImageIDRef, &out.SourceImageIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceImageIDSelector != nil {
 		in, out := &in.SourceImageIDSelector, &out.SourceImageIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceRegionID != nil {
@@ -5881,12 +5881,12 @@ func (in *ImageCopyParameters) DeepCopyInto(out *ImageCopyParameters) {
 	}
 	if in.KMSKeyIDRef != nil {
 		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyIDSelector != nil {
 		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -5901,12 +5901,12 @@ func (in *ImageCopyParameters) DeepCopyInto(out *ImageCopyParameters) {
 	}
 	if in.SourceImageIDRef != nil {
 		in, out := &in.SourceImageIDRef, &out.SourceImageIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceImageIDSelector != nil {
 		in, out := &in.SourceImageIDSelector, &out.SourceImageIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceRegionID != nil {
@@ -6014,12 +6014,12 @@ func (in *ImageExportInitParameters) DeepCopyInto(out *ImageExportInitParameters
 	}
 	if in.ImageIDRef != nil {
 		in, out := &in.ImageIDRef, &out.ImageIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageIDSelector != nil {
 		in, out := &in.ImageIDSelector, &out.ImageIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssBucket != nil {
@@ -6029,12 +6029,12 @@ func (in *ImageExportInitParameters) DeepCopyInto(out *ImageExportInitParameters
 	}
 	if in.OssBucketRef != nil {
 		in, out := &in.OssBucketRef, &out.OssBucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssBucketSelector != nil {
 		in, out := &in.OssBucketSelector, &out.OssBucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssPrefix != nil {
@@ -6131,12 +6131,12 @@ func (in *ImageExportParameters) DeepCopyInto(out *ImageExportParameters) {
 	}
 	if in.ImageIDRef != nil {
 		in, out := &in.ImageIDRef, &out.ImageIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageIDSelector != nil {
 		in, out := &in.ImageIDSelector, &out.ImageIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssBucket != nil {
@@ -6146,12 +6146,12 @@ func (in *ImageExportParameters) DeepCopyInto(out *ImageExportParameters) {
 	}
 	if in.OssBucketRef != nil {
 		in, out := &in.OssBucketRef, &out.OssBucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssBucketSelector != nil {
 		in, out := &in.OssBucketSelector, &out.OssBucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssPrefix != nil {
@@ -6263,12 +6263,12 @@ func (in *ImageImportDiskDeviceMappingInitParameters) DeepCopyInto(out *ImageImp
 	}
 	if in.OssBucketRef != nil {
 		in, out := &in.OssBucketRef, &out.OssBucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssBucketSelector != nil {
 		in, out := &in.OssBucketSelector, &out.OssBucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssObject != nil {
@@ -6278,12 +6278,12 @@ func (in *ImageImportDiskDeviceMappingInitParameters) DeepCopyInto(out *ImageImp
 	}
 	if in.OssObjectRef != nil {
 		in, out := &in.OssObjectRef, &out.OssObjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssObjectSelector != nil {
 		in, out := &in.OssObjectSelector, &out.OssObjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -6363,12 +6363,12 @@ func (in *ImageImportDiskDeviceMappingParameters) DeepCopyInto(out *ImageImportD
 	}
 	if in.OssBucketRef != nil {
 		in, out := &in.OssBucketRef, &out.OssBucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssBucketSelector != nil {
 		in, out := &in.OssBucketSelector, &out.OssBucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssObject != nil {
@@ -6378,12 +6378,12 @@ func (in *ImageImportDiskDeviceMappingParameters) DeepCopyInto(out *ImageImportD
 	}
 	if in.OssObjectRef != nil {
 		in, out := &in.OssObjectRef, &out.OssObjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.OssObjectSelector != nil {
 		in, out := &in.OssObjectSelector, &out.OssObjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -6796,12 +6796,12 @@ func (in *ImageInitParameters) DeepCopyInto(out *ImageInitParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LicenseType != nil {
@@ -6826,12 +6826,12 @@ func (in *ImageInitParameters) DeepCopyInto(out *ImageInitParameters) {
 	}
 	if in.SnapshotIDRef != nil {
 		in, out := &in.SnapshotIDRef, &out.SnapshotIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SnapshotIDSelector != nil {
 		in, out := &in.SnapshotIDSelector, &out.SnapshotIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
@@ -7158,12 +7158,12 @@ func (in *ImageParameters) DeepCopyInto(out *ImageParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LicenseType != nil {
@@ -7193,12 +7193,12 @@ func (in *ImageParameters) DeepCopyInto(out *ImageParameters) {
 	}
 	if in.SnapshotIDRef != nil {
 		in, out := &in.SnapshotIDRef, &out.SnapshotIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SnapshotIDSelector != nil {
 		in, out := &in.SnapshotIDSelector, &out.SnapshotIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
@@ -7293,12 +7293,12 @@ func (in *ImagePipelineExecutionInitParameters) DeepCopyInto(out *ImagePipelineE
 	}
 	if in.ImagePipelineIDRef != nil {
 		in, out := &in.ImagePipelineIDRef, &out.ImagePipelineIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImagePipelineIDSelector != nil {
 		in, out := &in.ImagePipelineIDSelector, &out.ImagePipelineIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Status != nil {
@@ -7395,12 +7395,12 @@ func (in *ImagePipelineExecutionParameters) DeepCopyInto(out *ImagePipelineExecu
 	}
 	if in.ImagePipelineIDRef != nil {
 		in, out := &in.ImagePipelineIDRef, &out.ImagePipelineIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImagePipelineIDSelector != nil {
 		in, out := &in.ImagePipelineIDSelector, &out.ImagePipelineIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -7563,12 +7563,12 @@ func (in *ImagePipelineInitParameters) DeepCopyInto(out *ImagePipelineInitParame
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -7841,12 +7841,12 @@ func (in *ImagePipelineParameters) DeepCopyInto(out *ImagePipelineParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -7938,12 +7938,12 @@ func (in *ImageSharePermissionInitParameters) DeepCopyInto(out *ImageSharePermis
 	}
 	if in.ImageIDRef != nil {
 		in, out := &in.ImageIDRef, &out.ImageIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageIDSelector != nil {
 		in, out := &in.ImageIDSelector, &out.ImageIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -8035,12 +8035,12 @@ func (in *ImageSharePermissionParameters) DeepCopyInto(out *ImageSharePermission
 	}
 	if in.ImageIDRef != nil {
 		in, out := &in.ImageIDRef, &out.ImageIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageIDSelector != nil {
 		in, out := &in.ImageIDSelector, &out.ImageIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -8202,12 +8202,12 @@ func (in *InstanceDataDisksInitParameters) DeepCopyInto(out *InstanceDataDisksIn
 	}
 	if in.KMSKeyIDRef != nil {
 		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyIDSelector != nil {
 		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -8372,12 +8372,12 @@ func (in *InstanceDataDisksParameters) DeepCopyInto(out *InstanceDataDisksParame
 	}
 	if in.KMSKeyIDRef != nil {
 		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyIDSelector != nil {
 		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -8607,12 +8607,12 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.ImageIDRef != nil {
 		in, out := &in.ImageIDRef, &out.ImageIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageIDSelector != nil {
 		in, out := &in.ImageIDSelector, &out.ImageIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageOptions != nil {
@@ -8690,12 +8690,12 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.KeyNameRef != nil {
 		in, out := &in.KeyNameRef, &out.KeyNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KeyNameSelector != nil {
 		in, out := &in.KeyNameSelector, &out.KeyNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateID != nil {
@@ -8705,12 +8705,12 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.LaunchTemplateIDRef != nil {
 		in, out := &in.LaunchTemplateIDRef, &out.LaunchTemplateIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateIDSelector != nil {
 		in, out := &in.LaunchTemplateIDSelector, &out.LaunchTemplateIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateName != nil {
@@ -8774,7 +8774,7 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.PasswordSecretRef != nil {
 		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.Period != nil {
@@ -8845,14 +8845,14 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.SecurityGroupRefs != nil {
 		in, out := &in.SecurityGroupRefs, &out.SecurityGroupRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupSelector != nil {
 		in, out := &in.SecurityGroupSelector, &out.SecurityGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroups != nil {
@@ -8989,12 +8989,12 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VolumeTags != nil {
@@ -9020,12 +9020,12 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -9926,12 +9926,12 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.ImageIDRef != nil {
 		in, out := &in.ImageIDRef, &out.ImageIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageIDSelector != nil {
 		in, out := &in.ImageIDSelector, &out.ImageIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ImageOptions != nil {
@@ -10009,12 +10009,12 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.KeyNameRef != nil {
 		in, out := &in.KeyNameRef, &out.KeyNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KeyNameSelector != nil {
 		in, out := &in.KeyNameSelector, &out.KeyNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateID != nil {
@@ -10024,12 +10024,12 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.LaunchTemplateIDRef != nil {
 		in, out := &in.LaunchTemplateIDRef, &out.LaunchTemplateIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateIDSelector != nil {
 		in, out := &in.LaunchTemplateIDSelector, &out.LaunchTemplateIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateName != nil {
@@ -10093,7 +10093,7 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.PasswordSecretRef != nil {
 		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.Period != nil {
@@ -10169,14 +10169,14 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.SecurityGroupRefs != nil {
 		in, out := &in.SecurityGroupRefs, &out.SecurityGroupRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupSelector != nil {
 		in, out := &in.SecurityGroupSelector, &out.SecurityGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroups != nil {
@@ -10313,12 +10313,12 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VolumeTags != nil {
@@ -10344,12 +10344,12 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -10443,12 +10443,12 @@ func (in *InstanceSetInitParameters) DeepCopyInto(out *InstanceSetInitParameters
 	}
 	if in.DeploymentSetIDRef != nil {
 		in, out := &in.DeploymentSetIDRef, &out.DeploymentSetIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DeploymentSetIDSelector != nil {
 		in, out := &in.DeploymentSetIDSelector, &out.DeploymentSetIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
@@ -10515,12 +10515,12 @@ func (in *InstanceSetInitParameters) DeepCopyInto(out *InstanceSetInitParameters
 	}
 	if in.LaunchTemplateIDRef != nil {
 		in, out := &in.LaunchTemplateIDRef, &out.LaunchTemplateIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateIDSelector != nil {
 		in, out := &in.LaunchTemplateIDSelector, &out.LaunchTemplateIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateName != nil {
@@ -10547,7 +10547,7 @@ func (in *InstanceSetInitParameters) DeepCopyInto(out *InstanceSetInitParameters
 	}
 	if in.PasswordSecretRef != nil {
 		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.Period != nil {
@@ -10577,14 +10577,14 @@ func (in *InstanceSetInitParameters) DeepCopyInto(out *InstanceSetInitParameters
 	}
 	if in.SecurityGroupIDRefs != nil {
 		in, out := &in.SecurityGroupIDRefs, &out.SecurityGroupIDRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIds != nil {
@@ -10666,12 +10666,12 @@ func (in *InstanceSetInitParameters) DeepCopyInto(out *InstanceSetInitParameters
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -11044,12 +11044,12 @@ func (in *InstanceSetParameters) DeepCopyInto(out *InstanceSetParameters) {
 	}
 	if in.DeploymentSetIDRef != nil {
 		in, out := &in.DeploymentSetIDRef, &out.DeploymentSetIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DeploymentSetIDSelector != nil {
 		in, out := &in.DeploymentSetIDSelector, &out.DeploymentSetIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
@@ -11116,12 +11116,12 @@ func (in *InstanceSetParameters) DeepCopyInto(out *InstanceSetParameters) {
 	}
 	if in.LaunchTemplateIDRef != nil {
 		in, out := &in.LaunchTemplateIDRef, &out.LaunchTemplateIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateIDSelector != nil {
 		in, out := &in.LaunchTemplateIDSelector, &out.LaunchTemplateIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateName != nil {
@@ -11148,7 +11148,7 @@ func (in *InstanceSetParameters) DeepCopyInto(out *InstanceSetParameters) {
 	}
 	if in.PasswordSecretRef != nil {
 		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.Period != nil {
@@ -11183,14 +11183,14 @@ func (in *InstanceSetParameters) DeepCopyInto(out *InstanceSetParameters) {
 	}
 	if in.SecurityGroupIDRefs != nil {
 		in, out := &in.SecurityGroupIDRefs, &out.SecurityGroupIDRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIds != nil {
@@ -11272,12 +11272,12 @@ func (in *InstanceSetParameters) DeepCopyInto(out *InstanceSetParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -11404,12 +11404,12 @@ func (in *InvocationInitParameters) DeepCopyInto(out *InvocationInitParameters) 
 	}
 	if in.CommandIDRef != nil {
 		in, out := &in.CommandIDRef, &out.CommandIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CommandIDSelector != nil {
 		in, out := &in.CommandIDSelector, &out.CommandIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Frequency != nil {
@@ -11430,14 +11430,14 @@ func (in *InvocationInitParameters) DeepCopyInto(out *InvocationInitParameters) 
 	}
 	if in.InstanceIDRefs != nil {
 		in, out := &in.InstanceIDRefs, &out.InstanceIDRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Parameters != nil {
@@ -11612,12 +11612,12 @@ func (in *InvocationParameters) DeepCopyInto(out *InvocationParameters) {
 	}
 	if in.CommandIDRef != nil {
 		in, out := &in.CommandIDRef, &out.CommandIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CommandIDSelector != nil {
 		in, out := &in.CommandIDSelector, &out.CommandIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Frequency != nil {
@@ -11638,14 +11638,14 @@ func (in *InvocationParameters) DeepCopyInto(out *InvocationParameters) {
 	}
 	if in.InstanceIDRefs != nil {
 		in, out := &in.InstanceIDRefs, &out.InstanceIDRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Parameters != nil {
@@ -11811,14 +11811,14 @@ func (in *KeyPairAttachmentInitParameters) DeepCopyInto(out *KeyPairAttachmentIn
 	}
 	if in.InstanceRefs != nil {
 		in, out := &in.InstanceRefs, &out.InstanceRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.InstanceSelector != nil {
 		in, out := &in.InstanceSelector, &out.InstanceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KeyPairName != nil {
@@ -11828,12 +11828,12 @@ func (in *KeyPairAttachmentInitParameters) DeepCopyInto(out *KeyPairAttachmentIn
 	}
 	if in.KeyPairNameRef != nil {
 		in, out := &in.KeyPairNameRef, &out.KeyPairNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KeyPairNameSelector != nil {
 		in, out := &in.KeyPairNameSelector, &out.KeyPairNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -11942,14 +11942,14 @@ func (in *KeyPairAttachmentParameters) DeepCopyInto(out *KeyPairAttachmentParame
 	}
 	if in.InstanceRefs != nil {
 		in, out := &in.InstanceRefs, &out.InstanceRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.InstanceSelector != nil {
 		in, out := &in.InstanceSelector, &out.InstanceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KeyPairName != nil {
@@ -11959,12 +11959,12 @@ func (in *KeyPairAttachmentParameters) DeepCopyInto(out *KeyPairAttachmentParame
 	}
 	if in.KeyPairNameRef != nil {
 		in, out := &in.KeyPairNameRef, &out.KeyPairNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KeyPairNameSelector != nil {
 		in, out := &in.KeyPairNameSelector, &out.KeyPairNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -12326,12 +12326,12 @@ func (in *LaunchTemplateConfigInitParameters) DeepCopyInto(out *LaunchTemplateCo
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WeightedCapacity != nil {
@@ -12416,12 +12416,12 @@ func (in *LaunchTemplateConfigParameters) DeepCopyInto(out *LaunchTemplateConfig
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WeightedCapacity != nil {
@@ -12673,12 +12673,12 @@ func (in *LaunchTemplateInitParameters) DeepCopyInto(out *LaunchTemplateInitPara
 	}
 	if in.DeploymentSetIDRef != nil {
 		in, out := &in.DeploymentSetIDRef, &out.DeploymentSetIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DeploymentSetIDSelector != nil {
 		in, out := &in.DeploymentSetIDSelector, &out.DeploymentSetIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
@@ -12770,12 +12770,12 @@ func (in *LaunchTemplateInitParameters) DeepCopyInto(out *LaunchTemplateInitPara
 	}
 	if in.KeyPairNameRef != nil {
 		in, out := &in.KeyPairNameRef, &out.KeyPairNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KeyPairNameSelector != nil {
 		in, out := &in.KeyPairNameSelector, &out.KeyPairNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateName != nil {
@@ -12837,12 +12837,12 @@ func (in *LaunchTemplateInitParameters) DeepCopyInto(out *LaunchTemplateInitPara
 	}
 	if in.SecurityGroupIDRef != nil {
 		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIds != nil {
@@ -12858,14 +12858,14 @@ func (in *LaunchTemplateInitParameters) DeepCopyInto(out *LaunchTemplateInitPara
 	}
 	if in.SecurityGroupRefs != nil {
 		in, out := &in.SecurityGroupRefs, &out.SecurityGroupRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupSelector != nil {
 		in, out := &in.SecurityGroupSelector, &out.SecurityGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SpotDuration != nil {
@@ -12944,12 +12944,12 @@ func (in *LaunchTemplateInitParameters) DeepCopyInto(out *LaunchTemplateInitPara
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VersionDescription != nil {
@@ -12964,12 +12964,12 @@ func (in *LaunchTemplateInitParameters) DeepCopyInto(out *LaunchTemplateInitPara
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -13051,12 +13051,12 @@ func (in *LaunchTemplateNetworkInterfacesInitParameters) DeepCopyInto(out *Launc
 	}
 	if in.SecurityGroupIDRef != nil {
 		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -13066,12 +13066,12 @@ func (in *LaunchTemplateNetworkInterfacesInitParameters) DeepCopyInto(out *Launc
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -13161,12 +13161,12 @@ func (in *LaunchTemplateNetworkInterfacesParameters) DeepCopyInto(out *LaunchTem
 	}
 	if in.SecurityGroupIDRef != nil {
 		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -13176,12 +13176,12 @@ func (in *LaunchTemplateNetworkInterfacesParameters) DeepCopyInto(out *LaunchTem
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -13534,12 +13534,12 @@ func (in *LaunchTemplateParameters) DeepCopyInto(out *LaunchTemplateParameters) 
 	}
 	if in.DeploymentSetIDRef != nil {
 		in, out := &in.DeploymentSetIDRef, &out.DeploymentSetIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DeploymentSetIDSelector != nil {
 		in, out := &in.DeploymentSetIDSelector, &out.DeploymentSetIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
@@ -13631,12 +13631,12 @@ func (in *LaunchTemplateParameters) DeepCopyInto(out *LaunchTemplateParameters) 
 	}
 	if in.KeyPairNameRef != nil {
 		in, out := &in.KeyPairNameRef, &out.KeyPairNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KeyPairNameSelector != nil {
 		in, out := &in.KeyPairNameSelector, &out.KeyPairNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LaunchTemplateName != nil {
@@ -13703,12 +13703,12 @@ func (in *LaunchTemplateParameters) DeepCopyInto(out *LaunchTemplateParameters) 
 	}
 	if in.SecurityGroupIDRef != nil {
 		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIds != nil {
@@ -13724,14 +13724,14 @@ func (in *LaunchTemplateParameters) DeepCopyInto(out *LaunchTemplateParameters) 
 	}
 	if in.SecurityGroupRefs != nil {
 		in, out := &in.SecurityGroupRefs, &out.SecurityGroupRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupSelector != nil {
 		in, out := &in.SecurityGroupSelector, &out.SecurityGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SpotDuration != nil {
@@ -13810,12 +13810,12 @@ func (in *LaunchTemplateParameters) DeepCopyInto(out *LaunchTemplateParameters) 
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VersionDescription != nil {
@@ -13830,12 +13830,12 @@ func (in *LaunchTemplateParameters) DeepCopyInto(out *LaunchTemplateParameters) 
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -14104,12 +14104,12 @@ func (in *NetworkInterfaceAttachmentInitParameters) DeepCopyInto(out *NetworkInt
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkCardIndex != nil {
@@ -14124,12 +14124,12 @@ func (in *NetworkInterfaceAttachmentInitParameters) DeepCopyInto(out *NetworkInt
 	}
 	if in.NetworkInterfaceIDRef != nil {
 		in, out := &in.NetworkInterfaceIDRef, &out.NetworkInterfaceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkInterfaceIDSelector != nil {
 		in, out := &in.NetworkInterfaceIDSelector, &out.NetworkInterfaceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TrunkNetworkInstanceID != nil {
@@ -14241,12 +14241,12 @@ func (in *NetworkInterfaceAttachmentParameters) DeepCopyInto(out *NetworkInterfa
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkCardIndex != nil {
@@ -14261,12 +14261,12 @@ func (in *NetworkInterfaceAttachmentParameters) DeepCopyInto(out *NetworkInterfa
 	}
 	if in.NetworkInterfaceIDRef != nil {
 		in, out := &in.NetworkInterfaceIDRef, &out.NetworkInterfaceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkInterfaceIDSelector != nil {
 		in, out := &in.NetworkInterfaceIDSelector, &out.NetworkInterfaceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -14435,14 +14435,14 @@ func (in *NetworkInterfaceInitParameters) DeepCopyInto(out *NetworkInterfaceInit
 	}
 	if in.SecurityGroupRefs != nil {
 		in, out := &in.SecurityGroupRefs, &out.SecurityGroupRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupSelector != nil {
 		in, out := &in.SecurityGroupSelector, &out.SecurityGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDestCheck != nil {
@@ -14473,12 +14473,12 @@ func (in *NetworkInterfaceInitParameters) DeepCopyInto(out *NetworkInterfaceInit
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -14789,14 +14789,14 @@ func (in *NetworkInterfaceParameters) DeepCopyInto(out *NetworkInterfaceParamete
 	}
 	if in.SecurityGroupRefs != nil {
 		in, out := &in.SecurityGroupRefs, &out.SecurityGroupRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupSelector != nil {
 		in, out := &in.SecurityGroupSelector, &out.SecurityGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceDestCheck != nil {
@@ -14827,12 +14827,12 @@ func (in *NetworkInterfaceParameters) DeepCopyInto(out *NetworkInterfaceParamete
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -14894,12 +14894,12 @@ func (in *NetworkInterfacePermissionInitParameters) DeepCopyInto(out *NetworkInt
 	}
 	if in.NetworkInterfaceIDRef != nil {
 		in, out := &in.NetworkInterfaceIDRef, &out.NetworkInterfaceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkInterfaceIDSelector != nil {
 		in, out := &in.NetworkInterfaceIDSelector, &out.NetworkInterfaceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Permission != nil {
@@ -15016,12 +15016,12 @@ func (in *NetworkInterfacePermissionParameters) DeepCopyInto(out *NetworkInterfa
 	}
 	if in.NetworkInterfaceIDRef != nil {
 		in, out := &in.NetworkInterfaceIDRef, &out.NetworkInterfaceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkInterfaceIDSelector != nil {
 		in, out := &in.NetworkInterfaceIDSelector, &out.NetworkInterfaceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Permission != nil {
@@ -16018,12 +16018,12 @@ func (in *SecurityGroupInitParameters) DeepCopyInto(out *SecurityGroupInitParame
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -16197,12 +16197,12 @@ func (in *SecurityGroupParameters) DeepCopyInto(out *SecurityGroupParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -16299,12 +16299,12 @@ func (in *SecurityGroupRuleInitParameters) DeepCopyInto(out *SecurityGroupRuleIn
 	}
 	if in.SecurityGroupIDRef != nil {
 		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceGroupOwnerAccount != nil {
@@ -16324,12 +16324,12 @@ func (in *SecurityGroupRuleInitParameters) DeepCopyInto(out *SecurityGroupRuleIn
 	}
 	if in.SourceSecurityGroupIDRef != nil {
 		in, out := &in.SourceSecurityGroupIDRef, &out.SourceSecurityGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceSecurityGroupIDSelector != nil {
 		in, out := &in.SourceSecurityGroupIDSelector, &out.SourceSecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
@@ -16536,12 +16536,12 @@ func (in *SecurityGroupRuleParameters) DeepCopyInto(out *SecurityGroupRuleParame
 	}
 	if in.SecurityGroupIDRef != nil {
 		in, out := &in.SecurityGroupIDRef, &out.SecurityGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceGroupOwnerAccount != nil {
@@ -16561,12 +16561,12 @@ func (in *SecurityGroupRuleParameters) DeepCopyInto(out *SecurityGroupRuleParame
 	}
 	if in.SourceSecurityGroupIDRef != nil {
 		in, out := &in.SourceSecurityGroupIDRef, &out.SourceSecurityGroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceSecurityGroupIDSelector != nil {
 		in, out := &in.SourceSecurityGroupIDSelector, &out.SourceSecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Type != nil {
@@ -16926,12 +16926,12 @@ func (in *SnapshotGroupInitParameters) DeepCopyInto(out *SnapshotGroupInitParame
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstantAccess != nil {
@@ -17144,12 +17144,12 @@ func (in *SnapshotGroupParameters) DeepCopyInto(out *SnapshotGroupParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstantAccess != nil {
@@ -17260,12 +17260,12 @@ func (in *SnapshotInitParameters) DeepCopyInto(out *SnapshotInitParameters) {
 	}
 	if in.DiskIDRef != nil {
 		in, out := &in.DiskIDRef, &out.DiskIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskIDSelector != nil {
 		in, out := &in.DiskIDSelector, &out.DiskIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Force != nil {
@@ -17469,12 +17469,12 @@ func (in *SnapshotParameters) DeepCopyInto(out *SnapshotParameters) {
 	}
 	if in.DiskIDRef != nil {
 		in, out := &in.DiskIDRef, &out.DiskIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskIDSelector != nil {
 		in, out := &in.DiskIDSelector, &out.DiskIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Force != nil {

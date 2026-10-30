@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -275,12 +275,12 @@ func (in *MembershipAttachmentInitParameters) DeepCopyInto(out *MembershipAttach
 	}
 	if in.ClusterIDRef != nil {
 		in, out := &in.ClusterIDRef, &out.ClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ClusterIDSelector != nil {
 		in, out := &in.ClusterIDSelector, &out.ClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubClusterID != nil {
@@ -290,12 +290,12 @@ func (in *MembershipAttachmentInitParameters) DeepCopyInto(out *MembershipAttach
 	}
 	if in.SubClusterIDRef != nil {
 		in, out := &in.SubClusterIDRef, &out.SubClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubClusterIDSelector != nil {
 		in, out := &in.SubClusterIDSelector, &out.SubClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -382,12 +382,12 @@ func (in *MembershipAttachmentParameters) DeepCopyInto(out *MembershipAttachment
 	}
 	if in.ClusterIDRef != nil {
 		in, out := &in.ClusterIDRef, &out.ClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ClusterIDSelector != nil {
 		in, out := &in.ClusterIDSelector, &out.ClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -402,12 +402,12 @@ func (in *MembershipAttachmentParameters) DeepCopyInto(out *MembershipAttachment
 	}
 	if in.SubClusterIDRef != nil {
 		in, out := &in.SubClusterIDRef, &out.SubClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubClusterIDSelector != nil {
 		in, out := &in.SubClusterIDSelector, &out.SubClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -467,12 +467,12 @@ func (in *NetworkInitParameters) DeepCopyInto(out *NetworkInitParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Vswitches != nil {
@@ -488,14 +488,14 @@ func (in *NetworkInitParameters) DeepCopyInto(out *NetworkInitParameters) {
 	}
 	if in.VswitchesRefs != nil {
 		in, out := &in.VswitchesRefs, &out.VswitchesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.VswitchesSelector != nil {
 		in, out := &in.VswitchesSelector, &out.VswitchesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -562,12 +562,12 @@ func (in *NetworkParameters) DeepCopyInto(out *NetworkParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Vswitches != nil {
@@ -583,14 +583,14 @@ func (in *NetworkParameters) DeepCopyInto(out *NetworkParameters) {
 	}
 	if in.VswitchesRefs != nil {
 		in, out := &in.VswitchesRefs, &out.VswitchesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.VswitchesSelector != nil {
 		in, out := &in.VswitchesSelector, &out.VswitchesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }

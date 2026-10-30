@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccountPrivilegeInitParameters struct {
@@ -22,11 +22,11 @@ type AccountPrivilegeInitParameters struct {
 
 	// Reference to a Account in rds to populate accountName.
 	// +kubebuilder:validation:Optional
-	AccountNameRef *v1.Reference `json:"accountNameRef,omitempty" tf:"-"`
+	AccountNameRef *v2.Reference `json:"accountNameRef,omitempty" tf:"-"`
 
 	// Selector for a Account in rds to populate accountName.
 	// +kubebuilder:validation:Optional
-	AccountNameSelector *v1.Selector `json:"accountNameSelector,omitempty" tf:"-"`
+	AccountNameSelector *v2.Selector `json:"accountNameSelector,omitempty" tf:"-"`
 
 	// List of specified database name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Database
@@ -36,11 +36,11 @@ type AccountPrivilegeInitParameters struct {
 
 	// References to Database in rds to populate dbNames.
 	// +kubebuilder:validation:Optional
-	DBNamesRefs []v1.Reference `json:"dbNamesRefs,omitempty" tf:"-"`
+	DBNamesRefs []v2.Reference `json:"dbNamesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Database in rds to populate dbNames.
 	// +kubebuilder:validation:Optional
-	DBNamesSelector *v1.Selector `json:"dbNamesSelector,omitempty" tf:"-"`
+	DBNamesSelector *v2.Selector `json:"dbNamesSelector,omitempty" tf:"-"`
 
 	// The Id of instance in which account belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Instance
@@ -49,11 +49,11 @@ type AccountPrivilegeInitParameters struct {
 
 	// Reference to a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The privilege of one account access database. Valid values:
 	Privilege *string `json:"privilege,omitempty" tf:"privilege,omitempty"`
@@ -88,11 +88,11 @@ type AccountPrivilegeParameters struct {
 
 	// Reference to a Account in rds to populate accountName.
 	// +kubebuilder:validation:Optional
-	AccountNameRef *v1.Reference `json:"accountNameRef,omitempty" tf:"-"`
+	AccountNameRef *v2.Reference `json:"accountNameRef,omitempty" tf:"-"`
 
 	// Selector for a Account in rds to populate accountName.
 	// +kubebuilder:validation:Optional
-	AccountNameSelector *v1.Selector `json:"accountNameSelector,omitempty" tf:"-"`
+	AccountNameSelector *v2.Selector `json:"accountNameSelector,omitempty" tf:"-"`
 
 	// List of specified database name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Database
@@ -103,11 +103,11 @@ type AccountPrivilegeParameters struct {
 
 	// References to Database in rds to populate dbNames.
 	// +kubebuilder:validation:Optional
-	DBNamesRefs []v1.Reference `json:"dbNamesRefs,omitempty" tf:"-"`
+	DBNamesRefs []v2.Reference `json:"dbNamesRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Database in rds to populate dbNames.
 	// +kubebuilder:validation:Optional
-	DBNamesSelector *v1.Selector `json:"dbNamesSelector,omitempty" tf:"-"`
+	DBNamesSelector *v2.Selector `json:"dbNamesSelector,omitempty" tf:"-"`
 
 	// The Id of instance in which account belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Instance
@@ -117,11 +117,11 @@ type AccountPrivilegeParameters struct {
 
 	// Reference to a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The privilege of one account access database. Valid values:
 	// +kubebuilder:validation:Optional
@@ -135,8 +135,8 @@ type AccountPrivilegeParameters struct {
 
 // AccountPrivilegeSpec defines the desired state of AccountPrivilege
 type AccountPrivilegeSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AccountPrivilegeParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AccountPrivilegeParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -152,8 +152,8 @@ type AccountPrivilegeSpec struct {
 
 // AccountPrivilegeStatus defines the observed state of AccountPrivilege.
 type AccountPrivilegeStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AccountPrivilegeObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AccountPrivilegeObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

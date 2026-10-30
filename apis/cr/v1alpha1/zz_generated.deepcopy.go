@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -154,12 +154,12 @@ func (in *ChainInitParameters) DeepCopyInto(out *ChainInitParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoName != nil {
@@ -169,12 +169,12 @@ func (in *ChainInitParameters) DeepCopyInto(out *ChainInitParameters) {
 	}
 	if in.RepoNameRef != nil {
 		in, out := &in.RepoNameRef, &out.RepoNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoNameSelector != nil {
 		in, out := &in.RepoNameSelector, &out.RepoNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoNamespaceName != nil {
@@ -184,12 +184,12 @@ func (in *ChainInitParameters) DeepCopyInto(out *ChainInitParameters) {
 	}
 	if in.RepoNamespaceNameRef != nil {
 		in, out := &in.RepoNamespaceNameRef, &out.RepoNamespaceNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoNamespaceNameSelector != nil {
 		in, out := &in.RepoNamespaceNameSelector, &out.RepoNamespaceNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -320,12 +320,12 @@ func (in *ChainParameters) DeepCopyInto(out *ChainParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -340,12 +340,12 @@ func (in *ChainParameters) DeepCopyInto(out *ChainParameters) {
 	}
 	if in.RepoNameRef != nil {
 		in, out := &in.RepoNameRef, &out.RepoNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoNameSelector != nil {
 		in, out := &in.RepoNameSelector, &out.RepoNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoNamespaceName != nil {
@@ -355,12 +355,12 @@ func (in *ChainParameters) DeepCopyInto(out *ChainParameters) {
 	}
 	if in.RepoNamespaceNameRef != nil {
 		in, out := &in.RepoNamespaceNameRef, &out.RepoNamespaceNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoNamespaceNameSelector != nil {
 		in, out := &in.RepoNamespaceNameSelector, &out.RepoNamespaceNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -457,12 +457,12 @@ func (in *ChartNamespaceInitParameters) DeepCopyInto(out *ChartNamespaceInitPara
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NamespaceName != nil {
@@ -574,12 +574,12 @@ func (in *ChartNamespaceParameters) DeepCopyInto(out *ChartNamespaceParameters) 
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NamespaceName != nil {
@@ -676,12 +676,12 @@ func (in *ChartRepositoryInitParameters) DeepCopyInto(out *ChartRepositoryInitPa
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoName != nil {
@@ -696,12 +696,12 @@ func (in *ChartRepositoryInitParameters) DeepCopyInto(out *ChartRepositoryInitPa
 	}
 	if in.RepoNamespaceNameRef != nil {
 		in, out := &in.RepoNamespaceNameRef, &out.RepoNamespaceNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoNamespaceNameSelector != nil {
 		in, out := &in.RepoNamespaceNameSelector, &out.RepoNamespaceNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoType != nil {
@@ -813,12 +813,12 @@ func (in *ChartRepositoryParameters) DeepCopyInto(out *ChartRepositoryParameters
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -838,12 +838,12 @@ func (in *ChartRepositoryParameters) DeepCopyInto(out *ChartRepositoryParameters
 	}
 	if in.RepoNamespaceNameRef != nil {
 		in, out := &in.RepoNamespaceNameRef, &out.RepoNamespaceNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoNamespaceNameSelector != nil {
 		in, out := &in.RepoNamespaceNameSelector, &out.RepoNamespaceNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoType != nil {
@@ -1206,7 +1206,7 @@ func (in *EeInstanceInitParameters) DeepCopyInto(out *EeInstanceInitParameters) 
 	}
 	if in.PasswordSecretRef != nil {
 		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.PaymentType != nil {
@@ -1514,7 +1514,7 @@ func (in *EeInstanceParameters) DeepCopyInto(out *EeInstanceParameters) {
 	}
 	if in.PasswordSecretRef != nil {
 		in, out := &in.PasswordSecretRef, &out.PasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.PaymentType != nil {
@@ -1667,12 +1667,12 @@ func (in *EeNamespaceInitParameters) DeepCopyInto(out *EeNamespaceInitParameters
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -1784,12 +1784,12 @@ func (in *EeNamespaceParameters) DeepCopyInto(out *EeNamespaceParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -1891,12 +1891,12 @@ func (in *EeRepoInitParameters) DeepCopyInto(out *EeRepoInitParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -1911,12 +1911,12 @@ func (in *EeRepoInitParameters) DeepCopyInto(out *EeRepoInitParameters) {
 	}
 	if in.NamespaceRef != nil {
 		in, out := &in.NamespaceRef, &out.NamespaceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NamespaceSelector != nil {
 		in, out := &in.NamespaceSelector, &out.NamespaceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoType != nil {
@@ -2053,12 +2053,12 @@ func (in *EeRepoParameters) DeepCopyInto(out *EeRepoParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -2073,12 +2073,12 @@ func (in *EeRepoParameters) DeepCopyInto(out *EeRepoParameters) {
 	}
 	if in.NamespaceRef != nil {
 		in, out := &in.NamespaceRef, &out.NamespaceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NamespaceSelector != nil {
 		in, out := &in.NamespaceSelector, &out.NamespaceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -2185,12 +2185,12 @@ func (in *EeSyncRuleInitParameters) DeepCopyInto(out *EeSyncRuleInitParameters) 
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NamespaceName != nil {
@@ -2200,12 +2200,12 @@ func (in *EeSyncRuleInitParameters) DeepCopyInto(out *EeSyncRuleInitParameters) 
 	}
 	if in.NamespaceNameRef != nil {
 		in, out := &in.NamespaceNameRef, &out.NamespaceNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NamespaceNameSelector != nil {
 		in, out := &in.NamespaceNameSelector, &out.NamespaceNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoName != nil {
@@ -2215,12 +2215,12 @@ func (in *EeSyncRuleInitParameters) DeepCopyInto(out *EeSyncRuleInitParameters) 
 	}
 	if in.RepoNameRef != nil {
 		in, out := &in.RepoNameRef, &out.RepoNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoNameSelector != nil {
 		in, out := &in.RepoNameSelector, &out.RepoNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SyncRuleName != nil {
@@ -2250,12 +2250,12 @@ func (in *EeSyncRuleInitParameters) DeepCopyInto(out *EeSyncRuleInitParameters) 
 	}
 	if in.TargetInstanceIDRef != nil {
 		in, out := &in.TargetInstanceIDRef, &out.TargetInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetInstanceIDSelector != nil {
 		in, out := &in.TargetInstanceIDSelector, &out.TargetInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetNamespaceName != nil {
@@ -2265,12 +2265,12 @@ func (in *EeSyncRuleInitParameters) DeepCopyInto(out *EeSyncRuleInitParameters) 
 	}
 	if in.TargetNamespaceNameRef != nil {
 		in, out := &in.TargetNamespaceNameRef, &out.TargetNamespaceNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetNamespaceNameSelector != nil {
 		in, out := &in.TargetNamespaceNameSelector, &out.TargetNamespaceNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetRegionID != nil {
@@ -2285,12 +2285,12 @@ func (in *EeSyncRuleInitParameters) DeepCopyInto(out *EeSyncRuleInitParameters) 
 	}
 	if in.TargetRepoNameRef != nil {
 		in, out := &in.TargetRepoNameRef, &out.TargetRepoNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetRepoNameSelector != nil {
 		in, out := &in.TargetRepoNameSelector, &out.TargetRepoNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetUserID != nil {
@@ -2457,12 +2457,12 @@ func (in *EeSyncRuleParameters) DeepCopyInto(out *EeSyncRuleParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NamespaceName != nil {
@@ -2472,12 +2472,12 @@ func (in *EeSyncRuleParameters) DeepCopyInto(out *EeSyncRuleParameters) {
 	}
 	if in.NamespaceNameRef != nil {
 		in, out := &in.NamespaceNameRef, &out.NamespaceNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NamespaceNameSelector != nil {
 		in, out := &in.NamespaceNameSelector, &out.NamespaceNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -2492,12 +2492,12 @@ func (in *EeSyncRuleParameters) DeepCopyInto(out *EeSyncRuleParameters) {
 	}
 	if in.RepoNameRef != nil {
 		in, out := &in.RepoNameRef, &out.RepoNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoNameSelector != nil {
 		in, out := &in.RepoNameSelector, &out.RepoNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SyncRuleName != nil {
@@ -2527,12 +2527,12 @@ func (in *EeSyncRuleParameters) DeepCopyInto(out *EeSyncRuleParameters) {
 	}
 	if in.TargetInstanceIDRef != nil {
 		in, out := &in.TargetInstanceIDRef, &out.TargetInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetInstanceIDSelector != nil {
 		in, out := &in.TargetInstanceIDSelector, &out.TargetInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetNamespaceName != nil {
@@ -2542,12 +2542,12 @@ func (in *EeSyncRuleParameters) DeepCopyInto(out *EeSyncRuleParameters) {
 	}
 	if in.TargetNamespaceNameRef != nil {
 		in, out := &in.TargetNamespaceNameRef, &out.TargetNamespaceNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetNamespaceNameSelector != nil {
 		in, out := &in.TargetNamespaceNameSelector, &out.TargetNamespaceNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetRegionID != nil {
@@ -2562,12 +2562,12 @@ func (in *EeSyncRuleParameters) DeepCopyInto(out *EeSyncRuleParameters) {
 	}
 	if in.TargetRepoNameRef != nil {
 		in, out := &in.TargetRepoNameRef, &out.TargetRepoNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetRepoNameSelector != nil {
 		in, out := &in.TargetRepoNameSelector, &out.TargetRepoNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetUserID != nil {
@@ -2674,12 +2674,12 @@ func (in *EndpointACLPolicyInitParameters) DeepCopyInto(out *EndpointACLPolicyIn
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ModuleName != nil {
@@ -2801,12 +2801,12 @@ func (in *EndpointACLPolicyParameters) DeepCopyInto(out *EndpointACLPolicyParame
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ModuleName != nil {
@@ -3391,12 +3391,12 @@ func (in *RepoInitParameters) DeepCopyInto(out *RepoInitParameters) {
 	}
 	if in.NamespaceRef != nil {
 		in, out := &in.NamespaceRef, &out.NamespaceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NamespaceSelector != nil {
 		in, out := &in.NamespaceSelector, &out.NamespaceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RepoType != nil {
@@ -3525,12 +3525,12 @@ func (in *RepoParameters) DeepCopyInto(out *RepoParameters) {
 	}
 	if in.NamespaceRef != nil {
 		in, out := &in.NamespaceRef, &out.NamespaceRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NamespaceSelector != nil {
 		in, out := &in.NamespaceSelector, &out.NamespaceSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -3697,12 +3697,12 @@ func (in *RoutesInitParameters) DeepCopyInto(out *RoutesInitParameters) {
 	}
 	if in.InstanceDomainRef != nil {
 		in, out := &in.InstanceDomainRef, &out.InstanceDomainRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceDomainSelector != nil {
 		in, out := &in.InstanceDomainSelector, &out.InstanceDomainSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StorageDomain != nil {
@@ -3712,12 +3712,12 @@ func (in *RoutesInitParameters) DeepCopyInto(out *RoutesInitParameters) {
 	}
 	if in.StorageDomainRef != nil {
 		in, out := &in.StorageDomainRef, &out.StorageDomainRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StorageDomainSelector != nil {
 		in, out := &in.StorageDomainSelector, &out.StorageDomainSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3777,12 +3777,12 @@ func (in *RoutesParameters) DeepCopyInto(out *RoutesParameters) {
 	}
 	if in.InstanceDomainRef != nil {
 		in, out := &in.InstanceDomainRef, &out.InstanceDomainRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceDomainSelector != nil {
 		in, out := &in.InstanceDomainSelector, &out.InstanceDomainSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StorageDomain != nil {
@@ -3792,12 +3792,12 @@ func (in *RoutesParameters) DeepCopyInto(out *RoutesParameters) {
 	}
 	if in.StorageDomainRef != nil {
 		in, out := &in.StorageDomainRef, &out.StorageDomainRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StorageDomainSelector != nil {
 		in, out := &in.StorageDomainSelector, &out.StorageDomainSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3849,12 +3849,12 @@ func (in *ScanRuleInitParameters) DeepCopyInto(out *ScanRuleInitParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Namespaces != nil {
@@ -4040,12 +4040,12 @@ func (in *ScanRuleParameters) DeepCopyInto(out *ScanRuleParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Namespaces != nil {
@@ -4184,12 +4184,12 @@ func (in *StorageDomainRoutingRuleInitParameters) DeepCopyInto(out *StorageDomai
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Routes != nil {
@@ -4295,12 +4295,12 @@ func (in *StorageDomainRoutingRuleParameters) DeepCopyInto(out *StorageDomainRou
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -4464,12 +4464,12 @@ func (in *VPCEndpointLinkedVPCInitParameters) DeepCopyInto(out *VPCEndpointLinke
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ModuleName != nil {
@@ -4484,12 +4484,12 @@ func (in *VPCEndpointLinkedVPCInitParameters) DeepCopyInto(out *VPCEndpointLinke
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -4499,12 +4499,12 @@ func (in *VPCEndpointLinkedVPCInitParameters) DeepCopyInto(out *VPCEndpointLinke
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4616,12 +4616,12 @@ func (in *VPCEndpointLinkedVPCParameters) DeepCopyInto(out *VPCEndpointLinkedVPC
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ModuleName != nil {
@@ -4641,12 +4641,12 @@ func (in *VPCEndpointLinkedVPCParameters) DeepCopyInto(out *VPCEndpointLinkedVPC
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -4656,12 +4656,12 @@ func (in *VPCEndpointLinkedVPCParameters) DeepCopyInto(out *VPCEndpointLinkedVPC
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }

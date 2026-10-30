@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -55,7 +55,7 @@ func (in *AccountInitParameters) DeepCopyInto(out *AccountInitParameters) {
 	}
 	if in.AccountPasswordSecretRef != nil {
 		in, out := &in.AccountPasswordSecretRef, &out.AccountPasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.AccountType != nil {
@@ -75,12 +75,12 @@ func (in *AccountInitParameters) DeepCopyInto(out *AccountInitParameters) {
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSEncryptedPassword != nil {
@@ -249,7 +249,7 @@ func (in *AccountParameters) DeepCopyInto(out *AccountParameters) {
 	}
 	if in.AccountPasswordSecretRef != nil {
 		in, out := &in.AccountPasswordSecretRef, &out.AccountPasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.AccountType != nil {
@@ -269,12 +269,12 @@ func (in *AccountParameters) DeepCopyInto(out *AccountParameters) {
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSEncryptedPassword != nil {
@@ -362,12 +362,12 @@ func (in *AccountPrivilegeInitParameters) DeepCopyInto(out *AccountPrivilegeInit
 	}
 	if in.AccountNameRef != nil {
 		in, out := &in.AccountNameRef, &out.AccountNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AccountNameSelector != nil {
 		in, out := &in.AccountNameSelector, &out.AccountNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBNames != nil {
@@ -383,14 +383,14 @@ func (in *AccountPrivilegeInitParameters) DeepCopyInto(out *AccountPrivilegeInit
 	}
 	if in.DBNamesRefs != nil {
 		in, out := &in.DBNamesRefs, &out.DBNamesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.DBNamesSelector != nil {
 		in, out := &in.DBNamesSelector, &out.DBNamesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceID != nil {
@@ -400,12 +400,12 @@ func (in *AccountPrivilegeInitParameters) DeepCopyInto(out *AccountPrivilegeInit
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Privilege != nil {
@@ -513,12 +513,12 @@ func (in *AccountPrivilegeParameters) DeepCopyInto(out *AccountPrivilegeParamete
 	}
 	if in.AccountNameRef != nil {
 		in, out := &in.AccountNameRef, &out.AccountNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AccountNameSelector != nil {
 		in, out := &in.AccountNameSelector, &out.AccountNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBNames != nil {
@@ -534,14 +534,14 @@ func (in *AccountPrivilegeParameters) DeepCopyInto(out *AccountPrivilegeParamete
 	}
 	if in.DBNamesRefs != nil {
 		in, out := &in.DBNamesRefs, &out.DBNamesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.DBNamesSelector != nil {
 		in, out := &in.DBNamesSelector, &out.DBNamesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceID != nil {
@@ -551,12 +551,12 @@ func (in *AccountPrivilegeParameters) DeepCopyInto(out *AccountPrivilegeParamete
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Privilege != nil {
@@ -584,7 +584,7 @@ func (in *AccountPrivilegeParameters) DeepCopy() *AccountPrivilegeParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AccountPrivilegeSpec) DeepCopyInto(out *AccountPrivilegeSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -602,7 +602,7 @@ func (in *AccountPrivilegeSpec) DeepCopy() *AccountPrivilegeSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AccountPrivilegeStatus) DeepCopyInto(out *AccountPrivilegeStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -659,7 +659,7 @@ func (in *BabelfishConfigInitParameters) DeepCopyInto(out *BabelfishConfigInitPa
 		*out = new(string)
 		**out = **in
 	}
-	in.MasterUserPasswordSecretRef.DeepCopyInto(&out.MasterUserPasswordSecretRef)
+	out.MasterUserPasswordSecretRef = in.MasterUserPasswordSecretRef
 	if in.MasterUsername != nil {
 		in, out := &in.MasterUsername, &out.MasterUsername
 		*out = new(string)
@@ -720,7 +720,7 @@ func (in *BabelfishConfigParameters) DeepCopyInto(out *BabelfishConfigParameters
 		*out = new(string)
 		**out = **in
 	}
-	in.MasterUserPasswordSecretRef.DeepCopyInto(&out.MasterUserPasswordSecretRef)
+	out.MasterUserPasswordSecretRef = in.MasterUserPasswordSecretRef
 	if in.MasterUsername != nil {
 		in, out := &in.MasterUsername, &out.MasterUsername
 		*out = new(string)
@@ -800,12 +800,12 @@ func (in *BackupInitParameters) DeepCopyInto(out *BackupInitParameters) {
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBName != nil {
@@ -962,12 +962,12 @@ func (in *BackupParameters) DeepCopyInto(out *BackupParameters) {
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBName != nil {
@@ -1104,12 +1104,12 @@ func (in *BackupPolicyInitParameters) DeepCopyInto(out *BackupPolicyInitParamete
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LocalLogRetentionHours != nil {
@@ -1423,12 +1423,12 @@ func (in *BackupPolicyParameters) DeepCopyInto(out *BackupPolicyParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LocalLogRetentionHours != nil {
@@ -1611,12 +1611,12 @@ func (in *ConnectionInitParameters) DeepCopyInto(out *ConnectionInitParameters) 
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Port != nil {
@@ -1738,12 +1738,12 @@ func (in *ConnectionParameters) DeepCopyInto(out *ConnectionParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Port != nil {
@@ -1872,12 +1872,12 @@ func (in *DBInstanceEndpointAddressInitParameters) DeepCopyInto(out *DBInstanceE
 	}
 	if in.DBInstanceEndpointIDRef != nil {
 		in, out := &in.DBInstanceEndpointIDRef, &out.DBInstanceEndpointIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceEndpointIDSelector != nil {
 		in, out := &in.DBInstanceEndpointIDSelector, &out.DBInstanceEndpointIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceID != nil {
@@ -1887,12 +1887,12 @@ func (in *DBInstanceEndpointAddressInitParameters) DeepCopyInto(out *DBInstanceE
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Port != nil {
@@ -2014,12 +2014,12 @@ func (in *DBInstanceEndpointAddressParameters) DeepCopyInto(out *DBInstanceEndpo
 	}
 	if in.DBInstanceEndpointIDRef != nil {
 		in, out := &in.DBInstanceEndpointIDRef, &out.DBInstanceEndpointIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceEndpointIDSelector != nil {
 		in, out := &in.DBInstanceEndpointIDSelector, &out.DBInstanceEndpointIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceID != nil {
@@ -2029,12 +2029,12 @@ func (in *DBInstanceEndpointAddressParameters) DeepCopyInto(out *DBInstanceEndpo
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Port != nil {
@@ -2114,12 +2114,12 @@ func (in *DBInstanceEndpointInitParameters) DeepCopyInto(out *DBInstanceEndpoint
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NodeItems != nil {
@@ -2141,12 +2141,12 @@ func (in *DBInstanceEndpointInitParameters) DeepCopyInto(out *DBInstanceEndpoint
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -2156,12 +2156,12 @@ func (in *DBInstanceEndpointInitParameters) DeepCopyInto(out *DBInstanceEndpoint
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -2310,12 +2310,12 @@ func (in *DBInstanceEndpointParameters) DeepCopyInto(out *DBInstanceEndpointPara
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NodeItems != nil {
@@ -2342,12 +2342,12 @@ func (in *DBInstanceEndpointParameters) DeepCopyInto(out *DBInstanceEndpointPara
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -2357,12 +2357,12 @@ func (in *DBInstanceEndpointParameters) DeepCopyInto(out *DBInstanceEndpointPara
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -2449,12 +2449,12 @@ func (in *DBNodeInitParameters) DeepCopyInto(out *DBNodeInitParameters) {
 	}
 	if in.ClassCodeRef != nil {
 		in, out := &in.ClassCodeRef, &out.ClassCodeRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ClassCodeSelector != nil {
 		in, out := &in.ClassCodeSelector, &out.ClassCodeSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceID != nil {
@@ -2464,12 +2464,12 @@ func (in *DBNodeInitParameters) DeepCopyInto(out *DBNodeInitParameters) {
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -2479,12 +2479,12 @@ func (in *DBNodeInitParameters) DeepCopyInto(out *DBNodeInitParameters) {
 	}
 	if in.ZoneIDRef != nil {
 		in, out := &in.ZoneIDRef, &out.ZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneIDSelector != nil {
 		in, out := &in.ZoneIDSelector, &out.ZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -2591,12 +2591,12 @@ func (in *DBNodeParameters) DeepCopyInto(out *DBNodeParameters) {
 	}
 	if in.ClassCodeRef != nil {
 		in, out := &in.ClassCodeRef, &out.ClassCodeRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ClassCodeSelector != nil {
 		in, out := &in.ClassCodeSelector, &out.ClassCodeSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceID != nil {
@@ -2606,12 +2606,12 @@ func (in *DBNodeParameters) DeepCopyInto(out *DBNodeParameters) {
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -2626,12 +2626,12 @@ func (in *DBNodeParameters) DeepCopyInto(out *DBNodeParameters) {
 	}
 	if in.ZoneIDRef != nil {
 		in, out := &in.ZoneIDRef, &out.ZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneIDSelector != nil {
 		in, out := &in.ZoneIDSelector, &out.ZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -2763,12 +2763,12 @@ func (in *DBProxyInitParameters) DeepCopyInto(out *DBProxyInitParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceNetworkType != nil {
@@ -2815,12 +2815,12 @@ func (in *DBProxyInitParameters) DeepCopyInto(out *DBProxyInitParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -2830,12 +2830,12 @@ func (in *DBProxyInitParameters) DeepCopyInto(out *DBProxyInitParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3079,12 +3079,12 @@ func (in *DBProxyParameters) DeepCopyInto(out *DBProxyParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceNetworkType != nil {
@@ -3136,12 +3136,12 @@ func (in *DBProxyParameters) DeepCopyInto(out *DBProxyParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -3151,12 +3151,12 @@ func (in *DBProxyParameters) DeepCopyInto(out *DBProxyParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3213,12 +3213,12 @@ func (in *DBProxyPublicInitParameters) DeepCopyInto(out *DBProxyPublicInitParame
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBProxyConnectionStringNetType != nil {
@@ -3233,12 +3233,12 @@ func (in *DBProxyPublicInitParameters) DeepCopyInto(out *DBProxyPublicInitParame
 	}
 	if in.DBProxyEndpointIDRef != nil {
 		in, out := &in.DBProxyEndpointIDRef, &out.DBProxyEndpointIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBProxyEndpointIDSelector != nil {
 		in, out := &in.DBProxyEndpointIDSelector, &out.DBProxyEndpointIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBProxyNewConnectStringPort != nil {
@@ -3350,12 +3350,12 @@ func (in *DBProxyPublicParameters) DeepCopyInto(out *DBProxyPublicParameters) {
 	}
 	if in.DBInstanceIDRef != nil {
 		in, out := &in.DBInstanceIDRef, &out.DBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBInstanceIDSelector != nil {
 		in, out := &in.DBInstanceIDSelector, &out.DBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBProxyConnectionStringNetType != nil {
@@ -3370,12 +3370,12 @@ func (in *DBProxyPublicParameters) DeepCopyInto(out *DBProxyPublicParameters) {
 	}
 	if in.DBProxyEndpointIDRef != nil {
 		in, out := &in.DBProxyEndpointIDRef, &out.DBProxyEndpointIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBProxyEndpointIDSelector != nil {
 		in, out := &in.DBProxyEndpointIDSelector, &out.DBProxyEndpointIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBProxyNewConnectStringPort != nil {
@@ -3522,12 +3522,12 @@ func (in *DatabaseInitParameters) DeepCopyInto(out *DatabaseInitParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3644,12 +3644,12 @@ func (in *DatabaseParameters) DeepCopyInto(out *DatabaseParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -3773,12 +3773,12 @@ func (in *InstanceCrossBackupPolicyInitParameters) DeepCopyInto(out *InstanceCro
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LogBackupEnabled != nil {
@@ -3925,12 +3925,12 @@ func (in *InstanceCrossBackupPolicyParameters) DeepCopyInto(out *InstanceCrossBa
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LogBackupEnabled != nil {
@@ -4047,7 +4047,7 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.ClientCACertSecretRef != nil {
 		in, out := &in.ClientCACertSecretRef, &out.ClientCACertSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.ClientCAEnabled != nil {
@@ -4286,12 +4286,12 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.RoleArnRef != nil {
 		in, out := &in.RoleArnRef, &out.RoleArnRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RoleArnSelector != nil {
 		in, out := &in.RoleArnSelector, &out.RoleArnSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SQLCollectorConfigValue != nil {
@@ -4311,7 +4311,7 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.SSLCertificateSecretRef != nil {
 		in, out := &in.SSLCertificateSecretRef, &out.SSLCertificateSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.SSLConnectionString != nil {
@@ -4321,19 +4321,19 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.SSLPasswordSecretRef != nil {
 		in, out := &in.SSLPasswordSecretRef, &out.SSLPasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.SecurityGroupIDRefs != nil {
 		in, out := &in.SecurityGroupIDRefs, &out.SecurityGroupIDRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIds != nil {
@@ -4370,12 +4370,12 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.ServerCertSecretRef != nil {
 		in, out := &in.ServerCertSecretRef, &out.ServerCertSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.ServerKeySecretRef != nil {
 		in, out := &in.ServerKeySecretRef, &out.ServerKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.ServerlessConfig != nil {
@@ -4433,7 +4433,7 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.TdeCertificateSecretRef != nil {
 		in, out := &in.TdeCertificateSecretRef, &out.TdeCertificateSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.TdeDBName != nil {
@@ -4448,12 +4448,12 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.TdePasswordSecretRef != nil {
 		in, out := &in.TdePasswordSecretRef, &out.TdePasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.TdePrivateKeySecretRef != nil {
 		in, out := &in.TdePrivateKeySecretRef, &out.TdePrivateKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.TdeStatus != nil {
@@ -4494,12 +4494,12 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -4509,12 +4509,12 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WhitelistNetworkType != nil {
@@ -5157,7 +5157,7 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.ClientCACertSecretRef != nil {
 		in, out := &in.ClientCACertSecretRef, &out.ClientCACertSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.ClientCAEnabled != nil {
@@ -5401,12 +5401,12 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.RoleArnRef != nil {
 		in, out := &in.RoleArnRef, &out.RoleArnRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RoleArnSelector != nil {
 		in, out := &in.RoleArnSelector, &out.RoleArnSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SQLCollectorConfigValue != nil {
@@ -5426,7 +5426,7 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.SSLCertificateSecretRef != nil {
 		in, out := &in.SSLCertificateSecretRef, &out.SSLCertificateSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.SSLConnectionString != nil {
@@ -5436,19 +5436,19 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.SSLPasswordSecretRef != nil {
 		in, out := &in.SSLPasswordSecretRef, &out.SSLPasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.SecurityGroupIDRefs != nil {
 		in, out := &in.SecurityGroupIDRefs, &out.SecurityGroupIDRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIds != nil {
@@ -5485,12 +5485,12 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.ServerCertSecretRef != nil {
 		in, out := &in.ServerCertSecretRef, &out.ServerCertSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.ServerKeySecretRef != nil {
 		in, out := &in.ServerKeySecretRef, &out.ServerKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.ServerlessConfig != nil {
@@ -5548,7 +5548,7 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.TdeCertificateSecretRef != nil {
 		in, out := &in.TdeCertificateSecretRef, &out.TdeCertificateSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.TdeDBName != nil {
@@ -5563,12 +5563,12 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.TdePasswordSecretRef != nil {
 		in, out := &in.TdePasswordSecretRef, &out.TdePasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.TdePrivateKeySecretRef != nil {
 		in, out := &in.TdePrivateKeySecretRef, &out.TdePrivateKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.TdeStatus != nil {
@@ -5609,12 +5609,12 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -5624,12 +5624,12 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WhitelistNetworkType != nil {
@@ -5709,12 +5709,12 @@ func (in *NodeItemsInitParameters) DeepCopyInto(out *NodeItemsInitParameters) {
 	}
 	if in.NodeIDRef != nil {
 		in, out := &in.NodeIDRef, &out.NodeIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NodeIDSelector != nil {
 		in, out := &in.NodeIDSelector, &out.NodeIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Weight != nil {
@@ -5769,12 +5769,12 @@ func (in *NodeItemsParameters) DeepCopyInto(out *NodeItemsParameters) {
 	}
 	if in.NodeIDRef != nil {
 		in, out := &in.NodeIDRef, &out.NodeIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NodeIDSelector != nil {
 		in, out := &in.NodeIDSelector, &out.NodeIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Weight != nil {
@@ -6349,12 +6349,12 @@ func (in *ReadOnlyInstanceWeightInitParameters) DeepCopyInto(out *ReadOnlyInstan
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Weight != nil {
@@ -6409,12 +6409,12 @@ func (in *ReadOnlyInstanceWeightParameters) DeepCopyInto(out *ReadOnlyInstanceWe
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Weight != nil {
@@ -6481,12 +6481,12 @@ func (in *ReadWriteSplittingConnectionInitParameters) DeepCopyInto(out *ReadWrit
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MaxDelayTime != nil {
@@ -6645,12 +6645,12 @@ func (in *ReadWriteSplittingConnectionParameters) DeepCopyInto(out *ReadWriteSpl
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MaxDelayTime != nil {
@@ -6838,12 +6838,12 @@ func (in *ReadonlyInstanceInitParameters) DeepCopyInto(out *ReadonlyInstanceInit
 	}
 	if in.EngineVersionRef != nil {
 		in, out := &in.EngineVersionRef, &out.EngineVersionRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EngineVersionSelector != nil {
 		in, out := &in.EngineVersionSelector, &out.EngineVersionSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ForceRestart != nil {
@@ -6878,12 +6878,12 @@ func (in *ReadonlyInstanceInitParameters) DeepCopyInto(out *ReadonlyInstanceInit
 	}
 	if in.MasterDBInstanceIDRef != nil {
 		in, out := &in.MasterDBInstanceIDRef, &out.MasterDBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MasterDBInstanceIDSelector != nil {
 		in, out := &in.MasterDBInstanceIDSelector, &out.MasterDBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ModifyMode != nil {
@@ -6941,7 +6941,7 @@ func (in *ReadonlyInstanceInitParameters) DeepCopyInto(out *ReadonlyInstanceInit
 	}
 	if in.ServerKeySecretRef != nil {
 		in, out := &in.ServerKeySecretRef, &out.ServerKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.SwitchTime != nil {
@@ -6987,12 +6987,12 @@ func (in *ReadonlyInstanceInitParameters) DeepCopyInto(out *ReadonlyInstanceInit
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WhitelistNetworkType != nil {
@@ -7007,12 +7007,12 @@ func (in *ReadonlyInstanceInitParameters) DeepCopyInto(out *ReadonlyInstanceInit
 	}
 	if in.ZoneIDRef != nil {
 		in, out := &in.ZoneIDRef, &out.ZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneIDSelector != nil {
 		in, out := &in.ZoneIDSelector, &out.ZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -7383,12 +7383,12 @@ func (in *ReadonlyInstanceParameters) DeepCopyInto(out *ReadonlyInstanceParamete
 	}
 	if in.EngineVersionRef != nil {
 		in, out := &in.EngineVersionRef, &out.EngineVersionRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EngineVersionSelector != nil {
 		in, out := &in.EngineVersionSelector, &out.EngineVersionSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ForceRestart != nil {
@@ -7423,12 +7423,12 @@ func (in *ReadonlyInstanceParameters) DeepCopyInto(out *ReadonlyInstanceParamete
 	}
 	if in.MasterDBInstanceIDRef != nil {
 		in, out := &in.MasterDBInstanceIDRef, &out.MasterDBInstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MasterDBInstanceIDSelector != nil {
 		in, out := &in.MasterDBInstanceIDSelector, &out.MasterDBInstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ModifyMode != nil {
@@ -7491,7 +7491,7 @@ func (in *ReadonlyInstanceParameters) DeepCopyInto(out *ReadonlyInstanceParamete
 	}
 	if in.ServerKeySecretRef != nil {
 		in, out := &in.ServerKeySecretRef, &out.ServerKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.SwitchTime != nil {
@@ -7537,12 +7537,12 @@ func (in *ReadonlyInstanceParameters) DeepCopyInto(out *ReadonlyInstanceParamete
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.WhitelistNetworkType != nil {
@@ -7557,12 +7557,12 @@ func (in *ReadonlyInstanceParameters) DeepCopyInto(out *ReadonlyInstanceParamete
 	}
 	if in.ZoneIDRef != nil {
 		in, out := &in.ZoneIDRef, &out.ZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneIDSelector != nil {
 		in, out := &in.ZoneIDSelector, &out.ZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }

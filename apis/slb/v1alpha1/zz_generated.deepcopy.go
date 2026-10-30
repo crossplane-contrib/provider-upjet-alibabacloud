@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -298,14 +298,14 @@ func (in *ListenerInitParameters) DeepCopyInto(out *ListenerInitParameters) {
 	}
 	if in.ACLIdsRefs != nil {
 		in, out := &in.ACLIdsRefs, &out.ACLIdsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.ACLIdsSelector != nil {
 		in, out := &in.ACLIdsSelector, &out.ACLIdsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ACLStatus != nil {
@@ -445,12 +445,12 @@ func (in *ListenerInitParameters) DeepCopyInto(out *ListenerInitParameters) {
 	}
 	if in.LoadBalancerIDRef != nil {
 		in, out := &in.LoadBalancerIDRef, &out.LoadBalancerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoadBalancerIDSelector != nil {
 		in, out := &in.LoadBalancerIDSelector, &out.LoadBalancerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MasterSlaveServerGroupID != nil {
@@ -813,14 +813,14 @@ func (in *ListenerParameters) DeepCopyInto(out *ListenerParameters) {
 	}
 	if in.ACLIdsRefs != nil {
 		in, out := &in.ACLIdsRefs, &out.ACLIdsRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.ACLIdsSelector != nil {
 		in, out := &in.ACLIdsSelector, &out.ACLIdsSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ACLStatus != nil {
@@ -960,12 +960,12 @@ func (in *ListenerParameters) DeepCopyInto(out *ListenerParameters) {
 	}
 	if in.LoadBalancerIDRef != nil {
 		in, out := &in.LoadBalancerIDRef, &out.LoadBalancerIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoadBalancerIDSelector != nil {
 		in, out := &in.LoadBalancerIDSelector, &out.LoadBalancerIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MasterSlaveServerGroupID != nil {
@@ -1169,12 +1169,12 @@ func (in *LoadBalancerInitParameters) DeepCopyInto(out *LoadBalancerInitParamete
 	}
 	if in.MasterZoneIDRef != nil {
 		in, out := &in.MasterZoneIDRef, &out.MasterZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MasterZoneIDSelector != nil {
 		in, out := &in.MasterZoneIDSelector, &out.MasterZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ModificationProtectionReason != nil {
@@ -1209,12 +1209,12 @@ func (in *LoadBalancerInitParameters) DeepCopyInto(out *LoadBalancerInitParamete
 	}
 	if in.SlaveZoneIDRef != nil {
 		in, out := &in.SlaveZoneIDRef, &out.SlaveZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SlaveZoneIDSelector != nil {
 		in, out := &in.SlaveZoneIDSelector, &out.SlaveZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Status != nil {
@@ -1245,12 +1245,12 @@ func (in *LoadBalancerInitParameters) DeepCopyInto(out *LoadBalancerInitParamete
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1478,12 +1478,12 @@ func (in *LoadBalancerParameters) DeepCopyInto(out *LoadBalancerParameters) {
 	}
 	if in.MasterZoneIDRef != nil {
 		in, out := &in.MasterZoneIDRef, &out.MasterZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MasterZoneIDSelector != nil {
 		in, out := &in.MasterZoneIDSelector, &out.MasterZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ModificationProtectionReason != nil {
@@ -1523,12 +1523,12 @@ func (in *LoadBalancerParameters) DeepCopyInto(out *LoadBalancerParameters) {
 	}
 	if in.SlaveZoneIDRef != nil {
 		in, out := &in.SlaveZoneIDRef, &out.SlaveZoneIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SlaveZoneIDSelector != nil {
 		in, out := &in.SlaveZoneIDSelector, &out.SlaveZoneIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Status != nil {
@@ -1559,12 +1559,12 @@ func (in *LoadBalancerParameters) DeepCopyInto(out *LoadBalancerParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }

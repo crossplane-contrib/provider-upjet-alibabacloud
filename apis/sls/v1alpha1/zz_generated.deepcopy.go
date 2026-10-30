@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -512,12 +512,12 @@ func (in *LogtailAttachmentInitParameters) DeepCopyInto(out *LogtailAttachmentIn
 	}
 	if in.LogtailConfigNameRef != nil {
 		in, out := &in.LogtailConfigNameRef, &out.LogtailConfigNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LogtailConfigNameSelector != nil {
 		in, out := &in.LogtailConfigNameSelector, &out.LogtailConfigNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MachineGroupName != nil {
@@ -527,12 +527,12 @@ func (in *LogtailAttachmentInitParameters) DeepCopyInto(out *LogtailAttachmentIn
 	}
 	if in.MachineGroupNameRef != nil {
 		in, out := &in.MachineGroupNameRef, &out.MachineGroupNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MachineGroupNameSelector != nil {
 		in, out := &in.MachineGroupNameSelector, &out.MachineGroupNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -542,12 +542,12 @@ func (in *LogtailAttachmentInitParameters) DeepCopyInto(out *LogtailAttachmentIn
 	}
 	if in.ProjectRef != nil {
 		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectSelector != nil {
 		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -639,12 +639,12 @@ func (in *LogtailAttachmentParameters) DeepCopyInto(out *LogtailAttachmentParame
 	}
 	if in.LogtailConfigNameRef != nil {
 		in, out := &in.LogtailConfigNameRef, &out.LogtailConfigNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LogtailConfigNameSelector != nil {
 		in, out := &in.LogtailConfigNameSelector, &out.LogtailConfigNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MachineGroupName != nil {
@@ -654,12 +654,12 @@ func (in *LogtailAttachmentParameters) DeepCopyInto(out *LogtailAttachmentParame
 	}
 	if in.MachineGroupNameRef != nil {
 		in, out := &in.MachineGroupNameRef, &out.MachineGroupNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MachineGroupNameSelector != nil {
 		in, out := &in.MachineGroupNameSelector, &out.MachineGroupNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Project != nil {
@@ -669,12 +669,12 @@ func (in *LogtailAttachmentParameters) DeepCopyInto(out *LogtailAttachmentParame
 	}
 	if in.ProjectRef != nil {
 		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectSelector != nil {
 		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -781,12 +781,12 @@ func (in *LogtailConfigInitParameters) DeepCopyInto(out *LogtailConfigInitParame
 	}
 	if in.LogstoreRef != nil {
 		in, out := &in.LogstoreRef, &out.LogstoreRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LogstoreSelector != nil {
 		in, out := &in.LogstoreSelector, &out.LogstoreSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -806,12 +806,12 @@ func (in *LogtailConfigInitParameters) DeepCopyInto(out *LogtailConfigInitParame
 	}
 	if in.ProjectRef != nil {
 		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectSelector != nil {
 		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -943,12 +943,12 @@ func (in *LogtailConfigParameters) DeepCopyInto(out *LogtailConfigParameters) {
 	}
 	if in.LogstoreRef != nil {
 		in, out := &in.LogstoreRef, &out.LogstoreRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LogstoreSelector != nil {
 		in, out := &in.LogstoreSelector, &out.LogstoreSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Name != nil {
@@ -968,12 +968,12 @@ func (in *LogtailConfigParameters) DeepCopyInto(out *LogtailConfigParameters) {
 	}
 	if in.ProjectRef != nil {
 		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectSelector != nil {
 		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -1086,12 +1086,12 @@ func (in *MachineGroupInitParameters) DeepCopyInto(out *MachineGroupInitParamete
 	}
 	if in.ProjectRef != nil {
 		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectSelector != nil {
 		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Topic != nil {
@@ -1225,12 +1225,12 @@ func (in *MachineGroupParameters) DeepCopyInto(out *MachineGroupParameters) {
 	}
 	if in.ProjectRef != nil {
 		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectSelector != nil {
 		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -1727,12 +1727,12 @@ func (in *StoreIndexInitParameters) DeepCopyInto(out *StoreIndexInitParameters) 
 	}
 	if in.LogstoreRef != nil {
 		in, out := &in.LogstoreRef, &out.LogstoreRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LogstoreSelector != nil {
 		in, out := &in.LogstoreSelector, &out.LogstoreSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MaxTextLen != nil {
@@ -1747,12 +1747,12 @@ func (in *StoreIndexInitParameters) DeepCopyInto(out *StoreIndexInitParameters) 
 	}
 	if in.ProjectRef != nil {
 		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectSelector != nil {
 		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1926,12 +1926,12 @@ func (in *StoreIndexParameters) DeepCopyInto(out *StoreIndexParameters) {
 	}
 	if in.LogstoreRef != nil {
 		in, out := &in.LogstoreRef, &out.LogstoreRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LogstoreSelector != nil {
 		in, out := &in.LogstoreSelector, &out.LogstoreSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.MaxTextLen != nil {
@@ -1946,12 +1946,12 @@ func (in *StoreIndexParameters) DeepCopyInto(out *StoreIndexParameters) {
 	}
 	if in.ProjectRef != nil {
 		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectSelector != nil {
 		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -2068,12 +2068,12 @@ func (in *StoreInitParameters) DeepCopyInto(out *StoreInitParameters) {
 	}
 	if in.ProjectNameRef != nil {
 		in, out := &in.ProjectNameRef, &out.ProjectNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectNameSelector != nil {
 		in, out := &in.ProjectNameSelector, &out.ProjectNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RetentionPeriod != nil {
@@ -2301,12 +2301,12 @@ func (in *StoreParameters) DeepCopyInto(out *StoreParameters) {
 	}
 	if in.ProjectNameRef != nil {
 		in, out := &in.ProjectNameRef, &out.ProjectNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectNameSelector != nil {
 		in, out := &in.ProjectNameSelector, &out.ProjectNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -2391,12 +2391,12 @@ func (in *UserCmkInfoInitParameters) DeepCopyInto(out *UserCmkInfoInitParameters
 	}
 	if in.CmkKeyIDRef != nil {
 		in, out := &in.CmkKeyIDRef, &out.CmkKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CmkKeyIDSelector != nil {
 		in, out := &in.CmkKeyIDSelector, &out.CmkKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RegionID != nil {
@@ -2461,12 +2461,12 @@ func (in *UserCmkInfoParameters) DeepCopyInto(out *UserCmkInfoParameters) {
 	}
 	if in.CmkKeyIDRef != nil {
 		in, out := &in.CmkKeyIDRef, &out.CmkKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CmkKeyIDSelector != nil {
 		in, out := &in.CmkKeyIDSelector, &out.CmkKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RegionID != nil {

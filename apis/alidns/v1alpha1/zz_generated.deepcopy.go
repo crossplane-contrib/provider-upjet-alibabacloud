@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -182,12 +182,12 @@ func (in *AddressPoolInitParameters) DeepCopyInto(out *AddressPoolInitParameters
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LbaStrategy != nil {
@@ -313,12 +313,12 @@ func (in *AddressPoolParameters) DeepCopyInto(out *AddressPoolParameters) {
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LbaStrategy != nil {
@@ -530,12 +530,12 @@ func (in *CustomLineInitParameters) DeepCopyInto(out *CustomLineInitParameters) 
 	}
 	if in.DomainNameRef != nil {
 		in, out := &in.DomainNameRef, &out.DomainNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DomainNameSelector != nil {
 		in, out := &in.DomainNameSelector, &out.DomainNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPSegmentList != nil {
@@ -651,12 +651,12 @@ func (in *CustomLineParameters) DeepCopyInto(out *CustomLineParameters) {
 	}
 	if in.DomainNameRef != nil {
 		in, out := &in.DomainNameRef, &out.DomainNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DomainNameSelector != nil {
 		in, out := &in.DomainNameSelector, &out.DomainNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.IPSegmentList != nil {
@@ -793,14 +793,14 @@ func (in *DomainAttachmentInitParameters) DeepCopyInto(out *DomainAttachmentInit
 	}
 	if in.DomainNamesRefs != nil {
 		in, out := &in.DomainNamesRefs, &out.DomainNamesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.DomainNamesSelector != nil {
 		in, out := &in.DomainNamesSelector, &out.DomainNamesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceID != nil {
@@ -810,12 +810,12 @@ func (in *DomainAttachmentInitParameters) DeepCopyInto(out *DomainAttachmentInit
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -914,14 +914,14 @@ func (in *DomainAttachmentParameters) DeepCopyInto(out *DomainAttachmentParamete
 	}
 	if in.DomainNamesRefs != nil {
 		in, out := &in.DomainNamesRefs, &out.DomainNamesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.DomainNamesSelector != nil {
 		in, out := &in.DomainNamesSelector, &out.DomainNamesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceID != nil {
@@ -931,12 +931,12 @@ func (in *DomainAttachmentParameters) DeepCopyInto(out *DomainAttachmentParamete
 	}
 	if in.InstanceIDRef != nil {
 		in, out := &in.InstanceIDRef, &out.InstanceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.InstanceIDSelector != nil {
 		in, out := &in.InstanceIDSelector, &out.InstanceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -1185,12 +1185,12 @@ func (in *DomainInitParameters) DeepCopyInto(out *DomainInitParameters) {
 	}
 	if in.GroupIDRef != nil {
 		in, out := &in.GroupIDRef, &out.GroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GroupIDSelector != nil {
 		in, out := &in.GroupIDSelector, &out.GroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Lang != nil {
@@ -1370,12 +1370,12 @@ func (in *DomainParameters) DeepCopyInto(out *DomainParameters) {
 	}
 	if in.GroupIDRef != nil {
 		in, out := &in.GroupIDRef, &out.GroupIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.GroupIDSelector != nil {
 		in, out := &in.GroupIDSelector, &out.GroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Lang != nil {
@@ -1511,14 +1511,14 @@ func (in *GtmInstanceInitParameters) DeepCopyInto(out *GtmInstanceInitParameters
 	}
 	if in.AlertGroupRefs != nil {
 		in, out := &in.AlertGroupRefs, &out.AlertGroupRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.AlertGroupSelector != nil {
 		in, out := &in.AlertGroupSelector, &out.AlertGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CnameType != nil {
@@ -1806,14 +1806,14 @@ func (in *GtmInstanceParameters) DeepCopyInto(out *GtmInstanceParameters) {
 	}
 	if in.AlertGroupRefs != nil {
 		in, out := &in.AlertGroupRefs, &out.AlertGroupRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.AlertGroupSelector != nil {
 		in, out := &in.AlertGroupSelector, &out.AlertGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CnameType != nil {
@@ -2404,12 +2404,12 @@ func (in *MonitorConfigInitParameters) DeepCopyInto(out *MonitorConfigInitParame
 	}
 	if in.AddrPoolIDRef != nil {
 		in, out := &in.AddrPoolIDRef, &out.AddrPoolIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AddrPoolIDSelector != nil {
 		in, out := &in.AddrPoolIDSelector, &out.AddrPoolIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EvaluationCount != nil {
@@ -2565,12 +2565,12 @@ func (in *MonitorConfigParameters) DeepCopyInto(out *MonitorConfigParameters) {
 	}
 	if in.AddrPoolIDRef != nil {
 		in, out := &in.AddrPoolIDRef, &out.AddrPoolIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AddrPoolIDSelector != nil {
 		in, out := &in.AddrPoolIDSelector, &out.AddrPoolIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EvaluationCount != nil {
@@ -2699,12 +2699,12 @@ func (in *RecordInitParameters) DeepCopyInto(out *RecordInitParameters) {
 	}
 	if in.DomainNameRef != nil {
 		in, out := &in.DomainNameRef, &out.DomainNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DomainNameSelector != nil {
 		in, out := &in.DomainNameSelector, &out.DomainNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Lang != nil {
@@ -2886,12 +2886,12 @@ func (in *RecordParameters) DeepCopyInto(out *RecordParameters) {
 	}
 	if in.DomainNameRef != nil {
 		in, out := &in.DomainNameRef, &out.DomainNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DomainNameSelector != nil {
 		in, out := &in.DomainNameSelector, &out.DomainNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Lang != nil {

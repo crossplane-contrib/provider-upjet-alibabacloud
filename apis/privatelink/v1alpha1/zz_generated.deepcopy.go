@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -608,12 +608,12 @@ func (in *VpcEndpointConnectionInitParameters) DeepCopyInto(out *VpcEndpointConn
 	}
 	if in.EndpointIDRef != nil {
 		in, out := &in.EndpointIDRef, &out.EndpointIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EndpointIDSelector != nil {
 		in, out := &in.EndpointIDSelector, &out.EndpointIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceID != nil {
@@ -623,12 +623,12 @@ func (in *VpcEndpointConnectionInitParameters) DeepCopyInto(out *VpcEndpointConn
 	}
 	if in.ServiceIDRef != nil {
 		in, out := &in.ServiceIDRef, &out.ServiceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceIDSelector != nil {
 		in, out := &in.ServiceIDSelector, &out.ServiceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -740,12 +740,12 @@ func (in *VpcEndpointConnectionParameters) DeepCopyInto(out *VpcEndpointConnecti
 	}
 	if in.EndpointIDRef != nil {
 		in, out := &in.EndpointIDRef, &out.EndpointIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EndpointIDSelector != nil {
 		in, out := &in.EndpointIDSelector, &out.EndpointIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -760,12 +760,12 @@ func (in *VpcEndpointConnectionParameters) DeepCopyInto(out *VpcEndpointConnecti
 	}
 	if in.ServiceIDRef != nil {
 		in, out := &in.ServiceIDRef, &out.ServiceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceIDSelector != nil {
 		in, out := &in.ServiceIDSelector, &out.ServiceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -871,14 +871,14 @@ func (in *VpcEndpointInitParameters) DeepCopyInto(out *VpcEndpointInitParameters
 	}
 	if in.SecurityGroupRefs != nil {
 		in, out := &in.SecurityGroupRefs, &out.SecurityGroupRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupSelector != nil {
 		in, out := &in.SecurityGroupSelector, &out.SecurityGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceID != nil {
@@ -888,12 +888,12 @@ func (in *VpcEndpointInitParameters) DeepCopyInto(out *VpcEndpointInitParameters
 	}
 	if in.ServiceIDRef != nil {
 		in, out := &in.ServiceIDRef, &out.ServiceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceIDSelector != nil {
 		in, out := &in.ServiceIDSelector, &out.ServiceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceName != nil {
@@ -934,12 +934,12 @@ func (in *VpcEndpointInitParameters) DeepCopyInto(out *VpcEndpointInitParameters
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZonePrivateIPAddressCount != nil {
@@ -1204,14 +1204,14 @@ func (in *VpcEndpointParameters) DeepCopyInto(out *VpcEndpointParameters) {
 	}
 	if in.SecurityGroupRefs != nil {
 		in, out := &in.SecurityGroupRefs, &out.SecurityGroupRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupSelector != nil {
 		in, out := &in.SecurityGroupSelector, &out.SecurityGroupSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceID != nil {
@@ -1221,12 +1221,12 @@ func (in *VpcEndpointParameters) DeepCopyInto(out *VpcEndpointParameters) {
 	}
 	if in.ServiceIDRef != nil {
 		in, out := &in.ServiceIDRef, &out.ServiceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceIDSelector != nil {
 		in, out := &in.ServiceIDSelector, &out.ServiceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceName != nil {
@@ -1267,12 +1267,12 @@ func (in *VpcEndpointParameters) DeepCopyInto(out *VpcEndpointParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZonePrivateIPAddressCount != nil {
@@ -1334,12 +1334,12 @@ func (in *VpcEndpointServiceResourceInitParameters) DeepCopyInto(out *VpcEndpoin
 	}
 	if in.ResourceIDRef != nil {
 		in, out := &in.ResourceIDRef, &out.ResourceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ResourceIDSelector != nil {
 		in, out := &in.ResourceIDSelector, &out.ResourceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ResourceType != nil {
@@ -1354,12 +1354,12 @@ func (in *VpcEndpointServiceResourceInitParameters) DeepCopyInto(out *VpcEndpoin
 	}
 	if in.ServiceIDRef != nil {
 		in, out := &in.ServiceIDRef, &out.ServiceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceIDSelector != nil {
 		in, out := &in.ServiceIDSelector, &out.ServiceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -1481,12 +1481,12 @@ func (in *VpcEndpointServiceResourceParameters) DeepCopyInto(out *VpcEndpointSer
 	}
 	if in.ResourceIDRef != nil {
 		in, out := &in.ResourceIDRef, &out.ResourceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ResourceIDSelector != nil {
 		in, out := &in.ResourceIDSelector, &out.ResourceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ResourceType != nil {
@@ -1501,12 +1501,12 @@ func (in *VpcEndpointServiceResourceParameters) DeepCopyInto(out *VpcEndpointSer
 	}
 	if in.ServiceIDRef != nil {
 		in, out := &in.ServiceIDRef, &out.ServiceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceIDSelector != nil {
 		in, out := &in.ServiceIDSelector, &out.ServiceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -1603,12 +1603,12 @@ func (in *VpcEndpointServiceUserInitParameters) DeepCopyInto(out *VpcEndpointSer
 	}
 	if in.ServiceIDRef != nil {
 		in, out := &in.ServiceIDRef, &out.ServiceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceIDSelector != nil {
 		in, out := &in.ServiceIDSelector, &out.ServiceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.UserArn != nil {
@@ -1623,12 +1623,12 @@ func (in *VpcEndpointServiceUserInitParameters) DeepCopyInto(out *VpcEndpointSer
 	}
 	if in.UserIDRef != nil {
 		in, out := &in.UserIDRef, &out.UserIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.UserIDSelector != nil {
 		in, out := &in.UserIDSelector, &out.UserIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1735,12 +1735,12 @@ func (in *VpcEndpointServiceUserParameters) DeepCopyInto(out *VpcEndpointService
 	}
 	if in.ServiceIDRef != nil {
 		in, out := &in.ServiceIDRef, &out.ServiceIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ServiceIDSelector != nil {
 		in, out := &in.ServiceIDSelector, &out.ServiceIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.UserArn != nil {
@@ -1755,12 +1755,12 @@ func (in *VpcEndpointServiceUserParameters) DeepCopyInto(out *VpcEndpointService
 	}
 	if in.UserIDRef != nil {
 		in, out := &in.UserIDRef, &out.UserIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.UserIDSelector != nil {
 		in, out := &in.UserIDSelector, &out.UserIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1887,12 +1887,12 @@ func (in *VpcEndpointZoneInitParameters) DeepCopyInto(out *VpcEndpointZoneInitPa
 	}
 	if in.EndpointIDRef != nil {
 		in, out := &in.EndpointIDRef, &out.EndpointIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EndpointIDSelector != nil {
 		in, out := &in.EndpointIDSelector, &out.EndpointIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EniIP != nil {
@@ -1907,12 +1907,12 @@ func (in *VpcEndpointZoneInitParameters) DeepCopyInto(out *VpcEndpointZoneInitPa
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -2034,12 +2034,12 @@ func (in *VpcEndpointZoneParameters) DeepCopyInto(out *VpcEndpointZoneParameters
 	}
 	if in.EndpointIDRef != nil {
 		in, out := &in.EndpointIDRef, &out.EndpointIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EndpointIDSelector != nil {
 		in, out := &in.EndpointIDSelector, &out.EndpointIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EniIP != nil {
@@ -2059,12 +2059,12 @@ func (in *VpcEndpointZoneParameters) DeepCopyInto(out *VpcEndpointZoneParameters
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {

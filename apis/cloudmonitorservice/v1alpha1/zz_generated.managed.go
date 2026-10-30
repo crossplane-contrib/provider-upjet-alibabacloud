@@ -6,54 +6,54 @@
 
 package v1alpha1
 
-import xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this AlarmContactGroup.
-func (mg *AlarmContactGroup) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *AlarmContactGroup) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this AlarmContactGroup.
-func (mg *AlarmContactGroup) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *AlarmContactGroup) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this AlarmContactGroup.
-func (mg *AlarmContactGroup) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *AlarmContactGroup) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this AlarmContactGroup.
-func (mg *AlarmContactGroup) GetProviderConfigReference() *xpv1.Reference {
+func (mg *AlarmContactGroup) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this AlarmContactGroup.
-func (mg *AlarmContactGroup) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *AlarmContactGroup) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this AlarmContactGroup.
-func (mg *AlarmContactGroup) SetConditions(c ...xpv1.Condition) {
+func (mg *AlarmContactGroup) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this AlarmContactGroup.
-func (mg *AlarmContactGroup) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *AlarmContactGroup) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this AlarmContactGroup.
-func (mg *AlarmContactGroup) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *AlarmContactGroup) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this AlarmContactGroup.
-func (mg *AlarmContactGroup) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *AlarmContactGroup) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this AlarmContactGroup.
-func (mg *AlarmContactGroup) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *AlarmContactGroup) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -38,12 +38,12 @@ func (in *CertificateConfigInitParameters) DeepCopyInto(out *CertificateConfigIn
 	}
 	if in.PrivateKeySecretRef != nil {
 		in, out := &in.PrivateKeySecretRef, &out.PrivateKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.ServerCertificateSecretRef != nil {
 		in, out := &in.ServerCertificateSecretRef, &out.ServerCertificateSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.ServerCertificateStatus != nil {
@@ -128,12 +128,12 @@ func (in *CertificateConfigParameters) DeepCopyInto(out *CertificateConfigParame
 	}
 	if in.PrivateKeySecretRef != nil {
 		in, out := &in.PrivateKeySecretRef, &out.PrivateKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.ServerCertificateSecretRef != nil {
 		in, out := &in.ServerCertificateSecretRef, &out.ServerCertificateSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.ServerCertificateStatus != nil {
@@ -217,12 +217,12 @@ func (in *DomainConfigInitParameters) DeepCopyInto(out *DomainConfigInitParamete
 	}
 	if in.DomainNameRef != nil {
 		in, out := &in.DomainNameRef, &out.DomainNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DomainNameSelector != nil {
 		in, out := &in.DomainNameSelector, &out.DomainNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.FunctionArgs != nil {
@@ -348,12 +348,12 @@ func (in *DomainConfigParameters) DeepCopyInto(out *DomainConfigParameters) {
 	}
 	if in.DomainNameRef != nil {
 		in, out := &in.DomainNameRef, &out.DomainNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DomainNameSelector != nil {
 		in, out := &in.DomainNameSelector, &out.DomainNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.FunctionArgs != nil {
@@ -804,12 +804,12 @@ func (in *FcTriggerInitParameters) DeepCopyInto(out *FcTriggerInitParameters) {
 	}
 	if in.RoleArnRef != nil {
 		in, out := &in.RoleArnRef, &out.RoleArnRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RoleArnSelector != nil {
 		in, out := &in.RoleArnSelector, &out.RoleArnSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceArn != nil {
@@ -956,12 +956,12 @@ func (in *FcTriggerParameters) DeepCopyInto(out *FcTriggerParameters) {
 	}
 	if in.RoleArnRef != nil {
 		in, out := &in.RoleArnRef, &out.RoleArnRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RoleArnSelector != nil {
 		in, out := &in.RoleArnSelector, &out.RoleArnSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SourceArn != nil {

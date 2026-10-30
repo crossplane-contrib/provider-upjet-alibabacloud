@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -190,12 +190,12 @@ func (in *AccessPointInitParameters) DeepCopyInto(out *AccessPointInitParameters
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkOrigin != nil {
@@ -330,12 +330,12 @@ func (in *AccessPointParameters) DeepCopyInto(out *AccessPointParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetworkOrigin != nil {
@@ -642,12 +642,12 @@ func (in *BucketACLInitParameters) DeepCopyInto(out *BucketACLInitParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -739,12 +739,12 @@ func (in *BucketACLParameters) DeepCopyInto(out *BucketACLParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -836,12 +836,12 @@ func (in *BucketAccessMonitorInitParameters) DeepCopyInto(out *BucketAccessMonit
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Status != nil {
@@ -933,12 +933,12 @@ func (in *BucketAccessMonitorParameters) DeepCopyInto(out *BucketAccessMonitorPa
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -1035,12 +1035,12 @@ func (in *BucketCnameInitParameters) DeepCopyInto(out *BucketCnameInitParameters
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Certificate != nil {
@@ -1062,12 +1062,12 @@ func (in *BucketCnameInitParameters) DeepCopyInto(out *BucketCnameInitParameters
 	}
 	if in.DomainRef != nil {
 		in, out := &in.DomainRef, &out.DomainRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DomainSelector != nil {
 		in, out := &in.DomainSelector, &out.DomainSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Force != nil {
@@ -1191,12 +1191,12 @@ func (in *BucketCnameParameters) DeepCopyInto(out *BucketCnameParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Certificate != nil {
@@ -1218,12 +1218,12 @@ func (in *BucketCnameParameters) DeepCopyInto(out *BucketCnameParameters) {
 	}
 	if in.DomainRef != nil {
 		in, out := &in.DomainRef, &out.DomainRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DomainSelector != nil {
 		in, out := &in.DomainSelector, &out.DomainSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Force != nil {
@@ -1325,12 +1325,12 @@ func (in *BucketCnameTokenInitParameters) DeepCopyInto(out *BucketCnameTokenInit
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Domain != nil {
@@ -1427,12 +1427,12 @@ func (in *BucketCnameTokenParameters) DeepCopyInto(out *BucketCnameTokenParamete
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Domain != nil {
@@ -1721,12 +1721,12 @@ func (in *BucketCorsInitParameters) DeepCopyInto(out *BucketCorsInitParameters) 
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CorsRule != nil {
@@ -1832,12 +1832,12 @@ func (in *BucketCorsParameters) DeepCopyInto(out *BucketCorsParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CorsRule != nil {
@@ -1941,12 +1941,12 @@ func (in *BucketDataRedundancyTransitionInitParameters) DeepCopyInto(out *Bucket
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -2043,12 +2043,12 @@ func (in *BucketDataRedundancyTransitionParameters) DeepCopyInto(out *BucketData
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -2140,12 +2140,12 @@ func (in *BucketHTTPSConfigInitParameters) DeepCopyInto(out *BucketHTTPSConfigIn
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CipherSuit != nil {
@@ -2273,12 +2273,12 @@ func (in *BucketHTTPSConfigParameters) DeepCopyInto(out *BucketHTTPSConfigParame
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CipherSuit != nil {
@@ -2542,12 +2542,12 @@ func (in *BucketLoggingInitParameters) DeepCopyInto(out *BucketLoggingInitParame
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoggingRole != nil {
@@ -2562,12 +2562,12 @@ func (in *BucketLoggingInitParameters) DeepCopyInto(out *BucketLoggingInitParame
 	}
 	if in.TargetBucketRef != nil {
 		in, out := &in.TargetBucketRef, &out.TargetBucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetBucketSelector != nil {
 		in, out := &in.TargetBucketSelector, &out.TargetBucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPrefix != nil {
@@ -2669,12 +2669,12 @@ func (in *BucketLoggingParameters) DeepCopyInto(out *BucketLoggingParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoggingRole != nil {
@@ -2694,12 +2694,12 @@ func (in *BucketLoggingParameters) DeepCopyInto(out *BucketLoggingParameters) {
 	}
 	if in.TargetBucketRef != nil {
 		in, out := &in.TargetBucketRef, &out.TargetBucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetBucketSelector != nil {
 		in, out := &in.TargetBucketSelector, &out.TargetBucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPrefix != nil {
@@ -2791,12 +2791,12 @@ func (in *BucketMetaQueryInitParameters) DeepCopyInto(out *BucketMetaQueryInitPa
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -2888,12 +2888,12 @@ func (in *BucketMetaQueryParameters) DeepCopyInto(out *BucketMetaQueryParameters
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -2990,12 +2990,12 @@ func (in *BucketObjectInitParameters) DeepCopyInto(out *BucketObjectInitParamete
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CacheControl != nil {
@@ -3040,12 +3040,12 @@ func (in *BucketObjectInitParameters) DeepCopyInto(out *BucketObjectInitParamete
 	}
 	if in.KMSKeyIDRef != nil {
 		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyIDSelector != nil {
 		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Key != nil {
@@ -3242,12 +3242,12 @@ func (in *BucketObjectParameters) DeepCopyInto(out *BucketObjectParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.CacheControl != nil {
@@ -3292,12 +3292,12 @@ func (in *BucketObjectParameters) DeepCopyInto(out *BucketObjectParameters) {
 	}
 	if in.KMSKeyIDRef != nil {
 		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyIDSelector != nil {
 		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Key != nil {
@@ -3683,12 +3683,12 @@ func (in *BucketPolicyInitParameters) DeepCopyInto(out *BucketPolicyInitParamete
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Policy != nil {
@@ -3780,12 +3780,12 @@ func (in *BucketPolicyParameters) DeepCopyInto(out *BucketPolicyParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Policy != nil {
@@ -3887,12 +3887,12 @@ func (in *BucketPublicAccessBlockInitParameters) DeepCopyInto(out *BucketPublicA
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -3984,12 +3984,12 @@ func (in *BucketPublicAccessBlockParameters) DeepCopyInto(out *BucketPublicAcces
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -4091,12 +4091,12 @@ func (in *BucketRefererInitParameters) DeepCopyInto(out *BucketRefererInitParame
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RefererBlacklist != nil {
@@ -4252,12 +4252,12 @@ func (in *BucketRefererParameters) DeepCopyInto(out *BucketRefererParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RefererBlacklist != nil {
@@ -4381,12 +4381,12 @@ func (in *BucketReplicationInitParameters) DeepCopyInto(out *BucketReplicationIn
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Destination != nil {
@@ -4441,12 +4441,12 @@ func (in *BucketReplicationInitParameters) DeepCopyInto(out *BucketReplicationIn
 	}
 	if in.SyncRoleRef != nil {
 		in, out := &in.SyncRoleRef, &out.SyncRoleRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SyncRoleSelector != nil {
 		in, out := &in.SyncRoleSelector, &out.SyncRoleSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4600,12 +4600,12 @@ func (in *BucketReplicationParameters) DeepCopyInto(out *BucketReplicationParame
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Destination != nil {
@@ -4665,12 +4665,12 @@ func (in *BucketReplicationParameters) DeepCopyInto(out *BucketReplicationParame
 	}
 	if in.SyncRoleRef != nil {
 		in, out := &in.SyncRoleRef, &out.SyncRoleRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SyncRoleSelector != nil {
 		in, out := &in.SyncRoleSelector, &out.SyncRoleSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -4757,12 +4757,12 @@ func (in *BucketRequestPaymentInitParameters) DeepCopyInto(out *BucketRequestPay
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Payer != nil {
@@ -4854,12 +4854,12 @@ func (in *BucketRequestPaymentParameters) DeepCopyInto(out *BucketRequestPayment
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Payer != nil {
@@ -4956,12 +4956,12 @@ func (in *BucketServerSideEncryptionInitParameters) DeepCopyInto(out *BucketServ
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSDataEncryption != nil {
@@ -4976,12 +4976,12 @@ func (in *BucketServerSideEncryptionInitParameters) DeepCopyInto(out *BucketServ
 	}
 	if in.KMSMasterKeyIDRef != nil {
 		in, out := &in.KMSMasterKeyIDRef, &out.KMSMasterKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSMasterKeyIDSelector != nil {
 		in, out := &in.KMSMasterKeyIDSelector, &out.KMSMasterKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SseAlgorithm != nil {
@@ -5083,12 +5083,12 @@ func (in *BucketServerSideEncryptionParameters) DeepCopyInto(out *BucketServerSi
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSDataEncryption != nil {
@@ -5103,12 +5103,12 @@ func (in *BucketServerSideEncryptionParameters) DeepCopyInto(out *BucketServerSi
 	}
 	if in.KMSMasterKeyIDRef != nil {
 		in, out := &in.KMSMasterKeyIDRef, &out.KMSMasterKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSMasterKeyIDSelector != nil {
 		in, out := &in.KMSMasterKeyIDSelector, &out.KMSMasterKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -5240,12 +5240,12 @@ func (in *BucketStyleInitParameters) DeepCopyInto(out *BucketStyleInitParameters
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Category != nil {
@@ -5362,12 +5362,12 @@ func (in *BucketStyleParameters) DeepCopyInto(out *BucketStyleParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Category != nil {
@@ -5474,12 +5474,12 @@ func (in *BucketTransferAccelerationInitParameters) DeepCopyInto(out *BucketTran
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Enabled != nil {
@@ -5571,12 +5571,12 @@ func (in *BucketTransferAccelerationParameters) DeepCopyInto(out *BucketTransfer
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Enabled != nil {
@@ -5673,12 +5673,12 @@ func (in *BucketUserDefinedLogFieldsInitParameters) DeepCopyInto(out *BucketUser
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HeaderSet != nil {
@@ -5804,12 +5804,12 @@ func (in *BucketUserDefinedLogFieldsParameters) DeepCopyInto(out *BucketUserDefi
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.HeaderSet != nil {
@@ -5923,12 +5923,12 @@ func (in *BucketVersioningInitParameters) DeepCopyInto(out *BucketVersioningInit
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Status != nil {
@@ -6020,12 +6020,12 @@ func (in *BucketVersioningParameters) DeepCopyInto(out *BucketVersioningParamete
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -6122,12 +6122,12 @@ func (in *BucketWebsiteInitParameters) DeepCopyInto(out *BucketWebsiteInitParame
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ErrorDocument != nil {
@@ -6251,12 +6251,12 @@ func (in *BucketWebsiteParameters) DeepCopyInto(out *BucketWebsiteParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ErrorDocument != nil {
@@ -6369,12 +6369,12 @@ func (in *BucketWormInitParameters) DeepCopyInto(out *BucketWormInitParameters) 
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RetentionPeriodInDays != nil {
@@ -6486,12 +6486,12 @@ func (in *BucketWormParameters) DeepCopyInto(out *BucketWormParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -6566,12 +6566,12 @@ func (in *CertificateInitParameters) DeepCopyInto(out *CertificateInitParameters
 	}
 	if in.CertificateSecretRef != nil {
 		in, out := &in.CertificateSecretRef, &out.CertificateSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.PrivateKeySecretRef != nil {
 		in, out := &in.PrivateKeySecretRef, &out.PrivateKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -6646,12 +6646,12 @@ func (in *CertificateParameters) DeepCopyInto(out *CertificateParameters) {
 	}
 	if in.CertificateSecretRef != nil {
 		in, out := &in.CertificateSecretRef, &out.CertificateSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.PrivateKeySecretRef != nil {
 		in, out := &in.PrivateKeySecretRef, &out.PrivateKeySecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 }
@@ -7120,12 +7120,12 @@ func (in *DestinationInitParameters) DeepCopyInto(out *DestinationInitParameters
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Location != nil {
@@ -7135,12 +7135,12 @@ func (in *DestinationInitParameters) DeepCopyInto(out *DestinationInitParameters
 	}
 	if in.LocationRef != nil {
 		in, out := &in.LocationRef, &out.LocationRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LocationSelector != nil {
 		in, out := &in.LocationSelector, &out.LocationSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TransferType != nil {
@@ -7200,12 +7200,12 @@ func (in *DestinationParameters) DeepCopyInto(out *DestinationParameters) {
 	}
 	if in.BucketRef != nil {
 		in, out := &in.BucketRef, &out.BucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.BucketSelector != nil {
 		in, out := &in.BucketSelector, &out.BucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Location != nil {
@@ -7215,12 +7215,12 @@ func (in *DestinationParameters) DeepCopyInto(out *DestinationParameters) {
 	}
 	if in.LocationRef != nil {
 		in, out := &in.LocationRef, &out.LocationRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LocationSelector != nil {
 		in, out := &in.LocationSelector, &out.LocationSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TransferType != nil {
@@ -7250,12 +7250,12 @@ func (in *EncryptionConfigurationInitParameters) DeepCopyInto(out *EncryptionCon
 	}
 	if in.ReplicaKMSKeyIDRef != nil {
 		in, out := &in.ReplicaKMSKeyIDRef, &out.ReplicaKMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ReplicaKMSKeyIDSelector != nil {
 		in, out := &in.ReplicaKMSKeyIDSelector, &out.ReplicaKMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -7300,12 +7300,12 @@ func (in *EncryptionConfigurationParameters) DeepCopyInto(out *EncryptionConfigu
 	}
 	if in.ReplicaKMSKeyIDRef != nil {
 		in, out := &in.ReplicaKMSKeyIDRef, &out.ReplicaKMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ReplicaKMSKeyIDSelector != nil {
 		in, out := &in.ReplicaKMSKeyIDSelector, &out.ReplicaKMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -8065,12 +8065,12 @@ func (in *LoggingInitParameters) DeepCopyInto(out *LoggingInitParameters) {
 	}
 	if in.TargetBucketRef != nil {
 		in, out := &in.TargetBucketRef, &out.TargetBucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetBucketSelector != nil {
 		in, out := &in.TargetBucketSelector, &out.TargetBucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPrefix != nil {
@@ -8125,12 +8125,12 @@ func (in *LoggingParameters) DeepCopyInto(out *LoggingParameters) {
 	}
 	if in.TargetBucketRef != nil {
 		in, out := &in.TargetBucketRef, &out.TargetBucketRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetBucketSelector != nil {
 		in, out := &in.TargetBucketSelector, &out.TargetBucketSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TargetPrefix != nil {
@@ -8220,7 +8220,7 @@ func (in *MirrorAuthInitParameters) DeepCopyInto(out *MirrorAuthInitParameters) 
 	}
 	if in.AccessKeySecretSecretRef != nil {
 		in, out := &in.AccessKeySecretSecretRef, &out.AccessKeySecretSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.AuthType != nil {
@@ -8285,7 +8285,7 @@ func (in *MirrorAuthParameters) DeepCopyInto(out *MirrorAuthParameters) {
 	}
 	if in.AccessKeySecretSecretRef != nil {
 		in, out := &in.AccessKeySecretSecretRef, &out.AccessKeySecretSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.AuthType != nil {
@@ -10173,12 +10173,12 @@ func (in *ServerSideEncryptionRuleInitParameters) DeepCopyInto(out *ServerSideEn
 	}
 	if in.KMSMasterKeyIDRef != nil {
 		in, out := &in.KMSMasterKeyIDRef, &out.KMSMasterKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSMasterKeyIDSelector != nil {
 		in, out := &in.KMSMasterKeyIDSelector, &out.KMSMasterKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SseAlgorithm != nil {
@@ -10243,12 +10243,12 @@ func (in *ServerSideEncryptionRuleParameters) DeepCopyInto(out *ServerSideEncryp
 	}
 	if in.KMSMasterKeyIDRef != nil {
 		in, out := &in.KMSMasterKeyIDRef, &out.KMSMasterKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSMasterKeyIDSelector != nil {
 		in, out := &in.KMSMasterKeyIDSelector, &out.KMSMasterKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SseAlgorithm != nil {
@@ -10809,12 +10809,12 @@ func (in *VPCConfigurationInitParameters) DeepCopyInto(out *VPCConfigurationInit
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -10859,12 +10859,12 @@ func (in *VPCConfigurationParameters) DeepCopyInto(out *VPCConfigurationParamete
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }

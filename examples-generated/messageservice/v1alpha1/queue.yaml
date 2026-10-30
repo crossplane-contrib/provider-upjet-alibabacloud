@@ -8,10 +8,10 @@ metadata:
   name: default
 spec:
   forProvider:
-    delaySeconds: "2"
-    maximumMessageSize: "1126"
-    messageRetentionPeriod: "566"
-    pollingWaitSeconds: "2"
+    delaySeconds: 2
+    maximumMessageSize: 1126
+    messageRetentionPeriod: 566
+    pollingWaitSeconds: 2
     queueName: ${var.name}
     region: cn-beijing
-    visibilityTimeout: "30"
+    visibilityTimeout: 30

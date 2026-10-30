@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	v1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -177,12 +177,12 @@ func (in *EndpointAclInitParameters) DeepCopyInto(out *EndpointAclInitParameters
 	}
 	if in.EndpointTypeRef != nil {
 		in, out := &in.EndpointTypeRef, &out.EndpointTypeRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EndpointTypeSelector != nil {
 		in, out := &in.EndpointTypeSelector, &out.EndpointTypeSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -284,12 +284,12 @@ func (in *EndpointAclParameters) DeepCopyInto(out *EndpointAclParameters) {
 	}
 	if in.EndpointTypeRef != nil {
 		in, out := &in.EndpointTypeRef, &out.EndpointTypeRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.EndpointTypeSelector != nil {
 		in, out := &in.EndpointTypeSelector, &out.EndpointTypeSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -550,12 +550,12 @@ func (in *QueueInitParameters) DeepCopyInto(out *QueueInitParameters) {
 	}
 	if in.KMSKeyIDRef != nil {
 		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyIDSelector != nil {
 		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoggingEnabled != nil {
@@ -803,12 +803,12 @@ func (in *QueueParameters) DeepCopyInto(out *QueueParameters) {
 	}
 	if in.KMSKeyIDRef != nil {
 		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSKeyIDSelector != nil {
 		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.LoggingEnabled != nil {
@@ -1068,12 +1068,12 @@ func (in *SubscriptionInitParameters) DeepCopyInto(out *SubscriptionInitParamete
 	}
 	if in.StsRoleArnRef != nil {
 		in, out := &in.StsRoleArnRef, &out.StsRoleArnRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StsRoleArnSelector != nil {
 		in, out := &in.StsRoleArnSelector, &out.StsRoleArnSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubscriptionName != nil {
@@ -1088,12 +1088,12 @@ func (in *SubscriptionInitParameters) DeepCopyInto(out *SubscriptionInitParamete
 	}
 	if in.TopicNameRef != nil {
 		in, out := &in.TopicNameRef, &out.TopicNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicNameSelector != nil {
 		in, out := &in.TopicNameSelector, &out.TopicNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -1259,12 +1259,12 @@ func (in *SubscriptionParameters) DeepCopyInto(out *SubscriptionParameters) {
 	}
 	if in.StsRoleArnRef != nil {
 		in, out := &in.StsRoleArnRef, &out.StsRoleArnRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StsRoleArnSelector != nil {
 		in, out := &in.StsRoleArnSelector, &out.StsRoleArnSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SubscriptionName != nil {
@@ -1279,12 +1279,12 @@ func (in *SubscriptionParameters) DeepCopyInto(out *SubscriptionParameters) {
 	}
 	if in.TopicNameRef != nil {
 		in, out := &in.TopicNameRef, &out.TopicNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.TopicNameSelector != nil {
 		in, out := &in.TopicNameSelector, &out.TopicNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }

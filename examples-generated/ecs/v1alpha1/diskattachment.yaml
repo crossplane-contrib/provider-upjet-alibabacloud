@@ -35,7 +35,7 @@ spec:
     enableAutoSnapshot: "true"
     encrypted: "true"
     region: cn-beijing
-    size: "500"
+    size: 500
     tags:
       Created: TF
       Environment: Acceptance-test

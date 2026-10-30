@@ -28,7 +28,7 @@ spec:
     engine: MySQL
     engineVersion: "5.6"
     instanceName: ${var.name}
-    instanceStorage: "10"
+    instanceStorage: 10
     instanceType: rds.mysql.s1.small
     region: cn-beijing
     vswitchIdSelector:

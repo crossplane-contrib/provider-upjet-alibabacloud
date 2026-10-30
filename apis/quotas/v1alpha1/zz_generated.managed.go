@@ -6,254 +6,254 @@
 
 package v1alpha1
 
-import xpv1 "github.com/crossplane/crossplane/apis/v2/core/v2"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this QuotaAlarm.
-func (mg *QuotaAlarm) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *QuotaAlarm) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this QuotaAlarm.
-func (mg *QuotaAlarm) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *QuotaAlarm) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this QuotaAlarm.
-func (mg *QuotaAlarm) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *QuotaAlarm) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this QuotaAlarm.
-func (mg *QuotaAlarm) GetProviderConfigReference() *xpv1.Reference {
+func (mg *QuotaAlarm) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this QuotaAlarm.
-func (mg *QuotaAlarm) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *QuotaAlarm) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this QuotaAlarm.
-func (mg *QuotaAlarm) SetConditions(c ...xpv1.Condition) {
+func (mg *QuotaAlarm) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this QuotaAlarm.
-func (mg *QuotaAlarm) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *QuotaAlarm) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this QuotaAlarm.
-func (mg *QuotaAlarm) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *QuotaAlarm) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this QuotaAlarm.
-func (mg *QuotaAlarm) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *QuotaAlarm) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this QuotaAlarm.
-func (mg *QuotaAlarm) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *QuotaAlarm) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this QuotaApplication.
-func (mg *QuotaApplication) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *QuotaApplication) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this QuotaApplication.
-func (mg *QuotaApplication) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *QuotaApplication) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this QuotaApplication.
-func (mg *QuotaApplication) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *QuotaApplication) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this QuotaApplication.
-func (mg *QuotaApplication) GetProviderConfigReference() *xpv1.Reference {
+func (mg *QuotaApplication) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this QuotaApplication.
-func (mg *QuotaApplication) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *QuotaApplication) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this QuotaApplication.
-func (mg *QuotaApplication) SetConditions(c ...xpv1.Condition) {
+func (mg *QuotaApplication) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this QuotaApplication.
-func (mg *QuotaApplication) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *QuotaApplication) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this QuotaApplication.
-func (mg *QuotaApplication) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *QuotaApplication) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this QuotaApplication.
-func (mg *QuotaApplication) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *QuotaApplication) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this QuotaApplication.
-func (mg *QuotaApplication) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *QuotaApplication) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this TemplateApplications.
-func (mg *TemplateApplications) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *TemplateApplications) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this TemplateApplications.
-func (mg *TemplateApplications) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *TemplateApplications) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this TemplateApplications.
-func (mg *TemplateApplications) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *TemplateApplications) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TemplateApplications.
-func (mg *TemplateApplications) GetProviderConfigReference() *xpv1.Reference {
+func (mg *TemplateApplications) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this TemplateApplications.
-func (mg *TemplateApplications) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *TemplateApplications) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this TemplateApplications.
-func (mg *TemplateApplications) SetConditions(c ...xpv1.Condition) {
+func (mg *TemplateApplications) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this TemplateApplications.
-func (mg *TemplateApplications) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *TemplateApplications) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this TemplateApplications.
-func (mg *TemplateApplications) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *TemplateApplications) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TemplateApplications.
-func (mg *TemplateApplications) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *TemplateApplications) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this TemplateApplications.
-func (mg *TemplateApplications) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *TemplateApplications) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this TemplateQuota.
-func (mg *TemplateQuota) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *TemplateQuota) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this TemplateQuota.
-func (mg *TemplateQuota) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *TemplateQuota) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this TemplateQuota.
-func (mg *TemplateQuota) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *TemplateQuota) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TemplateQuota.
-func (mg *TemplateQuota) GetProviderConfigReference() *xpv1.Reference {
+func (mg *TemplateQuota) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this TemplateQuota.
-func (mg *TemplateQuota) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *TemplateQuota) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this TemplateQuota.
-func (mg *TemplateQuota) SetConditions(c ...xpv1.Condition) {
+func (mg *TemplateQuota) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this TemplateQuota.
-func (mg *TemplateQuota) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *TemplateQuota) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this TemplateQuota.
-func (mg *TemplateQuota) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *TemplateQuota) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TemplateQuota.
-func (mg *TemplateQuota) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *TemplateQuota) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this TemplateQuota.
-func (mg *TemplateQuota) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *TemplateQuota) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this TemplateService.
-func (mg *TemplateService) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *TemplateService) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this TemplateService.
-func (mg *TemplateService) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *TemplateService) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this TemplateService.
-func (mg *TemplateService) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *TemplateService) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this TemplateService.
-func (mg *TemplateService) GetProviderConfigReference() *xpv1.Reference {
+func (mg *TemplateService) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this TemplateService.
-func (mg *TemplateService) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *TemplateService) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this TemplateService.
-func (mg *TemplateService) SetConditions(c ...xpv1.Condition) {
+func (mg *TemplateService) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this TemplateService.
-func (mg *TemplateService) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *TemplateService) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this TemplateService.
-func (mg *TemplateService) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *TemplateService) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this TemplateService.
-func (mg *TemplateService) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *TemplateService) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this TemplateService.
-func (mg *TemplateService) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *TemplateService) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

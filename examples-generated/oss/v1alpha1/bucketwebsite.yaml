@@ -12,7 +12,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: defaultnVj9x3
     errorDocument:
-    - httpStatus: "404"
+    - httpStatus: 404
       key: error.html
     indexDocument:
     - suffix: index.html
@@ -30,8 +30,7 @@ spec:
           httpRedirectCode: "305"
           protocol: https
           redirectType: AliCDN
-        ruleNumber: "1"
-
+        ruleNumber: 1
 ---
 
 apiVersion: oss.alibabacloud.crossplane.io/v1alpha1

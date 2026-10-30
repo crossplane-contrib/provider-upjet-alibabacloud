@@ -8,7 +8,6 @@ package v1alpha1
 
 import (
 	"context"
-
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1"
 	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
