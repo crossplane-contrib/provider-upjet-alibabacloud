@@ -5,10 +5,25 @@
 package alikafka
 
 import (
+	"strings"
+
+	"github.com/aliyun/terraform-provider-alicloud/alicloud"
 	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/common"
 )
+
+// instanceChildren are the resources that live inside an alikafka instance and
+// are released together with it.
+var instanceChildren = []string{
+	"alicloud_alikafka_topic",
+	"alicloud_alikafka_consumer_group",
+	"alicloud_alikafka_scheduled_scaling_rule",
+	"alicloud_alikafka_sasl_user",
+	"alicloud_alikafka_sasl_acl",
+	"alicloud_alikafka_instance_allowed_ip_attachment",
+}
 
 // Configure configures individual resources by adding custom
 // ResourceConfigurators. The Kind is intentionally left to upjet's default
@@ -98,4 +113,43 @@ func Configure(p *config.Provider) {
 			Extractor:     common.PathIdExtractor,
 		}
 	})
+	for _, name := range instanceChildren {
+		p.AddResourceConfigurator(name, func(r *config.Resource) {
+			r.TerraformResource.Delete = goneWithReleasedInstance(r.TerraformResource.Delete) //nolint:staticcheck // upstream implements these resources with the legacy Delete field.
+		})
+	}
+}
+
+// goneWithReleasedInstance treats a delete that fails because the parent
+// instance has already been released as a successful one: releasing the
+// instance released the child with it.
+//
+// Upstream's describe calls map BIZ.INSTANCE.STATUS.ERROR to "not found" for
+// some of these resources, but none of its delete calls do. Crossplane does not
+// order deletes between managed resources, so when a Composition (or anything
+// else) deletes an instance together with its children, the instance often
+// goes first, every child delete then fails with that code, and the children
+// keep their finalizers for good.
+//
+// Only the RELEASED state counts. The same code is returned while the instance
+// is, for example, being upgraded, and a child must not be dropped then: upjet
+// stops reading a resource once its delete has succeeded, so a wrongly
+// swallowed error would orphan a child that still exists.
+func goneWithReleasedInstance(del schema.DeleteFunc) schema.DeleteFunc { //nolint:staticcheck // upstream implements these resources with the legacy Delete field.
+	if del == nil {
+		// The code generation schema carries no CRUD functions.
+		return nil
+	}
+	return func(d *schema.ResourceData, meta any) error {
+		err := del(d, meta)
+		if isInstanceReleased(err) {
+			return nil
+		}
+		return err
+	}
+}
+
+func isInstanceReleased(err error) bool {
+	return alicloud.IsExpectedErrors(err, []string{"BIZ.INSTANCE.STATUS.ERROR", "BIZ_INSTANCE_STATUS_ERROR"}) &&
+		strings.Contains(err.Error(), "instance is in RELEASED")
 }

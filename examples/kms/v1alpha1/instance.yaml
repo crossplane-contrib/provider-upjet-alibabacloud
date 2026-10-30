@@ -8,22 +8,23 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     bindVpcs:
-    - regionId: cn-beijing
+    - regionId: us-west-1
       vpcIdSelector:
         matchLabels:
           testing.upbound.io/example-name: shareVPC
       vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: shareVswitch
-    - regionId: cn-beijing
+    - regionId: us-west-1
       vpcIdSelector:
         matchLabels:
           testing.upbound.io/example-name: share-VPC2
       vswitchIdSelector:
         matchLabels:
           testing.upbound.io/example-name: share-vswitch2
-    - regionId: cn-beijing
+    - regionId: us-west-1
       vpcIdSelector:
         matchLabels:
           testing.upbound.io/example-name: share-VPC3
@@ -48,8 +49,8 @@ spec:
     - name: vswitch-j
     - name: vswitch
     zoneIds:
-    - cn-beijing-f
-    - cn-beijing-g
+    - us-west-1a
+    - us-west-1b
 
 ---
 
@@ -63,6 +64,7 @@ metadata:
   name: share-vpc2
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.0.0/12
     vpcName: crossplane-example
 
@@ -78,6 +80,7 @@ metadata:
   name: share-vpc3
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.0.0/12
     vpcName: crossplane-example
 
@@ -93,6 +96,7 @@ metadata:
   name: sharevpc
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.0.0/12
     vpcName: crossplane-example
 
@@ -108,6 +112,7 @@ metadata:
   name: vpc-amp-instance-example
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.0.0/12
     vpcName: crossplane-example
 
@@ -123,11 +128,12 @@ metadata:
   name: share-vsw3
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.1.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: share-VPC3
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a
 
 ---
 
@@ -141,11 +147,12 @@ metadata:
   name: share-vswitch2
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.1.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: share-VPC2
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a
 
 ---
 
@@ -159,11 +166,12 @@ metadata:
   name: sharevswitch
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.1.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: shareVPC
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a
 
 ---
 
@@ -177,11 +185,12 @@ metadata:
   name: vswitch
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.1.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpc-amp-instance-example
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a
 
 ---
 
@@ -195,8 +204,9 @@ metadata:
   name: vswitch-j
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.2.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpc-amp-instance-example
-    zoneId: cn-beijing-g
+    zoneId: us-west-1b

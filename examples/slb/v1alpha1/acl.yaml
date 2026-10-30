@@ -10,4 +10,4 @@ spec:
   forProvider:
     ipVersion: ipv4
     name: terraformslbaclconfig
-    region: cn-beijing
+    region: us-west-1

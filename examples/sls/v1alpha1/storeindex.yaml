@@ -8,7 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     projectSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -35,7 +35,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     logstoreName: crossplane-example-store
     projectNameSelector:
       matchLabels:
@@ -58,6 +58,6 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     projectName: crossplane-example-storeindex-project-${Rand.RFC1123Subdomain}
     description: crossplane example log project

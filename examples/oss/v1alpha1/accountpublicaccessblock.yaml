@@ -8,4 +8,5 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     blockPublicAccess: true

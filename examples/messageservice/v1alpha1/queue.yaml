@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     delaySeconds: 2
     maximumMessageSize: 1126
     messageRetentionPeriod: 566

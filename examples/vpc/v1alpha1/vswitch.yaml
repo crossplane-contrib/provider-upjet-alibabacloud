@@ -8,13 +8,13 @@ metadata:
   name: foo
 spec:
   forProvider:
-    region: cn-hangzhou
+    region: us-west-1
     cidrBlock: 172.16.0.0/21
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: foo
     vswitchName: crossplane-example
-    zoneId: cn-hangzhou-b
+    zoneId: us-west-1a
 
 ---
 
@@ -28,6 +28,6 @@ metadata:
   name: foo
 spec:
   forProvider:
-    region: cn-hangzhou
+    region: us-west-1
     cidrBlock: 172.16.0.0/12
     vpcName: crossplane-example

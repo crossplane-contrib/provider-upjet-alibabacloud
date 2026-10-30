@@ -35,12 +35,32 @@ spec:
       k-aa: v-aa
       k-bb: v-aa
     timeZone: Asia/Shanghai
+    # Without a security group, ACK creates its own and leaves it behind when
+    # the cluster is deleted, which blocks the VPC delete (run 39975450059).
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-sg-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-vpc-1
     vswitchIdsSelector:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-vsw-1
+---
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: test-ack-v1alpha1-serverlessk8s-sg-1
+  labels:
+    testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-sg-1
+  name: test-ack-v1alpha1-serverlessk8s-sg-1
+spec:
+  forProvider:
+    region: us-west-1
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ack-v1alpha1-serverlessk8s-vpc-1
 ---
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: VPC

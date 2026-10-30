@@ -19,11 +19,17 @@
     {
       // We want a PR to bump Go versions used through env variables in any Github
       // Actions, taking it from the official Github repository.
+      //
+      // The second matchString covers workflow_dispatch "go-version" input
+      // defaults (e.g. publish-provider-packages.yaml), which are a separate
+      // YAML key from the GO_VERSION env var and were missing a manager
+      // entirely, so a go.mod bump like #153 left this default behind.
       "customType": "regex",
       "description": "Bump Go version in GH Action workflows",
       "managerFilePatterns": ["/^\\.github\\/workflows\\/[^/]+\\.ya?ml$/"],
       "matchStrings": [
-        "GO_VERSION: ['\"]?(?<currentValue>.*?)['\"]?\\n"
+        "GO_VERSION: ['\"]?(?<currentValue>.*?)['\"]?\\n",
+        "go-version:\\n\\s*description:.*\\n\\s*default: ['\"]?(?<currentValue>.*?)['\"]?\\n"
       ],
       "datasourceTemplate": "golang-version",
       "depNameTemplate": "go",
@@ -58,6 +64,32 @@
       "depNameTemplate": "docker/buildx"
     },
     {
+      // The cloud cleanup workflows download these tools from GitHub
+      // releases and verify them against the checksums file each release
+      // publishes, so bumping the version is all an update needs. The
+      // Cloud Cleanup Check workflow installs the CLI on every bump.
+      "customType": "regex",
+      "description": "Bump the Alibaba Cloud CLI used by the cloud cleanup workflow",
+      "managerFilePatterns": ["/^hack\\/install-aliyun-cli\\.sh$/"],
+      "matchStrings": [
+        "ALIYUN_CLI_VERSION=\"(?<currentValue>[^\"]+)\"\\n"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "aliyun/aliyun-cli",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
+      "customType": "regex",
+      "description": "Bump actionlint in the cloud cleanup check workflow",
+      "managerFilePatterns": ["/^\\.github\\/workflows\\/cloud-cleanup[^/]*\\.ya?ml$/"],
+      "matchStrings": [
+        "ACTIONLINT_VERSION: ['\"]?(?<currentValue>.*?)['\"]?\\n"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "rhysd/actionlint",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
       // We want a PR to bump uptest versions used through make variables in
       // the Makefile, taking it from the official Github repository releases.
       "customType": "regex",
@@ -85,32 +117,26 @@
       "managerFilePatterns": ["/^Makefile$/"],
       "matchStrings": ["CROSSPLANE_VERSION \\??= (?<currentValue>.*?)\\n"],
       "datasourceTemplate": "github-releases",
-      "depNameTemplate": "crossplane/crossplane"
+      "depNameTemplate": "crossplane/crossplane",
+      "extractVersionTemplate": "^(?<version>.*)$"
     },
     {
       // We want a PR to bump Crossplane CLI versions used through make variables in
-      // the Makefile, taking it from the official Github repository releases.
+      // the Makefile. Since v2.3.0 the CLI is released from crossplane/cli, not
+      // crossplane/crossplane, whose newer tags have no CLI binary to download.
       "customType": "regex",
       "description": "Bump Crossplane CLI version in the Makefile",
       "managerFilePatterns": ["/^Makefile$/"],
       "matchStrings": ["CROSSPLANE_CLI_VERSION \\??= (?<currentValue>.*?)\\n"],
       "datasourceTemplate": "github-releases",
-      "depNameTemplate": "crossplane/crossplane"
-    },
-    {
-      // The family-provider Dockerfiles are written by a shell heredoc, so
-      // Renovate's dockerfile manager does not see this FROM and the pin drifted
-      // behind the one in cluster/images. Track it explicitly.
-      "customType": "regex",
-      "description": "Bump the alpine base image in the family-provider setup script",
-      "managerFilePatterns": ["/^hack\\/setup-family-providers\\.sh$/"],
-      "matchStrings": ["FROM alpine:(?<currentValue>[0-9][0-9.]*)"],
-      "datasourceTemplate": "docker",
-      "depNameTemplate": "alpine"
+      "depNameTemplate": "crossplane/cli"
     }
   ],
   // PackageRules disabled below should be enabled in case of vulnerabilities
+  // This relies on GH dependabot alerts and GH advisory database
   "vulnerabilityAlerts": {"enabled": true},
+  // Also check OSV database for vulnerabilities (includes the Go vulnerability database)
+  "osvVulnerabilityAlerts": true,
   "packageRules": [
     {
       // Pinned by a replace directive to a pre-/v2 commit. The v2.0.0 tag
@@ -211,7 +237,7 @@
     },
     {
       // We want a single PR for bumping Crossplane and Crossplane CLI versions in CI
-      "matchDepNames": ["crossplane/crossplane"],
+      "matchDepNames": ["crossplane/crossplane", "crossplane/cli"],
       "groupName": "crossplane versions in CI",
       "groupSlug": "crossplane-in-ci"
     },

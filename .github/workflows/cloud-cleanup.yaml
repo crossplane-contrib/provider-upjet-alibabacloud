@@ -1,0 +1,128 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# Lists, and on request deletes, Alibaba Cloud resources that end-to-end test
+# runs left behind in the test account, using the same credentials as uptest.
+# See hack/cloud-cleanup.sh for the target format.
+name: Cloud Cleanup
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "inventory lists what exists (read-only); delete removes the targets below"
+        type: choice
+        options:
+          - inventory
+          - delete
+        default: inventory
+      regions:
+        description: "inventory: comma-separated regions"
+        type: string
+        default: us-west-1,cn-beijing,cn-hangzhou,cn-zhangjiakou
+      targets:
+        description: 'delete: comma-separated "<region> <id>" or "<region> <type>:<name>"; `hack/cloud-cleanup.sh types` lists the types'
+        type: string
+        default: ""
+      confirm:
+        description: 'delete: type "delete" to confirm'
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloud-cleanup
+  cancel-in-progress: false
+
+defaults:
+  run:
+    # Unlike the default shell, this sets pipefail, so a failure piped into
+    # tee fails the step.
+    shell: bash
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
+    steps:
+      # Runs use the test account's credentials, so only the reviewed
+      # workflow and script on main may run. This stops a run from another
+      # branch by mistake. It cannot stop one on purpose, since a branch can
+      # change this file. Enforcing it means moving UPTEST_CLOUD_CREDENTIALS
+      # from a repository secret to an environment that only main can deploy
+      # to, and adding `environment:` to this job and to e2e.yaml's, which
+      # shares the secret. e2e.yaml runs on issue comments, and so on main,
+      # so the limit does not stop it.
+      - name: Check Branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::run this workflow from main, not ${GITHUB_REF}"
+          exit 1
+
+      - name: Check Confirmation
+        if: inputs.mode == 'delete'
+        env:
+          CONFIRM: ${{ inputs.confirm }}
+        run: |
+          if [ "${CONFIRM}" != "delete" ]; then
+            echo "::error::delete mode needs confirm set to \"delete\""
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Install Alibaba Cloud CLI
+        run: hack/install-aliyun-cli.sh
+
+      - name: Configure Credentials
+        env:
+          UPTEST_CLOUD_CREDENTIALS: ${{ secrets.UPTEST_CLOUD_CREDENTIALS }}
+        run: |
+          ak=$(jq -r '.access_key // empty' <<<"${UPTEST_CLOUD_CREDENTIALS}")
+          sk=$(jq -r '.secret_key // empty' <<<"${UPTEST_CLOUD_CREDENTIALS}")
+          if [ -z "${ak}" ] || [ -z "${sk}" ]; then
+            echo "::error::UPTEST_CLOUD_CREDENTIALS has no access_key and secret_key"
+            exit 1
+          fi
+          echo "::add-mask::${ak}"
+          echo "::add-mask::${sk}"
+          aliyun configure set --profile default --mode AK \
+            --access-key-id "${ak}" --access-key-secret "${sk}" --region us-west-1 >/dev/null
+          # The script keeps the account ID out of its output, and so out of
+          # the summary; masking it covers anything else in the log. If the
+          # lookup fails, the script reports why.
+          account=$(aliyun sts GetCallerIdentity 2>/dev/null | jq -r '.AccountId // empty') || true
+          if [ -n "${account}" ]; then
+            echo "::add-mask::${account}"
+          fi
+
+      # The repository is public, so the summary only shows ids, names,
+      # descriptions and states, and no raw responses are uploaded. Both steps
+      # keep the ::error:: and ::warning:: annotations out of the summary,
+      # where they would show as text, and still fail when the script does.
+      - name: Inventory
+        if: inputs.mode == 'inventory'
+        env:
+          REGIONS: ${{ inputs.regions }}
+        run: |
+          IFS=', ' read -r -a region_list <<<"${REGIONS}"
+          status=0
+          hack/cloud-cleanup.sh inventory "${region_list[@]}" | tee output.md || status=$?
+          grep -v '^::' output.md >>"${GITHUB_STEP_SUMMARY}" || true
+          exit "${status}"
+
+      - name: Delete
+        if: inputs.mode == 'delete'
+        env:
+          TARGETS: ${{ inputs.targets }}
+          CONFIRM: ${{ inputs.confirm }}
+        run: |
+          tr ',' '\n' <<<"${TARGETS}" >targets.txt
+          status=0
+          hack/cloud-cleanup.sh delete targets.txt | tee output.md || status=$?
+          grep -v '^::' output.md >>"${GITHUB_STEP_SUMMARY}" || true
+          exit "${status}"

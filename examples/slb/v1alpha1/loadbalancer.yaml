@@ -12,7 +12,7 @@ spec:
     instanceChargeType: PayBySpec
     loadBalancerName: crossplane-example-for-slb-load_balancer
     loadBalancerSpec: slb.s2.small
-    region: cn-beijing
+    region: us-west-1
     tags:
       info: create for internet
     vswitchIdSelector:
@@ -31,7 +31,7 @@ metadata:
   name: load-balancer
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example-for-slb-load_balancer
 
 ---
@@ -47,9 +47,9 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 172.16.0.0/21
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: load_balancer
     vswitchName: crossplane-example-for-slb-load_balancer
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a

@@ -14,7 +14,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: for-ascript
     position: RequestHead
-    region: cn-hangzhou
+    region: us-west-1
     scriptContent: time()
 
 ---
@@ -42,7 +42,7 @@ spec:
     loadBalancerIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-ascript
-    region: cn-hangzhou
+    region: us-west-1
 
 ---
 
@@ -62,7 +62,7 @@ spec:
     - payType: PayAsYouGo
     loadBalancerEdition: Standard
     loadBalancerName: crossplane-example
-    region: cn-hangzhou
+    region: us-west-1
 #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     tags:
       Created: TF
@@ -98,7 +98,7 @@ spec:
     healthCheckConfig:
     - healthCheckEnabled: false
     protocol: HTTP
-    region: cn-hangzhou
+    region: us-west-1
 #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     serverGroupName: crossplane-example
     stickySessionConfig:
@@ -116,13 +116,16 @@ kind: VPC
 metadata:
   annotations:
     meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+    # Alibaba's Security Team can add a security group to this VPC, which
+    # blocks its delete; the hook removes it.
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-security-team-groups.sh
   labels:
     testing.upbound.io/example-name: for-ascript
   name: for-ascript
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
-    region: cn-hangzhou
+    region: us-west-1
     vpcName: crossplane-example
 
 ---
@@ -138,12 +141,12 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.1.0/24
-    region: cn-hangzhou
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-ascript
     vswitchName: crossplane-example_1
-    zoneId: cn-hangzhou-h
+    zoneId: us-west-1a
 
 ---
 
@@ -158,9 +161,9 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.2.0/24
-    region: cn-hangzhou
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-ascript
     vswitchName: crossplane-example_2
-    zoneId: cn-hangzhou-g
+    zoneId: us-west-1b

@@ -8,6 +8,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
@@ -92,7 +93,7 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn {
 
 		ps.Configuration = buildProviderConfiguration(region, creds, pc)
 		ps.Configuration["configuration_source"] = getUserAgent()
-		return ps, errors.Wrap(configureNoForkAlibabaCloudClient(ctx, &ps, *tfProvider), "failed to configure the no-fork AlibabaCloud client")
+		return ps, errors.Wrap(metaCache.configure(ctx, &ps, *tfProvider), "failed to configure the no-fork AlibabaCloud client")
 	}
 }
 
@@ -135,6 +136,7 @@ func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1
 	cfg := terraform.ProviderConfiguration{
 		"region": region,
 	}
+	cfg["endpoints"] = []any{endpointSeeds(region)}
 	for _, key := range providerCredentialKeys {
 		v, ok := creds[key]
 		if !ok {
@@ -152,6 +154,55 @@ func buildProviderConfiguration(region string, creds map[string]any, pc *v1beta1
 		cfg["assume_role_with_oidc"] = []any{assumeRoleWithOIDCConfiguration(pc.Spec.AssumeRoleWithOIDC)}
 	}
 	return cfg
+}
+
+// locationReadonlyEndpoint is the Location service endpoint served from
+// outside mainland China; location.aliyuncs.com, upstream's default, is served
+// from mainland China.
+const locationReadonlyEndpoint = "location-readonly.aliyuncs.com"
+
+// endpointSeeds returns the provider's endpoints block.
+//
+// Most products resolve their endpoint through the Location service before
+// their first API call. Upstream asks location.aliyuncs.com first, which is in
+// mainland China, and moves to location-readonly.aliyuncs.com only after the
+// first attempt times out, inside a two-minute retry. Many reads and creates
+// give up after one minute, so whenever mainland China is slow to reach -- as
+// from outside it, routinely -- they time out. Products with no fallback
+// endpoint upstream (regularProductEndpoint), SLB and PolarDB among them, fail
+// outright. Asking location-readonly first avoids the wait, and it is the
+// endpoint upstream would retry with anyway.
+//
+// SLS is also pinned to its regional endpoint (see slsEndpoint).
+func endpointSeeds(region string) map[string]any {
+	seeds := map[string]any{"location": locationReadonlyEndpoint}
+	if e := slsEndpoint(region); e != "" {
+		seeds["log"] = e
+	}
+	return seeds
+}
+
+// slsEndpoint returns Simple Log Service's regional endpoint, or "" when there
+// is no region or the user overrides the endpoint through the environment.
+//
+// Upstream looks the SLS endpoint up under the "log" key
+// (productCodeToConfigEndpoints) but caches what it resolves under "sls", so
+// the cache never hits and every SLS API call repeats the Location lookup.
+// Seeding "log" makes the first lookup hit (reported upstream as
+// https://github.com/aliyun/terraform-provider-alicloud/issues/11155). The
+// value is what upstream's own
+// fallback (regularProductEndpoint) computes, and what Location returns for
+// these regions.
+func slsEndpoint(region string) string {
+	if region == "" {
+		return ""
+	}
+	for _, env := range []string{"ALIBABA_CLOUD_ENDPOINT_SLS", "SLS_ENDPOINT"} {
+		if strings.TrimSpace(os.Getenv(env)) != "" {
+			return ""
+		}
+	}
+	return fmt.Sprintf("%s.log.aliyuncs.com", region)
 }
 
 func assumeRoleConfiguration(assumeRole *v1beta1.AssumeRoleOptions) map[string]any {
