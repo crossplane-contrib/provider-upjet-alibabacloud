@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type TopicInitParameters struct {
@@ -28,11 +28,11 @@ type TopicInitParameters struct {
 
 	// Reference to a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The storage engine of the topic. Valid values:
 	LocalTopic *bool `json:"localTopic,omitempty" tf:"local_topic,omitempty"`
@@ -109,11 +109,11 @@ type TopicParameters struct {
 
 	// Reference to a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The storage engine of the topic. Valid values:
 	// +kubebuilder:validation:Optional
@@ -144,8 +144,8 @@ type TopicParameters struct {
 
 // TopicSpec defines the desired state of Topic
 type TopicSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     TopicParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   TopicParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -161,8 +161,8 @@ type TopicSpec struct {
 
 // TopicStatus defines the observed state of Topic.
 type TopicStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        TopicObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               TopicObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

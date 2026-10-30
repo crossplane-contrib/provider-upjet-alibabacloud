@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LoadBalancerInitParameters struct {
@@ -52,11 +52,11 @@ type LoadBalancerInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate masterZoneId.
 	// +kubebuilder:validation:Optional
-	MasterZoneIDRef *v1.Reference `json:"masterZoneIdRef,omitempty" tf:"-"`
+	MasterZoneIDRef *v2.Reference `json:"masterZoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate masterZoneId.
 	// +kubebuilder:validation:Optional
-	MasterZoneIDSelector *v1.Selector `json:"masterZoneIdSelector,omitempty" tf:"-"`
+	MasterZoneIDSelector *v2.Selector `json:"masterZoneIdSelector,omitempty" tf:"-"`
 
 	// The reason of modification protection. It's effective when modification_protection_status is ConsoleProtection.
 	ModificationProtectionReason *string `json:"modificationProtectionReason,omitempty" tf:"modification_protection_reason,omitempty"`
@@ -80,11 +80,11 @@ type LoadBalancerInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate slaveZoneId.
 	// +kubebuilder:validation:Optional
-	SlaveZoneIDRef *v1.Reference `json:"slaveZoneIdRef,omitempty" tf:"-"`
+	SlaveZoneIDRef *v2.Reference `json:"slaveZoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate slaveZoneId.
 	// +kubebuilder:validation:Optional
-	SlaveZoneIDSelector *v1.Selector `json:"slaveZoneIdSelector,omitempty" tf:"-"`
+	SlaveZoneIDSelector *v2.Selector `json:"slaveZoneIdSelector,omitempty" tf:"-"`
 
 	// The status of slb load balancer. Valid values: active and inactice. The system default value is active.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
@@ -99,11 +99,11 @@ type LoadBalancerInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 type LoadBalancerObservation struct {
@@ -222,11 +222,11 @@ type LoadBalancerParameters struct {
 
 	// Reference to a Vswitch in vpc to populate masterZoneId.
 	// +kubebuilder:validation:Optional
-	MasterZoneIDRef *v1.Reference `json:"masterZoneIdRef,omitempty" tf:"-"`
+	MasterZoneIDRef *v2.Reference `json:"masterZoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate masterZoneId.
 	// +kubebuilder:validation:Optional
-	MasterZoneIDSelector *v1.Selector `json:"masterZoneIdSelector,omitempty" tf:"-"`
+	MasterZoneIDSelector *v2.Selector `json:"masterZoneIdSelector,omitempty" tf:"-"`
 
 	// The reason of modification protection. It's effective when modification_protection_status is ConsoleProtection.
 	// +kubebuilder:validation:Optional
@@ -261,11 +261,11 @@ type LoadBalancerParameters struct {
 
 	// Reference to a Vswitch in vpc to populate slaveZoneId.
 	// +kubebuilder:validation:Optional
-	SlaveZoneIDRef *v1.Reference `json:"slaveZoneIdRef,omitempty" tf:"-"`
+	SlaveZoneIDRef *v2.Reference `json:"slaveZoneIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate slaveZoneId.
 	// +kubebuilder:validation:Optional
-	SlaveZoneIDSelector *v1.Selector `json:"slaveZoneIdSelector,omitempty" tf:"-"`
+	SlaveZoneIDSelector *v2.Selector `json:"slaveZoneIdSelector,omitempty" tf:"-"`
 
 	// The status of slb load balancer. Valid values: active and inactice. The system default value is active.
 	// +kubebuilder:validation:Optional
@@ -283,17 +283,17 @@ type LoadBalancerParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 // LoadBalancerSpec defines the desired state of LoadBalancer
 type LoadBalancerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LoadBalancerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LoadBalancerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -309,8 +309,8 @@ type LoadBalancerSpec struct {
 
 // LoadBalancerStatus defines the observed state of LoadBalancer.
 type LoadBalancerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LoadBalancerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LoadBalancerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

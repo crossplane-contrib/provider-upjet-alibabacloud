@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupInitParameters struct {
@@ -34,11 +34,11 @@ type BackupInitParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// A list of databases, separated by commas (,).
 	DBName *string `json:"dbName,omitempty" tf:"db_name,omitempty"`
@@ -109,11 +109,11 @@ type BackupParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// A list of databases, separated by commas (,).
 	// +kubebuilder:validation:Optional
@@ -131,8 +131,8 @@ type BackupParameters struct {
 
 // BackupSpec defines the desired state of Backup
 type BackupSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BackupParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BackupParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -148,8 +148,8 @@ type BackupSpec struct {
 
 // BackupStatus defines the observed state of Backup.
 type BackupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BackupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BackupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BucketPublicAccessBlockInitParameters struct {
@@ -24,11 +24,11 @@ type BucketPublicAccessBlockInitParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 }
 
 type BucketPublicAccessBlockObservation struct {
@@ -56,11 +56,11 @@ type BucketPublicAccessBlockParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -70,8 +70,8 @@ type BucketPublicAccessBlockParameters struct {
 
 // BucketPublicAccessBlockSpec defines the desired state of BucketPublicAccessBlock
 type BucketPublicAccessBlockSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BucketPublicAccessBlockParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BucketPublicAccessBlockParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -87,8 +87,8 @@ type BucketPublicAccessBlockSpec struct {
 
 // BucketPublicAccessBlockStatus defines the observed state of BucketPublicAccessBlock.
 type BucketPublicAccessBlockStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BucketPublicAccessBlockObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BucketPublicAccessBlockObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

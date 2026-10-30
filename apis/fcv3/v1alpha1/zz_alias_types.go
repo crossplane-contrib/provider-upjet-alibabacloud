@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AliasInitParameters struct {
@@ -31,11 +31,11 @@ type AliasInitParameters struct {
 
 	// Reference to a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameRef *v1.Reference `json:"functionNameRef,omitempty" tf:"-"`
+	FunctionNameRef *v2.Reference `json:"functionNameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameSelector *v1.Selector `json:"functionNameSelector,omitempty" tf:"-"`
+	FunctionNameSelector *v2.Selector `json:"functionNameSelector,omitempty" tf:"-"`
 
 	// The version that the alias points
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/fcv3/v1alpha1.FunctionVersion
@@ -44,11 +44,11 @@ type AliasInitParameters struct {
 
 	// Reference to a FunctionVersion in fcv3 to populate versionId.
 	// +kubebuilder:validation:Optional
-	VersionIDRef *v1.Reference `json:"versionIdRef,omitempty" tf:"-"`
+	VersionIDRef *v2.Reference `json:"versionIdRef,omitempty" tf:"-"`
 
 	// Selector for a FunctionVersion in fcv3 to populate versionId.
 	// +kubebuilder:validation:Optional
-	VersionIDSelector *v1.Selector `json:"versionIdSelector,omitempty" tf:"-"`
+	VersionIDSelector *v2.Selector `json:"versionIdSelector,omitempty" tf:"-"`
 }
 
 type AliasObservation struct {
@@ -101,11 +101,11 @@ type AliasParameters struct {
 
 	// Reference to a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameRef *v1.Reference `json:"functionNameRef,omitempty" tf:"-"`
+	FunctionNameRef *v2.Reference `json:"functionNameRef,omitempty" tf:"-"`
 
 	// Selector for a Function in fcv3 to populate functionName.
 	// +kubebuilder:validation:Optional
-	FunctionNameSelector *v1.Selector `json:"functionNameSelector,omitempty" tf:"-"`
+	FunctionNameSelector *v2.Selector `json:"functionNameSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -120,17 +120,17 @@ type AliasParameters struct {
 
 	// Reference to a FunctionVersion in fcv3 to populate versionId.
 	// +kubebuilder:validation:Optional
-	VersionIDRef *v1.Reference `json:"versionIdRef,omitempty" tf:"-"`
+	VersionIDRef *v2.Reference `json:"versionIdRef,omitempty" tf:"-"`
 
 	// Selector for a FunctionVersion in fcv3 to populate versionId.
 	// +kubebuilder:validation:Optional
-	VersionIDSelector *v1.Selector `json:"versionIdSelector,omitempty" tf:"-"`
+	VersionIDSelector *v2.Selector `json:"versionIdSelector,omitempty" tf:"-"`
 }
 
 // AliasSpec defines the desired state of Alias
 type AliasSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AliasParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AliasParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -146,8 +146,8 @@ type AliasSpec struct {
 
 // AliasStatus defines the observed state of Alias.
 type AliasStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AliasObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AliasObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

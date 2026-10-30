@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ConsumerGroupInitParameters struct {
@@ -25,11 +25,11 @@ type ConsumerGroupInitParameters struct {
 
 	// Reference to a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The remark of the resource.
 	Remark *string `json:"remark,omitempty" tf:"remark,omitempty"`
@@ -78,11 +78,11 @@ type ConsumerGroupParameters struct {
 
 	// Reference to a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -101,8 +101,8 @@ type ConsumerGroupParameters struct {
 
 // ConsumerGroupSpec defines the desired state of ConsumerGroup
 type ConsumerGroupSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ConsumerGroupParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ConsumerGroupParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -118,8 +118,8 @@ type ConsumerGroupSpec struct {
 
 // ConsumerGroupStatus defines the observed state of ConsumerGroup.
 type ConsumerGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ConsumerGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ConsumerGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

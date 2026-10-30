@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccountInitParameters struct {
@@ -22,7 +22,7 @@ type AccountInitParameters struct {
 	AccountName *string `json:"accountName,omitempty" tf:"account_name,omitempty"`
 
 	// The password of the account. It conflicts with password, kms_encrypted_password and account_password_wo, and one of the four password sources must be set.
-	AccountPasswordSecretRef *v1.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
+	AccountPasswordSecretRef *v2.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
 
 	// The account type. Valid values:
 	AccountType *string `json:"accountType,omitempty" tf:"account_type,omitempty"`
@@ -37,11 +37,11 @@ type AccountInitParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// An KMS encrypts password used to a db account. It conflicts with account_password, password and account_password_wo, and one of the four password sources must be set.
 	KMSEncryptedPassword *string `json:"kmsEncryptedPassword,omitempty" tf:"kms_encrypted_password,omitempty"`
@@ -103,7 +103,7 @@ type AccountParameters struct {
 
 	// The password of the account. It conflicts with password, kms_encrypted_password and account_password_wo, and one of the four password sources must be set.
 	// +kubebuilder:validation:Optional
-	AccountPasswordSecretRef *v1.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
+	AccountPasswordSecretRef *v2.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
 
 	// The account type. Valid values:
 	// +kubebuilder:validation:Optional
@@ -121,11 +121,11 @@ type AccountParameters struct {
 
 	// Reference to a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDRef *v1.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
+	DBInstanceIDRef *v2.Reference `json:"dbInstanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate dbInstanceId.
 	// +kubebuilder:validation:Optional
-	DBInstanceIDSelector *v1.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
+	DBInstanceIDSelector *v2.Selector `json:"dbInstanceIdSelector,omitempty" tf:"-"`
 
 	// An KMS encrypts password used to a db account. It conflicts with account_password, password and account_password_wo, and one of the four password sources must be set.
 	// +kubebuilder:validation:Optional
@@ -152,8 +152,8 @@ type AccountParameters struct {
 
 // AccountSpec defines the desired state of Account
 type AccountSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AccountParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AccountParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -169,8 +169,8 @@ type AccountSpec struct {
 
 // AccountStatus defines the observed state of Account.
 type AccountStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AccountObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AccountObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

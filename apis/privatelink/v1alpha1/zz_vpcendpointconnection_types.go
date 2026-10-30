@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type VpcEndpointConnectionInitParameters struct {
@@ -27,11 +27,11 @@ type VpcEndpointConnectionInitParameters struct {
 
 	// Reference to a VpcEndpoint in privatelink to populate endpointId.
 	// +kubebuilder:validation:Optional
-	EndpointIDRef *v1.Reference `json:"endpointIdRef,omitempty" tf:"-"`
+	EndpointIDRef *v2.Reference `json:"endpointIdRef,omitempty" tf:"-"`
 
 	// Selector for a VpcEndpoint in privatelink to populate endpointId.
 	// +kubebuilder:validation:Optional
-	EndpointIDSelector *v1.Selector `json:"endpointIdSelector,omitempty" tf:"-"`
+	EndpointIDSelector *v2.Selector `json:"endpointIdSelector,omitempty" tf:"-"`
 
 	// The endpoint service ID.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/privatelink/v1alpha1.VPCEndpointService
@@ -39,11 +39,11 @@ type VpcEndpointConnectionInitParameters struct {
 
 	// Reference to a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDRef *v1.Reference `json:"serviceIdRef,omitempty" tf:"-"`
+	ServiceIDRef *v2.Reference `json:"serviceIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDSelector *v1.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
+	ServiceIDSelector *v2.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
 }
 
 type VpcEndpointConnectionObservation struct {
@@ -84,11 +84,11 @@ type VpcEndpointConnectionParameters struct {
 
 	// Reference to a VpcEndpoint in privatelink to populate endpointId.
 	// +kubebuilder:validation:Optional
-	EndpointIDRef *v1.Reference `json:"endpointIdRef,omitempty" tf:"-"`
+	EndpointIDRef *v2.Reference `json:"endpointIdRef,omitempty" tf:"-"`
 
 	// Selector for a VpcEndpoint in privatelink to populate endpointId.
 	// +kubebuilder:validation:Optional
-	EndpointIDSelector *v1.Selector `json:"endpointIdSelector,omitempty" tf:"-"`
+	EndpointIDSelector *v2.Selector `json:"endpointIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -102,17 +102,17 @@ type VpcEndpointConnectionParameters struct {
 
 	// Reference to a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDRef *v1.Reference `json:"serviceIdRef,omitempty" tf:"-"`
+	ServiceIDRef *v2.Reference `json:"serviceIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDSelector *v1.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
+	ServiceIDSelector *v2.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
 }
 
 // VpcEndpointConnectionSpec defines the desired state of VpcEndpointConnection
 type VpcEndpointConnectionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     VpcEndpointConnectionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   VpcEndpointConnectionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -128,8 +128,8 @@ type VpcEndpointConnectionSpec struct {
 
 // VpcEndpointConnectionStatus defines the observed state of VpcEndpointConnection.
 type VpcEndpointConnectionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        VpcEndpointConnectionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               VpcEndpointConnectionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

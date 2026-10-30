@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuditLogConfigInitParameters struct {
@@ -25,11 +25,11 @@ type AuditLogConfigInitParameters struct {
 
 	// Reference to a Instance in tair to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in tair to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Audit Log Retention Period Value: 1~365.
 	Retention *float64 `json:"retention,omitempty" tf:"retention,omitempty"`
@@ -70,11 +70,11 @@ type AuditLogConfigParameters struct {
 
 	// Reference to a Instance in tair to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in tair to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -88,8 +88,8 @@ type AuditLogConfigParameters struct {
 
 // AuditLogConfigSpec defines the desired state of AuditLogConfig
 type AuditLogConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AuditLogConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AuditLogConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -105,8 +105,8 @@ type AuditLogConfigSpec struct {
 
 // AuditLogConfigStatus defines the observed state of AuditLogConfig.
 type AuditLogConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AuditLogConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AuditLogConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

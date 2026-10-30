@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type InstanceCrossBackupPolicyInitParameters struct {
@@ -25,11 +25,11 @@ type InstanceCrossBackupPolicyInitParameters struct {
 
 	// Reference to a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The status of the cross-region log backup feature on the instance. Valid values:
 	LogBackupEnabled *string `json:"logBackupEnabled,omitempty" tf:"log_backup_enabled,omitempty"`
@@ -91,11 +91,11 @@ type InstanceCrossBackupPolicyParameters struct {
 
 	// Reference to a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The status of the cross-region log backup feature on the instance. Valid values:
 	// +kubebuilder:validation:Optional
@@ -113,8 +113,8 @@ type InstanceCrossBackupPolicyParameters struct {
 
 // InstanceCrossBackupPolicySpec defines the desired state of InstanceCrossBackupPolicy
 type InstanceCrossBackupPolicySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceCrossBackupPolicyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceCrossBackupPolicyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -130,8 +130,8 @@ type InstanceCrossBackupPolicySpec struct {
 
 // InstanceCrossBackupPolicyStatus defines the observed state of InstanceCrossBackupPolicy.
 type InstanceCrossBackupPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceCrossBackupPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceCrossBackupPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

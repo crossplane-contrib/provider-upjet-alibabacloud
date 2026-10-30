@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type EndpointAddressInitParameters struct {
@@ -25,11 +25,11 @@ type EndpointAddressInitParameters struct {
 
 	// Reference to a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDRef *v1.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
+	DBClusterIDRef *v2.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
+	DBClusterIDSelector *v2.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// The Id of endpoint that can run database.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/polardb/v1alpha1.Endpoint
@@ -38,11 +38,11 @@ type EndpointAddressInitParameters struct {
 
 	// Reference to a Endpoint in polardb to populate dbEndpointId.
 	// +kubebuilder:validation:Optional
-	DBEndpointIDRef *v1.Reference `json:"dbEndpointIdRef,omitempty" tf:"-"`
+	DBEndpointIDRef *v2.Reference `json:"dbEndpointIdRef,omitempty" tf:"-"`
 
 	// Selector for a Endpoint in polardb to populate dbEndpointId.
 	// +kubebuilder:validation:Optional
-	DBEndpointIDSelector *v1.Selector `json:"dbEndpointIdSelector,omitempty" tf:"-"`
+	DBEndpointIDSelector *v2.Selector `json:"dbEndpointIdSelector,omitempty" tf:"-"`
 
 	// Internet connection net type. Valid value: Public. Default to Public. Currently supported only Public.
 	NetType *string `json:"netType,omitempty" tf:"net_type,omitempty"`
@@ -92,11 +92,11 @@ type EndpointAddressParameters struct {
 
 	// Reference to a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDRef *v1.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
+	DBClusterIDRef *v2.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
+	DBClusterIDSelector *v2.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// The Id of endpoint that can run database.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/polardb/v1alpha1.Endpoint
@@ -106,11 +106,11 @@ type EndpointAddressParameters struct {
 
 	// Reference to a Endpoint in polardb to populate dbEndpointId.
 	// +kubebuilder:validation:Optional
-	DBEndpointIDRef *v1.Reference `json:"dbEndpointIdRef,omitempty" tf:"-"`
+	DBEndpointIDRef *v2.Reference `json:"dbEndpointIdRef,omitempty" tf:"-"`
 
 	// Selector for a Endpoint in polardb to populate dbEndpointId.
 	// +kubebuilder:validation:Optional
-	DBEndpointIDSelector *v1.Selector `json:"dbEndpointIdSelector,omitempty" tf:"-"`
+	DBEndpointIDSelector *v2.Selector `json:"dbEndpointIdSelector,omitempty" tf:"-"`
 
 	// Internet connection net type. Valid value: Public. Default to Public. Currently supported only Public.
 	// +kubebuilder:validation:Optional
@@ -128,8 +128,8 @@ type EndpointAddressParameters struct {
 
 // EndpointAddressSpec defines the desired state of EndpointAddress
 type EndpointAddressSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     EndpointAddressParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   EndpointAddressParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -145,8 +145,8 @@ type EndpointAddressSpec struct {
 
 // EndpointAddressStatus defines the observed state of EndpointAddress.
 type EndpointAddressStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EndpointAddressObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EndpointAddressObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

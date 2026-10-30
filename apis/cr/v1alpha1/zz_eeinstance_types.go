@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DomainsInitParameters struct {
@@ -56,7 +56,7 @@ type EeInstanceInitParameters struct {
 	NamespaceQuota *float64 `json:"namespaceQuota,omitempty" tf:"namespace_quota,omitempty"`
 
 	// Login password, 8-32 digits, must contain at least two letters, symbols, or numbers
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Payment type, value:
 	PaymentType *string `json:"paymentType,omitempty" tf:"payment_type,omitempty"`
@@ -195,7 +195,7 @@ type EeInstanceParameters struct {
 
 	// Login password, 8-32 digits, must contain at least two letters, symbols, or numbers
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Payment type, value:
 	// +kubebuilder:validation:Optional
@@ -256,8 +256,8 @@ type InstanceEndpointsParameters struct {
 
 // EeInstanceSpec defines the desired state of EeInstance
 type EeInstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     EeInstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   EeInstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -273,8 +273,8 @@ type EeInstanceSpec struct {
 
 // EeInstanceStatus defines the observed state of EeInstance.
 type EeInstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        EeInstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               EeInstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

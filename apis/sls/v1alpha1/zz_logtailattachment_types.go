@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LogtailAttachmentInitParameters struct {
@@ -22,11 +22,11 @@ type LogtailAttachmentInitParameters struct {
 
 	// Reference to a LogtailConfig in sls to populate logtailConfigName.
 	// +kubebuilder:validation:Optional
-	LogtailConfigNameRef *v1.Reference `json:"logtailConfigNameRef,omitempty" tf:"-"`
+	LogtailConfigNameRef *v2.Reference `json:"logtailConfigNameRef,omitempty" tf:"-"`
 
 	// Selector for a LogtailConfig in sls to populate logtailConfigName.
 	// +kubebuilder:validation:Optional
-	LogtailConfigNameSelector *v1.Selector `json:"logtailConfigNameSelector,omitempty" tf:"-"`
+	LogtailConfigNameSelector *v2.Selector `json:"logtailConfigNameSelector,omitempty" tf:"-"`
 
 	// The machine group name, which is unique in the same project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1.MachineGroup
@@ -35,11 +35,11 @@ type LogtailAttachmentInitParameters struct {
 
 	// Reference to a MachineGroup in sls to populate machineGroupName.
 	// +kubebuilder:validation:Optional
-	MachineGroupNameRef *v1.Reference `json:"machineGroupNameRef,omitempty" tf:"-"`
+	MachineGroupNameRef *v2.Reference `json:"machineGroupNameRef,omitempty" tf:"-"`
 
 	// Selector for a MachineGroup in sls to populate machineGroupName.
 	// +kubebuilder:validation:Optional
-	MachineGroupNameSelector *v1.Selector `json:"machineGroupNameSelector,omitempty" tf:"-"`
+	MachineGroupNameSelector *v2.Selector `json:"machineGroupNameSelector,omitempty" tf:"-"`
 
 	// The project name to the log store belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1.Project
@@ -48,11 +48,11 @@ type LogtailAttachmentInitParameters struct {
 
 	// Reference to a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 type LogtailAttachmentObservation struct {
@@ -80,11 +80,11 @@ type LogtailAttachmentParameters struct {
 
 	// Reference to a LogtailConfig in sls to populate logtailConfigName.
 	// +kubebuilder:validation:Optional
-	LogtailConfigNameRef *v1.Reference `json:"logtailConfigNameRef,omitempty" tf:"-"`
+	LogtailConfigNameRef *v2.Reference `json:"logtailConfigNameRef,omitempty" tf:"-"`
 
 	// Selector for a LogtailConfig in sls to populate logtailConfigName.
 	// +kubebuilder:validation:Optional
-	LogtailConfigNameSelector *v1.Selector `json:"logtailConfigNameSelector,omitempty" tf:"-"`
+	LogtailConfigNameSelector *v2.Selector `json:"logtailConfigNameSelector,omitempty" tf:"-"`
 
 	// The machine group name, which is unique in the same project.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1.MachineGroup
@@ -94,11 +94,11 @@ type LogtailAttachmentParameters struct {
 
 	// Reference to a MachineGroup in sls to populate machineGroupName.
 	// +kubebuilder:validation:Optional
-	MachineGroupNameRef *v1.Reference `json:"machineGroupNameRef,omitempty" tf:"-"`
+	MachineGroupNameRef *v2.Reference `json:"machineGroupNameRef,omitempty" tf:"-"`
 
 	// Selector for a MachineGroup in sls to populate machineGroupName.
 	// +kubebuilder:validation:Optional
-	MachineGroupNameSelector *v1.Selector `json:"machineGroupNameSelector,omitempty" tf:"-"`
+	MachineGroupNameSelector *v2.Selector `json:"machineGroupNameSelector,omitempty" tf:"-"`
 
 	// The project name to the log store belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1.Project
@@ -108,11 +108,11 @@ type LogtailAttachmentParameters struct {
 
 	// Reference to a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -122,8 +122,8 @@ type LogtailAttachmentParameters struct {
 
 // LogtailAttachmentSpec defines the desired state of LogtailAttachment
 type LogtailAttachmentSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LogtailAttachmentParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LogtailAttachmentParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -139,8 +139,8 @@ type LogtailAttachmentSpec struct {
 
 // LogtailAttachmentStatus defines the observed state of LogtailAttachment.
 type LogtailAttachmentStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LogtailAttachmentObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LogtailAttachmentObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

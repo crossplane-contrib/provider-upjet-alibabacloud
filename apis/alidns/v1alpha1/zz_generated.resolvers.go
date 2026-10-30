@@ -9,8 +9,8 @@ package v1alpha1
 import (
 	"context"
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/cloudmonitorservice/v1alpha1"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	resource "github.com/crossplane/upjet/pkg/resource"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -25,6 +25,7 @@ func (mg *AddressPool) ResolveReferences(ctx context.Context, c client.Reader) e
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.InstanceIDRef,
 		Selector:     mg.Spec.ForProvider.InstanceIDSelector,
 		To: reference.To{
@@ -41,6 +42,7 @@ func (mg *AddressPool) ResolveReferences(ctx context.Context, c client.Reader) e
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.InstanceIDRef,
 		Selector:     mg.Spec.InitProvider.InstanceIDSelector,
 		To: reference.To{
@@ -67,6 +69,7 @@ func (mg *CustomLine) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DomainName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DomainNameRef,
 		Selector:     mg.Spec.ForProvider.DomainNameSelector,
 		To: reference.To{
@@ -83,6 +86,7 @@ func (mg *CustomLine) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DomainName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DomainNameRef,
 		Selector:     mg.Spec.InitProvider.DomainNameSelector,
 		To: reference.To{
@@ -109,6 +113,7 @@ func (mg *Domain) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.GroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.GroupIDRef,
 		Selector:     mg.Spec.ForProvider.GroupIDSelector,
 		To: reference.To{
@@ -125,6 +130,7 @@ func (mg *Domain) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.GroupID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.GroupIDRef,
 		Selector:     mg.Spec.InitProvider.GroupIDSelector,
 		To: reference.To{
@@ -152,6 +158,7 @@ func (mg *DomainAttachment) ResolveReferences(ctx context.Context, c client.Read
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.DomainNames),
 		Extract:       resource.ExtractParamPath("domain_name", false),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.DomainNamesRefs,
 		Selector:      mg.Spec.ForProvider.DomainNamesSelector,
 		To: reference.To{
@@ -168,6 +175,7 @@ func (mg *DomainAttachment) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.InstanceIDRef,
 		Selector:     mg.Spec.ForProvider.InstanceIDSelector,
 		To: reference.To{
@@ -184,6 +192,7 @@ func (mg *DomainAttachment) ResolveReferences(ctx context.Context, c client.Read
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.DomainNames),
 		Extract:       resource.ExtractParamPath("domain_name", false),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.DomainNamesRefs,
 		Selector:      mg.Spec.InitProvider.DomainNamesSelector,
 		To: reference.To{
@@ -200,6 +209,7 @@ func (mg *DomainAttachment) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.InstanceIDRef,
 		Selector:     mg.Spec.InitProvider.InstanceIDSelector,
 		To: reference.To{
@@ -226,6 +236,7 @@ func (mg *GtmInstance) ResolveReferences(ctx context.Context, c client.Reader) e
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.AlertGroup),
 		Extract:       resource.ExtractParamPath("alarm_contact_group_name", false),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.AlertGroupRefs,
 		Selector:      mg.Spec.ForProvider.AlertGroupSelector,
 		To: reference.To{
@@ -242,6 +253,7 @@ func (mg *GtmInstance) ResolveReferences(ctx context.Context, c client.Reader) e
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.AlertGroup),
 		Extract:       resource.ExtractParamPath("alarm_contact_group_name", false),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.AlertGroupRefs,
 		Selector:      mg.Spec.InitProvider.AlertGroupSelector,
 		To: reference.To{
@@ -268,6 +280,7 @@ func (mg *MonitorConfig) ResolveReferences(ctx context.Context, c client.Reader)
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AddrPoolID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.AddrPoolIDRef,
 		Selector:     mg.Spec.ForProvider.AddrPoolIDSelector,
 		To: reference.To{
@@ -284,6 +297,7 @@ func (mg *MonitorConfig) ResolveReferences(ctx context.Context, c client.Reader)
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AddrPoolID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.AddrPoolIDRef,
 		Selector:     mg.Spec.InitProvider.AddrPoolIDSelector,
 		To: reference.To{
@@ -310,6 +324,7 @@ func (mg *Record) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DomainName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DomainNameRef,
 		Selector:     mg.Spec.ForProvider.DomainNameSelector,
 		To: reference.To{
@@ -326,6 +341,7 @@ func (mg *Record) ResolveReferences(ctx context.Context, c client.Reader) error 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DomainName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DomainNameRef,
 		Selector:     mg.Spec.InitProvider.DomainNameSelector,
 		To: reference.To{
