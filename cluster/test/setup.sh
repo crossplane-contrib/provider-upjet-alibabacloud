@@ -66,7 +66,7 @@ spec:
     source: Secret
     secretRef:
       name: provider-secret
-      namespace: upbound-system
+      namespace: crossplane-system
       key: credentials
 EOF
 

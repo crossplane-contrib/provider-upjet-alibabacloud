@@ -134,6 +134,9 @@ func resolveModern(ctx context.Context, c client.Client, mg resource.ModernManag
 	}
 
 	var spec *namespacedv1beta1.ProviderConfigSpec
+	// secretNamespace overrides the namespace of the credentials secret
+	// reference; empty keeps the namespace the config's spec names.
+	var secretNamespace string
 	switch configRef.Kind {
 	case namespacedv1beta1.ProviderConfigKind:
 		pc := &namespacedv1beta1.ProviderConfig{}
@@ -143,20 +146,24 @@ func resolveModern(ctx context.Context, c client.Client, mg resource.ModernManag
 			return nil, nil, errors.Wrap(err, errGetProviderConfig)
 		}
 		spec = &pc.Spec
+		// Its secret references are local too: they resolve in the
+		// ProviderConfig's (and so the MR's) namespace, whatever namespace
+		// the manifest carries.
+		secretNamespace = mg.GetNamespace()
 	case namespacedv1beta1.ClusterProviderConfigKind:
 		pc := &namespacedv1beta1.ClusterProviderConfig{}
 		if err := c.Get(ctx, types.NamespacedName{Name: configRef.Name}, pc); err != nil {
 			return nil, nil, errors.Wrap(err, errGetProviderConfig)
 		}
 		spec = &pc.Spec
+		// A ClusterProviderConfig is shared by MRs in every namespace, so its
+		// secret reference must name the secret's namespace, and that is used
+		// as is.
 	default:
 		return nil, nil, errors.Errorf("%s: %q", errUnknownPCKind, configRef.Kind)
 	}
 
-	// Secret references on a modern ProviderConfig are local: they resolve in
-	// the referring MR's namespace, not in whatever namespace the manifest
-	// happens to carry.
-	creds, err := extractCredentials(ctx, c, spec, mg.GetNamespace())
+	creds, err := extractCredentials(ctx, c, spec, secretNamespace)
 	return spec, creds, err
 }
 
@@ -417,8 +424,10 @@ func stringCredential(creds map[string]any, key string) string {
 
 // extractCredentials reads and unmarshals the credentials a ProviderConfig spec
 // points at. When namespace is non-empty the secret is read from there,
-// overriding whatever the spec carries: secret references on a modern
-// ProviderConfig are local to the referring managed resource.
+// overriding whatever the spec carries: secret references on a namespaced
+// ProviderConfig are local to the referring managed resource. Callers pass an
+// empty namespace for a ClusterProviderConfig, whose reference names the
+// secret's namespace.
 func extractCredentials(ctx context.Context, c client.Client, spec *namespacedv1beta1.ProviderConfigSpec, namespace string) (map[string]any, error) {
 	creds := map[string]any{}
 
