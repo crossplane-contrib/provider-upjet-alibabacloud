@@ -406,11 +406,8 @@ spec:
                       sticky_session_type is required. Otherwise, it will be ignored.'
                     type: string
                   tlsCipherPolicy:
-                    description: 'The Transport Layer Security (TLS) security policy.
-                      Default value: tls_cipher_policy_1_0. Valid values: tls_cipher_policy_1_0,
-                      tls_cipher_policy_1_1, tls_cipher_policy_1_2, tls_cipher_policy_1_2_strict,
-                      tls_cipher_policy_1_2_strict_with_1_3. NOTE: From version 1.229.1,
-                      tls_cipher_policy can be set to tls_cipher_policy_1_2_strict_with_1_3.'
+                    description: Performance". More info, please refer to Configure
+                      a HTTPS Listener.
                     type: string
                   unhealthyThreshold:
                     description: 'The number of times that a healthy backend server
@@ -782,11 +779,8 @@ spec:
                       sticky_session_type is required. Otherwise, it will be ignored.'
                     type: string
                   tlsCipherPolicy:
-                    description: 'The Transport Layer Security (TLS) security policy.
-                      Default value: tls_cipher_policy_1_0. Valid values: tls_cipher_policy_1_0,
-                      tls_cipher_policy_1_1, tls_cipher_policy_1_2, tls_cipher_policy_1_2_strict,
-                      tls_cipher_policy_1_2_strict_with_1_3. NOTE: From version 1.229.1,
-                      tls_cipher_policy can be set to tls_cipher_policy_1_2_strict_with_1_3.'
+                    description: Performance". More info, please refer to Configure
+                      a HTTPS Listener.
                     type: string
                   unhealthyThreshold:
                     description: 'The number of times that a healthy backend server
@@ -1121,9 +1115,7 @@ spec:
                       healthy. Default value: 3. Valid values: 2 to 10.'
                     type: number
                   id:
-                    description: |-
-                      It formats as <load_balancer_id>:<protocol>:<frontend_port>.
-                      -> NOTE: Before provider version 1.57.1, it formats as <load_balancer_id>:<frontend_port>.
+                    description: It formats as <load_balancer_id>:<protocol>:<frontend_port>.
                     type: string
                   idleTimeout:
                     description: 'The timeout period of an idle connection. Unit:
@@ -1180,11 +1172,8 @@ spec:
                       sticky_session_type is required. Otherwise, it will be ignored.'
                     type: string
                   tlsCipherPolicy:
-                    description: 'The Transport Layer Security (TLS) security policy.
-                      Default value: tls_cipher_policy_1_0. Valid values: tls_cipher_policy_1_0,
-                      tls_cipher_policy_1_1, tls_cipher_policy_1_2, tls_cipher_policy_1_2_strict,
-                      tls_cipher_policy_1_2_strict_with_1_3. NOTE: From version 1.229.1,
-                      tls_cipher_policy can be set to tls_cipher_policy_1_2_strict_with_1_3.'
+                    description: Performance". More info, please refer to Configure
+                      a HTTPS Listener.
                     type: string
                   unhealthyThreshold:
                     description: 'The number of times that a healthy backend server

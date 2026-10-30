@@ -176,6 +176,12 @@ spec:
                   globalInstanceId:
                     description: The ID of distributed cache.
                     type: string
+                  globalSecurityGroupList:
+                    description: The list of Global Security Group Ids.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   instanceClass:
                     description: |-
                       Type of the applied Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance. It can be retrieved by data source alicloud_kvstore_instance_classes
@@ -369,9 +375,9 @@ spec:
                         type: object
                     type: object
                   secondaryZoneId:
-                    description: |-
-                      The ID of the secondary zone to which you want to migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance.
-                      -> NOTE: If you specify this parameter, the master node and replica node of the instance can be deployed in different zones and disaster recovery is implemented across zones. The instance can withstand failures in data centers.
+                    description: The ID of the secondary zone to which you want to
+                      migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore)
+                      Classic Instance.
                     type: string
                   securityGroupId:
                     description: The ID of security groups. Separate multiple security
@@ -473,14 +479,14 @@ spec:
                       shards. NOTE: From version 1.216.0, shard_count can be modified.'
                     type: number
                   slaveReadOnlyCount:
-                    description: |-
-                      The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
-                      -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
+                    description: 'The number of read replicas in the secondary zone.
+                      NOTE:: When you create a multi-zone read/write splitting instance,
+                      you must specify both secondary_zone_id and slave_read_only_count.'
                     type: number
                   slaveReplicaCount:
-                    description: |-
-                      The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
-                      -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
+                    description: The number of replica nodes in the secondary zone.
+                      If not specified, the value is assigned by the system based
+                      on the instance architecture.
                     type: number
                   srcdbInstanceId:
                     description: The ID of the source instance.
@@ -705,6 +711,12 @@ spec:
                   globalInstanceId:
                     description: The ID of distributed cache.
                     type: string
+                  globalSecurityGroupList:
+                    description: The list of Global Security Group Ids.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   instanceClass:
                     description: |-
                       Type of the applied Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance. It can be retrieved by data source alicloud_kvstore_instance_classes
@@ -894,9 +906,9 @@ spec:
                         type: object
                     type: object
                   secondaryZoneId:
-                    description: |-
-                      The ID of the secondary zone to which you want to migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance.
-                      -> NOTE: If you specify this parameter, the master node and replica node of the instance can be deployed in different zones and disaster recovery is implemented across zones. The instance can withstand failures in data centers.
+                    description: The ID of the secondary zone to which you want to
+                      migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore)
+                      Classic Instance.
                     type: string
                   securityGroupId:
                     description: The ID of security groups. Separate multiple security
@@ -998,14 +1010,14 @@ spec:
                       shards. NOTE: From version 1.216.0, shard_count can be modified.'
                     type: number
                   slaveReadOnlyCount:
-                    description: |-
-                      The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
-                      -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
+                    description: 'The number of read replicas in the secondary zone.
+                      NOTE:: When you create a multi-zone read/write splitting instance,
+                      you must specify both secondary_zone_id and slave_read_only_count.'
                     type: number
                   slaveReplicaCount:
-                    description: |-
-                      The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
-                      -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
+                    description: The number of replica nodes in the secondary zone.
+                      If not specified, the value is assigned by the system based
+                      on the instance architecture.
                     type: number
                   srcdbInstanceId:
                     description: The ID of the source instance.
@@ -1322,6 +1334,15 @@ spec:
                   businessInfo:
                     description: The ID of the event or the business information.
                     type: string
+                  caCertCommonName:
+                    description: 'The common name of the CA certificate. NOTE: This
+                      is a best-effort attribute and may be empty when the upstream
+                      API does not return it.'
+                    type: string
+                  caCertDownloadUrl:
+                    description: The download URL of the CA certificate. This attribute
+                      is populated when ssl_enable is set to Enable.
+                    type: string
                   capacity:
                     description: 'The storage capacity of the KVStore DBInstance.
                       Unit: MB.'
@@ -1399,6 +1420,12 @@ spec:
                   globalInstanceId:
                     description: The ID of distributed cache.
                     type: string
+                  globalSecurityGroupList:
+                    description: The list of Global Security Group Ids.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   id:
                     description: The ID of KVStore DBInstance.
                     type: string
@@ -1498,9 +1525,9 @@ spec:
                       is completed, in the format: acs:ram::$accountID:role/$roleName.'
                     type: string
                   secondaryZoneId:
-                    description: |-
-                      The ID of the secondary zone to which you want to migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance.
-                      -> NOTE: If you specify this parameter, the master node and replica node of the instance can be deployed in different zones and disaster recovery is implemented across zones. The instance can withstand failures in data centers.
+                    description: The ID of the secondary zone to which you want to
+                      migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore)
+                      Classic Instance.
                     type: string
                   securityGroupId:
                     description: The ID of security groups. Separate multiple security
@@ -1528,14 +1555,14 @@ spec:
                       shards. NOTE: From version 1.216.0, shard_count can be modified.'
                     type: number
                   slaveReadOnlyCount:
-                    description: |-
-                      The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
-                      -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
+                    description: 'The number of read replicas in the secondary zone.
+                      NOTE:: When you create a multi-zone read/write splitting instance,
+                      you must specify both secondary_zone_id and slave_read_only_count.'
                     type: number
                   slaveReplicaCount:
-                    description: |-
-                      The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
-                      -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
+                    description: The number of replica nodes in the secondary zone.
+                      If not specified, the value is assigned by the system based
+                      on the instance architecture.
                     type: number
                   srcdbInstanceId:
                     description: The ID of the source instance.
@@ -1544,6 +1571,11 @@ spec:
                     description: |-
                       Modifies the SSL status. Valid values: Disable, Enable and Update.
                       NOTE: This functionality is supported by Cluster mode (Redis 2.8, 4.0, 5.0) and Standard mode( Redis 2.8 only).
+                    type: string
+                  sslExpiredTime:
+                    description: 'The expiration time of the SSL certificate. NOTE:
+                      This is a best-effort attribute and may be empty when the upstream
+                      API does not return it.'
                     type: string
                   status:
                     description: The status of KVStore DBInstance.

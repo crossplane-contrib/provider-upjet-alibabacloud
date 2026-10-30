@@ -935,6 +935,17 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.GlobalSecurityGroupList != nil {
+		in, out := &in.GlobalSecurityGroupList, &out.GlobalSecurityGroupList
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.InstanceClass != nil {
 		in, out := &in.InstanceClass, &out.InstanceClass
 		*out = new(string)
@@ -1266,6 +1277,16 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.CACertCommonName != nil {
+		in, out := &in.CACertCommonName, &out.CACertCommonName
+		*out = new(string)
+		**out = **in
+	}
+	if in.CACertDownloadURL != nil {
+		in, out := &in.CACertDownloadURL, &out.CACertDownloadURL
+		*out = new(string)
+		**out = **in
+	}
 	if in.Capacity != nil {
 		in, out := &in.Capacity, &out.Capacity
 		*out = new(float64)
@@ -1361,6 +1382,17 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		in, out := &in.GlobalInstanceID, &out.GlobalInstanceID
 		*out = new(string)
 		**out = **in
+	}
+	if in.GlobalSecurityGroupList != nil {
+		in, out := &in.GlobalSecurityGroupList, &out.GlobalSecurityGroupList
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
@@ -1485,6 +1517,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.SSLEnable != nil {
 		in, out := &in.SSLEnable, &out.SSLEnable
+		*out = new(string)
+		**out = **in
+	}
+	if in.SSLExpiredTime != nil {
+		in, out := &in.SSLExpiredTime, &out.SSLExpiredTime
 		*out = new(string)
 		**out = **in
 	}
@@ -1721,6 +1758,17 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		in, out := &in.GlobalInstanceID, &out.GlobalInstanceID
 		*out = new(string)
 		**out = **in
+	}
+	if in.GlobalSecurityGroupList != nil {
+		in, out := &in.GlobalSecurityGroupList, &out.GlobalSecurityGroupList
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.InstanceClass != nil {
 		in, out := &in.InstanceClass, &out.InstanceClass
@@ -2421,6 +2469,16 @@ func (in *TairInstanceObservation) DeepCopyInto(out *TairInstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.CACertCommonName != nil {
+		in, out := &in.CACertCommonName, &out.CACertCommonName
+		*out = new(string)
+		**out = **in
+	}
+	if in.CACertDownloadURL != nil {
+		in, out := &in.CACertDownloadURL, &out.CACertDownloadURL
+		*out = new(string)
+		**out = **in
+	}
 	if in.ClusterBackupID != nil {
 		in, out := &in.ClusterBackupID, &out.ClusterBackupID
 		*out = new(string)
@@ -2609,6 +2667,11 @@ func (in *TairInstanceObservation) DeepCopyInto(out *TairInstanceObservation) {
 	}
 	if in.SSLEnabled != nil {
 		in, out := &in.SSLEnabled, &out.SSLEnabled
+		*out = new(string)
+		**out = **in
+	}
+	if in.SSLExpiredTime != nil {
+		in, out := &in.SSLExpiredTime, &out.SSLExpiredTime
 		*out = new(string)
 		**out = **in
 	}

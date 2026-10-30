@@ -158,7 +158,6 @@ type ImageImportInitParameters struct {
 	OsType *string `json:"osType,omitempty" tf:"os_type,omitempty"`
 
 	// The operating system platform. More valid values refer to ImportImage OpenAPI.
-	// -> NOTE: Before provider version 1.197.0, the default value of platform is Ubuntu.
 	Platform *string `json:"platform,omitempty" tf:"platform,omitempty"`
 }
 
@@ -191,7 +190,6 @@ type ImageImportObservation struct {
 	OsType *string `json:"osType,omitempty" tf:"os_type,omitempty"`
 
 	// The operating system platform. More valid values refer to ImportImage OpenAPI.
-	// -> NOTE: Before provider version 1.197.0, the default value of platform is Ubuntu.
 	Platform *string `json:"platform,omitempty" tf:"platform,omitempty"`
 }
 
@@ -230,7 +228,6 @@ type ImageImportParameters struct {
 	OsType *string `json:"osType,omitempty" tf:"os_type,omitempty"`
 
 	// The operating system platform. More valid values refer to ImportImage OpenAPI.
-	// -> NOTE: Before provider version 1.197.0, the default value of platform is Ubuntu.
 	// +kubebuilder:validation:Optional
 	Platform *string `json:"platform,omitempty" tf:"platform,omitempty"`
 

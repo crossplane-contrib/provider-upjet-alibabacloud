@@ -136,8 +136,7 @@ spec:
                             with a letter.
                           type: string
                         status:
-                          description: 'Specifies whether to enable the configuration
-                            read-only mode. Valid values:'
+                          description: parameter is set to ConsoleProtection.
                           type: string
                       type: object
                     type: array
@@ -592,8 +591,7 @@ spec:
                             with a letter.
                           type: string
                         status:
-                          description: 'Specifies whether to enable the configuration
-                            read-only mode. Valid values:'
+                          description: parameter is set to ConsoleProtection.
                           type: string
                       type: object
                     type: array
@@ -1231,8 +1229,7 @@ spec:
                             with a letter.
                           type: string
                         status:
-                          description: 'Specifies whether to enable the configuration
-                            read-only mode. Valid values:'
+                          description: parameter is set to ConsoleProtection.
                           type: string
                       type: object
                     type: array

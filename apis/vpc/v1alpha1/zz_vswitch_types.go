@@ -24,13 +24,13 @@ type VswitchInitParameters struct {
 	// Whether the IPv6 function is enabled in the switch. Value:
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
 
-	// The last 4, 8, or 12 bits of the IPv6 CIDR block of the VSwitch, corresponding to a VPC IPv6 address mask of 60, 56, or 52 respectively. It only takes effect and is required when enable_ipv6 is true, and is used only for create and update operations. The valid values are determined by the IPv6 address mask of the VPC:
+	// only takes effect when enable_ipv6 is true, and it is required when enable_ipv6 is true.
 	IPv6CidrBlockMask *float64 `json:"ipv6CidrBlockMask,omitempty" tf:"ipv6_cidr_block_mask,omitempty"`
 
 	// Specifies whether to create the default VSwitch. Default value: false. Valid values:
 	IsDefault *bool `json:"isDefault,omitempty" tf:"is_default,omitempty"`
 
-	// The tags of VSwitch.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -76,7 +76,7 @@ type VswitchObservation struct {
 	// The IPv6 CIDR block of the VSwitch.
 	IPv6CidrBlock *string `json:"ipv6CidrBlock,omitempty" tf:"ipv6_cidr_block,omitempty"`
 
-	// The last 4, 8, or 12 bits of the IPv6 CIDR block of the VSwitch, corresponding to a VPC IPv6 address mask of 60, 56, or 52 respectively. It only takes effect and is required when enable_ipv6 is true, and is used only for create and update operations. The valid values are determined by the IPv6 address mask of the VPC:
+	// only takes effect when enable_ipv6 is true, and it is required when enable_ipv6 is true.
 	IPv6CidrBlockMask *float64 `json:"ipv6CidrBlockMask,omitempty" tf:"ipv6_cidr_block_mask,omitempty"`
 
 	// Specifies whether to create the default VSwitch. Default value: false. Valid values:
@@ -85,7 +85,7 @@ type VswitchObservation struct {
 	// The status of the resource.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// The tags of VSwitch.
+	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
@@ -116,7 +116,7 @@ type VswitchParameters struct {
 	// +kubebuilder:validation:Optional
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
 
-	// The last 4, 8, or 12 bits of the IPv6 CIDR block of the VSwitch, corresponding to a VPC IPv6 address mask of 60, 56, or 52 respectively. It only takes effect and is required when enable_ipv6 is true, and is used only for create and update operations. The valid values are determined by the IPv6 address mask of the VPC:
+	// only takes effect when enable_ipv6 is true, and it is required when enable_ipv6 is true.
 	// +kubebuilder:validation:Optional
 	IPv6CidrBlockMask *float64 `json:"ipv6CidrBlockMask,omitempty" tf:"ipv6_cidr_block_mask,omitempty"`
 
@@ -129,7 +129,7 @@ type VswitchParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
-	// The tags of VSwitch.
+	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`

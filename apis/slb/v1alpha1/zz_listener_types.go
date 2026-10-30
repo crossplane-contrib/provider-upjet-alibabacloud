@@ -150,7 +150,7 @@ type ListenerInitParameters struct {
 	// The method that is used to handle a cookie. Valid values: insert, server. NOTE: If sticky_session is set to on, sticky_session_type is required. Otherwise, it will be ignored.
 	StickySessionType *string `json:"stickySessionType,omitempty" tf:"sticky_session_type,omitempty"`
 
-	// The Transport Layer Security (TLS) security policy. Default value: tls_cipher_policy_1_0. Valid values: tls_cipher_policy_1_0, tls_cipher_policy_1_1, tls_cipher_policy_1_2, tls_cipher_policy_1_2_strict, tls_cipher_policy_1_2_strict_with_1_3. NOTE: From version 1.229.1, tls_cipher_policy can be set to tls_cipher_policy_1_2_strict_with_1_3.
+	// Performance". More info, please refer to Configure a HTTPS Listener.
 	TLSCipherPolicy *string `json:"tlsCipherPolicy,omitempty" tf:"tls_cipher_policy,omitempty"`
 
 	// The number of times that a healthy backend server must consecutively fail health checks before it is declared unhealthy. Default value: 3. Valid values: 2 to 10.
@@ -240,7 +240,6 @@ type ListenerObservation struct {
 	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
 	// It formats as <load_balancer_id>:<protocol>:<frontend_port>.
-	// -> NOTE: Before provider version 1.57.1, it formats as <load_balancer_id>:<frontend_port>.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The timeout period of an idle connection. Unit: seconds. Default value: 15. Valid values: 1 to 60.
@@ -282,7 +281,7 @@ type ListenerObservation struct {
 	// The method that is used to handle a cookie. Valid values: insert, server. NOTE: If sticky_session is set to on, sticky_session_type is required. Otherwise, it will be ignored.
 	StickySessionType *string `json:"stickySessionType,omitempty" tf:"sticky_session_type,omitempty"`
 
-	// The Transport Layer Security (TLS) security policy. Default value: tls_cipher_policy_1_0. Valid values: tls_cipher_policy_1_0, tls_cipher_policy_1_1, tls_cipher_policy_1_2, tls_cipher_policy_1_2_strict, tls_cipher_policy_1_2_strict_with_1_3. NOTE: From version 1.229.1, tls_cipher_policy can be set to tls_cipher_policy_1_2_strict_with_1_3.
+	// Performance". More info, please refer to Configure a HTTPS Listener.
 	TLSCipherPolicy *string `json:"tlsCipherPolicy,omitempty" tf:"tls_cipher_policy,omitempty"`
 
 	// The number of times that a healthy backend server must consecutively fail health checks before it is declared unhealthy. Default value: 3. Valid values: 2 to 10.
@@ -472,7 +471,7 @@ type ListenerParameters struct {
 	// +kubebuilder:validation:Optional
 	StickySessionType *string `json:"stickySessionType,omitempty" tf:"sticky_session_type,omitempty"`
 
-	// The Transport Layer Security (TLS) security policy. Default value: tls_cipher_policy_1_0. Valid values: tls_cipher_policy_1_0, tls_cipher_policy_1_1, tls_cipher_policy_1_2, tls_cipher_policy_1_2_strict, tls_cipher_policy_1_2_strict_with_1_3. NOTE: From version 1.229.1, tls_cipher_policy can be set to tls_cipher_policy_1_2_strict_with_1_3.
+	// Performance". More info, please refer to Configure a HTTPS Listener.
 	// +kubebuilder:validation:Optional
 	TLSCipherPolicy *string `json:"tlsCipherPolicy,omitempty" tf:"tls_cipher_policy,omitempty"`
 

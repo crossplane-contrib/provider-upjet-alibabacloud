@@ -73,6 +73,14 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  additionalAttributes:
+                    description: |-
+                      A set of additional attributes that the provider requests when reading the instance through the DescribeInstances API. Configured values are merged into the default set of META_OPTIONS, NETWORK_PRIMARY_ENI_IP, LOGIN_AS_NON_ROOT, DISK_HIGH_DENSITY_MODE and CPU_OPTIONS_TOPOLOGY_TYPE that the provider always requests, so existing reads keep working. Other useful values include DDH_CLUSTER, PRIVATE_DNS_OPTIONS, CURRENT_OS_NVME_SUPPORTED and MANAGED_HOST_ID.
+                      A set of additional attributes to request when the provider queries the instance via DescribeInstances, such as DDH_CLUSTER, PRIVATE_DNS_OPTIONS or MANAGED_HOST_ID. Configured values are merged into the default set the provider always requests, so existing reads keep working. DescribeInstances accepts at most 10 items, 5 of which are taken by the defaults, so at most 5 additional values can be set here.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   autoReleaseTime:
                     description: |-
                       The automatic release time of the PostPaid instance.
@@ -115,9 +123,8 @@ spec:
                       type: object
                     type: array
                   creditSpecification:
-                    description: |-
-                      Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
-                      -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
+                    description: 'Performance mode of the t5 burstable instance. Valid
+                      values: ''Standard'', ''Unlimited''.'
                     type: string
                   dataDisks:
                     description: 'The list of data disks created with instance. Note:
@@ -474,9 +481,11 @@ spec:
                       the I/O optimization option sent when creating the instance.'
                     type: boolean
                   keyName:
-                    description: |-
-                      The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
-                      -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
+                    description: 'The name of key pair that can login ECS instance
+                      successfully without password. If it is specified, the password
+                      would be invalid. NOTE: From version 1.268.0, key_name can be
+                      modified. If you want to use key_name, We recommend you to use
+                      the resource alicloud_ecs_key_pair_attachment.'
                     type: string
                   keyNameRef:
                     description: Reference to a KeyPair in ecs to populate keyName.
@@ -569,10 +578,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   launchTemplateId:
-                    description: The ID of the launch template. For more information,
-                      see DescribeLaunchTemplates.To use a launch template to create
-                      an instance, you must use the launch_template_id or launch_template_name
-                      parameter to specify the launch template.
+                    description: or launch_template_name to specify a launch template,
+                      you must specify security_groups.
                     type: string
                   launchTemplateIdRef:
                     description: Reference to a LaunchTemplate in ecs to populate
@@ -690,6 +697,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  managedHostId:
+                    description: |-
+                      The ID of the managed host on which to create the instance, such as mh-f2d3647ca21****. The managed host refers to the physical machine in the intelligent fully-managed resource pool. NOTE: You cannot specify both the managed_host_id and dedicated_host_id parameters.
+                      The ID of the managed host on which to create the instance. It is only used for managed host scenarios and conflicts with dedicated_host_id.
+                    type: string
                   networkCardIndex:
                     description: The index of the network card for Primary ENI.
                     type: number
@@ -1208,6 +1220,14 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  additionalAttributes:
+                    description: |-
+                      A set of additional attributes that the provider requests when reading the instance through the DescribeInstances API. Configured values are merged into the default set of META_OPTIONS, NETWORK_PRIMARY_ENI_IP, LOGIN_AS_NON_ROOT, DISK_HIGH_DENSITY_MODE and CPU_OPTIONS_TOPOLOGY_TYPE that the provider always requests, so existing reads keep working. Other useful values include DDH_CLUSTER, PRIVATE_DNS_OPTIONS, CURRENT_OS_NVME_SUPPORTED and MANAGED_HOST_ID.
+                      A set of additional attributes to request when the provider queries the instance via DescribeInstances, such as DDH_CLUSTER, PRIVATE_DNS_OPTIONS or MANAGED_HOST_ID. Configured values are merged into the default set the provider always requests, so existing reads keep working. DescribeInstances accepts at most 10 items, 5 of which are taken by the defaults, so at most 5 additional values can be set here.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   autoReleaseTime:
                     description: |-
                       The automatic release time of the PostPaid instance.
@@ -1250,9 +1270,8 @@ spec:
                       type: object
                     type: array
                   creditSpecification:
-                    description: |-
-                      Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
-                      -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
+                    description: 'Performance mode of the t5 burstable instance. Valid
+                      values: ''Standard'', ''Unlimited''.'
                     type: string
                   dataDisks:
                     description: 'The list of data disks created with instance. Note:
@@ -1609,9 +1628,11 @@ spec:
                       the I/O optimization option sent when creating the instance.'
                     type: boolean
                   keyName:
-                    description: |-
-                      The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
-                      -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
+                    description: 'The name of key pair that can login ECS instance
+                      successfully without password. If it is specified, the password
+                      would be invalid. NOTE: From version 1.268.0, key_name can be
+                      modified. If you want to use key_name, We recommend you to use
+                      the resource alicloud_ecs_key_pair_attachment.'
                     type: string
                   keyNameRef:
                     description: Reference to a KeyPair in ecs to populate keyName.
@@ -1704,10 +1725,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   launchTemplateId:
-                    description: The ID of the launch template. For more information,
-                      see DescribeLaunchTemplates.To use a launch template to create
-                      an instance, you must use the launch_template_id or launch_template_name
-                      parameter to specify the launch template.
+                    description: or launch_template_name to specify a launch template,
+                      you must specify security_groups.
                     type: string
                   launchTemplateIdRef:
                     description: Reference to a LaunchTemplate in ecs to populate
@@ -1825,6 +1844,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  managedHostId:
+                    description: |-
+                      The ID of the managed host on which to create the instance, such as mh-f2d3647ca21****. The managed host refers to the physical machine in the intelligent fully-managed resource pool. NOTE: You cannot specify both the managed_host_id and dedicated_host_id parameters.
+                      The ID of the managed host on which to create the instance. It is only used for managed host scenarios and conflicts with dedicated_host_id.
+                    type: string
                   networkCardIndex:
                     description: The index of the network card for Primary ENI.
                     type: number
@@ -2498,6 +2522,14 @@ spec:
             properties:
               atProvider:
                 properties:
+                  additionalAttributes:
+                    description: |-
+                      A set of additional attributes that the provider requests when reading the instance through the DescribeInstances API. Configured values are merged into the default set of META_OPTIONS, NETWORK_PRIMARY_ENI_IP, LOGIN_AS_NON_ROOT, DISK_HIGH_DENSITY_MODE and CPU_OPTIONS_TOPOLOGY_TYPE that the provider always requests, so existing reads keep working. Other useful values include DDH_CLUSTER, PRIVATE_DNS_OPTIONS, CURRENT_OS_NVME_SUPPORTED and MANAGED_HOST_ID.
+                      A set of additional attributes to request when the provider queries the instance via DescribeInstances, such as DDH_CLUSTER, PRIVATE_DNS_OPTIONS or MANAGED_HOST_ID. Configured values are merged into the default set the provider always requests, so existing reads keep working. DescribeInstances accepts at most 10 items, 5 of which are taken by the defaults, so at most 5 additional values can be set here.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   autoReleaseTime:
                     description: |-
                       The automatic release time of the PostPaid instance.
@@ -2547,9 +2579,8 @@ spec:
                       was created.
                     type: string
                   creditSpecification:
-                    description: |-
-                      Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
-                      -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
+                    description: 'Performance mode of the t5 burstable instance. Valid
+                      values: ''Standard'', ''Unlimited''.'
                     type: string
                   dataDisks:
                     description: 'The list of data disks created with instance. Note:
@@ -2769,9 +2800,11 @@ spec:
                       the I/O optimization option sent when creating the instance.'
                     type: boolean
                   keyName:
-                    description: |-
-                      The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
-                      -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
+                    description: 'The name of key pair that can login ECS instance
+                      successfully without password. If it is specified, the password
+                      would be invalid. NOTE: From version 1.268.0, key_name can be
+                      modified. If you want to use key_name, We recommend you to use
+                      the resource alicloud_ecs_key_pair_attachment.'
                     type: string
                   kmsEncryptedPassword:
                     description: An KMS encrypts password used to an instance. If
@@ -2790,10 +2823,8 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   launchTemplateId:
-                    description: The ID of the launch template. For more information,
-                      see DescribeLaunchTemplates.To use a launch template to create
-                      an instance, you must use the launch_template_id or launch_template_name
-                      parameter to specify the launch template.
+                    description: or launch_template_name to specify a launch template,
+                      you must specify security_groups.
                     type: string
                   launchTemplateName:
                     description: The name of the launch template.
@@ -2835,6 +2866,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  managedHostId:
+                    description: |-
+                      The ID of the managed host on which to create the instance, such as mh-f2d3647ca21****. The managed host refers to the physical machine in the intelligent fully-managed resource pool. NOTE: You cannot specify both the managed_host_id and dedicated_host_id parameters.
+                      The ID of the managed host on which to create the instance. It is only used for managed host scenarios and conflicts with dedicated_host_id.
+                    type: string
                   memory:
                     description: 'The memory size of the instance. Unit: MiB.'
                     type: number

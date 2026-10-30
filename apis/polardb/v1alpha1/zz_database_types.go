@@ -22,11 +22,9 @@ type DatabaseInitParameters struct {
 	CharacterSetName *string `json:"characterSetName,omitempty" tf:"character_set_name,omitempty"`
 
 	// The language that defines the collation rules in the database.
-	// -> NOTE: The locale must be compatible with the character set set set by character_set_name. This parameter is required for a PolarDB for PostgreSQL (Compatible with Oracle) or PolarDB for PostgreSQL cluster. This parameter is optional for a PolarDB for MySQL cluster.
 	Collate *string `json:"collate,omitempty" tf:"collate,omitempty"`
 
 	// The language that indicates the character type of the database.
-	// -> NOTE: The language must be compatible with the character set that is specified by character_set_name. The value that you specify must be the same as the value of collate. This parameter is required for PolarDB for PostgreSQL (Compatible with Oracle) clusters or PolarDB for PostgreSQL clusters. This parameter is optional for PolarDB for MySQL clusters.This parameter is required for a PolarDB for PostgreSQL (Compatible with Oracle) or PolarDB for PostgreSQL cluster. This parameter is optional for a PolarDB for MySQL cluster.
 	Ctype *string `json:"ctype,omitempty" tf:"ctype,omitempty"`
 
 	// The ID of cluster.
@@ -58,11 +56,9 @@ type DatabaseObservation struct {
 	CharacterSetName *string `json:"characterSetName,omitempty" tf:"character_set_name,omitempty"`
 
 	// The language that defines the collation rules in the database.
-	// -> NOTE: The locale must be compatible with the character set set set by character_set_name. This parameter is required for a PolarDB for PostgreSQL (Compatible with Oracle) or PolarDB for PostgreSQL cluster. This parameter is optional for a PolarDB for MySQL cluster.
 	Collate *string `json:"collate,omitempty" tf:"collate,omitempty"`
 
 	// The language that indicates the character type of the database.
-	// -> NOTE: The language must be compatible with the character set that is specified by character_set_name. The value that you specify must be the same as the value of collate. This parameter is required for PolarDB for PostgreSQL (Compatible with Oracle) clusters or PolarDB for PostgreSQL clusters. This parameter is optional for PolarDB for MySQL clusters.This parameter is required for a PolarDB for PostgreSQL (Compatible with Oracle) or PolarDB for PostgreSQL cluster. This parameter is optional for a PolarDB for MySQL cluster.
 	Ctype *string `json:"ctype,omitempty" tf:"ctype,omitempty"`
 
 	// The ID of cluster.
@@ -92,12 +88,10 @@ type DatabaseParameters struct {
 	CharacterSetName *string `json:"characterSetName,omitempty" tf:"character_set_name,omitempty"`
 
 	// The language that defines the collation rules in the database.
-	// -> NOTE: The locale must be compatible with the character set set set by character_set_name. This parameter is required for a PolarDB for PostgreSQL (Compatible with Oracle) or PolarDB for PostgreSQL cluster. This parameter is optional for a PolarDB for MySQL cluster.
 	// +kubebuilder:validation:Optional
 	Collate *string `json:"collate,omitempty" tf:"collate,omitempty"`
 
 	// The language that indicates the character type of the database.
-	// -> NOTE: The language must be compatible with the character set that is specified by character_set_name. The value that you specify must be the same as the value of collate. This parameter is required for PolarDB for PostgreSQL (Compatible with Oracle) clusters or PolarDB for PostgreSQL clusters. This parameter is optional for PolarDB for MySQL clusters.This parameter is required for a PolarDB for PostgreSQL (Compatible with Oracle) or PolarDB for PostgreSQL cluster. This parameter is optional for a PolarDB for MySQL cluster.
 	// +kubebuilder:validation:Optional
 	Ctype *string `json:"ctype,omitempty" tf:"ctype,omitempty"`
 

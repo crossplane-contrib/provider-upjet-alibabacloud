@@ -74,16 +74,13 @@ spec:
               forProvider:
                 properties:
                   aliyunUids:
-                    description: |-
-                      The list of Alibaba Cloud accounts (primary accounts) of the resource directory members to which the quota is applied.
-                      -> NOTE:  Only 50 members can apply for quota increase in batch at a time. For more information about the members of the resource directory, see [Query the list of all members in the resource directory](~~ 604207 ~~).
+                    description: The list of Alibaba Cloud accounts (primary accounts)
+                      of the resource directory members to which the quota is applied.
                     items:
                       type: string
                     type: array
                   desireValue:
-                    description: |-
-                      The value of the quota request.
-                      -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
+                    description: The value of the quota request.
                     type: number
                   dimensions:
                     description: Quota dimension. See dimensions below.
@@ -98,27 +95,23 @@ spec:
                       type: object
                     type: array
                   effectiveTime:
-                    description: |-
-                      The UTC time when the quota takes effect. This parameter applies only to the equity quota (WhiteListLabel).
-                      -> NOTE:  If the current account does not select the effective time, the default is the submission time.
+                    description: The UTC time when the quota takes effect. This parameter
+                      applies only to the equity quota (WhiteListLabel).
                     type: string
                   envLanguage:
                     description: 'The language of the quota application result notification.
                       Value:'
                     type: string
                   expireTime:
-                    description: |-
-                      The UTC time when the quota expires. This parameter applies only to the equity quota (WhiteListLabel).
-                      -> NOTE:  If No Expiration Time is selected for the current account, the expiration time is 99 years from the effective time of the current quota.
+                    description: The UTC time when the quota expires. This parameter
+                      applies only to the equity quota (WhiteListLabel).
                     type: string
                   noticeType:
                     description: 'Whether to send notification of quota application
                       result. Value:'
                     type: number
                   productCode:
-                    description: |-
-                      Cloud service name abbreviation.
-                      -> NOTE:  For more information about cloud services that support quota centers, see [Cloud services that support quota centers](~~ 182368 ~~).
+                    description: Cloud service name abbreviation.
                     type: string
                   quotaActionCode:
                     description: The quota ID.
@@ -127,9 +120,7 @@ spec:
                     description: 'The quota type. Value:'
                     type: string
                   reason:
-                    description: |-
-                      Reason for quota application.
-                      -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
+                    description: Reason for quota application.
                     type: string
                   region:
                     description: Region is the region you'd like your resource to
@@ -150,16 +141,13 @@ spec:
                   autoscaler.
                 properties:
                   aliyunUids:
-                    description: |-
-                      The list of Alibaba Cloud accounts (primary accounts) of the resource directory members to which the quota is applied.
-                      -> NOTE:  Only 50 members can apply for quota increase in batch at a time. For more information about the members of the resource directory, see [Query the list of all members in the resource directory](~~ 604207 ~~).
+                    description: The list of Alibaba Cloud accounts (primary accounts)
+                      of the resource directory members to which the quota is applied.
                     items:
                       type: string
                     type: array
                   desireValue:
-                    description: |-
-                      The value of the quota request.
-                      -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
+                    description: The value of the quota request.
                     type: number
                   dimensions:
                     description: Quota dimension. See dimensions below.
@@ -174,27 +162,23 @@ spec:
                       type: object
                     type: array
                   effectiveTime:
-                    description: |-
-                      The UTC time when the quota takes effect. This parameter applies only to the equity quota (WhiteListLabel).
-                      -> NOTE:  If the current account does not select the effective time, the default is the submission time.
+                    description: The UTC time when the quota takes effect. This parameter
+                      applies only to the equity quota (WhiteListLabel).
                     type: string
                   envLanguage:
                     description: 'The language of the quota application result notification.
                       Value:'
                     type: string
                   expireTime:
-                    description: |-
-                      The UTC time when the quota expires. This parameter applies only to the equity quota (WhiteListLabel).
-                      -> NOTE:  If No Expiration Time is selected for the current account, the expiration time is 99 years from the effective time of the current quota.
+                    description: The UTC time when the quota expires. This parameter
+                      applies only to the equity quota (WhiteListLabel).
                     type: string
                   noticeType:
                     description: 'Whether to send notification of quota application
                       result. Value:'
                     type: number
                   productCode:
-                    description: |-
-                      Cloud service name abbreviation.
-                      -> NOTE:  For more information about cloud services that support quota centers, see [Cloud services that support quota centers](~~ 182368 ~~).
+                    description: Cloud service name abbreviation.
                     type: string
                   quotaActionCode:
                     description: The quota ID.
@@ -203,9 +187,7 @@ spec:
                     description: 'The quota type. Value:'
                     type: string
                   reason:
-                    description: |-
-                      Reason for quota application.
-                      -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
+                    description: Reason for quota application.
                     type: string
                 type: object
               managementPolicies:
@@ -407,16 +389,13 @@ spec:
               atProvider:
                 properties:
                   aliyunUids:
-                    description: |-
-                      The list of Alibaba Cloud accounts (primary accounts) of the resource directory members to which the quota is applied.
-                      -> NOTE:  Only 50 members can apply for quota increase in batch at a time. For more information about the members of the resource directory, see [Query the list of all members in the resource directory](~~ 604207 ~~).
+                    description: The list of Alibaba Cloud accounts (primary accounts)
+                      of the resource directory members to which the quota is applied.
                     items:
                       type: string
                     type: array
                   desireValue:
-                    description: |-
-                      The value of the quota request.
-                      -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
+                    description: The value of the quota request.
                     type: number
                   dimensions:
                     description: Quota dimension. See dimensions below.
@@ -431,18 +410,16 @@ spec:
                       type: object
                     type: array
                   effectiveTime:
-                    description: |-
-                      The UTC time when the quota takes effect. This parameter applies only to the equity quota (WhiteListLabel).
-                      -> NOTE:  If the current account does not select the effective time, the default is the submission time.
+                    description: The UTC time when the quota takes effect. This parameter
+                      applies only to the equity quota (WhiteListLabel).
                     type: string
                   envLanguage:
                     description: 'The language of the quota application result notification.
                       Value:'
                     type: string
                   expireTime:
-                    description: |-
-                      The UTC time when the quota expires. This parameter applies only to the equity quota (WhiteListLabel).
-                      -> NOTE:  If No Expiration Time is selected for the current account, the expiration time is 99 years from the effective time of the current quota.
+                    description: The UTC time when the quota expires. This parameter
+                      applies only to the equity quota (WhiteListLabel).
                     type: string
                   id:
                     description: The ID of the resource supplied above.
@@ -452,9 +429,7 @@ spec:
                       result. Value:'
                     type: number
                   productCode:
-                    description: |-
-                      Cloud service name abbreviation.
-                      -> NOTE:  For more information about cloud services that support quota centers, see [Cloud services that support quota centers](~~ 182368 ~~).
+                    description: Cloud service name abbreviation.
                     type: string
                   quotaActionCode:
                     description: The quota ID.
@@ -515,9 +490,7 @@ spec:
                           description: Quota unit.
                           type: string
                         reason:
-                          description: |-
-                            Reason for quota application.
-                            -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
+                          description: Reason for quota application.
                           type: string
                         status:
                           description: 'The approval status of the quota promotion
@@ -529,9 +502,7 @@ spec:
                     description: 'The quota type. Value:'
                     type: string
                   reason:
-                    description: |-
-                      Reason for quota application.
-                      -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
+                    description: Reason for quota application.
                     type: string
                 type: object
               conditions:

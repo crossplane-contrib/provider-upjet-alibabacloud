@@ -517,9 +517,7 @@ spec:
                     description: The name of the domain config.
                     type: string
                   id:
-                    description: |-
-                      It formats as <domain_name>:<function_name>:<config_id>.
-                      -> NOTE: Before provider version 1.132.0, it formats as <domain_name>:<function_name>
+                    description: It formats as <domain_name>:<function_name>:<config_id>.
                     type: string
                   parentId:
                     description: By configuring the function condition (rule engine)

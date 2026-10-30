@@ -71,7 +71,6 @@ type QuotaApplicationDetailsObservation struct {
 	QuotaUnit *string `json:"quotaUnit,omitempty" tf:"quota_unit,omitempty"`
 
 	// Reason for quota application.
-	// -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 
 	// The approval status of the quota promotion application. Value:
@@ -113,32 +112,27 @@ type TemplateApplicationsDimensionsParameters struct {
 type TemplateApplicationsInitParameters struct {
 
 	// The list of Alibaba Cloud accounts (primary accounts) of the resource directory members to which the quota is applied.
-	// -> NOTE:  Only 50 members can apply for quota increase in batch at a time. For more information about the members of the resource directory, see [Query the list of all members in the resource directory](~~ 604207 ~~).
 	AliyunUids []*string `json:"aliyunUids,omitempty" tf:"aliyun_uids,omitempty"`
 
 	// The value of the quota request.
-	// -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
 	DesireValue *float64 `json:"desireValue,omitempty" tf:"desire_value,omitempty"`
 
 	// Quota dimension. See dimensions below.
 	Dimensions []TemplateApplicationsDimensionsInitParameters `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
 
 	// The UTC time when the quota takes effect. This parameter applies only to the equity quota (WhiteListLabel).
-	// -> NOTE:  If the current account does not select the effective time, the default is the submission time.
 	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
 
 	// The language of the quota application result notification. Value:
 	EnvLanguage *string `json:"envLanguage,omitempty" tf:"env_language,omitempty"`
 
 	// The UTC time when the quota expires. This parameter applies only to the equity quota (WhiteListLabel).
-	// -> NOTE:  If No Expiration Time is selected for the current account, the expiration time is 99 years from the effective time of the current quota.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
 
 	// Whether to send notification of quota application result. Value:
 	NoticeType *float64 `json:"noticeType,omitempty" tf:"notice_type,omitempty"`
 
 	// Cloud service name abbreviation.
-	// -> NOTE:  For more information about cloud services that support quota centers, see [Cloud services that support quota centers](~~ 182368 ~~).
 	ProductCode *string `json:"productCode,omitempty" tf:"product_code,omitempty"`
 
 	// The quota ID.
@@ -148,32 +142,27 @@ type TemplateApplicationsInitParameters struct {
 	QuotaCategory *string `json:"quotaCategory,omitempty" tf:"quota_category,omitempty"`
 
 	// Reason for quota application.
-	// -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 }
 
 type TemplateApplicationsObservation struct {
 
 	// The list of Alibaba Cloud accounts (primary accounts) of the resource directory members to which the quota is applied.
-	// -> NOTE:  Only 50 members can apply for quota increase in batch at a time. For more information about the members of the resource directory, see [Query the list of all members in the resource directory](~~ 604207 ~~).
 	AliyunUids []*string `json:"aliyunUids,omitempty" tf:"aliyun_uids,omitempty"`
 
 	// The value of the quota request.
-	// -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
 	DesireValue *float64 `json:"desireValue,omitempty" tf:"desire_value,omitempty"`
 
 	// Quota dimension. See dimensions below.
 	Dimensions []TemplateApplicationsDimensionsObservation `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
 
 	// The UTC time when the quota takes effect. This parameter applies only to the equity quota (WhiteListLabel).
-	// -> NOTE:  If the current account does not select the effective time, the default is the submission time.
 	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
 
 	// The language of the quota application result notification. Value:
 	EnvLanguage *string `json:"envLanguage,omitempty" tf:"env_language,omitempty"`
 
 	// The UTC time when the quota expires. This parameter applies only to the equity quota (WhiteListLabel).
-	// -> NOTE:  If No Expiration Time is selected for the current account, the expiration time is 99 years from the effective time of the current quota.
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
 
 	// The ID of the resource supplied above.
@@ -183,7 +172,6 @@ type TemplateApplicationsObservation struct {
 	NoticeType *float64 `json:"noticeType,omitempty" tf:"notice_type,omitempty"`
 
 	// Cloud service name abbreviation.
-	// -> NOTE:  For more information about cloud services that support quota centers, see [Cloud services that support quota centers](~~ 182368 ~~).
 	ProductCode *string `json:"productCode,omitempty" tf:"product_code,omitempty"`
 
 	// The quota ID.
@@ -196,19 +184,16 @@ type TemplateApplicationsObservation struct {
 	QuotaCategory *string `json:"quotaCategory,omitempty" tf:"quota_category,omitempty"`
 
 	// Reason for quota application.
-	// -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 }
 
 type TemplateApplicationsParameters struct {
 
 	// The list of Alibaba Cloud accounts (primary accounts) of the resource directory members to which the quota is applied.
-	// -> NOTE:  Only 50 members can apply for quota increase in batch at a time. For more information about the members of the resource directory, see [Query the list of all members in the resource directory](~~ 604207 ~~).
 	// +kubebuilder:validation:Optional
 	AliyunUids []*string `json:"aliyunUids,omitempty" tf:"aliyun_uids,omitempty"`
 
 	// The value of the quota request.
-	// -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
 	// +kubebuilder:validation:Optional
 	DesireValue *float64 `json:"desireValue,omitempty" tf:"desire_value,omitempty"`
 
@@ -217,7 +202,6 @@ type TemplateApplicationsParameters struct {
 	Dimensions []TemplateApplicationsDimensionsParameters `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
 
 	// The UTC time when the quota takes effect. This parameter applies only to the equity quota (WhiteListLabel).
-	// -> NOTE:  If the current account does not select the effective time, the default is the submission time.
 	// +kubebuilder:validation:Optional
 	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
 
@@ -226,7 +210,6 @@ type TemplateApplicationsParameters struct {
 	EnvLanguage *string `json:"envLanguage,omitempty" tf:"env_language,omitempty"`
 
 	// The UTC time when the quota expires. This parameter applies only to the equity quota (WhiteListLabel).
-	// -> NOTE:  If No Expiration Time is selected for the current account, the expiration time is 99 years from the effective time of the current quota.
 	// +kubebuilder:validation:Optional
 	ExpireTime *string `json:"expireTime,omitempty" tf:"expire_time,omitempty"`
 
@@ -235,7 +218,6 @@ type TemplateApplicationsParameters struct {
 	NoticeType *float64 `json:"noticeType,omitempty" tf:"notice_type,omitempty"`
 
 	// Cloud service name abbreviation.
-	// -> NOTE:  For more information about cloud services that support quota centers, see [Cloud services that support quota centers](~~ 182368 ~~).
 	// +kubebuilder:validation:Optional
 	ProductCode *string `json:"productCode,omitempty" tf:"product_code,omitempty"`
 
@@ -248,7 +230,6 @@ type TemplateApplicationsParameters struct {
 	QuotaCategory *string `json:"quotaCategory,omitempty" tf:"quota_category,omitempty"`
 
 	// Reason for quota application.
-	// -> NOTE:  The quota request is approved by the technical support of each cloud service. If you want to increase the chance of passing, please fill in a reasonable application value and detailed application reasons when applying for quota.
 	// +kubebuilder:validation:Optional
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 

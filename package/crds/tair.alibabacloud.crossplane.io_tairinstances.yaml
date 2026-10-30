@@ -498,7 +498,7 @@ spec:
                     description: Different specifications have different value ranges.
                       When the instance_type value is tair_essd and the disk type
                       is ESSD, this attribute takes effect and is required. When a
-                      Tair disk is an SSD, see-https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type.
+                      Tair disk is an SSD, see https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type.
                       The capacity field is defined as different fixed values according
                       to different specifications, and does not need to be specified.
                     type: number
@@ -1111,7 +1111,7 @@ spec:
                     description: Different specifications have different value ranges.
                       When the instance_type value is tair_essd and the disk type
                       is ESSD, this attribute takes effect and is required. When a
-                      Tair disk is an SSD, see-https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type.
+                      Tair disk is an SSD, see https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type.
                       The capacity field is defined as different fixed values according
                       to different specifications, and does not need to be specified.
                     type: number
@@ -1499,6 +1499,15 @@ spec:
                       set IDs of all shards of the source instance, separated by commas
                       (,).
                     type: string
+                  caCertCommonName:
+                    description: 'The common name of the CA certificate. NOTE: This
+                      is a best-effort attribute and may be empty when the upstream
+                      API does not return it.'
+                    type: string
+                  caCertDownloadUrl:
+                    description: The download URL of the CA certificate. This attribute
+                      is populated when ssl_enabled is set to Enable.
+                    type: string
                   clusterBackupId:
                     description: This parameter is supported for specific new cluster
                       instances. You can query the backup set ID by calling the DescribeClusterBackupList
@@ -1744,6 +1753,11 @@ spec:
                       1. Disable (The SSL encryption is disabled) 2. Enable (The SSL
                       encryption is enabled)  3. Update (The SSL certificate is updated)'
                     type: string
+                  sslExpiredTime:
+                    description: 'The expiration time of the SSL certificate. NOTE:
+                      This is a best-effort attribute and may be empty when the upstream
+                      API does not return it.'
+                    type: string
                   status:
                     description: The status of the resource
                     type: string
@@ -1756,7 +1770,7 @@ spec:
                     description: Different specifications have different value ranges.
                       When the instance_type value is tair_essd and the disk type
                       is ESSD, this attribute takes effect and is required. When a
-                      Tair disk is an SSD, see-https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type.
+                      Tair disk is an SSD, see https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type.
                       The capacity field is defined as different fixed values according
                       to different specifications, and does not need to be specified.
                     type: number
