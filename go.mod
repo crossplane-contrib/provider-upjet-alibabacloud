@@ -7,10 +7,8 @@ require (
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/alibabacloud-go/tea v1.5.2
 	github.com/aliyun/terraform-provider-alicloud v1.294.1-0.20261012080016-c7060a5b42ae
-	github.com/crossplane/crossplane-runtime v1.20.12
 	github.com/crossplane/crossplane-runtime/v2 v2.2.0
 	github.com/crossplane/crossplane-tools v0.0.0-20260719180100-659f1dc036c5
-	github.com/crossplane/upjet v1.11.2
 	github.com/crossplane/upjet/v2 v2.4.2
 	github.com/hashicorp/terraform-json v0.27.2
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.40.1
