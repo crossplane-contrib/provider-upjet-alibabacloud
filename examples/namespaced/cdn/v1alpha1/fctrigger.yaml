@@ -1,0 +1,22 @@
+apiVersion: cdn.alibabacloud.m.crossplane.io/v1alpha1
+kind: FcTrigger
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: cdn/v1alpha1/fctrigger
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    eventMetaName: LogFileCreated
+    eventMetaVersion: 1.0.0
+    notes: example_value
+    # ${data.account_id} is filled in by uptest from the UPTEST_DATASOURCE
+    # secret, so the account ID stays out of this public repository. The
+    # role is CDN's event-notification role, which fcv3/trigger also uses.
+    # Like upstream's acceptance test, the trigger names an FC function that
+    # CDN does not check.
+    roleArn: "acs:ram::${data.account_id}:role/aliyuncdneventnotificationrole"
+    sourceArn: "acs:cdn:*:${data.account_id}:domain/example.com"
+    triggerArn: "acs:fc:us-west-1:${data.account_id}:services/FCTestService/functions/printEvent/triggers/testtrigger"

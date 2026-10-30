@@ -1,0 +1,19 @@
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: Parameter
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/parameter
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: example_value
+    parameterName: crossplane-example-parameter
+    region: us-west-1
+    tags:
+      Created: TF
+      For: OosParameter
+    type: String
+    value: example_value

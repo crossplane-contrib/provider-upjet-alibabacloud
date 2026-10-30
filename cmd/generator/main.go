@@ -12,9 +12,9 @@ import (
 	"path/filepath"
 	"sort"
 
-	"github.com/crossplane/upjet/pkg/pipeline"
+	"github.com/crossplane/upjet/v2/pkg/pipeline"
 
-	ujconfig "github.com/crossplane/upjet/pkg/config"
+	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config"
 )
@@ -32,8 +32,13 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("cannot initialize the provider configuration: %v", err))
 	}
+	pns, err := config.GetNamespacedProvider(context.Background(), true)
+	if err != nil {
+		panic(fmt.Sprintf("cannot initialize the namespaced provider configuration: %v", err))
+	}
+
 	dumpGeneratedResourceList(p, filepath.Join(absRootDir, "config", "generated.lst"))
-	pipeline.Run(p, absRootDir)
+	pipeline.Run(p, pns, absRootDir)
 }
 
 // dumpGeneratedResourceList records the Terraform resource names that were

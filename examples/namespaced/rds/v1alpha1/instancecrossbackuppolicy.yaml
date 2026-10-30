@@ -1,0 +1,89 @@
+apiVersion: rds.alibabacloud.m.crossplane.io/v1alpha1
+kind: InstanceCrossBackupPolicy
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/instancecrossbackuppolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    # The destination region where cross-region backups of the instance are stored.
+    crossBackupRegion: cn-hangzhou
+    retention: 7
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: rds.alibabacloud.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/instancecrossbackuppolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    engine: MySQL
+    # Upstream's cross-region backup policy needs High-availability with local
+    # SSDs, as in its own tests; Basic on cloud disks fails with
+    # IncorrectHostType (run 40044370842). mysql.x2.medium.2 is the smallest
+    # class DescribeAvailableClasses offers for this setup in cn-beijing.
+    engineVersion: "5.7"
+    category: HighAvailability
+    dbInstanceStorageType: local_ssd
+    instanceChargeType: Postpaid
+    instanceName: crossplane-example
+    instanceStorage: 20
+    instanceType: mysql.x2.medium.2
+    zoneId: cn-beijing-i
+    securityIps:
+      - 10.0.0.0/8
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/instancecrossbackuppolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 172.16.0.0/16
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/instancecrossbackuppolicy
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 172.16.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: crossplane-example
+    zoneId: cn-beijing-i

@@ -1,0 +1,18 @@
+apiVersion: rds.alibabacloud.m.crossplane.io/v1alpha1
+kind: ServiceLinkedRole
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/servicelinkedrole
+    # Kept out of automated e2e runs for two reasons: CreateServiceLinkedRole
+    # returns Caller.NotSupport for the CI RAM sub-user, and deleting this
+    # resource calls DeleteServiceLinkedRole, which removes an account-wide
+    # role that other instances in the account may depend on.
+    upjet.upbound.io/manual-intervention: "This creates and deletes an account-wide service-linked role"
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    serviceName: AliyunServiceRoleForRdsPgsqlOnEcs

@@ -1,0 +1,333 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.20.1
+  name: templates.oos.alibabacloud.m.crossplane.io
+spec:
+  group: oos.alibabacloud.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - alibabacloud
+    kind: Template
+    listKind: TemplateList
+    plural: templates
+    singular: template
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Template is the Schema for the Templates API. Provides a OOS
+          Template resource.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: TemplateSpec defines the desired state of Template
+            properties:
+              forProvider:
+                properties:
+                  autoDeleteExecutions:
+                    description: When deleting a template, whether to delete its related
+                      executions. Default to false.
+                    type: boolean
+                  content:
+                    description: 'The content of the template. The template must be
+                      in the JSON or YAML format. Maximum size: 64 KB.'
+                    type: string
+                  region:
+                    description: Region is the region you'd like your resource to
+                      be created in.
+                    type: string
+                  resourceGroupId:
+                    description: The ID of resource group which the template belongs.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  templateName:
+                    description: The name of the template. The template name can be
+                      up to 200 characters in length. The name can contain letters,
+                      digits, hyphens (-), and underscores (_). It cannot start with
+                      ALIYUN, ACS, ALIBABA, or ALICLOUD.
+                    type: string
+                  versionName:
+                    description: The name of template version.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  autoDeleteExecutions:
+                    description: When deleting a template, whether to delete its related
+                      executions. Default to false.
+                    type: boolean
+                  content:
+                    description: 'The content of the template. The template must be
+                      in the JSON or YAML format. Maximum size: 64 KB.'
+                    type: string
+                  resourceGroupId:
+                    description: The ID of resource group which the template belongs.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  templateName:
+                    description: The name of the template. The template name can be
+                      up to 200 characters in length. The name can contain letters,
+                      digits, hyphens (-), and underscores (_). It cannot start with
+                      ALIYUN, ACS, ALIBABA, or ALICLOUD.
+                    type: string
+                  versionName:
+                    description: The name of template version.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.content is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.content)
+                || (has(self.initProvider) && has(self.initProvider.content))'
+            - message: spec.forProvider.templateName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.templateName)
+                || (has(self.initProvider) && has(self.initProvider.templateName))'
+          status:
+            description: TemplateStatus defines the observed state of Template.
+            properties:
+              atProvider:
+                properties:
+                  autoDeleteExecutions:
+                    description: When deleting a template, whether to delete its related
+                      executions. Default to false.
+                    type: boolean
+                  content:
+                    description: 'The content of the template. The template must be
+                      in the JSON or YAML format. Maximum size: 64 KB.'
+                    type: string
+                  createdBy:
+                    description: The creator of the template.
+                    type: string
+                  createdDate:
+                    description: The time when the template is created.
+                    type: string
+                  description:
+                    description: The description of the template.
+                    type: string
+                  hasTrigger:
+                    description: Is it triggered successfully.
+                    type: boolean
+                  id:
+                    description: The id of the resource. It same with template_name.
+                    type: string
+                  resourceGroupId:
+                    description: The ID of resource group which the template belongs.
+                    type: string
+                  shareType:
+                    description: The sharing type of the template. The sharing type
+                      of templates created by users are set to Private. The sharing
+                      type of common templates provided by OOS are set to Public.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: Key-value map of resource tags.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  templateFormat:
+                    description: The format of the template. The format can be JSON
+                      or YAML. The system automatically identifies the format.
+                    type: string
+                  templateId:
+                    description: The id of OOS Template.
+                    type: string
+                  templateName:
+                    description: The name of the template. The template name can be
+                      up to 200 characters in length. The name can contain letters,
+                      digits, hyphens (-), and underscores (_). It cannot start with
+                      ALIYUN, ACS, ALIBABA, or ALICLOUD.
+                    type: string
+                  templateType:
+                    description: The type of OOS Template. Automation means the implementation
+                      of Alibaba Cloud API template, Package means represents a template
+                      for installing software.
+                    type: string
+                  templateVersion:
+                    description: The version of OOS Template.
+                    type: string
+                  updatedBy:
+                    description: The user who updated the template.
+                    type: string
+                  updatedDate:
+                    description: The time when the template was updated.
+                    type: string
+                  versionName:
+                    description: The name of template version.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

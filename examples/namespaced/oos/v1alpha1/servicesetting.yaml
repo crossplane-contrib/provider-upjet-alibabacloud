@@ -1,0 +1,55 @@
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: ServiceSetting
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/servicesetting
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    deliveryOssBucketNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    deliveryOssEnabled: true
+    deliveryOssKeyPrefix: path1/
+    # OSS-only delivery exercises the provider's workaround for
+    # https://github.com/aliyun/terraform-provider-alicloud/issues/11154
+    region: us-west-1
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/servicesetting
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    bucket: crossplane-example-oos-servicesetting
+    region: us-west-1
+
+---
+
+apiVersion: oss.alibabacloud.m.crossplane.io/v1alpha1
+kind: BucketACL
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/servicesetting
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    acl: private
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: us-west-1
+

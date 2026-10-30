@@ -10,11 +10,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/crossplane/upjet/pkg/terraform"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/crossplane-contrib/provider-alibabacloud/apis/v1beta1"
+	v1beta1 "github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/v1beta1"
 )
 
 // countingProvider returns a provider whose meta records how many times it was
@@ -126,7 +126,7 @@ func TestMetaTTL(t *testing.T) {
 // if buildProviderConfiguration stops emitting session_expiration as an int in
 // a single-element block, the short-session TTL silently stops applying.
 func TestMetaTTLMatchesBuildProviderConfiguration(t *testing.T) {
-	cfg := buildProviderConfiguration("us-west-1", map[string]any{"access_key": "ak"}, providerConfigWithAssumeRoleSession(900))
+	cfg := buildProviderConfiguration("us-west-1", map[string]any{"access_key": "ak"}, &providerConfigWithAssumeRoleSession(900).Spec)
 	if got := metaTTL(cfg); got != 450*time.Second {
 		t.Fatalf("metaTTL of a built configuration with a 900s session: want 7m30s, got %v", got)
 	}

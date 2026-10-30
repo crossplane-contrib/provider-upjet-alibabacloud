@@ -1,0 +1,48 @@
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: UserGroupAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/usergroupattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    groupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    userNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/usergroupattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    name: terraform-example-${random_integer.default.result}
+
+---
+
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/usergroupattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: terraform-example-${random_integer.default.result}
+    name: terraform-example-${random_integer.default.result}
