@@ -33,6 +33,14 @@ func Configure(p *config.Provider) {
 		r.ShortGroup = string(common.ACK)
 		r.Kind = "EdgeKubernetes"
 		r.UseAsync = true
+		// Alibaba Cloud no longer creates ACK@Edge clusters
+		// (EdgeClusterNotSupported), and upstream deprecated the resource in
+		// v1.276.0. It stays for clusters that already exist.
+		if r.MetaResource != nil {
+			r.MetaResource.Description = "Deprecated: Alibaba Cloud no longer allows creating ACK@Edge clusters; " +
+				"this resource only manages existing ones. For new clusters, use ManagedKubernetes (ACK Pro) " +
+				"with edge node pools. " + r.MetaResource.Description
+		}
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{
 				// name_prefix - (Optional) The kubernetes cluster name's prefix.

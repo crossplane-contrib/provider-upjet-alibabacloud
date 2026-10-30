@@ -34,8 +34,11 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: EdgeKubernetes is the Schema for the EdgeKubernetess API. Provides
-          a Alicloud resource to manage container edge kubernetes cluster.
+        description: 'EdgeKubernetes is the Schema for the EdgeKubernetess API. Deprecated:
+          Alibaba Cloud no longer allows creating ACK@Edge clusters; this resource
+          only manages existing ones. For new clusters, use ManagedKubernetes (ACK
+          Pro) with edge node pools. Provides a Alicloud resource to manage container
+          edge kubernetes cluster.'
         properties:
           apiVersion:
             description: |-

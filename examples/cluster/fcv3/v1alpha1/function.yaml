@@ -58,7 +58,7 @@ spec:
     logConfig:
     - logBeginRule: None
     memorySize: 512
-    region: cn-beijing
+    region: us-west-1
     runtime: custom.debian10
     timeout: 3
     vpcConfig:
@@ -93,7 +93,7 @@ spec:
     logConfig:
       - logBeginRule: None
     memorySize: 512
-    region: cn-hangzhou
+    region: us-west-1
     runtime: python3.9
     environmentVariables:
       TestEnvKey: "TestEnvVal"
@@ -121,7 +121,7 @@ metadata:
 spec:
   forProvider:
     bucket: crossplane-example-for-function-20251024
-    region: cn-beijing
+    region: us-west-1
 
 ---
 
@@ -140,7 +140,7 @@ spec:
         testing.upbound.io/example-name: function
     content: print('hello')
     key: FCV3Py39.zip
-    region: cn-beijing
+    region: us-west-1
 
 ---
 
@@ -155,7 +155,7 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.0.0.0/8
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example-for-function-20250729
 
 ---
@@ -171,8 +171,8 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.0.1.0/24
-    zoneId: cn-beijing-f
-    region: cn-beijing
+    zoneId: us-west-1a
+    region: us-west-1
     vswitchName: crossplane-example-for-function-20250729
     vpcIdSelector:
       matchLabels:
@@ -189,7 +189,7 @@ metadata:
   name: function
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     securityGroupName: crossplane-example-for-function-20250729
     vpcIdSelector:
       matchLabels:
@@ -214,7 +214,7 @@ spec:
     license: Apache2.0
     compatibleRuntime:
     - custom.debian10
-    region: cn-beijing
+    region: us-west-1
 
 ---
 apiVersion: v1

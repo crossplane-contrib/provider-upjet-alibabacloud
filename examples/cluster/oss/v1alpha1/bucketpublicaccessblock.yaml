@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     blockPublicAccess: true
     bucketSelector:
       matchLabels:
@@ -25,5 +26,6 @@ metadata:
   name: bucketpublicaccessblock
 spec:
   forProvider:
+    region: us-west-1
     bucket: crossplane-example-bucketpublicaccessblock-202504081600
     storageClass: Standard

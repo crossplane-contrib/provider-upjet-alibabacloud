@@ -4,12 +4,12 @@ kind: Cluster
 metadata:
   annotations:
     meta.upbound.io/example-id: test-ackone-v1alpha1-cluster-1
-    crossplane.io/external-name: test-ackone-v1alpha1-cluster-1
   labels:
     testing.upbound.io/example-name: test-ackone-v1alpha1-cluster-1
   name: test-ackone-v1alpha1-cluster-1
 spec:
   forProvider:
+    region: cn-beijing
     network:
       - vpcIdSelector:
           matchLabels:
@@ -18,6 +18,10 @@ spec:
           matchLabels:
             testing.upbound.io/example-name: test-ackone-v1alpha1-cluster-1-vswitch
     profile: Default
+    # Hub clusters enable ArgoCD by default, and DeleteHubCluster refuses to
+    # delete a cluster with ArgoCD enabled (DependencyViolation.ArgoCD).
+    # Upstream's delete does not turn it off first, so keep it off here.
+    argocdEnabled: false
 ---
 apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
 kind: VPC
@@ -29,6 +33,7 @@ metadata:
   name: test-ackone-v1alpha1-cluster-1-vpc
 spec:
   forProvider:
+    region: cn-beijing
     cidrBlock: 172.16.0.0/12
     vpcName: test-ackone-v1alpha1-cluster-1-vpc
 ---
@@ -37,12 +42,12 @@ kind: Vswitch
 metadata:
   annotations:
     meta.upbound.io/example-id: test-ackone-v1alpha1-cluster-1-vswitch
-    crossplane.io/external-name: test-ackone-v1alpha1-cluster-1-vswitch
   labels:
     testing.upbound.io/example-name: test-ackone-v1alpha1-cluster-1-vswitch
   name: test-ackone-v1alpha1-cluster-1-vswitch
 spec:
   forProvider:
+    region: cn-beijing
     cidrBlock: 172.16.2.0/24
     vpcIdSelector:
       matchLabels:

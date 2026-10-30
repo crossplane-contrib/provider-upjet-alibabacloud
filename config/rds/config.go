@@ -57,12 +57,35 @@ func Configure(p *config.Provider) {
 		// Also not Sensitive upstream; same reasoning as alicloud_db_instance,
 		// handled the same way in generationOnlySensitiveFields.
 	})
-	// NOTE: alicloud_db_account and alicloud_db_account_privilege (the
-	// legacy account resources, superseded by alicloud_rds_account) are
-	// intentionally NOT configured here and are excluded from the provider
-	// via config/external_name.go (they carry deprecated ConflictsWith
-	// field aliases and collide with alicloud_rds_account on kind Account).
-	// Use alicloud_rds_account instead.
+	// NOTE: alicloud_db_account (the legacy account resource, superseded by
+	// alicloud_rds_account) is intentionally NOT configured here and is left
+	// out of config/external_name.go, which excludes it from the provider:
+	// it carries deprecated ConflictsWith field aliases and would collide
+	// with alicloud_rds_account on kind Account. Use alicloud_rds_account
+	// instead. Its sibling alicloud_db_account_privilege has neither problem
+	// and is configured below; it works with alicloud_rds_account accounts.
+	p.AddResourceConfigurator("alicloud_db_account_privilege", func(r *config.Resource) {
+		r.ShortGroup = string(common.RDS)
+		r.References["instance_id"] = config.Reference{
+			TerraformName: "alicloud_db_instance",
+			Extractor:     common.PathIdExtractor,
+		}
+		// The account's own id is composite ("<DBInstanceId>:<AccountName>"),
+		// and GrantAccountPrivilege wants the bare name. Also overrides the
+		// scraped registry example's reference, which points at the
+		// unconfigured alicloud_db_account.
+		r.References["account_name"] = config.Reference{
+			TerraformName: "alicloud_rds_account",
+			Extractor:     common.PathAccountNameExtractor,
+		}
+		// Likewise the database's id is "<DBInstanceId>:<DBName>"; read the
+		// bare name from data_base_name, which alicloud_db_database marks
+		// required, rather than status.atProvider.id.
+		r.References["db_names"] = config.Reference{
+			TerraformName: "alicloud_db_database",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("data_base_name",true)`,
+		}
+	})
 	p.AddResourceConfigurator("alicloud_db_backup_policy", func(r *config.Resource) {
 		r.ShortGroup = string(common.RDS)
 		r.References["instance_id"] = config.Reference{

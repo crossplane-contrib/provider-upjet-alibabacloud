@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucketaccessmonitor
@@ -25,5 +26,6 @@ metadata:
   name: bucketaccessmonitor
 spec:
   forProvider:
+    region: us-west-1
     bucket: crossplane-example-bucketaccessmonitor-202504081600
     storageClass: Standard

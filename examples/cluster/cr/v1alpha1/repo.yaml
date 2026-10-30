@@ -10,6 +10,7 @@ metadata:
   name: test-repo-1
 spec:
   forProvider:
+    region: us-west-1
     detail: This is a test repository created by provider-upjet-alibabacloud.
     name: test-repo-1
     namespaceSelector:
@@ -28,6 +29,7 @@ metadata:
   name: test-namespace-for-repo-1
 spec:
   forProvider:
+    region: us-west-1
     autoCreate: false
     defaultVisibility: PUBLIC
     name: test-namespace-for-repo-1

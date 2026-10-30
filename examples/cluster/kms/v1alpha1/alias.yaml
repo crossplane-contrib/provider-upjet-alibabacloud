@@ -8,6 +8,7 @@ metadata:
   name: this
 spec:
   forProvider:
+    region: us-west-1
     aliasName: alias/example_kms_alias
     keyIdSelector:
       matchLabels:
@@ -25,4 +26,5 @@ metadata:
   name: alias
 spec:
   forProvider:
+    region: us-west-1
     pendingWindowInDays: 7

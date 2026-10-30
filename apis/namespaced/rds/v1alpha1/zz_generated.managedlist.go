@@ -17,6 +17,15 @@ func (l *AccountList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this AccountPrivilegeList.
+func (l *AccountPrivilegeList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this BackupList.
 func (l *BackupList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

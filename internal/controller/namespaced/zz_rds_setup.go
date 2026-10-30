@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	account "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/account"
+	accountprivilege "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/accountprivilege"
 	backup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/backup"
 	backuppolicy "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/backuppolicy"
 	connection "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/namespaced/rds/connection"
@@ -33,6 +34,7 @@ import (
 func Setup_rds(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		account.Setup,
+		accountprivilege.Setup,
 		backup.Setup,
 		backuppolicy.Setup,
 		connection.Setup,
@@ -62,6 +64,7 @@ func Setup_rds(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_rds(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		account.SetupGated,
+		accountprivilege.SetupGated,
 		backup.SetupGated,
 		backuppolicy.SetupGated,
 		connection.SetupGated,
@@ -90,6 +93,7 @@ func SetupGated_rds(mgr ctrl.Manager, o controller.Options) error {
 func SetupWebhookWithManager_rds(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
 		account.SetupWebhookWithManager,
+		accountprivilege.SetupWebhookWithManager,
 		backup.SetupWebhookWithManager,
 		backuppolicy.SetupWebhookWithManager,
 		connection.SetupWebhookWithManager,

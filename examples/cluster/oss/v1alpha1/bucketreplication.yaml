@@ -8,6 +8,7 @@ metadata:
   name: cross-region-replication
 spec:
   forProvider:
+    region: us-west-1
     action: PUT,DELETE
     bucketSelector:
       matchLabels:
@@ -43,6 +44,7 @@ metadata:
   name: bucketreplication-dest
 spec:
   forProvider:
+    region: us-west-1
     bucket: example-dest-bucketreplication-202504081600
 
 ---
@@ -57,4 +59,5 @@ metadata:
   name: bucketreplication-src
 spec:
   forProvider:
+    region: us-west-1
     bucket: example-src-bucketreplication-202504081600

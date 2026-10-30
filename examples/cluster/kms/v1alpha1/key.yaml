@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     description: Hello KMS
     pendingWindowInDays: 7
     status: Enabled

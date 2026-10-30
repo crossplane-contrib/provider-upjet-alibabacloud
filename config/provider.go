@@ -148,6 +148,8 @@ func newProvider(_ context.Context, generationProvider bool, rootGroup string) (
 		AddExternalTagsField(),
 		DocumentationForTags(),
 		DocumentationForEmptyCodeSpans(),
+		UnknownComputedCountSuppression(),
+		SetChurnSuppression(),
 	}
 
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),

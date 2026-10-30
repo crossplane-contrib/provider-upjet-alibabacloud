@@ -13,7 +13,7 @@ spec:
         testing.upbound.io/example-name: for-aclentryattachment
     description: crossplane-example
     entry: 168.10.10.0/24
-    region: cn-beijing
+    region: us-west-1
 
 ---
 
@@ -28,5 +28,5 @@ metadata:
 spec:
   forProvider:
     aclName: crossplane-example
-    region: cn-beijing
+    region: us-west-1
 #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}

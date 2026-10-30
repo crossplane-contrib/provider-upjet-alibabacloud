@@ -10,9 +10,9 @@ on:
 
 env:
   # Common versions
-  GO_VERSION: '1.27.1'
-  GOLANGCI_VERSION: 'v2.14.0'
-  DOCKER_BUILDX_VERSION: 'v0.38.0'
+  GO_VERSION: '1.27.3'
+  GOLANGCI_VERSION: 'v2.15.0'
+  DOCKER_BUILDX_VERSION: 'v0.38.1'
   # go mod download intermittently fails against proxy.golang.org with
   # "stream error ... INTERNAL_ERROR; received from peer" on this runner,
   # a known flaky-HTTP/2 interaction with the module proxy. Forcing HTTP/1.1
@@ -233,6 +233,13 @@ jobs:
     if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
+      # Temporary workaround: ubuntu-26.04 mounts /tmp as a tmpfs capped at about 8 GiB,
+      # which makes large builds fail with "disk quota exceeded". RUNNER_TEMP lives on the
+      # root disk. Remove once GitHub's ubuntu-26.04 rollout keeps /tmp on disk.
+      # See https://github.com/actions/runner-images/issues/14777
+      - name: Keep temp files off the size-capped tmpfs /tmp of ubuntu-26.04 runners
+        run: echo "TMPDIR=$RUNNER_TEMP" >> "$GITHUB_ENV"
+
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -282,6 +289,13 @@ jobs:
     if: needs.detect-noop.outputs.noop != 'true'
 
     steps:
+      # Temporary workaround: ubuntu-26.04 mounts /tmp as a tmpfs capped at about 8 GiB,
+      # which makes large builds fail with "disk quota exceeded". RUNNER_TEMP lives on the
+      # root disk. Remove once GitHub's ubuntu-26.04 rollout keeps /tmp on disk.
+      # See https://github.com/actions/runner-images/issues/14777
+      - name: Keep temp files off the size-capped tmpfs /tmp of ubuntu-26.04 runners
+        run: echo "TMPDIR=$RUNNER_TEMP" >> "$GITHUB_ENV"
+
       - name: Setup QEMU
         uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4
         with:
@@ -294,7 +308,7 @@ jobs:
           install: true
 
       - name: Login to Upbound
-        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4
+        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4
         if: env.UPBOUND_MARKETPLACE_PUSH_ROBOT_USR != ''
         with:
           registry: xpkg.upbound.io

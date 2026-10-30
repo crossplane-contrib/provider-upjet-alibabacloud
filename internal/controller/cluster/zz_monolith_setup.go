@@ -198,6 +198,7 @@ import (
 	usergroupattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/ram/usergroupattachment"
 	userpolicyattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/ram/userpolicyattachment"
 	accountrds "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/rds/account"
+	accountprivilegerds "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/rds/accountprivilege"
 	backup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/rds/backup"
 	backuppolicyrds "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/rds/backuppolicy"
 	connection "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/rds/connection"
@@ -427,6 +428,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		usergroupattachment.Setup,
 		userpolicyattachment.Setup,
 		accountrds.Setup,
+		accountprivilegerds.Setup,
 		backup.Setup,
 		backuppolicyrds.Setup,
 		connection.Setup,
@@ -662,6 +664,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		usergroupattachment.SetupGated,
 		userpolicyattachment.SetupGated,
 		accountrds.SetupGated,
+		accountprivilegerds.SetupGated,
 		backup.SetupGated,
 		backuppolicyrds.SetupGated,
 		connection.SetupGated,
@@ -896,6 +899,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		usergroupattachment.SetupWebhookWithManager,
 		userpolicyattachment.SetupWebhookWithManager,
 		accountrds.SetupWebhookWithManager,
+		accountprivilegerds.SetupWebhookWithManager,
 		backup.SetupWebhookWithManager,
 		backuppolicyrds.SetupWebhookWithManager,
 		connection.SetupWebhookWithManager,

@@ -8,11 +8,14 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: CreateBucket
     kmsDataEncryption: SM4
-    kmsMasterKeyId: ${alicloud_kms_key.GetKMS.id}
+    kmsMasterKeyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucketserversideencryption
     sseAlgorithm: KMS
 
 ---
@@ -27,5 +30,23 @@ metadata:
   name: createbucket
 spec:
   forProvider:
-    bucket: crossplane-example-202504081600
+    region: us-west-1
+    bucket: crossplane-example-bucketserversideencryption-202504081600
     storageClass: Standard
+
+---
+
+apiVersion: kms.alibabacloud.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oss/v1alpha1/bucketserversideencryption
+  labels:
+    testing.upbound.io/example-name: bucketserversideencryption
+  name: bucketserversideencryption
+spec:
+  forProvider:
+    region: us-west-1
+    description: OSS server-side encryption example
+    pendingWindowInDays: 7
+    status: Enabled

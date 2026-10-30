@@ -85,7 +85,7 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: test-ack-v1alpha1-asc-vpc-1
     vswitchName: test-ack-v1alpha1-asc-vswitch-1
-    zoneId: us-west-1b
+    zoneId: us-west-1a
     region: us-west-1
 #---
 # The Role below may be needed if permissions are not yet specified.

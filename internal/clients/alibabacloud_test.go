@@ -10,6 +10,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/aliyun/terraform-provider-alicloud/alicloud"
 	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -18,6 +19,8 @@ import (
 )
 
 func TestBuildProviderConfiguration(t *testing.T) {
+	t.Setenv("ALIBABA_CLOUD_ENDPOINT_SLS", "")
+	t.Setenv("SLS_ENDPOINT", "")
 	cfg := buildProviderConfiguration("cn-hangzhou", map[string]any{
 		"access_key":     "ak",
 		"secret_key":     "sk",
@@ -30,9 +33,56 @@ func TestBuildProviderConfiguration(t *testing.T) {
 		"access_key":     "ak",
 		"secret_key":     "sk",
 		"security_token": "token",
+		"endpoints": []any{map[string]any{
+			"location": "location-readonly.aliyuncs.com",
+			"log":      "cn-hangzhou.log.aliyuncs.com",
+		}},
 	}
 	if !reflect.DeepEqual(map[string]any(cfg), want) {
 		t.Fatalf("unexpected provider configuration:\n got: %#v\nwant: %#v", cfg, want)
+	}
+}
+
+func TestEndpointSeeds(t *testing.T) {
+	t.Setenv("ALIBABA_CLOUD_ENDPOINT_SLS", "")
+	t.Setenv("SLS_ENDPOINT", "")
+	want := map[string]any{"location": "location-readonly.aliyuncs.com", "log": "us-west-1.log.aliyuncs.com"}
+	if got := endpointSeeds("us-west-1"); !reflect.DeepEqual(got, want) {
+		t.Errorf("us-west-1: want %#v, got %#v", want, got)
+	}
+	if got := endpointSeeds(""); !reflect.DeepEqual(got, map[string]any{"location": "location-readonly.aliyuncs.com"}) {
+		t.Errorf("no region: want only the location seed, got %#v", got)
+	}
+	for _, env := range []string{"ALIBABA_CLOUD_ENDPOINT_SLS", "SLS_ENDPOINT"} {
+		t.Run(env, func(t *testing.T) {
+			t.Setenv(env, "custom.example.com")
+			if got := endpointSeeds("us-west-1"); got["log"] != nil {
+				t.Errorf("with %s set: want no log seed so the override wins, got %#v", env, got)
+			}
+		})
+	}
+}
+
+// TestEndpointSeedsFitProviderSchema checks the seeded endpoints block survives
+// the real upstream provider schema with its keys intact: configure stores
+// "log" in the client's endpoint cache, where loadApiEndpoint looks SLS up, and
+// "location" in Config.LocationEndpoint, which the Location lookup asks.
+func TestEndpointSeedsFitProviderSchema(t *testing.T) {
+	t.Setenv("ALIBABA_CLOUD_ENDPOINT_SLS", "")
+	t.Setenv("SLS_ENDPOINT", "")
+	cfg := buildProviderConfiguration("us-west-1", map[string]any{"access_key": "ak", "secret_key": "sk"}, nil)
+	p := alicloud.Provider()
+	d := schema.TestResourceDataRaw(t, p.Schema, cfg)
+	set, ok := d.Get("endpoints").(*schema.Set)
+	if !ok || set.Len() != 1 {
+		t.Fatalf("endpoints block did not survive the provider schema: %#v", d.Get("endpoints"))
+	}
+	got := set.List()[0].(map[string]any)
+	if got["log"] != "us-west-1.log.aliyuncs.com" {
+		t.Errorf("endpoints.log: want us-west-1.log.aliyuncs.com, got %#v", got["log"])
+	}
+	if got["location"] != "location-readonly.aliyuncs.com" {
+		t.Errorf("endpoints.location: want location-readonly.aliyuncs.com, got %#v", got["location"])
 	}
 }
 

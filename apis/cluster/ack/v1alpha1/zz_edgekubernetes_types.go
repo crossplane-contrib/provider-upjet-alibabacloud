@@ -780,7 +780,7 @@ type EdgeKubernetesStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// EdgeKubernetes is the Schema for the EdgeKubernetess API. Provides a Alicloud resource to manage container edge kubernetes cluster.
+// EdgeKubernetes is the Schema for the EdgeKubernetess API. Deprecated: Alibaba Cloud no longer allows creating ACK@Edge clusters; this resource only manages existing ones. For new clusters, use ManagedKubernetes (ACK Pro) with edge node pools. Provides a Alicloud resource to manage container edge kubernetes cluster.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

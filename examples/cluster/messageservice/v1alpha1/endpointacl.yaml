@@ -8,6 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     aclStrategy: allow
     cidr: 192.168.1.1/23
     endpointTypeSelector:
@@ -26,5 +27,6 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     endpointEnabled: true
     endpointType: public
