@@ -19,12 +19,6 @@ type DatabaseInitParameters struct {
 	CharacterSet *string `json:"characterSet,omitempty" tf:"character_set,omitempty"`
 
 	// The name of the database.
-	// -> NOTE:
-	// The name must be 2 to 64 characters in length.
-	// The name must start with a lowercase letter and end with a lowercase letter or digit.
-	// The name can contain lowercase letters, digits, underscores (_), and hyphens (-).
-	// The name must be unique within the instance.
-	// For more information about invalid characters, see Forbidden keywords table.
 	DataBaseName *string `json:"dataBaseName,omitempty" tf:"data_base_name,omitempty"`
 
 	// Database description. It cannot begin with https://. It must start with a Chinese character or English letter. It can include Chinese and English characters, underlines (_), hyphens (-), and numbers. The length may be 2-256 characters.
@@ -50,12 +44,6 @@ type DatabaseObservation struct {
 	CharacterSet *string `json:"characterSet,omitempty" tf:"character_set,omitempty"`
 
 	// The name of the database.
-	// -> NOTE:
-	// The name must be 2 to 64 characters in length.
-	// The name must start with a lowercase letter and end with a lowercase letter or digit.
-	// The name can contain lowercase letters, digits, underscores (_), and hyphens (-).
-	// The name must be unique within the instance.
-	// For more information about invalid characters, see Forbidden keywords table.
 	DataBaseName *string `json:"dataBaseName,omitempty" tf:"data_base_name,omitempty"`
 
 	// Database description. It cannot begin with https://. It must start with a Chinese character or English letter. It can include Chinese and English characters, underlines (_), hyphens (-), and numbers. The length may be 2-256 characters.
@@ -78,12 +66,6 @@ type DatabaseParameters struct {
 	CharacterSet *string `json:"characterSet,omitempty" tf:"character_set,omitempty"`
 
 	// The name of the database.
-	// -> NOTE:
-	// The name must be 2 to 64 characters in length.
-	// The name must start with a lowercase letter and end with a lowercase letter or digit.
-	// The name can contain lowercase letters, digits, underscores (_), and hyphens (-).
-	// The name must be unique within the instance.
-	// For more information about invalid characters, see Forbidden keywords table.
 	// +kubebuilder:validation:Optional
 	DataBaseName *string `json:"dataBaseName,omitempty" tf:"data_base_name,omitempty"`
 

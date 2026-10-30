@@ -125,9 +125,8 @@ spec:
                       cluster, which can be empty. Valid values:'
                     type: string
                   customSan:
-                    description: |-
-                      Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
-                      -> NOTE: Make sure you have specified all certificate SANs before updating. Updating this field will lead APIServer to restart.
+                    description: Customize the certificate SAN, multiple IP or domain
+                      names are separated by English commas (,).
                     type: string
                   deleteOptions:
                     description: Delete options, only work for deleting resource.
@@ -610,9 +609,8 @@ spec:
                       cluster, which can be empty. Valid values:'
                     type: string
                   customSan:
-                    description: |-
-                      Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
-                      -> NOTE: Make sure you have specified all certificate SANs before updating. Updating this field will lead APIServer to restart.
+                    description: Customize the certificate SAN, multiple IP or domain
+                      names are separated by English commas (,).
                     type: string
                   deleteOptions:
                     description: Delete options, only work for deleting resource.
@@ -1251,9 +1249,8 @@ spec:
                       cluster, which can be empty. Valid values:'
                     type: string
                   customSan:
-                    description: |-
-                      Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
-                      -> NOTE: Make sure you have specified all certificate SANs before updating. Updating this field will lead APIServer to restart.
+                    description: Customize the certificate SAN, multiple IP or domain
+                      names are separated by English commas (,).
                     type: string
                   deleteOptions:
                     description: Delete options, only work for deleting resource.

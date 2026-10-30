@@ -162,7 +162,7 @@ type TairInstanceInitParameters struct {
 	// The storage type. Valid values: PL1, PL2, and PL3. This parameter is available only when the value of InstanceType is tair_essd, that is, when an ESSD disk instance is selected.
 	StoragePerformanceLevel *string `json:"storagePerformanceLevel,omitempty" tf:"storage_performance_level,omitempty"`
 
-	// Different specifications have different value ranges. When the instance_type value is tair_essd and the disk type is ESSD, this attribute takes effect and is required. When a Tair disk is an SSD, see-https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type. The capacity field is defined as different fixed values according to different specifications, and does not need to be specified.
+	// Different specifications have different value ranges. When the instance_type value is tair_essd and the disk type is ESSD, this attribute takes effect and is required. When a Tair disk is an SSD, see https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type. The capacity field is defined as different fixed values according to different specifications, and does not need to be specified.
 	StorageSizeGb *float64 `json:"storageSizeGb,omitempty" tf:"storage_size_gb,omitempty"`
 
 	// Key-value map of resource tags.
@@ -221,6 +221,12 @@ type TairInstanceObservation struct {
 
 	// You can set the BackupId parameter to the backup set ID of the source instance. The system uses the data stored in the backup set to create an instance. You can call the DescribeBackups operation to query backup set IDs. If the source instance is a cluster instance, set the BackupId parameter to the backup set IDs of all shards of the source instance, separated by commas (,).
 	BackupID *string `json:"backupId,omitempty" tf:"backup_id,omitempty"`
+
+	// The common name of the CA certificate. NOTE: This is a best-effort attribute and may be empty when the upstream API does not return it.
+	CACertCommonName *string `json:"caCertCommonName,omitempty" tf:"ca_cert_common_name,omitempty"`
+
+	// The download URL of the CA certificate. This attribute is populated when ssl_enabled is set to Enable.
+	CACertDownloadURL *string `json:"caCertDownloadUrl,omitempty" tf:"ca_cert_download_url,omitempty"`
 
 	// This parameter is supported for specific new cluster instances. You can query the backup set ID by calling the DescribeClusterBackupList operation. If this parameter is supported, you can specify the backup set ID. In this case, you do not need to specify the BackupId parameter. If this parameter is not supported, set the BackupId parameter to the IDs of backup sets in all shards of the source instance, separated by commas (,).
 	ClusterBackupID *string `json:"clusterBackupId,omitempty" tf:"cluster_backup_id,omitempty"`
@@ -331,6 +337,9 @@ type TairInstanceObservation struct {
 	// Modifies SSL encryption configurations. Valid values: 1. Disable (The SSL encryption is disabled) 2. Enable (The SSL encryption is enabled)  3. Update (The SSL certificate is updated)
 	SSLEnabled *string `json:"sslEnabled,omitempty" tf:"ssl_enabled,omitempty"`
 
+	// The expiration time of the SSL certificate. NOTE: This is a best-effort attribute and may be empty when the upstream API does not return it.
+	SSLExpiredTime *string `json:"sslExpiredTime,omitempty" tf:"ssl_expired_time,omitempty"`
+
 	// The ID of the secondary zone.This parameter is returned only if the instance is deployed in two zones.
 	SecondaryZoneID *string `json:"secondaryZoneId,omitempty" tf:"secondary_zone_id,omitempty"`
 
@@ -358,7 +367,7 @@ type TairInstanceObservation struct {
 	// The storage type. Valid values: PL1, PL2, and PL3. This parameter is available only when the value of InstanceType is tair_essd, that is, when an ESSD disk instance is selected.
 	StoragePerformanceLevel *string `json:"storagePerformanceLevel,omitempty" tf:"storage_performance_level,omitempty"`
 
-	// Different specifications have different value ranges. When the instance_type value is tair_essd and the disk type is ESSD, this attribute takes effect and is required. When a Tair disk is an SSD, see-https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type. The capacity field is defined as different fixed values according to different specifications, and does not need to be specified.
+	// Different specifications have different value ranges. When the instance_type value is tair_essd and the disk type is ESSD, this attribute takes effect and is required. When a Tair disk is an SSD, see https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type. The capacity field is defined as different fixed values according to different specifications, and does not need to be specified.
 	StorageSizeGb *float64 `json:"storageSizeGb,omitempty" tf:"storage_size_gb,omitempty"`
 
 	// Key-value map of resource tags.
@@ -583,7 +592,7 @@ type TairInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	StoragePerformanceLevel *string `json:"storagePerformanceLevel,omitempty" tf:"storage_performance_level,omitempty"`
 
-	// Different specifications have different value ranges. When the instance_type value is tair_essd and the disk type is ESSD, this attribute takes effect and is required. When a Tair disk is an SSD, see-https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type. The capacity field is defined as different fixed values according to different specifications, and does not need to be specified.
+	// Different specifications have different value ranges. When the instance_type value is tair_essd and the disk type is ESSD, this attribute takes effect and is required. When a Tair disk is an SSD, see https://help.aliyun.com/zh/redis/product-overview/capacity-storage-type. The capacity field is defined as different fixed values according to different specifications, and does not need to be specified.
 	// +kubebuilder:validation:Optional
 	StorageSizeGb *float64 `json:"storageSizeGb,omitempty" tf:"storage_size_gb,omitempty"`
 
