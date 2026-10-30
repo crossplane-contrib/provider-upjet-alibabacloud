@@ -31,7 +31,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    domainName: starmove.com
+    domainName: crossplane-provider-alibabacloud-uptest.com
     groupIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

@@ -9,6 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     endpoint: http://example.com
     filterTag: crossplane-example
     notifyContentFormat: XML
@@ -32,6 +33,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     enableLogging: true
     maxMessageSize: 16888
     topicName: crossplane-example

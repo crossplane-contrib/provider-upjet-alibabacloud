@@ -9,6 +9,7 @@ metadata:
   name: sg
 spec:
   forProvider:
+    region: us-west-1
     securityGroupName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -27,5 +28,6 @@ metadata:
   name: sg
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.17.3.0/24
     vpcName: crossplane-example

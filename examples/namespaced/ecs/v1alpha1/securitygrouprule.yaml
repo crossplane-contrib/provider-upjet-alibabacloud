@@ -9,6 +9,7 @@ metadata:
   name: allow-all-tcp
 spec:
   forProvider:
+    region: us-west-1
     cidrIp: 0.0.0.0/0
     ipProtocol: tcp
     nicType: intranet
@@ -33,6 +34,7 @@ metadata:
   name: sgrule
 spec:
   forProvider:
+    region: us-west-1
     securityGroupName: default
     vpcIdSelector:
       matchLabels:
@@ -51,5 +53,6 @@ metadata:
   name: sgrule
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.17.3.0/24
     vpcName: crossplane-example

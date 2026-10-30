@@ -9,6 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: buckethttpsconfig
@@ -29,5 +30,6 @@ metadata:
   name: buckethttpsconfig
 spec:
   forProvider:
+    region: us-west-1
     bucket: crossplane-example-buckethttpsconfig-202504081600
     storageClass: Standard

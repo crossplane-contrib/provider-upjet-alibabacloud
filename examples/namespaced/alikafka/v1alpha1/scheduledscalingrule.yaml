@@ -9,7 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: cn-hangzhou
     ruleName: crossplane-example-scaling-rule
     scheduleType: repeat
     repeatType: Weekly
@@ -38,12 +38,19 @@ metadata:
   namespace: default
   annotations:
     meta.upbound.io/example-id: alikafka/v1alpha1/scheduledscalingrule
+    # Upstream waits up to 60 minutes for the order and the start. Uptest
+    # spends this one budget across apply, import and delete, so it covers
+    # that wait plus a Kafka delete.
+    uptest.upbound.io/timeout: "7200"
   labels:
     testing.upbound.io/example-name: serverless
   name: serverless
 spec:
   forProvider:
-    region: cn-beijing
+    # In us-west-1 the serverless order failed ONS_SYSTEM_ERROR for the whole
+    # 60 minutes (run 40837165949). Upstream tests serverless instances only
+    # in cn-hangzhou, across two vswitches.
+    region: cn-hangzhou
     deployType: 4
     instanceType: alikafka_serverless
     specType: normal
@@ -52,9 +59,10 @@ spec:
     serverlessConfig:
       - reservedPublishCapacity: 60
         reservedSubscribeCapacity: 60
-    vswitchIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: default
+    # StartInstance requires VSwitchIds for serverless instances.
+    vswitchIDsRefs:
+      - name: default
+      - name: second
     securityGroupSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -72,7 +80,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: cn-hangzhou
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -90,7 +98,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: cn-hangzhou
     vpcName: crossplane-example-for-alikafka
     cidrBlock: 172.16.0.0/12
 
@@ -107,10 +115,31 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: cn-hangzhou
     vswitchName: crossplane-example-for-alikafka
     cidrBlock: 172.16.0.0/24
-    zoneId: cn-beijing-h
+    zoneId: cn-hangzhou-j
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/scheduledscalingrule
+  labels:
+    testing.upbound.io/example-name: second
+  name: second
+spec:
+  forProvider:
+    region: cn-hangzhou
+    vswitchName: crossplane-example-for-alikafka-2
+    cidrBlock: 172.16.1.0/24
+    zoneId: cn-hangzhou-k
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

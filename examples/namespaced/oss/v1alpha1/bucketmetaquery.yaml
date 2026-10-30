@@ -9,6 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucketmetaquery
@@ -26,5 +27,6 @@ metadata:
   name: bucketmetaquery
 spec:
   forProvider:
+    region: us-west-1
     bucket: crossplane-example-bucketmetaquery-202504081600
     storageClass: Standard

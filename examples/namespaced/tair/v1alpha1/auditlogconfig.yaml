@@ -9,7 +9,7 @@ metadata:
   name: example
 spec:
   forProvider:
-    region: cn-hangzhou
+    region: cn-beijing
     dbAudit: true
     instanceIdSelector:
       matchLabels:
@@ -29,15 +29,14 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-hangzhou
+    region: cn-beijing
     config:
       appendonly: "yes"
       lazyfree-lazy-eviction: "yes"
     dbInstanceName: crossplane_example
     engineVersion: "5.0"
-    instanceClass: redis.master.large.default
+    instanceClass: redis.master.small.default
     instanceType: Redis
-    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.ids.0}
     securityIps:
     - 10.23.12.24
     tags:
@@ -46,7 +45,7 @@ spec:
     vswitchIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
-    zoneId: cn-hangzhou-b
+    zoneId: cn-beijing-l
 
 ---
 
@@ -61,7 +60,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-hangzhou
+    region: cn-beijing
     cidrBlock: 10.4.0.0/16
     vpcName: crossplane_example
 
@@ -78,10 +77,10 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-hangzhou
+    region: cn-beijing
     cidrBlock: 10.4.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
     vswitchName: crossplane_example
-    zoneId: cn-hangzhou-b
+    zoneId: cn-beijing-l

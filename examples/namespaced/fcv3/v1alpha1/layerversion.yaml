@@ -15,4 +15,4 @@ spec:
     description: crossplane-example-for-layer-resource-test
     layerName: FC3LayerResouceTest_ZIP_2024SepWed
     license: Apache2.0
-    region: cn-beijing
+    region: us-west-1

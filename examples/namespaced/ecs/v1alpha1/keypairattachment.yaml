@@ -9,7 +9,7 @@ metadata:
   name: example
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: us-west-1
     instanceRefs:
     - name: keypairattach
     keyPairNameSelector:
@@ -29,7 +29,7 @@ metadata:
   name: keypairattach
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: us-west-1
     keyPairName: crossplane-example-for-attachment
 
 ---
@@ -45,11 +45,12 @@ metadata:
   name: keypairattach
 spec:
   forProvider:
-    region: cn-zhangjiakou
-    availabilityZone: cn-zhangjiakou-a
-    imageId: ubuntu_18_04_64_20G_alibase_20190624.vhd
+    region: us-west-1
+    availabilityZone: us-west-1a
+    imageId: ubuntu_22_04_x64_20G_alibase_20260522.vhd
     instanceName: crossplane-example
-    instanceType: ecs.n4.large
+    instanceType: ecs.g9i.large
+    systemDiskCategory: cloud_essd
     internetChargeType: PayByBandwidth
     securityGroupRefs:
     - name: keypairattach
@@ -70,7 +71,7 @@ metadata:
   name: keypairattach
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: us-west-1
     securityGroupName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -89,7 +90,7 @@ metadata:
   name: keypairattach
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: us-west-1
     cidrBlock: 172.17.3.0/24
     vpcName: crossplane-example
 
@@ -106,10 +107,10 @@ metadata:
   name: keypairattach
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: us-west-1
     cidrBlock: 172.17.3.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: keypairattach
     vswitchName: crossplane-example
-    zoneId: cn-zhangjiakou-a
+    zoneId: us-west-1a

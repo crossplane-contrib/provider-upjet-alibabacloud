@@ -12,7 +12,7 @@ spec:
     ciphers:
     - ECDHE-ECDSA-AES128-SHA
     - AES256-SHA
-    region: cn-beijing
+    region: us-west-1
     securityPolicyName: tf_example
     tlsVersions:
     - TLSv1.0

@@ -9,6 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     accessPointName: crossplane-example
     bucketSelector:
       matchLabels:
@@ -34,6 +35,7 @@ metadata:
   name: accesspoint
 spec:
   forProvider:
+    region: us-west-1
     storageClass: Standard
 
 ---
@@ -49,5 +51,6 @@ metadata:
   name: accesspoint
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.0.0/16
     vpcName: crossplane-example

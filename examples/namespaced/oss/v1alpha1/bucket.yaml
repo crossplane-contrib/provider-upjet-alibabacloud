@@ -9,6 +9,7 @@ metadata:
   name: bucket
 spec:
   forProvider:
+    region: us-west-1
     bucket: example-value-bucket-202504081600
 
 ---
@@ -24,6 +25,7 @@ metadata:
   name: bucket
 spec:
   forProvider:
+    region: us-west-1
     acl: private
     bucketSelector:
       matchLabels:

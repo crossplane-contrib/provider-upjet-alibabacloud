@@ -9,6 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucketdataredundancytransition
@@ -26,5 +27,6 @@ metadata:
   name: bucketdataredundancytransition
 spec:
   forProvider:
+    region: us-west-1
     bucket: crossplane-example-bucketdataredundancytransition-202504081600
     storageClass: Standard

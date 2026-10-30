@@ -9,7 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    approvalRules: '{"PatchRules":[{"EnableNonSecurity":true,"PatchFilterGroup":[{"Values":["*"],"Key":"Product"},{"Values":["Security","Bugfix"],"Key":"Classification"},{"Values":["Critical","Important"],"Key":"Severity"}],"ApproveAfterDays":7,"ComplianceLevel":"Unspecified"}]}'
+    approvalRules: '{"PatchRules":[{"EnableNonSecurity":true,"PatchFilterGroup":[{"Key":"PatchSet","Values":["OS"]},{"Key":"ProductFamily","Values":["Windows"]},{"Key":"Product","Values":["*"]},{"Key":"Classification","Values":["Security Updates","Critical Updates"]},{"Key":"Severity","Values":["Critical","Important"]}],"ApproveAfterDays":7,"ComplianceLevel":"Unspecified"}]}'
     operationSystem: Windows
     patchBaselineName: crossplane-example-patchbaseline
     region: us-west-1

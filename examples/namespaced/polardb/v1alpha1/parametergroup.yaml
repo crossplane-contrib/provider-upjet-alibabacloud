@@ -9,6 +9,7 @@ metadata:
   name: example
 spec:
   forProvider:
+    region: us-west-1
     dbType: MySQL
     dbVersion: "8.0"
     description: example_value

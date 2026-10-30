@@ -9,6 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     dryRun: false
     endpointDescription: crossplane-example
     endpointType: Interface
@@ -21,7 +22,7 @@ spec:
     serviceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-endpoint
-#    serviceName: com.aliyuncs.privatelink.cn-beijing.oss
+#    serviceName: com.aliyuncs.privatelink.us-west-1.oss
     vpcEndpointName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -41,6 +42,7 @@ metadata:
   name: for-endpoint
 spec:
   forProvider:
+    region: us-west-1
     autoAcceptConnection: false
     connectBandwidth: 103
     serviceDescription: crossplane-example
@@ -58,6 +60,7 @@ metadata:
   name: for-endpoint
 spec:
   forProvider:
+    region: us-west-1
     securityGroupName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -76,6 +79,7 @@ metadata:
   name: for-endpoint
 spec:
   forProvider:
+    region: us-west-1
     cidrBlock: 172.16.0.0/12
     description: example-terraform
     vpcName: crossplane-example

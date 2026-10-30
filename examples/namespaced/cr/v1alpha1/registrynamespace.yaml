@@ -13,6 +13,7 @@ metadata:
   name: test-namespace-1
 spec:
   forProvider:
+    region: us-west-1
     autoCreate: false
     defaultVisibility: PUBLIC
     name: test-namespace-1

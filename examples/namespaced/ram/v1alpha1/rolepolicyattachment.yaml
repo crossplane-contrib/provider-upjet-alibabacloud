@@ -12,7 +12,9 @@ spec:
   forProvider:
     policyName: test-policy-for-rolepolicyattachment-1
     policyType: Custom
-    roleName: test-role-for-rolepolicyattachment-1
+    roleNameSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-role-for-rolepolicyattachment-1
 ---
 apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
 kind: Policy
@@ -57,9 +59,9 @@ metadata:
 spec:
   forProvider:
     description: This is a test role for rolepolicyattachment created by provider-upjet-alibabacloud
-    document: "    {\n      \"Statement\": [\n        {\n          \"Action\": \"sts:AssumeRole\",\n
+    assumeRolePolicyDocument: "    {\n      \"Statement\": [\n        {\n          \"Action\": \"sts:AssumeRole\",\n
       \         \"Effect\": \"Allow\",\n          \"Principal\": {\n            \"Service\":
       [\n              \"apigateway.aliyuncs.com\", \n              \"ecs.aliyuncs.com\"\n
       \           ]\n          }\n        }\n      ],\n      \"Version\": \"1\"\n
       \   }\n"
-    name: test-role-for-rolepolicyattachment-1
+    roleName: test-role-for-rolepolicyattachment-1

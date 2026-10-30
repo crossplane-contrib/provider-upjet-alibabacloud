@@ -14,6 +14,8 @@ spec:
         testing.upbound.io/example-name: default
     deliveryOssEnabled: true
     deliveryOssKeyPrefix: path1/
+    # OSS-only delivery exercises the provider's workaround for
+    # https://github.com/aliyun/terraform-provider-alicloud/issues/11154
     region: us-west-1
 
 ---
@@ -45,8 +47,9 @@ metadata:
   name: default
 spec:
   forProvider:
-    acl: public-read-write
+    acl: private
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: default
     region: us-west-1
+

@@ -46,7 +46,7 @@ spec:
         name: fcv3-function-customdomain-secret
     customDomainName: "luoyu-test.devsapp.net"
     protocol: HTTP,HTTPS
-    region: cn-hangzhou
+    region: us-west-1
     routeConfig:
     - routes:
       - functionName: crossplane-example-for-function-customdomain-20250724
@@ -122,7 +122,7 @@ spec:
     logConfig:
       - logBeginRule: None
     memorySize: 512
-    region: cn-hangzhou
+    region: us-west-1
     runtime: python3.9
 
 ---
@@ -132,7 +132,6 @@ kind: Secret
 metadata:
   namespace: default
   name: fcv3-function-customdomain-secret
-  namespace: crossplane-system
 type: Opaque
 stringData:
   privateKey: |

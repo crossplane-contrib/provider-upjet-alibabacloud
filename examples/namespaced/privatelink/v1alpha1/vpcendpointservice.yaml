@@ -9,6 +9,7 @@ metadata:
   name: example
 spec:
   forProvider:
+    region: us-west-1
     autoAcceptConnection: false
     connectBandwidth: 103
     serviceDescription: crossplane-example

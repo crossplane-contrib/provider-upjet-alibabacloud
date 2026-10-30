@@ -9,7 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     consumerId: crossplane-example-consumer-group
     instanceIdSelector:
       matchLabels:
@@ -28,7 +28,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     name: crossplane-example-for-alikafka
     config: '{"enable.acl":"true"}'
     partitionNum: 50
@@ -58,7 +58,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
@@ -76,7 +76,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example-for-alikafka
     cidrBlock: 172.16.0.0/12
 
@@ -93,10 +93,10 @@ metadata:
   name: default
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     vswitchName: crossplane-example-for-alikafka
     cidrBlock: 172.16.0.0/24
-    zoneId: cn-beijing-h
+    zoneId: us-west-1a
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default

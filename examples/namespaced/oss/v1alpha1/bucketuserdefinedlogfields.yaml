@@ -9,6 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: CreateBucket
@@ -33,5 +34,6 @@ metadata:
   name: createbucket
 spec:
   forProvider:
-    bucket: crossplane-example-202504081600
+    region: us-west-1
+    bucket: crossplane-example-bucketuserdefinedlogfields-202504081600
     storageClass: Standard

@@ -9,6 +9,7 @@ metadata:
   name: example-for-service-resource
 spec:
   forProvider:
+    region: us-west-1
     resourceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpcendpointserviceresource
@@ -16,7 +17,7 @@ spec:
     serviceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-for-service-resource
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a
 
 ---
 
@@ -31,6 +32,7 @@ metadata:
   name: example-for-service-resource
 spec:
   forProvider:
+    region: us-west-1
     securityGroupRefs:
     - name: example-for-service-resource
     serviceIdSelector:
@@ -54,6 +56,7 @@ metadata:
   name: example-for-service-resource
 spec:
   forProvider:
+    region: us-west-1
     autoAcceptConnection: false
     connectBandwidth: 103
     serviceDescription: crossplane-example
@@ -80,7 +83,7 @@ spec:
     loadBalancerName: crossplane-example-for-vpcendpointserviceresource
     modificationProtectionConfig:
       - status: NonProtection
-    region: cn-beijing
+    region: us-west-1
     #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     tags:
       Created: TF
@@ -114,7 +117,7 @@ metadata:
   name: example-for-service-resource
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     securityGroupName: crossplane-example
     vpcIdSelector:
       matchLabels:
@@ -133,7 +136,7 @@ metadata:
   name: example-for-service-resource
 spec:
   forProvider:
-    region: cn-beijing
+    region: us-west-1
     cidrBlock: 10.4.0.0/16
     vpcName: crossplane-example
 
@@ -151,12 +154,12 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.1.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-for-service-resource
     vswitchName: crossplane-example_1
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a
 
 ---
 
@@ -172,9 +175,9 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.2.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-for-service-resource
     vswitchName: crossplane-example_2
-    zoneId: cn-beijing-g
+    zoneId: us-west-1b

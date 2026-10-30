@@ -11,7 +11,7 @@ metadata:
 spec:
   forProvider:
     description: This is a role test, created by provider-upjet-alibabacloud.
-    document: |
+    assumeRolePolicyDocument: |
       {
           "Statement": [
               {
@@ -26,4 +26,4 @@ spec:
           ],
           "Version": "1"
       }
-    name: test-role-1
+    roleName: test-role-1

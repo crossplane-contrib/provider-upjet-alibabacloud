@@ -13,7 +13,7 @@ spec:
     functionNameSelector:
       matchLabels:
         testing.upbound.io/example-name: functionversion
-    region: cn-hangzhou
+    region: us-west-1
 
 ---
 
@@ -37,5 +37,5 @@ spec:
     logConfig:
     - logBeginRule: None
     memorySize: 512
-    region: cn-hangzhou
+    region: us-west-1
     runtime: python3.9

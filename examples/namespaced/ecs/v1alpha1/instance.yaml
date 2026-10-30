@@ -9,8 +9,8 @@ metadata:
   name: instance
 spec:
   forProvider:
-    region: cn-zhangjiakou
-    availabilityZone: cn-zhangjiakou-a
+    region: us-west-1
+    availabilityZone: us-west-1a
     dataDisks:
     - category: cloud_essd
       description: disk2
@@ -18,14 +18,14 @@ spec:
 #      kmsKeyId: ${alicloud_kms_key.key.id}
       name: disk2
       size: 20
-    imageId: ubuntu_18_04_64_20G_alibase_20190624.vhd
+    imageId: ubuntu_22_04_x64_20G_alibase_20260522.vhd
     instanceName: crossplane-example
-    instanceType: ecs.gn6v-c8g1.2xlarge
+    instanceType: ecs.g9i.large
     internetMaxBandwidthOut: 10
     securityGroupSelector:
       matchLabels:
         testing.upbound.io/example-name: group
-    systemDiskCategory: cloud_efficiency
+    systemDiskCategory: cloud_essd
     systemDiskDescription: test_foo_system_disk_description
     systemDiskName: crossplane-example
     vswitchIdSelector:
@@ -45,7 +45,7 @@ metadata:
   name: group
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: us-west-1
     description: foo
     securityGroupName: crossplane-example
     vpcIdSelector:
@@ -65,7 +65,7 @@ metadata:
   name: vpc
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: us-west-1
     cidrBlock: 172.16.0.0/16
     vpcName: crossplane-example
 
@@ -82,10 +82,10 @@ metadata:
   name: vswitch
 spec:
   forProvider:
-    region: cn-zhangjiakou
+    region: us-west-1
     cidrBlock: 172.16.0.0/24
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: vpc
     vswitchName: crossplane-example
-    zoneId: cn-zhangjiakou-a
+    zoneId: us-west-1a

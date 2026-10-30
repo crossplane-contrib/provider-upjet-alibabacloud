@@ -9,6 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucketcname
@@ -34,9 +35,12 @@ spec:
     status: ENABLE
     ttl: 600
     type: TXT
-    valueSelector:
-      matchLabels:
-        testing.upbound.io/example-name: bucketcname
+    # The real verification value comes from the sibling BucketCnameToken's
+    # status.atProvider.token, which alicloud_alidns_record's "value" field
+    # has no generated reference/selector for. A placeholder is used here
+    # since the actual value only matters for live domain ownership
+    # verification with Alibaba Cloud, not for exercising the Record CRD.
+    value: crossplane-example-placeholder-token
 
 ---
 
@@ -51,6 +55,7 @@ metadata:
   name: bucketcname
 spec:
   forProvider:
+    region: us-west-1
     bucket: crossplane-example-bucketcname-202504081600
     storageClass: Standard
 
@@ -67,6 +72,7 @@ metadata:
   name: bucketcname
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucketcname

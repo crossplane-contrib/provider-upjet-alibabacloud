@@ -12,7 +12,7 @@ spec:
     loadBalancerIdSelector:
       matchLabels:
         testing.upbound.io/example-name: create_alb
-    region: cn-beijing
+    region: us-west-1
     securityGroupIdSelector:
       matchLabels:
         testing.upbound.io/example-name: create_security_group
@@ -36,7 +36,7 @@ spec:
     - payType: PayAsYouGo
     loadBalancerEdition: Standard
     loadBalancerName: crossplane-example
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
@@ -68,7 +68,7 @@ metadata:
 spec:
   forProvider:
     securityGroupName: crossplane-example
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
@@ -81,13 +81,16 @@ metadata:
   namespace: default
   annotations:
     meta.upbound.io/example-id: alb/v1alpha1/loadbalancersecuritygroupattachment
+    # Alibaba's Security Team can add a security group to this VPC, which
+    # blocks its delete; the hook removes it.
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-security-team-groups.sh
   labels:
     testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
   name: for-loadbalancersecuritygroupattachment
 spec:
   forProvider:
     cidrBlock: 192.168.0.0/16
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example
 
 ---
@@ -104,12 +107,12 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 192.168.1.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
     vswitchName: crossplane-example
-    zoneId: cn-beijing-h
+    zoneId: us-west-1b
 
 ---
 
@@ -125,9 +128,9 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 192.168.2.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-loadbalancersecuritygroupattachment
     vswitchName: crossplane-example
-    zoneId: cn-beijing-g
+    zoneId: us-west-1a

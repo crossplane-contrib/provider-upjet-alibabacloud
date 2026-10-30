@@ -11,6 +11,6 @@ spec:
   forProvider:
     applicationName: crossplane-example-application
     description: crossplane-example-application
-    region: us-west-1
+    region: cn-hangzhou  # OOS Application Manager only supports cn-hangzhou
     tags:
       Created: TF

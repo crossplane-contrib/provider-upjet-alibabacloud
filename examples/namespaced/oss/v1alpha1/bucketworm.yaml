@@ -9,6 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     bucketSelector:
       matchLabels:
         testing.upbound.io/example-name: bucketworm
@@ -28,4 +29,5 @@ metadata:
   name: bucketworm
 spec:
   forProvider:
+    region: us-west-1
     storageClass: Standard

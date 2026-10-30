@@ -14,7 +14,7 @@ spec:
     functionNameSelector:
       matchLabels:
         testing.upbound.io/example-name: alias
-    region: cn-hangzhou
+    region: us-west-1
     versionIdSelector:
       matchLabels:
         testing.upbound.io/example-name: alias
@@ -36,7 +36,7 @@ spec:
     functionNameSelector:
       matchLabels:
         testing.upbound.io/example-name: alias
-    region: cn-hangzhou
+    region: us-west-1
 
 ---
 
@@ -60,5 +60,5 @@ spec:
     logConfig:
       - logBeginRule: None
     memorySize: 512
-    region: cn-hangzhou
+    region: us-west-1
     runtime: python3.9

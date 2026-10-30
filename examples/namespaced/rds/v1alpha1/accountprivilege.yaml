@@ -1,0 +1,146 @@
+apiVersion: rds.alibabacloud.m.crossplane.io/v1alpha1
+kind: AccountPrivilege
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    privilege: ReadOnly
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    accountNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    dbNamesSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: rds.alibabacloud.m.crossplane.io/v1alpha1
+kind: Account
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    accountName: crossplane_example
+    accountType: Normal
+    accountDescription: crossplane-example
+    accountPasswordSecretRef:
+      key: password
+      name: sample-accountprivilege-password
+    dbInstanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: rds.alibabacloud.m.crossplane.io/v1alpha1
+kind: Database
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    characterSet: utf8mb4
+    dataBaseName: crossplane_example
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: rds.alibabacloud.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    engine: MySQL
+    engineVersion: "8.0"
+    category: Basic
+    dbInstanceStorageType: cloud_essd
+    instanceChargeType: Postpaid
+    instanceName: crossplane-example
+    instanceStorage: 20
+    instanceType: mysql.n2.medium.1
+    zoneId: cn-beijing-l
+    securityIps:
+      - 10.0.0.0/8
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 172.16.0.0/16
+    vpcName: crossplane-example
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/accountprivilege
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 172.16.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: crossplane-example
+    zoneId: cn-beijing-l
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/accountprivilege
+  name: sample-accountprivilege-password
+type: Opaque
+stringData:
+  password: Crossplane_123!

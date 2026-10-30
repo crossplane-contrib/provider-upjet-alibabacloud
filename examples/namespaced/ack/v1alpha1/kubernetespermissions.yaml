@@ -21,6 +21,7 @@ metadata:
   name: test-ack-v1alpha1-k8spermissions-1
 spec:
   forProvider:
+    region: us-west-1
     permissions:
     - clusterIdSelector:
         matchLabels:

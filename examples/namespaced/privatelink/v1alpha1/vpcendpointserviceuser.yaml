@@ -9,6 +9,7 @@ metadata:
   name: example
 spec:
   forProvider:
+    region: us-west-1
     serviceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-for-service-user
@@ -29,6 +30,7 @@ metadata:
   name: example-for-service-user
 spec:
   forProvider:
+    region: us-west-1
     autoAcceptConnection: false
     connectBandwidth: 103
     serviceDescription: crossplane-example

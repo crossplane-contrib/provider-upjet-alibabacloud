@@ -10,7 +10,9 @@ metadata:
   name: test-grouppolicyattachment-1
 spec:
   forProvider:
-    groupName: test-group-for-grouppolicyattachment-1
+    groupNameSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-group-for-grouppolicyattachment-1
     policyName: test-policy-for-grouppolicyattachment-1
     policyType: Custom
 ---

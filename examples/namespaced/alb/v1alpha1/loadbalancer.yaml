@@ -17,7 +17,7 @@ spec:
     loadBalancerName: crossplane-example
     modificationProtectionConfig:
     - status: NonProtection
-    region: cn-beijing
+    region: us-west-1
 #    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
     tags:
       Created: TF
@@ -46,13 +46,16 @@ metadata:
   namespace: default
   annotations:
     meta.upbound.io/example-id: alb/v1alpha1/loadbalancer
+    # Alibaba's Security Team can add a security group to this VPC, which
+    # blocks its delete; the hook removes it.
+    uptest.upbound.io/pre-delete-hook: testhooks/delete-security-team-groups.sh
   labels:
     testing.upbound.io/example-name: for-loadbalancer
   name: for-loadbalancer
 spec:
   forProvider:
     cidrBlock: 10.4.0.0/16
-    region: cn-beijing
+    region: us-west-1
     vpcName: crossplane-example
 
 ---
@@ -69,12 +72,12 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.1.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-loadbalancer
     vswitchName: crossplane-example_1
-    zoneId: cn-beijing-f
+    zoneId: us-west-1a
 
 ---
 
@@ -90,9 +93,9 @@ metadata:
 spec:
   forProvider:
     cidrBlock: 10.4.2.0/24
-    region: cn-beijing
+    region: us-west-1
     vpcIdSelector:
       matchLabels:
         testing.upbound.io/example-name: for-loadbalancer
     vswitchName: crossplane-example_2
-    zoneId: cn-beijing-g
+    zoneId: us-west-1b

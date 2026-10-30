@@ -9,6 +9,7 @@ metadata:
   name: default
 spec:
   forProvider:
+    region: us-west-1
     acl: private
     bucketSelector:
       matchLabels:
@@ -27,5 +28,6 @@ metadata:
   name: bucketacl
 spec:
   forProvider:
+    region: us-west-1
     bucket: crossplane-example-bucketacl-202504081600
     storageClass: Standard

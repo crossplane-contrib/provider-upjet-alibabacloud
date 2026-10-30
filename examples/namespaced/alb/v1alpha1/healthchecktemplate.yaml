@@ -10,4 +10,4 @@ metadata:
 spec:
   forProvider:
     healthCheckTemplateName: crossplane-example
-    region: cn-beijing
+    region: us-west-1
