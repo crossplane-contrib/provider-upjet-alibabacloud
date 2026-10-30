@@ -268,8 +268,10 @@ ALB=./examples/alb/v1alpha1
 ALIDNS=./examples/alidns/v1alpha1
 ALIKAFKA=./examples/alikafka/v1alpha1
 CDN=./examples/cdn/v1alpha1
+CLOUDMONITORSERVICE=./examples/cloudmonitorservice/v1alpha1
 CR=./examples/cr/v1alpha1
 ECS=./examples/ecs/v1alpha1
+FCV3=./examples/fcv3/v1alpha1
 KMS=./examples/kms/v1alpha1
 MESSAGESERVICE=./examples/messageservice/v1alpha1
 NLB=./examples/nlb/v1alpha1
@@ -279,17 +281,19 @@ POLARDB=./examples/polardb/v1alpha1
 PRIVATELINK=./examples/privatelink/v1alpha1
 QUOTAS=./examples/quotas/v1alpha1
 RAM=./examples/ram/v1alpha1
+SLB=./examples/slb/v1alpha1
 SSLCERTIFICATESSERVICE=./examples/sslcertificatesservice/v1alpha1
 SLS=./examples/sls/v1alpha1
 RDS=./examples/rds/v1alpha1
-TAIR=./examples/tait/v1alpha1
+TAIR=./examples/tair/v1alpha1
 VPC=./examples/vpc/v1alpha1
 UPTEST_EXAMPLE_LIST_ACK=$(ACK)/autoscalingconfig.yaml,$(ACK)/kubernetesaddon.yaml,$(ACK)/kubernetesnodepool.yaml,$(ACK)/kubernetespermissions.yaml,$(ACK)/managedkubernetes.yaml,$(ACK)/serverlesskubernetes.yaml
 UPTEST_EXAMPLE_LIST_ACKONE=$(ACKONE)/cluster.yaml,$(ACKONE)/membershipattachment.yaml
-UPTEST_EXAMPLE_LIST_ALB=$(ALB)/acl.yaml,$(ALB)/aclentryattachment.yaml,$(ALB)/ascript.yaml,$(ALB)/healthchecktemplate.yaml,$(ALB)/listener.yaml,$(ALB)/listeneraclattachment.yaml,$(ALB)/listeneradditionalcertificateattachment.yaml,$(ALB)/loadbalancer.yaml,$(ALB)/loadbalancersecuritygroupattachment.yaml,$(ALB)/loadbalancerzoneshiftedattachment.yaml,$(ALB)/rule.yaml,$(ALB)/securitupolicy.yaml,$(ALB)/servergroup.yaml
-UPTEST_EXAMPLE_LIST_ALIDNS=$(ALIDNS)/addreddpool.yaml,$(ALIDNS)/customline.yaml,$(ALIDNS)/domain.yaml,$(ALIDNS)/domainattachment.yaml,$(ALIDNS)/domaingroup.yaml,$(ALIDNS)/gtminstance.yaml,$(ALIDNS)/instance.yaml,$(ALIDNS)/monitorconfig.yaml,$(ALIDNS)/record.yaml
+UPTEST_EXAMPLE_LIST_ALB=$(ALB)/acl.yaml,$(ALB)/aclentryattachment.yaml,$(ALB)/ascript.yaml,$(ALB)/healthchecktemplate.yaml,$(ALB)/listener.yaml,$(ALB)/listeneraclattachment.yaml,$(ALB)/listeneradditionalcertificateattachment.yaml,$(ALB)/loadbalancer.yaml,$(ALB)/loadbalancersecuritygroupattachment.yaml,$(ALB)/loadbalancerzoneshiftedattachment.yaml,$(ALB)/rule.yaml,$(ALB)/securitypolicy.yaml,$(ALB)/servergroup.yaml
+UPTEST_EXAMPLE_LIST_ALIDNS=$(ALIDNS)/addresspool.yaml,$(ALIDNS)/customline.yaml,$(ALIDNS)/domain.yaml,$(ALIDNS)/domainattachment.yaml,$(ALIDNS)/domaingroup.yaml,$(ALIDNS)/gtminstance.yaml,$(ALIDNS)/instance.yaml,$(ALIDNS)/monitorconfig.yaml,$(ALIDNS)/record.yaml
 UPTEST_EXAMPLE_LIST_ALIKAFKA=$(ALIKAFKA)/consumergroup.yaml,$(ALIKAFKA)/instance.yaml,$(ALIKAFKA)/instanceallowedipattachment.yaml,$(ALIKAFKA)/saslacl.yaml,$(ALIKAFKA)/sasluser.yaml,$(ALIKAFKA)/scheduledscalingrule.yaml,$(ALIKAFKA)/topic.yaml
 UPTEST_EXAMPLE_LIST_CDN=$(CDN)/domain.yaml,$(CDN)/domainconfig.yaml,$(CDN)/fctrigger.yaml
+UPTEST_EXAMPLE_LIST_CLOUDMONITORSERVICE=$(CLOUDMONITORSERVICE)/alarmcontactgroup.yaml
 # Enterprise Edition examples validated end-to-end. endpointaclpolicy is omitted
 # from the automated list (not a defect): the endpoint ACL service must be
 # enabled first, which upstream exposes only as a side-effecting Terraform data
@@ -299,21 +303,24 @@ UPTEST_EXAMPLE_LIST_CDN=$(CDN)/domain.yaml,$(CDN)/domainconfig.yaml,$(CDN)/fctri
 # provider manages the policy). personal-edition registrynamespace/repo are also
 # omitted (require a registered CR user on the test account).
 UPTEST_EXAMPLE_LIST_CR=$(CR)/chain.yaml,$(CR)/chartnamespace.yaml,$(CR)/chartrepository.yaml,$(CR)/eeinstance.yaml,$(CR)/eenamespace.yaml,$(CR)/eerepo.yaml,$(CR)/eesyncrule.yaml,$(CR)/scanrule.yaml,$(CR)/storagedomainroutingrule.yaml,$(CR)/vpcendpointlinkedvpc.yaml
-UPTEST_EXAMPLE_LIST_ECS=$(ECS)/command.yaml,$(ECS)/disk.yaml,$(ECS)/diskattachment.yaml,$(ECS)/instance.yaml,$(ECS)/keypair.yaml,$(ECS)/keypairattachment.yaml,$(ECS)/launchtemplate.yaml,$(ECS)/networkinterface.yaml,$(ECS)/networkinterfaceattachment.yaml,$(ECS)/networkinterfacepermissionspermission.yaml,$(ECS)/securitygroup.yaml,$(ECS)/securitygrouprule.yaml
+UPTEST_EXAMPLE_LIST_ECS=$(ECS)/command.yaml,$(ECS)/disk.yaml,$(ECS)/diskattachment.yaml,$(ECS)/instance.yaml,$(ECS)/keypair.yaml,$(ECS)/keypairattachment.yaml,$(ECS)/launchtemplate.yaml,$(ECS)/networkinterface.yaml,$(ECS)/networkinterfaceattachment.yaml,$(ECS)/networkinterfacepermission.yaml,$(ECS)/securitygroup.yaml,$(ECS)/securitygrouprule.yaml
+UPTEST_EXAMPLE_LIST_FCV3=$(FCV3)/alias.yaml,$(FCV3)/asyncinvokeconfig.yaml,$(FCV3)/concurrencyconfig.yaml,$(FCV3)/customdomain.yaml,$(FCV3)/function.yaml,$(FCV3)/functionversion.yaml,$(FCV3)/layerversion.yaml,$(FCV3)/provisionconfig.yaml,$(FCV3)/trigger.yaml,$(FCV3)/vpcbinding.yaml
 UPTEST_EXAMPLE_LIST_KMS=$(KMS)/alias.yaml,$(KMS)/key.yaml,$(KMS)/instance.yaml,$(KMS)/secret.yaml
 UPTEST_EXAMPLE_LIST_MESSAGESERVICE=$(MESSAGESERVICE)/endpoint.yaml,$(MESSAGESERVICE)/endpointacl.yaml,$(MESSAGESERVICE)/queue.yaml,$(MESSAGESERVICE)/subscription.yaml,$(MESSAGESERVICE)/topic.yaml
 UPTEST_EXAMPLE_LIST_NLB=$(NLB)/loadbalancer.yaml
 UPTEST_EXAMPLE_LIST_OOS=$(OOS)/application.yaml,$(OOS)/applicationgroup.yaml,$(OOS)/defaultpatchbaseline.yaml,$(OOS)/execution.yaml,$(OOS)/parameter.yaml,$(OOS)/patchbaseline.yaml,$(OOS)/secretparameter.yaml,$(OOS)/servicesetting.yaml,$(OOS)/stateconfiguration.yaml,$(OOS)/template.yaml
-UPTEST_EXAMPLE_LIST_OSS=$(OSS)/accesscontrol.yaml,$(OSS)/accountpublicaccessblock.yaml,$(OSS)/bucket.yaml,$(OSS)/bucketaccessmonitor.yaml,$(OSS)/bucketacl.yaml,$(OSS)/bucketcname.yaml,$(OSS)/bucketcnametoken.yaml,$(OSS)/bucketcors.yaml,$(OSS)/bucketdataredundancytransition.yaml,$(OSS)/buckethttpsconfig.yaml,$(OSS)/bucketlogging.yaml,$(OSS)/bucketmetaquery.yaml,$(OSS)/bucketobject.yaml,$(OSS)/bucketpolicy.yaml,$(OSS)/bucketpublicaccessblock.yaml,$(OSS)/bucketreferer.yaml,$(OSS)/bucketreplication.yaml,$(OSS)/bucketrequestpayment.yaml,$(OSS)/bucketserversideencryption.yaml,$(OSS)/bucketstytle.yaml,$(OSS)/buckettransferacceleration.yaml,$(OSS)/bucketuserdefinedlogfields.yaml,$(OSS)/bucketversioning.yaml,$(OSS)/bucketwebsite.yaml,$(OSS)/bucketworm.yaml
+UPTEST_EXAMPLE_LIST_OSS=$(OSS)/accesspoint.yaml,$(OSS)/accountpublicaccessblock.yaml,$(OSS)/bucket.yaml,$(OSS)/bucketaccessmonitor.yaml,$(OSS)/bucketacl.yaml,$(OSS)/bucketcname.yaml,$(OSS)/bucketcnametoken.yaml,$(OSS)/bucketcors.yaml,$(OSS)/bucketdataredundancytransition.yaml,$(OSS)/buckethttpsconfig.yaml,$(OSS)/bucketlogging.yaml,$(OSS)/bucketmetaquery.yaml,$(OSS)/bucketobject.yaml,$(OSS)/bucketpolicy.yaml,$(OSS)/bucketpublicaccessblock.yaml,$(OSS)/bucketreferer.yaml,$(OSS)/bucketreplication.yaml,$(OSS)/bucketrequestpayment.yaml,$(OSS)/bucketserversideencryption.yaml,$(OSS)/bucketstyle.yaml,$(OSS)/buckettransferacceleration.yaml,$(OSS)/bucketuserdefinedlogfields.yaml,$(OSS)/bucketversioning.yaml,$(OSS)/bucketwebsite.yaml,$(OSS)/bucketworm.yaml
 UPTEST_EXAMPLE_LIST_POLARDB=$(POLARDB)/account.yaml,$(POLARDB)/accountprivilege.yaml,$(POLARDB)/backuppolicy.yaml,$(POLARDB)/cluster.yaml,$(POLARDB)/clusterendpoint.yaml,$(POLARDB)/database.yaml,$(POLARDB)/endpoint.yaml,$(POLARDB)/endpointaddress.yaml,$(POLARDB)/globaldatabasenetwork.yaml,$(POLARDB)/parametergroup.yaml,$(POLARDB)/primaryendpoint.yaml
-UPTEST_EXAMPLE_LIST_PRIVATELINK=$(PRIVATELINK)/vpcendpoint.yaml,$(PRIVATELINK)/vpcendpointconnection.yaml,$(PRIVATELINK)/vpcendpointservice.yaml,$(PRIVATELINK)/vpcendpointserviceresource.yaml,$(PRIVATELINK)/vpcendpointserviceuser.yaml,$(PRIVATELINK)/vpcendpointservicezone.yaml
+UPTEST_EXAMPLE_LIST_PRIVATELINK=$(PRIVATELINK)/vpcendpoint.yaml,$(PRIVATELINK)/vpcendpointconnection.yaml,$(PRIVATELINK)/vpcendpointservice.yaml,$(PRIVATELINK)/vpcendpointserviceresource.yaml,$(PRIVATELINK)/vpcendpointserviceuser.yaml,$(PRIVATELINK)/vpcendpointzone.yaml
 UPTEST_EXAMPLE_LIST_QUOTAS=$(QUOTAS)/quotaalarm.yaml,$(QUOTAS)/quotaapplication.yaml,$(QUOTAS)/templateapplications.yaml,$(QUOTAS)/templatequota.yaml,$(QUOTAS)/templateservice.yaml
-UPTEST_EXAMPLE_LIST_RAM=$(RAM)/accesskey.yaml,$(RAM)/accountalias.yaml,$(RAM)/accountpasswordpolicy.yaml,$(RAM)/group.yaml,$(RAM)/groupmembership.yaml,$(RAM)/grouppolicyattachment.yaml,$(RAM)/loginprofile.yaml,$(RAM)/passwordpolicy.yaml,$(RAM)/policy.yaml,$(RAM)/role.yaml,$(RAM)/rolepolicyattachment.yaml,$(RAM)/samlprovider.yaml,$(RAM)/user.yaml,$(RAM)/usergroupattachment.yaml,$(RAM)/userpolicyattachment.yaml
+UPTEST_EXAMPLE_LIST_RAM=$(RAM)/accesskey.yaml,$(RAM)/accountalias.yaml,$(RAM)/accountpasswordpolicy.yaml,$(RAM)/group.yaml,$(RAM)/groupmembership.yaml,$(RAM)/grouppolicyattachment.yaml,$(RAM)/loginprofile.yaml,$(RAM)/passwordpolicy.yaml,$(RAM)/policy.yaml,$(RAM)/role.yaml,$(RAM)/rolepolicyattachment.yaml,$(RAM)/samlprovider.yaml,$(RAM)/user.yaml,$(RAM)/usergroupattachment.yaml,$(RAM)/userpolicyattachment.yaml,$(RAM)/securitypreference.yaml
+UPTEST_EXAMPLE_LIST_SLB=$(SLB)/acl.yaml,$(SLB)/loadbalancer.yaml,$(SLB)/listener.yaml
 UPTEST_EXAMPLE_LIST_SSLCERTIFICATESSERVICE=$(SSLCERTIFICATESSERVICE)/certificate.yaml
 UPTEST_EXAMPLE_LIST_SLS=$(SLS)/project.yaml,$(SLS)/store.yaml,$(SLS)/storeindex.yaml,$(SLS)/machinegroup.yaml,$(SLS)/logtailconfig.yaml,$(SLS)/logtailattachment.yaml
-UPTEST_EXAMPLE_LIST_RDS=$(RDS)/instance.yaml,$(RDS)/database.yaml,$(RDS)/account.yaml
+# servicelinkedrole is omitted: its example is annotated for manual intervention.
+UPTEST_EXAMPLE_LIST_RDS=$(RDS)/instance.yaml,$(RDS)/database.yaml,$(RDS)/account.yaml,$(RDS)/accountprivilege.yaml,$(RDS)/backup.yaml,$(RDS)/backuppolicy.yaml,$(RDS)/connection.yaml,$(RDS)/dbinstanceendpoint.yaml,$(RDS)/dbinstanceendpointaddress.yaml,$(RDS)/dbnode.yaml,$(RDS)/dbproxy.yaml,$(RDS)/dbproxypublic.yaml,$(RDS)/instancecrossbackuppolicy.yaml,$(RDS)/parametergroup.yaml,$(RDS)/readonlyinstance.yaml,$(RDS)/readwritesplittingconnection.yaml,$(RDS)/whitelisttemplate.yaml
 UPTEST_EXAMPLE_LIST_TAIR=$(TAIR)/account.yaml,$(TAIR)/auditlogconfig.yaml,$(TAIR)/connection.yaml,$(TAIR)/instance.yaml,$(TAIR)/tairinstance.yaml
-UPTEST_EXAMPLE_LIST_VPC=$(VPC)/vpc.yaml
+UPTEST_EXAMPLE_LIST_VPC=$(VPC)/vpc.yaml,$(VPC)/vswitch.yaml,$(VPC)/routetable.yaml
 UPTEST_EXAMPLE_LIST ?= $(VPC)/vpc.yaml
 uptest: $(UPTEST) $(KUBECTL) $(CHAINSAW)
 	@$(INFO) running automated tests
