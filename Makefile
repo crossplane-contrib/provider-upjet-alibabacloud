@@ -328,8 +328,9 @@ build-provider.%:
 
 # Family provider local deployment targets
 local-deploy.%: controlplane.up
+	@$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) patch deployment crossplane-rbac-manager -p '{"spec":{"template":{"spec":{"containers":[{"name":"crossplane","env":[{"name":"REGISTRY","value":"index.docker.io"}]}]}}}}' || true
 	@for api in $$(tr ',' ' ' <<< $*); do \
-		$(MAKE) local.xpkg.deploy.provider.$(PROJECT_NAME)-$${api}; \
+		$(MAKE) local.xpkg.deploy.provider.$(PROJECT_NAME)-$${api} DRC_FILE="./examples/deploymentruntimeconfig.yaml"; \
 		$(INFO) running locally built $(PROJECT_NAME)-$${api}; \
 		$(KUBECTL) wait provider.pkg $(PROJECT_NAME)-$${api} --for condition=Healthy --timeout 5m; \
 		$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) wait --for=condition=Available deployment --all --timeout=5m; \
