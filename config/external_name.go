@@ -216,6 +216,15 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"alicloud_privatelink_vpc_endpoint_service_user":     config.IdentifierFromProvider,
 	"alicloud_privatelink_vpc_endpoint_zone":             config.IdentifierFromProvider,
 
+	// PVTZ (Private Zone)
+	"alicloud_pvtz_endpoint":               config.IdentifierFromProvider,
+	"alicloud_pvtz_rule":                   config.IdentifierFromProvider,
+	"alicloud_pvtz_rule_attachment":        config.IdentifierFromProvider,
+	"alicloud_pvtz_user_vpc_authorization": config.IdentifierFromProvider,
+	"alicloud_pvtz_zone":                   config.IdentifierFromProvider,
+	"alicloud_pvtz_zone_attachment":        config.IdentifierFromProvider,
+	"alicloud_pvtz_zone_record":            config.IdentifierFromProvider,
+
 	// Quotas
 	"alicloud_quotas_quota_alarm":           config.IdentifierFromProvider,
 	"alicloud_quotas_quota_application":     config.IdentifierFromProvider,

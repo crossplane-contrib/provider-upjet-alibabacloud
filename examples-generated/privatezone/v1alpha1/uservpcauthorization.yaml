@@ -1,0 +1,13 @@
+apiVersion: privatezone.alibabacloud.crossplane.io/v1alpha1
+kind: UserVpcAuthorization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/uservpcauthorization
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    authChannel: RESOURCE_DIRECTORY
+    authorizedUserId: ${var.authorized_user_id}
+    region: cn-beijing
