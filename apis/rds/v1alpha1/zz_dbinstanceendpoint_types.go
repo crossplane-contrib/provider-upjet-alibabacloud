@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type DBInstanceEndpointInitParameters struct {
@@ -175,7 +175,7 @@ type NodeItemsInitParameters struct {
 
 	// The ID of the node.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.DBNode
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("node_id",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("node_id",true)
 	NodeID *string `json:"nodeId,omitempty" tf:"node_id,omitempty"`
 
 	// Reference to a DBNode in rds to populate nodeId.
@@ -203,7 +203,7 @@ type NodeItemsParameters struct {
 
 	// The ID of the node.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.DBNode
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("node_id",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("node_id",true)
 	// +kubebuilder:validation:Optional
 	NodeID *string `json:"nodeId,omitempty" tf:"node_id,omitempty"`
 

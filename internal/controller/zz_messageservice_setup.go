@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	endpoint "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/messageservice/endpoint"
 	endpointacl "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/messageservice/endpointacl"
@@ -27,6 +27,39 @@ func Setup_messageservice(mgr ctrl.Manager, o controller.Options) error {
 		topic.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupGated_messageservice creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_messageservice(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		endpoint.SetupGated,
+		endpointacl.SetupGated,
+		queue.SetupGated,
+		subscription.SetupGated,
+		topic.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupWebhookWithManager_messageservice registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_messageservice(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		endpoint.SetupWebhookWithManager,
+		endpointacl.SetupWebhookWithManager,
+		queue.SetupWebhookWithManager,
+		subscription.SetupWebhookWithManager,
+		topic.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
 			return err
 		}
 	}

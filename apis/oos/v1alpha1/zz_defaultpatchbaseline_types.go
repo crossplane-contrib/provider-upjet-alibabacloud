@@ -10,14 +10,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type DefaultPatchBaselineInitParameters struct {
 
 	// The name of the patch baseline.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oos/v1alpha1.PatchBaseline
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PatchBaselineName *string `json:"patchBaselineName,omitempty" tf:"patch_baseline_name,omitempty"`
 
 	// Reference to a PatchBaseline in oos to populate patchBaselineName.
@@ -45,7 +45,7 @@ type DefaultPatchBaselineParameters struct {
 
 	// The name of the patch baseline.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oos/v1alpha1.PatchBaseline
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PatchBaselineName *string `json:"patchBaselineName,omitempty" tf:"patch_baseline_name,omitempty"`
 

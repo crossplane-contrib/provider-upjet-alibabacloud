@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	"github.com/crossplane/crossplane-runtime/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -659,7 +659,7 @@ func (in *BabelfishConfigInitParameters) DeepCopyInto(out *BabelfishConfigInitPa
 		*out = new(string)
 		**out = **in
 	}
-	out.MasterUserPasswordSecretRef = in.MasterUserPasswordSecretRef
+	in.MasterUserPasswordSecretRef.DeepCopyInto(&out.MasterUserPasswordSecretRef)
 	if in.MasterUsername != nil {
 		in, out := &in.MasterUsername, &out.MasterUsername
 		*out = new(string)
@@ -720,7 +720,7 @@ func (in *BabelfishConfigParameters) DeepCopyInto(out *BabelfishConfigParameters
 		*out = new(string)
 		**out = **in
 	}
-	out.MasterUserPasswordSecretRef = in.MasterUserPasswordSecretRef
+	in.MasterUserPasswordSecretRef.DeepCopyInto(&out.MasterUserPasswordSecretRef)
 	if in.MasterUsername != nil {
 		in, out := &in.MasterUsername, &out.MasterUsername
 		*out = new(string)

@@ -14,8 +14,8 @@ import (
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/sslcertificatesservice/v1alpha1"
 	v1alpha14 "github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	resource "github.com/crossplane/upjet/pkg/resource"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -30,6 +30,7 @@ func (mg *Alias) ResolveReferences(ctx context.Context, c client.Reader) error {
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.FunctionNameRef,
 		Selector:     mg.Spec.ForProvider.FunctionNameSelector,
 		To: reference.To{
@@ -46,6 +47,7 @@ func (mg *Alias) ResolveReferences(ctx context.Context, c client.Reader) error {
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VersionID),
 		Extract:      common.Fcv3FunctionVersionIdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VersionIDRef,
 		Selector:     mg.Spec.ForProvider.VersionIDSelector,
 		To: reference.To{
@@ -62,6 +64,7 @@ func (mg *Alias) ResolveReferences(ctx context.Context, c client.Reader) error {
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.FunctionNameRef,
 		Selector:     mg.Spec.InitProvider.FunctionNameSelector,
 		To: reference.To{
@@ -78,6 +81,7 @@ func (mg *Alias) ResolveReferences(ctx context.Context, c client.Reader) error {
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VersionID),
 		Extract:      common.Fcv3FunctionVersionIdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VersionIDRef,
 		Selector:     mg.Spec.InitProvider.VersionIDSelector,
 		To: reference.To{
@@ -106,6 +110,7 @@ func (mg *AsyncInvokeConfig) ResolveReferences(ctx context.Context, c client.Rea
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DestinationConfig[i3].OnFailure[i4].Destination),
 				Extract:      common.Fcv3FunctionArnExtractor(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.DestinationConfig[i3].OnFailure[i4].DestinationRef,
 				Selector:     mg.Spec.ForProvider.DestinationConfig[i3].OnFailure[i4].DestinationSelector,
 				To: reference.To{
@@ -126,6 +131,7 @@ func (mg *AsyncInvokeConfig) ResolveReferences(ctx context.Context, c client.Rea
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DestinationConfig[i3].OnSuccess[i4].Destination),
 				Extract:      common.Fcv3FunctionArnExtractor(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.DestinationConfig[i3].OnSuccess[i4].DestinationRef,
 				Selector:     mg.Spec.ForProvider.DestinationConfig[i3].OnSuccess[i4].DestinationSelector,
 				To: reference.To{
@@ -144,6 +150,7 @@ func (mg *AsyncInvokeConfig) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.FunctionNameRef,
 		Selector:     mg.Spec.ForProvider.FunctionNameSelector,
 		To: reference.To{
@@ -162,6 +169,7 @@ func (mg *AsyncInvokeConfig) ResolveReferences(ctx context.Context, c client.Rea
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DestinationConfig[i3].OnFailure[i4].Destination),
 				Extract:      common.Fcv3FunctionArnExtractor(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.DestinationConfig[i3].OnFailure[i4].DestinationRef,
 				Selector:     mg.Spec.InitProvider.DestinationConfig[i3].OnFailure[i4].DestinationSelector,
 				To: reference.To{
@@ -182,6 +190,7 @@ func (mg *AsyncInvokeConfig) ResolveReferences(ctx context.Context, c client.Rea
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DestinationConfig[i3].OnSuccess[i4].Destination),
 				Extract:      common.Fcv3FunctionArnExtractor(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.DestinationConfig[i3].OnSuccess[i4].DestinationRef,
 				Selector:     mg.Spec.InitProvider.DestinationConfig[i3].OnSuccess[i4].DestinationSelector,
 				To: reference.To{
@@ -200,6 +209,7 @@ func (mg *AsyncInvokeConfig) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.FunctionNameRef,
 		Selector:     mg.Spec.InitProvider.FunctionNameSelector,
 		To: reference.To{
@@ -226,6 +236,7 @@ func (mg *ConcurrencyConfig) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.FunctionNameRef,
 		Selector:     mg.Spec.ForProvider.FunctionNameSelector,
 		To: reference.To{
@@ -242,6 +253,7 @@ func (mg *ConcurrencyConfig) ResolveReferences(ctx context.Context, c client.Rea
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.FunctionNameRef,
 		Selector:     mg.Spec.InitProvider.FunctionNameSelector,
 		To: reference.To{
@@ -268,6 +280,7 @@ func (mg *CustomDomain) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CertificateID),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.CertificateIDRef,
 		Selector:     mg.Spec.ForProvider.CertificateIDSelector,
 		To: reference.To{
@@ -286,6 +299,7 @@ func (mg *CustomDomain) ResolveReferences(ctx context.Context, c client.Reader) 
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RouteConfig[i3].Routes[i4].FunctionName),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.RouteConfig[i3].Routes[i4].FunctionNameRef,
 				Selector:     mg.Spec.ForProvider.RouteConfig[i3].Routes[i4].FunctionNameSelector,
 				To: reference.To{
@@ -304,6 +318,7 @@ func (mg *CustomDomain) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CertificateID),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.CertificateIDRef,
 		Selector:     mg.Spec.InitProvider.CertificateIDSelector,
 		To: reference.To{
@@ -322,6 +337,7 @@ func (mg *CustomDomain) ResolveReferences(ctx context.Context, c client.Reader) 
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RouteConfig[i3].Routes[i4].FunctionName),
 				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.RouteConfig[i3].Routes[i4].FunctionNameRef,
 				Selector:     mg.Spec.InitProvider.RouteConfig[i3].Routes[i4].FunctionNameSelector,
 				To: reference.To{
@@ -353,6 +369,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Code[i3].OssBucketName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.Code[i3].OssBucketNameRef,
 			Selector:     mg.Spec.ForProvider.Code[i3].OssBucketNameSelector,
 			To: reference.To{
@@ -371,6 +388,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Code[i3].OssObjectName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.Code[i3].OssObjectNameRef,
 			Selector:     mg.Spec.ForProvider.Code[i3].OssObjectNameSelector,
 			To: reference.To{
@@ -388,6 +406,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Layers),
 		Extract:       common.Fcv3LayerVersionArnExtractor(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.ForProvider.LayerRefs,
 		Selector:      mg.Spec.ForProvider.LayerSelector,
 		To: reference.To{
@@ -404,6 +423,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Role),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.RoleRef,
 		Selector:     mg.Spec.ForProvider.RoleSelector,
 		To: reference.To{
@@ -421,6 +441,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCConfig[i3].SecurityGroupID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.VPCConfig[i3].SecurityGroupIDRef,
 			Selector:     mg.Spec.ForProvider.VPCConfig[i3].SecurityGroupIDSelector,
 			To: reference.To{
@@ -439,6 +460,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCConfig[i3].VPCID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.VPCConfig[i3].VPCIDRef,
 			Selector:     mg.Spec.ForProvider.VPCConfig[i3].VPCIDSelector,
 			To: reference.To{
@@ -457,6 +479,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.VPCConfig[i3].VswitchIds),
 			Extract:       reference.ExternalName(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.ForProvider.VPCConfig[i3].VSwitchIDRefs,
 			Selector:      mg.Spec.ForProvider.VPCConfig[i3].VSwitchIDSelector,
 			To: reference.To{
@@ -475,6 +498,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Code[i3].OssBucketName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.Code[i3].OssBucketNameRef,
 			Selector:     mg.Spec.InitProvider.Code[i3].OssBucketNameSelector,
 			To: reference.To{
@@ -493,6 +517,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Code[i3].OssObjectName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.Code[i3].OssObjectNameRef,
 			Selector:     mg.Spec.InitProvider.Code[i3].OssObjectNameSelector,
 			To: reference.To{
@@ -510,6 +535,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Layers),
 		Extract:       common.Fcv3LayerVersionArnExtractor(),
+		Namespace:     mg.GetNamespace(),
 		References:    mg.Spec.InitProvider.LayerRefs,
 		Selector:      mg.Spec.InitProvider.LayerSelector,
 		To: reference.To{
@@ -526,6 +552,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Role),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.RoleRef,
 		Selector:     mg.Spec.InitProvider.RoleSelector,
 		To: reference.To{
@@ -543,6 +570,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCConfig[i3].SecurityGroupID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.VPCConfig[i3].SecurityGroupIDRef,
 			Selector:     mg.Spec.InitProvider.VPCConfig[i3].SecurityGroupIDSelector,
 			To: reference.To{
@@ -561,6 +589,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCConfig[i3].VPCID),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.VPCConfig[i3].VPCIDRef,
 			Selector:     mg.Spec.InitProvider.VPCConfig[i3].VPCIDSelector,
 			To: reference.To{
@@ -579,6 +608,7 @@ func (mg *Function) ResolveReferences(ctx context.Context, c client.Reader) erro
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.VPCConfig[i3].VswitchIds),
 			Extract:       reference.ExternalName(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.InitProvider.VPCConfig[i3].VSwitchIDRefs,
 			Selector:      mg.Spec.InitProvider.VPCConfig[i3].VSwitchIDSelector,
 			To: reference.To{
@@ -607,6 +637,7 @@ func (mg *FunctionVersion) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.FunctionNameRef,
 		Selector:     mg.Spec.ForProvider.FunctionNameSelector,
 		To: reference.To{
@@ -623,6 +654,7 @@ func (mg *FunctionVersion) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.FunctionNameRef,
 		Selector:     mg.Spec.InitProvider.FunctionNameSelector,
 		To: reference.To{
@@ -650,6 +682,7 @@ func (mg *LayerVersion) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Code[i3].OssBucketName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.Code[i3].OssBucketNameRef,
 			Selector:     mg.Spec.ForProvider.Code[i3].OssBucketNameSelector,
 			To: reference.To{
@@ -668,6 +701,7 @@ func (mg *LayerVersion) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Code[i3].OssObjectName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.Code[i3].OssObjectNameRef,
 			Selector:     mg.Spec.ForProvider.Code[i3].OssObjectNameSelector,
 			To: reference.To{
@@ -686,6 +720,7 @@ func (mg *LayerVersion) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Code[i3].OssBucketName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.Code[i3].OssBucketNameRef,
 			Selector:     mg.Spec.InitProvider.Code[i3].OssBucketNameSelector,
 			To: reference.To{
@@ -704,6 +739,7 @@ func (mg *LayerVersion) ResolveReferences(ctx context.Context, c client.Reader) 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Code[i3].OssObjectName),
 			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.Code[i3].OssObjectNameRef,
 			Selector:     mg.Spec.InitProvider.Code[i3].OssObjectNameSelector,
 			To: reference.To{
@@ -732,6 +768,7 @@ func (mg *ProvisionConfig) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.FunctionNameRef,
 		Selector:     mg.Spec.ForProvider.FunctionNameSelector,
 		To: reference.To{
@@ -748,6 +785,7 @@ func (mg *ProvisionConfig) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.FunctionNameRef,
 		Selector:     mg.Spec.InitProvider.FunctionNameSelector,
 		To: reference.To{
@@ -774,6 +812,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.FunctionNameRef,
 		Selector:     mg.Spec.ForProvider.FunctionNameSelector,
 		To: reference.To{
@@ -790,6 +829,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InvocationRole),
 		Extract:      common.RoleArnExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.InvocationRoleRef,
 		Selector:     mg.Spec.ForProvider.InvocationRoleSelector,
 		To: reference.To{
@@ -806,6 +846,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.FunctionNameRef,
 		Selector:     mg.Spec.InitProvider.FunctionNameSelector,
 		To: reference.To{
@@ -822,6 +863,7 @@ func (mg *Trigger) ResolveReferences(ctx context.Context, c client.Reader) error
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InvocationRole),
 		Extract:      common.RoleArnExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.InvocationRoleRef,
 		Selector:     mg.Spec.InitProvider.InvocationRoleSelector,
 		To: reference.To{
@@ -848,6 +890,7 @@ func (mg *VpcBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.FunctionNameRef,
 		Selector:     mg.Spec.ForProvider.FunctionNameSelector,
 		To: reference.To{
@@ -864,6 +907,7 @@ func (mg *VpcBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.VPCIDRef,
 		Selector:     mg.Spec.ForProvider.VPCIDSelector,
 		To: reference.To{
@@ -880,6 +924,7 @@ func (mg *VpcBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FunctionName),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.FunctionNameRef,
 		Selector:     mg.Spec.InitProvider.FunctionNameSelector,
 		To: reference.To{
@@ -896,6 +941,7 @@ func (mg *VpcBinding) ResolveReferences(ctx context.Context, c client.Reader) er
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.VPCID),
 		Extract:      reference.ExternalName(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.VPCIDRef,
 		Selector:     mg.Spec.InitProvider.VPCIDSelector,
 		To: reference.To{
