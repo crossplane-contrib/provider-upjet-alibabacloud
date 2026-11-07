@@ -9,7 +9,7 @@
 package v1alpha1
 
 import (
-	"github.com/crossplane/crossplane-runtime/apis/common/v1"
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -60,7 +60,7 @@ func (in *AccountInitParameters) DeepCopyInto(out *AccountInitParameters) {
 	}
 	if in.AccountPasswordSecretRef != nil {
 		in, out := &in.AccountPasswordSecretRef, &out.AccountPasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.AccountPasswordValidTime != nil {
@@ -80,12 +80,12 @@ func (in *AccountInitParameters) DeepCopyInto(out *AccountInitParameters) {
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSEncryptedPassword != nil {
@@ -249,7 +249,7 @@ func (in *AccountParameters) DeepCopyInto(out *AccountParameters) {
 	}
 	if in.AccountPasswordSecretRef != nil {
 		in, out := &in.AccountPasswordSecretRef, &out.AccountPasswordSecretRef
-		*out = new(v1.SecretKeySelector)
+		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
 	if in.AccountPasswordValidTime != nil {
@@ -269,12 +269,12 @@ func (in *AccountParameters) DeepCopyInto(out *AccountParameters) {
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.KMSEncryptedPassword != nil {
@@ -352,12 +352,12 @@ func (in *AccountPrivilegeInitParameters) DeepCopyInto(out *AccountPrivilegeInit
 	}
 	if in.AccountNameRef != nil {
 		in, out := &in.AccountNameRef, &out.AccountNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AccountNameSelector != nil {
 		in, out := &in.AccountNameSelector, &out.AccountNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AccountPrivilege != nil {
@@ -372,12 +372,12 @@ func (in *AccountPrivilegeInitParameters) DeepCopyInto(out *AccountPrivilegeInit
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBNames != nil {
@@ -393,14 +393,14 @@ func (in *AccountPrivilegeInitParameters) DeepCopyInto(out *AccountPrivilegeInit
 	}
 	if in.DBNamesRefs != nil {
 		in, out := &in.DBNamesRefs, &out.DBNamesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.DBNamesSelector != nil {
 		in, out := &in.DBNamesSelector, &out.DBNamesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -503,12 +503,12 @@ func (in *AccountPrivilegeParameters) DeepCopyInto(out *AccountPrivilegeParamete
 	}
 	if in.AccountNameRef != nil {
 		in, out := &in.AccountNameRef, &out.AccountNameRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AccountNameSelector != nil {
 		in, out := &in.AccountNameSelector, &out.AccountNameSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.AccountPrivilege != nil {
@@ -523,12 +523,12 @@ func (in *AccountPrivilegeParameters) DeepCopyInto(out *AccountPrivilegeParamete
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBNames != nil {
@@ -544,14 +544,14 @@ func (in *AccountPrivilegeParameters) DeepCopyInto(out *AccountPrivilegeParamete
 	}
 	if in.DBNamesRefs != nil {
 		in, out := &in.DBNamesRefs, &out.DBNamesRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.DBNamesSelector != nil {
 		in, out := &in.DBNamesSelector, &out.DBNamesSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
@@ -574,7 +574,7 @@ func (in *AccountPrivilegeParameters) DeepCopy() *AccountPrivilegeParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AccountPrivilegeSpec) DeepCopyInto(out *AccountPrivilegeSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -592,7 +592,7 @@ func (in *AccountPrivilegeSpec) DeepCopy() *AccountPrivilegeSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AccountPrivilegeStatus) DeepCopyInto(out *AccountPrivilegeStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -609,7 +609,7 @@ func (in *AccountPrivilegeStatus) DeepCopy() *AccountPrivilegeStatus {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AccountSpec) DeepCopyInto(out *AccountSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -627,7 +627,7 @@ func (in *AccountSpec) DeepCopy() *AccountSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AccountStatus) DeepCopyInto(out *AccountStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -693,12 +693,12 @@ func (in *BackupPolicyInitParameters) DeepCopyInto(out *BackupPolicyInitParamete
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DataLevel1BackupFrequency != nil {
@@ -981,12 +981,12 @@ func (in *BackupPolicyParameters) DeepCopyInto(out *BackupPolicyParameters) {
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DataLevel1BackupFrequency != nil {
@@ -1092,7 +1092,7 @@ func (in *BackupPolicyParameters) DeepCopy() *BackupPolicyParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *BackupPolicySpec) DeepCopyInto(out *BackupPolicySpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -1110,7 +1110,7 @@ func (in *BackupPolicySpec) DeepCopy() *BackupPolicySpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *BackupPolicyStatus) DeepCopyInto(out *BackupPolicyStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -1198,12 +1198,12 @@ func (in *ClusterEndpointInitParameters) DeepCopyInto(out *ClusterEndpointInitPa
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBEndpointDescription != nil {
@@ -1454,12 +1454,12 @@ func (in *ClusterEndpointParameters) DeepCopyInto(out *ClusterEndpointParameters
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBEndpointDescription != nil {
@@ -1544,7 +1544,7 @@ func (in *ClusterEndpointParameters) DeepCopy() *ClusterEndpointParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ClusterEndpointSpec) DeepCopyInto(out *ClusterEndpointSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -1562,7 +1562,7 @@ func (in *ClusterEndpointSpec) DeepCopy() *ClusterEndpointSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ClusterEndpointStatus) DeepCopyInto(out *ClusterEndpointStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -1846,12 +1846,12 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	}
 	if in.RoleArnRef != nil {
 		in, out := &in.RoleArnRef, &out.RoleArnRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RoleArnSelector != nil {
 		in, out := &in.RoleArnSelector, &out.RoleArnSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ScaleApRoNumMax != nil {
@@ -1891,14 +1891,14 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	}
 	if in.SecurityGroupIDRefs != nil {
 		in, out := &in.SecurityGroupIDRefs, &out.SecurityGroupIDRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIds != nil {
@@ -2026,12 +2026,12 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -2041,12 +2041,12 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -2890,12 +2890,12 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.RoleArnRef != nil {
 		in, out := &in.RoleArnRef, &out.RoleArnRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.RoleArnSelector != nil {
 		in, out := &in.RoleArnSelector, &out.RoleArnSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ScaleApRoNumMax != nil {
@@ -2935,14 +2935,14 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.SecurityGroupIDRefs != nil {
 		in, out := &in.SecurityGroupIDRefs, &out.SecurityGroupIDRefs
-		*out = make([]v1.Reference, len(*in))
+		*out = make([]v2.Reference, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
 	if in.SecurityGroupIDSelector != nil {
 		in, out := &in.SecurityGroupIDSelector, &out.SecurityGroupIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupIds != nil {
@@ -3070,12 +3070,12 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.VPCIDRef != nil {
 		in, out := &in.VPCIDRef, &out.VPCIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VPCIDSelector != nil {
 		in, out := &in.VPCIDSelector, &out.VPCIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchID != nil {
@@ -3085,12 +3085,12 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	}
 	if in.VswitchIDRef != nil {
 		in, out := &in.VswitchIDRef, &out.VswitchIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.VswitchIDSelector != nil {
 		in, out := &in.VswitchIDSelector, &out.VswitchIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ZoneID != nil {
@@ -3113,7 +3113,7 @@ func (in *ClusterParameters) DeepCopy() *ClusterParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ClusterSpec) DeepCopyInto(out *ClusterSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -3131,7 +3131,7 @@ func (in *ClusterSpec) DeepCopy() *ClusterSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ClusterStatus) DeepCopyInto(out *ClusterStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -3375,12 +3375,12 @@ func (in *DatabaseInitParameters) DeepCopyInto(out *DatabaseInitParameters) {
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBDescription != nil {
@@ -3527,12 +3527,12 @@ func (in *DatabaseParameters) DeepCopyInto(out *DatabaseParameters) {
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBDescription != nil {
@@ -3565,7 +3565,7 @@ func (in *DatabaseParameters) DeepCopy() *DatabaseParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *DatabaseSpec) DeepCopyInto(out *DatabaseSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -3583,7 +3583,7 @@ func (in *DatabaseSpec) DeepCopy() *DatabaseSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *DatabaseStatus) DeepCopyInto(out *DatabaseStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -3666,12 +3666,12 @@ func (in *EndpointAddressInitParameters) DeepCopyInto(out *EndpointAddressInitPa
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBEndpointID != nil {
@@ -3681,12 +3681,12 @@ func (in *EndpointAddressInitParameters) DeepCopyInto(out *EndpointAddressInitPa
 	}
 	if in.DBEndpointIDRef != nil {
 		in, out := &in.DBEndpointIDRef, &out.DBEndpointIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBEndpointIDSelector != nil {
 		in, out := &in.DBEndpointIDSelector, &out.DBEndpointIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetType != nil {
@@ -3813,12 +3813,12 @@ func (in *EndpointAddressParameters) DeepCopyInto(out *EndpointAddressParameters
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBEndpointID != nil {
@@ -3828,12 +3828,12 @@ func (in *EndpointAddressParameters) DeepCopyInto(out *EndpointAddressParameters
 	}
 	if in.DBEndpointIDRef != nil {
 		in, out := &in.DBEndpointIDRef, &out.DBEndpointIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBEndpointIDSelector != nil {
 		in, out := &in.DBEndpointIDSelector, &out.DBEndpointIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NetType != nil {
@@ -3866,7 +3866,7 @@ func (in *EndpointAddressParameters) DeepCopy() *EndpointAddressParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EndpointAddressSpec) DeepCopyInto(out *EndpointAddressSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -3884,7 +3884,7 @@ func (in *EndpointAddressSpec) DeepCopy() *EndpointAddressSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EndpointAddressStatus) DeepCopyInto(out *EndpointAddressStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -3918,12 +3918,12 @@ func (in *EndpointInitParameters) DeepCopyInto(out *EndpointInitParameters) {
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBEndpointDescription != nil {
@@ -4169,12 +4169,12 @@ func (in *EndpointParameters) DeepCopyInto(out *EndpointParameters) {
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBEndpointDescription != nil {
@@ -4259,7 +4259,7 @@ func (in *EndpointParameters) DeepCopy() *EndpointParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EndpointSpec) DeepCopyInto(out *EndpointSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -4277,7 +4277,7 @@ func (in *EndpointSpec) DeepCopy() *EndpointSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EndpointStatus) DeepCopyInto(out *EndpointStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -4328,12 +4328,12 @@ func (in *GlobalDatabaseNetworkInitParameters) DeepCopyInto(out *GlobalDatabaseN
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
@@ -4430,12 +4430,12 @@ func (in *GlobalDatabaseNetworkParameters) DeepCopyInto(out *GlobalDatabaseNetwo
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Description != nil {
@@ -4463,7 +4463,7 @@ func (in *GlobalDatabaseNetworkParameters) DeepCopy() *GlobalDatabaseNetworkPara
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *GlobalDatabaseNetworkSpec) DeepCopyInto(out *GlobalDatabaseNetworkSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -4481,7 +4481,7 @@ func (in *GlobalDatabaseNetworkSpec) DeepCopy() *GlobalDatabaseNetworkSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *GlobalDatabaseNetworkStatus) DeepCopyInto(out *GlobalDatabaseNetworkStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -4788,7 +4788,7 @@ func (in *ParameterGroupParametersParameters) DeepCopy() *ParameterGroupParamete
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ParameterGroupSpec) DeepCopyInto(out *ParameterGroupSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -4806,7 +4806,7 @@ func (in *ParameterGroupSpec) DeepCopy() *ParameterGroupSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ParameterGroupStatus) DeepCopyInto(out *ParameterGroupStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 
@@ -4937,12 +4937,12 @@ func (in *PrimaryEndpointInitParameters) DeepCopyInto(out *PrimaryEndpointInitPa
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBEndpointDescription != nil {
@@ -5109,12 +5109,12 @@ func (in *PrimaryEndpointParameters) DeepCopyInto(out *PrimaryEndpointParameters
 	}
 	if in.DBClusterIDRef != nil {
 		in, out := &in.DBClusterIDRef, &out.DBClusterIDRef
-		*out = new(v1.Reference)
+		*out = new(v2.Reference)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBClusterIDSelector != nil {
 		in, out := &in.DBClusterIDSelector, &out.DBClusterIDSelector
-		*out = new(v1.Selector)
+		*out = new(v2.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.DBEndpointDescription != nil {
@@ -5162,7 +5162,7 @@ func (in *PrimaryEndpointParameters) DeepCopy() *PrimaryEndpointParameters {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PrimaryEndpointSpec) DeepCopyInto(out *PrimaryEndpointSpec) {
 	*out = *in
-	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	in.ClusterManagedResourceSpec.DeepCopyInto(&out.ClusterManagedResourceSpec)
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -5180,7 +5180,7 @@ func (in *PrimaryEndpointSpec) DeepCopy() *PrimaryEndpointSpec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *PrimaryEndpointStatus) DeepCopyInto(out *PrimaryEndpointStatus) {
 	*out = *in
-	in.ResourceStatus.DeepCopyInto(&out.ResourceStatus)
+	in.ManagedResourceStatus.DeepCopyInto(&out.ManagedResourceStatus)
 	in.AtProvider.DeepCopyInto(&out.AtProvider)
 }
 

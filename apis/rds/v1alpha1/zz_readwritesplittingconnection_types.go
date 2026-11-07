@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ReadWriteSplittingConnectionInitParameters struct {
@@ -28,11 +28,11 @@ type ReadWriteSplittingConnectionInitParameters struct {
 
 	// Reference to a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Delay threshold, in seconds. The value range is 0 to 7200. Default to 30. Read requests are not routed to the read-only instances with a delay greater than the threshold.
 	MaxDelayTime *float64 `json:"maxDelayTime,omitempty" tf:"max_delay_time,omitempty"`
@@ -91,11 +91,11 @@ type ReadWriteSplittingConnectionParameters struct {
 
 	// Reference to a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in rds to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Delay threshold, in seconds. The value range is 0 to 7200. Default to 30. Read requests are not routed to the read-only instances with a delay greater than the threshold.
 	// +kubebuilder:validation:Optional
@@ -118,8 +118,8 @@ type ReadWriteSplittingConnectionParameters struct {
 
 // ReadWriteSplittingConnectionSpec defines the desired state of ReadWriteSplittingConnection
 type ReadWriteSplittingConnectionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ReadWriteSplittingConnectionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ReadWriteSplittingConnectionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -135,8 +135,8 @@ type ReadWriteSplittingConnectionSpec struct {
 
 // ReadWriteSplittingConnectionStatus defines the observed state of ReadWriteSplittingConnection.
 type ReadWriteSplittingConnectionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ReadWriteSplittingConnectionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ReadWriteSplittingConnectionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

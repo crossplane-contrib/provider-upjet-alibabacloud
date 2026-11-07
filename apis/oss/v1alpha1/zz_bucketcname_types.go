@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BucketCnameInitParameters struct {
@@ -21,11 +21,11 @@ type BucketCnameInitParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The container for the certificate configuration. See certificate below.
 	Certificate []CertificateInitParameters `json:"certificate,omitempty" tf:"certificate,omitempty"`
@@ -35,16 +35,16 @@ type BucketCnameInitParameters struct {
 
 	// User-defined domain name
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alidns/v1alpha1.Record
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("domain_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("domain_name",false)
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// Reference to a Record in alidns to populate domain.
 	// +kubebuilder:validation:Optional
-	DomainRef *v1.Reference `json:"domainRef,omitempty" tf:"-"`
+	DomainRef *v2.Reference `json:"domainRef,omitempty" tf:"-"`
 
 	// Selector for a Record in alidns to populate domain.
 	// +kubebuilder:validation:Optional
-	DomainSelector *v1.Selector `json:"domainSelector,omitempty" tf:"-"`
+	DomainSelector *v2.Selector `json:"domainSelector,omitempty" tf:"-"`
 
 	// Whether to force overwrite certificate.
 	Force *bool `json:"force,omitempty" tf:"force,omitempty"`
@@ -89,11 +89,11 @@ type BucketCnameParameters struct {
 
 	// Reference to a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketRef *v1.Reference `json:"bucketRef,omitempty" tf:"-"`
+	BucketRef *v2.Reference `json:"bucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate bucket.
 	// +kubebuilder:validation:Optional
-	BucketSelector *v1.Selector `json:"bucketSelector,omitempty" tf:"-"`
+	BucketSelector *v2.Selector `json:"bucketSelector,omitempty" tf:"-"`
 
 	// The container for the certificate configuration. See certificate below.
 	// +kubebuilder:validation:Optional
@@ -105,17 +105,17 @@ type BucketCnameParameters struct {
 
 	// User-defined domain name
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/alidns/v1alpha1.Record
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("domain_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("domain_name",false)
 	// +kubebuilder:validation:Optional
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
 	// Reference to a Record in alidns to populate domain.
 	// +kubebuilder:validation:Optional
-	DomainRef *v1.Reference `json:"domainRef,omitempty" tf:"-"`
+	DomainRef *v2.Reference `json:"domainRef,omitempty" tf:"-"`
 
 	// Selector for a Record in alidns to populate domain.
 	// +kubebuilder:validation:Optional
-	DomainSelector *v1.Selector `json:"domainSelector,omitempty" tf:"-"`
+	DomainSelector *v2.Selector `json:"domainSelector,omitempty" tf:"-"`
 
 	// Whether to force overwrite certificate.
 	// +kubebuilder:validation:Optional
@@ -137,10 +137,10 @@ type CertificateInitParameters struct {
 	CertID *string `json:"certId,omitempty" tf:"cert_id,omitempty"`
 
 	// The certificate public key.
-	CertificateSecretRef *v1.SecretKeySelector `json:"certificateSecretRef,omitempty" tf:"-"`
+	CertificateSecretRef *v2.SecretKeySelector `json:"certificateSecretRef,omitempty" tf:"-"`
 
 	// The certificate private key.
-	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+	PrivateKeySecretRef *v2.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 }
 
 type CertificateObservation struct {
@@ -175,17 +175,17 @@ type CertificateParameters struct {
 
 	// The certificate public key.
 	// +kubebuilder:validation:Optional
-	CertificateSecretRef *v1.SecretKeySelector `json:"certificateSecretRef,omitempty" tf:"-"`
+	CertificateSecretRef *v2.SecretKeySelector `json:"certificateSecretRef,omitempty" tf:"-"`
 
 	// The certificate private key.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretRef *v1.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
+	PrivateKeySecretRef *v2.SecretKeySelector `json:"privateKeySecretRef,omitempty" tf:"-"`
 }
 
 // BucketCnameSpec defines the desired state of BucketCname
 type BucketCnameSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BucketCnameParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BucketCnameParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -201,8 +201,8 @@ type BucketCnameSpec struct {
 
 // BucketCnameStatus defines the observed state of BucketCname.
 type BucketCnameStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BucketCnameObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BucketCnameObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

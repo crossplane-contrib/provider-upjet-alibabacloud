@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DomainConfigInitParameters struct {
@@ -22,11 +22,11 @@ type DomainConfigInitParameters struct {
 
 	// Reference to a Domain in cdn to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameRef *v1.Reference `json:"domainNameRef,omitempty" tf:"-"`
+	DomainNameRef *v2.Reference `json:"domainNameRef,omitempty" tf:"-"`
 
 	// Selector for a Domain in cdn to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameSelector *v1.Selector `json:"domainNameSelector,omitempty" tf:"-"`
+	DomainNameSelector *v2.Selector `json:"domainNameSelector,omitempty" tf:"-"`
 
 	// The args of the domain config. See function_args below.
 	FunctionArgs []FunctionArgsInitParameters `json:"functionArgs,omitempty" tf:"function_args,omitempty"`
@@ -73,11 +73,11 @@ type DomainConfigParameters struct {
 
 	// Reference to a Domain in cdn to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameRef *v1.Reference `json:"domainNameRef,omitempty" tf:"-"`
+	DomainNameRef *v2.Reference `json:"domainNameRef,omitempty" tf:"-"`
 
 	// Selector for a Domain in cdn to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameSelector *v1.Selector `json:"domainNameSelector,omitempty" tf:"-"`
+	DomainNameSelector *v2.Selector `json:"domainNameSelector,omitempty" tf:"-"`
 
 	// The args of the domain config. See function_args below.
 	// +kubebuilder:validation:Optional
@@ -128,8 +128,8 @@ type FunctionArgsParameters struct {
 
 // DomainConfigSpec defines the desired state of DomainConfig
 type DomainConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DomainConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DomainConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -145,8 +145,8 @@ type DomainConfigSpec struct {
 
 // DomainConfigStatus defines the observed state of DomainConfig.
 type DomainConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DomainConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DomainConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

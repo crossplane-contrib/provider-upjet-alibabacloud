@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AscriptInitParameters struct {
@@ -36,11 +36,11 @@ type AscriptInitParameters struct {
 
 	// Reference to a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDRef *v1.Reference `json:"listenerIdRef,omitempty" tf:"-"`
+	ListenerIDRef *v2.Reference `json:"listenerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
+	ListenerIDSelector *v2.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
 
 	// Script execution location.
 	Position *string `json:"position,omitempty" tf:"position,omitempty"`
@@ -111,11 +111,11 @@ type AscriptParameters struct {
 
 	// Reference to a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDRef *v1.Reference `json:"listenerIdRef,omitempty" tf:"-"`
+	ListenerIDRef *v2.Reference `json:"listenerIdRef,omitempty" tf:"-"`
 
 	// Selector for a Listener in alb to populate listenerId.
 	// +kubebuilder:validation:Optional
-	ListenerIDSelector *v1.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
+	ListenerIDSelector *v2.Selector `json:"listenerIdSelector,omitempty" tf:"-"`
 
 	// Script execution location.
 	// +kubebuilder:validation:Optional
@@ -162,8 +162,8 @@ type ExtAttributesParameters struct {
 
 // AscriptSpec defines the desired state of Ascript
 type AscriptSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AscriptParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AscriptParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -179,8 +179,8 @@ type AscriptSpec struct {
 
 // AscriptStatus defines the observed state of Ascript.
 type AscriptStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AscriptObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AscriptObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

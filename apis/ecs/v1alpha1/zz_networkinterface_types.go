@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NetworkInterfaceInitParameters struct {
@@ -69,11 +69,11 @@ type NetworkInterfaceInitParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupRefs []v1.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
+	SecurityGroupRefs []v2.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+	SecurityGroupSelector *v2.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
 	// Indicates whether the source and destination IP address check feature is enabled. To improve network security, enable this feature. Default value: false. Valid values: true, false.
 	SourceDestCheck *bool `json:"sourceDestCheck,omitempty" tf:"source_dest_check,omitempty"`
@@ -88,11 +88,11 @@ type NetworkInterfaceInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 type NetworkInterfaceObservation struct {
@@ -241,11 +241,11 @@ type NetworkInterfaceParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupRefs []v1.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
+	SecurityGroupRefs []v2.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+	SecurityGroupSelector *v2.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
 	// Indicates whether the source and destination IP address check feature is enabled. To improve network security, enable this feature. Default value: false. Valid values: true, false.
 	// +kubebuilder:validation:Optional
@@ -263,17 +263,17 @@ type NetworkInterfaceParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 // NetworkInterfaceSpec defines the desired state of NetworkInterface
 type NetworkInterfaceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NetworkInterfaceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NetworkInterfaceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -289,8 +289,8 @@ type NetworkInterfaceSpec struct {
 
 // NetworkInterfaceStatus defines the observed state of NetworkInterface.
 type NetworkInterfaceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NetworkInterfaceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NetworkInterfaceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

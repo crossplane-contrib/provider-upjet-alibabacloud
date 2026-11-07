@@ -11,8 +11,8 @@ import (
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1"
 	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1"
 	v1alpha12 "github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	resource "github.com/crossplane/upjet/pkg/resource"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -27,6 +27,7 @@ func (mg *ApplicationGroup) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ApplicationName),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ApplicationNameRef,
 		Selector:     mg.Spec.ForProvider.ApplicationNameSelector,
 		To: reference.To{
@@ -43,6 +44,7 @@ func (mg *ApplicationGroup) ResolveReferences(ctx context.Context, c client.Read
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ApplicationName),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ApplicationNameRef,
 		Selector:     mg.Spec.InitProvider.ApplicationNameSelector,
 		To: reference.To{
@@ -69,6 +71,7 @@ func (mg *DefaultPatchBaseline) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PatchBaselineName),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.PatchBaselineNameRef,
 		Selector:     mg.Spec.ForProvider.PatchBaselineNameSelector,
 		To: reference.To{
@@ -85,6 +88,7 @@ func (mg *DefaultPatchBaseline) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PatchBaselineName),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.PatchBaselineNameRef,
 		Selector:     mg.Spec.InitProvider.PatchBaselineNameSelector,
 		To: reference.To{
@@ -111,6 +115,7 @@ func (mg *Execution) ResolveReferences(ctx context.Context, c client.Reader) err
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TemplateName),
 		Extract:      resource.ExtractParamPath("template_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.TemplateNameRef,
 		Selector:     mg.Spec.ForProvider.TemplateNameSelector,
 		To: reference.To{
@@ -127,6 +132,7 @@ func (mg *Execution) ResolveReferences(ctx context.Context, c client.Reader) err
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TemplateName),
 		Extract:      resource.ExtractParamPath("template_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.TemplateNameRef,
 		Selector:     mg.Spec.InitProvider.TemplateNameSelector,
 		To: reference.To{
@@ -153,6 +159,7 @@ func (mg *SecretParameter) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.KeyID),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.KeyIDRef,
 		Selector:     mg.Spec.ForProvider.KeyIDSelector,
 		To: reference.To{
@@ -169,6 +176,7 @@ func (mg *SecretParameter) ResolveReferences(ctx context.Context, c client.Reade
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.KeyID),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.KeyIDRef,
 		Selector:     mg.Spec.InitProvider.KeyIDSelector,
 		To: reference.To{
@@ -195,6 +203,7 @@ func (mg *ServiceSetting) ResolveReferences(ctx context.Context, c client.Reader
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DeliveryOssBucketName),
 		Extract:      resource.ExtractParamPath("bucket", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DeliveryOssBucketNameRef,
 		Selector:     mg.Spec.ForProvider.DeliveryOssBucketNameSelector,
 		To: reference.To{
@@ -211,6 +220,7 @@ func (mg *ServiceSetting) ResolveReferences(ctx context.Context, c client.Reader
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DeliverySlsProjectName),
 		Extract:      resource.ExtractParamPath("project_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DeliverySlsProjectNameRef,
 		Selector:     mg.Spec.ForProvider.DeliverySlsProjectNameSelector,
 		To: reference.To{
@@ -227,6 +237,7 @@ func (mg *ServiceSetting) ResolveReferences(ctx context.Context, c client.Reader
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DeliveryOssBucketName),
 		Extract:      resource.ExtractParamPath("bucket", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DeliveryOssBucketNameRef,
 		Selector:     mg.Spec.InitProvider.DeliveryOssBucketNameSelector,
 		To: reference.To{
@@ -243,6 +254,7 @@ func (mg *ServiceSetting) ResolveReferences(ctx context.Context, c client.Reader
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DeliverySlsProjectName),
 		Extract:      resource.ExtractParamPath("project_name", false),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DeliverySlsProjectNameRef,
 		Selector:     mg.Spec.InitProvider.DeliverySlsProjectNameSelector,
 		To: reference.To{

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DiskInitParameters struct {
@@ -54,11 +54,11 @@ type DiskInitParameters struct {
 
 	// Reference to a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The ID of the Key Management Service (KMS) key that is used for the disk. NOTE: kms_key_id is only valid when encrypted is true.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
@@ -66,11 +66,11 @@ type DiskInitParameters struct {
 
 	// Reference to a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+	KMSKeyIDRef *v2.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
+	KMSKeyIDSelector *v2.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
 
 	// Specifies whether to enable the multi-attach feature for the disk. Default value: Disabled. Valid values: Enabled, Disabled. NOTE: Currently, multi_attach can only be set to Enabled when category is set to cloud_essd.
 	MultiAttach *string `json:"multiAttach,omitempty" tf:"multi_attach,omitempty"`
@@ -253,11 +253,11 @@ type DiskParameters struct {
 
 	// Reference to a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The ID of the Key Management Service (KMS) key that is used for the disk. NOTE: kms_key_id is only valid when encrypted is true.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
@@ -266,11 +266,11 @@ type DiskParameters struct {
 
 	// Reference to a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+	KMSKeyIDRef *v2.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
+	KMSKeyIDSelector *v2.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
 
 	// Specifies whether to enable the multi-attach feature for the disk. Default value: Disabled. Valid values: Enabled, Disabled. NOTE: Currently, multi_attach can only be set to Enabled when category is set to cloud_essd.
 	// +kubebuilder:validation:Optional
@@ -329,8 +329,8 @@ type DiskParameters struct {
 
 // DiskSpec defines the desired state of Disk
 type DiskSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DiskParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DiskParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -346,8 +346,8 @@ type DiskSpec struct {
 
 // DiskStatus defines the observed state of Disk.
 type DiskStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DiskObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DiskObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

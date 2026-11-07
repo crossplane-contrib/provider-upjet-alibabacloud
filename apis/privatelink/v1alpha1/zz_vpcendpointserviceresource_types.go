@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type VpcEndpointServiceResourceInitParameters struct {
@@ -24,11 +24,11 @@ type VpcEndpointServiceResourceInitParameters struct {
 
 	// Reference to a LoadBalancer in alb to populate resourceId.
 	// +kubebuilder:validation:Optional
-	ResourceIDRef *v1.Reference `json:"resourceIdRef,omitempty" tf:"-"`
+	ResourceIDRef *v2.Reference `json:"resourceIdRef,omitempty" tf:"-"`
 
 	// Selector for a LoadBalancer in alb to populate resourceId.
 	// +kubebuilder:validation:Optional
-	ResourceIDSelector *v1.Selector `json:"resourceIdSelector,omitempty" tf:"-"`
+	ResourceIDSelector *v2.Selector `json:"resourceIdSelector,omitempty" tf:"-"`
 
 	// Service resource type, value:
 	ResourceType *string `json:"resourceType,omitempty" tf:"resource_type,omitempty"`
@@ -39,11 +39,11 @@ type VpcEndpointServiceResourceInitParameters struct {
 
 	// Reference to a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDRef *v1.Reference `json:"serviceIdRef,omitempty" tf:"-"`
+	ServiceIDRef *v2.Reference `json:"serviceIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDSelector *v1.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
+	ServiceIDSelector *v2.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
 
 	// The ID of the zone to which the service resource belongs. (valid when the resource type is nlb/alb).
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
@@ -91,11 +91,11 @@ type VpcEndpointServiceResourceParameters struct {
 
 	// Reference to a LoadBalancer in alb to populate resourceId.
 	// +kubebuilder:validation:Optional
-	ResourceIDRef *v1.Reference `json:"resourceIdRef,omitempty" tf:"-"`
+	ResourceIDRef *v2.Reference `json:"resourceIdRef,omitempty" tf:"-"`
 
 	// Selector for a LoadBalancer in alb to populate resourceId.
 	// +kubebuilder:validation:Optional
-	ResourceIDSelector *v1.Selector `json:"resourceIdSelector,omitempty" tf:"-"`
+	ResourceIDSelector *v2.Selector `json:"resourceIdSelector,omitempty" tf:"-"`
 
 	// Service resource type, value:
 	// +kubebuilder:validation:Optional
@@ -108,11 +108,11 @@ type VpcEndpointServiceResourceParameters struct {
 
 	// Reference to a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDRef *v1.Reference `json:"serviceIdRef,omitempty" tf:"-"`
+	ServiceIDRef *v2.Reference `json:"serviceIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
-	ServiceIDSelector *v1.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
+	ServiceIDSelector *v2.Selector `json:"serviceIdSelector,omitempty" tf:"-"`
 
 	// The ID of the zone to which the service resource belongs. (valid when the resource type is nlb/alb).
 	// +kubebuilder:validation:Optional
@@ -121,8 +121,8 @@ type VpcEndpointServiceResourceParameters struct {
 
 // VpcEndpointServiceResourceSpec defines the desired state of VpcEndpointServiceResource
 type VpcEndpointServiceResourceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     VpcEndpointServiceResourceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   VpcEndpointServiceResourceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -138,8 +138,8 @@ type VpcEndpointServiceResourceSpec struct {
 
 // VpcEndpointServiceResourceStatus defines the observed state of VpcEndpointServiceResource.
 type VpcEndpointServiceResourceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        VpcEndpointServiceResourceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               VpcEndpointServiceResourceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

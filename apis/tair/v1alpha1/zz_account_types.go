@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AccountInitParameters struct {
@@ -19,7 +19,7 @@ type AccountInitParameters struct {
 	AccountName *string `json:"accountName,omitempty" tf:"account_name,omitempty"`
 
 	// The password of the account. The password must be 8 to 32 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include !@ # $ % ^ & * ( ) _ + - =. It conflicts with account_password_wo.
-	AccountPasswordSecretRef *v1.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
+	AccountPasswordSecretRef *v2.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
 
 	// The privilege of account access database. Default value: RoleReadWrite
 	AccountPrivilege *string `json:"accountPrivilege,omitempty" tf:"account_privilege,omitempty"`
@@ -37,11 +37,11 @@ type AccountInitParameters struct {
 
 	// Reference to a Instance in tair to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in tair to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// An KMS encrypts password used to a Tair (Redis OSS-Compatible) And Memcache (KVStore) account. If the account_password is filled in, this field will be ignored. It conflicts with account_password_wo.
 	KMSEncryptedPassword *string `json:"kmsEncryptedPassword,omitempty" tf:"kms_encrypted_password,omitempty"`
@@ -90,7 +90,7 @@ type AccountParameters struct {
 
 	// The password of the account. The password must be 8 to 32 characters in length. It must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters. Special characters include !@ # $ % ^ & * ( ) _ + - =. It conflicts with account_password_wo.
 	// +kubebuilder:validation:Optional
-	AccountPasswordSecretRef *v1.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
+	AccountPasswordSecretRef *v2.SecretKeySelector `json:"accountPasswordSecretRef,omitempty" tf:"-"`
 
 	// The privilege of account access database. Default value: RoleReadWrite
 	// +kubebuilder:validation:Optional
@@ -112,11 +112,11 @@ type AccountParameters struct {
 
 	// Reference to a Instance in tair to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in tair to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// An KMS encrypts password used to a Tair (Redis OSS-Compatible) And Memcache (KVStore) account. If the account_password is filled in, this field will be ignored. It conflicts with account_password_wo.
 	// +kubebuilder:validation:Optional
@@ -135,8 +135,8 @@ type AccountParameters struct {
 
 // AccountSpec defines the desired state of Account
 type AccountSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AccountParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AccountParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -152,8 +152,8 @@ type AccountSpec struct {
 
 // AccountStatus defines the observed state of Account.
 type AccountStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AccountObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AccountObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

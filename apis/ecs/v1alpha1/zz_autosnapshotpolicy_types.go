@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoSnapshotPolicyInitParameters struct {
@@ -224,8 +224,8 @@ type TargetTagsParameters struct {
 
 // AutoSnapshotPolicySpec defines the desired state of AutoSnapshotPolicy
 type AutoSnapshotPolicySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AutoSnapshotPolicyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AutoSnapshotPolicyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -241,8 +241,8 @@ type AutoSnapshotPolicySpec struct {
 
 // AutoSnapshotPolicyStatus defines the observed state of AutoSnapshotPolicy.
 type AutoSnapshotPolicyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AutoSnapshotPolicyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AutoSnapshotPolicyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

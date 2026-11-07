@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AliasInitParameters struct {
@@ -24,11 +24,11 @@ type AliasInitParameters struct {
 
 	// Reference to a Key in kms to populate keyId.
 	// +kubebuilder:validation:Optional
-	KeyIDRef *v1.Reference `json:"keyIdRef,omitempty" tf:"-"`
+	KeyIDRef *v2.Reference `json:"keyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate keyId.
 	// +kubebuilder:validation:Optional
-	KeyIDSelector *v1.Selector `json:"keyIdSelector,omitempty" tf:"-"`
+	KeyIDSelector *v2.Selector `json:"keyIdSelector,omitempty" tf:"-"`
 }
 
 type AliasObservation struct {
@@ -56,11 +56,11 @@ type AliasParameters struct {
 
 	// Reference to a Key in kms to populate keyId.
 	// +kubebuilder:validation:Optional
-	KeyIDRef *v1.Reference `json:"keyIdRef,omitempty" tf:"-"`
+	KeyIDRef *v2.Reference `json:"keyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate keyId.
 	// +kubebuilder:validation:Optional
-	KeyIDSelector *v1.Selector `json:"keyIdSelector,omitempty" tf:"-"`
+	KeyIDSelector *v2.Selector `json:"keyIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -70,8 +70,8 @@ type AliasParameters struct {
 
 // AliasSpec defines the desired state of Alias
 type AliasSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AliasParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AliasParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -87,8 +87,8 @@ type AliasSpec struct {
 
 // AliasStatus defines the observed state of Alias.
 type AliasStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AliasObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AliasObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

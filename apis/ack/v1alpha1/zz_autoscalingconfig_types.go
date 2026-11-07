@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoscalingConfigInitParameters struct {
@@ -23,11 +23,11 @@ type AutoscalingConfigInitParameters struct {
 
 	// Reference to a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDRefs *v1.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
+	ClusterIDRefs *v2.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
 
 	// Selector for a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
+	ClusterIDSelector *v2.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
 
 	// Specify the time interval between detecting a scale-in requirement (when the threshold is reached) and actually executing the scale-in operation (reducing the number of Pods). Default is 10m. If the delay (cooldown) value is set too long, there could be complaints that the Horizontal Pod Autoscaler is not responsive to workload changes. However, if the delay value is set too short, the scale of the replicas set may keep thrashing as usual.
 	CoolDownDuration *string `json:"coolDownDuration,omitempty" tf:"cool_down_duration,omitempty"`
@@ -148,11 +148,11 @@ type AutoscalingConfigParameters struct {
 
 	// Reference to a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDRefs *v1.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
+	ClusterIDRefs *v2.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
 
 	// Selector for a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
+	ClusterIDSelector *v2.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
 
 	// Specify the time interval between detecting a scale-in requirement (when the threshold is reached) and actually executing the scale-in operation (reducing the number of Pods). Default is 10m. If the delay (cooldown) value is set too long, there could be complaints that the Horizontal Pod Autoscaler is not responsive to workload changes. However, if the delay value is set too short, the scale of the replicas set may keep thrashing as usual.
 	// +kubebuilder:validation:Optional
@@ -227,8 +227,8 @@ type AutoscalingConfigParameters struct {
 
 // AutoscalingConfigSpec defines the desired state of AutoscalingConfig
 type AutoscalingConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AutoscalingConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AutoscalingConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -244,8 +244,8 @@ type AutoscalingConfigSpec struct {
 
 // AutoscalingConfigStatus defines the observed state of AutoscalingConfig.
 type AutoscalingConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AutoscalingConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AutoscalingConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

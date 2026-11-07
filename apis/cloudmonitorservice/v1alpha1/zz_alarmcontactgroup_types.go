@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AlarmContactGroupInitParameters struct {
@@ -75,8 +75,8 @@ type AlarmContactGroupParameters struct {
 
 // AlarmContactGroupSpec defines the desired state of AlarmContactGroup
 type AlarmContactGroupSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     AlarmContactGroupParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   AlarmContactGroupParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -92,8 +92,8 @@ type AlarmContactGroupSpec struct {
 
 // AlarmContactGroupStatus defines the observed state of AlarmContactGroup.
 type AlarmContactGroupStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        AlarmContactGroupObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               AlarmContactGroupObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

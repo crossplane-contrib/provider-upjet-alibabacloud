@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ImageImportDiskDeviceMappingInitParameters struct {
@@ -26,29 +26,29 @@ type ImageImportDiskDeviceMappingInitParameters struct {
 
 	// The OSS bucket where the image file is stored.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	OssBucket *string `json:"ossBucket,omitempty" tf:"oss_bucket,omitempty"`
 
 	// Reference to a Bucket in oss to populate ossBucket.
 	// +kubebuilder:validation:Optional
-	OssBucketRef *v1.Reference `json:"ossBucketRef,omitempty" tf:"-"`
+	OssBucketRef *v2.Reference `json:"ossBucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate ossBucket.
 	// +kubebuilder:validation:Optional
-	OssBucketSelector *v1.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
+	OssBucketSelector *v2.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
 
 	// The name (key) of the object that the uploaded image is stored as in the OSS bucket.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.BucketObject
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	OssObject *string `json:"ossObject,omitempty" tf:"oss_object,omitempty"`
 
 	// Reference to a BucketObject in oss to populate ossObject.
 	// +kubebuilder:validation:Optional
-	OssObjectRef *v1.Reference `json:"ossObjectRef,omitempty" tf:"-"`
+	OssObjectRef *v2.Reference `json:"ossObjectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in oss to populate ossObject.
 	// +kubebuilder:validation:Optional
-	OssObjectSelector *v1.Selector `json:"ossObjectSelector,omitempty" tf:"-"`
+	OssObjectSelector *v2.Selector `json:"ossObjectSelector,omitempty" tf:"-"`
 }
 
 type ImageImportDiskDeviceMappingObservation struct {
@@ -85,31 +85,31 @@ type ImageImportDiskDeviceMappingParameters struct {
 
 	// The OSS bucket where the image file is stored.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	OssBucket *string `json:"ossBucket,omitempty" tf:"oss_bucket,omitempty"`
 
 	// Reference to a Bucket in oss to populate ossBucket.
 	// +kubebuilder:validation:Optional
-	OssBucketRef *v1.Reference `json:"ossBucketRef,omitempty" tf:"-"`
+	OssBucketRef *v2.Reference `json:"ossBucketRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate ossBucket.
 	// +kubebuilder:validation:Optional
-	OssBucketSelector *v1.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
+	OssBucketSelector *v2.Selector `json:"ossBucketSelector,omitempty" tf:"-"`
 
 	// The name (key) of the object that the uploaded image is stored as in the OSS bucket.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.BucketObject
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	OssObject *string `json:"ossObject,omitempty" tf:"oss_object,omitempty"`
 
 	// Reference to a BucketObject in oss to populate ossObject.
 	// +kubebuilder:validation:Optional
-	OssObjectRef *v1.Reference `json:"ossObjectRef,omitempty" tf:"-"`
+	OssObjectRef *v2.Reference `json:"ossObjectRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in oss to populate ossObject.
 	// +kubebuilder:validation:Optional
-	OssObjectSelector *v1.Selector `json:"ossObjectSelector,omitempty" tf:"-"`
+	OssObjectSelector *v2.Selector `json:"ossObjectSelector,omitempty" tf:"-"`
 }
 
 type ImageImportFeaturesInitParameters struct {
@@ -242,8 +242,8 @@ type ImageImportParameters struct {
 
 // ImageImportSpec defines the desired state of ImageImport
 type ImageImportSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ImageImportParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ImageImportParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -259,8 +259,8 @@ type ImageImportSpec struct {
 
 // ImageImportStatus defines the observed state of ImageImport.
 type ImageImportStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ImageImportObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ImageImportObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type StateConfigurationInitParameters struct {
@@ -135,8 +135,8 @@ type StateConfigurationParameters struct {
 
 // StateConfigurationSpec defines the desired state of StateConfiguration
 type StateConfigurationSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     StateConfigurationParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   StateConfigurationParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -152,8 +152,8 @@ type StateConfigurationSpec struct {
 
 // StateConfigurationStatus defines the observed state of StateConfiguration.
 type StateConfigurationStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        StateConfigurationObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               StateConfigurationObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

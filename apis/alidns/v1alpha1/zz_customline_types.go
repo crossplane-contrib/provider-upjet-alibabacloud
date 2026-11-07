@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CustomLineInitParameters struct {
@@ -24,11 +24,11 @@ type CustomLineInitParameters struct {
 
 	// Reference to a Domain in alidns to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameRef *v1.Reference `json:"domainNameRef,omitempty" tf:"-"`
+	DomainNameRef *v2.Reference `json:"domainNameRef,omitempty" tf:"-"`
 
 	// Selector for a Domain in alidns to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameSelector *v1.Selector `json:"domainNameSelector,omitempty" tf:"-"`
+	DomainNameSelector *v2.Selector `json:"domainNameSelector,omitempty" tf:"-"`
 
 	// The IP segment list. See ip_segment_list below for details.
 	IPSegmentList []IPSegmentListInitParameters `json:"ipSegmentList,omitempty" tf:"ip_segment_list,omitempty"`
@@ -67,11 +67,11 @@ type CustomLineParameters struct {
 
 	// Reference to a Domain in alidns to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameRef *v1.Reference `json:"domainNameRef,omitempty" tf:"-"`
+	DomainNameRef *v2.Reference `json:"domainNameRef,omitempty" tf:"-"`
 
 	// Selector for a Domain in alidns to populate domainName.
 	// +kubebuilder:validation:Optional
-	DomainNameSelector *v1.Selector `json:"domainNameSelector,omitempty" tf:"-"`
+	DomainNameSelector *v2.Selector `json:"domainNameSelector,omitempty" tf:"-"`
 
 	// The IP segment list. See ip_segment_list below for details.
 	// +kubebuilder:validation:Optional
@@ -118,8 +118,8 @@ type IPSegmentListParameters struct {
 
 // CustomLineSpec defines the desired state of CustomLine
 type CustomLineSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     CustomLineParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   CustomLineParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -135,8 +135,8 @@ type CustomLineSpec struct {
 
 // CustomLineStatus defines the observed state of CustomLine.
 type CustomLineStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        CustomLineObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               CustomLineObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

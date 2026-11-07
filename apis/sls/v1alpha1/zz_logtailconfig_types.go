@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LogtailConfigInitParameters struct {
@@ -31,11 +31,11 @@ type LogtailConfigInitParameters struct {
 
 	// Reference to a Store in sls to populate logstore.
 	// +kubebuilder:validation:Optional
-	LogstoreRef *v1.Reference `json:"logstoreRef,omitempty" tf:"-"`
+	LogstoreRef *v2.Reference `json:"logstoreRef,omitempty" tf:"-"`
 
 	// Selector for a Store in sls to populate logstore.
 	// +kubebuilder:validation:Optional
-	LogstoreSelector *v1.Selector `json:"logstoreSelector,omitempty" tf:"-"`
+	LogstoreSelector *v2.Selector `json:"logstoreSelector,omitempty" tf:"-"`
 
 	// The Logtail configuration name, which is unique in the same project.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -50,11 +50,11 @@ type LogtailConfigInitParameters struct {
 
 	// Reference to a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 type LogtailConfigObservation struct {
@@ -109,11 +109,11 @@ type LogtailConfigParameters struct {
 
 	// Reference to a Store in sls to populate logstore.
 	// +kubebuilder:validation:Optional
-	LogstoreRef *v1.Reference `json:"logstoreRef,omitempty" tf:"-"`
+	LogstoreRef *v2.Reference `json:"logstoreRef,omitempty" tf:"-"`
 
 	// Selector for a Store in sls to populate logstore.
 	// +kubebuilder:validation:Optional
-	LogstoreSelector *v1.Selector `json:"logstoreSelector,omitempty" tf:"-"`
+	LogstoreSelector *v2.Selector `json:"logstoreSelector,omitempty" tf:"-"`
 
 	// The Logtail configuration name, which is unique in the same project.
 	// +kubebuilder:validation:Optional
@@ -131,11 +131,11 @@ type LogtailConfigParameters struct {
 
 	// Reference to a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -145,8 +145,8 @@ type LogtailConfigParameters struct {
 
 // LogtailConfigSpec defines the desired state of LogtailConfig
 type LogtailConfigSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LogtailConfigParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LogtailConfigParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -162,8 +162,8 @@ type LogtailConfigSpec struct {
 
 // LogtailConfigStatus defines the observed state of LogtailConfig.
 type LogtailConfigStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LogtailConfigObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LogtailConfigObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

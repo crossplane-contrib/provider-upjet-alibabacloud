@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type OperationPolicyClusterAutoUpgradeInitParameters struct {
@@ -198,11 +198,11 @@ type ServerlessKubernetesInitParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// CIDR block of the service network. The specified CIDR block cannot overlap with that of the VPC or those of the ACK clusters that are deployed in the VPC. The CIDR block cannot be modified after the cluster is created.
 	ServiceCidr *string `json:"serviceCidr,omitempty" tf:"service_cidr,omitempty"`
@@ -226,11 +226,11 @@ type ServerlessKubernetesInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// Desired Kubernetes version. If you do not specify a value, the latest available version at resource creation is used.  Do not specify if cluster auto upgrade is enabled, see cluster_auto_upgrade for more information.
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -241,11 +241,11 @@ type ServerlessKubernetesInitParameters struct {
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
+	VswitchIdsRefs []v2.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
+	VswitchIdsSelector *v2.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
 	// When creating a cluster using automatic VPC creation, you need to specify the zone where the VPC is located. Only works for Create Operation.
 	ZoneID *string `json:"zoneId,omitempty" tf:"zone_id,omitempty"`
@@ -535,11 +535,11 @@ type ServerlessKubernetesParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// CIDR block of the service network. The specified CIDR block cannot overlap with that of the VPC or those of the ACK clusters that are deployed in the VPC. The CIDR block cannot be modified after the cluster is created.
 	// +kubebuilder:validation:Optional
@@ -569,11 +569,11 @@ type ServerlessKubernetesParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// Desired Kubernetes version. If you do not specify a value, the latest available version at resource creation is used.  Do not specify if cluster auto upgrade is enabled, see cluster_auto_upgrade for more information.
 	// +kubebuilder:validation:Optional
@@ -586,11 +586,11 @@ type ServerlessKubernetesParameters struct {
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
+	VswitchIdsRefs []v2.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
+	VswitchIdsSelector *v2.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
 	// When creating a cluster using automatic VPC creation, you need to specify the zone where the VPC is located. Only works for Create Operation.
 	// +kubebuilder:validation:Optional
@@ -620,8 +620,8 @@ type ServerlessKubernetesRrsaMetadataParameters struct {
 
 // ServerlessKubernetesSpec defines the desired state of ServerlessKubernetes
 type ServerlessKubernetesSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServerlessKubernetesParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServerlessKubernetesParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -637,8 +637,8 @@ type ServerlessKubernetesSpec struct {
 
 // ServerlessKubernetesStatus defines the observed state of ServerlessKubernetes.
 type ServerlessKubernetesStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServerlessKubernetesObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServerlessKubernetesObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FieldSearchInitParameters struct {
@@ -214,11 +214,11 @@ type StoreIndexInitParameters struct {
 
 	// Reference to a Store in sls to populate logstore.
 	// +kubebuilder:validation:Optional
-	LogstoreRef *v1.Reference `json:"logstoreRef,omitempty" tf:"-"`
+	LogstoreRef *v2.Reference `json:"logstoreRef,omitempty" tf:"-"`
 
 	// Selector for a Store in sls to populate logstore.
 	// +kubebuilder:validation:Optional
-	LogstoreSelector *v1.Selector `json:"logstoreSelector,omitempty" tf:"-"`
+	LogstoreSelector *v2.Selector `json:"logstoreSelector,omitempty" tf:"-"`
 
 	// The max text length.
 	MaxTextLen *float64 `json:"maxTextLen,omitempty" tf:"max_text_len,omitempty"`
@@ -230,11 +230,11 @@ type StoreIndexInitParameters struct {
 
 	// Reference to a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 type StoreIndexObservation struct {
@@ -297,11 +297,11 @@ type StoreIndexParameters struct {
 
 	// Reference to a Store in sls to populate logstore.
 	// +kubebuilder:validation:Optional
-	LogstoreRef *v1.Reference `json:"logstoreRef,omitempty" tf:"-"`
+	LogstoreRef *v2.Reference `json:"logstoreRef,omitempty" tf:"-"`
 
 	// Selector for a Store in sls to populate logstore.
 	// +kubebuilder:validation:Optional
-	LogstoreSelector *v1.Selector `json:"logstoreSelector,omitempty" tf:"-"`
+	LogstoreSelector *v2.Selector `json:"logstoreSelector,omitempty" tf:"-"`
 
 	// The max text length.
 	// +kubebuilder:validation:Optional
@@ -315,11 +315,11 @@ type StoreIndexParameters struct {
 
 	// Reference to a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
+	ProjectRef *v2.Reference `json:"projectRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate project.
 	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
+	ProjectSelector *v2.Selector `json:"projectSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -329,8 +329,8 @@ type StoreIndexParameters struct {
 
 // StoreIndexSpec defines the desired state of StoreIndex
 type StoreIndexSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     StoreIndexParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   StoreIndexParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -346,8 +346,8 @@ type StoreIndexSpec struct {
 
 // StoreIndexStatus defines the observed state of StoreIndex.
 type StoreIndexStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        StoreIndexObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               StoreIndexObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

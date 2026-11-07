@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ScheduledScalingRuleInitParameters struct {
@@ -33,11 +33,11 @@ type ScheduledScalingRuleInitParameters struct {
 
 	// Reference to a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// When schedule_type is repeat, the parameter is required. Valid values:
 	// -Daily: Daily scheduled task.
@@ -132,11 +132,11 @@ type ScheduledScalingRuleParameters struct {
 
 	// Reference to a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in alikafka to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -177,8 +177,8 @@ type ScheduledScalingRuleParameters struct {
 
 // ScheduledScalingRuleSpec defines the desired state of ScheduledScalingRule
 type ScheduledScalingRuleSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ScheduledScalingRuleParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ScheduledScalingRuleParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -194,8 +194,8 @@ type ScheduledScalingRuleSpec struct {
 
 // ScheduledScalingRuleStatus defines the observed state of ScheduledScalingRule.
 type ScheduledScalingRuleStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ScheduledScalingRuleObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ScheduledScalingRuleObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

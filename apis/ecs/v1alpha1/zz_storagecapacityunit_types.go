@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type StorageCapacityUnitInitParameters struct {
@@ -94,8 +94,8 @@ type StorageCapacityUnitParameters struct {
 
 // StorageCapacityUnitSpec defines the desired state of StorageCapacityUnit
 type StorageCapacityUnitSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     StorageCapacityUnitParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   StorageCapacityUnitParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -111,8 +111,8 @@ type StorageCapacityUnitSpec struct {
 
 // StorageCapacityUnitStatus defines the observed state of StorageCapacityUnit.
 type StorageCapacityUnitStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        StorageCapacityUnitObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               StorageCapacityUnitObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

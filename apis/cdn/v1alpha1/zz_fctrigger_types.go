@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FcTriggerInitParameters struct {
@@ -34,11 +34,11 @@ type FcTriggerInitParameters struct {
 
 	// Reference to a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+	RoleArnRef *v2.Reference `json:"roleArnRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
+	RoleArnSelector *v2.Selector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// Resources and filters for event listening. The value formats as acs:cdn:{RegionID}:{AccountID}:{Filter}.
 	SourceArn *string `json:"sourceArn,omitempty" tf:"source_arn,omitempty"`
@@ -105,11 +105,11 @@ type FcTriggerParameters struct {
 
 	// Reference to a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnRef *v1.Reference `json:"roleArnRef,omitempty" tf:"-"`
+	RoleArnRef *v2.Reference `json:"roleArnRef,omitempty" tf:"-"`
 
 	// Selector for a Role in ram to populate roleArn.
 	// +kubebuilder:validation:Optional
-	RoleArnSelector *v1.Selector `json:"roleArnSelector,omitempty" tf:"-"`
+	RoleArnSelector *v2.Selector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// Resources and filters for event listening. The value formats as acs:cdn:{RegionID}:{AccountID}:{Filter}.
 	// +kubebuilder:validation:Optional
@@ -122,8 +122,8 @@ type FcTriggerParameters struct {
 
 // FcTriggerSpec defines the desired state of FcTrigger
 type FcTriggerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     FcTriggerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   FcTriggerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -139,8 +139,8 @@ type FcTriggerSpec struct {
 
 // FcTriggerStatus defines the observed state of FcTrigger.
 type FcTriggerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        FcTriggerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               FcTriggerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AuditLogConfigInitParameters struct {
@@ -436,16 +436,16 @@ type ManagedKubernetesInitParameters struct {
 
 	// - [Terway Specific] The vswitches for the pod network when using Terway. It is recommended that pod_vswitch_ids is not belong to vswitch_ids but must be in same availability zones. Only works for Create Operation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PodVswitchIds []*string `json:"podVswitchIds,omitempty" tf:"pod_vswitch_ids,omitempty"`
 
 	// References to Vswitch in vpc to populate podVswitchIds.
 	// +kubebuilder:validation:Optional
-	PodVswitchIdsRefs []v1.Reference `json:"podVswitchIdsRefs,omitempty" tf:"-"`
+	PodVswitchIdsRefs []v2.Reference `json:"podVswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate podVswitchIds.
 	// +kubebuilder:validation:Optional
-	PodVswitchIdsSelector *v1.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
+	PodVswitchIdsSelector *v2.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
 
 	// The profile of cluster. Valid values:
 	Profile *string `json:"profile,omitempty" tf:"profile,omitempty"`
@@ -465,11 +465,11 @@ type ManagedKubernetesInitParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The issuer of the Service Account token for Service Account Token Volume Projection, corresponds to the iss field in the token payload. Set this to "https://kubernetes.default.svc" to enable the Token Volume Projection feature (requires specifying api_audiences as well). From cluster version 1.22, Service Account Token Volume Projection will be enabled by default.
 	ServiceAccountIssuer *string `json:"serviceAccountIssuer,omitempty" tf:"service_account_issuer,omitempty"`
@@ -505,11 +505,11 @@ type ManagedKubernetesInitParameters struct {
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
+	VswitchIdsRefs []v2.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
+	VswitchIdsSelector *v2.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
 	// The vSwitches used by control plane. Modification after creation will not take effect. Please use vswitch_ids to managed control plane vSwitches, which supports modifying control plane vSwitches.
 	WorkerVswitchIds []*string `json:"workerVswitchIds,omitempty" tf:"worker_vswitch_ids,omitempty"`
@@ -810,17 +810,17 @@ type ManagedKubernetesParameters struct {
 
 	// - [Terway Specific] The vswitches for the pod network when using Terway. It is recommended that pod_vswitch_ids is not belong to vswitch_ids but must be in same availability zones. Only works for Create Operation.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PodVswitchIds []*string `json:"podVswitchIds,omitempty" tf:"pod_vswitch_ids,omitempty"`
 
 	// References to Vswitch in vpc to populate podVswitchIds.
 	// +kubebuilder:validation:Optional
-	PodVswitchIdsRefs []v1.Reference `json:"podVswitchIdsRefs,omitempty" tf:"-"`
+	PodVswitchIdsRefs []v2.Reference `json:"podVswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate podVswitchIds.
 	// +kubebuilder:validation:Optional
-	PodVswitchIdsSelector *v1.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
+	PodVswitchIdsSelector *v2.Selector `json:"podVswitchIdsSelector,omitempty" tf:"-"`
 
 	// The profile of cluster. Valid values:
 	// +kubebuilder:validation:Optional
@@ -850,11 +850,11 @@ type ManagedKubernetesParameters struct {
 
 	// Reference to a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRef *v1.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
+	SecurityGroupIDRef *v2.Reference `json:"securityGroupIdRef,omitempty" tf:"-"`
 
 	// Selector for a SecurityGroup in ecs to populate securityGroupId.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The issuer of the Service Account token for Service Account Token Volume Projection, corresponds to the iss field in the token payload. Set this to "https://kubernetes.default.svc" to enable the Token Volume Projection feature (requires specifying api_audiences as well). From cluster version 1.22, Service Account Token Volume Projection will be enabled by default.
 	// +kubebuilder:validation:Optional
@@ -900,11 +900,11 @@ type ManagedKubernetesParameters struct {
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
+	VswitchIdsRefs []v2.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
+	VswitchIdsSelector *v2.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 
 	// The vSwitches used by control plane. Modification after creation will not take effect. Please use vswitch_ids to managed control plane vSwitches, which supports modifying control plane vSwitches.
 	// +kubebuilder:validation:Optional
@@ -976,8 +976,8 @@ type RrsaMetadataParameters struct {
 
 // ManagedKubernetesSpec defines the desired state of ManagedKubernetes
 type ManagedKubernetesSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ManagedKubernetesParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ManagedKubernetesParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -993,8 +993,8 @@ type ManagedKubernetesSpec struct {
 
 // ManagedKubernetesStatus defines the observed state of ManagedKubernetes.
 type ManagedKubernetesStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ManagedKubernetesObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ManagedKubernetesObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

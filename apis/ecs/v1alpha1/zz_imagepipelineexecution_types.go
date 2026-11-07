@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ImagePipelineExecutionInitParameters struct {
@@ -21,11 +21,11 @@ type ImagePipelineExecutionInitParameters struct {
 
 	// Reference to a ImagePipeline in ecs to populate imagePipelineId.
 	// +kubebuilder:validation:Optional
-	ImagePipelineIDRef *v1.Reference `json:"imagePipelineIdRef,omitempty" tf:"-"`
+	ImagePipelineIDRef *v2.Reference `json:"imagePipelineIdRef,omitempty" tf:"-"`
 
 	// Selector for a ImagePipeline in ecs to populate imagePipelineId.
 	// +kubebuilder:validation:Optional
-	ImagePipelineIDSelector *v1.Selector `json:"imagePipelineIdSelector,omitempty" tf:"-"`
+	ImagePipelineIDSelector *v2.Selector `json:"imagePipelineIdSelector,omitempty" tf:"-"`
 
 	// The status of the image build task. Valid values:
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
@@ -55,11 +55,11 @@ type ImagePipelineExecutionParameters struct {
 
 	// Reference to a ImagePipeline in ecs to populate imagePipelineId.
 	// +kubebuilder:validation:Optional
-	ImagePipelineIDRef *v1.Reference `json:"imagePipelineIdRef,omitempty" tf:"-"`
+	ImagePipelineIDRef *v2.Reference `json:"imagePipelineIdRef,omitempty" tf:"-"`
 
 	// Selector for a ImagePipeline in ecs to populate imagePipelineId.
 	// +kubebuilder:validation:Optional
-	ImagePipelineIDSelector *v1.Selector `json:"imagePipelineIdSelector,omitempty" tf:"-"`
+	ImagePipelineIDSelector *v2.Selector `json:"imagePipelineIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -73,8 +73,8 @@ type ImagePipelineExecutionParameters struct {
 
 // ImagePipelineExecutionSpec defines the desired state of ImagePipelineExecution
 type ImagePipelineExecutionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ImagePipelineExecutionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ImagePipelineExecutionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -90,8 +90,8 @@ type ImagePipelineExecutionSpec struct {
 
 // ImagePipelineExecutionStatus defines the observed state of ImagePipelineExecution.
 type ImagePipelineExecutionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ImagePipelineExecutionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ImagePipelineExecutionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

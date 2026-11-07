@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ListenerInitParameters struct {
@@ -22,11 +22,11 @@ type ListenerInitParameters struct {
 
 	// References to ACL in slb to populate aclIds.
 	// +kubebuilder:validation:Optional
-	ACLIdsRefs []v1.Reference `json:"aclIdsRefs,omitempty" tf:"-"`
+	ACLIdsRefs []v2.Reference `json:"aclIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of ACL in slb to populate aclIds.
 	// +kubebuilder:validation:Optional
-	ACLIdsSelector *v1.Selector `json:"aclIdsSelector,omitempty" tf:"-"`
+	ACLIdsSelector *v2.Selector `json:"aclIdsSelector,omitempty" tf:"-"`
 
 	// Specifies whether to enable access control. Default value: off. Valid values: on, off.
 	ACLStatus *string `json:"aclStatus,omitempty" tf:"acl_status,omitempty"`
@@ -109,16 +109,16 @@ type ListenerInitParameters struct {
 
 	// The Load Balancer ID which is used to launch a new listener.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/slb/v1alpha1.LoadBalancer
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
 
 	// Reference to a LoadBalancer in slb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+	LoadBalancerIDRef *v2.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
 	// Selector for a LoadBalancer in slb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+	LoadBalancerIDSelector *v2.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
 	// The ID of the primary/secondary server group. NOTE: You cannot set both server_group_id and master_slave_server_group_id.
 	MasterSlaveServerGroupID *string `json:"masterSlaveServerGroupId,omitempty" tf:"master_slave_server_group_id,omitempty"`
@@ -302,11 +302,11 @@ type ListenerParameters struct {
 
 	// References to ACL in slb to populate aclIds.
 	// +kubebuilder:validation:Optional
-	ACLIdsRefs []v1.Reference `json:"aclIdsRefs,omitempty" tf:"-"`
+	ACLIdsRefs []v2.Reference `json:"aclIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of ACL in slb to populate aclIds.
 	// +kubebuilder:validation:Optional
-	ACLIdsSelector *v1.Selector `json:"aclIdsSelector,omitempty" tf:"-"`
+	ACLIdsSelector *v2.Selector `json:"aclIdsSelector,omitempty" tf:"-"`
 
 	// Specifies whether to enable access control. Default value: off. Valid values: on, off.
 	// +kubebuilder:validation:Optional
@@ -415,17 +415,17 @@ type ListenerParameters struct {
 
 	// The Load Balancer ID which is used to launch a new listener.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/slb/v1alpha1.LoadBalancer
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	LoadBalancerID *string `json:"loadBalancerId,omitempty" tf:"load_balancer_id,omitempty"`
 
 	// Reference to a LoadBalancer in slb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDRef *v1.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
+	LoadBalancerIDRef *v2.Reference `json:"loadBalancerIdRef,omitempty" tf:"-"`
 
 	// Selector for a LoadBalancer in slb to populate loadBalancerId.
 	// +kubebuilder:validation:Optional
-	LoadBalancerIDSelector *v1.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
+	LoadBalancerIDSelector *v2.Selector `json:"loadBalancerIdSelector,omitempty" tf:"-"`
 
 	// The ID of the primary/secondary server group. NOTE: You cannot set both server_group_id and master_slave_server_group_id.
 	// +kubebuilder:validation:Optional
@@ -529,8 +529,8 @@ type XForwardedForParameters struct {
 
 // ListenerSpec defines the desired state of Listener
 type ListenerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ListenerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ListenerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -546,8 +546,8 @@ type ListenerSpec struct {
 
 // ListenerStatus defines the observed state of Listener.
 type ListenerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ListenerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ListenerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

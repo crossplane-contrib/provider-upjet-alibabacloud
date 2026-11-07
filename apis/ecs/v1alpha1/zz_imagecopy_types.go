@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ImageCopyInitParameters struct {
@@ -34,11 +34,11 @@ type ImageCopyInitParameters struct {
 
 	// Reference to a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+	KMSKeyIDRef *v2.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
+	KMSKeyIDSelector *v2.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
 
 	// The source image ID.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Image
@@ -46,11 +46,11 @@ type ImageCopyInitParameters struct {
 
 	// Reference to a Image in ecs to populate sourceImageId.
 	// +kubebuilder:validation:Optional
-	SourceImageIDRef *v1.Reference `json:"sourceImageIdRef,omitempty" tf:"-"`
+	SourceImageIDRef *v2.Reference `json:"sourceImageIdRef,omitempty" tf:"-"`
 
 	// Selector for a Image in ecs to populate sourceImageId.
 	// +kubebuilder:validation:Optional
-	SourceImageIDSelector *v1.Selector `json:"sourceImageIdSelector,omitempty" tf:"-"`
+	SourceImageIDSelector *v2.Selector `json:"sourceImageIdSelector,omitempty" tf:"-"`
 
 	// The ID of the region to which the source custom image belongs. You can call DescribeRegions to view the latest regions of Alibaba Cloud.
 	SourceRegionID *string `json:"sourceRegionId,omitempty" tf:"source_region_id,omitempty"`
@@ -120,11 +120,11 @@ type ImageCopyParameters struct {
 
 	// Reference to a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+	KMSKeyIDRef *v2.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
+	KMSKeyIDSelector *v2.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -138,11 +138,11 @@ type ImageCopyParameters struct {
 
 	// Reference to a Image in ecs to populate sourceImageId.
 	// +kubebuilder:validation:Optional
-	SourceImageIDRef *v1.Reference `json:"sourceImageIdRef,omitempty" tf:"-"`
+	SourceImageIDRef *v2.Reference `json:"sourceImageIdRef,omitempty" tf:"-"`
 
 	// Selector for a Image in ecs to populate sourceImageId.
 	// +kubebuilder:validation:Optional
-	SourceImageIDSelector *v1.Selector `json:"sourceImageIdSelector,omitempty" tf:"-"`
+	SourceImageIDSelector *v2.Selector `json:"sourceImageIdSelector,omitempty" tf:"-"`
 
 	// The ID of the region to which the source custom image belongs. You can call DescribeRegions to view the latest regions of Alibaba Cloud.
 	// +kubebuilder:validation:Optional
@@ -156,8 +156,8 @@ type ImageCopyParameters struct {
 
 // ImageCopySpec defines the desired state of ImageCopy
 type ImageCopySpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ImageCopyParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ImageCopyParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -173,8 +173,8 @@ type ImageCopySpec struct {
 
 // ImageCopyStatus defines the observed state of ImageCopy.
 type ImageCopyStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ImageCopyObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ImageCopyObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

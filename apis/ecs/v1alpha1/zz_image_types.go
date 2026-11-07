@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DiskDeviceMappingInitParameters struct {
@@ -137,11 +137,11 @@ type ImageInitParameters struct {
 
 	// Reference to a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The type of the license that is used to activate the operating system after the image is imported. Set the value to BYOL. BYOL: The license that comes with the source operating system is used. When you use the BYOL license, make sure that your license key is supported by Alibaba Cloud.
 	LicenseType *string `json:"licenseType,omitempty" tf:"license_type,omitempty"`
@@ -158,11 +158,11 @@ type ImageInitParameters struct {
 
 	// Reference to a Snapshot in ecs to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDRef *v1.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
+	SnapshotIDRef *v2.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
 
 	// Selector for a Snapshot in ecs to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDSelector *v1.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
+	SnapshotIDSelector *v2.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
 
 	// Key-value map of resource tags.
 	// +mapType=granular
@@ -289,11 +289,11 @@ type ImageParameters struct {
 
 	// Reference to a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDRef *v1.Reference `json:"instanceIdRef,omitempty" tf:"-"`
+	InstanceIDRef *v2.Reference `json:"instanceIdRef,omitempty" tf:"-"`
 
 	// Selector for a Instance in ecs to populate instanceId.
 	// +kubebuilder:validation:Optional
-	InstanceIDSelector *v1.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
+	InstanceIDSelector *v2.Selector `json:"instanceIdSelector,omitempty" tf:"-"`
 
 	// The type of the license that is used to activate the operating system after the image is imported. Set the value to BYOL. BYOL: The license that comes with the source operating system is used. When you use the BYOL license, make sure that your license key is supported by Alibaba Cloud.
 	// +kubebuilder:validation:Optional
@@ -319,11 +319,11 @@ type ImageParameters struct {
 
 	// Reference to a Snapshot in ecs to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDRef *v1.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
+	SnapshotIDRef *v2.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
 
 	// Selector for a Snapshot in ecs to populate snapshotId.
 	// +kubebuilder:validation:Optional
-	SnapshotIDSelector *v1.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
+	SnapshotIDSelector *v2.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
 
 	// Key-value map of resource tags.
 	// +kubebuilder:validation:Optional
@@ -333,8 +333,8 @@ type ImageParameters struct {
 
 // ImageSpec defines the desired state of Image
 type ImageSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ImageParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ImageParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -350,8 +350,8 @@ type ImageSpec struct {
 
 // ImageStatus defines the observed state of Image.
 type ImageStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ImageObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ImageObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

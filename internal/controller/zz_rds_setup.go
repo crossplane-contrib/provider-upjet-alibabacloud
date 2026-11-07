@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	account "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/account"
 	accountprivilege "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/rds/accountprivilege"
@@ -53,6 +53,65 @@ func Setup_rds(mgr ctrl.Manager, o controller.Options) error {
 		whitelisttemplate.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupGated_rds creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_rds(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		account.SetupGated,
+		accountprivilege.SetupGated,
+		backup.SetupGated,
+		backuppolicy.SetupGated,
+		connection.SetupGated,
+		database.SetupGated,
+		dbinstanceendpoint.SetupGated,
+		dbinstanceendpointaddress.SetupGated,
+		dbnode.SetupGated,
+		dbproxy.SetupGated,
+		dbproxypublic.SetupGated,
+		instance.SetupGated,
+		instancecrossbackuppolicy.SetupGated,
+		parametergroup.SetupGated,
+		readonlyinstance.SetupGated,
+		readwritesplittingconnection.SetupGated,
+		servicelinkedrole.SetupGated,
+		whitelisttemplate.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupWebhookWithManager_rds registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_rds(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		account.SetupWebhookWithManager,
+		accountprivilege.SetupWebhookWithManager,
+		backup.SetupWebhookWithManager,
+		backuppolicy.SetupWebhookWithManager,
+		connection.SetupWebhookWithManager,
+		database.SetupWebhookWithManager,
+		dbinstanceendpoint.SetupWebhookWithManager,
+		dbinstanceendpointaddress.SetupWebhookWithManager,
+		dbnode.SetupWebhookWithManager,
+		dbproxy.SetupWebhookWithManager,
+		dbproxypublic.SetupWebhookWithManager,
+		instance.SetupWebhookWithManager,
+		instancecrossbackuppolicy.SetupWebhookWithManager,
+		parametergroup.SetupWebhookWithManager,
+		readonlyinstance.SetupWebhookWithManager,
+		readwritesplittingconnection.SetupWebhookWithManager,
+		servicelinkedrole.SetupWebhookWithManager,
+		whitelisttemplate.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
 			return err
 		}
 	}

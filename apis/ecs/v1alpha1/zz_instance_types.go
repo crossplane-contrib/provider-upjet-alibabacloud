@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type CPUOptionsInitParameters struct {
@@ -87,16 +87,16 @@ type InstanceDataDisksInitParameters struct {
 
 	// The KMS key ID corresponding to the Nth data disk.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// Reference to a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+	KMSKeyIDRef *v2.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
+	KMSKeyIDSelector *v2.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
 
 	// The name of the data disk.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -188,17 +188,17 @@ type InstanceDataDisksParameters struct {
 
 	// The KMS key ID corresponding to the Nth data disk.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/kms/v1alpha1.Key
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	KMSKeyID *string `json:"kmsKeyId,omitempty" tf:"kms_key_id,omitempty"`
 
 	// Reference to a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDRef *v1.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
+	KMSKeyIDRef *v2.Reference `json:"kmsKeyIdRef,omitempty" tf:"-"`
 
 	// Selector for a Key in kms to populate kmsKeyId.
 	// +kubebuilder:validation:Optional
-	KMSKeyIDSelector *v1.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
+	KMSKeyIDSelector *v2.Selector `json:"kmsKeyIdSelector,omitempty" tf:"-"`
 
 	// The name of the data disk.
 	// +kubebuilder:validation:Optional
@@ -320,11 +320,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a Image in ecs to populate imageId.
 	// +kubebuilder:validation:Optional
-	ImageIDRef *v1.Reference `json:"imageIdRef,omitempty" tf:"-"`
+	ImageIDRef *v2.Reference `json:"imageIdRef,omitempty" tf:"-"`
 
 	// Selector for a Image in ecs to populate imageId.
 	// +kubebuilder:validation:Optional
-	ImageIDSelector *v1.Selector `json:"imageIdSelector,omitempty" tf:"-"`
+	ImageIDSelector *v2.Selector `json:"imageIdSelector,omitempty" tf:"-"`
 
 	// The options of images. Note: The parameter is immutable after resource creation. See image_options below.
 	ImageOptions []InstanceImageOptionsInitParameters `json:"imageOptions,omitempty" tf:"image_options,omitempty"`
@@ -370,11 +370,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a KeyPair in ecs to populate keyName.
 	// +kubebuilder:validation:Optional
-	KeyNameRef *v1.Reference `json:"keyNameRef,omitempty" tf:"-"`
+	KeyNameRef *v2.Reference `json:"keyNameRef,omitempty" tf:"-"`
 
 	// Selector for a KeyPair in ecs to populate keyName.
 	// +kubebuilder:validation:Optional
-	KeyNameSelector *v1.Selector `json:"keyNameSelector,omitempty" tf:"-"`
+	KeyNameSelector *v2.Selector `json:"keyNameSelector,omitempty" tf:"-"`
 
 	// The ID of the launch template. For more information, see DescribeLaunchTemplates.To use a launch template to create an instance, you must use the launch_template_id or launch_template_name parameter to specify the launch template.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.LaunchTemplate
@@ -382,11 +382,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a LaunchTemplate in ecs to populate launchTemplateId.
 	// +kubebuilder:validation:Optional
-	LaunchTemplateIDRef *v1.Reference `json:"launchTemplateIdRef,omitempty" tf:"-"`
+	LaunchTemplateIDRef *v2.Reference `json:"launchTemplateIdRef,omitempty" tf:"-"`
 
 	// Selector for a LaunchTemplate in ecs to populate launchTemplateId.
 	// +kubebuilder:validation:Optional
-	LaunchTemplateIDSelector *v1.Selector `json:"launchTemplateIdSelector,omitempty" tf:"-"`
+	LaunchTemplateIDSelector *v2.Selector `json:"launchTemplateIdSelector,omitempty" tf:"-"`
 
 	// The name of the launch template.
 	LaunchTemplateName *string `json:"launchTemplateName,omitempty" tf:"launch_template_name,omitempty"`
@@ -422,7 +422,7 @@ type InstanceInitParameters struct {
 	PasswordInherit *bool `json:"passwordInherit,omitempty" tf:"password_inherit,omitempty"`
 
 	// Password to an instance is a string of 8 to 30 characters. It must contain uppercase/lowercase letters and numerals, but cannot contain special symbols. When it is changed, the instance will reboot to make the change take effect.
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The duration that you will buy the resource, in month. It is valid and required when instance_charge_type is PrePaid. Valid values:
 	Period *float64 `json:"period,omitempty" tf:"period,omitempty"`
@@ -463,11 +463,11 @@ type InstanceInitParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroups.
 	// +kubebuilder:validation:Optional
-	SecurityGroupRefs []v1.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
+	SecurityGroupRefs []v2.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroups.
 	// +kubebuilder:validation:Optional
-	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+	SecurityGroupSelector *v2.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
 	// A list of security group ids to associate with.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -549,11 +549,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// A mapping of tags to assign to the devices created by the instance at launch time.
 	// +mapType=granular
@@ -565,11 +565,11 @@ type InstanceInitParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 type InstanceNetworkInterfacesInitParameters struct {
@@ -1063,11 +1063,11 @@ type InstanceParameters struct {
 
 	// Reference to a Image in ecs to populate imageId.
 	// +kubebuilder:validation:Optional
-	ImageIDRef *v1.Reference `json:"imageIdRef,omitempty" tf:"-"`
+	ImageIDRef *v2.Reference `json:"imageIdRef,omitempty" tf:"-"`
 
 	// Selector for a Image in ecs to populate imageId.
 	// +kubebuilder:validation:Optional
-	ImageIDSelector *v1.Selector `json:"imageIdSelector,omitempty" tf:"-"`
+	ImageIDSelector *v2.Selector `json:"imageIdSelector,omitempty" tf:"-"`
 
 	// The options of images. Note: The parameter is immutable after resource creation. See image_options below.
 	// +kubebuilder:validation:Optional
@@ -1125,11 +1125,11 @@ type InstanceParameters struct {
 
 	// Reference to a KeyPair in ecs to populate keyName.
 	// +kubebuilder:validation:Optional
-	KeyNameRef *v1.Reference `json:"keyNameRef,omitempty" tf:"-"`
+	KeyNameRef *v2.Reference `json:"keyNameRef,omitempty" tf:"-"`
 
 	// Selector for a KeyPair in ecs to populate keyName.
 	// +kubebuilder:validation:Optional
-	KeyNameSelector *v1.Selector `json:"keyNameSelector,omitempty" tf:"-"`
+	KeyNameSelector *v2.Selector `json:"keyNameSelector,omitempty" tf:"-"`
 
 	// The ID of the launch template. For more information, see DescribeLaunchTemplates.To use a launch template to create an instance, you must use the launch_template_id or launch_template_name parameter to specify the launch template.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.LaunchTemplate
@@ -1138,11 +1138,11 @@ type InstanceParameters struct {
 
 	// Reference to a LaunchTemplate in ecs to populate launchTemplateId.
 	// +kubebuilder:validation:Optional
-	LaunchTemplateIDRef *v1.Reference `json:"launchTemplateIdRef,omitempty" tf:"-"`
+	LaunchTemplateIDRef *v2.Reference `json:"launchTemplateIdRef,omitempty" tf:"-"`
 
 	// Selector for a LaunchTemplate in ecs to populate launchTemplateId.
 	// +kubebuilder:validation:Optional
-	LaunchTemplateIDSelector *v1.Selector `json:"launchTemplateIdSelector,omitempty" tf:"-"`
+	LaunchTemplateIDSelector *v2.Selector `json:"launchTemplateIdSelector,omitempty" tf:"-"`
 
 	// The name of the launch template.
 	// +kubebuilder:validation:Optional
@@ -1190,7 +1190,7 @@ type InstanceParameters struct {
 
 	// Password to an instance is a string of 8 to 30 characters. It must contain uppercase/lowercase letters and numerals, but cannot contain special symbols. When it is changed, the instance will reboot to make the change take effect.
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// The duration that you will buy the resource, in month. It is valid and required when instance_charge_type is PrePaid. Valid values:
 	// +kubebuilder:validation:Optional
@@ -1248,11 +1248,11 @@ type InstanceParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroups.
 	// +kubebuilder:validation:Optional
-	SecurityGroupRefs []v1.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
+	SecurityGroupRefs []v2.Reference `json:"securityGroupRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroups.
 	// +kubebuilder:validation:Optional
-	SecurityGroupSelector *v1.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
+	SecurityGroupSelector *v2.Selector `json:"securityGroupSelector,omitempty" tf:"-"`
 
 	// A list of security group ids to associate with.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -1357,11 +1357,11 @@ type InstanceParameters struct {
 
 	// Reference to a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDRef *v1.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
 
 	// Selector for a VPC in vpc to populate vpcId.
 	// +kubebuilder:validation:Optional
-	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// A mapping of tags to assign to the devices created by the instance at launch time.
 	// +kubebuilder:validation:Optional
@@ -1375,11 +1375,11 @@ type InstanceParameters struct {
 
 	// Reference to a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDRef *v1.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
+	VswitchIDRef *v2.Reference `json:"vswitchIdRef,omitempty" tf:"-"`
 
 	// Selector for a Vswitch in vpc to populate vswitchId.
 	// +kubebuilder:validation:Optional
-	VswitchIDSelector *v1.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
+	VswitchIDSelector *v2.Selector `json:"vswitchIdSelector,omitempty" tf:"-"`
 }
 
 type MaintenanceTimeInitParameters struct {
@@ -1413,8 +1413,8 @@ type MaintenanceTimeParameters struct {
 
 // InstanceSpec defines the desired state of Instance
 type InstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -1430,8 +1430,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

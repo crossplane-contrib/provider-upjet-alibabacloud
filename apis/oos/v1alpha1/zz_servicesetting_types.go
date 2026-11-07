@@ -10,23 +10,23 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ServiceSettingInitParameters struct {
 
 	// The name of the OSS bucket. NOTE: When the delivery_oss_enabled is true, The delivery_oss_bucket_name is valid.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("bucket",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("bucket",false)
 	DeliveryOssBucketName *string `json:"deliveryOssBucketName,omitempty" tf:"delivery_oss_bucket_name,omitempty"`
 
 	// Reference to a Bucket in oss to populate deliveryOssBucketName.
 	// +kubebuilder:validation:Optional
-	DeliveryOssBucketNameRef *v1.Reference `json:"deliveryOssBucketNameRef,omitempty" tf:"-"`
+	DeliveryOssBucketNameRef *v2.Reference `json:"deliveryOssBucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate deliveryOssBucketName.
 	// +kubebuilder:validation:Optional
-	DeliveryOssBucketNameSelector *v1.Selector `json:"deliveryOssBucketNameSelector,omitempty" tf:"-"`
+	DeliveryOssBucketNameSelector *v2.Selector `json:"deliveryOssBucketNameSelector,omitempty" tf:"-"`
 
 	// Is the recording function for the OSS delivery template enabled.
 	DeliveryOssEnabled *bool `json:"deliveryOssEnabled,omitempty" tf:"delivery_oss_enabled,omitempty"`
@@ -39,16 +39,16 @@ type ServiceSettingInitParameters struct {
 
 	// The name of SLS  Project. NOTE: When the delivery_sls_enabled is true, The delivery_sls_project_name is valid.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_name",false)
 	DeliverySlsProjectName *string `json:"deliverySlsProjectName,omitempty" tf:"delivery_sls_project_name,omitempty"`
 
 	// Reference to a Project in sls to populate deliverySlsProjectName.
 	// +kubebuilder:validation:Optional
-	DeliverySlsProjectNameRef *v1.Reference `json:"deliverySlsProjectNameRef,omitempty" tf:"-"`
+	DeliverySlsProjectNameRef *v2.Reference `json:"deliverySlsProjectNameRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate deliverySlsProjectName.
 	// +kubebuilder:validation:Optional
-	DeliverySlsProjectNameSelector *v1.Selector `json:"deliverySlsProjectNameSelector,omitempty" tf:"-"`
+	DeliverySlsProjectNameSelector *v2.Selector `json:"deliverySlsProjectNameSelector,omitempty" tf:"-"`
 }
 
 type ServiceSettingObservation struct {
@@ -75,17 +75,17 @@ type ServiceSettingParameters struct {
 
 	// The name of the OSS bucket. NOTE: When the delivery_oss_enabled is true, The delivery_oss_bucket_name is valid.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("bucket",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("bucket",false)
 	// +kubebuilder:validation:Optional
 	DeliveryOssBucketName *string `json:"deliveryOssBucketName,omitempty" tf:"delivery_oss_bucket_name,omitempty"`
 
 	// Reference to a Bucket in oss to populate deliveryOssBucketName.
 	// +kubebuilder:validation:Optional
-	DeliveryOssBucketNameRef *v1.Reference `json:"deliveryOssBucketNameRef,omitempty" tf:"-"`
+	DeliveryOssBucketNameRef *v2.Reference `json:"deliveryOssBucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate deliveryOssBucketName.
 	// +kubebuilder:validation:Optional
-	DeliveryOssBucketNameSelector *v1.Selector `json:"deliveryOssBucketNameSelector,omitempty" tf:"-"`
+	DeliveryOssBucketNameSelector *v2.Selector `json:"deliveryOssBucketNameSelector,omitempty" tf:"-"`
 
 	// Is the recording function for the OSS delivery template enabled.
 	// +kubebuilder:validation:Optional
@@ -101,17 +101,17 @@ type ServiceSettingParameters struct {
 
 	// The name of SLS  Project. NOTE: When the delivery_sls_enabled is true, The delivery_sls_project_name is valid.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_name",false)
 	// +kubebuilder:validation:Optional
 	DeliverySlsProjectName *string `json:"deliverySlsProjectName,omitempty" tf:"delivery_sls_project_name,omitempty"`
 
 	// Reference to a Project in sls to populate deliverySlsProjectName.
 	// +kubebuilder:validation:Optional
-	DeliverySlsProjectNameRef *v1.Reference `json:"deliverySlsProjectNameRef,omitempty" tf:"-"`
+	DeliverySlsProjectNameRef *v2.Reference `json:"deliverySlsProjectNameRef,omitempty" tf:"-"`
 
 	// Selector for a Project in sls to populate deliverySlsProjectName.
 	// +kubebuilder:validation:Optional
-	DeliverySlsProjectNameSelector *v1.Selector `json:"deliverySlsProjectNameSelector,omitempty" tf:"-"`
+	DeliverySlsProjectNameSelector *v2.Selector `json:"deliverySlsProjectNameSelector,omitempty" tf:"-"`
 
 	// Region is the region you'd like your resource to be created in.
 	// +upjet:crd:field:TFTag=-
@@ -121,8 +121,8 @@ type ServiceSettingParameters struct {
 
 // ServiceSettingSpec defines the desired state of ServiceSetting
 type ServiceSettingSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ServiceSettingParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ServiceSettingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -138,8 +138,8 @@ type ServiceSettingSpec struct {
 
 // ServiceSettingStatus defines the observed state of ServiceSetting.
 type ServiceSettingStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ServiceSettingObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ServiceSettingObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

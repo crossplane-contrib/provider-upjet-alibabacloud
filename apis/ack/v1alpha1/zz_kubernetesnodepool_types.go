@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type AutoModeInitParameters struct {
@@ -866,11 +866,11 @@ type KubernetesNodePoolInitParameters struct {
 
 	// Reference to a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDRefs *v1.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
+	ClusterIDRefs *v2.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
 
 	// Selector for a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
+	ClusterIDSelector *v2.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
 
 	// Specifies whether to automatically create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created due to reasons such as cost or insufficient inventory. This parameter takes effect when you set multi_az_policy to COST_OPTIMIZED. Valid values: true: automatically creates pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created. false: does not create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created.
 	CompensateWithOnDemand *bool `json:"compensateWithOnDemand,omitempty" tf:"compensate_with_on_demand,omitempty"`
@@ -927,7 +927,7 @@ type KubernetesNodePoolInitParameters struct {
 	InternetMaxBandwidthOut *float64 `json:"internetMaxBandwidthOut,omitempty" tf:"internet_max_bandwidth_out,omitempty"`
 
 	// An KMS encrypts password used to a cs kubernetes. You have to specify one of password key_name kms_encrypted_password fields.
-	KMSEncryptedPasswordSecretRef *v1.SecretKeySelector `json:"kmsEncryptedPasswordSecretRef,omitempty" tf:"-"`
+	KMSEncryptedPasswordSecretRef *v2.SecretKeySelector `json:"kmsEncryptedPasswordSecretRef,omitempty" tf:"-"`
 
 	// An KMS encryption context used to decrypt kms_encrypted_password before creating or updating a cs kubernetes with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.
 	// +mapType=granular
@@ -942,11 +942,11 @@ type KubernetesNodePoolInitParameters struct {
 
 	// Reference to a KeyPair in ecs to populate keyName.
 	// +kubebuilder:validation:Optional
-	KeyNameRef *v1.Reference `json:"keyNameRef,omitempty" tf:"-"`
+	KeyNameRef *v2.Reference `json:"keyNameRef,omitempty" tf:"-"`
 
 	// Selector for a KeyPair in ecs to populate keyName.
 	// +kubebuilder:validation:Optional
-	KeyNameSelector *v1.Selector `json:"keyNameSelector,omitempty" tf:"-"`
+	KeyNameSelector *v2.Selector `json:"keyNameSelector,omitempty" tf:"-"`
 
 	// Kubelet configuration parameters for worker nodes. See kubelet_configuration below. More information in Kubelet Configuration. See kubelet_configuration below.
 	KubeletConfiguration []KubeletConfigurationInitParameters `json:"kubeletConfiguration,omitempty" tf:"kubelet_configuration,omitempty"`
@@ -982,7 +982,7 @@ type KubernetesNodePoolInitParameters struct {
 	OnDemandPercentageAboveBaseCapacity *string `json:"onDemandPercentageAboveBaseCapacity,omitempty" tf:"on_demand_percentage_above_base_capacity,omitempty"`
 
 	// The password of ssh login. You have to specify one of password and key_name fields. The password rule is 8 to 30 characters and contains at least three items (upper and lower case letters, numbers, and special symbols).
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Node payment period. Its valid value is one of {1, 2, 3, 6, 12}.
 	Period *float64 `json:"period,omitempty" tf:"period,omitempty"`
@@ -1029,11 +1029,11 @@ type KubernetesNodePoolInitParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRefs []v1.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
+	SecurityGroupIDRefs []v2.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// Multiple security groups can be configured for a node pool. If both security_group_ids and security_group_id are configured, security_group_ids takes effect. This field cannot be modified.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -1125,11 +1125,11 @@ type KubernetesNodePoolInitParameters struct {
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
+	VswitchIdsRefs []v2.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
+	VswitchIdsSelector *v2.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 }
 
 type KubernetesNodePoolObservation struct {
@@ -1417,11 +1417,11 @@ type KubernetesNodePoolParameters struct {
 
 	// Reference to a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDRefs *v1.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
+	ClusterIDRefs *v2.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
 
 	// Selector for a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
+	ClusterIDSelector *v2.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
 
 	// Specifies whether to automatically create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created due to reasons such as cost or insufficient inventory. This parameter takes effect when you set multi_az_policy to COST_OPTIMIZED. Valid values: true: automatically creates pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created. false: does not create pay-as-you-go instances to meet the required number of ECS instances if preemptible instances cannot be created.
 	// +kubebuilder:validation:Optional
@@ -1497,7 +1497,7 @@ type KubernetesNodePoolParameters struct {
 
 	// An KMS encrypts password used to a cs kubernetes. You have to specify one of password key_name kms_encrypted_password fields.
 	// +kubebuilder:validation:Optional
-	KMSEncryptedPasswordSecretRef *v1.SecretKeySelector `json:"kmsEncryptedPasswordSecretRef,omitempty" tf:"-"`
+	KMSEncryptedPasswordSecretRef *v2.SecretKeySelector `json:"kmsEncryptedPasswordSecretRef,omitempty" tf:"-"`
 
 	// An KMS encryption context used to decrypt kms_encrypted_password before creating or updating a cs kubernetes with kms_encrypted_password. See Encryption Context. It is valid when kms_encrypted_password is set.
 	// +kubebuilder:validation:Optional
@@ -1515,11 +1515,11 @@ type KubernetesNodePoolParameters struct {
 
 	// Reference to a KeyPair in ecs to populate keyName.
 	// +kubebuilder:validation:Optional
-	KeyNameRef *v1.Reference `json:"keyNameRef,omitempty" tf:"-"`
+	KeyNameRef *v2.Reference `json:"keyNameRef,omitempty" tf:"-"`
 
 	// Selector for a KeyPair in ecs to populate keyName.
 	// +kubebuilder:validation:Optional
-	KeyNameSelector *v1.Selector `json:"keyNameSelector,omitempty" tf:"-"`
+	KeyNameSelector *v2.Selector `json:"keyNameSelector,omitempty" tf:"-"`
 
 	// Kubelet configuration parameters for worker nodes. See kubelet_configuration below. More information in Kubelet Configuration. See kubelet_configuration below.
 	// +kubebuilder:validation:Optional
@@ -1567,7 +1567,7 @@ type KubernetesNodePoolParameters struct {
 
 	// The password of ssh login. You have to specify one of password and key_name fields. The password rule is 8 to 30 characters and contains at least three items (upper and lower case letters, numbers, and special symbols).
 	// +kubebuilder:validation:Optional
-	PasswordSecretRef *v1.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
+	PasswordSecretRef *v2.SecretKeySelector `json:"passwordSecretRef,omitempty" tf:"-"`
 
 	// Node payment period. Its valid value is one of {1, 2, 3, 6, 12}.
 	// +kubebuilder:validation:Optional
@@ -1633,11 +1633,11 @@ type KubernetesNodePoolParameters struct {
 
 	// References to SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDRefs []v1.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
+	SecurityGroupIDRefs []v2.Reference `json:"securityGroupIdRefs,omitempty" tf:"-"`
 
 	// Selector for a list of SecurityGroup in ecs to populate securityGroupIds.
 	// +kubebuilder:validation:Optional
-	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
+	SecurityGroupIDSelector *v2.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// Multiple security groups can be configured for a node pool. If both security_group_ids and security_group_id are configured, security_group_ids takes effect. This field cannot be modified.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -1755,11 +1755,11 @@ type KubernetesNodePoolParameters struct {
 
 	// References to Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsRefs []v1.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
+	VswitchIdsRefs []v2.Reference `json:"vswitchIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of Vswitch in vpc to populate vswitchIds.
 	// +kubebuilder:validation:Optional
-	VswitchIdsSelector *v1.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
+	VswitchIdsSelector *v2.Selector `json:"vswitchIdsSelector,omitempty" tf:"-"`
 }
 
 type LabelsInitParameters struct {
@@ -1966,16 +1966,16 @@ type ResourcePoolOptionsInitParameters struct {
 	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
 	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.CapacityReservation
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PrivatePoolIds []*string `json:"privatePoolIds,omitempty" tf:"private_pool_ids,omitempty"`
 
 	// References to CapacityReservation in ecs to populate privatePoolIds.
 	// +kubebuilder:validation:Optional
-	PrivatePoolIdsRefs []v1.Reference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
+	PrivatePoolIdsRefs []v2.Reference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of CapacityReservation in ecs to populate privatePoolIds.
 	// +kubebuilder:validation:Optional
-	PrivatePoolIdsSelector *v1.Selector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
+	PrivatePoolIdsSelector *v2.Selector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
 
 	// The resource pool strategy used when launching instances. Default value: None. Valid values:
 	// The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
@@ -1998,17 +1998,17 @@ type ResourcePoolOptionsParameters struct {
 	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20. For example, eap-bp67acfmxazb4****.
 	// The list of private pool IDs, that is, the IDs of elasticity assurance services or capacity reservation services. Only Target mode private pool IDs can be passed in. The value of N ranges from 1 to 20.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.CapacityReservation
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PrivatePoolIds []*string `json:"privatePoolIds,omitempty" tf:"private_pool_ids,omitempty"`
 
 	// References to CapacityReservation in ecs to populate privatePoolIds.
 	// +kubebuilder:validation:Optional
-	PrivatePoolIdsRefs []v1.Reference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
+	PrivatePoolIdsRefs []v2.Reference `json:"privatePoolIdsRefs,omitempty" tf:"-"`
 
 	// Selector for a list of CapacityReservation in ecs to populate privatePoolIds.
 	// +kubebuilder:validation:Optional
-	PrivatePoolIdsSelector *v1.Selector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
+	PrivatePoolIdsSelector *v2.Selector `json:"privatePoolIdsSelector,omitempty" tf:"-"`
 
 	// The resource pool strategy used when launching instances. Default value: None. Valid values:
 	// The resource pool strategy used when launching instances. Default value: `None`. Valid values: `PrivatePoolFirst` (private pool first; the specified private pools are used first when `private_pool_ids` is set, and it falls back to an Open type private pool or the public pool when unavailable), `PrivatePoolOnly` (private pool only; `private_pool_ids` is required and instances fail to start if the specified private pool does not have enough capacity), `None` (do not use the resource pool strategy).
@@ -2267,16 +2267,16 @@ type UpgradePolicyInitParameters struct {
 
 	// Node Kubernetes version
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ack/v1alpha1.ManagedKubernetes
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("version",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("version",false)
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
 
 	// Reference to a ManagedKubernetes in ack to populate kubernetesVersion.
 	// +kubebuilder:validation:Optional
-	KubernetesVersionRef *v1.Reference `json:"kubernetesVersionRef,omitempty" tf:"-"`
+	KubernetesVersionRef *v2.Reference `json:"kubernetesVersionRef,omitempty" tf:"-"`
 
 	// Selector for a ManagedKubernetes in ack to populate kubernetesVersion.
 	// +kubebuilder:validation:Optional
-	KubernetesVersionSelector *v1.Selector `json:"kubernetesVersionSelector,omitempty" tf:"-"`
+	KubernetesVersionSelector *v2.Selector `json:"kubernetesVersionSelector,omitempty" tf:"-"`
 
 	// Node runtime type
 	Runtime *string `json:"runtime,omitempty" tf:"runtime,omitempty"`
@@ -2314,17 +2314,17 @@ type UpgradePolicyParameters struct {
 
 	// Node Kubernetes version
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ack/v1alpha1.ManagedKubernetes
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("version",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("version",false)
 	// +kubebuilder:validation:Optional
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty" tf:"kubernetes_version,omitempty"`
 
 	// Reference to a ManagedKubernetes in ack to populate kubernetesVersion.
 	// +kubebuilder:validation:Optional
-	KubernetesVersionRef *v1.Reference `json:"kubernetesVersionRef,omitempty" tf:"-"`
+	KubernetesVersionRef *v2.Reference `json:"kubernetesVersionRef,omitempty" tf:"-"`
 
 	// Selector for a ManagedKubernetes in ack to populate kubernetesVersion.
 	// +kubebuilder:validation:Optional
-	KubernetesVersionSelector *v1.Selector `json:"kubernetesVersionSelector,omitempty" tf:"-"`
+	KubernetesVersionSelector *v2.Selector `json:"kubernetesVersionSelector,omitempty" tf:"-"`
 
 	// Node runtime type
 	// +kubebuilder:validation:Optional
@@ -2341,8 +2341,8 @@ type UpgradePolicyParameters struct {
 
 // KubernetesNodePoolSpec defines the desired state of KubernetesNodePool
 type KubernetesNodePoolSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     KubernetesNodePoolParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   KubernetesNodePoolParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -2358,8 +2358,8 @@ type KubernetesNodePoolSpec struct {
 
 // KubernetesNodePoolStatus defines the observed state of KubernetesNodePool.
 type KubernetesNodePoolStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        KubernetesNodePoolObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               KubernetesNodePoolObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

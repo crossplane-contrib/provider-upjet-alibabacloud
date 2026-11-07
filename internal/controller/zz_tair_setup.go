@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	account "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/tair/account"
 	auditlogconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/tair/auditlogconfig"
@@ -27,6 +27,39 @@ func Setup_tair(mgr ctrl.Manager, o controller.Options) error {
 		tairinstance.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupGated_tair creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_tair(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		account.SetupGated,
+		auditlogconfig.SetupGated,
+		connection.SetupGated,
+		instance.SetupGated,
+		tairinstance.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupWebhookWithManager_tair registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_tair(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		account.SetupWebhookWithManager,
+		auditlogconfig.SetupWebhookWithManager,
+		connection.SetupWebhookWithManager,
+		instance.SetupWebhookWithManager,
+		tairinstance.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
 			return err
 		}
 	}

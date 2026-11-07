@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type GlobalDatabaseNetworkInitParameters struct {
@@ -22,11 +22,11 @@ type GlobalDatabaseNetworkInitParameters struct {
 
 	// Reference to a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDRef *v1.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
+	DBClusterIDRef *v2.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
+	DBClusterIDSelector *v2.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// The description of the Global Database Network.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -56,11 +56,11 @@ type GlobalDatabaseNetworkParameters struct {
 
 	// Reference to a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDRef *v1.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
+	DBClusterIDRef *v2.Reference `json:"dbClusterIdRef,omitempty" tf:"-"`
 
 	// Selector for a Cluster in polardb to populate dbClusterId.
 	// +kubebuilder:validation:Optional
-	DBClusterIDSelector *v1.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
+	DBClusterIDSelector *v2.Selector `json:"dbClusterIdSelector,omitempty" tf:"-"`
 
 	// The description of the Global Database Network.
 	// +kubebuilder:validation:Optional
@@ -74,8 +74,8 @@ type GlobalDatabaseNetworkParameters struct {
 
 // GlobalDatabaseNetworkSpec defines the desired state of GlobalDatabaseNetwork
 type GlobalDatabaseNetworkSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     GlobalDatabaseNetworkParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   GlobalDatabaseNetworkParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -91,8 +91,8 @@ type GlobalDatabaseNetworkSpec struct {
 
 // GlobalDatabaseNetworkStatus defines the observed state of GlobalDatabaseNetwork.
 type GlobalDatabaseNetworkStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        GlobalDatabaseNetworkObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               GlobalDatabaseNetworkObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

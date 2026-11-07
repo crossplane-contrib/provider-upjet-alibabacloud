@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type KubernetesAddonInitParameters struct {
@@ -26,11 +26,11 @@ type KubernetesAddonInitParameters struct {
 
 	// Reference to a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDRefs *v1.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
+	ClusterIDRefs *v2.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
 
 	// Selector for a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
+	ClusterIDSelector *v2.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
 
 	// The customized configuration of addon. Your customized configuration will be merged to existed configuration stored in server. If you want to clean one configuration, you must set the configuration to empty value, removing from code cannot make effect. You can checkout the customized configuration of the addon through datasource alicloud_cs_kubernetes_addon_metadata, the returned format is the standard json schema. If return empty, it means that the addon does not support custom configuration yet. You can also checkout the current custom configuration through the data source alicloud_cs_kubernetes_addons.
 	Config *string `json:"config,omitempty" tf:"config,omitempty"`
@@ -87,11 +87,11 @@ type KubernetesAddonParameters struct {
 
 	// Reference to a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDRefs *v1.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
+	ClusterIDRefs *v2.Reference `json:"clusterIdRefs,omitempty" tf:"-"`
 
 	// Selector for a ManagedKubernetes in ack to populate clusterId.
 	// +kubebuilder:validation:Optional
-	ClusterIDSelector *v1.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
+	ClusterIDSelector *v2.Selector `json:"clusterIdSelector,omitempty" tf:"-"`
 
 	// The customized configuration of addon. Your customized configuration will be merged to existed configuration stored in server. If you want to clean one configuration, you must set the configuration to empty value, removing from code cannot make effect. You can checkout the customized configuration of the addon through datasource alicloud_cs_kubernetes_addon_metadata, the returned format is the standard json schema. If return empty, it means that the addon does not support custom configuration yet. You can also checkout the current custom configuration through the data source alicloud_cs_kubernetes_addons.
 	// +kubebuilder:validation:Optional
@@ -113,8 +113,8 @@ type KubernetesAddonParameters struct {
 
 // KubernetesAddonSpec defines the desired state of KubernetesAddon
 type KubernetesAddonSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     KubernetesAddonParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   KubernetesAddonParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -130,8 +130,8 @@ type KubernetesAddonSpec struct {
 
 // KubernetesAddonStatus defines the observed state of KubernetesAddon.
 type KubernetesAddonStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        KubernetesAddonObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               KubernetesAddonObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

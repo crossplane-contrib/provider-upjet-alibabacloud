@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type LayerVersionCodeInitParameters struct {
@@ -24,11 +24,11 @@ type LayerVersionCodeInitParameters struct {
 
 	// Reference to a Bucket in oss to populate ossBucketName.
 	// +kubebuilder:validation:Optional
-	OssBucketNameRef *v1.Reference `json:"ossBucketNameRef,omitempty" tf:"-"`
+	OssBucketNameRef *v2.Reference `json:"ossBucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate ossBucketName.
 	// +kubebuilder:validation:Optional
-	OssBucketNameSelector *v1.Selector `json:"ossBucketNameSelector,omitempty" tf:"-"`
+	OssBucketNameSelector *v2.Selector `json:"ossBucketNameSelector,omitempty" tf:"-"`
 
 	// Name of the OSS Object where the user stores the Layer Code ZIP package
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.BucketObject
@@ -36,11 +36,11 @@ type LayerVersionCodeInitParameters struct {
 
 	// Reference to a BucketObject in oss to populate ossObjectName.
 	// +kubebuilder:validation:Optional
-	OssObjectNameRef *v1.Reference `json:"ossObjectNameRef,omitempty" tf:"-"`
+	OssObjectNameRef *v2.Reference `json:"ossObjectNameRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in oss to populate ossObjectName.
 	// +kubebuilder:validation:Optional
-	OssObjectNameSelector *v1.Selector `json:"ossObjectNameSelector,omitempty" tf:"-"`
+	OssObjectNameSelector *v2.Selector `json:"ossObjectNameSelector,omitempty" tf:"-"`
 
 	// Base 64 encoding of Layer Code ZIP package
 	ZipFile *string `json:"zipFile,omitempty" tf:"zip_file,omitempty"`
@@ -74,11 +74,11 @@ type LayerVersionCodeParameters struct {
 
 	// Reference to a Bucket in oss to populate ossBucketName.
 	// +kubebuilder:validation:Optional
-	OssBucketNameRef *v1.Reference `json:"ossBucketNameRef,omitempty" tf:"-"`
+	OssBucketNameRef *v2.Reference `json:"ossBucketNameRef,omitempty" tf:"-"`
 
 	// Selector for a Bucket in oss to populate ossBucketName.
 	// +kubebuilder:validation:Optional
-	OssBucketNameSelector *v1.Selector `json:"ossBucketNameSelector,omitempty" tf:"-"`
+	OssBucketNameSelector *v2.Selector `json:"ossBucketNameSelector,omitempty" tf:"-"`
 
 	// Name of the OSS Object where the user stores the Layer Code ZIP package
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.BucketObject
@@ -87,11 +87,11 @@ type LayerVersionCodeParameters struct {
 
 	// Reference to a BucketObject in oss to populate ossObjectName.
 	// +kubebuilder:validation:Optional
-	OssObjectNameRef *v1.Reference `json:"ossObjectNameRef,omitempty" tf:"-"`
+	OssObjectNameRef *v2.Reference `json:"ossObjectNameRef,omitempty" tf:"-"`
 
 	// Selector for a BucketObject in oss to populate ossObjectName.
 	// +kubebuilder:validation:Optional
-	OssObjectNameSelector *v1.Selector `json:"ossObjectNameSelector,omitempty" tf:"-"`
+	OssObjectNameSelector *v2.Selector `json:"ossObjectNameSelector,omitempty" tf:"-"`
 
 	// Base 64 encoding of Layer Code ZIP package
 	// +kubebuilder:validation:Optional
@@ -199,8 +199,8 @@ type LayerVersionParameters struct {
 
 // LayerVersionSpec defines the desired state of LayerVersion
 type LayerVersionSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     LayerVersionParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   LayerVersionParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -216,8 +216,8 @@ type LayerVersionSpec struct {
 
 // LayerVersionStatus defines the observed state of LayerVersion.
 type LayerVersionStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LayerVersionObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LayerVersionObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

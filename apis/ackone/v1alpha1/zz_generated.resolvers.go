@@ -10,8 +10,8 @@ import (
 	"context"
 	v1alpha11 "github.com/crossplane-contrib/provider-alibabacloud/apis/ack/v1alpha1"
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
-	resource "github.com/crossplane/upjet/pkg/resource"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
+	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -28,6 +28,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network[i3].VPCID),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.Network[i3].VPCIDRef,
 			Selector:     mg.Spec.ForProvider.Network[i3].VPCIDSelector,
 			To: reference.To{
@@ -46,6 +47,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Network[i3].Vswitches),
 			Extract:       reference.ExternalName(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.ForProvider.Network[i3].VswitchesRefs,
 			Selector:      mg.Spec.ForProvider.Network[i3].VswitchesSelector,
 			To: reference.To{
@@ -64,6 +66,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network[i3].VPCID),
 			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.Network[i3].VPCIDRef,
 			Selector:     mg.Spec.InitProvider.Network[i3].VPCIDSelector,
 			To: reference.To{
@@ -82,6 +85,7 @@ func (mg *Cluster) ResolveReferences(ctx context.Context, c client.Reader) error
 		mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
 			CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Network[i3].Vswitches),
 			Extract:       reference.ExternalName(),
+			Namespace:     mg.GetNamespace(),
 			References:    mg.Spec.InitProvider.Network[i3].VswitchesRefs,
 			Selector:      mg.Spec.InitProvider.Network[i3].VswitchesSelector,
 			To: reference.To{
@@ -110,6 +114,7 @@ func (mg *MembershipAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ClusterID),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.ClusterIDRef,
 		Selector:     mg.Spec.ForProvider.ClusterIDSelector,
 		To: reference.To{
@@ -126,6 +131,7 @@ func (mg *MembershipAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SubClusterID),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.SubClusterIDRef,
 		Selector:     mg.Spec.ForProvider.SubClusterIDSelector,
 		To: reference.To{
@@ -142,6 +148,7 @@ func (mg *MembershipAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ClusterID),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.ClusterIDRef,
 		Selector:     mg.Spec.InitProvider.ClusterIDSelector,
 		To: reference.To{
@@ -158,6 +165,7 @@ func (mg *MembershipAttachment) ResolveReferences(ctx context.Context, c client.
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SubClusterID),
 		Extract:      resource.ExtractResourceID(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.SubClusterIDRef,
 		Selector:     mg.Spec.InitProvider.SubClusterIDSelector,
 		To: reference.To{

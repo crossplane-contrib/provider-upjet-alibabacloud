@@ -34,8 +34,9 @@ func TestRuntimeSchemaIsPristine(t *testing.T) {
 		if !ok || ref.Schema == nil {
 			continue
 		}
-		for field := range ref.Schema {
-			if _, ok := r.TerraformResource.Schema[field]; !ok {
+		for field, want := range ref.Schema {
+			got, ok := r.TerraformResource.Schema[field]
+			if !ok {
 				t.Errorf("resource %q is missing field %q from its runtime Terraform schema.\n"+
 					"Something is calling delete(r.TerraformResource.Schema, %q), most likely a "+
 					"configurator in config/%s/config.go. Under no-fork that mutates the live "+
@@ -44,6 +45,33 @@ func TestRuntimeSchemaIsPristine(t *testing.T) {
 					"config/schema_omissions.go, which shapes the CRD without touching the "+
 					"runtime schema. Do not skip or revert this test. See the README section "+
 					"\"Hiding a field from a generated CRD\".", name, field, field, r.ShortGroup)
+				continue
+			}
+			// Presence alone isn't enough: a configurator can leave the field
+			// in place but flip an attribute in place (e.g. the
+			// Required/Optional/Computed trio, or Sensitive), which mutates
+			// the same live schema object for the same reason a delete does.
+			// MarkAsRequired and generationOnlySensitiveFields exist so this
+			// kind of change goes through the generation-only path instead;
+			// this guards that invariant the same way the presence check
+			// above guards deletions.
+			if got.Type != want.Type {
+				t.Errorf("resource %q field %q: runtime Type is %v, pristine is %v; "+
+					"something is mutating the live schema outside code generation", name, field, got.Type, want.Type)
+			}
+			if got.Required != want.Required || got.Optional != want.Optional || got.Computed != want.Computed {
+				t.Errorf("resource %q field %q: runtime Required/Optional/Computed is %v/%v/%v, pristine is %v/%v/%v; "+
+					"use r.MarkAsRequired(%q) instead of setting these directly, so the change is generation-only",
+					name, field, got.Required, got.Optional, got.Computed, want.Required, want.Optional, want.Computed, field)
+			}
+			if got.Sensitive != want.Sensitive {
+				t.Errorf("resource %q field %q: runtime Sensitive is %v, pristine is %v; "+
+					"add it to generationOnlySensitiveFields in config/schema_omissions.go instead of "+
+					"setting it directly, so the change is generation-only", name, field, got.Sensitive, want.Sensitive)
+			}
+			if got.MaxItems != want.MaxItems {
+				t.Errorf("resource %q field %q: runtime MaxItems is %d, pristine is %d; "+
+					"something is mutating the live schema outside code generation", name, field, got.MaxItems, want.MaxItems)
 			}
 		}
 	}
@@ -53,6 +81,8 @@ func TestRuntimeSchemaIsPristine(t *testing.T) {
 // still take effect for code generation, or fields would leak back into the
 // generated CRDs.
 func TestGenerationSchemaOmissionsApply(t *testing.T) {
+	pristine := alicloud.Provider()
+
 	p, err := GetProvider(context.Background(), true)
 	if err != nil {
 		t.Fatalf("cannot build the generation provider configuration: %v", err)
@@ -65,7 +95,23 @@ func TestGenerationSchemaOmissionsApply(t *testing.T) {
 			t.Errorf("resource %q has schema omissions configured but is not a generated resource", name)
 			continue
 		}
+		ref, ok := pristine.ResourcesMap[name]
 		for _, f := range fields {
+			// A field absent from the unmodified schema was never there to
+			// omit: the entry is stale (upstream already dropped the field,
+			// or it never existed, e.g. a typo), and would otherwise count as
+			// "applied" below without the omission having done anything.
+			if !ok || ref.Schema == nil {
+				t.Errorf("resource %q is not in the pristine upstream schema; its "+
+					"generationOnlySchemaOmissions entry is stale", name)
+				continue
+			}
+			if _, ok := ref.Schema[f]; !ok {
+				t.Errorf("resource %q field %q is absent from the unmodified upstream schema; "+
+					"this generationOnlySchemaOmissions entry is stale and can be removed from "+
+					"config/schema_omissions.go", name, f)
+				continue
+			}
 			if _, ok := r.TerraformResource.Schema[f]; ok {
 				t.Errorf("resource %q still exposes omitted field %q to code generation", name, f)
 				continue
