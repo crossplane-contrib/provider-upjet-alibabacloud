@@ -1,0 +1,16 @@
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/application
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    applicationName: crossplane-example-application
+    description: crossplane-example-application
+    region: cn-hangzhou  # OOS Application Manager only supports cn-hangzhou
+    tags:
+      Created: TF

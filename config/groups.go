@@ -7,8 +7,8 @@ package config
 import (
 	"strings"
 
-	"github.com/crossplane/upjet/pkg/config"
-	"github.com/crossplane/upjet/pkg/types/name"
+	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/types/name"
 )
 
 // GroupKindCalculator returns the correct group and kind name for given TF resource.
@@ -53,18 +53,19 @@ var GroupMap = map[string]GroupKindCalculator{
 	"alicloud_alikafka_scheduled_scaling_rule":         ReplaceGroupWords("alikafka", 1),
 
 	// ALB - Application Load Balancer resources
-	"alicloud_alb_acl":                                     ReplaceGroupWords("alb", 1),
-	"alicloud_alb_acl_entry_attachment":                    ReplaceGroupWords("alb", 1),
-	"alicloud_alb_ascript":                                 ReplaceGroupWords("alb", 1),
-	"alicloud_alb_health_check_template":                   ReplaceGroupWords("alb", 1),
-	"alicloud_alb_listener":                                ReplaceGroupWords("alb", 1),
-	"alicloud_alb_listener_acl_attachment":                 ReplaceGroupWords("alb", 1),
-	"alicloud_alb_load_balancer":                           ReplaceGroupWords("alb", 1),
-	"alicloud_alb_load_balancer_security_group_attachment": ReplaceGroupWords("alb", 1),
-	"alicloud_alb_load_balancer_zone_shifted_attachment":   ReplaceGroupWords("alb", 1),
-	"alicloud_alb_rule":                                    ReplaceGroupWords("alb", 1),
-	"alicloud_alb_security_policy":                         ReplaceGroupWords("alb", 1),
-	"alicloud_alb_server_group":                            ReplaceGroupWords("alb", 1),
+	"alicloud_alb_acl":                                        ReplaceGroupWords("alb", 1),
+	"alicloud_alb_acl_entry_attachment":                       ReplaceGroupWords("alb", 1),
+	"alicloud_alb_ascript":                                    ReplaceGroupWords("alb", 1),
+	"alicloud_alb_health_check_template":                      ReplaceGroupWords("alb", 1),
+	"alicloud_alb_listener":                                   ReplaceGroupWords("alb", 1),
+	"alicloud_alb_listener_acl_attachment":                    ReplaceGroupWords("alb", 1),
+	"alicloud_alb_listener_additional_certificate_attachment": ReplaceGroupWords("alb", 1),
+	"alicloud_alb_load_balancer":                              ReplaceGroupWords("alb", 1),
+	"alicloud_alb_load_balancer_security_group_attachment":    ReplaceGroupWords("alb", 1),
+	"alicloud_alb_load_balancer_zone_shifted_attachment":      ReplaceGroupWords("alb", 1),
+	"alicloud_alb_rule":                                       ReplaceGroupWords("alb", 1),
+	"alicloud_alb_security_policy":                            ReplaceGroupWords("alb", 1),
+	"alicloud_alb_server_group":                               ReplaceGroupWords("alb", 1),
 
 	// ALIDNS - Alibaba DNS resources
 	"alicloud_alidns_address_pool":      ReplaceGroupWords("alidns", 1),

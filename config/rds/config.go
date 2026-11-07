@@ -5,7 +5,7 @@
 package rds
 
 import (
-	"github.com/crossplane/upjet/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/config"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/common"
 )
@@ -83,7 +83,7 @@ func Configure(p *config.Provider) {
 		// required, rather than status.atProvider.id.
 		r.References["db_names"] = config.Reference{
 			TerraformName: "alicloud_db_database",
-			Extractor:     `github.com/crossplane/upjet/pkg/resource.ExtractParamPath("data_base_name",true)`,
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("data_base_name",true)`,
 		}
 	})
 	p.AddResourceConfigurator("alicloud_db_backup_policy", func(r *config.Resource) {
@@ -173,7 +173,7 @@ func Configure(p *config.Provider) {
 		// that field rather than status.atProvider.id.
 		r.References["db_instance_endpoint_id"] = config.Reference{
 			TerraformName: "alicloud_rds_db_instance_endpoint",
-			Extractor:     `github.com/crossplane/upjet/pkg/resource.ExtractParamPath("db_instance_endpoint_id",true)`,
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("db_instance_endpoint_id",true)`,
 		}
 	})
 	p.AddResourceConfigurator("alicloud_rds_db_node", func(r *config.Resource) {
