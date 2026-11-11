@@ -64,9 +64,8 @@ spec:
                       instance. The values must be valid JSON strings.
                     type: string
                   confluentConfig:
-                    description: |-
-                      The configurations of Confluent. See confluent_config below.
-                      -> NOTE: If instance_type is set to alikafka_confluent, confluent_config is required.
+                    description: The configurations of Confluent. See confluent_config
+                      below.
                     items:
                       properties:
                         connectCu:
@@ -135,9 +134,8 @@ spec:
                       values:'
                     type: number
                   diskSize:
-                    description: |-
-                      The disk size of the instance. When modify this value, it only supports adjust to a greater value.
-                      -> NOTE: If instance_type is set to alikafka, disk_size is required.
+                    description: The disk size of the instance. When modify this value,
+                      it only supports adjust to a greater value.
                     type: number
                   diskType:
                     description: 'The disk type of the instance. Valid values:'
@@ -369,9 +367,8 @@ spec:
                       type: string
                     type: array
                   serverlessConfig:
-                    description: |-
-                      The parameters configured for the serverless ApsaraMQ for Kafka instance. See serverless_config below.
-                      -> NOTE: If instance_type is set to alikafka_serverless, serverless_config is required.
+                    description: The parameters configured for the serverless ApsaraMQ
+                      for Kafka instance. See serverless_config below.
                     items:
                       properties:
                         reservedPublishCapacity:
@@ -648,9 +645,8 @@ spec:
                         type: object
                     type: object
                   vswitchIds:
-                    description: |-
-                      The IDs of the vSwitches with which the instance is associated.
-                      -> NOTE: If instance_type is set to alikafka or alikafka_serverless, vswitch_ids is required. When instance_type is set to alikafka_confluent, you must specify at least one of the vswitch_id and vswitch_ids, and if you specify both vswitch_id and vswitch_ids, only the vswitch_ids takes effect.
+                    description: The IDs of the vSwitches with which the instance
+                      is associated.
                     items:
                       type: string
                     type: array
@@ -678,9 +674,8 @@ spec:
                       instance. The values must be valid JSON strings.
                     type: string
                   confluentConfig:
-                    description: |-
-                      The configurations of Confluent. See confluent_config below.
-                      -> NOTE: If instance_type is set to alikafka_confluent, confluent_config is required.
+                    description: The configurations of Confluent. See confluent_config
+                      below.
                     items:
                       properties:
                         connectCu:
@@ -749,9 +744,8 @@ spec:
                       values:'
                     type: number
                   diskSize:
-                    description: |-
-                      The disk size of the instance. When modify this value, it only supports adjust to a greater value.
-                      -> NOTE: If instance_type is set to alikafka, disk_size is required.
+                    description: The disk size of the instance. When modify this value,
+                      it only supports adjust to a greater value.
                     type: number
                   diskType:
                     description: 'The disk type of the instance. Valid values:'
@@ -979,9 +973,8 @@ spec:
                       type: string
                     type: array
                   serverlessConfig:
-                    description: |-
-                      The parameters configured for the serverless ApsaraMQ for Kafka instance. See serverless_config below.
-                      -> NOTE: If instance_type is set to alikafka_serverless, serverless_config is required.
+                    description: The parameters configured for the serverless ApsaraMQ
+                      for Kafka instance. See serverless_config below.
                     items:
                       properties:
                         reservedPublishCapacity:
@@ -1258,9 +1251,8 @@ spec:
                         type: object
                     type: object
                   vswitchIds:
-                    description: |-
-                      The IDs of the vSwitches with which the instance is associated.
-                      -> NOTE: If instance_type is set to alikafka or alikafka_serverless, vswitch_ids is required. When instance_type is set to alikafka_confluent, you must specify at least one of the vswitch_id and vswitch_ids, and if you specify both vswitch_id and vswitch_ids, only the vswitch_ids takes effect.
+                    description: The IDs of the vSwitches with which the instance
+                      is associated.
                     items:
                       type: string
                     type: array
@@ -1343,9 +1335,8 @@ spec:
                       instance. The values must be valid JSON strings.
                     type: string
                   confluentConfig:
-                    description: |-
-                      The configurations of Confluent. See confluent_config below.
-                      -> NOTE: If instance_type is set to alikafka_confluent, confluent_config is required.
+                    description: The configurations of Confluent. See confluent_config
+                      below.
                     items:
                       properties:
                         connectCu:
@@ -1414,9 +1405,8 @@ spec:
                       values:'
                     type: number
                   diskSize:
-                    description: |-
-                      The disk size of the instance. When modify this value, it only supports adjust to a greater value.
-                      -> NOTE: If instance_type is set to alikafka, disk_size is required.
+                    description: The disk size of the instance. When modify this value,
+                      it only supports adjust to a greater value.
                     type: number
                   diskType:
                     description: 'The disk type of the instance. Valid values:'
@@ -1516,9 +1506,8 @@ spec:
                       type: string
                     type: array
                   serverlessConfig:
-                    description: |-
-                      The parameters configured for the serverless ApsaraMQ for Kafka instance. See serverless_config below.
-                      -> NOTE: If instance_type is set to alikafka_serverless, serverless_config is required.
+                    description: The parameters configured for the serverless ApsaraMQ
+                      for Kafka instance. See serverless_config below.
                     items:
                       properties:
                         reservedPublishCapacity:
@@ -1577,9 +1566,8 @@ spec:
                     description: The ID of attaching vswitch to instance.
                     type: string
                   vswitchIds:
-                    description: |-
-                      The IDs of the vSwitches with which the instance is associated.
-                      -> NOTE: If instance_type is set to alikafka or alikafka_serverless, vswitch_ids is required. When instance_type is set to alikafka_confluent, you must specify at least one of the vswitch_id and vswitch_ids, and if you specify both vswitch_id and vswitch_ids, only the vswitch_ids takes effect.
+                    description: The IDs of the vSwitches with which the instance
+                      is associated.
                     items:
                       type: string
                     type: array

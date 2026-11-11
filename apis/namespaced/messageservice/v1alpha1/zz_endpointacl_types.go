@@ -20,7 +20,6 @@ type EndpointAclInitParameters struct {
 	ACLStrategy *string `json:"aclStrategy,omitempty" tf:"acl_strategy,omitempty"`
 
 	// The CIDR block.
-	// -> NOTE: To ensure business stability, the system is configured by default with a CIDR (0.0.0.0/0) that allows access from all source addresses.
 	Cidr *string `json:"cidr,omitempty" tf:"cidr,omitempty"`
 
 	// Access point type. Value:
@@ -43,7 +42,6 @@ type EndpointAclObservation struct {
 	ACLStrategy *string `json:"aclStrategy,omitempty" tf:"acl_strategy,omitempty"`
 
 	// The CIDR block.
-	// -> NOTE: To ensure business stability, the system is configured by default with a CIDR (0.0.0.0/0) that allows access from all source addresses.
 	Cidr *string `json:"cidr,omitempty" tf:"cidr,omitempty"`
 
 	// Access point type. Value:
@@ -60,7 +58,6 @@ type EndpointAclParameters struct {
 	ACLStrategy *string `json:"aclStrategy,omitempty" tf:"acl_strategy,omitempty"`
 
 	// The CIDR block.
-	// -> NOTE: To ensure business stability, the system is configured by default with a CIDR (0.0.0.0/0) that allows access from all source addresses.
 	// +kubebuilder:validation:Optional
 	Cidr *string `json:"cidr,omitempty" tf:"cidr,omitempty"`
 

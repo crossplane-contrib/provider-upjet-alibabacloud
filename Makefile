@@ -34,7 +34,7 @@ export TERRAFORM_PROVIDER_REPO ?= https://github.com/aliyun/terraform-provider-a
 # this tag's commit and comparing it against the pseudo-version's commit
 # suffix; TestSchemaSourcesAgree separately fails if the two sources drift
 # far enough apart that a configured resource is missing from either.
-export TERRAFORM_PROVIDER_VERSION ?= 2.0.0
+export TERRAFORM_PROVIDER_VERSION ?= 2.1.0
 export TERRAFORM_DOCS_PATH ?= website/docs/r
 
 

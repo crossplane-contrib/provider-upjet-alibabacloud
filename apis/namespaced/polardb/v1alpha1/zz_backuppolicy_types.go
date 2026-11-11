@@ -42,7 +42,6 @@ type BackupPolicyInitParameters struct {
 	DataLevel1BackupFrequency *string `json:"dataLevel1BackupFrequency,omitempty" tf:"data_level1_backup_frequency,omitempty"`
 
 	// PolarDB Cluster of level-1 backup period. Valid values: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].
-	// -> NOTE: Note Select at least two values. Separate multiple values with commas (,).
 	// +listType=set
 	DataLevel1BackupPeriod []*string `json:"dataLevel1BackupPeriod,omitempty" tf:"data_level1_backup_period,omitempty"`
 
@@ -59,7 +58,6 @@ type BackupPolicyInitParameters struct {
 	DataLevel2BackupAnotherRegionRetentionPeriod *float64 `json:"dataLevel2BackupAnotherRegionRetentionPeriod,omitempty" tf:"data_level2_backup_another_region_retention_period,omitempty"`
 
 	// PolarDB Cluster of level-2 backup period. Valid values: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].
-	// -> NOTE: Note Select at least two values. Separate multiple values with commas (,).
 	// +listType=set
 	DataLevel2BackupPeriod []*string `json:"dataLevel2BackupPeriod,omitempty" tf:"data_level2_backup_period,omitempty"`
 
@@ -70,7 +68,6 @@ type BackupPolicyInitParameters struct {
 	LogBackupAnotherRegionRegion *string `json:"logBackupAnotherRegionRegion,omitempty" tf:"log_backup_another_region_region,omitempty"`
 
 	// The retention period of cross-region log backups. Default value: OFF. Valid values are 0, 30 to 7300, -1.
-	// -> NOTE: Note When you create a cluster, the default value of this parameter is 0.
 	LogBackupAnotherRegionRetentionPeriod *float64 `json:"logBackupAnotherRegionRetentionPeriod,omitempty" tf:"log_backup_another_region_retention_period,omitempty"`
 
 	// The retention period of the log backups. Valid values are 3 to 7300, -1.
@@ -102,7 +99,6 @@ type BackupPolicyObservation struct {
 	DataLevel1BackupFrequency *string `json:"dataLevel1BackupFrequency,omitempty" tf:"data_level1_backup_frequency,omitempty"`
 
 	// PolarDB Cluster of level-1 backup period. Valid values: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].
-	// -> NOTE: Note Select at least two values. Separate multiple values with commas (,).
 	// +listType=set
 	DataLevel1BackupPeriod []*string `json:"dataLevel1BackupPeriod,omitempty" tf:"data_level1_backup_period,omitempty"`
 
@@ -119,7 +115,6 @@ type BackupPolicyObservation struct {
 	DataLevel2BackupAnotherRegionRetentionPeriod *float64 `json:"dataLevel2BackupAnotherRegionRetentionPeriod,omitempty" tf:"data_level2_backup_another_region_retention_period,omitempty"`
 
 	// PolarDB Cluster of level-2 backup period. Valid values: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].
-	// -> NOTE: Note Select at least two values. Separate multiple values with commas (,).
 	// +listType=set
 	DataLevel2BackupPeriod []*string `json:"dataLevel2BackupPeriod,omitempty" tf:"data_level2_backup_period,omitempty"`
 
@@ -136,7 +131,6 @@ type BackupPolicyObservation struct {
 	LogBackupAnotherRegionRegion *string `json:"logBackupAnotherRegionRegion,omitempty" tf:"log_backup_another_region_region,omitempty"`
 
 	// The retention period of cross-region log backups. Default value: OFF. Valid values are 0, 30 to 7300, -1.
-	// -> NOTE: Note When you create a cluster, the default value of this parameter is 0.
 	LogBackupAnotherRegionRetentionPeriod *float64 `json:"logBackupAnotherRegionRetentionPeriod,omitempty" tf:"log_backup_another_region_retention_period,omitempty"`
 
 	// The retention period of the log backups. Valid values are 3 to 7300, -1.
@@ -183,7 +177,6 @@ type BackupPolicyParameters struct {
 	DataLevel1BackupFrequency *string `json:"dataLevel1BackupFrequency,omitempty" tf:"data_level1_backup_frequency,omitempty"`
 
 	// PolarDB Cluster of level-1 backup period. Valid values: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].
-	// -> NOTE: Note Select at least two values. Separate multiple values with commas (,).
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	DataLevel1BackupPeriod []*string `json:"dataLevel1BackupPeriod,omitempty" tf:"data_level1_backup_period,omitempty"`
@@ -205,7 +198,6 @@ type BackupPolicyParameters struct {
 	DataLevel2BackupAnotherRegionRetentionPeriod *float64 `json:"dataLevel2BackupAnotherRegionRetentionPeriod,omitempty" tf:"data_level2_backup_another_region_retention_period,omitempty"`
 
 	// PolarDB Cluster of level-2 backup period. Valid values: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].
-	// -> NOTE: Note Select at least two values. Separate multiple values with commas (,).
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	DataLevel2BackupPeriod []*string `json:"dataLevel2BackupPeriod,omitempty" tf:"data_level2_backup_period,omitempty"`
@@ -219,7 +211,6 @@ type BackupPolicyParameters struct {
 	LogBackupAnotherRegionRegion *string `json:"logBackupAnotherRegionRegion,omitempty" tf:"log_backup_another_region_region,omitempty"`
 
 	// The retention period of cross-region log backups. Default value: OFF. Valid values are 0, 30 to 7300, -1.
-	// -> NOTE: Note When you create a cluster, the default value of this parameter is 0.
 	// +kubebuilder:validation:Optional
 	LogBackupAnotherRegionRetentionPeriod *float64 `json:"logBackupAnotherRegionRetentionPeriod,omitempty" tf:"log_backup_another_region_retention_period,omitempty"`
 

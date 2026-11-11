@@ -11,7 +11,7 @@
 set -euo pipefail
 
 # Renovate updates this version; see .github/renovate.json5.
-ALIYUN_CLI_VERSION="3.5.2"
+ALIYUN_CLI_VERSION="3.5.3"
 
 base="https://github.com/aliyun/aliyun-cli/releases/download/v${ALIYUN_CLI_VERSION}"
 archive="aliyun-cli-linux-${ALIYUN_CLI_VERSION}-amd64.tgz"

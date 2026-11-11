@@ -112,7 +112,6 @@ type InstanceInitParameters struct {
 	CollectStatMode *string `json:"collectStatMode,omitempty" tf:"collect_stat_mode,omitempty"`
 
 	// The private connection string prefix. If you want to update public connection string prefix, please use resource alicloud_db_connection connection_prefix.
-	// -> NOTE: The prefix must be 8 to 64 characters in length and can contain letters, digits, and hyphens (-). It cannot contain Chinese characters and special characters ~!#%^&*=+|{};:'",<>/?
 	ConnectionStringPrefix *string `json:"connectionStringPrefix,omitempty" tf:"connection_string_prefix,omitempty"`
 
 	// The attribute of the IP address whitelist. By default, this parameter is empty.
@@ -205,7 +204,6 @@ type InstanceInitParameters struct {
 	Parameters []ParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The duration that you will buy DB instance (in month). It is valid when instance_charge_type is PrePaid. Valid values: [1~9], 12, 24, 36.
-	// -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
 	Period *float64 `json:"period,omitempty" tf:"period,omitempty"`
 
 	// Modify the PgBouncer feature of the RDS PostgreSQL instance. Valid values:
@@ -246,7 +244,6 @@ type InstanceInitParameters struct {
 	RoleArnSelector *v1.NamespacedSelector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// The sql collector keep time of the instance. Valid values are 30, 180, 365, 1095, 1825, Default to 30.
-	// -> NOTE: This parameter takes effect when sql_collector_status is set to Enabled and does not take effect when sql_collector_status is set to Disabled.
 	SQLCollectorConfigValue *float64 `json:"sqlCollectorConfigValue,omitempty" tf:"sql_collector_config_value,omitempty"`
 
 	// The sql collector status of the instance. Valid values are Enabled, Disabled, Default to Disabled.
@@ -447,7 +444,6 @@ type InstanceObservation struct {
 	ConnectionString *string `json:"connectionString,omitempty" tf:"connection_string,omitempty"`
 
 	// The private connection string prefix. If you want to update public connection string prefix, please use resource alicloud_db_connection connection_prefix.
-	// -> NOTE: The prefix must be 8 to 64 characters in length and can contain letters, digits, and hyphens (-). It cannot contain Chinese characters and special characters ~!#%^&*=+|{};:'",<>/?
 	ConnectionStringPrefix *string `json:"connectionStringPrefix,omitempty" tf:"connection_string_prefix,omitempty"`
 
 	// (Available since v1.204.1) The creation time of db instance.
@@ -549,7 +545,6 @@ type InstanceObservation struct {
 	Parameters []ParametersObservation `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The duration that you will buy DB instance (in month). It is valid when instance_charge_type is PrePaid. Valid values: [1~9], 12, 24, 36.
-	// -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
 	Period *float64 `json:"period,omitempty" tf:"period,omitempty"`
 
 	// Modify the PgBouncer feature of the RDS PostgreSQL instance. Valid values:
@@ -580,7 +575,6 @@ type InstanceObservation struct {
 	RoleArn *string `json:"roleArn,omitempty" tf:"role_arn,omitempty"`
 
 	// The sql collector keep time of the instance. Valid values are 30, 180, 365, 1095, 1825, Default to 30.
-	// -> NOTE: This parameter takes effect when sql_collector_status is set to Enabled and does not take effect when sql_collector_status is set to Disabled.
 	SQLCollectorConfigValue *float64 `json:"sqlCollectorConfigValue,omitempty" tf:"sql_collector_config_value,omitempty"`
 
 	// The sql collector status of the instance. Valid values are Enabled, Disabled, Default to Disabled.
@@ -755,7 +749,6 @@ type InstanceParameters struct {
 	CollectStatMode *string `json:"collectStatMode,omitempty" tf:"collect_stat_mode,omitempty"`
 
 	// The private connection string prefix. If you want to update public connection string prefix, please use resource alicloud_db_connection connection_prefix.
-	// -> NOTE: The prefix must be 8 to 64 characters in length and can contain letters, digits, and hyphens (-). It cannot contain Chinese characters and special characters ~!#%^&*=+|{};:'",<>/?
 	// +kubebuilder:validation:Optional
 	ConnectionStringPrefix *string `json:"connectionStringPrefix,omitempty" tf:"connection_string_prefix,omitempty"`
 
@@ -878,7 +871,6 @@ type InstanceParameters struct {
 	Parameters []ParametersParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
 	// The duration that you will buy DB instance (in month). It is valid when instance_charge_type is PrePaid. Valid values: [1~9], 12, 24, 36.
-	// -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
 	// +kubebuilder:validation:Optional
 	Period *float64 `json:"period,omitempty" tf:"period,omitempty"`
 
@@ -934,7 +926,6 @@ type InstanceParameters struct {
 	RoleArnSelector *v1.NamespacedSelector `json:"roleArnSelector,omitempty" tf:"-"`
 
 	// The sql collector keep time of the instance. Valid values are 30, 180, 365, 1095, 1825, Default to 30.
-	// -> NOTE: This parameter takes effect when sql_collector_status is set to Enabled and does not take effect when sql_collector_status is set to Disabled.
 	// +kubebuilder:validation:Optional
 	SQLCollectorConfigValue *float64 `json:"sqlCollectorConfigValue,omitempty" tf:"sql_collector_config_value,omitempty"`
 
