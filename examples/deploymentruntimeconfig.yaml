@@ -14,12 +14,3 @@ spec:
               image: placeholder # overridden to $(BUILD_REGISTRY)/$*-$(ARCH)
               args:
                 - --debug
-              ports:
-                - containerPort: 8081
-                  name: readyz
-                  protocol: TCP
-              readinessProbe:
-                httpGet:
-                  scheme: HTTP
-                  port: readyz
-                  path: /readyz

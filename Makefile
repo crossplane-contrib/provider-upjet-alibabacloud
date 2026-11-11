@@ -328,14 +328,17 @@ build-provider.%:
 
 # Family provider local deployment targets
 local-deploy.%: controlplane.up
-	@$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) patch deployment crossplane-rbac-manager -p '{"spec":{"template":{"spec":{"containers":[{"name":"crossplane","env":[{"name":"REGISTRY","value":"index.docker.io"}]}]}}}}' || true
+# Restart the rbac-manager and wait for it, so its ClusterRole generation and
+# binding run against the provider install instead of racing it from stale state.
+	@$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) rollout restart deployment/crossplane-rbac-manager
+	@$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) rollout status deployment/crossplane-rbac-manager --timeout=5m
 	@for api in $$(tr ',' ' ' <<< $*); do \
-		$(MAKE) local.xpkg.deploy.provider.$(PROJECT_NAME)-$${api} DRC_FILE="./examples/deploymentruntimeconfig.yaml"; \
-		$(INFO) running locally built $(PROJECT_NAME)-$${api}; \
-		$(KUBECTL) wait provider.pkg $(PROJECT_NAME)-$${api} --for condition=Healthy --timeout 5m; \
-		$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) wait --for=condition=Available deployment --all --timeout=5m; \
-		$(OK) running locally built $(PROJECT_NAME)-$${api}; \
-	done || $(FAIL)
+		$(MAKE) local.xpkg.deploy.provider.$(PROJECT_NAME)-$${api} DRC_FILE="./examples/deploymentruntimeconfig.yaml" && \
+		$(INFO) running locally built $(PROJECT_NAME)-$${api} && \
+		$(KUBECTL) wait provider.pkg $(PROJECT_NAME)-$${api} --for condition=Healthy --timeout 5m && \
+		$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) wait --for=condition=Available deployment --all --timeout=5m && \
+		$(OK) running locally built $(PROJECT_NAME)-$${api} || { $(FAIL); exit 1; }; \
+	done
 
 # This target requires the following environment variables to be set:
 # - UPTEST_CLOUD_CREDENTIALS, cloud credentials for the provider being tested
