@@ -4,6 +4,10 @@ kind: SecurityPreference
 metadata:
   annotations:
     meta.upbound.io/example-id: ram-v1alpha1-test-securitypreference-1
+    # Kept out of automated e2e runs: this sets the RAM security preference of
+    # the whole account, and upstream's delete is a no-op, so deleting the
+    # resource leaves these settings in place for every RAM user.
+    upjet.upbound.io/manual-intervention: "This changes account-wide RAM security settings that delete does not revert"
   labels:
     testing.upbound.io/example-name: test-securitypreference-1
   name: test-securitypreference-1
