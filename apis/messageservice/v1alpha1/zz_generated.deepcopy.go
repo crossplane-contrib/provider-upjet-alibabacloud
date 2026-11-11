@@ -1369,9 +1369,39 @@ func (in *TopicInitParameters) DeepCopyInto(out *TopicInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.EnableSse != nil {
+		in, out := &in.EnableSse, &out.EnableSse
+		*out = new(bool)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyIDRef != nil {
+		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.KMSKeyIDSelector != nil {
+		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.MaxMessageSize != nil {
 		in, out := &in.MaxMessageSize, &out.MaxMessageSize
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SseAlgorithm != nil {
+		in, out := &in.SseAlgorithm, &out.SseAlgorithm
+		*out = new(string)
+		**out = **in
+	}
+	if in.SseType != nil {
+		in, out := &in.SseType, &out.SseType
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tags != nil {
@@ -1457,14 +1487,34 @@ func (in *TopicObservation) DeepCopyInto(out *TopicObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.EnableSse != nil {
+		in, out := &in.EnableSse, &out.EnableSse
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
 		*out = new(string)
 		**out = **in
 	}
 	if in.MaxMessageSize != nil {
 		in, out := &in.MaxMessageSize, &out.MaxMessageSize
 		*out = new(float64)
+		**out = **in
+	}
+	if in.SseAlgorithm != nil {
+		in, out := &in.SseAlgorithm, &out.SseAlgorithm
+		*out = new(string)
+		**out = **in
+	}
+	if in.SseType != nil {
+		in, out := &in.SseType, &out.SseType
+		*out = new(string)
 		**out = **in
 	}
 	if in.Tags != nil {
@@ -1513,6 +1563,26 @@ func (in *TopicParameters) DeepCopyInto(out *TopicParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.EnableSse != nil {
+		in, out := &in.EnableSse, &out.EnableSse
+		*out = new(bool)
+		**out = **in
+	}
+	if in.KMSKeyID != nil {
+		in, out := &in.KMSKeyID, &out.KMSKeyID
+		*out = new(string)
+		**out = **in
+	}
+	if in.KMSKeyIDRef != nil {
+		in, out := &in.KMSKeyIDRef, &out.KMSKeyIDRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.KMSKeyIDSelector != nil {
+		in, out := &in.KMSKeyIDSelector, &out.KMSKeyIDSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.MaxMessageSize != nil {
 		in, out := &in.MaxMessageSize, &out.MaxMessageSize
 		*out = new(float64)
@@ -1520,6 +1590,16 @@ func (in *TopicParameters) DeepCopyInto(out *TopicParameters) {
 	}
 	if in.Region != nil {
 		in, out := &in.Region, &out.Region
+		*out = new(string)
+		**out = **in
+	}
+	if in.SseAlgorithm != nil {
+		in, out := &in.SseAlgorithm, &out.SseAlgorithm
+		*out = new(string)
+		**out = **in
+	}
+	if in.SseType != nil {
+		in, out := &in.SseType, &out.SseType
 		*out = new(string)
 		**out = **in
 	}

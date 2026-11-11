@@ -89,9 +89,9 @@ spec:
                       options can refer to the latest docs DeleteDBCluster
                     type: string
                   cloneDataPoint:
-                    description: |-
-                      The time point of data to be cloned. Valid values are LATEST,BackupID,Timestamp.Value options can refer to the latest docs CreateDBCluster CloneDataPoint.
-                      -> NOTE: If CreationOption is set to CloneFromRDS, the value of this parameter must be LATEST. When clone to a historical backup set, you must specify a specific backup set ID. When clone to a specific point in time, specify a YYYY-MM-DDThh:mm:ssZ format UTC timestamp.
+                    description: The time point of data to be cloned. Valid values
+                      are LATEST,BackupID,Timestamp.Value options can refer to the
+                      latest docs CreateDBCluster CloneDataPoint.
                     type: string
                   cnNodeClass:
                     description: 'The node class for CN (Coordinator Node) in a distributed
@@ -108,14 +108,13 @@ spec:
                       Valid values are Enable, Disabled.
                     type: string
                   compressStorage:
-                    description: |-
-                      Enable storage compression function. The value of this parameter is ON. Only MySQL supports.
-                      -> NOTE: When the value of db_type is not MySQL, the value of creation_option is neither empty nor Normal, and the value of storage_type is not PSL4, this field will be ignored.
+                    description: Enable storage compression function. The value of
+                      this parameter is ON. Only MySQL supports.
                     type: string
                   creationCategory:
-                    description: |-
-                      The edition of the PolarDB service. Valid values are Normal,Basic,ArchiveNormal,NormalMultimaster,SENormal.Value options can refer to the latest docs CreateDBCluster CreationCategory.
-                      -> NOTE: You can set this parameter to Basic only when DBType is set to MySQL and DBVersion is set to 5.6, 5.7, or 8.0. You can set this parameter to Archive only when DBType is set to MySQL and DBVersion is set to 8.0. From version 1.188.0, creation_category can be set to NormalMultimaster. From version 1.203.0, creation_category can be set to SENormal.
+                    description: The edition of the PolarDB service. Valid values
+                      are Normal,Basic,ArchiveNormal,NormalMultimaster,SENormal.Value
+                      options can refer to the latest docs CreateDBCluster CreationCategory.
                     type: string
                   creationOption:
                     description: 'The method that is used to create a cluster. Valid
@@ -159,25 +158,26 @@ spec:
                       takes effect only when db_type is MySQL and db_version is 8.0.
                     type: string
                   dbNodeClass:
-                    description: |-
-                      The db_node_class of cluster node. Required for non-distributed clusters.
-                      -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
-                      From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
-                      From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
+                    description: The db_node_class of cluster node. Required for non-distributed
+                      clusters.
                     type: string
                   dbNodeCount:
-                    description: |-
-                      Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16]. This argument does not apply to distributed clusters and conflicts with cn_node_num and dn_node_num.
-                      -> NOTE: To avoid adding or removing multiple read-only nodes by mistake, the system allows you to add or remove one read-only node at a time.
+                    description: 'Number of the PolarDB cluster nodes, default is
+                      2(Each cluster must contain at least a primary node and a read-only
+                      node). Add/remove nodes by modifying this parameter, valid values:
+                      [2~16]. This argument does not apply to distributed clusters
+                      and conflicts with cn_node_num and dn_node_num.'
                     type: number
                   dbNodeId:
                     description: 'The ID of the node or node subscript. Node subscript
                       values: 1 to 15.'
                     type: string
                   dbNodeNum:
-                    description: |-
-                      The number of Standard and Enterprise Edition nodes. Default value: 1 for Standard Edition, 2 for Enterprise Edition. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
-                      -> NOTE: This parameter only takes effect on creation. To further manage target db node number, please refer to parameter db_node_count.
+                    description: 'The number of Standard and Enterprise Edition nodes.
+                      Default value: 1 for Standard Edition, 2 for Enterprise Edition.
+                      Valid values are 1, 2. From version 1.235.0, Valid values for
+                      PolarDB for MySQL Standard Edition: 1 to 8. Valid values for
+                      PolarDB for MySQL Enterprise Edition: 1 to 16.'
                     type: number
                   dbType:
                     description: 'Database type. Value options: MySQL, Oracle, PostgreSQL.'
@@ -187,14 +187,16 @@ spec:
                       latest docs CreateDBCluster DBVersion.
                     type: string
                   defaultTimeZone:
-                    description: |-
-                      The time zone of the cluster. You can set the parameter to a value that is on the hour from -12:00 to +13:00 based on UTC. Example: 00:00. Default value: SYSTEM. This value indicates that the time zone of the cluster is the same as the time zone of the region.
-                      -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
+                    description: 'The time zone of the cluster. You can set the parameter
+                      to a value that is on the hour from -12:00 to +13:00 based on
+                      UTC. Example: 00:00. Default value: SYSTEM. This value indicates
+                      that the time zone of the cluster is the same as the time zone
+                      of the region.'
                     type: string
                   deletionLock:
-                    description: |-
-                      turn on table deletion_lock. Valid values are 0, 1. 1 means to open the cluster protection lock, 0 means to close the cluster protection lock
-                      -> NOTE:  Cannot modify after created when pay_type is PrePaid .deletion_lock the cluster protection lock can be turned on or off when pay_type is PostPaid.
+                    description: turn on table deletion_lock. Valid values are 0,
+                      1. 1 means to open the cluster protection lock, 0 means to close
+                      the cluster protection lock
                     type: number
                   description:
                     description: The description of cluster.
@@ -215,14 +217,12 @@ spec:
                       false. This parameter takes effect only after TDE is enabled.
                     type: boolean
                   enableDynamodb:
-                    description: |-
-                      Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
-                      -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
+                    description: 'Specifies whether to enable DynamoDB compatibility.
+                      Valid values: true, false.'
                     type: boolean
                   encryptNewTables:
-                    description: |-
-                      turn on table auto encryption. Valid values are ON, OFF. Only MySQL 8.0 supports.
-                      -> NOTE: encrypt_new_tables Polardb MySQL 8.0 cluster, after TDE and Automatic Encryption are enabled, all newly created tables are automatically encrypted in the cluster.
+                    description: turn on table auto encryption. Valid values are ON,
+                      OFF. Only MySQL 8.0 supports.
                     type: string
                   encryptionKey:
                     description: The ID of the custom key. encryption_key cannot be
@@ -234,9 +234,7 @@ spec:
                       means scheduled execution.
                     type: string
                   gdnId:
-                    description: |-
-                      The ID of the global database network (GDN).
-                      -> NOTE: This parameter is required if CreationOption is set to CreateGdnStandby.
+                    description: The ID of the global database network (GDN).
                     type: string
                   globalSecurityGroupList:
                     description: The list of global security ip group ids.
@@ -249,35 +247,28 @@ spec:
                       Valid values are ON, OFF. Only MySQL supports.
                     type: string
                   hotStandbyCluster:
-                    description: |-
-                      Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
-                      -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
+                    description: Whether to enable the hot standby cluster. Valid
+                      values are ON, OFF, EQUAL.
                     type: string
                   imciSwitch:
-                    description: |-
-                      Specifies whether to enable the In-Memory Column Index (IMCI) feature. Valid values are ON, OFF.
-                      -> NOTE:  Only polardb MySQL Cluster version is available. The cluster with minor version number of 8.0.1 supports the column index feature, and the specific kernel version must be 8.0.1.1.22 or above.
-                      -> NOTE:  The single node, the single node version of the history library, and the cluster version of the history library do not support column save indexes.
+                    description: Specifies whether to enable the In-Memory Column
+                      Index (IMCI) feature. Valid values are ON, OFF.
                     type: string
                   loosePolarLogBin:
-                    description: |-
-                      Enable the Binlog function. Default value: OFF. Valid values are OFF, ON.
-                      -> NOTE: This parameter is valid only MySQL Engine supports.
+                    description: 'Enable the Binlog function. Default value: OFF.
+                      Valid values are OFF, ON.'
                     type: string
                   looseXengine:
-                    description: |-
-                      Specifies whether to enable X-Engine. Valid values are ON, OFF.
-                      -> NOTE: This parameter takes effect only if you do not set creation_option to CreateGdnStandby and you set db_type to MySQL and db_version to 8.0. To enable X-Engine on a node, make sure that the memory of the node is greater than or equal to 8 GB in size.
+                    description: Specifies whether to enable X-Engine. Valid values
+                      are ON, OFF.
                     type: string
                   looseXengineUseMemoryPct:
-                    description: |-
-                      Set the ratio to enable the X-Engine storage engine. Valid values: 10 to 90.
-                      -> NOTE: When the parameter loose_xengine is ON, loose_xengine_use_memory_pct takes effect.
+                    description: 'Set the ratio to enable the X-Engine storage engine.
+                      Valid values: 10 to 90.'
                     type: number
                   lowerCaseTableNames:
-                    description: |-
-                      Specifies whether the table names are case-sensitive. Default value: 1.  Valid values are 1, 0.
-                      -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
+                    description: 'Specifies whether the table names are case-sensitive.
+                      Default value: 1.  Valid values are 1, 0.'
                     type: number
                   maintainTime:
                     description: 'Maintainable time period format of the instance:
@@ -289,9 +280,7 @@ spec:
                       are Upgrade, Downgrade. Default to Upgrade.
                     type: string
                   parameterGroupId:
-                    description: |-
-                      The ID of the parameter template
-                      -> NOTE: You can call the DescribeParameterGroups operation to query the details of all parameter templates of a specified region, such as the ID of a parameter template.
+                    description: The ID of the parameter template
                     type: string
                   parameters:
                     description: Set of parameters needs to be set after DB cluster
@@ -311,34 +300,31 @@ spec:
                     description: Valid values are PrePaid, PostPaid, Default to PostPaid.
                     type: string
                   period:
-                    description: |-
-                      The duration that you will buy DB cluster (in month). It is valid when pay_type is PrePaid. Valid values: [1~9], 12, 24, 36.
-                      -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
+                    description: 'The duration that you will buy DB cluster (in month).
+                      It is valid when pay_type is PrePaid. Valid values: [1~9], 12,
+                      24, 36.'
                     type: number
                   plannedEndTime:
-                    description: |-
-                      The latest time to start executing the target scheduled task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-                      -> NOTE: The latest time must be 30 minutes or more later than the start time. If PlannedStartTime is set but this parameter is not specified, the latest time to execute the target task defaults to the start time+30 minutes. For example, when the PlannedStartTime is set to 2021-01-14T09:00:00Z and this parameter is left blank, the target task will start executing at the latest on 2021-01-14T09:30:00Z.
+                    description: 'The latest time to start executing the target scheduled
+                      task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).'
                     type: string
                   plannedStartTime:
-                    description: |-
-                      The earliest time to start executing a scheduled (i.e. within the target time period) kernel version upgrade task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-                      -> NOTE: The starting time range is any time point within the next 24 hours. For example, the current time is 2021-01-14T09:00:00Z, and the allowed start time range for filling in here is 2021-01-14T09:00:00Z~2021-01-15T09:00:00Z. If this parameter is left blank, the kernel version upgrade task will be executed immediately by default.
+                    description: 'The earliest time to start executing a scheduled
+                      (i.e. within the target time period) kernel version upgrade
+                      task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).'
                     type: string
                   provisionedIops:
-                    description: |-
-                      The provisioned read/write IOPS of the ESSD AutoPL disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline IOPS}. Baseline IOPS = min{1,800 + 50 × Capacity, 50,000}.
-                      -> NOTE: This parameter is available only if the StorageType parameter is set to ESSDAUTOPL.
+                    description: 'The provisioned read/write IOPS of the ESSD AutoPL
+                      disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline
+                      IOPS}. Baseline IOPS = min{1,800 + 50 × Capacity, 50,000}.'
                     type: string
                   proxyClass:
-                    description: |-
-                      The specifications of the Standard Edition PolarProxy. Available parameters can refer to the latest docs CreateDBCluster
-                      -> NOTE: This parameter is valid only for standard edition clusters.
+                    description: The specifications of the Standard Edition PolarProxy.
+                      Available parameters can refer to the latest docs CreateDBCluster
                     type: string
                   proxyType:
-                    description: |-
-                      The type of PolarProxy. Valid values are EXCLUSIVE GENERAL.
-                      -> NOTE: This parameter is valid for both standard and enterprise clusters.
+                    description: The type of PolarProxy. Valid values are EXCLUSIVE
+                      GENERAL.
                     type: string
                   region:
                     description: Region is the region you'd like your resource to
@@ -349,8 +335,9 @@ spec:
                       Default to NotRenewal.
                     type: string
                   resourceGroupId:
-                    description: '> NOTE: From version 1.250.0, resource_group_id
-                      can be modified.'
+                    description: The ID of resource group which the PolarDB cluster
+                      belongs. If not specified, then it belongs to the default resource
+                      group.
                     type: string
                   roleArn:
                     description: The Alibaba Cloud Resource Name (ARN) of the RAM
@@ -553,9 +540,9 @@ spec:
                         type: object
                     type: object
                   securityGroupIds:
-                    description: |-
-                      The ID of the security group. Separate multiple security groups with commas (,). You can add a maximum of three security groups to a cluster.
-                      -> NOTE: Because of data backup and migration, change DB cluster type and storage would cost 15~20 minutes. Please make full preparation before changing them.
+                    description: The ID of the security group. Separate multiple security
+                      groups with commas (,). You can add a maximum of three security
+                      groups to a cluster.
                     items:
                       type: string
                     type: array
@@ -569,9 +556,8 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   serverlessRuleCpuEnlargeThreshold:
-                    description: |-
-                      CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
-                      -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
+                    description: 'CPU upscale threshold. Valid values: 40 to 100.
+                      This parameter is valid only for serverless clusters.'
                     type: number
                   serverlessRuleCpuShrinkThreshold:
                     description: 'CPU downscale threshold. Valid values: 10 to 100.
@@ -583,9 +569,8 @@ spec:
                       only for serverless clusters.'
                     type: string
                   serverlessSteadySwitch:
-                    description: |-
-                      Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
-                      -> NOTE: When serverless_steady_switch is ON and serverless_type is SteadyServerless, parameters scale_min, scale_max, scale_ro_num_min and scale_ro_num_max are all required.
+                    description: Serverless steady-state switch. Valid values are
+                      ON, OFF. This parameter is valid only for serverless clusters.
                     type: string
                   serverlessType:
                     description: The type of the serverless cluster. Valid values
@@ -600,19 +585,16 @@ spec:
                       CreateDBCluster SourceResourceId.
                     type: string
                   standbyAz:
-                    description: |-
-                      The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
-                      -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
+                    description: The availability zone where the hot standby cluster
+                      is stored, takes effect when hot_standby_cluster is ON or EQUAL.
                     type: string
                   storagePayType:
                     description: The billing method of the storage. Valid values PostPaid,
                       PrePaid.
                     type: string
                   storageSpace:
-                    description: |-
-                      Storage space charged by space (monthly package). Unit: GB.
-                      -> NOTE:  Valid values for PolarDB for MySQL Standard Edition: 20 to 32000. It is valid when pay_type are PrePaid ,PostPaid.
-                      -> NOTE:  Valid values for PolarDB for MySQL Enterprise Edition: 50 to 100000.It is valid when pay_type is PrePaid.
+                    description: 'Storage space charged by space (monthly package).
+                      Unit: GB.'
                     type: number
                   storageType:
                     description: The storage type of the cluster. Enterprise storage
@@ -645,9 +627,10 @@ spec:
                       The target minor version of the cluster. Used during creation.
                     type: string
                   tdeStatus:
-                    description: |-
-                      Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
-                      -> NOTE: tde_status only supports modification from Disabled to Enabled.
+                    description: Specifies whether to enable TDE encryption. Valid
+                      values are Enabled, Disabled. Default to Disabled. TDE cannot
+                      be disabled after it is enabled. You can enable TDE during cluster
+                      creation or update an existing cluster to enable it.
                     type: string
                   upgradeType:
                     description: Version upgrade type. Valid values are PROXY, DB,
@@ -733,9 +716,8 @@ spec:
                         type: object
                     type: object
                   vswitchId:
-                    description: |-
-                      The virtual switch ID to launch DB instances in one VPC.
-                      -> NOTE: If vswitch_id is not specified, system will get a vswitch belongs to the user automatically.
+                    description: The virtual switch ID to launch DB instances in one
+                      VPC.
                     type: string
                   vswitchIdRef:
                     description: Reference to a Vswitch in vpc to populate vswitchId.
@@ -845,9 +827,9 @@ spec:
                       options can refer to the latest docs DeleteDBCluster
                     type: string
                   cloneDataPoint:
-                    description: |-
-                      The time point of data to be cloned. Valid values are LATEST,BackupID,Timestamp.Value options can refer to the latest docs CreateDBCluster CloneDataPoint.
-                      -> NOTE: If CreationOption is set to CloneFromRDS, the value of this parameter must be LATEST. When clone to a historical backup set, you must specify a specific backup set ID. When clone to a specific point in time, specify a YYYY-MM-DDThh:mm:ssZ format UTC timestamp.
+                    description: The time point of data to be cloned. Valid values
+                      are LATEST,BackupID,Timestamp.Value options can refer to the
+                      latest docs CreateDBCluster CloneDataPoint.
                     type: string
                   cnNodeClass:
                     description: 'The node class for CN (Coordinator Node) in a distributed
@@ -864,14 +846,13 @@ spec:
                       Valid values are Enable, Disabled.
                     type: string
                   compressStorage:
-                    description: |-
-                      Enable storage compression function. The value of this parameter is ON. Only MySQL supports.
-                      -> NOTE: When the value of db_type is not MySQL, the value of creation_option is neither empty nor Normal, and the value of storage_type is not PSL4, this field will be ignored.
+                    description: Enable storage compression function. The value of
+                      this parameter is ON. Only MySQL supports.
                     type: string
                   creationCategory:
-                    description: |-
-                      The edition of the PolarDB service. Valid values are Normal,Basic,ArchiveNormal,NormalMultimaster,SENormal.Value options can refer to the latest docs CreateDBCluster CreationCategory.
-                      -> NOTE: You can set this parameter to Basic only when DBType is set to MySQL and DBVersion is set to 5.6, 5.7, or 8.0. You can set this parameter to Archive only when DBType is set to MySQL and DBVersion is set to 8.0. From version 1.188.0, creation_category can be set to NormalMultimaster. From version 1.203.0, creation_category can be set to SENormal.
+                    description: The edition of the PolarDB service. Valid values
+                      are Normal,Basic,ArchiveNormal,NormalMultimaster,SENormal.Value
+                      options can refer to the latest docs CreateDBCluster CreationCategory.
                     type: string
                   creationOption:
                     description: 'The method that is used to create a cluster. Valid
@@ -915,25 +896,26 @@ spec:
                       takes effect only when db_type is MySQL and db_version is 8.0.
                     type: string
                   dbNodeClass:
-                    description: |-
-                      The db_node_class of cluster node. Required for non-distributed clusters.
-                      -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
-                      From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
-                      From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
+                    description: The db_node_class of cluster node. Required for non-distributed
+                      clusters.
                     type: string
                   dbNodeCount:
-                    description: |-
-                      Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16]. This argument does not apply to distributed clusters and conflicts with cn_node_num and dn_node_num.
-                      -> NOTE: To avoid adding or removing multiple read-only nodes by mistake, the system allows you to add or remove one read-only node at a time.
+                    description: 'Number of the PolarDB cluster nodes, default is
+                      2(Each cluster must contain at least a primary node and a read-only
+                      node). Add/remove nodes by modifying this parameter, valid values:
+                      [2~16]. This argument does not apply to distributed clusters
+                      and conflicts with cn_node_num and dn_node_num.'
                     type: number
                   dbNodeId:
                     description: 'The ID of the node or node subscript. Node subscript
                       values: 1 to 15.'
                     type: string
                   dbNodeNum:
-                    description: |-
-                      The number of Standard and Enterprise Edition nodes. Default value: 1 for Standard Edition, 2 for Enterprise Edition. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
-                      -> NOTE: This parameter only takes effect on creation. To further manage target db node number, please refer to parameter db_node_count.
+                    description: 'The number of Standard and Enterprise Edition nodes.
+                      Default value: 1 for Standard Edition, 2 for Enterprise Edition.
+                      Valid values are 1, 2. From version 1.235.0, Valid values for
+                      PolarDB for MySQL Standard Edition: 1 to 8. Valid values for
+                      PolarDB for MySQL Enterprise Edition: 1 to 16.'
                     type: number
                   dbType:
                     description: 'Database type. Value options: MySQL, Oracle, PostgreSQL.'
@@ -943,14 +925,16 @@ spec:
                       latest docs CreateDBCluster DBVersion.
                     type: string
                   defaultTimeZone:
-                    description: |-
-                      The time zone of the cluster. You can set the parameter to a value that is on the hour from -12:00 to +13:00 based on UTC. Example: 00:00. Default value: SYSTEM. This value indicates that the time zone of the cluster is the same as the time zone of the region.
-                      -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
+                    description: 'The time zone of the cluster. You can set the parameter
+                      to a value that is on the hour from -12:00 to +13:00 based on
+                      UTC. Example: 00:00. Default value: SYSTEM. This value indicates
+                      that the time zone of the cluster is the same as the time zone
+                      of the region.'
                     type: string
                   deletionLock:
-                    description: |-
-                      turn on table deletion_lock. Valid values are 0, 1. 1 means to open the cluster protection lock, 0 means to close the cluster protection lock
-                      -> NOTE:  Cannot modify after created when pay_type is PrePaid .deletion_lock the cluster protection lock can be turned on or off when pay_type is PostPaid.
+                    description: turn on table deletion_lock. Valid values are 0,
+                      1. 1 means to open the cluster protection lock, 0 means to close
+                      the cluster protection lock
                     type: number
                   description:
                     description: The description of cluster.
@@ -971,14 +955,12 @@ spec:
                       false. This parameter takes effect only after TDE is enabled.
                     type: boolean
                   enableDynamodb:
-                    description: |-
-                      Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
-                      -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
+                    description: 'Specifies whether to enable DynamoDB compatibility.
+                      Valid values: true, false.'
                     type: boolean
                   encryptNewTables:
-                    description: |-
-                      turn on table auto encryption. Valid values are ON, OFF. Only MySQL 8.0 supports.
-                      -> NOTE: encrypt_new_tables Polardb MySQL 8.0 cluster, after TDE and Automatic Encryption are enabled, all newly created tables are automatically encrypted in the cluster.
+                    description: turn on table auto encryption. Valid values are ON,
+                      OFF. Only MySQL 8.0 supports.
                     type: string
                   encryptionKey:
                     description: The ID of the custom key. encryption_key cannot be
@@ -990,9 +972,7 @@ spec:
                       means scheduled execution.
                     type: string
                   gdnId:
-                    description: |-
-                      The ID of the global database network (GDN).
-                      -> NOTE: This parameter is required if CreationOption is set to CreateGdnStandby.
+                    description: The ID of the global database network (GDN).
                     type: string
                   globalSecurityGroupList:
                     description: The list of global security ip group ids.
@@ -1005,35 +985,28 @@ spec:
                       Valid values are ON, OFF. Only MySQL supports.
                     type: string
                   hotStandbyCluster:
-                    description: |-
-                      Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
-                      -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
+                    description: Whether to enable the hot standby cluster. Valid
+                      values are ON, OFF, EQUAL.
                     type: string
                   imciSwitch:
-                    description: |-
-                      Specifies whether to enable the In-Memory Column Index (IMCI) feature. Valid values are ON, OFF.
-                      -> NOTE:  Only polardb MySQL Cluster version is available. The cluster with minor version number of 8.0.1 supports the column index feature, and the specific kernel version must be 8.0.1.1.22 or above.
-                      -> NOTE:  The single node, the single node version of the history library, and the cluster version of the history library do not support column save indexes.
+                    description: Specifies whether to enable the In-Memory Column
+                      Index (IMCI) feature. Valid values are ON, OFF.
                     type: string
                   loosePolarLogBin:
-                    description: |-
-                      Enable the Binlog function. Default value: OFF. Valid values are OFF, ON.
-                      -> NOTE: This parameter is valid only MySQL Engine supports.
+                    description: 'Enable the Binlog function. Default value: OFF.
+                      Valid values are OFF, ON.'
                     type: string
                   looseXengine:
-                    description: |-
-                      Specifies whether to enable X-Engine. Valid values are ON, OFF.
-                      -> NOTE: This parameter takes effect only if you do not set creation_option to CreateGdnStandby and you set db_type to MySQL and db_version to 8.0. To enable X-Engine on a node, make sure that the memory of the node is greater than or equal to 8 GB in size.
+                    description: Specifies whether to enable X-Engine. Valid values
+                      are ON, OFF.
                     type: string
                   looseXengineUseMemoryPct:
-                    description: |-
-                      Set the ratio to enable the X-Engine storage engine. Valid values: 10 to 90.
-                      -> NOTE: When the parameter loose_xengine is ON, loose_xengine_use_memory_pct takes effect.
+                    description: 'Set the ratio to enable the X-Engine storage engine.
+                      Valid values: 10 to 90.'
                     type: number
                   lowerCaseTableNames:
-                    description: |-
-                      Specifies whether the table names are case-sensitive. Default value: 1.  Valid values are 1, 0.
-                      -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
+                    description: 'Specifies whether the table names are case-sensitive.
+                      Default value: 1.  Valid values are 1, 0.'
                     type: number
                   maintainTime:
                     description: 'Maintainable time period format of the instance:
@@ -1045,9 +1018,7 @@ spec:
                       are Upgrade, Downgrade. Default to Upgrade.
                     type: string
                   parameterGroupId:
-                    description: |-
-                      The ID of the parameter template
-                      -> NOTE: You can call the DescribeParameterGroups operation to query the details of all parameter templates of a specified region, such as the ID of a parameter template.
+                    description: The ID of the parameter template
                     type: string
                   parameters:
                     description: Set of parameters needs to be set after DB cluster
@@ -1067,42 +1038,40 @@ spec:
                     description: Valid values are PrePaid, PostPaid, Default to PostPaid.
                     type: string
                   period:
-                    description: |-
-                      The duration that you will buy DB cluster (in month). It is valid when pay_type is PrePaid. Valid values: [1~9], 12, 24, 36.
-                      -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
+                    description: 'The duration that you will buy DB cluster (in month).
+                      It is valid when pay_type is PrePaid. Valid values: [1~9], 12,
+                      24, 36.'
                     type: number
                   plannedEndTime:
-                    description: |-
-                      The latest time to start executing the target scheduled task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-                      -> NOTE: The latest time must be 30 minutes or more later than the start time. If PlannedStartTime is set but this parameter is not specified, the latest time to execute the target task defaults to the start time+30 minutes. For example, when the PlannedStartTime is set to 2021-01-14T09:00:00Z and this parameter is left blank, the target task will start executing at the latest on 2021-01-14T09:30:00Z.
+                    description: 'The latest time to start executing the target scheduled
+                      task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).'
                     type: string
                   plannedStartTime:
-                    description: |-
-                      The earliest time to start executing a scheduled (i.e. within the target time period) kernel version upgrade task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-                      -> NOTE: The starting time range is any time point within the next 24 hours. For example, the current time is 2021-01-14T09:00:00Z, and the allowed start time range for filling in here is 2021-01-14T09:00:00Z~2021-01-15T09:00:00Z. If this parameter is left blank, the kernel version upgrade task will be executed immediately by default.
+                    description: 'The earliest time to start executing a scheduled
+                      (i.e. within the target time period) kernel version upgrade
+                      task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).'
                     type: string
                   provisionedIops:
-                    description: |-
-                      The provisioned read/write IOPS of the ESSD AutoPL disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline IOPS}. Baseline IOPS = min{1,800 + 50 × Capacity, 50,000}.
-                      -> NOTE: This parameter is available only if the StorageType parameter is set to ESSDAUTOPL.
+                    description: 'The provisioned read/write IOPS of the ESSD AutoPL
+                      disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline
+                      IOPS}. Baseline IOPS = min{1,800 + 50 × Capacity, 50,000}.'
                     type: string
                   proxyClass:
-                    description: |-
-                      The specifications of the Standard Edition PolarProxy. Available parameters can refer to the latest docs CreateDBCluster
-                      -> NOTE: This parameter is valid only for standard edition clusters.
+                    description: The specifications of the Standard Edition PolarProxy.
+                      Available parameters can refer to the latest docs CreateDBCluster
                     type: string
                   proxyType:
-                    description: |-
-                      The type of PolarProxy. Valid values are EXCLUSIVE GENERAL.
-                      -> NOTE: This parameter is valid for both standard and enterprise clusters.
+                    description: The type of PolarProxy. Valid values are EXCLUSIVE
+                      GENERAL.
                     type: string
                   renewalStatus:
                     description: Valid values are AutoRenewal, Normal, NotRenewal,
                       Default to NotRenewal.
                     type: string
                   resourceGroupId:
-                    description: '> NOTE: From version 1.250.0, resource_group_id
-                      can be modified.'
+                    description: The ID of resource group which the PolarDB cluster
+                      belongs. If not specified, then it belongs to the default resource
+                      group.
                     type: string
                   roleArn:
                     description: The Alibaba Cloud Resource Name (ARN) of the RAM
@@ -1305,9 +1274,9 @@ spec:
                         type: object
                     type: object
                   securityGroupIds:
-                    description: |-
-                      The ID of the security group. Separate multiple security groups with commas (,). You can add a maximum of three security groups to a cluster.
-                      -> NOTE: Because of data backup and migration, change DB cluster type and storage would cost 15~20 minutes. Please make full preparation before changing them.
+                    description: The ID of the security group. Separate multiple security
+                      groups with commas (,). You can add a maximum of three security
+                      groups to a cluster.
                     items:
                       type: string
                     type: array
@@ -1321,9 +1290,8 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   serverlessRuleCpuEnlargeThreshold:
-                    description: |-
-                      CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
-                      -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
+                    description: 'CPU upscale threshold. Valid values: 40 to 100.
+                      This parameter is valid only for serverless clusters.'
                     type: number
                   serverlessRuleCpuShrinkThreshold:
                     description: 'CPU downscale threshold. Valid values: 10 to 100.
@@ -1335,9 +1303,8 @@ spec:
                       only for serverless clusters.'
                     type: string
                   serverlessSteadySwitch:
-                    description: |-
-                      Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
-                      -> NOTE: When serverless_steady_switch is ON and serverless_type is SteadyServerless, parameters scale_min, scale_max, scale_ro_num_min and scale_ro_num_max are all required.
+                    description: Serverless steady-state switch. Valid values are
+                      ON, OFF. This parameter is valid only for serverless clusters.
                     type: string
                   serverlessType:
                     description: The type of the serverless cluster. Valid values
@@ -1352,19 +1319,16 @@ spec:
                       CreateDBCluster SourceResourceId.
                     type: string
                   standbyAz:
-                    description: |-
-                      The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
-                      -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
+                    description: The availability zone where the hot standby cluster
+                      is stored, takes effect when hot_standby_cluster is ON or EQUAL.
                     type: string
                   storagePayType:
                     description: The billing method of the storage. Valid values PostPaid,
                       PrePaid.
                     type: string
                   storageSpace:
-                    description: |-
-                      Storage space charged by space (monthly package). Unit: GB.
-                      -> NOTE:  Valid values for PolarDB for MySQL Standard Edition: 20 to 32000. It is valid when pay_type are PrePaid ,PostPaid.
-                      -> NOTE:  Valid values for PolarDB for MySQL Enterprise Edition: 50 to 100000.It is valid when pay_type is PrePaid.
+                    description: 'Storage space charged by space (monthly package).
+                      Unit: GB.'
                     type: number
                   storageType:
                     description: The storage type of the cluster. Enterprise storage
@@ -1397,9 +1361,10 @@ spec:
                       The target minor version of the cluster. Used during creation.
                     type: string
                   tdeStatus:
-                    description: |-
-                      Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
-                      -> NOTE: tde_status only supports modification from Disabled to Enabled.
+                    description: Specifies whether to enable TDE encryption. Valid
+                      values are Enabled, Disabled. Default to Disabled. TDE cannot
+                      be disabled after it is enabled. You can enable TDE during cluster
+                      creation or update an existing cluster to enable it.
                     type: string
                   upgradeType:
                     description: Version upgrade type. Valid values are PROXY, DB,
@@ -1485,9 +1450,8 @@ spec:
                         type: object
                     type: object
                   vswitchId:
-                    description: |-
-                      The virtual switch ID to launch DB instances in one VPC.
-                      -> NOTE: If vswitch_id is not specified, system will get a vswitch belongs to the user automatically.
+                    description: The virtual switch ID to launch DB instances in one
+                      VPC.
                     type: string
                   vswitchIdRef:
                     description: Reference to a Vswitch in vpc to populate vswitchId.
@@ -1769,9 +1733,9 @@ spec:
                       options can refer to the latest docs DeleteDBCluster
                     type: string
                   cloneDataPoint:
-                    description: |-
-                      The time point of data to be cloned. Valid values are LATEST,BackupID,Timestamp.Value options can refer to the latest docs CreateDBCluster CloneDataPoint.
-                      -> NOTE: If CreationOption is set to CloneFromRDS, the value of this parameter must be LATEST. When clone to a historical backup set, you must specify a specific backup set ID. When clone to a specific point in time, specify a YYYY-MM-DDThh:mm:ssZ format UTC timestamp.
+                    description: The time point of data to be cloned. Valid values
+                      are LATEST,BackupID,Timestamp.Value options can refer to the
+                      latest docs CreateDBCluster CloneDataPoint.
                     type: string
                   cnNodeClass:
                     description: 'The node class for CN (Coordinator Node) in a distributed
@@ -1795,9 +1759,8 @@ spec:
                       Valid values are Enable, Disabled.
                     type: string
                   compressStorage:
-                    description: |-
-                      Enable storage compression function. The value of this parameter is ON. Only MySQL supports.
-                      -> NOTE: When the value of db_type is not MySQL, the value of creation_option is neither empty nor Normal, and the value of storage_type is not PSL4, this field will be ignored.
+                    description: Enable storage compression function. The value of
+                      this parameter is ON. Only MySQL supports.
                     type: string
                   connectionString:
                     description: (Available since 1.81.0) PolarDB cluster connection
@@ -1808,9 +1771,9 @@ spec:
                       time.
                     type: string
                   creationCategory:
-                    description: |-
-                      The edition of the PolarDB service. Valid values are Normal,Basic,ArchiveNormal,NormalMultimaster,SENormal.Value options can refer to the latest docs CreateDBCluster CreationCategory.
-                      -> NOTE: You can set this parameter to Basic only when DBType is set to MySQL and DBVersion is set to 5.6, 5.7, or 8.0. You can set this parameter to Archive only when DBType is set to MySQL and DBVersion is set to 8.0. From version 1.188.0, creation_category can be set to NormalMultimaster. From version 1.203.0, creation_category can be set to SENormal.
+                    description: The edition of the PolarDB service. Valid values
+                      are Normal,Basic,ArchiveNormal,NormalMultimaster,SENormal.Value
+                      options can refer to the latest docs CreateDBCluster CreationCategory.
                     type: string
                   creationOption:
                     description: 'The method that is used to create a cluster. Valid
@@ -1854,25 +1817,26 @@ spec:
                       takes effect only when db_type is MySQL and db_version is 8.0.
                     type: string
                   dbNodeClass:
-                    description: |-
-                      The db_node_class of cluster node. Required for non-distributed clusters.
-                      -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
-                      From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
-                      From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
+                    description: The db_node_class of cluster node. Required for non-distributed
+                      clusters.
                     type: string
                   dbNodeCount:
-                    description: |-
-                      Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16]. This argument does not apply to distributed clusters and conflicts with cn_node_num and dn_node_num.
-                      -> NOTE: To avoid adding or removing multiple read-only nodes by mistake, the system allows you to add or remove one read-only node at a time.
+                    description: 'Number of the PolarDB cluster nodes, default is
+                      2(Each cluster must contain at least a primary node and a read-only
+                      node). Add/remove nodes by modifying this parameter, valid values:
+                      [2~16]. This argument does not apply to distributed clusters
+                      and conflicts with cn_node_num and dn_node_num.'
                     type: number
                   dbNodeId:
                     description: 'The ID of the node or node subscript. Node subscript
                       values: 1 to 15.'
                     type: string
                   dbNodeNum:
-                    description: |-
-                      The number of Standard and Enterprise Edition nodes. Default value: 1 for Standard Edition, 2 for Enterprise Edition. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
-                      -> NOTE: This parameter only takes effect on creation. To further manage target db node number, please refer to parameter db_node_count.
+                    description: 'The number of Standard and Enterprise Edition nodes.
+                      Default value: 1 for Standard Edition, 2 for Enterprise Edition.
+                      Valid values are 1, 2. From version 1.235.0, Valid values for
+                      PolarDB for MySQL Standard Edition: 1 to 8. Valid values for
+                      PolarDB for MySQL Enterprise Edition: 1 to 16.'
                     type: number
                   dbRevisionVersionList:
                     description: '(Available since v1.216.0) The db_revision_version_list
@@ -1907,14 +1871,16 @@ spec:
                       latest docs CreateDBCluster DBVersion.
                     type: string
                   defaultTimeZone:
-                    description: |-
-                      The time zone of the cluster. You can set the parameter to a value that is on the hour from -12:00 to +13:00 based on UTC. Example: 00:00. Default value: SYSTEM. This value indicates that the time zone of the cluster is the same as the time zone of the region.
-                      -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
+                    description: 'The time zone of the cluster. You can set the parameter
+                      to a value that is on the hour from -12:00 to +13:00 based on
+                      UTC. Example: 00:00. Default value: SYSTEM. This value indicates
+                      that the time zone of the cluster is the same as the time zone
+                      of the region.'
                     type: string
                   deletionLock:
-                    description: |-
-                      turn on table deletion_lock. Valid values are 0, 1. 1 means to open the cluster protection lock, 0 means to close the cluster protection lock
-                      -> NOTE:  Cannot modify after created when pay_type is PrePaid .deletion_lock the cluster protection lock can be turned on or off when pay_type is PostPaid.
+                    description: turn on table deletion_lock. Valid values are 0,
+                      1. 1 means to open the cluster protection lock, 0 means to close
+                      the cluster protection lock
                     type: number
                   description:
                     description: The description of cluster.
@@ -1942,14 +1908,12 @@ spec:
                       false. This parameter takes effect only after TDE is enabled.
                     type: boolean
                   enableDynamodb:
-                    description: |-
-                      Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
-                      -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
+                    description: 'Specifies whether to enable DynamoDB compatibility.
+                      Valid values: true, false.'
                     type: boolean
                   encryptNewTables:
-                    description: |-
-                      turn on table auto encryption. Valid values are ON, OFF. Only MySQL 8.0 supports.
-                      -> NOTE: encrypt_new_tables Polardb MySQL 8.0 cluster, after TDE and Automatic Encryption are enabled, all newly created tables are automatically encrypted in the cluster.
+                    description: turn on table auto encryption. Valid values are ON,
+                      OFF. Only MySQL 8.0 supports.
                     type: string
                   encryptionKey:
                     description: The ID of the custom key. encryption_key cannot be
@@ -1961,9 +1925,7 @@ spec:
                       means scheduled execution.
                     type: string
                   gdnId:
-                    description: |-
-                      The ID of the global database network (GDN).
-                      -> NOTE: This parameter is required if CreationOption is set to CreateGdnStandby.
+                    description: The ID of the global database network (GDN).
                     type: string
                   globalSecurityGroupList:
                     description: The list of global security ip group ids.
@@ -1976,38 +1938,31 @@ spec:
                       Valid values are ON, OFF. Only MySQL supports.
                     type: string
                   hotStandbyCluster:
-                    description: |-
-                      Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
-                      -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
+                    description: Whether to enable the hot standby cluster. Valid
+                      values are ON, OFF, EQUAL.
                     type: string
                   id:
                     description: The PolarDB cluster ID.
                     type: string
                   imciSwitch:
-                    description: |-
-                      Specifies whether to enable the In-Memory Column Index (IMCI) feature. Valid values are ON, OFF.
-                      -> NOTE:  Only polardb MySQL Cluster version is available. The cluster with minor version number of 8.0.1 supports the column index feature, and the specific kernel version must be 8.0.1.1.22 or above.
-                      -> NOTE:  The single node, the single node version of the history library, and the cluster version of the history library do not support column save indexes.
+                    description: Specifies whether to enable the In-Memory Column
+                      Index (IMCI) feature. Valid values are ON, OFF.
                     type: string
                   loosePolarLogBin:
-                    description: |-
-                      Enable the Binlog function. Default value: OFF. Valid values are OFF, ON.
-                      -> NOTE: This parameter is valid only MySQL Engine supports.
+                    description: 'Enable the Binlog function. Default value: OFF.
+                      Valid values are OFF, ON.'
                     type: string
                   looseXengine:
-                    description: |-
-                      Specifies whether to enable X-Engine. Valid values are ON, OFF.
-                      -> NOTE: This parameter takes effect only if you do not set creation_option to CreateGdnStandby and you set db_type to MySQL and db_version to 8.0. To enable X-Engine on a node, make sure that the memory of the node is greater than or equal to 8 GB in size.
+                    description: Specifies whether to enable X-Engine. Valid values
+                      are ON, OFF.
                     type: string
                   looseXengineUseMemoryPct:
-                    description: |-
-                      Set the ratio to enable the X-Engine storage engine. Valid values: 10 to 90.
-                      -> NOTE: When the parameter loose_xengine is ON, loose_xengine_use_memory_pct takes effect.
+                    description: 'Set the ratio to enable the X-Engine storage engine.
+                      Valid values: 10 to 90.'
                     type: number
                   lowerCaseTableNames:
-                    description: |-
-                      Specifies whether the table names are case-sensitive. Default value: 1.  Valid values are 1, 0.
-                      -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
+                    description: 'Specifies whether the table names are case-sensitive.
+                      Default value: 1.  Valid values are 1, 0.'
                     type: number
                   maintainTime:
                     description: 'Maintainable time period format of the instance:
@@ -2019,9 +1974,7 @@ spec:
                       are Upgrade, Downgrade. Default to Upgrade.
                     type: string
                   parameterGroupId:
-                    description: |-
-                      The ID of the parameter template
-                      -> NOTE: You can call the DescribeParameterGroups operation to query the details of all parameter templates of a specified region, such as the ID of a parameter template.
+                    description: The ID of the parameter template
                     type: string
                   parameters:
                     description: Set of parameters needs to be set after DB cluster
@@ -2041,46 +1994,44 @@ spec:
                     description: Valid values are PrePaid, PostPaid, Default to PostPaid.
                     type: string
                   period:
-                    description: |-
-                      The duration that you will buy DB cluster (in month). It is valid when pay_type is PrePaid. Valid values: [1~9], 12, 24, 36.
-                      -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
+                    description: 'The duration that you will buy DB cluster (in month).
+                      It is valid when pay_type is PrePaid. Valid values: [1~9], 12,
+                      24, 36.'
                     type: number
                   plannedEndTime:
-                    description: |-
-                      The latest time to start executing the target scheduled task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-                      -> NOTE: The latest time must be 30 minutes or more later than the start time. If PlannedStartTime is set but this parameter is not specified, the latest time to execute the target task defaults to the start time+30 minutes. For example, when the PlannedStartTime is set to 2021-01-14T09:00:00Z and this parameter is left blank, the target task will start executing at the latest on 2021-01-14T09:30:00Z.
+                    description: 'The latest time to start executing the target scheduled
+                      task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).'
                     type: string
                   plannedStartTime:
-                    description: |-
-                      The earliest time to start executing a scheduled (i.e. within the target time period) kernel version upgrade task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-                      -> NOTE: The starting time range is any time point within the next 24 hours. For example, the current time is 2021-01-14T09:00:00Z, and the allowed start time range for filling in here is 2021-01-14T09:00:00Z~2021-01-15T09:00:00Z. If this parameter is left blank, the kernel version upgrade task will be executed immediately by default.
+                    description: 'The earliest time to start executing a scheduled
+                      (i.e. within the target time period) kernel version upgrade
+                      task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).'
                     type: string
                   port:
                     description: (Available since 1.196.0) PolarDB cluster connection
                       port.
                     type: string
                   provisionedIops:
-                    description: |-
-                      The provisioned read/write IOPS of the ESSD AutoPL disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline IOPS}. Baseline IOPS = min{1,800 + 50 × Capacity, 50,000}.
-                      -> NOTE: This parameter is available only if the StorageType parameter is set to ESSDAUTOPL.
+                    description: 'The provisioned read/write IOPS of the ESSD AutoPL
+                      disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline
+                      IOPS}. Baseline IOPS = min{1,800 + 50 × Capacity, 50,000}.'
                     type: string
                   proxyClass:
-                    description: |-
-                      The specifications of the Standard Edition PolarProxy. Available parameters can refer to the latest docs CreateDBCluster
-                      -> NOTE: This parameter is valid only for standard edition clusters.
+                    description: The specifications of the Standard Edition PolarProxy.
+                      Available parameters can refer to the latest docs CreateDBCluster
                     type: string
                   proxyType:
-                    description: |-
-                      The type of PolarProxy. Valid values are EXCLUSIVE GENERAL.
-                      -> NOTE: This parameter is valid for both standard and enterprise clusters.
+                    description: The type of PolarProxy. Valid values are EXCLUSIVE
+                      GENERAL.
                     type: string
                   renewalStatus:
                     description: Valid values are AutoRenewal, Normal, NotRenewal,
                       Default to NotRenewal.
                     type: string
                   resourceGroupId:
-                    description: '> NOTE: From version 1.250.0, resource_group_id
-                      can be modified.'
+                    description: The ID of resource group which the PolarDB cluster
+                      belongs. If not specified, then it belongs to the default resource
+                      group.
                     type: string
                   roleArn:
                     description: The Alibaba Cloud Resource Name (ARN) of the RAM
@@ -2135,9 +2086,9 @@ spec:
                       for serverless clusters.'
                     type: number
                   securityGroupIds:
-                    description: |-
-                      The ID of the security group. Separate multiple security groups with commas (,). You can add a maximum of three security groups to a cluster.
-                      -> NOTE: Because of data backup and migration, change DB cluster type and storage would cost 15~20 minutes. Please make full preparation before changing them.
+                    description: The ID of the security group. Separate multiple security
+                      groups with commas (,). You can add a maximum of three security
+                      groups to a cluster.
                     items:
                       type: string
                     type: array
@@ -2151,9 +2102,8 @@ spec:
                     type: array
                     x-kubernetes-list-type: set
                   serverlessRuleCpuEnlargeThreshold:
-                    description: |-
-                      CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
-                      -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
+                    description: 'CPU upscale threshold. Valid values: 40 to 100.
+                      This parameter is valid only for serverless clusters.'
                     type: number
                   serverlessRuleCpuShrinkThreshold:
                     description: 'CPU downscale threshold. Valid values: 10 to 100.
@@ -2165,9 +2115,8 @@ spec:
                       only for serverless clusters.'
                     type: string
                   serverlessSteadySwitch:
-                    description: |-
-                      Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
-                      -> NOTE: When serverless_steady_switch is ON and serverless_type is SteadyServerless, parameters scale_min, scale_max, scale_ro_num_min and scale_ro_num_max are all required.
+                    description: Serverless steady-state switch. Valid values are
+                      ON, OFF. This parameter is valid only for serverless clusters.
                     type: string
                   serverlessType:
                     description: The type of the serverless cluster. Valid values
@@ -2182,9 +2131,8 @@ spec:
                       CreateDBCluster SourceResourceId.
                     type: string
                   standbyAz:
-                    description: |-
-                      The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
-                      -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
+                    description: The availability zone where the hot standby cluster
+                      is stored, takes effect when hot_standby_cluster is ON or EQUAL.
                     type: string
                   status:
                     description: (Available since 1.204.1) PolarDB cluster status.
@@ -2194,10 +2142,8 @@ spec:
                       PrePaid.
                     type: string
                   storageSpace:
-                    description: |-
-                      Storage space charged by space (monthly package). Unit: GB.
-                      -> NOTE:  Valid values for PolarDB for MySQL Standard Edition: 20 to 32000. It is valid when pay_type are PrePaid ,PostPaid.
-                      -> NOTE:  Valid values for PolarDB for MySQL Enterprise Edition: 50 to 100000.It is valid when pay_type is PrePaid.
+                    description: 'Storage space charged by space (monthly package).
+                      Unit: GB.'
                     type: number
                   storageType:
                     description: The storage type of the cluster. Enterprise storage
@@ -2230,15 +2176,14 @@ spec:
                       The target minor version of the cluster. Used during creation.
                     type: string
                   tdeRegion:
-                    description: |-
-                      (Available since 1.200.0) The region where the TDE key resides.
-                      -> NOTE: TDE can be enabled on clusters that have joined a global database network (GDN). After TDE is enabled on the primary cluster in a GDN, TDE is enabled on the secondary clusters in the GDN by default. The key used by the secondary clusters and the region for the key resides must be the same as the primary cluster. The region of the key cannot be modified.
-                      -> NOTE: You cannot enable TDE for the secondary clusters in a GDN. Used to view user KMS activation status.
+                    description: (Available since 1.200.0) The region where the TDE
+                      key resides.
                     type: string
                   tdeStatus:
-                    description: |-
-                      Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
-                      -> NOTE: tde_status only supports modification from Disabled to Enabled.
+                    description: Specifies whether to enable TDE encryption. Valid
+                      values are Enabled, Disabled. Default to Disabled. TDE cannot
+                      be disabled after it is enabled. You can enable TDE during cluster
+                      creation or update an existing cluster to enable it.
                     type: string
                   upgradeType:
                     description: Version upgrade type. Valid values are PROXY, DB,
@@ -2250,9 +2195,8 @@ spec:
                     description: The id of the VPC.
                     type: string
                   vswitchId:
-                    description: |-
-                      The virtual switch ID to launch DB instances in one VPC.
-                      -> NOTE: If vswitch_id is not specified, system will get a vswitch belongs to the user automatically.
+                    description: The virtual switch ID to launch DB instances in one
+                      VPC.
                     type: string
                   zoneId:
                     description: The Zone to launch the DB cluster. it supports multiple

@@ -84,9 +84,11 @@ spec:
                       Valid values: true and false.'
                     type: boolean
                   endTime:
-                    description: end time of the capacity reservation. the capacity
-                      reservation will be  released at the end time automatically
-                      if set. otherwise it will last until manually released
+                    description: 'The expiration time of the capacity reservation
+                      service. The time format follows the ISO 8601 standard and must
+                      use UTC +0 time, in the format yyyy-MM-ddTHH:mm:ssZ. This parameter
+                      takes effect only when end_time_type is set to Limited. Example:
+                      2021-10-30T06:32:00Z.'
                     type: string
                   endTimeType:
                     description: 'Release mode of capacity reservation service. Value
@@ -103,21 +105,21 @@ spec:
                       reservation service for one instance type.
                     type: string
                   matchCriteria:
-                    description: '(ForceNew,Optional) The type of private resource
+                    description: '(ForceNew, Optional) The type of private resource
                       pool generated after the capacity reservation service takes
                       effect. Value range:Open: Open mode.Target: dedicated mode.Default
                       value: Open'
                     type: string
                   platform:
-                    description: platform of the capacity reservation, value range
-                      windows, linux.
+                    description: (ForceNew, Optional) platform of the capacity reservation,
+                      value range windows, linux.
                     type: string
                   region:
                     description: Region is the region you'd like your resource to
                       be created in.
                     type: string
                   resourceGroupId:
-                    description: (ForceNew,Optional) The resource group id.
+                    description: (ForceNew, Optional) The resource group id.
                     type: string
                   tags:
                     additionalProperties:
@@ -126,7 +128,7 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   zoneIds:
-                    description: (ForceNew,Required) The ID of the zone in the region
+                    description: (ForceNew, Required) The ID of the zone in the region
                       to which the capacity reservation service belongs. Currently,
                       it is only supported to create a capacity reservation service
                       in one zone.
@@ -158,9 +160,11 @@ spec:
                       Valid values: true and false.'
                     type: boolean
                   endTime:
-                    description: end time of the capacity reservation. the capacity
-                      reservation will be  released at the end time automatically
-                      if set. otherwise it will last until manually released
+                    description: 'The expiration time of the capacity reservation
+                      service. The time format follows the ISO 8601 standard and must
+                      use UTC +0 time, in the format yyyy-MM-ddTHH:mm:ssZ. This parameter
+                      takes effect only when end_time_type is set to Limited. Example:
+                      2021-10-30T06:32:00Z.'
                     type: string
                   endTimeType:
                     description: 'Release mode of capacity reservation service. Value
@@ -177,17 +181,17 @@ spec:
                       reservation service for one instance type.
                     type: string
                   matchCriteria:
-                    description: '(ForceNew,Optional) The type of private resource
+                    description: '(ForceNew, Optional) The type of private resource
                       pool generated after the capacity reservation service takes
                       effect. Value range:Open: Open mode.Target: dedicated mode.Default
                       value: Open'
                     type: string
                   platform:
-                    description: platform of the capacity reservation, value range
-                      windows, linux.
+                    description: (ForceNew, Optional) platform of the capacity reservation,
+                      value range windows, linux.
                     type: string
                   resourceGroupId:
-                    description: (ForceNew,Optional) The resource group id.
+                    description: (ForceNew, Optional) The resource group id.
                     type: string
                   tags:
                     additionalProperties:
@@ -196,7 +200,7 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   zoneIds:
-                    description: (ForceNew,Required) The ID of the zone in the region
+                    description: (ForceNew, Required) The ID of the zone in the region
                       to which the capacity reservation service belongs. Currently,
                       it is only supported to create a capacity reservation service
                       in one zone.
@@ -400,9 +404,11 @@ spec:
                       Valid values: true and false.'
                     type: boolean
                   endTime:
-                    description: end time of the capacity reservation. the capacity
-                      reservation will be  released at the end time automatically
-                      if set. otherwise it will last until manually released
+                    description: 'The expiration time of the capacity reservation
+                      service. The time format follows the ISO 8601 standard and must
+                      use UTC +0 time, in the format yyyy-MM-ddTHH:mm:ssZ. This parameter
+                      takes effect only when end_time_type is set to Limited. Example:
+                      2021-10-30T06:32:00Z.'
                     type: string
                   endTimeType:
                     description: 'Release mode of capacity reservation service. Value
@@ -422,7 +428,7 @@ spec:
                       reservation service for one instance type.
                     type: string
                   matchCriteria:
-                    description: '(ForceNew,Optional) The type of private resource
+                    description: '(ForceNew, Optional) The type of private resource
                       pool generated after the capacity reservation service takes
                       effect. Value range:Open: Open mode.Target: dedicated mode.Default
                       value: Open'
@@ -431,11 +437,11 @@ spec:
                     description: The payment type of the resource
                     type: string
                   platform:
-                    description: platform of the capacity reservation, value range
-                      windows, linux.
+                    description: (ForceNew, Optional) platform of the capacity reservation,
+                      value range windows, linux.
                     type: string
                   resourceGroupId:
-                    description: (ForceNew,Optional) The resource group id.
+                    description: (ForceNew, Optional) The resource group id.
                     type: string
                   startTime:
                     description: time of the capacity reservation which become active.
@@ -459,7 +465,7 @@ spec:
                       for use.
                     type: string
                   zoneIds:
-                    description: (ForceNew,Required) The ID of the zone in the region
+                    description: (ForceNew, Required) The ID of the zone in the region
                       to which the capacity reservation service belongs. Currently,
                       it is only supported to create a capacity reservation service
                       in one zone.

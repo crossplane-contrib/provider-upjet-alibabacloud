@@ -138,7 +138,6 @@ type ServerlessKubernetesInitParameters struct {
 	ClusterSpec *string `json:"clusterSpec,omitempty" tf:"cluster_spec,omitempty"`
 
 	// Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
-	// -> NOTE: Make sure you have specified all certificate SANs before updating. Updating this field will lead APIServer to restart.
 	CustomSan *string `json:"customSan,omitempty" tf:"custom_san,omitempty"`
 
 	// Delete options, only work for deleting resource. See delete_options below.
@@ -318,7 +317,6 @@ type ServerlessKubernetesObservation struct {
 	ClusterSpec *string `json:"clusterSpec,omitempty" tf:"cluster_spec,omitempty"`
 
 	// Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
-	// -> NOTE: Make sure you have specified all certificate SANs before updating. Updating this field will lead APIServer to restart.
 	CustomSan *string `json:"customSan,omitempty" tf:"custom_san,omitempty"`
 
 	// Delete options, only work for deleting resource. See delete_options below.
@@ -452,7 +450,6 @@ type ServerlessKubernetesParameters struct {
 	ClusterSpec *string `json:"clusterSpec,omitempty" tf:"cluster_spec,omitempty"`
 
 	// Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
-	// -> NOTE: Make sure you have specified all certificate SANs before updating. Updating this field will lead APIServer to restart.
 	// +kubebuilder:validation:Optional
 	CustomSan *string `json:"customSan,omitempty" tf:"custom_san,omitempty"`
 

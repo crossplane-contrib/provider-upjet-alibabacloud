@@ -242,6 +242,11 @@ type InstanceImageOptionsParameters struct {
 
 type InstanceInitParameters struct {
 
+	// A set of additional attributes that the provider requests when reading the instance through the DescribeInstances API. Configured values are merged into the default set of META_OPTIONS, NETWORK_PRIMARY_ENI_IP, LOGIN_AS_NON_ROOT, DISK_HIGH_DENSITY_MODE and CPU_OPTIONS_TOPOLOGY_TYPE that the provider always requests, so existing reads keep working. Other useful values include DDH_CLUSTER, PRIVATE_DNS_OPTIONS, CURRENT_OS_NVME_SUPPORTED and MANAGED_HOST_ID.
+	// A set of additional attributes to request when the provider queries the instance via DescribeInstances, such as DDH_CLUSTER, PRIVATE_DNS_OPTIONS or MANAGED_HOST_ID. Configured values are merged into the default set the provider always requests, so existing reads keep working. DescribeInstances accepts at most 10 items, 5 of which are taken by the defaults, so at most 5 additional values can be set here.
+	// +listType=set
+	AdditionalAttributes []*string `json:"additionalAttributes,omitempty" tf:"additional_attributes,omitempty"`
+
 	// The automatic release time of the PostPaid instance.
 	// The time follows the ISO 8601 standard and is in UTC time. Format: yyyy-MM-ddTHH:mm:ssZ. It must be at least half an hour later than the current time and less than 3 years since the current time.
 	// Setting it to null can cancel automatic release feature, and the ECS instance will not be released automatically.
@@ -257,7 +262,6 @@ type InstanceInitParameters struct {
 	CPUOptions []CPUOptionsInitParameters `json:"cpuOptions,omitempty" tf:"cpu_options,omitempty"`
 
 	// Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
-	// -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
 	CreditSpecification *string `json:"creditSpecification,omitempty" tf:"credit_specification,omitempty"`
 
 	// The list of data disks created with instance. Note: The parameter is immutable after resource creation. This resource only configures these disks during instance creation; it does not update or refresh the inline disk settings. See data_disks below.
@@ -364,7 +368,6 @@ type InstanceInitParameters struct {
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
 	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
-	// -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.KeyPair
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
@@ -376,7 +379,7 @@ type InstanceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyNameSelector *v1.Selector `json:"keyNameSelector,omitempty" tf:"-"`
 
-	// The ID of the launch template. For more information, see DescribeLaunchTemplates.To use a launch template to create an instance, you must use the launch_template_id or launch_template_name parameter to specify the launch template.
+	// or launch_template_name to specify a launch template, you must specify security_groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.LaunchTemplate
 	LaunchTemplateID *string `json:"launchTemplateId,omitempty" tf:"launch_template_id,omitempty"`
 
@@ -402,6 +405,10 @@ type InstanceInitParameters struct {
 
 	// The time of maintenance. See maintenance_time below.
 	MaintenanceTime []MaintenanceTimeInitParameters `json:"maintenanceTime,omitempty" tf:"maintenance_time,omitempty"`
+
+	// The ID of the managed host on which to create the instance, such as mh-f2d3647ca21****. The managed host refers to the physical machine in the intelligent fully-managed resource pool. NOTE: You cannot specify both the managed_host_id and dedicated_host_id parameters.
+	// The ID of the managed host on which to create the instance. It is only used for managed host scenarios and conflicts with dedicated_host_id.
+	ManagedHostID *string `json:"managedHostId,omitempty" tf:"managed_host_id,omitempty"`
 
 	// The index of the network card for Primary ENI.
 	NetworkCardIndex *float64 `json:"networkCardIndex,omitempty" tf:"network_card_index,omitempty"`
@@ -653,6 +660,11 @@ type InstanceNetworkInterfacesParameters struct {
 
 type InstanceObservation struct {
 
+	// A set of additional attributes that the provider requests when reading the instance through the DescribeInstances API. Configured values are merged into the default set of META_OPTIONS, NETWORK_PRIMARY_ENI_IP, LOGIN_AS_NON_ROOT, DISK_HIGH_DENSITY_MODE and CPU_OPTIONS_TOPOLOGY_TYPE that the provider always requests, so existing reads keep working. Other useful values include DDH_CLUSTER, PRIVATE_DNS_OPTIONS, CURRENT_OS_NVME_SUPPORTED and MANAGED_HOST_ID.
+	// A set of additional attributes to request when the provider queries the instance via DescribeInstances, such as DDH_CLUSTER, PRIVATE_DNS_OPTIONS or MANAGED_HOST_ID. Configured values are merged into the default set the provider always requests, so existing reads keep working. DescribeInstances accepts at most 10 items, 5 of which are taken by the defaults, so at most 5 additional values can be set here.
+	// +listType=set
+	AdditionalAttributes []*string `json:"additionalAttributes,omitempty" tf:"additional_attributes,omitempty"`
+
 	// The automatic release time of the PostPaid instance.
 	// The time follows the ISO 8601 standard and is in UTC time. Format: yyyy-MM-ddTHH:mm:ssZ. It must be at least half an hour later than the current time and less than 3 years since the current time.
 	// Setting it to null can cancel automatic release feature, and the ECS instance will not be released automatically.
@@ -674,7 +686,6 @@ type InstanceObservation struct {
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
-	// -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
 	CreditSpecification *string `json:"creditSpecification,omitempty" tf:"credit_specification,omitempty"`
 
 	// The list of data disks created with instance. Note: The parameter is immutable after resource creation. This resource only configures these disks during instance creation; it does not update or refresh the inline disk settings. See data_disks below.
@@ -781,10 +792,9 @@ type InstanceObservation struct {
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
 	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
-	// -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
 
-	// The ID of the launch template. For more information, see DescribeLaunchTemplates.To use a launch template to create an instance, you must use the launch_template_id or launch_template_name parameter to specify the launch template.
+	// or launch_template_name to specify a launch template, you must specify security_groups.
 	LaunchTemplateID *string `json:"launchTemplateId,omitempty" tf:"launch_template_id,omitempty"`
 
 	// The name of the launch template.
@@ -801,6 +811,10 @@ type InstanceObservation struct {
 
 	// The time of maintenance. See maintenance_time below.
 	MaintenanceTime []MaintenanceTimeObservation `json:"maintenanceTime,omitempty" tf:"maintenance_time,omitempty"`
+
+	// The ID of the managed host on which to create the instance, such as mh-f2d3647ca21****. The managed host refers to the physical machine in the intelligent fully-managed resource pool. NOTE: You cannot specify both the managed_host_id and dedicated_host_id parameters.
+	// The ID of the managed host on which to create the instance. It is only used for managed host scenarios and conflicts with dedicated_host_id.
+	ManagedHostID *string `json:"managedHostId,omitempty" tf:"managed_host_id,omitempty"`
 
 	// The memory size of the instance. Unit: MiB.
 	Memory *float64 `json:"memory,omitempty" tf:"memory,omitempty"`
@@ -962,6 +976,12 @@ type InstanceObservation struct {
 
 type InstanceParameters struct {
 
+	// A set of additional attributes that the provider requests when reading the instance through the DescribeInstances API. Configured values are merged into the default set of META_OPTIONS, NETWORK_PRIMARY_ENI_IP, LOGIN_AS_NON_ROOT, DISK_HIGH_DENSITY_MODE and CPU_OPTIONS_TOPOLOGY_TYPE that the provider always requests, so existing reads keep working. Other useful values include DDH_CLUSTER, PRIVATE_DNS_OPTIONS, CURRENT_OS_NVME_SUPPORTED and MANAGED_HOST_ID.
+	// A set of additional attributes to request when the provider queries the instance via DescribeInstances, such as DDH_CLUSTER, PRIVATE_DNS_OPTIONS or MANAGED_HOST_ID. Configured values are merged into the default set the provider always requests, so existing reads keep working. DescribeInstances accepts at most 10 items, 5 of which are taken by the defaults, so at most 5 additional values can be set here.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	AdditionalAttributes []*string `json:"additionalAttributes,omitempty" tf:"additional_attributes,omitempty"`
+
 	// The automatic release time of the PostPaid instance.
 	// The time follows the ISO 8601 standard and is in UTC time. Format: yyyy-MM-ddTHH:mm:ssZ. It must be at least half an hour later than the current time and less than 3 years since the current time.
 	// Setting it to null can cancel automatic release feature, and the ECS instance will not be released automatically.
@@ -981,7 +1001,6 @@ type InstanceParameters struct {
 	CPUOptions []CPUOptionsParameters `json:"cpuOptions,omitempty" tf:"cpu_options,omitempty"`
 
 	// Performance mode of the t5 burstable instance. Valid values: 'Standard', 'Unlimited'.
-	// -> NOTE: credit_specification is only supported by burstable instance families (e.g. t5, t6). For an existing or imported instance whose instance type does not support credit specification, this field is empty in the state and configuring it does not take effect; no change will be applied, which avoids the Credit.NotFound error from the API.
 	// +kubebuilder:validation:Optional
 	CreditSpecification *string `json:"creditSpecification,omitempty" tf:"credit_specification,omitempty"`
 
@@ -1118,7 +1137,6 @@ type InstanceParameters struct {
 	KMSEncryptionContext map[string]*string `json:"kmsEncryptionContext,omitempty" tf:"kms_encryption_context,omitempty"`
 
 	// The name of key pair that can login ECS instance successfully without password. If it is specified, the password would be invalid. NOTE: From version 1.268.0, key_name can be modified. If you want to use key_name, We recommend you to use the resource alicloud_ecs_key_pair_attachment.
-	// -> NOTE: When modifying key_name, if the instance status is Running, the ECS instance will be rebooted; If the instance status is Stopped, the ECS instance status will be changed to Running.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.KeyPair
 	// +kubebuilder:validation:Optional
 	KeyName *string `json:"keyName,omitempty" tf:"key_name,omitempty"`
@@ -1131,7 +1149,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	KeyNameSelector *v1.Selector `json:"keyNameSelector,omitempty" tf:"-"`
 
-	// The ID of the launch template. For more information, see DescribeLaunchTemplates.To use a launch template to create an instance, you must use the launch_template_id or launch_template_name parameter to specify the launch template.
+	// or launch_template_name to specify a launch template, you must specify security_groups.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.LaunchTemplate
 	// +kubebuilder:validation:Optional
 	LaunchTemplateID *string `json:"launchTemplateId,omitempty" tf:"launch_template_id,omitempty"`
@@ -1163,6 +1181,11 @@ type InstanceParameters struct {
 	// The time of maintenance. See maintenance_time below.
 	// +kubebuilder:validation:Optional
 	MaintenanceTime []MaintenanceTimeParameters `json:"maintenanceTime,omitempty" tf:"maintenance_time,omitempty"`
+
+	// The ID of the managed host on which to create the instance, such as mh-f2d3647ca21****. The managed host refers to the physical machine in the intelligent fully-managed resource pool. NOTE: You cannot specify both the managed_host_id and dedicated_host_id parameters.
+	// The ID of the managed host on which to create the instance. It is only used for managed host scenarios and conflicts with dedicated_host_id.
+	// +kubebuilder:validation:Optional
+	ManagedHostID *string `json:"managedHostId,omitempty" tf:"managed_host_id,omitempty"`
 
 	// The index of the network card for Primary ENI.
 	// +kubebuilder:validation:Optional

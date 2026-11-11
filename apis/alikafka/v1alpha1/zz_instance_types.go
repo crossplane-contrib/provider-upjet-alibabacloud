@@ -208,7 +208,6 @@ type InstanceInitParameters struct {
 	Config *string `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The configurations of Confluent. See confluent_config below.
-	// -> NOTE: If instance_type is set to alikafka_confluent, confluent_config is required.
 	ConfluentConfig []ConfluentConfigInitParameters `json:"confluentConfig,omitempty" tf:"confluent_config,omitempty"`
 
 	// The number of partitions in a topic that is automatically created.
@@ -218,7 +217,6 @@ type InstanceInitParameters struct {
 	DeployType *float64 `json:"deployType,omitempty" tf:"deploy_type,omitempty"`
 
 	// The disk size of the instance. When modify this value, it only supports adjust to a greater value.
-	// -> NOTE: If instance_type is set to alikafka, disk_size is required.
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
 	// The disk type of the instance. Valid values:
@@ -285,7 +283,6 @@ type InstanceInitParameters struct {
 	SelectedZones []*string `json:"selectedZones,omitempty" tf:"selected_zones,omitempty"`
 
 	// The parameters configured for the serverless ApsaraMQ for Kafka instance. See serverless_config below.
-	// -> NOTE: If instance_type is set to alikafka_serverless, serverless_config is required.
 	ServerlessConfig []ServerlessConfigInitParameters `json:"serverlessConfig,omitempty" tf:"serverless_config,omitempty"`
 
 	// The version of the Instance. Valid values:
@@ -331,7 +328,6 @@ type InstanceInitParameters struct {
 	VswitchIDsSelector *v1.Selector `json:"vswitchIDsSelector,omitempty" tf:"-"`
 
 	// The IDs of the vSwitches with which the instance is associated.
-	// -> NOTE: If instance_type is set to alikafka or alikafka_serverless, vswitch_ids is required. When instance_type is set to alikafka_confluent, you must specify at least one of the vswitch_id and vswitch_ids, and if you specify both vswitch_id and vswitch_ids, only the vswitch_ids takes effect.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +crossplane:generate:reference:refFieldName=VswitchIDsRefs
 	// +crossplane:generate:reference:selectorFieldName=VswitchIDsSelector
@@ -347,7 +343,6 @@ type InstanceObservation struct {
 	Config *string `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The configurations of Confluent. See confluent_config below.
-	// -> NOTE: If instance_type is set to alikafka_confluent, confluent_config is required.
 	ConfluentConfig []ConfluentConfigObservation `json:"confluentConfig,omitempty" tf:"confluent_config,omitempty"`
 
 	// The number of partitions in a topic that is automatically created.
@@ -357,7 +352,6 @@ type InstanceObservation struct {
 	DeployType *float64 `json:"deployType,omitempty" tf:"deploy_type,omitempty"`
 
 	// The disk size of the instance. When modify this value, it only supports adjust to a greater value.
-	// -> NOTE: If instance_type is set to alikafka, disk_size is required.
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
 	// The disk type of the instance. Valid values:
@@ -438,7 +432,6 @@ type InstanceObservation struct {
 	SelectedZones []*string `json:"selectedZones,omitempty" tf:"selected_zones,omitempty"`
 
 	// The parameters configured for the serverless ApsaraMQ for Kafka instance. See serverless_config below.
-	// -> NOTE: If instance_type is set to alikafka_serverless, serverless_config is required.
 	ServerlessConfig []ServerlessConfigObservation `json:"serverlessConfig,omitempty" tf:"serverless_config,omitempty"`
 
 	// The version of the Instance. Valid values:
@@ -473,7 +466,6 @@ type InstanceObservation struct {
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 
 	// The IDs of the vSwitches with which the instance is associated.
-	// -> NOTE: If instance_type is set to alikafka or alikafka_serverless, vswitch_ids is required. When instance_type is set to alikafka_confluent, you must specify at least one of the vswitch_id and vswitch_ids, and if you specify both vswitch_id and vswitch_ids, only the vswitch_ids takes effect.
 	VswitchIds []*string `json:"vswitchIds,omitempty" tf:"vswitch_ids,omitempty"`
 
 	// The zone ID of the instance. The value can be in zone x or region id-x format. NOTE: When the available zone is insufficient, another availability zone may be deployed.
@@ -487,7 +479,6 @@ type InstanceParameters struct {
 	Config *string `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The configurations of Confluent. See confluent_config below.
-	// -> NOTE: If instance_type is set to alikafka_confluent, confluent_config is required.
 	// +kubebuilder:validation:Optional
 	ConfluentConfig []ConfluentConfigParameters `json:"confluentConfig,omitempty" tf:"confluent_config,omitempty"`
 
@@ -500,7 +491,6 @@ type InstanceParameters struct {
 	DeployType *float64 `json:"deployType,omitempty" tf:"deploy_type,omitempty"`
 
 	// The disk size of the instance. When modify this value, it only supports adjust to a greater value.
-	// -> NOTE: If instance_type is set to alikafka, disk_size is required.
 	// +kubebuilder:validation:Optional
 	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
 
@@ -588,7 +578,6 @@ type InstanceParameters struct {
 	SelectedZones []*string `json:"selectedZones,omitempty" tf:"selected_zones,omitempty"`
 
 	// The parameters configured for the serverless ApsaraMQ for Kafka instance. See serverless_config below.
-	// -> NOTE: If instance_type is set to alikafka_serverless, serverless_config is required.
 	// +kubebuilder:validation:Optional
 	ServerlessConfig []ServerlessConfigParameters `json:"serverlessConfig,omitempty" tf:"serverless_config,omitempty"`
 
@@ -640,7 +629,6 @@ type InstanceParameters struct {
 	VswitchIDsSelector *v1.Selector `json:"vswitchIDsSelector,omitempty" tf:"-"`
 
 	// The IDs of the vSwitches with which the instance is associated.
-	// -> NOTE: If instance_type is set to alikafka or alikafka_serverless, vswitch_ids is required. When instance_type is set to alikafka_confluent, you must specify at least one of the vswitch_id and vswitch_ids, and if you specify both vswitch_id and vswitch_ids, only the vswitch_ids takes effect.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +crossplane:generate:reference:refFieldName=VswitchIDsRefs
 	// +crossplane:generate:reference:selectorFieldName=VswitchIDsSelector

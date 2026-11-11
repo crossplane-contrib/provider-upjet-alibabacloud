@@ -288,9 +288,8 @@ spec:
                       linux. Valid values: windows, linux.'
                     type: string
                   platform:
-                    description: |-
-                      The operating system platform. More valid values refer to ImportImage OpenAPI.
-                      -> NOTE: Before provider version 1.197.0, the default value of platform is Ubuntu.
+                    description: The operating system platform. More valid values
+                      refer to ImportImage OpenAPI.
                     type: string
                   region:
                     description: Region is the region you'd like your resource to
@@ -525,9 +524,8 @@ spec:
                       linux. Valid values: windows, linux.'
                     type: string
                   platform:
-                    description: |-
-                      The operating system platform. More valid values refer to ImportImage OpenAPI.
-                      -> NOTE: Before provider version 1.197.0, the default value of platform is Ubuntu.
+                    description: The operating system platform. More valid values
+                      refer to ImportImage OpenAPI.
                     type: string
                 type: object
               managementPolicies:
@@ -774,9 +772,8 @@ spec:
                       linux. Valid values: windows, linux.'
                     type: string
                   platform:
-                    description: |-
-                      The operating system platform. More valid values refer to ImportImage OpenAPI.
-                      -> NOTE: Before provider version 1.197.0, the default value of platform is Ubuntu.
+                    description: The operating system platform. More valid values
+                      refer to ImportImage OpenAPI.
                     type: string
                 type: object
               conditions:

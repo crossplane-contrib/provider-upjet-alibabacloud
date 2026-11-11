@@ -294,7 +294,7 @@ type ModificationProtectionConfigInitParameters struct {
 	// The reason why the configuration read-only mode is enabled. The value must be 2 to 128 characters in length, and can contain letters, digits, periods (.), underscores (_), and hyphens (-). The value must start with a letter.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 
-	// Specifies whether to enable the configuration read-only mode. Valid values:
+	// parameter is set to ConsoleProtection.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }
 
@@ -306,7 +306,7 @@ type ModificationProtectionConfigObservation struct {
 	// The reason why the configuration read-only mode is enabled. The value must be 2 to 128 characters in length, and can contain letters, digits, periods (.), underscores (_), and hyphens (-). The value must start with a letter.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 
-	// Specifies whether to enable the configuration read-only mode. Valid values:
+	// parameter is set to ConsoleProtection.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }
 
@@ -316,7 +316,7 @@ type ModificationProtectionConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 
-	// Specifies whether to enable the configuration read-only mode. Valid values:
+	// parameter is set to ConsoleProtection.
 	// +kubebuilder:validation:Optional
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }

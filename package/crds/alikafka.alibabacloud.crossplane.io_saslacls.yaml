@@ -167,9 +167,7 @@ spec:
                     description: 'The resource type. Valid values:'
                     type: string
                   host:
-                    description: |-
-                      The host of the acl.
-                      -> NOTE: From version 1.270.0, host can be set.
+                    description: The host of the acl.
                     type: string
                   instanceId:
                     description: The instance ID.
@@ -437,9 +435,7 @@ spec:
                     description: 'The resource type. Valid values:'
                     type: string
                   host:
-                    description: |-
-                      The host of the acl.
-                      -> NOTE: From version 1.270.0, host can be set.
+                    description: The host of the acl.
                     type: string
                   instanceId:
                     description: The instance ID.
@@ -801,9 +797,7 @@ spec:
                     description: 'The resource type. Valid values:'
                     type: string
                   host:
-                    description: |-
-                      The host of the acl.
-                      -> NOTE: From version 1.270.0, host can be set.
+                    description: The host of the acl.
                     type: string
                   id:
                     description: The ID of the resource supplied above. The value
