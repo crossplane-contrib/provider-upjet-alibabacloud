@@ -44,7 +44,6 @@ type SaslACLInitParameters struct {
 	ACLResourceType *string `json:"aclResourceType,omitempty" tf:"acl_resource_type,omitempty"`
 
 	// The host of the acl.
-	// -> NOTE: From version 1.270.0, host can be set.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	// The instance ID.
@@ -95,7 +94,6 @@ type SaslACLObservation struct {
 	ACLResourceType *string `json:"aclResourceType,omitempty" tf:"acl_resource_type,omitempty"`
 
 	// The host of the acl.
-	// -> NOTE: From version 1.270.0, host can be set.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	// The ID of the resource supplied above. The value is formulated as <instance_id>:<username>:<acl_resource_type>:<acl_resource_name>:<acl_resource_pattern_type>:<acl_operation_type>.
@@ -145,7 +143,6 @@ type SaslACLParameters struct {
 	ACLResourceType *string `json:"aclResourceType,omitempty" tf:"acl_resource_type,omitempty"`
 
 	// The host of the acl.
-	// -> NOTE: From version 1.270.0, host can be set.
 	// +kubebuilder:validation:Optional
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 

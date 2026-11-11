@@ -24,7 +24,7 @@ type CapacityReservationInitParameters struct {
 	// Specifies whether to pre-check the API request. Valid values: true and false.
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// end time of the capacity reservation. the capacity reservation will be  released at the end time automatically if set. otherwise it will last until manually released
+	// The expiration time of the capacity reservation service. The time format follows the ISO 8601 standard and must use UTC +0 time, in the format yyyy-MM-ddTHH:mm:ssZ. This parameter takes effect only when end_time_type is set to Limited. Example: 2021-10-30T06:32:00Z.
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
 	// Release mode of capacity reservation service. Value range:Limited: release at specified time. The EndTime parameter must be specified at the same time.Unlimited: manual release. No time limit.
@@ -36,20 +36,20 @@ type CapacityReservationInitParameters struct {
 	// Instance type. Currently, you can only set the capacity reservation service for one instance type.
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
-	// (ForceNew,Optional) The type of private resource pool generated after the capacity reservation service takes effect. Value range:Open: Open mode.Target: dedicated mode.Default value: Open
+	// (ForceNew, Optional) The type of private resource pool generated after the capacity reservation service takes effect. Value range:Open: Open mode.Target: dedicated mode.Default value: Open
 	MatchCriteria *string `json:"matchCriteria,omitempty" tf:"match_criteria,omitempty"`
 
-	// platform of the capacity reservation, value range windows, linux.
+	// (ForceNew, Optional) platform of the capacity reservation, value range windows, linux.
 	Platform *string `json:"platform,omitempty" tf:"platform,omitempty"`
 
-	// (ForceNew,Optional) The resource group id.
+	// (ForceNew, Optional) The resource group id.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
 	// Key-value map of resource tags.
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
-	// (ForceNew,Required) The ID of the zone in the region to which the capacity reservation service belongs. Currently, it is only supported to create a capacity reservation service in one zone.
+	// (ForceNew, Required) The ID of the zone in the region to which the capacity reservation service belongs. Currently, it is only supported to create a capacity reservation service in one zone.
 	ZoneIds []*string `json:"zoneIds,omitempty" tf:"zone_ids,omitempty"`
 }
 
@@ -64,7 +64,7 @@ type CapacityReservationObservation struct {
 	// Specifies whether to pre-check the API request. Valid values: true and false.
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// end time of the capacity reservation. the capacity reservation will be  released at the end time automatically if set. otherwise it will last until manually released
+	// The expiration time of the capacity reservation service. The time format follows the ISO 8601 standard and must use UTC +0 time, in the format yyyy-MM-ddTHH:mm:ssZ. This parameter takes effect only when end_time_type is set to Limited. Example: 2021-10-30T06:32:00Z.
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
 	// Release mode of capacity reservation service. Value range:Limited: release at specified time. The EndTime parameter must be specified at the same time.Unlimited: manual release. No time limit.
@@ -79,16 +79,16 @@ type CapacityReservationObservation struct {
 	// Instance type. Currently, you can only set the capacity reservation service for one instance type.
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
-	// (ForceNew,Optional) The type of private resource pool generated after the capacity reservation service takes effect. Value range:Open: Open mode.Target: dedicated mode.Default value: Open
+	// (ForceNew, Optional) The type of private resource pool generated after the capacity reservation service takes effect. Value range:Open: Open mode.Target: dedicated mode.Default value: Open
 	MatchCriteria *string `json:"matchCriteria,omitempty" tf:"match_criteria,omitempty"`
 
 	// The payment type of the resource
 	PaymentType *string `json:"paymentType,omitempty" tf:"payment_type,omitempty"`
 
-	// platform of the capacity reservation, value range windows, linux.
+	// (ForceNew, Optional) platform of the capacity reservation, value range windows, linux.
 	Platform *string `json:"platform,omitempty" tf:"platform,omitempty"`
 
-	// (ForceNew,Optional) The resource group id.
+	// (ForceNew, Optional) The resource group id.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
 	// time of the capacity reservation which become active.
@@ -107,7 +107,7 @@ type CapacityReservationObservation struct {
 	// This parameter is under test and is not yet open for use.
 	TimeSlot *string `json:"timeSlot,omitempty" tf:"time_slot,omitempty"`
 
-	// (ForceNew,Required) The ID of the zone in the region to which the capacity reservation service belongs. Currently, it is only supported to create a capacity reservation service in one zone.
+	// (ForceNew, Required) The ID of the zone in the region to which the capacity reservation service belongs. Currently, it is only supported to create a capacity reservation service in one zone.
 	ZoneIds []*string `json:"zoneIds,omitempty" tf:"zone_ids,omitempty"`
 }
 
@@ -125,7 +125,7 @@ type CapacityReservationParameters struct {
 	// +kubebuilder:validation:Optional
 	DryRun *bool `json:"dryRun,omitempty" tf:"dry_run,omitempty"`
 
-	// end time of the capacity reservation. the capacity reservation will be  released at the end time automatically if set. otherwise it will last until manually released
+	// The expiration time of the capacity reservation service. The time format follows the ISO 8601 standard and must use UTC +0 time, in the format yyyy-MM-ddTHH:mm:ssZ. This parameter takes effect only when end_time_type is set to Limited. Example: 2021-10-30T06:32:00Z.
 	// +kubebuilder:validation:Optional
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
@@ -141,11 +141,11 @@ type CapacityReservationParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
-	// (ForceNew,Optional) The type of private resource pool generated after the capacity reservation service takes effect. Value range:Open: Open mode.Target: dedicated mode.Default value: Open
+	// (ForceNew, Optional) The type of private resource pool generated after the capacity reservation service takes effect. Value range:Open: Open mode.Target: dedicated mode.Default value: Open
 	// +kubebuilder:validation:Optional
 	MatchCriteria *string `json:"matchCriteria,omitempty" tf:"match_criteria,omitempty"`
 
-	// platform of the capacity reservation, value range windows, linux.
+	// (ForceNew, Optional) platform of the capacity reservation, value range windows, linux.
 	// +kubebuilder:validation:Optional
 	Platform *string `json:"platform,omitempty" tf:"platform,omitempty"`
 
@@ -154,7 +154,7 @@ type CapacityReservationParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
-	// (ForceNew,Optional) The resource group id.
+	// (ForceNew, Optional) The resource group id.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
@@ -163,7 +163,7 @@ type CapacityReservationParameters struct {
 	// +mapType=granular
 	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
-	// (ForceNew,Required) The ID of the zone in the region to which the capacity reservation service belongs. Currently, it is only supported to create a capacity reservation service in one zone.
+	// (ForceNew, Required) The ID of the zone in the region to which the capacity reservation service belongs. Currently, it is only supported to create a capacity reservation service in one zone.
 	// +kubebuilder:validation:Optional
 	ZoneIds []*string `json:"zoneIds,omitempty" tf:"zone_ids,omitempty"`
 }

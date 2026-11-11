@@ -6,7 +6,7 @@ require (
 	dario.cat/mergo v1.0.2
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/alibabacloud-go/tea v1.5.2
-	github.com/aliyun/terraform-provider-alicloud v1.294.1-0.20261012080016-c7060a5b42ae
+	github.com/aliyun/terraform-provider-alicloud v1.294.1-0.20261022112332-d654473aed9d
 	github.com/crossplane/crossplane-runtime/v2 v2.2.0
 	github.com/crossplane/crossplane-tools v0.0.0-20260719180100-659f1dc036c5
 	github.com/crossplane/upjet/v2 v2.4.2
@@ -24,7 +24,6 @@ require (
 	github.com/Masterminds/semver v1.5.0 // indirect
 	github.com/PaesslerAG/gval v1.0.0 // indirect
 	github.com/PaesslerAG/jsonpath v0.1.1 // indirect
-	github.com/ProtonMail/go-crypto v1.4.1 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/alecthomas/units v0.0.0-20240927000941-0f3dac36c52b // indirect
 	github.com/alibabacloud-go/alibabacloud-gateway-oss v0.0.26 // indirect
@@ -60,7 +59,7 @@ require (
 	github.com/aliyun/aliyun-tablestore-go-sdk v1.9.3 // indirect
 	github.com/aliyun/credentials-go v1.4.12 // indirect
 	github.com/aliyun/fc-go-sdk v0.0.0-20220622030011-bc7ded2a9050 // indirect
-	github.com/andybalholm/brotli v1.2.1 // indirect
+	github.com/andybalholm/brotli v1.2.7 // indirect
 	github.com/antchfx/htmlquery v1.2.4 // indirect
 	github.com/antchfx/xpath v1.3.6 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
@@ -78,7 +77,6 @@ require (
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/clbanning/mxj/v2 v2.7.0 // indirect
-	github.com/cloudflare/circl v1.6.3 // indirect
 	github.com/dave/jennifer v1.7.1 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/deckarep/golang-set v1.8.0 // indirect
@@ -123,20 +121,15 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/websocket v1.5.4-0.20250319132907-e064f32e3674 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
-	github.com/hashicorp/go-checkpoint v0.5.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-cty v1.5.0 // indirect
 	github.com/hashicorp/go-hclog v1.6.3 // indirect
-	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/go-plugin v1.7.0 // indirect
-	github.com/hashicorp/go-retryablehttp v0.7.8 // indirect
 	github.com/hashicorp/go-uuid v1.0.3 // indirect
 	github.com/hashicorp/go-version v1.9.0 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
-	github.com/hashicorp/hc-install v0.9.4 // indirect
 	github.com/hashicorp/hcl/v2 v2.24.0 // indirect
 	github.com/hashicorp/logutils v1.0.0 // indirect
-	github.com/hashicorp/terraform-exec v0.25.1 // indirect
 	github.com/hashicorp/terraform-plugin-framework v1.19.0 // indirect
 	github.com/hashicorp/terraform-plugin-framework-validators v0.19.0 // indirect
 	github.com/hashicorp/terraform-plugin-go v0.31.0 // indirect
@@ -149,7 +142,7 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/keybase/go-crypto v0.0.0-20190416182011-b785b22cc757 // indirect
-	github.com/klauspost/compress v1.18.7 // indirect
+	github.com/klauspost/compress v1.20.2 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
@@ -254,4 +247,4 @@ require (
 // Remove once upstream ships a release with a proper /v2 module path.
 // Must refer to the same upstream commit as TERRAFORM_PROVIDER_VERSION in the
 // Makefile, which pins the registry release config/schema.json is generated from.
-replace github.com/aliyun/terraform-provider-alicloud => github.com/aliyun/terraform-provider-alicloud v1.294.1-0.20261012080016-c7060a5b42ae
+replace github.com/aliyun/terraform-provider-alicloud => github.com/aliyun/terraform-provider-alicloud v1.294.1-0.20261022112332-d654473aed9d

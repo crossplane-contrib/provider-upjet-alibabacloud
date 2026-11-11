@@ -84,6 +84,10 @@ type InstanceInitParameters struct {
 	// The ID of distributed cache.
 	GlobalInstanceID *string `json:"globalInstanceId,omitempty" tf:"global_instance_id,omitempty"`
 
+	// The list of Global Security Group Ids.
+	// +listType=set
+	GlobalSecurityGroupList []*string `json:"globalSecurityGroupList,omitempty" tf:"global_security_group_list,omitempty"`
+
 	// Type of the applied Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance. It can be retrieved by data source alicloud_kvstore_instance_classes
 	// or referring to help-docs Instance type table.
 	InstanceClass *string `json:"instanceClass,omitempty" tf:"instance_class,omitempty"`
@@ -164,7 +168,6 @@ type InstanceInitParameters struct {
 	SSLEnable *string `json:"sslEnable,omitempty" tf:"ssl_enable,omitempty"`
 
 	// The ID of the secondary zone to which you want to migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance.
-	// -> NOTE: If you specify this parameter, the master node and replica node of the instance can be deployed in different zones and disaster recovery is implemented across zones. The instance can withstand failures in data centers.
 	SecondaryZoneID *string `json:"secondaryZoneId,omitempty" tf:"secondary_zone_id,omitempty"`
 
 	// The ID of security groups. Separate multiple security group IDs with commas (,), such as sg-***,sg-***,sg-***.
@@ -194,11 +197,9 @@ type InstanceInitParameters struct {
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
 
 	// The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
-	// -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
 
 	// The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
-	// -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
 	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 
 	// The ID of the source instance.
@@ -260,6 +261,12 @@ type InstanceObservation struct {
 	// The ID of the event or the business information.
 	BusinessInfo *string `json:"businessInfo,omitempty" tf:"business_info,omitempty"`
 
+	// The common name of the CA certificate. NOTE: This is a best-effort attribute and may be empty when the upstream API does not return it.
+	CACertCommonName *string `json:"caCertCommonName,omitempty" tf:"ca_cert_common_name,omitempty"`
+
+	// The download URL of the CA certificate. This attribute is populated when ssl_enable is set to Enable.
+	CACertDownloadURL *string `json:"caCertDownloadUrl,omitempty" tf:"ca_cert_download_url,omitempty"`
+
 	// The storage capacity of the KVStore DBInstance. Unit: MB.
 	Capacity *float64 `json:"capacity,omitempty" tf:"capacity,omitempty"`
 
@@ -312,6 +319,10 @@ type InstanceObservation struct {
 
 	// The ID of distributed cache.
 	GlobalInstanceID *string `json:"globalInstanceId,omitempty" tf:"global_instance_id,omitempty"`
+
+	// The list of Global Security Group Ids.
+	// +listType=set
+	GlobalSecurityGroupList []*string `json:"globalSecurityGroupList,omitempty" tf:"global_security_group_list,omitempty"`
 
 	// The ID of KVStore DBInstance.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -385,8 +396,10 @@ type InstanceObservation struct {
 	// NOTE: This functionality is supported by Cluster mode (Redis 2.8, 4.0, 5.0) and Standard mode( Redis 2.8 only).
 	SSLEnable *string `json:"sslEnable,omitempty" tf:"ssl_enable,omitempty"`
 
+	// The expiration time of the SSL certificate. NOTE: This is a best-effort attribute and may be empty when the upstream API does not return it.
+	SSLExpiredTime *string `json:"sslExpiredTime,omitempty" tf:"ssl_expired_time,omitempty"`
+
 	// The ID of the secondary zone to which you want to migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance.
-	// -> NOTE: If you specify this parameter, the master node and replica node of the instance can be deployed in different zones and disaster recovery is implemented across zones. The instance can withstand failures in data centers.
 	SecondaryZoneID *string `json:"secondaryZoneId,omitempty" tf:"secondary_zone_id,omitempty"`
 
 	// The ID of security groups. Separate multiple security group IDs with commas (,), such as sg-***,sg-***,sg-***.
@@ -406,11 +419,9 @@ type InstanceObservation struct {
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
 
 	// The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
-	// -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
 
 	// The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
-	// -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
 	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 
 	// The ID of the source instance.
@@ -531,6 +542,11 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	GlobalInstanceID *string `json:"globalInstanceId,omitempty" tf:"global_instance_id,omitempty"`
 
+	// The list of Global Security Group Ids.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	GlobalSecurityGroupList []*string `json:"globalSecurityGroupList,omitempty" tf:"global_security_group_list,omitempty"`
+
 	// Type of the applied Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance. It can be retrieved by data source alicloud_kvstore_instance_classes
 	// or referring to help-docs Instance type table.
 	// +kubebuilder:validation:Optional
@@ -638,7 +654,6 @@ type InstanceParameters struct {
 	SSLEnable *string `json:"sslEnable,omitempty" tf:"ssl_enable,omitempty"`
 
 	// The ID of the secondary zone to which you want to migrate the Tair (Redis OSS-Compatible) And Memcache (KVStore) Classic Instance.
-	// -> NOTE: If you specify this parameter, the master node and replica node of the instance can be deployed in different zones and disaster recovery is implemented across zones. The instance can withstand failures in data centers.
 	// +kubebuilder:validation:Optional
 	SecondaryZoneID *string `json:"secondaryZoneId,omitempty" tf:"secondary_zone_id,omitempty"`
 
@@ -674,12 +689,10 @@ type InstanceParameters struct {
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
 
 	// The number of read replicas in the secondary zone. NOTE:: When you create a multi-zone read/write splitting instance, you must specify both secondary_zone_id and slave_read_only_count.
-	// -> NOTE: The sum of read_only_count and slave_read_only_count cannot be greater than 9.
 	// +kubebuilder:validation:Optional
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
 
 	// The number of replica nodes in the secondary zone. If not specified, the value is assigned by the system based on the instance architecture.
-	// -> NOTE: replica_count/slave_replica_count (replica nodes) and read_only_count/slave_read_only_count (read-only nodes) are mutually exclusive. An instance cannot have both replicas and read-only nodes at the same time.
 	// +kubebuilder:validation:Optional
 	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 

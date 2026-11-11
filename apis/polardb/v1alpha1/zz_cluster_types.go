@@ -25,7 +25,6 @@ type ClusterInitParameters struct {
 	BackupRetentionPolicyOnClusterDeletion *string `json:"backupRetentionPolicyOnClusterDeletion,omitempty" tf:"backup_retention_policy_on_cluster_deletion,omitempty"`
 
 	// The time point of data to be cloned. Valid values are LATEST,BackupID,Timestamp.Value options can refer to the latest docs CreateDBCluster CloneDataPoint.
-	// -> NOTE: If CreationOption is set to CloneFromRDS, the value of this parameter must be LATEST. When clone to a historical backup set, you must specify a specific backup set ID. When clone to a specific point in time, specify a YYYY-MM-DDThh:mm:ssZ format UTC timestamp.
 	CloneDataPoint *string `json:"cloneDataPoint,omitempty" tf:"clone_data_point,omitempty"`
 
 	// The node class for CN (Coordinator Node) in a distributed cluster. For example: polar.pg.x4.medium. This argument conflicts with db_node_class and must be specified together with dn_node_class when creating a distributed cluster.
@@ -38,11 +37,9 @@ type ClusterInitParameters struct {
 	CollectorStatus *string `json:"collectorStatus,omitempty" tf:"collector_status,omitempty"`
 
 	// Enable storage compression function. The value of this parameter is ON. Only MySQL supports.
-	// -> NOTE: When the value of db_type is not MySQL, the value of creation_option is neither empty nor Normal, and the value of storage_type is not PSL4, this field will be ignored.
 	CompressStorage *string `json:"compressStorage,omitempty" tf:"compress_storage,omitempty"`
 
 	// The edition of the PolarDB service. Valid values are Normal,Basic,ArchiveNormal,NormalMultimaster,SENormal.Value options can refer to the latest docs CreateDBCluster CreationCategory.
-	// -> NOTE: You can set this parameter to Basic only when DBType is set to MySQL and DBVersion is set to 5.6, 5.7, or 8.0. You can set this parameter to Archive only when DBType is set to MySQL and DBVersion is set to 8.0. From version 1.188.0, creation_category can be set to NormalMultimaster. From version 1.203.0, creation_category can be set to SENormal.
 	CreationCategory *string `json:"creationCategory,omitempty" tf:"creation_category,omitempty"`
 
 	// The method that is used to create a cluster. Valid values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin,UpgradeFromPolarDB. NOTE: From version 1.233.0, creation_option can be set to RecoverFromRecyclebin. From version 1.255.0, creation_option can be set to UpgradeFromPolarDB. Value options can refer to the latest docs CreateDBCluster CreationOption.
@@ -55,20 +52,15 @@ type ClusterInitParameters struct {
 	DBMinorVersion *string `json:"dbMinorVersion,omitempty" tf:"db_minor_version,omitempty"`
 
 	// The db_node_class of cluster node. Required for non-distributed clusters.
-	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
-	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
-	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
 	DBNodeClass *string `json:"dbNodeClass,omitempty" tf:"db_node_class,omitempty"`
 
 	// Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16]. This argument does not apply to distributed clusters and conflicts with cn_node_num and dn_node_num.
-	// -> NOTE: To avoid adding or removing multiple read-only nodes by mistake, the system allows you to add or remove one read-only node at a time.
 	DBNodeCount *float64 `json:"dbNodeCount,omitempty" tf:"db_node_count,omitempty"`
 
 	// The ID of the node or node subscript. Node subscript values: 1 to 15.
 	DBNodeID *string `json:"dbNodeId,omitempty" tf:"db_node_id,omitempty"`
 
 	// The number of Standard and Enterprise Edition nodes. Default value: 1 for Standard Edition, 2 for Enterprise Edition. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
-	// -> NOTE: This parameter only takes effect on creation. To further manage target db node number, please refer to parameter db_node_count.
 	DBNodeNum *float64 `json:"dbNodeNum,omitempty" tf:"db_node_num,omitempty"`
 
 	// Database type. Value options: MySQL, Oracle, PostgreSQL.
@@ -78,11 +70,9 @@ type ClusterInitParameters struct {
 	DBVersion *string `json:"dbVersion,omitempty" tf:"db_version,omitempty"`
 
 	// The time zone of the cluster. You can set the parameter to a value that is on the hour from -12:00 to +13:00 based on UTC. Example: 00:00. Default value: SYSTEM. This value indicates that the time zone of the cluster is the same as the time zone of the region.
-	// -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
 	DefaultTimeZone *string `json:"defaultTimeZone,omitempty" tf:"default_time_zone,omitempty"`
 
 	// turn on table deletion_lock. Valid values are 0, 1. 1 means to open the cluster protection lock, 0 means to close the cluster protection lock
-	// -> NOTE:  Cannot modify after created when pay_type is PrePaid .deletion_lock the cluster protection lock can be turned on or off when pay_type is PostPaid.
 	DeletionLock *float64 `json:"deletionLock,omitempty" tf:"deletion_lock,omitempty"`
 
 	// The description of cluster.
@@ -98,11 +88,9 @@ type ClusterInitParameters struct {
 	EnableAutomaticRotation *bool `json:"enableAutomaticRotation,omitempty" tf:"enable_automatic_rotation,omitempty"`
 
 	// Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
-	// -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
 	EnableDynamodb *bool `json:"enableDynamodb,omitempty" tf:"enable_dynamodb,omitempty"`
 
 	// turn on table auto encryption. Valid values are ON, OFF. Only MySQL 8.0 supports.
-	// -> NOTE: encrypt_new_tables Polardb MySQL 8.0 cluster, after TDE and Automatic Encryption are enabled, all newly created tables are automatically encrypted in the cluster.
 	EncryptNewTables *string `json:"encryptNewTables,omitempty" tf:"encrypt_new_tables,omitempty"`
 
 	// The ID of the custom key. encryption_key cannot be modified after TDE is opened.
@@ -112,7 +100,6 @@ type ClusterInitParameters struct {
 	FromTimeService *string `json:"fromTimeService,omitempty" tf:"from_time_service,omitempty"`
 
 	// The ID of the global database network (GDN).
-	// -> NOTE: This parameter is required if CreationOption is set to CreateGdnStandby.
 	GdnID *string `json:"gdnId,omitempty" tf:"gdn_id,omitempty"`
 
 	// The list of global security ip group ids.
@@ -123,28 +110,21 @@ type ClusterInitParameters struct {
 	HotReplicaMode *string `json:"hotReplicaMode,omitempty" tf:"hot_replica_mode,omitempty"`
 
 	// Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
-	// -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
 	HotStandbyCluster *string `json:"hotStandbyCluster,omitempty" tf:"hot_standby_cluster,omitempty"`
 
 	// Specifies whether to enable the In-Memory Column Index (IMCI) feature. Valid values are ON, OFF.
-	// -> NOTE:  Only polardb MySQL Cluster version is available. The cluster with minor version number of 8.0.1 supports the column index feature, and the specific kernel version must be 8.0.1.1.22 or above.
-	// -> NOTE:  The single node, the single node version of the history library, and the cluster version of the history library do not support column save indexes.
 	ImciSwitch *string `json:"imciSwitch,omitempty" tf:"imci_switch,omitempty"`
 
 	// Enable the Binlog function. Default value: OFF. Valid values are OFF, ON.
-	// -> NOTE: This parameter is valid only MySQL Engine supports.
 	LoosePolarLogBin *string `json:"loosePolarLogBin,omitempty" tf:"loose_polar_log_bin,omitempty"`
 
 	// Specifies whether to enable X-Engine. Valid values are ON, OFF.
-	// -> NOTE: This parameter takes effect only if you do not set creation_option to CreateGdnStandby and you set db_type to MySQL and db_version to 8.0. To enable X-Engine on a node, make sure that the memory of the node is greater than or equal to 8 GB in size.
 	LooseXengine *string `json:"looseXengine,omitempty" tf:"loose_xengine,omitempty"`
 
 	// Set the ratio to enable the X-Engine storage engine. Valid values: 10 to 90.
-	// -> NOTE: When the parameter loose_xengine is ON, loose_xengine_use_memory_pct takes effect.
 	LooseXengineUseMemoryPct *float64 `json:"looseXengineUseMemoryPct,omitempty" tf:"loose_xengine_use_memory_pct,omitempty"`
 
 	// Specifies whether the table names are case-sensitive. Default value: 1.  Valid values are 1, 0.
-	// -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
 	LowerCaseTableNames *float64 `json:"lowerCaseTableNames,omitempty" tf:"lower_case_table_names,omitempty"`
 
 	// Maintainable time period format of the instance: HH:MMZ-HH:MMZ (UTC time)
@@ -154,7 +134,6 @@ type ClusterInitParameters struct {
 	ModifyType *string `json:"modifyType,omitempty" tf:"modify_type,omitempty"`
 
 	// The ID of the parameter template
-	// -> NOTE: You can call the DescribeParameterGroups operation to query the details of all parameter templates of a specified region, such as the ID of a parameter template.
 	ParameterGroupID *string `json:"parameterGroupId,omitempty" tf:"parameter_group_id,omitempty"`
 
 	// Set of parameters needs to be set after DB cluster was launched. Available parameters can refer to the latest docs View database parameter templates .See parameters below.
@@ -164,33 +143,27 @@ type ClusterInitParameters struct {
 	PayType *string `json:"payType,omitempty" tf:"pay_type,omitempty"`
 
 	// The duration that you will buy DB cluster (in month). It is valid when pay_type is PrePaid. Valid values: [1~9], 12, 24, 36.
-	// -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
 	Period *float64 `json:"period,omitempty" tf:"period,omitempty"`
 
 	// The latest time to start executing the target scheduled task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-	// -> NOTE: The latest time must be 30 minutes or more later than the start time. If PlannedStartTime is set but this parameter is not specified, the latest time to execute the target task defaults to the start time+30 minutes. For example, when the PlannedStartTime is set to 2021-01-14T09:00:00Z and this parameter is left blank, the target task will start executing at the latest on 2021-01-14T09:30:00Z.
 	PlannedEndTime *string `json:"plannedEndTime,omitempty" tf:"planned_end_time,omitempty"`
 
 	// The earliest time to start executing a scheduled (i.e. within the target time period) kernel version upgrade task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-	// -> NOTE: The starting time range is any time point within the next 24 hours. For example, the current time is 2021-01-14T09:00:00Z, and the allowed start time range for filling in here is 2021-01-14T09:00:00Z~2021-01-15T09:00:00Z. If this parameter is left blank, the kernel version upgrade task will be executed immediately by default.
 	PlannedStartTime *string `json:"plannedStartTime,omitempty" tf:"planned_start_time,omitempty"`
 
 	// The provisioned read/write IOPS of the ESSD AutoPL disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline IOPS}. Baseline IOPS = min{1,800 + 50 × Capacity, 50,000}.
-	// -> NOTE: This parameter is available only if the StorageType parameter is set to ESSDAUTOPL.
 	ProvisionedIops *string `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
 	// The specifications of the Standard Edition PolarProxy. Available parameters can refer to the latest docs CreateDBCluster
-	// -> NOTE: This parameter is valid only for standard edition clusters.
 	ProxyClass *string `json:"proxyClass,omitempty" tf:"proxy_class,omitempty"`
 
 	// The type of PolarProxy. Valid values are EXCLUSIVE GENERAL.
-	// -> NOTE: This parameter is valid for both standard and enterprise clusters.
 	ProxyType *string `json:"proxyType,omitempty" tf:"proxy_type,omitempty"`
 
 	// Valid values are AutoRenewal, Normal, NotRenewal, Default to NotRenewal.
 	RenewalStatus *string `json:"renewalStatus,omitempty" tf:"renewal_status,omitempty"`
 
-	// > NOTE: From version 1.250.0, resource_group_id can be modified.
+	// The ID of resource group which the PolarDB cluster belongs. If not specified, then it belongs to the default resource group.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
 	// The Alibaba Cloud Resource Name (ARN) of the RAM role. A RAM role is a virtual identity that you can create within your Alibaba Cloud account. For more information see RAM role overview.
@@ -236,7 +209,6 @@ type ClusterInitParameters struct {
 	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The ID of the security group. Separate multiple security groups with commas (,). You can add a maximum of three security groups to a cluster.
-	// -> NOTE: Because of data backup and migration, change DB cluster type and storage would cost 15~20 minutes. Please make full preparation before changing them.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:refFieldName=SecurityGroupIDRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityGroupIDSelector
@@ -249,7 +221,6 @@ type ClusterInitParameters struct {
 	SecurityIps []*string `json:"securityIps,omitempty" tf:"security_ips,omitempty"`
 
 	// CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
-	// -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
 	ServerlessRuleCPUEnlargeThreshold *float64 `json:"serverlessRuleCpuEnlargeThreshold,omitempty" tf:"serverless_rule_cpu_enlarge_threshold,omitempty"`
 
 	// CPU downscale threshold. Valid values: 10 to 100. This parameter is valid only for serverless clusters.
@@ -259,7 +230,6 @@ type ClusterInitParameters struct {
 	ServerlessRuleMode *string `json:"serverlessRuleMode,omitempty" tf:"serverless_rule_mode,omitempty"`
 
 	// Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
-	// -> NOTE: When serverless_steady_switch is ON and serverless_type is SteadyServerless, parameters scale_min, scale_max, scale_ro_num_min and scale_ro_num_max are all required.
 	ServerlessSteadySwitch *string `json:"serverlessSteadySwitch,omitempty" tf:"serverless_steady_switch,omitempty"`
 
 	// The type of the serverless cluster. Valid values AgileServerless, SteadyServerless. This parameter is valid only for serverless clusters.
@@ -269,15 +239,12 @@ type ClusterInitParameters struct {
 	SourceResourceID *string `json:"sourceResourceId,omitempty" tf:"source_resource_id,omitempty"`
 
 	// The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
-	// -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
 	StandbyAz *string `json:"standbyAz,omitempty" tf:"standby_az,omitempty"`
 
 	// The billing method of the storage. Valid values PostPaid, PrePaid.
 	StoragePayType *string `json:"storagePayType,omitempty" tf:"storage_pay_type,omitempty"`
 
 	// Storage space charged by space (monthly package). Unit: GB.
-	// -> NOTE:  Valid values for PolarDB for MySQL Standard Edition: 20 to 32000. It is valid when pay_type are PrePaid ,PostPaid.
-	// -> NOTE:  Valid values for PolarDB for MySQL Enterprise Edition: 50 to 100000.It is valid when pay_type is PrePaid.
 	StorageSpace *float64 `json:"storageSpace,omitempty" tf:"storage_space,omitempty"`
 
 	// The storage type of the cluster. Enterprise storage type values are PSL5, PSL4. The standard version storage type values are ESSDPL1, ESSDPL2, ESSDPL3, ESSDPL0, ESSDAUTOPL. The standard version only supports MySQL and PostgreSQL.
@@ -301,7 +268,6 @@ type ClusterInitParameters struct {
 	TargetMinorVersion *string `json:"targetMinorVersion,omitempty" tf:"target_minor_version,omitempty"`
 
 	// Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
-	// -> NOTE: tde_status only supports modification from Disabled to Enabled.
 	TdeStatus *string `json:"tdeStatus,omitempty" tf:"tde_status,omitempty"`
 
 	// Version upgrade type. Valid values are PROXY, DB, ALL. PROXY means upgrading the proxy version, DB means upgrading the db version, ALL means upgrading both db and proxy versions simultaneously.
@@ -320,7 +286,6 @@ type ClusterInitParameters struct {
 	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The virtual switch ID to launch DB instances in one VPC.
-	// -> NOTE: If vswitch_id is not specified, system will get a vswitch belongs to the user automatically.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.IdExtractor()
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
@@ -352,7 +317,6 @@ type ClusterObservation struct {
 	BackupRetentionPolicyOnClusterDeletion *string `json:"backupRetentionPolicyOnClusterDeletion,omitempty" tf:"backup_retention_policy_on_cluster_deletion,omitempty"`
 
 	// The time point of data to be cloned. Valid values are LATEST,BackupID,Timestamp.Value options can refer to the latest docs CreateDBCluster CloneDataPoint.
-	// -> NOTE: If CreationOption is set to CloneFromRDS, the value of this parameter must be LATEST. When clone to a historical backup set, you must specify a specific backup set ID. When clone to a specific point in time, specify a YYYY-MM-DDThh:mm:ssZ format UTC timestamp.
 	CloneDataPoint *string `json:"cloneDataPoint,omitempty" tf:"clone_data_point,omitempty"`
 
 	// The node class for CN (Coordinator Node) in a distributed cluster. For example: polar.pg.x4.medium. This argument conflicts with db_node_class and must be specified together with dn_node_class when creating a distributed cluster.
@@ -369,7 +333,6 @@ type ClusterObservation struct {
 	CollectorStatus *string `json:"collectorStatus,omitempty" tf:"collector_status,omitempty"`
 
 	// Enable storage compression function. The value of this parameter is ON. Only MySQL supports.
-	// -> NOTE: When the value of db_type is not MySQL, the value of creation_option is neither empty nor Normal, and the value of storage_type is not PSL4, this field will be ignored.
 	CompressStorage *string `json:"compressStorage,omitempty" tf:"compress_storage,omitempty"`
 
 	// (Available since 1.81.0) PolarDB cluster connection string.
@@ -379,7 +342,6 @@ type ClusterObservation struct {
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
 	// The edition of the PolarDB service. Valid values are Normal,Basic,ArchiveNormal,NormalMultimaster,SENormal.Value options can refer to the latest docs CreateDBCluster CreationCategory.
-	// -> NOTE: You can set this parameter to Basic only when DBType is set to MySQL and DBVersion is set to 5.6, 5.7, or 8.0. You can set this parameter to Archive only when DBType is set to MySQL and DBVersion is set to 8.0. From version 1.188.0, creation_category can be set to NormalMultimaster. From version 1.203.0, creation_category can be set to SENormal.
 	CreationCategory *string `json:"creationCategory,omitempty" tf:"creation_category,omitempty"`
 
 	// The method that is used to create a cluster. Valid values are Normal,CloneFromPolarDB,CloneFromRDS,MigrationFromRDS,CreateGdnStandby,RecoverFromRecyclebin,UpgradeFromPolarDB. NOTE: From version 1.233.0, creation_option can be set to RecoverFromRecyclebin. From version 1.255.0, creation_option can be set to UpgradeFromPolarDB. Value options can refer to the latest docs CreateDBCluster CreationOption.
@@ -392,20 +354,15 @@ type ClusterObservation struct {
 	DBMinorVersion *string `json:"dbMinorVersion,omitempty" tf:"db_minor_version,omitempty"`
 
 	// The db_node_class of cluster node. Required for non-distributed clusters.
-	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
-	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
-	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
 	DBNodeClass *string `json:"dbNodeClass,omitempty" tf:"db_node_class,omitempty"`
 
 	// Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16]. This argument does not apply to distributed clusters and conflicts with cn_node_num and dn_node_num.
-	// -> NOTE: To avoid adding or removing multiple read-only nodes by mistake, the system allows you to add or remove one read-only node at a time.
 	DBNodeCount *float64 `json:"dbNodeCount,omitempty" tf:"db_node_count,omitempty"`
 
 	// The ID of the node or node subscript. Node subscript values: 1 to 15.
 	DBNodeID *string `json:"dbNodeId,omitempty" tf:"db_node_id,omitempty"`
 
 	// The number of Standard and Enterprise Edition nodes. Default value: 1 for Standard Edition, 2 for Enterprise Edition. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
-	// -> NOTE: This parameter only takes effect on creation. To further manage target db node number, please refer to parameter db_node_count.
 	DBNodeNum *float64 `json:"dbNodeNum,omitempty" tf:"db_node_num,omitempty"`
 
 	// (Available since v1.216.0) The db_revision_version_list supports the following:
@@ -418,11 +375,9 @@ type ClusterObservation struct {
 	DBVersion *string `json:"dbVersion,omitempty" tf:"db_version,omitempty"`
 
 	// The time zone of the cluster. You can set the parameter to a value that is on the hour from -12:00 to +13:00 based on UTC. Example: 00:00. Default value: SYSTEM. This value indicates that the time zone of the cluster is the same as the time zone of the region.
-	// -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
 	DefaultTimeZone *string `json:"defaultTimeZone,omitempty" tf:"default_time_zone,omitempty"`
 
 	// turn on table deletion_lock. Valid values are 0, 1. 1 means to open the cluster protection lock, 0 means to close the cluster protection lock
-	// -> NOTE:  Cannot modify after created when pay_type is PrePaid .deletion_lock the cluster protection lock can be turned on or off when pay_type is PostPaid.
 	DeletionLock *float64 `json:"deletionLock,omitempty" tf:"deletion_lock,omitempty"`
 
 	// The description of cluster.
@@ -442,11 +397,9 @@ type ClusterObservation struct {
 	EnableAutomaticRotation *bool `json:"enableAutomaticRotation,omitempty" tf:"enable_automatic_rotation,omitempty"`
 
 	// Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
-	// -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
 	EnableDynamodb *bool `json:"enableDynamodb,omitempty" tf:"enable_dynamodb,omitempty"`
 
 	// turn on table auto encryption. Valid values are ON, OFF. Only MySQL 8.0 supports.
-	// -> NOTE: encrypt_new_tables Polardb MySQL 8.0 cluster, after TDE and Automatic Encryption are enabled, all newly created tables are automatically encrypted in the cluster.
 	EncryptNewTables *string `json:"encryptNewTables,omitempty" tf:"encrypt_new_tables,omitempty"`
 
 	// The ID of the custom key. encryption_key cannot be modified after TDE is opened.
@@ -456,7 +409,6 @@ type ClusterObservation struct {
 	FromTimeService *string `json:"fromTimeService,omitempty" tf:"from_time_service,omitempty"`
 
 	// The ID of the global database network (GDN).
-	// -> NOTE: This parameter is required if CreationOption is set to CreateGdnStandby.
 	GdnID *string `json:"gdnId,omitempty" tf:"gdn_id,omitempty"`
 
 	// The list of global security ip group ids.
@@ -467,31 +419,24 @@ type ClusterObservation struct {
 	HotReplicaMode *string `json:"hotReplicaMode,omitempty" tf:"hot_replica_mode,omitempty"`
 
 	// Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
-	// -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
 	HotStandbyCluster *string `json:"hotStandbyCluster,omitempty" tf:"hot_standby_cluster,omitempty"`
 
 	// The PolarDB cluster ID.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Specifies whether to enable the In-Memory Column Index (IMCI) feature. Valid values are ON, OFF.
-	// -> NOTE:  Only polardb MySQL Cluster version is available. The cluster with minor version number of 8.0.1 supports the column index feature, and the specific kernel version must be 8.0.1.1.22 or above.
-	// -> NOTE:  The single node, the single node version of the history library, and the cluster version of the history library do not support column save indexes.
 	ImciSwitch *string `json:"imciSwitch,omitempty" tf:"imci_switch,omitempty"`
 
 	// Enable the Binlog function. Default value: OFF. Valid values are OFF, ON.
-	// -> NOTE: This parameter is valid only MySQL Engine supports.
 	LoosePolarLogBin *string `json:"loosePolarLogBin,omitempty" tf:"loose_polar_log_bin,omitempty"`
 
 	// Specifies whether to enable X-Engine. Valid values are ON, OFF.
-	// -> NOTE: This parameter takes effect only if you do not set creation_option to CreateGdnStandby and you set db_type to MySQL and db_version to 8.0. To enable X-Engine on a node, make sure that the memory of the node is greater than or equal to 8 GB in size.
 	LooseXengine *string `json:"looseXengine,omitempty" tf:"loose_xengine,omitempty"`
 
 	// Set the ratio to enable the X-Engine storage engine. Valid values: 10 to 90.
-	// -> NOTE: When the parameter loose_xengine is ON, loose_xengine_use_memory_pct takes effect.
 	LooseXengineUseMemoryPct *float64 `json:"looseXengineUseMemoryPct,omitempty" tf:"loose_xengine_use_memory_pct,omitempty"`
 
 	// Specifies whether the table names are case-sensitive. Default value: 1.  Valid values are 1, 0.
-	// -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
 	LowerCaseTableNames *float64 `json:"lowerCaseTableNames,omitempty" tf:"lower_case_table_names,omitempty"`
 
 	// Maintainable time period format of the instance: HH:MMZ-HH:MMZ (UTC time)
@@ -501,7 +446,6 @@ type ClusterObservation struct {
 	ModifyType *string `json:"modifyType,omitempty" tf:"modify_type,omitempty"`
 
 	// The ID of the parameter template
-	// -> NOTE: You can call the DescribeParameterGroups operation to query the details of all parameter templates of a specified region, such as the ID of a parameter template.
 	ParameterGroupID *string `json:"parameterGroupId,omitempty" tf:"parameter_group_id,omitempty"`
 
 	// Set of parameters needs to be set after DB cluster was launched. Available parameters can refer to the latest docs View database parameter templates .See parameters below.
@@ -511,36 +455,30 @@ type ClusterObservation struct {
 	PayType *string `json:"payType,omitempty" tf:"pay_type,omitempty"`
 
 	// The duration that you will buy DB cluster (in month). It is valid when pay_type is PrePaid. Valid values: [1~9], 12, 24, 36.
-	// -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
 	Period *float64 `json:"period,omitempty" tf:"period,omitempty"`
 
 	// The latest time to start executing the target scheduled task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-	// -> NOTE: The latest time must be 30 minutes or more later than the start time. If PlannedStartTime is set but this parameter is not specified, the latest time to execute the target task defaults to the start time+30 minutes. For example, when the PlannedStartTime is set to 2021-01-14T09:00:00Z and this parameter is left blank, the target task will start executing at the latest on 2021-01-14T09:30:00Z.
 	PlannedEndTime *string `json:"plannedEndTime,omitempty" tf:"planned_end_time,omitempty"`
 
 	// The earliest time to start executing a scheduled (i.e. within the target time period) kernel version upgrade task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-	// -> NOTE: The starting time range is any time point within the next 24 hours. For example, the current time is 2021-01-14T09:00:00Z, and the allowed start time range for filling in here is 2021-01-14T09:00:00Z~2021-01-15T09:00:00Z. If this parameter is left blank, the kernel version upgrade task will be executed immediately by default.
 	PlannedStartTime *string `json:"plannedStartTime,omitempty" tf:"planned_start_time,omitempty"`
 
 	// (Available since 1.196.0) PolarDB cluster connection port.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
 
 	// The provisioned read/write IOPS of the ESSD AutoPL disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline IOPS}. Baseline IOPS = min{1,800 + 50 × Capacity, 50,000}.
-	// -> NOTE: This parameter is available only if the StorageType parameter is set to ESSDAUTOPL.
 	ProvisionedIops *string `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
 	// The specifications of the Standard Edition PolarProxy. Available parameters can refer to the latest docs CreateDBCluster
-	// -> NOTE: This parameter is valid only for standard edition clusters.
 	ProxyClass *string `json:"proxyClass,omitempty" tf:"proxy_class,omitempty"`
 
 	// The type of PolarProxy. Valid values are EXCLUSIVE GENERAL.
-	// -> NOTE: This parameter is valid for both standard and enterprise clusters.
 	ProxyType *string `json:"proxyType,omitempty" tf:"proxy_type,omitempty"`
 
 	// Valid values are AutoRenewal, Normal, NotRenewal, Default to NotRenewal.
 	RenewalStatus *string `json:"renewalStatus,omitempty" tf:"renewal_status,omitempty"`
 
-	// > NOTE: From version 1.250.0, resource_group_id can be modified.
+	// The ID of resource group which the PolarDB cluster belongs. If not specified, then it belongs to the default resource group.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
 	// The Alibaba Cloud Resource Name (ARN) of the RAM role. A RAM role is a virtual identity that you can create within your Alibaba Cloud account. For more information see RAM role overview.
@@ -571,7 +509,6 @@ type ClusterObservation struct {
 	SecondsUntilAutoPause *float64 `json:"secondsUntilAutoPause,omitempty" tf:"seconds_until_auto_pause,omitempty"`
 
 	// The ID of the security group. Separate multiple security groups with commas (,). You can add a maximum of three security groups to a cluster.
-	// -> NOTE: Because of data backup and migration, change DB cluster type and storage would cost 15~20 minutes. Please make full preparation before changing them.
 	// +listType=set
 	SecurityGroupIds []*string `json:"securityGroupIds,omitempty" tf:"security_group_ids,omitempty"`
 
@@ -581,7 +518,6 @@ type ClusterObservation struct {
 	SecurityIps []*string `json:"securityIps,omitempty" tf:"security_ips,omitempty"`
 
 	// CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
-	// -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
 	ServerlessRuleCPUEnlargeThreshold *float64 `json:"serverlessRuleCpuEnlargeThreshold,omitempty" tf:"serverless_rule_cpu_enlarge_threshold,omitempty"`
 
 	// CPU downscale threshold. Valid values: 10 to 100. This parameter is valid only for serverless clusters.
@@ -591,7 +527,6 @@ type ClusterObservation struct {
 	ServerlessRuleMode *string `json:"serverlessRuleMode,omitempty" tf:"serverless_rule_mode,omitempty"`
 
 	// Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
-	// -> NOTE: When serverless_steady_switch is ON and serverless_type is SteadyServerless, parameters scale_min, scale_max, scale_ro_num_min and scale_ro_num_max are all required.
 	ServerlessSteadySwitch *string `json:"serverlessSteadySwitch,omitempty" tf:"serverless_steady_switch,omitempty"`
 
 	// The type of the serverless cluster. Valid values AgileServerless, SteadyServerless. This parameter is valid only for serverless clusters.
@@ -601,7 +536,6 @@ type ClusterObservation struct {
 	SourceResourceID *string `json:"sourceResourceId,omitempty" tf:"source_resource_id,omitempty"`
 
 	// The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
-	// -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
 	StandbyAz *string `json:"standbyAz,omitempty" tf:"standby_az,omitempty"`
 
 	// (Available since 1.204.1) PolarDB cluster status.
@@ -611,8 +545,6 @@ type ClusterObservation struct {
 	StoragePayType *string `json:"storagePayType,omitempty" tf:"storage_pay_type,omitempty"`
 
 	// Storage space charged by space (monthly package). Unit: GB.
-	// -> NOTE:  Valid values for PolarDB for MySQL Standard Edition: 20 to 32000. It is valid when pay_type are PrePaid ,PostPaid.
-	// -> NOTE:  Valid values for PolarDB for MySQL Enterprise Edition: 50 to 100000.It is valid when pay_type is PrePaid.
 	StorageSpace *float64 `json:"storageSpace,omitempty" tf:"storage_space,omitempty"`
 
 	// The storage type of the cluster. Enterprise storage type values are PSL5, PSL4. The standard version storage type values are ESSDPL1, ESSDPL2, ESSDPL3, ESSDPL0, ESSDAUTOPL. The standard version only supports MySQL and PostgreSQL.
@@ -636,12 +568,9 @@ type ClusterObservation struct {
 	TargetMinorVersion *string `json:"targetMinorVersion,omitempty" tf:"target_minor_version,omitempty"`
 
 	// (Available since 1.200.0) The region where the TDE key resides.
-	// -> NOTE: TDE can be enabled on clusters that have joined a global database network (GDN). After TDE is enabled on the primary cluster in a GDN, TDE is enabled on the secondary clusters in the GDN by default. The key used by the secondary clusters and the region for the key resides must be the same as the primary cluster. The region of the key cannot be modified.
-	// -> NOTE: You cannot enable TDE for the secondary clusters in a GDN. Used to view user KMS activation status.
 	TdeRegion *string `json:"tdeRegion,omitempty" tf:"tde_region,omitempty"`
 
 	// Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
-	// -> NOTE: tde_status only supports modification from Disabled to Enabled.
 	TdeStatus *string `json:"tdeStatus,omitempty" tf:"tde_status,omitempty"`
 
 	// Version upgrade type. Valid values are PROXY, DB, ALL. PROXY means upgrading the proxy version, DB means upgrading the db version, ALL means upgrading both db and proxy versions simultaneously.
@@ -651,7 +580,6 @@ type ClusterObservation struct {
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
 	// The virtual switch ID to launch DB instances in one VPC.
-	// -> NOTE: If vswitch_id is not specified, system will get a vswitch belongs to the user automatically.
 	VswitchID *string `json:"vswitchId,omitempty" tf:"vswitch_id,omitempty"`
 
 	// The Zone to launch the DB cluster. it supports multiple zone.
@@ -673,7 +601,6 @@ type ClusterParameters struct {
 	BackupRetentionPolicyOnClusterDeletion *string `json:"backupRetentionPolicyOnClusterDeletion,omitempty" tf:"backup_retention_policy_on_cluster_deletion,omitempty"`
 
 	// The time point of data to be cloned. Valid values are LATEST,BackupID,Timestamp.Value options can refer to the latest docs CreateDBCluster CloneDataPoint.
-	// -> NOTE: If CreationOption is set to CloneFromRDS, the value of this parameter must be LATEST. When clone to a historical backup set, you must specify a specific backup set ID. When clone to a specific point in time, specify a YYYY-MM-DDThh:mm:ssZ format UTC timestamp.
 	// +kubebuilder:validation:Optional
 	CloneDataPoint *string `json:"cloneDataPoint,omitempty" tf:"clone_data_point,omitempty"`
 
@@ -690,12 +617,10 @@ type ClusterParameters struct {
 	CollectorStatus *string `json:"collectorStatus,omitempty" tf:"collector_status,omitempty"`
 
 	// Enable storage compression function. The value of this parameter is ON. Only MySQL supports.
-	// -> NOTE: When the value of db_type is not MySQL, the value of creation_option is neither empty nor Normal, and the value of storage_type is not PSL4, this field will be ignored.
 	// +kubebuilder:validation:Optional
 	CompressStorage *string `json:"compressStorage,omitempty" tf:"compress_storage,omitempty"`
 
 	// The edition of the PolarDB service. Valid values are Normal,Basic,ArchiveNormal,NormalMultimaster,SENormal.Value options can refer to the latest docs CreateDBCluster CreationCategory.
-	// -> NOTE: You can set this parameter to Basic only when DBType is set to MySQL and DBVersion is set to 5.6, 5.7, or 8.0. You can set this parameter to Archive only when DBType is set to MySQL and DBVersion is set to 8.0. From version 1.188.0, creation_category can be set to NormalMultimaster. From version 1.203.0, creation_category can be set to SENormal.
 	// +kubebuilder:validation:Optional
 	CreationCategory *string `json:"creationCategory,omitempty" tf:"creation_category,omitempty"`
 
@@ -712,14 +637,10 @@ type ClusterParameters struct {
 	DBMinorVersion *string `json:"dbMinorVersion,omitempty" tf:"db_minor_version,omitempty"`
 
 	// The db_node_class of cluster node. Required for non-distributed clusters.
-	// -> NOTE: Node specifications are divided into cluster version, single node version and History Library version. They can't change each other, but the general specification and exclusive specification of cluster version can be changed.
-	// From version 1.204.0, If you need to create a Serverless cluster with MySQL , db_node_class can be set to polar.mysql.sl.small for enterprise edition, and polar.mysql.sl.small.c for standard edition.
-	// From version 1.229.1, If you need to create a Serverless cluster with PostgreSQL, db_node_class can be set to polar.pg.sl.small for enterprise edition, and polar.pg.sl.small.c for standard edition. Region can refer to the latest docs(https://help.aliyun.com/zh/polardb/polardb-for-postgresql/the-public-preview-of-polardb-for-postgresql-serverless-ends?spm=a2c4g.11186623.0.0.2e9f6cf0B4rIfC).
 	// +kubebuilder:validation:Optional
 	DBNodeClass *string `json:"dbNodeClass,omitempty" tf:"db_node_class,omitempty"`
 
 	// Number of the PolarDB cluster nodes, default is 2(Each cluster must contain at least a primary node and a read-only node). Add/remove nodes by modifying this parameter, valid values: [2~16]. This argument does not apply to distributed clusters and conflicts with cn_node_num and dn_node_num.
-	// -> NOTE: To avoid adding or removing multiple read-only nodes by mistake, the system allows you to add or remove one read-only node at a time.
 	// +kubebuilder:validation:Optional
 	DBNodeCount *float64 `json:"dbNodeCount,omitempty" tf:"db_node_count,omitempty"`
 
@@ -728,7 +649,6 @@ type ClusterParameters struct {
 	DBNodeID *string `json:"dbNodeId,omitempty" tf:"db_node_id,omitempty"`
 
 	// The number of Standard and Enterprise Edition nodes. Default value: 1 for Standard Edition, 2 for Enterprise Edition. Valid values are 1, 2. From version 1.235.0, Valid values for PolarDB for MySQL Standard Edition: 1 to 8. Valid values for PolarDB for MySQL Enterprise Edition: 1 to 16.
-	// -> NOTE: This parameter only takes effect on creation. To further manage target db node number, please refer to parameter db_node_count.
 	// +kubebuilder:validation:Optional
 	DBNodeNum *float64 `json:"dbNodeNum,omitempty" tf:"db_node_num,omitempty"`
 
@@ -741,12 +661,10 @@ type ClusterParameters struct {
 	DBVersion *string `json:"dbVersion,omitempty" tf:"db_version,omitempty"`
 
 	// The time zone of the cluster. You can set the parameter to a value that is on the hour from -12:00 to +13:00 based on UTC. Example: 00:00. Default value: SYSTEM. This value indicates that the time zone of the cluster is the same as the time zone of the region.
-	// -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
 	// +kubebuilder:validation:Optional
 	DefaultTimeZone *string `json:"defaultTimeZone,omitempty" tf:"default_time_zone,omitempty"`
 
 	// turn on table deletion_lock. Valid values are 0, 1. 1 means to open the cluster protection lock, 0 means to close the cluster protection lock
-	// -> NOTE:  Cannot modify after created when pay_type is PrePaid .deletion_lock the cluster protection lock can be turned on or off when pay_type is PostPaid.
 	// +kubebuilder:validation:Optional
 	DeletionLock *float64 `json:"deletionLock,omitempty" tf:"deletion_lock,omitempty"`
 
@@ -767,12 +685,10 @@ type ClusterParameters struct {
 	EnableAutomaticRotation *bool `json:"enableAutomaticRotation,omitempty" tf:"enable_automatic_rotation,omitempty"`
 
 	// Specifies whether to enable DynamoDB compatibility. Valid values: true, false.
-	// -> NOTE: This parameter is valid only when the DBType parameter is set to PostgreSQL.
 	// +kubebuilder:validation:Optional
 	EnableDynamodb *bool `json:"enableDynamodb,omitempty" tf:"enable_dynamodb,omitempty"`
 
 	// turn on table auto encryption. Valid values are ON, OFF. Only MySQL 8.0 supports.
-	// -> NOTE: encrypt_new_tables Polardb MySQL 8.0 cluster, after TDE and Automatic Encryption are enabled, all newly created tables are automatically encrypted in the cluster.
 	// +kubebuilder:validation:Optional
 	EncryptNewTables *string `json:"encryptNewTables,omitempty" tf:"encrypt_new_tables,omitempty"`
 
@@ -785,7 +701,6 @@ type ClusterParameters struct {
 	FromTimeService *string `json:"fromTimeService,omitempty" tf:"from_time_service,omitempty"`
 
 	// The ID of the global database network (GDN).
-	// -> NOTE: This parameter is required if CreationOption is set to CreateGdnStandby.
 	// +kubebuilder:validation:Optional
 	GdnID *string `json:"gdnId,omitempty" tf:"gdn_id,omitempty"`
 
@@ -799,33 +714,26 @@ type ClusterParameters struct {
 	HotReplicaMode *string `json:"hotReplicaMode,omitempty" tf:"hot_replica_mode,omitempty"`
 
 	// Whether to enable the hot standby cluster. Valid values are ON, OFF, EQUAL.
-	// -> NOTE: From version 1.249.0, hot_standby_cluster can be set to EQUAL, and this value is only valid for MySQL.
 	// +kubebuilder:validation:Optional
 	HotStandbyCluster *string `json:"hotStandbyCluster,omitempty" tf:"hot_standby_cluster,omitempty"`
 
 	// Specifies whether to enable the In-Memory Column Index (IMCI) feature. Valid values are ON, OFF.
-	// -> NOTE:  Only polardb MySQL Cluster version is available. The cluster with minor version number of 8.0.1 supports the column index feature, and the specific kernel version must be 8.0.1.1.22 or above.
-	// -> NOTE:  The single node, the single node version of the history library, and the cluster version of the history library do not support column save indexes.
 	// +kubebuilder:validation:Optional
 	ImciSwitch *string `json:"imciSwitch,omitempty" tf:"imci_switch,omitempty"`
 
 	// Enable the Binlog function. Default value: OFF. Valid values are OFF, ON.
-	// -> NOTE: This parameter is valid only MySQL Engine supports.
 	// +kubebuilder:validation:Optional
 	LoosePolarLogBin *string `json:"loosePolarLogBin,omitempty" tf:"loose_polar_log_bin,omitempty"`
 
 	// Specifies whether to enable X-Engine. Valid values are ON, OFF.
-	// -> NOTE: This parameter takes effect only if you do not set creation_option to CreateGdnStandby and you set db_type to MySQL and db_version to 8.0. To enable X-Engine on a node, make sure that the memory of the node is greater than or equal to 8 GB in size.
 	// +kubebuilder:validation:Optional
 	LooseXengine *string `json:"looseXengine,omitempty" tf:"loose_xengine,omitempty"`
 
 	// Set the ratio to enable the X-Engine storage engine. Valid values: 10 to 90.
-	// -> NOTE: When the parameter loose_xengine is ON, loose_xengine_use_memory_pct takes effect.
 	// +kubebuilder:validation:Optional
 	LooseXengineUseMemoryPct *float64 `json:"looseXengineUseMemoryPct,omitempty" tf:"loose_xengine_use_memory_pct,omitempty"`
 
 	// Specifies whether the table names are case-sensitive. Default value: 1.  Valid values are 1, 0.
-	// -> NOTE: This parameter is valid only when the DBType parameter is set to MySQL.
 	// +kubebuilder:validation:Optional
 	LowerCaseTableNames *float64 `json:"lowerCaseTableNames,omitempty" tf:"lower_case_table_names,omitempty"`
 
@@ -838,7 +746,6 @@ type ClusterParameters struct {
 	ModifyType *string `json:"modifyType,omitempty" tf:"modify_type,omitempty"`
 
 	// The ID of the parameter template
-	// -> NOTE: You can call the DescribeParameterGroups operation to query the details of all parameter templates of a specified region, such as the ID of a parameter template.
 	// +kubebuilder:validation:Optional
 	ParameterGroupID *string `json:"parameterGroupId,omitempty" tf:"parameter_group_id,omitempty"`
 
@@ -851,32 +758,26 @@ type ClusterParameters struct {
 	PayType *string `json:"payType,omitempty" tf:"pay_type,omitempty"`
 
 	// The duration that you will buy DB cluster (in month). It is valid when pay_type is PrePaid. Valid values: [1~9], 12, 24, 36.
-	// -> NOTE: The attribute period is only used to create Subscription instance or modify the PayAsYouGo instance to Subscription.
 	// +kubebuilder:validation:Optional
 	Period *float64 `json:"period,omitempty" tf:"period,omitempty"`
 
 	// The latest time to start executing the target scheduled task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-	// -> NOTE: The latest time must be 30 minutes or more later than the start time. If PlannedStartTime is set but this parameter is not specified, the latest time to execute the target task defaults to the start time+30 minutes. For example, when the PlannedStartTime is set to 2021-01-14T09:00:00Z and this parameter is left blank, the target task will start executing at the latest on 2021-01-14T09:30:00Z.
 	// +kubebuilder:validation:Optional
 	PlannedEndTime *string `json:"plannedEndTime,omitempty" tf:"planned_end_time,omitempty"`
 
 	// The earliest time to start executing a scheduled (i.e. within the target time period) kernel version upgrade task. The format is YYYY-MM-DDThh: mm: ssZ (UTC).
-	// -> NOTE: The starting time range is any time point within the next 24 hours. For example, the current time is 2021-01-14T09:00:00Z, and the allowed start time range for filling in here is 2021-01-14T09:00:00Z~2021-01-15T09:00:00Z. If this parameter is left blank, the kernel version upgrade task will be executed immediately by default.
 	// +kubebuilder:validation:Optional
 	PlannedStartTime *string `json:"plannedStartTime,omitempty" tf:"planned_start_time,omitempty"`
 
 	// The provisioned read/write IOPS of the ESSD AutoPL disk. Valid values: 0 to min{50,000, 1,000 × Capacity - Baseline IOPS}. Baseline IOPS = min{1,800 + 50 × Capacity, 50,000}.
-	// -> NOTE: This parameter is available only if the StorageType parameter is set to ESSDAUTOPL.
 	// +kubebuilder:validation:Optional
 	ProvisionedIops *string `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
 	// The specifications of the Standard Edition PolarProxy. Available parameters can refer to the latest docs CreateDBCluster
-	// -> NOTE: This parameter is valid only for standard edition clusters.
 	// +kubebuilder:validation:Optional
 	ProxyClass *string `json:"proxyClass,omitempty" tf:"proxy_class,omitempty"`
 
 	// The type of PolarProxy. Valid values are EXCLUSIVE GENERAL.
-	// -> NOTE: This parameter is valid for both standard and enterprise clusters.
 	// +kubebuilder:validation:Optional
 	ProxyType *string `json:"proxyType,omitempty" tf:"proxy_type,omitempty"`
 
@@ -889,7 +790,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	RenewalStatus *string `json:"renewalStatus,omitempty" tf:"renewal_status,omitempty"`
 
-	// > NOTE: From version 1.250.0, resource_group_id can be modified.
+	// The ID of resource group which the PolarDB cluster belongs. If not specified, then it belongs to the default resource group.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
@@ -944,7 +845,6 @@ type ClusterParameters struct {
 	SecurityGroupIDSelector *v1.Selector `json:"securityGroupIdSelector,omitempty" tf:"-"`
 
 	// The ID of the security group. Separate multiple security groups with commas (,). You can add a maximum of three security groups to a cluster.
-	// -> NOTE: Because of data backup and migration, change DB cluster type and storage would cost 15~20 minutes. Please make full preparation before changing them.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
 	// +crossplane:generate:reference:refFieldName=SecurityGroupIDRefs
 	// +crossplane:generate:reference:selectorFieldName=SecurityGroupIDSelector
@@ -959,7 +859,6 @@ type ClusterParameters struct {
 	SecurityIps []*string `json:"securityIps,omitempty" tf:"security_ips,omitempty"`
 
 	// CPU upscale threshold. Valid values: 40 to 100. This parameter is valid only for serverless clusters.
-	// -> NOTE: serverless_rule_cpu_enlarge_threshold should be at least 30 greater than serverless_rule_cpu_shrink_threshold.
 	// +kubebuilder:validation:Optional
 	ServerlessRuleCPUEnlargeThreshold *float64 `json:"serverlessRuleCpuEnlargeThreshold,omitempty" tf:"serverless_rule_cpu_enlarge_threshold,omitempty"`
 
@@ -972,7 +871,6 @@ type ClusterParameters struct {
 	ServerlessRuleMode *string `json:"serverlessRuleMode,omitempty" tf:"serverless_rule_mode,omitempty"`
 
 	// Serverless steady-state switch. Valid values are ON, OFF. This parameter is valid only for serverless clusters.
-	// -> NOTE: When serverless_steady_switch is ON and serverless_type is SteadyServerless, parameters scale_min, scale_max, scale_ro_num_min and scale_ro_num_max are all required.
 	// +kubebuilder:validation:Optional
 	ServerlessSteadySwitch *string `json:"serverlessSteadySwitch,omitempty" tf:"serverless_steady_switch,omitempty"`
 
@@ -985,7 +883,6 @@ type ClusterParameters struct {
 	SourceResourceID *string `json:"sourceResourceId,omitempty" tf:"source_resource_id,omitempty"`
 
 	// The availability zone where the hot standby cluster is stored, takes effect when hot_standby_cluster is ON or EQUAL.
-	// -> NOTE: standby_az is required when hot_standby_cluster is EQUAL.
 	// +kubebuilder:validation:Optional
 	StandbyAz *string `json:"standbyAz,omitempty" tf:"standby_az,omitempty"`
 
@@ -994,8 +891,6 @@ type ClusterParameters struct {
 	StoragePayType *string `json:"storagePayType,omitempty" tf:"storage_pay_type,omitempty"`
 
 	// Storage space charged by space (monthly package). Unit: GB.
-	// -> NOTE:  Valid values for PolarDB for MySQL Standard Edition: 20 to 32000. It is valid when pay_type are PrePaid ,PostPaid.
-	// -> NOTE:  Valid values for PolarDB for MySQL Enterprise Edition: 50 to 100000.It is valid when pay_type is PrePaid.
 	// +kubebuilder:validation:Optional
 	StorageSpace *float64 `json:"storageSpace,omitempty" tf:"storage_space,omitempty"`
 
@@ -1026,7 +921,6 @@ type ClusterParameters struct {
 	TargetMinorVersion *string `json:"targetMinorVersion,omitempty" tf:"target_minor_version,omitempty"`
 
 	// Specifies whether to enable TDE encryption. Valid values are Enabled, Disabled. Default to Disabled. TDE cannot be disabled after it is enabled. You can enable TDE during cluster creation or update an existing cluster to enable it.
-	// -> NOTE: tde_status only supports modification from Disabled to Enabled.
 	// +kubebuilder:validation:Optional
 	TdeStatus *string `json:"tdeStatus,omitempty" tf:"tde_status,omitempty"`
 
@@ -1048,7 +942,6 @@ type ClusterParameters struct {
 	VPCIDSelector *v1.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The virtual switch ID to launch DB instances in one VPC.
-	// -> NOTE: If vswitch_id is not specified, system will get a vswitch belongs to the user automatically.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/vpc/v1alpha1.Vswitch
 	// +crossplane:generate:reference:extractor=github.com/crossplane-contrib/provider-alibabacloud/config/common.IdExtractor()
 	// +kubebuilder:validation:Optional
