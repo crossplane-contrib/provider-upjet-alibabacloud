@@ -1,0 +1,47 @@
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: StorageDomainRoutingRule
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-storage-routing-1
+  labels:
+    testing.crossplane.io/example-name: test-storage-routing-1
+  name: test-storage-routing-1
+spec:
+  forProvider:
+    region: us-west-1
+    instanceIdSelector:
+      matchLabels:
+        testing.crossplane.io/example-name: test-ee-instance-for-storage-1
+    # routes[].instanceDomain and routes[].storageDomain are templated URLs that
+    # embed the EE instance name/id and region. They are resolved from the
+    # referenced EeInstance via custom extractors (see config/cr/config.go), so
+    # the example only needs selectors here, not the literal domains.
+    routes:
+      - endpointType: Internet
+        instanceDomainSelector:
+          matchLabels:
+            testing.crossplane.io/example-name: test-ee-instance-for-storage-1
+        storageDomainSelector:
+          matchLabels:
+            testing.crossplane.io/example-name: test-ee-instance-for-storage-1
+---
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  namespace: default
+  annotations:
+    meta.crossplane.io/example-id: cr-v1alpha1-test-ee-instance-for-storage-1
+  labels:
+    testing.crossplane.io/example-name: test-ee-instance-for-storage-1
+  name: test-ee-instance-for-storage-1
+spec:
+  forProvider:
+    region: us-west-1
+    instanceName: cr-ee-test-storage-2
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    renewPeriod: 1
+    renewalStatus: AutoRenewal

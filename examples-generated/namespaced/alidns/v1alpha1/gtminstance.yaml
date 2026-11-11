@@ -1,0 +1,47 @@
+apiVersion: alidns.alibabacloud.m.crossplane.io/v1alpha1
+kind: GtmInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/gtminstance
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    alertConfig:
+    - dingtalkNotice: true
+      emailNotice: true
+      noticeType: ADDR_ALERT
+      smsNotice: true
+    alertGroupRefs:
+    - name: default
+    cnameType: PUBLIC
+    healthCheckTaskCount: 100
+    instanceName: tf_example
+    packageEdition: standard
+    paymentType: Subscription
+    period: 1
+    publicCnameMode: SYSTEM_ASSIGN
+    publicUserDomainName: ${var.domain_name}
+    region: cn-beijing
+    renewalStatus: ManualRenewal
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    smsNotificationCount: 1000
+    ttl: 60
+
+---
+
+apiVersion: cloudmonitorservice.alibabacloud.m.crossplane.io/v1alpha1
+kind: AlarmContactGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/gtminstance
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    alarmContactGroupName: tf_example
+    region: cn-beijing

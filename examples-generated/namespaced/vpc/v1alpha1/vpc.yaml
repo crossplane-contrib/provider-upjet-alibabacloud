@@ -1,0 +1,16 @@
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vpc/v1alpha1/vpc
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 10.0.0.0/8
+    description: example description
+    enableIpv6: true
+    region: cn-beijing
+    vpcName: ${var.name}

@@ -1,0 +1,86 @@
+apiVersion: tair.alibabacloud.m.crossplane.io/v1alpha1
+kind: Connection
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/connection
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    connectionStringPrefix: exampleconnection
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    port: "6370"
+
+---
+
+apiVersion: tair.alibabacloud.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/connection
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    config:
+      appendonly: "yes"
+      lazyfree-lazy-eviction: "yes"
+    dbInstanceName: crossplane_example
+    engineVersion: "5.0"
+    instanceClass: redis.master.small.default
+    instanceType: Redis
+    securityIps:
+    - 10.23.12.24
+    tags:
+      Created: TF
+      For: example
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneId: cn-beijing-l
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/connection
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 10.4.0.0/16
+    vpcName: crossplane_example
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: tair/v1alpha1/connection
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: crossplane_example
+    zoneId: cn-beijing-l

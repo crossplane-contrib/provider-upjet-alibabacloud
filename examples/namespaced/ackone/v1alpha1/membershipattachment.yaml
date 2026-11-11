@@ -1,0 +1,104 @@
+---
+apiVersion: ackone.alibabacloud.m.crossplane.io/v1alpha1
+kind: MembershipAttachment
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ackone-v1alpha1-membershipattachment-1
+    # Two clusters are created before the attachment, and uptest spends this
+    # one budget on apply, import and delete.
+    uptest.upbound.io/timeout: "3600"
+  labels:
+    testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1
+  name: test-ackone-v1alpha1-membershipattachment-1
+spec:
+  forProvider:
+    region: cn-beijing
+    clusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-cluster-1
+    subClusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-sub-cluster-1
+---
+apiVersion: ackone.alibabacloud.m.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ackone-v1alpha1-membershipattachment-1-cluster-1
+  labels:
+    testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-cluster-1
+  name: test-ackone-v1alpha1-membershipattachment-1-cluster-1
+spec:
+  forProvider:
+    region: cn-beijing
+    # Hub clusters enable ArgoCD by default, and DeleteHubCluster refuses to
+    # delete a cluster with ArgoCD enabled (DependencyViolation.ArgoCD).
+    argocdEnabled: false
+    profile: Default
+    network:
+    - vpcIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
+      vswitchesSelector:
+        matchLabels:
+          testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vswitch-1
+---
+# The sub-cluster shares the hub's VPC and vswitch, as in upstream's
+# acceptance test. Upstream also adds a one-node node pool; this test account
+# cannot create node pools (RAM), so the cluster has no workers.
+apiVersion: ack.alibabacloud.m.crossplane.io/v1alpha1
+kind: ManagedKubernetes
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ackone-v1alpha1-membershipattachment-1-sub-cluster-1
+  labels:
+    testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-sub-cluster-1
+  name: test-ackone-v1alpha1-membershipattachment-1-sub-cluster-1
+spec:
+  forProvider:
+    region: cn-beijing
+    clusterSpec: ack.pro.small
+    newNatGateway: true
+    podCidr: 10.36.0.0/16
+    serviceCidr: 172.16.112.0/20
+    slbInternetEnabled: true
+    vswitchIdsSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vswitch-1
+---
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ackone-v1alpha1-membershipattachment-1-vpc-1
+  labels:
+    testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
+  name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 10.4.0.0/16
+    vpcName: test-ackone-v1alpha1-membershipattachment-1-vpc-1
+---
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: test-ackone-v1alpha1-membershipattachment-1-vswitch-1
+  labels:
+    testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vswitch-1
+  name: test-ackone-v1alpha1-membershipattachment-1-vswitch-1
+spec:
+  forProvider:
+    region: cn-beijing
+    cidrBlock: 10.4.0.0/24
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: test-ackone-v1alpha1-membershipattachment-1-vpc-1
+    vswitchName: test-ackone-v1alpha1-membershipattachment-1-vswitch-1
+    zoneId: cn-beijing-h

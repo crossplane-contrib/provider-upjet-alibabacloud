@@ -1,0 +1,17 @@
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/application
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    applicationName: ${var.name}-${random_integer.default.result}
+    description: ${var.name}
+    region: cn-beijing
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    tags:
+      Created: TF

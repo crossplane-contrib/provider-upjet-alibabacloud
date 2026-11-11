@@ -11,7 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
-	rdsv1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1"
+	rdsv1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/cluster/rds/v1alpha1"
 	providerconfig "github.com/crossplane-contrib/provider-alibabacloud/config"
 )
 

@@ -1,0 +1,20 @@
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: Parameter
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/parameter
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: example_value
+    parameterName: my-Parameter
+    region: cn-beijing
+    resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    tags:
+      Created: TF
+      For: OosParameter
+    type: String
+    value: example_value

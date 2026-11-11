@@ -1,0 +1,84 @@
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: InstanceSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instanceset
+  labels:
+    testing.upbound.io/example-name: beijing_k
+  name: beijing-k
+  namespace: upbound-system
+spec:
+  forProvider:
+    amount: 10
+    imageId: ${data.alicloud_images.default.images[0].id}
+    instanceChargeType: PostPaid
+    instanceName: ${var.name}
+    instanceType: ${data.alicloud_instance_types.default.instance_types[0].id}
+    region: cn-beijing
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    systemDiskCategory: cloud_efficiency
+    systemDiskPerformanceLevel: PL0
+    systemDiskSize: 200
+    vswitchIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneId: ${data.alicloud_zones.default.zones[0].id}
+
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instanceset
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    name: ${var.name}
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instanceset
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    region: cn-beijing
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ecs/v1alpha1/instanceset
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 172.17.3.0/24
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${data.alicloud_zones.default.zones.0.id}

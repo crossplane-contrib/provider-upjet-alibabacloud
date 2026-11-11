@@ -1,0 +1,29 @@
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/role
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    assumeRolePolicyDocument: |2
+        {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "apigateway.aliyuncs.com",
+                  "ecs.aliyuncs.com"
+                ]
+              }
+            }
+          ],
+          "Version": "1"
+        }
+    description: this is a role test.
+    roleName: terraform-example-${random_integer.default.result}

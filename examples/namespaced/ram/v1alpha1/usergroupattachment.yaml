@@ -1,0 +1,41 @@
+---
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: UserGroupAttachment
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/usergroupattachment
+  labels:
+    testing.upbound.io/example-name: test-user-group-attachment-1
+  name: test-user-group-attachment-1
+spec:
+  forProvider:
+    groupName: test-user-group-for-user-group-attachment-1
+    userName: test-user-for-user-group-attachment-1
+---
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/usergroupattachment
+  labels:
+    testing.upbound.io/example-name: test-user-group-for-user-group-attachment-1
+  name: test-user-group-for-user-group-attachment-1
+spec:
+  forProvider:
+    groupName: test-user-group-for-user-group-attachment-1
+---
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: User
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/usergroupattachment
+  labels:
+    testing.upbound.io/example-name: test-user-for-user-group-attachment-1
+  name: test-user-for-user-group-attachment-1
+spec:
+  forProvider:
+    displayName: test-user-for-user-group-attachment-1
+    name: test-user-for-user-group-attachment-1
