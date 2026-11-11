@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	autoscalingconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/ack/autoscalingconfig"
 	edgekubernetes "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/ack/edgekubernetes"
@@ -33,6 +33,45 @@ func Setup_ack(mgr ctrl.Manager, o controller.Options) error {
 		serverlesskubernetes.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupGated_ack creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_ack(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		autoscalingconfig.SetupGated,
+		edgekubernetes.SetupGated,
+		kubernetes.SetupGated,
+		kubernetesaddon.SetupGated,
+		kubernetesnodepool.SetupGated,
+		kubernetespermissions.SetupGated,
+		managedkubernetes.SetupGated,
+		serverlesskubernetes.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupWebhookWithManager_ack registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_ack(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		autoscalingconfig.SetupWebhookWithManager,
+		edgekubernetes.SetupWebhookWithManager,
+		kubernetes.SetupWebhookWithManager,
+		kubernetesaddon.SetupWebhookWithManager,
+		kubernetesnodepool.SetupWebhookWithManager,
+		kubernetespermissions.SetupWebhookWithManager,
+		managedkubernetes.SetupWebhookWithManager,
+		serverlesskubernetes.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
 			return err
 		}
 	}

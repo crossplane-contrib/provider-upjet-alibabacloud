@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	accesspoint "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/oss/accesspoint"
 	accountpublicaccessblock "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/oss/accountpublicaccessblock"
@@ -67,6 +67,79 @@ func Setup_oss(mgr ctrl.Manager, o controller.Options) error {
 		bucketworm.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupGated_oss creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_oss(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		accesspoint.SetupGated,
+		accountpublicaccessblock.SetupGated,
+		bucket.SetupGated,
+		bucketaccessmonitor.SetupGated,
+		bucketacl.SetupGated,
+		bucketcname.SetupGated,
+		bucketcnametoken.SetupGated,
+		bucketcors.SetupGated,
+		bucketdataredundancytransition.SetupGated,
+		buckethttpsconfig.SetupGated,
+		bucketlogging.SetupGated,
+		bucketmetaquery.SetupGated,
+		bucketobject.SetupGated,
+		bucketpolicy.SetupGated,
+		bucketpublicaccessblock.SetupGated,
+		bucketreferer.SetupGated,
+		bucketreplication.SetupGated,
+		bucketrequestpayment.SetupGated,
+		bucketserversideencryption.SetupGated,
+		bucketstyle.SetupGated,
+		buckettransferacceleration.SetupGated,
+		bucketuserdefinedlogfields.SetupGated,
+		bucketversioning.SetupGated,
+		bucketwebsite.SetupGated,
+		bucketworm.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupWebhookWithManager_oss registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_oss(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		accesspoint.SetupWebhookWithManager,
+		accountpublicaccessblock.SetupWebhookWithManager,
+		bucket.SetupWebhookWithManager,
+		bucketaccessmonitor.SetupWebhookWithManager,
+		bucketacl.SetupWebhookWithManager,
+		bucketcname.SetupWebhookWithManager,
+		bucketcnametoken.SetupWebhookWithManager,
+		bucketcors.SetupWebhookWithManager,
+		bucketdataredundancytransition.SetupWebhookWithManager,
+		buckethttpsconfig.SetupWebhookWithManager,
+		bucketlogging.SetupWebhookWithManager,
+		bucketmetaquery.SetupWebhookWithManager,
+		bucketobject.SetupWebhookWithManager,
+		bucketpolicy.SetupWebhookWithManager,
+		bucketpublicaccessblock.SetupWebhookWithManager,
+		bucketreferer.SetupWebhookWithManager,
+		bucketreplication.SetupWebhookWithManager,
+		bucketrequestpayment.SetupWebhookWithManager,
+		bucketserversideencryption.SetupWebhookWithManager,
+		bucketstyle.SetupWebhookWithManager,
+		buckettransferacceleration.SetupWebhookWithManager,
+		bucketuserdefinedlogfields.SetupWebhookWithManager,
+		bucketversioning.SetupWebhookWithManager,
+		bucketwebsite.SetupWebhookWithManager,
+		bucketworm.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
 			return err
 		}
 	}

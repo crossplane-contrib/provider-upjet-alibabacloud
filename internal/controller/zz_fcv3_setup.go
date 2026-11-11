@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	alias "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/fcv3/alias"
 	asyncinvokeconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/fcv3/asyncinvokeconfig"
@@ -37,6 +37,49 @@ func Setup_fcv3(mgr ctrl.Manager, o controller.Options) error {
 		vpcbinding.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupGated_fcv3 creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_fcv3(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		alias.SetupGated,
+		asyncinvokeconfig.SetupGated,
+		concurrencyconfig.SetupGated,
+		customdomain.SetupGated,
+		function.SetupGated,
+		functionversion.SetupGated,
+		layerversion.SetupGated,
+		provisionconfig.SetupGated,
+		trigger.SetupGated,
+		vpcbinding.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupWebhookWithManager_fcv3 registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_fcv3(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		alias.SetupWebhookWithManager,
+		asyncinvokeconfig.SetupWebhookWithManager,
+		concurrencyconfig.SetupWebhookWithManager,
+		customdomain.SetupWebhookWithManager,
+		function.SetupWebhookWithManager,
+		functionversion.SetupWebhookWithManager,
+		layerversion.SetupWebhookWithManager,
+		provisionconfig.SetupWebhookWithManager,
+		trigger.SetupWebhookWithManager,
+		vpcbinding.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
 			return err
 		}
 	}
