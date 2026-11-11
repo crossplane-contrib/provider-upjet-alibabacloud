@@ -22,6 +22,16 @@ type ProviderConfigSpec struct {
 	// AssumeRoleWithOIDC defines the options for assuming a RAM role with an OIDC token.
 	// +optional
 	AssumeRoleWithOIDC *AssumeRoleWithOIDCOptions `json:"assumeRoleWithOIDC,omitempty"`
+
+	// Endpoints overrides the API endpoint used for a service, keyed by the
+	// Terraform provider's endpoint names, such as "vpc", "slb", or "log" for
+	// Simple Log Service. The key "location" sets the Location service that
+	// resolves every endpoint not set here; it defaults to
+	// location-readonly.aliyuncs.com, which is served from outside mainland
+	// China. Use these for private or VPC endpoints, or to keep endpoint
+	// lookups inside mainland China with location.aliyuncs.com.
+	// +optional
+	Endpoints map[string]string `json:"endpoints,omitempty"`
 }
 
 // ProviderCredentials required to authenticate.
