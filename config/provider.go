@@ -39,6 +39,7 @@ import (
 	"github.com/crossplane-contrib/provider-alibabacloud/config/oss"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/polardb"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/privatelink"
+	"github.com/crossplane-contrib/provider-alibabacloud/config/privatezone"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/quotas"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/ram"
 	"github.com/crossplane-contrib/provider-alibabacloud/config/rds"
@@ -165,6 +166,7 @@ func GetProvider(_ context.Context, generationProvider bool) (*ujconfig.Provider
 		oss.Configure,
 		polardb.Configure,
 		privatelink.Configure,
+		privatezone.Configure,
 		quotas.Configure,
 		ram.Configure,
 		rds.Configure,
