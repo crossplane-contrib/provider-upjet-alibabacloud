@@ -3874,6 +3874,11 @@ func (in *DiskInitParameters) DeepCopyInto(out *DiskInitParameters) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ForceDelete != nil {
+		in, out := &in.ForceDelete, &out.ForceDelete
+		*out = new(bool)
+		**out = **in
+	}
 	if in.InstanceID != nil {
 		in, out := &in.InstanceID, &out.InstanceID
 		*out = new(string)
@@ -4082,6 +4087,11 @@ func (in *DiskObservation) DeepCopyInto(out *DiskObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.ForceDelete != nil {
+		in, out := &in.ForceDelete, &out.ForceDelete
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
 		*out = new(string)
@@ -4245,6 +4255,11 @@ func (in *DiskParameters) DeepCopyInto(out *DiskParameters) {
 	}
 	if in.Encrypted != nil {
 		in, out := &in.Encrypted, &out.Encrypted
+		*out = new(bool)
+		**out = **in
+	}
+	if in.ForceDelete != nil {
+		in, out := &in.ForceDelete, &out.ForceDelete
 		*out = new(bool)
 		**out = **in
 	}

@@ -467,6 +467,12 @@ spec:
                   backupId:
                     description: The backup set ID.
                     type: string
+                  backupJobId:
+                    description: (String, Available since v2.2.0) The backup job ID.
+                      This is a create-only attribute returned by the CreateBackup
+                      API. It cannot be recovered via Read or Import because DescribeBackups
+                      does not return this field.
+                    type: string
                   backupMethod:
                     description: 'The backup type. Valid values:'
                     type: string

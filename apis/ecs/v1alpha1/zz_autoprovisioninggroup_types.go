@@ -30,7 +30,7 @@ type AutoProvisioningGroupInitParameters struct {
 	// The shutdown policy for excess preemptible instances followed when the capacity of the auto provisioning group exceeds the target capacity. Valid values: no-termination and termination,Default value: no-termination.
 	ExcessCapacityTerminationPolicy *string `json:"excessCapacityTerminationPolicy,omitempty" tf:"excess_capacity_termination_policy,omitempty"`
 
-	// DataDisk mappings to attach to ecs instance. See block-config below for details.
+	// DataDisk mappings to attach to ecs instance. See launch_template_config below for details.
 	LaunchTemplateConfig []LaunchTemplateConfigInitParameters `json:"launchTemplateConfig,omitempty" tf:"launch_template_config,omitempty"`
 
 	// The ID of the instance launch template associated with the auto provisioning group.
@@ -105,7 +105,7 @@ type AutoProvisioningGroupObservation struct {
 	// The ID of the auto provisioning group
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// DataDisk mappings to attach to ecs instance. See block-config below for details.
+	// DataDisk mappings to attach to ecs instance. See launch_template_config below for details.
 	LaunchTemplateConfig []LaunchTemplateConfigObservation `json:"launchTemplateConfig,omitempty" tf:"launch_template_config,omitempty"`
 
 	// The ID of the instance launch template associated with the auto provisioning group.
@@ -173,7 +173,7 @@ type AutoProvisioningGroupParameters struct {
 	// +kubebuilder:validation:Optional
 	ExcessCapacityTerminationPolicy *string `json:"excessCapacityTerminationPolicy,omitempty" tf:"excess_capacity_termination_policy,omitempty"`
 
-	// DataDisk mappings to attach to ecs instance. See block-config below for details.
+	// DataDisk mappings to attach to ecs instance. See launch_template_config below for details.
 	// +kubebuilder:validation:Optional
 	LaunchTemplateConfig []LaunchTemplateConfigParameters `json:"launchTemplateConfig,omitempty" tf:"launch_template_config,omitempty"`
 

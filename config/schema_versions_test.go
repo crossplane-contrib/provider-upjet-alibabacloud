@@ -86,7 +86,7 @@ func findGoModReplace(t *testing.T, goMod, modulePath string) string {
 }
 
 // commitFromPseudoVersion extracts the commit suffix from a Go pseudo-version
-// such as v1.294.1-0.20261022112332-d654473aed9d.
+// such as v1.294.1-0.20261106135749-dbdbead6a1fc.
 func commitFromPseudoVersion(t *testing.T, pseudoVersion string) string {
 	t.Helper()
 	re := regexp.MustCompile(`-([0-9a-f]{12})$`)

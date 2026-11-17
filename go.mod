@@ -6,7 +6,7 @@ require (
 	dario.cat/mergo v1.0.1
 	github.com/alecthomas/kingpin/v2 v2.4.0
 	github.com/alibabacloud-go/tea v1.5.2
-	github.com/aliyun/terraform-provider-alicloud v1.294.1-0.20261022112332-d654473aed9d
+	github.com/aliyun/terraform-provider-alicloud v1.294.1-0.20261106135749-dbdbead6a1fc
 	github.com/crossplane/crossplane-runtime v1.20.12
 	github.com/crossplane/crossplane-tools v0.0.0-20250725062323-29da02534659
 	github.com/crossplane/upjet v1.9.0
@@ -236,4 +236,4 @@ require (
 // Remove once upstream ships a release with a proper /v2 module path.
 // Must refer to the same upstream commit as TERRAFORM_PROVIDER_VERSION in the
 // Makefile, which pins the registry release config/schema.json is generated from.
-replace github.com/aliyun/terraform-provider-alicloud => github.com/aliyun/terraform-provider-alicloud v1.294.1-0.20261022112332-d654473aed9d
+replace github.com/aliyun/terraform-provider-alicloud => github.com/aliyun/terraform-provider-alicloud v1.294.1-0.20261106135749-dbdbead6a1fc

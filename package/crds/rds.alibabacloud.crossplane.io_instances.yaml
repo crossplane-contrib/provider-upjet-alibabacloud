@@ -281,8 +281,8 @@ spec:
                     type: boolean
                   forceEncryption:
                     description: 'Specifies whether to enable the forceful SSL encryption
-                      feature. This parameter is supported only for ApsaraDB RDS for
-                      MySQL and SQL Server instances. Valid values:'
+                      feature. This parameter is supported for ApsaraDB RDS for MySQL,
+                      PostgreSQL and SQL Server instances. Valid values:'
                     type: number
                   forceRestart:
                     description: Set it to true to make some parameter efficient when
@@ -1284,8 +1284,8 @@ spec:
                     type: boolean
                   forceEncryption:
                     description: 'Specifies whether to enable the forceful SSL encryption
-                      feature. This parameter is supported only for ApsaraDB RDS for
-                      MySQL and SQL Server instances. Valid values:'
+                      feature. This parameter is supported for ApsaraDB RDS for MySQL,
+                      PostgreSQL and SQL Server instances. Valid values:'
                     type: number
                   forceRestart:
                     description: Set it to true to make some parameter efficient when
@@ -2425,8 +2425,8 @@ spec:
                     type: boolean
                   forceEncryption:
                     description: 'Specifies whether to enable the forceful SSL encryption
-                      feature. This parameter is supported only for ApsaraDB RDS for
-                      MySQL and SQL Server instances. Valid values:'
+                      feature. This parameter is supported for ApsaraDB RDS for MySQL,
+                      PostgreSQL and SQL Server instances. Valid values:'
                     type: number
                   forceRestart:
                     description: Set it to true to make some parameter efficient when

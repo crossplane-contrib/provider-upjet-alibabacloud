@@ -73,6 +73,45 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  additionalBandwidth:
+                    description: 'The additional bandwidth to add to each data shard
+                      of the instance. Unit: MB/s. Setting this block adjusts the
+                      shard bandwidth to the specification default plus the configured
+                      value, which also changes the total bandwidth of the instance.
+                      See additional_bandwidth below. Removing a block does not release
+                      the purchased bandwidth of that shard; set its bandwidth to
+                      0 explicitly to release it. NOTE: The additional bandwidth is
+                      purchased for a limited order duration (the API default is 1
+                      day) and must be renewed with the RenewAdditionalBandwidth operation
+                      before it expires; this resource does not manage the renewal
+                      or the order duration. The additional bandwidth is charged on
+                      a pay-as-you-go basis.'
+                    items:
+                      properties:
+                        bandwidth:
+                          description: 'The additional bandwidth to add. Unit: MB/s.
+                            Must be set in every additional_bandwidth block; a block
+                            without it is rejected. Valid values: non-negative integers.
+                            The maximum value is 6 times the default bandwidth of
+                            the instance (or shard) specification, capped at 192 MB/s.
+                            Set to 0 to release the additional bandwidth purchased
+                            for the shard.'
+                          type: number
+                        nodeId:
+                          description: The data shard whose bandwidth is adjusted.
+                            Use the shard node name (r-xxx-db-0, the InsName reported
+                            by the DescribeRoleZoneInfo operation) or its full topology
+                            ID (r-xxx-db-0#123456); a suffix such as db-0 is also
+                            accepted when exactly one data shard of the instance ends
+                            with it. Required on cluster and read/write splitting
+                            instances, and each data shard can be configured at most
+                            once. A standard instance takes bandwidth alone and must
+                            leave this argument unset, because EnableAdditionalBandwidth
+                            only accepts NodeId for the cluster and read/write splitting
+                            architectures.
+                          type: string
+                      type: object
+                    type: array
                   autoRenew:
                     description: 'Whether to renewal a KVStore DBInstance automatically
                       or not. It is valid when payment_type is PrePaid. Default value:
@@ -106,6 +145,13 @@ spec:
                       of shard_count in the instance, and if the instance is a read/write
                       splitting instance, bandwidth cannot be set.'
                     type: number
+                  bandwidthBurst:
+                    description: Specifies whether to enable Elastic Burst for the
+                      instance. After it is enabled, the instance can temporarily
+                      burst beyond the default bandwidth limit during bandwidth auto
+                      scaling. The additional bandwidth is charged on a pay-as-you-go
+                      basis.
+                    type: boolean
                   businessInfo:
                     description: The ID of the event or the business information.
                     type: string
@@ -608,6 +654,45 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  additionalBandwidth:
+                    description: 'The additional bandwidth to add to each data shard
+                      of the instance. Unit: MB/s. Setting this block adjusts the
+                      shard bandwidth to the specification default plus the configured
+                      value, which also changes the total bandwidth of the instance.
+                      See additional_bandwidth below. Removing a block does not release
+                      the purchased bandwidth of that shard; set its bandwidth to
+                      0 explicitly to release it. NOTE: The additional bandwidth is
+                      purchased for a limited order duration (the API default is 1
+                      day) and must be renewed with the RenewAdditionalBandwidth operation
+                      before it expires; this resource does not manage the renewal
+                      or the order duration. The additional bandwidth is charged on
+                      a pay-as-you-go basis.'
+                    items:
+                      properties:
+                        bandwidth:
+                          description: 'The additional bandwidth to add. Unit: MB/s.
+                            Must be set in every additional_bandwidth block; a block
+                            without it is rejected. Valid values: non-negative integers.
+                            The maximum value is 6 times the default bandwidth of
+                            the instance (or shard) specification, capped at 192 MB/s.
+                            Set to 0 to release the additional bandwidth purchased
+                            for the shard.'
+                          type: number
+                        nodeId:
+                          description: The data shard whose bandwidth is adjusted.
+                            Use the shard node name (r-xxx-db-0, the InsName reported
+                            by the DescribeRoleZoneInfo operation) or its full topology
+                            ID (r-xxx-db-0#123456); a suffix such as db-0 is also
+                            accepted when exactly one data shard of the instance ends
+                            with it. Required on cluster and read/write splitting
+                            instances, and each data shard can be configured at most
+                            once. A standard instance takes bandwidth alone and must
+                            leave this argument unset, because EnableAdditionalBandwidth
+                            only accepts NodeId for the cluster and read/write splitting
+                            architectures.
+                          type: string
+                      type: object
+                    type: array
                   autoRenew:
                     description: 'Whether to renewal a KVStore DBInstance automatically
                       or not. It is valid when payment_type is PrePaid. Default value:
@@ -641,6 +726,13 @@ spec:
                       of shard_count in the instance, and if the instance is a read/write
                       splitting instance, bandwidth cannot be set.'
                     type: number
+                  bandwidthBurst:
+                    description: Specifies whether to enable Elastic Burst for the
+                      instance. After it is enabled, the instance can temporarily
+                      burst beyond the default bandwidth limit during bandwidth auto
+                      scaling. The additional bandwidth is charged on a pay-as-you-go
+                      basis.
+                    type: boolean
                   businessInfo:
                     description: The ID of the event or the business information.
                     type: string
@@ -1298,6 +1390,45 @@ spec:
             properties:
               atProvider:
                 properties:
+                  additionalBandwidth:
+                    description: 'The additional bandwidth to add to each data shard
+                      of the instance. Unit: MB/s. Setting this block adjusts the
+                      shard bandwidth to the specification default plus the configured
+                      value, which also changes the total bandwidth of the instance.
+                      See additional_bandwidth below. Removing a block does not release
+                      the purchased bandwidth of that shard; set its bandwidth to
+                      0 explicitly to release it. NOTE: The additional bandwidth is
+                      purchased for a limited order duration (the API default is 1
+                      day) and must be renewed with the RenewAdditionalBandwidth operation
+                      before it expires; this resource does not manage the renewal
+                      or the order duration. The additional bandwidth is charged on
+                      a pay-as-you-go basis.'
+                    items:
+                      properties:
+                        bandwidth:
+                          description: 'The additional bandwidth to add. Unit: MB/s.
+                            Must be set in every additional_bandwidth block; a block
+                            without it is rejected. Valid values: non-negative integers.
+                            The maximum value is 6 times the default bandwidth of
+                            the instance (or shard) specification, capped at 192 MB/s.
+                            Set to 0 to release the additional bandwidth purchased
+                            for the shard.'
+                          type: number
+                        nodeId:
+                          description: The data shard whose bandwidth is adjusted.
+                            Use the shard node name (r-xxx-db-0, the InsName reported
+                            by the DescribeRoleZoneInfo operation) or its full topology
+                            ID (r-xxx-db-0#123456); a suffix such as db-0 is also
+                            accepted when exactly one data shard of the instance ends
+                            with it. Required on cluster and read/write splitting
+                            instances, and each data shard can be configured at most
+                            once. A standard instance takes bandwidth alone and must
+                            leave this argument unset, because EnableAdditionalBandwidth
+                            only accepts NodeId for the cluster and read/write splitting
+                            architectures.
+                          type: string
+                      type: object
+                    type: array
                   autoRenew:
                     description: 'Whether to renewal a KVStore DBInstance automatically
                       or not. It is valid when payment_type is PrePaid. Default value:
@@ -1331,6 +1462,13 @@ spec:
                       of shard_count in the instance, and if the instance is a read/write
                       splitting instance, bandwidth cannot be set.'
                     type: number
+                  bandwidthBurst:
+                    description: Specifies whether to enable Elastic Burst for the
+                      instance. After it is enabled, the instance can temporarily
+                      burst beyond the default bandwidth limit during bandwidth auto
+                      scaling. The additional bandwidth is charged on a pay-as-you-go
+                      basis.
+                    type: boolean
                   businessInfo:
                     description: The ID of the event or the business information.
                     type: string

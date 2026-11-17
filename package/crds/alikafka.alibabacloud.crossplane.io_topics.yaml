@@ -79,7 +79,12 @@ spec:
                       to Local storage. Valid values:'
                     type: boolean
                   configs:
-                    description: The advanced configurations.
+                    description: 'The advanced configurations of the topic, as a JSON
+                      encoded object. The service carries every value as a string;
+                      a value declared as a number or a boolean is compared through
+                      its literal text, so it matches the string the service reports
+                      for it. The keys the service accepts and their value ranges
+                      depend on the instance:'
                     type: string
                   instanceId:
                     description: The ID of the instance.
@@ -200,7 +205,12 @@ spec:
                       to Local storage. Valid values:'
                     type: boolean
                   configs:
-                    description: The advanced configurations.
+                    description: 'The advanced configurations of the topic, as a JSON
+                      encoded object. The service carries every value as a string;
+                      a value declared as a number or a boolean is compared through
+                      its literal text, so it matches the string the service reports
+                      for it. The keys the service accepts and their value ranges
+                      depend on the instance:'
                     type: string
                   instanceId:
                     description: The ID of the instance.
@@ -485,7 +495,12 @@ spec:
                       to Local storage. Valid values:'
                     type: boolean
                   configs:
-                    description: The advanced configurations.
+                    description: 'The advanced configurations of the topic, as a JSON
+                      encoded object. The service carries every value as a string;
+                      a value declared as a number or a boolean is compared through
+                      its literal text, so it matches the string the service reports
+                      for it. The keys the service accepts and their value ranges
+                      depend on the instance:'
                     type: string
                   createTime:
                     description: (Available since v1.262.1) The time when the topic
