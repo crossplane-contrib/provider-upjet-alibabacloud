@@ -1,0 +1,115 @@
+apiVersion: privatezone.alibabacloud.crossplane.io/v1alpha1
+kind: Rule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    endpointIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    forwardIps:
+    - ip: 114.114.114.114
+      port: 8080
+    region: cn-beijing
+    ruleName: ${var.name}-${random_integer.default.result}
+    type: OUTBOUND
+    zoneName: ${var.name}
+
+---
+
+apiVersion: privatezone.alibabacloud.crossplane.io/v1alpha1
+kind: Endpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    endpointName: ${var.name}-${random_integer.default.result}
+    ipConfigs:
+    - cidrBlockSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default[0]
+      vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default[0]
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default[0]
+    - cidrBlockSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default[1]
+      vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default[1]
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: default[1]
+    region: cn-beijing
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    vpcRegionId: ${data.alicloud_regions.default.regions.0.id}
+
+---
+
+apiVersion: ecs.alibabacloud.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    name: ${var.name}
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    region: cn-beijing
+    vpcName: ${var.name}
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/rule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    cidrBlock: ${cidrsubnet(alicloud_vpc.default.cidr_block, 8, count.index)}
+    count: 2
+    region: cn-beijing
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    zoneId: ${data.alicloud_pvtz_resolver_zones.default.zones[count.index].zone_id}
