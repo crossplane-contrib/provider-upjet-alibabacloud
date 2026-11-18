@@ -262,3 +262,69 @@ func TestConfigureNoForkAlibabaCloudClientSucceeds(t *testing.T) {
 		t.Fatalf("expected ps.Meta to be set from the provider's ConfigureContextFunc, got: %#v", ps.Meta)
 	}
 }
+
+func TestBuildProviderConfigurationUsesSpecEndpoints(t *testing.T) {
+	t.Setenv("ALIBABA_CLOUD_ENDPOINT_SLS", "")
+	t.Setenv("SLS_ENDPOINT", "")
+	cfg := buildProviderConfiguration("us-west-1", map[string]any{"access_key": "ak"}, &v1beta1.ProviderConfig{
+		Spec: v1beta1.ProviderConfigSpec{Endpoints: map[string]string{
+			"location": "location.aliyuncs.com",
+			"vpc":      "vpc-vpc.us-west-1.aliyuncs.com",
+		}},
+	})
+	want := []any{map[string]any{
+		"location": "location.aliyuncs.com",
+		"log":      "us-west-1.log.aliyuncs.com",
+		"vpc":      "vpc-vpc.us-west-1.aliyuncs.com",
+	}}
+	if !reflect.DeepEqual(cfg["endpoints"], want) {
+		t.Fatalf("spec.endpoints should override and extend the defaults:\n got: %#v\nwant: %#v", cfg["endpoints"], want)
+	}
+
+	// The merged block must still fit the real provider schema.
+	d := schema.TestResourceDataRaw(t, alicloud.Provider().Schema, cfg)
+	got := d.Get("endpoints").(*schema.Set).List()[0].(map[string]any)
+	if got["vpc"] != "vpc-vpc.us-west-1.aliyuncs.com" || got["location"] != "location.aliyuncs.com" {
+		t.Fatalf("endpoints did not survive the provider schema: %#v", got)
+	}
+}
+
+func TestValidateEndpoints(t *testing.T) {
+	known := endpointKeys(alicloud.Provider())
+	for _, k := range []string{"location", "log", "vpc", "slb", "polardb"} {
+		if !known[k] {
+			t.Fatalf("precondition: the provider's endpoints block no longer has %q", k)
+		}
+	}
+	pc := func(e map[string]string) *v1beta1.ProviderConfig {
+		return &v1beta1.ProviderConfig{Spec: v1beta1.ProviderConfigSpec{Endpoints: e}}
+	}
+
+	cases := map[string]struct {
+		pc      *v1beta1.ProviderConfig
+		wantErr string
+	}{
+		"NilProviderConfig": {pc: nil},
+		"NoEndpoints":       {pc: pc(nil)},
+		"KnownKeys":         {pc: pc(map[string]string{"location": "location.aliyuncs.com", "vpc": "vpc.us-west-1.aliyuncs.com"})},
+		"UnknownKeys": {
+			pc:      pc(map[string]string{"vpcx": "a", "loc": "b", "vpc": "c"}),
+			wantErr: "unknown keys loc, vpcx",
+		},
+		"EmptyValue": {
+			pc:      pc(map[string]string{"vpc": " "}),
+			wantErr: "spec.endpoints.vpc must not be empty",
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			err := validateEndpoints(tc.pc, known)
+			switch {
+			case tc.wantErr == "" && err != nil:
+				t.Fatalf("unexpected error: %v", err)
+			case tc.wantErr != "" && (err == nil || !strings.Contains(err.Error(), tc.wantErr)):
+				t.Fatalf("want an error containing %q, got %v", tc.wantErr, err)
+			}
+		})
+	}
+}
