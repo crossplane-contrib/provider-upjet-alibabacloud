@@ -68,7 +68,7 @@ spec:
                       http:// or https://.
                     type: string
                   entry:
-                    description: The Entry. The details see Block entry.
+                    description: The Entry. See entry below.
                     items:
                       properties:
                         cidr:
@@ -120,7 +120,7 @@ spec:
                       http:// or https://.
                     type: string
                   entry:
-                    description: The Entry. The details see Block entry.
+                    description: The Entry. See entry below.
                     items:
                       properties:
                         cidr:
@@ -235,7 +235,7 @@ spec:
                       http:// or https://.
                     type: string
                   entry:
-                    description: The Entry. The details see Block entry.
+                    description: The Entry. See entry below.
                     items:
                       properties:
                         cidr:

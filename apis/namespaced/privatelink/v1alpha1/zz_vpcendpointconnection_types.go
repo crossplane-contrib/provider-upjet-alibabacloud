@@ -45,6 +45,9 @@ type VpcEndpointConnectionInitParameters struct {
 	// Selector for a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
 	ServiceIDSelector *v1.NamespacedSelector `json:"serviceIdSelector,omitempty" tf:"-"`
+
+	// The traffic control mode of the endpoint connection. Valid values: Scalability and BandwidthLimit. When the value is BandwidthLimit, the bandwidth parameter takes effect and specifies the bandwidth upper limit. When the value is Scalability, the bandwidth is auto-elastic and the bandwidth parameter is ignored.
+	TrafficControlMode *string `json:"trafficControlMode,omitempty" tf:"traffic_control_mode,omitempty"`
 }
 
 type VpcEndpointConnectionObservation struct {
@@ -58,6 +61,9 @@ type VpcEndpointConnectionObservation struct {
 	// The endpoint ID.
 	EndpointID *string `json:"endpointId,omitempty" tf:"endpoint_id,omitempty"`
 
+	// The owner ID of the endpoint.
+	EndpointOwnerID *float64 `json:"endpointOwnerId,omitempty" tf:"endpoint_owner_id,omitempty"`
+
 	// The ID of the resource supplied above.The value is formulated as <service_id>:<endpoint_id>.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -66,6 +72,9 @@ type VpcEndpointConnectionObservation struct {
 
 	// The state of the endpoint connection.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// The traffic control mode of the endpoint connection. Valid values: Scalability and BandwidthLimit. When the value is BandwidthLimit, the bandwidth parameter takes effect and specifies the bandwidth upper limit. When the value is Scalability, the bandwidth is auto-elastic and the bandwidth parameter is ignored.
+	TrafficControlMode *string `json:"trafficControlMode,omitempty" tf:"traffic_control_mode,omitempty"`
 }
 
 type VpcEndpointConnectionParameters struct {
@@ -108,6 +117,10 @@ type VpcEndpointConnectionParameters struct {
 	// Selector for a VPCEndpointService in privatelink to populate serviceId.
 	// +kubebuilder:validation:Optional
 	ServiceIDSelector *v1.NamespacedSelector `json:"serviceIdSelector,omitempty" tf:"-"`
+
+	// The traffic control mode of the endpoint connection. Valid values: Scalability and BandwidthLimit. When the value is BandwidthLimit, the bandwidth parameter takes effect and specifies the bandwidth upper limit. When the value is Scalability, the bandwidth is auto-elastic and the bandwidth parameter is ignored.
+	// +kubebuilder:validation:Optional
+	TrafficControlMode *string `json:"trafficControlMode,omitempty" tf:"traffic_control_mode,omitempty"`
 }
 
 // VpcEndpointConnectionSpec defines the desired state of VpcEndpointConnection

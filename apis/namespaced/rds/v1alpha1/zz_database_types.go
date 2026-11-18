@@ -16,8 +16,27 @@ import (
 
 type DatabaseInitParameters struct {
 
+	// The name of the account to be granted permissions on the database when you create the database. You can call the DescribeAccounts operation to query the account name.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/rds/v1alpha1.Account
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("account_name",false)
+	AccountName *string `json:"accountName,omitempty" tf:"account_name,omitempty"`
+
+	// Reference to a Account in rds to populate accountName.
+	// +kubebuilder:validation:Optional
+	AccountNameRef *v1.NamespacedReference `json:"accountNameRef,omitempty" tf:"-"`
+
+	// Selector for a Account in rds to populate accountName.
+	// +kubebuilder:validation:Optional
+	AccountNameSelector *v1.NamespacedSelector `json:"accountNameSelector,omitempty" tf:"-"`
+
+	// The privilege granted to the account specified by account_name when you create the database. Valid values: ReadOnly, ReadWrite, DDLOnly, DMLOnly, DBOwner.
+	AccountPrivilege *string `json:"accountPrivilege,omitempty" tf:"account_privilege,omitempty"`
+
 	// Character set. The value range is limited to the following:
 	CharacterSet *string `json:"characterSet,omitempty" tf:"character_set,omitempty"`
+
+	// The collation of the database. This parameter is supported only for MySQL instances. Specify a collation that matches character_set, for example gbk_chinese_ci for gbk or utf8mb4_general_ci for utf8mb4.
+	CollationName *string `json:"collationName,omitempty" tf:"collation_name,omitempty"`
 
 	// The name of the database.
 	DataBaseName *string `json:"dataBaseName,omitempty" tf:"data_base_name,omitempty"`
@@ -41,8 +60,17 @@ type DatabaseInitParameters struct {
 
 type DatabaseObservation struct {
 
+	// The name of the account to be granted permissions on the database when you create the database. You can call the DescribeAccounts operation to query the account name.
+	AccountName *string `json:"accountName,omitempty" tf:"account_name,omitempty"`
+
+	// The privilege granted to the account specified by account_name when you create the database. Valid values: ReadOnly, ReadWrite, DDLOnly, DMLOnly, DBOwner.
+	AccountPrivilege *string `json:"accountPrivilege,omitempty" tf:"account_privilege,omitempty"`
+
 	// Character set. The value range is limited to the following:
 	CharacterSet *string `json:"characterSet,omitempty" tf:"character_set,omitempty"`
+
+	// The collation of the database. This parameter is supported only for MySQL instances. Specify a collation that matches character_set, for example gbk_chinese_ci for gbk or utf8mb4_general_ci for utf8mb4.
+	CollationName *string `json:"collationName,omitempty" tf:"collation_name,omitempty"`
 
 	// The name of the database.
 	DataBaseName *string `json:"dataBaseName,omitempty" tf:"data_base_name,omitempty"`
@@ -62,9 +90,31 @@ type DatabaseObservation struct {
 
 type DatabaseParameters struct {
 
+	// The name of the account to be granted permissions on the database when you create the database. You can call the DescribeAccounts operation to query the account name.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/namespaced/rds/v1alpha1.Account
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("account_name",false)
+	// +kubebuilder:validation:Optional
+	AccountName *string `json:"accountName,omitempty" tf:"account_name,omitempty"`
+
+	// Reference to a Account in rds to populate accountName.
+	// +kubebuilder:validation:Optional
+	AccountNameRef *v1.NamespacedReference `json:"accountNameRef,omitempty" tf:"-"`
+
+	// Selector for a Account in rds to populate accountName.
+	// +kubebuilder:validation:Optional
+	AccountNameSelector *v1.NamespacedSelector `json:"accountNameSelector,omitempty" tf:"-"`
+
+	// The privilege granted to the account specified by account_name when you create the database. Valid values: ReadOnly, ReadWrite, DDLOnly, DMLOnly, DBOwner.
+	// +kubebuilder:validation:Optional
+	AccountPrivilege *string `json:"accountPrivilege,omitempty" tf:"account_privilege,omitempty"`
+
 	// Character set. The value range is limited to the following:
 	// +kubebuilder:validation:Optional
 	CharacterSet *string `json:"characterSet,omitempty" tf:"character_set,omitempty"`
+
+	// The collation of the database. This parameter is supported only for MySQL instances. Specify a collation that matches character_set, for example gbk_chinese_ci for gbk or utf8mb4_general_ci for utf8mb4.
+	// +kubebuilder:validation:Optional
+	CollationName *string `json:"collationName,omitempty" tf:"collation_name,omitempty"`
 
 	// The name of the database.
 	// +kubebuilder:validation:Optional

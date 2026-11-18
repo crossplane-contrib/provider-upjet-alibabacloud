@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: ACL is the Schema for the ACLs API. Provides a Load Banlancer
+        description: ACL is the Schema for the ACLs API. Provides a Load Balancer
           Access Control List resource.
         properties:
           apiVersion:

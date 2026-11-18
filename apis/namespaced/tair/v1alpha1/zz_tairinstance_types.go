@@ -14,7 +14,39 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
+type TairInstanceAdditionalBandwidthInitParameters struct {
+
+	// The additional bandwidth to add. Unit: MB/s. Must be set in every additional_bandwidth block; a block without it is rejected. Valid values: non-negative integers. The maximum value is 6 times the default bandwidth of the instance (or shard) specification, capped at 192 MB/s. Set to 0 to release the additional bandwidth purchased for the shard.
+	Bandwidth *float64 `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// The data shard whose bandwidth is adjusted. Use the shard node name (r-xxx-db-0, the InsName reported by the DescribeRoleZoneInfo operation) or its full topology ID (r-xxx-db-0#123456); a suffix such as db-0 is also accepted when exactly one data shard of the instance ends with it. Required on cluster and read/write splitting instances, and each data shard can be configured at most once. A standard instance takes bandwidth alone and must leave this argument unset, because EnableAdditionalBandwidth only accepts NodeId for the cluster and read/write splitting architectures.
+	NodeID *string `json:"nodeId,omitempty" tf:"node_id,omitempty"`
+}
+
+type TairInstanceAdditionalBandwidthObservation struct {
+
+	// The additional bandwidth to add. Unit: MB/s. Must be set in every additional_bandwidth block; a block without it is rejected. Valid values: non-negative integers. The maximum value is 6 times the default bandwidth of the instance (or shard) specification, capped at 192 MB/s. Set to 0 to release the additional bandwidth purchased for the shard.
+	Bandwidth *float64 `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// The data shard whose bandwidth is adjusted. Use the shard node name (r-xxx-db-0, the InsName reported by the DescribeRoleZoneInfo operation) or its full topology ID (r-xxx-db-0#123456); a suffix such as db-0 is also accepted when exactly one data shard of the instance ends with it. Required on cluster and read/write splitting instances, and each data shard can be configured at most once. A standard instance takes bandwidth alone and must leave this argument unset, because EnableAdditionalBandwidth only accepts NodeId for the cluster and read/write splitting architectures.
+	NodeID *string `json:"nodeId,omitempty" tf:"node_id,omitempty"`
+}
+
+type TairInstanceAdditionalBandwidthParameters struct {
+
+	// The additional bandwidth to add. Unit: MB/s. Must be set in every additional_bandwidth block; a block without it is rejected. Valid values: non-negative integers. The maximum value is 6 times the default bandwidth of the instance (or shard) specification, capped at 192 MB/s. Set to 0 to release the additional bandwidth purchased for the shard.
+	// +kubebuilder:validation:Optional
+	Bandwidth *float64 `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// The data shard whose bandwidth is adjusted. Use the shard node name (r-xxx-db-0, the InsName reported by the DescribeRoleZoneInfo operation) or its full topology ID (r-xxx-db-0#123456); a suffix such as db-0 is also accepted when exactly one data shard of the instance ends with it. Required on cluster and read/write splitting instances, and each data shard can be configured at most once. A standard instance takes bandwidth alone and must leave this argument unset, because EnableAdditionalBandwidth only accepts NodeId for the cluster and read/write splitting architectures.
+	// +kubebuilder:validation:Optional
+	NodeID *string `json:"nodeId,omitempty" tf:"node_id,omitempty"`
+}
+
 type TairInstanceInitParameters struct {
+
+	// The additional bandwidth to add to each data shard of the instance. Unit: MB/s. Setting this block adjusts the shard bandwidth to the specification default plus the configured value, which also changes the total bandwidth of the instance. See additional_bandwidth below. Removing a block does not release the purchased bandwidth of that shard; set its bandwidth to 0 explicitly to release it. NOTE: The additional bandwidth is purchased for a limited order duration (the API default is 1 day) and must be renewed with the RenewAdditionalBandwidth operation before it expires; this resource does not manage the renewal or the order duration. The additional bandwidth is charged on a pay-as-you-go basis.
+	AdditionalBandwidth []TairInstanceAdditionalBandwidthInitParameters `json:"additionalBandwidth,omitempty" tf:"additional_bandwidth,omitempty"`
 
 	// Specifies whether to enable auto-renewal for the instance. Default value: false. Valid values: true(enables auto-renewal), false(disables auto-renewal).
 	AutoRenew *string `json:"autoRenew,omitempty" tf:"auto_renew,omitempty"`
@@ -24,6 +56,9 @@ type TairInstanceInitParameters struct {
 
 	// You can set the BackupId parameter to the backup set ID of the source instance. The system uses the data stored in the backup set to create an instance. You can call the DescribeBackups operation to query backup set IDs. If the source instance is a cluster instance, set the BackupId parameter to the backup set IDs of all shards of the source instance, separated by commas (,).
 	BackupID *string `json:"backupId,omitempty" tf:"backup_id,omitempty"`
+
+	// Specifies whether to enable Elastic Burst for the instance. After it is enabled, the instance can temporarily burst beyond the default bandwidth limit during bandwidth auto scaling.
+	BandwidthBurst *bool `json:"bandwidthBurst,omitempty" tf:"bandwidth_burst,omitempty"`
 
 	// This parameter is supported for specific new cluster instances. You can query the backup set ID by calling the DescribeClusterBackupList operation. If this parameter is supported, you can specify the backup set ID. In this case, you do not need to specify the BackupId parameter. If this parameter is not supported, set the BackupId parameter to the IDs of backup sets in all shards of the source instance, separated by commas (,).
 	ClusterBackupID *string `json:"clusterBackupId,omitempty" tf:"cluster_backup_id,omitempty"`
@@ -110,6 +145,9 @@ type TairInstanceInitParameters struct {
 	// Whether to restore the account, kernel parameters, and whitelist (config) information from the original backup set when creating an instance using a specified backup set. The default value is empty, indicating that the account, kernel parameters, and whitelist information are not restored from the original backup set. This parameter is only applicable to Cloud Native instances, and the account, kernel parameters, and whitelist information must have been saved in the original backup set.
 	RecoverConfigMode *string `json:"recoverConfigMode,omitempty" tf:"recover_config_mode,omitempty"`
 
+	// The number of replica nodes in the primary zone. This parameter is available only when you create a cloud-native cluster instance in the multi-replica mode. Valid values: 1 to 4. If you create a multi-zone instance, you can use this parameter together with the slave_replica_count parameter to customize the numbers of replica nodes in the primary and secondary zones. The sum of the values of this parameter and the slave_replica_count parameter cannot exceed 4. Removing this parameter from the configuration keeps the current value instead of resetting it; set a new value explicitly to change the number of replica nodes.
+	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
 	// The ID of the resource group to which the instance belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
@@ -156,6 +194,9 @@ type TairInstanceInitParameters struct {
 
 	// Specifies the number of read-only nodes in the secondary zone when creating a multi-zone read/write splitting instance.
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
+
+	// The number of replica nodes in the secondary zone. If you create a multi-zone instance, the sum of the values of this parameter and the replica_count parameter cannot exceed 4. The value 0 is not supported in this configuration: CreateTairInstance rejects it with InvalidParameter, and ModifyInstanceSpec rejects it with SlaveReplicaCountCanNotBeZero (the API suggests MigrateToOtherZone instead). Removing this parameter from the configuration keeps the current value instead of resetting it; set a new value explicitly to change the number of replica nodes in the secondary zone.
+	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 
 	// If you want to create an instance based on the backup set of an existing instance, set this parameter to the ID of the source instance. preceding three parameters. After you specify the SrcDBInstanceId parameter, use the BackupId, ClusterBackupId (recommended for cloud-native cluster instances), or RestoreTime parameter to specify the backup set or the specific point in time that you want to use to create an instance. The SrcDBInstanceId parameter must be used in combination with one of the preceding three parameters.
 	SrcDBInstanceID *string `json:"srcDbInstanceId,omitempty" tf:"src_db_instance_id,omitempty"`
@@ -211,6 +252,9 @@ type TairInstanceInitParameters struct {
 
 type TairInstanceObservation struct {
 
+	// The additional bandwidth to add to each data shard of the instance. Unit: MB/s. Setting this block adjusts the shard bandwidth to the specification default plus the configured value, which also changes the total bandwidth of the instance. See additional_bandwidth below. Removing a block does not release the purchased bandwidth of that shard; set its bandwidth to 0 explicitly to release it. NOTE: The additional bandwidth is purchased for a limited order duration (the API default is 1 day) and must be renewed with the RenewAdditionalBandwidth operation before it expires; this resource does not manage the renewal or the order duration. The additional bandwidth is charged on a pay-as-you-go basis.
+	AdditionalBandwidth []TairInstanceAdditionalBandwidthObservation `json:"additionalBandwidth,omitempty" tf:"additional_bandwidth,omitempty"`
+
 	// The architecture of the instance.  cluster, standard, rwsplit.
 	ArchitectureType *string `json:"architectureType,omitempty" tf:"architecture_type,omitempty"`
 
@@ -222,6 +266,9 @@ type TairInstanceObservation struct {
 
 	// You can set the BackupId parameter to the backup set ID of the source instance. The system uses the data stored in the backup set to create an instance. You can call the DescribeBackups operation to query backup set IDs. If the source instance is a cluster instance, set the BackupId parameter to the backup set IDs of all shards of the source instance, separated by commas (,).
 	BackupID *string `json:"backupId,omitempty" tf:"backup_id,omitempty"`
+
+	// Specifies whether to enable Elastic Burst for the instance. After it is enabled, the instance can temporarily burst beyond the default bandwidth limit during bandwidth auto scaling.
+	BandwidthBurst *bool `json:"bandwidthBurst,omitempty" tf:"bandwidth_burst,omitempty"`
 
 	// The common name of the CA certificate. NOTE: This is a best-effort attribute and may be empty when the upstream API does not return it.
 	CACertCommonName *string `json:"caCertCommonName,omitempty" tf:"ca_cert_common_name,omitempty"`
@@ -329,6 +376,9 @@ type TairInstanceObservation struct {
 	// Region Id
 	RegionID *string `json:"regionId,omitempty" tf:"region_id,omitempty"`
 
+	// The number of replica nodes in the primary zone. This parameter is available only when you create a cloud-native cluster instance in the multi-replica mode. Valid values: 1 to 4. If you create a multi-zone instance, you can use this parameter together with the slave_replica_count parameter to customize the numbers of replica nodes in the primary and secondary zones. The sum of the values of this parameter and the slave_replica_count parameter cannot exceed 4. Removing this parameter from the configuration keeps the current value instead of resetting it; set a new value explicitly to change the number of replica nodes.
+	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
 	// The ID of the resource group to which the instance belongs.
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
 
@@ -358,6 +408,9 @@ type TairInstanceObservation struct {
 
 	// Specifies the number of read-only nodes in the secondary zone when creating a multi-zone read/write splitting instance.
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
+
+	// The number of replica nodes in the secondary zone. If you create a multi-zone instance, the sum of the values of this parameter and the replica_count parameter cannot exceed 4. The value 0 is not supported in this configuration: CreateTairInstance rejects it with InvalidParameter, and ModifyInstanceSpec rejects it with SlaveReplicaCountCanNotBeZero (the API suggests MigrateToOtherZone instead). Removing this parameter from the configuration keeps the current value instead of resetting it; set a new value explicitly to change the number of replica nodes in the secondary zone.
+	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 
 	// If you want to create an instance based on the backup set of an existing instance, set this parameter to the ID of the source instance. preceding three parameters. After you specify the SrcDBInstanceId parameter, use the BackupId, ClusterBackupId (recommended for cloud-native cluster instances), or RestoreTime parameter to specify the backup set or the specific point in time that you want to use to create an instance. The SrcDBInstanceId parameter must be used in combination with one of the preceding three parameters.
 	SrcDBInstanceID *string `json:"srcDbInstanceId,omitempty" tf:"src_db_instance_id,omitempty"`
@@ -399,6 +452,10 @@ type TairInstanceObservation struct {
 
 type TairInstanceParameters struct {
 
+	// The additional bandwidth to add to each data shard of the instance. Unit: MB/s. Setting this block adjusts the shard bandwidth to the specification default plus the configured value, which also changes the total bandwidth of the instance. See additional_bandwidth below. Removing a block does not release the purchased bandwidth of that shard; set its bandwidth to 0 explicitly to release it. NOTE: The additional bandwidth is purchased for a limited order duration (the API default is 1 day) and must be renewed with the RenewAdditionalBandwidth operation before it expires; this resource does not manage the renewal or the order duration. The additional bandwidth is charged on a pay-as-you-go basis.
+	// +kubebuilder:validation:Optional
+	AdditionalBandwidth []TairInstanceAdditionalBandwidthParameters `json:"additionalBandwidth,omitempty" tf:"additional_bandwidth,omitempty"`
+
 	// Specifies whether to enable auto-renewal for the instance. Default value: false. Valid values: true(enables auto-renewal), false(disables auto-renewal).
 	// +kubebuilder:validation:Optional
 	AutoRenew *string `json:"autoRenew,omitempty" tf:"auto_renew,omitempty"`
@@ -410,6 +467,10 @@ type TairInstanceParameters struct {
 	// You can set the BackupId parameter to the backup set ID of the source instance. The system uses the data stored in the backup set to create an instance. You can call the DescribeBackups operation to query backup set IDs. If the source instance is a cluster instance, set the BackupId parameter to the backup set IDs of all shards of the source instance, separated by commas (,).
 	// +kubebuilder:validation:Optional
 	BackupID *string `json:"backupId,omitempty" tf:"backup_id,omitempty"`
+
+	// Specifies whether to enable Elastic Burst for the instance. After it is enabled, the instance can temporarily burst beyond the default bandwidth limit during bandwidth auto scaling.
+	// +kubebuilder:validation:Optional
+	BandwidthBurst *bool `json:"bandwidthBurst,omitempty" tf:"bandwidth_burst,omitempty"`
 
 	// This parameter is supported for specific new cluster instances. You can query the backup set ID by calling the DescribeClusterBackupList operation. If this parameter is supported, you can specify the backup set ID. In this case, you do not need to specify the BackupId parameter. If this parameter is not supported, set the BackupId parameter to the IDs of backup sets in all shards of the source instance, separated by commas (,).
 	// +kubebuilder:validation:Optional
@@ -529,6 +590,10 @@ type TairInstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"-"`
 
+	// The number of replica nodes in the primary zone. This parameter is available only when you create a cloud-native cluster instance in the multi-replica mode. Valid values: 1 to 4. If you create a multi-zone instance, you can use this parameter together with the slave_replica_count parameter to customize the numbers of replica nodes in the primary and secondary zones. The sum of the values of this parameter and the slave_replica_count parameter cannot exceed 4. Removing this parameter from the configuration keeps the current value instead of resetting it; set a new value explicitly to change the number of replica nodes.
+	// +kubebuilder:validation:Optional
+	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
 	// The ID of the resource group to which the instance belongs.
 	// +kubebuilder:validation:Optional
 	ResourceGroupID *string `json:"resourceGroupId,omitempty" tf:"resource_group_id,omitempty"`
@@ -584,6 +649,10 @@ type TairInstanceParameters struct {
 	// Specifies the number of read-only nodes in the secondary zone when creating a multi-zone read/write splitting instance.
 	// +kubebuilder:validation:Optional
 	SlaveReadOnlyCount *float64 `json:"slaveReadOnlyCount,omitempty" tf:"slave_read_only_count,omitempty"`
+
+	// The number of replica nodes in the secondary zone. If you create a multi-zone instance, the sum of the values of this parameter and the replica_count parameter cannot exceed 4. The value 0 is not supported in this configuration: CreateTairInstance rejects it with InvalidParameter, and ModifyInstanceSpec rejects it with SlaveReplicaCountCanNotBeZero (the API suggests MigrateToOtherZone instead). Removing this parameter from the configuration keeps the current value instead of resetting it; set a new value explicitly to change the number of replica nodes in the secondary zone.
+	// +kubebuilder:validation:Optional
+	SlaveReplicaCount *float64 `json:"slaveReplicaCount,omitempty" tf:"slave_replica_count,omitempty"`
 
 	// If you want to create an instance based on the backup set of an existing instance, set this parameter to the ID of the source instance. preceding three parameters. After you specify the SrcDBInstanceId parameter, use the BackupId, ClusterBackupId (recommended for cloud-native cluster instances), or RestoreTime parameter to specify the backup set or the specific point in time that you want to use to create an instance. The SrcDBInstanceId parameter must be used in combination with one of the preceding three parameters.
 	// +kubebuilder:validation:Optional

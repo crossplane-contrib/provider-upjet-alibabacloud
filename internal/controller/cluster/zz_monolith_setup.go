@@ -175,6 +175,13 @@ import (
 	vpcendpointserviceresource "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/privatelink/vpcendpointserviceresource"
 	vpcendpointserviceuser "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/privatelink/vpcendpointserviceuser"
 	vpcendpointzone "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/privatelink/vpcendpointzone"
+	endpointprivatezone "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/privatezone/endpoint"
+	ruleprivatezone "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/privatezone/rule"
+	ruleattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/privatezone/ruleattachment"
+	uservpcauthorization "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/privatezone/uservpcauthorization"
+	zone "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/privatezone/zone"
+	zoneattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/privatezone/zoneattachment"
+	zonerecord "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/privatezone/zonerecord"
 	providerconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/providerconfig"
 	quotaalarm "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/quotas/quotaalarm"
 	quotaapplication "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/cluster/quotas/quotaapplication"
@@ -405,6 +412,13 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		vpcendpointserviceresource.Setup,
 		vpcendpointserviceuser.Setup,
 		vpcendpointzone.Setup,
+		endpointprivatezone.Setup,
+		ruleprivatezone.Setup,
+		ruleattachment.Setup,
+		uservpcauthorization.Setup,
+		zone.Setup,
+		zoneattachment.Setup,
+		zonerecord.Setup,
 		providerconfig.Setup,
 		quotaalarm.Setup,
 		quotaapplication.Setup,
@@ -641,6 +655,13 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		vpcendpointserviceresource.SetupGated,
 		vpcendpointserviceuser.SetupGated,
 		vpcendpointzone.SetupGated,
+		endpointprivatezone.SetupGated,
+		ruleprivatezone.SetupGated,
+		ruleattachment.SetupGated,
+		uservpcauthorization.SetupGated,
+		zone.SetupGated,
+		zoneattachment.SetupGated,
+		zonerecord.SetupGated,
 		providerconfig.SetupGated,
 		quotaalarm.SetupGated,
 		quotaapplication.SetupGated,
@@ -876,6 +897,13 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		vpcendpointserviceresource.SetupWebhookWithManager,
 		vpcendpointserviceuser.SetupWebhookWithManager,
 		vpcendpointzone.SetupWebhookWithManager,
+		endpointprivatezone.SetupWebhookWithManager,
+		ruleprivatezone.SetupWebhookWithManager,
+		ruleattachment.SetupWebhookWithManager,
+		uservpcauthorization.SetupWebhookWithManager,
+		zone.SetupWebhookWithManager,
+		zoneattachment.SetupWebhookWithManager,
+		zonerecord.SetupWebhookWithManager,
 		providerconfig.SetupWebhookWithManager,
 		quotaalarm.SetupWebhookWithManager,
 		quotaapplication.SetupWebhookWithManager,

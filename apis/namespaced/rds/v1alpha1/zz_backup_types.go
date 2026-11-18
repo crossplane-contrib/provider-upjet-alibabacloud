@@ -53,6 +53,9 @@ type BackupObservation struct {
 	// The backup set ID.
 	BackupID *string `json:"backupId,omitempty" tf:"backup_id,omitempty"`
 
+	// (String, Available since v2.2.0) The backup job ID. This is a create-only attribute returned by the CreateBackup API. It cannot be recovered via Read or Import because DescribeBackups does not return this field.
+	BackupJobID *string `json:"backupJobId,omitempty" tf:"backup_job_id,omitempty"`
+
 	// The backup type. Valid values:
 	BackupMethod *string `json:"backupMethod,omitempty" tf:"backup_method,omitempty"`
 

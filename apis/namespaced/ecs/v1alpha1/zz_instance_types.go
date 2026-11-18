@@ -71,7 +71,7 @@ type InstanceDataDisksInitParameters struct {
 	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
 
-	// The category of the disk. Default value: cloud_efficiency. Valid values:
+	// The category of the disk. Defaults to cloud_efficiency. Valid values:
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
 
 	// Delete this data disk when the instance is destroyed. It only works on cloud, cloud_efficiency, cloud_essd, cloud_ssd disk. If the category of this data disk was ephemeral_ssd, please don't set this param. Default value: true.
@@ -123,7 +123,7 @@ type InstanceDataDisksObservation struct {
 	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
 
-	// The category of the disk. Default value: cloud_efficiency. Valid values:
+	// The category of the disk. Defaults to cloud_efficiency. Valid values:
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
 
 	// Delete this data disk when the instance is destroyed. It only works on cloud, cloud_efficiency, cloud_essd, cloud_ssd disk. If the category of this data disk was ephemeral_ssd, please don't set this param. Default value: true.
@@ -167,7 +167,7 @@ type InstanceDataDisksParameters struct {
 	// +kubebuilder:validation:Optional
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty" tf:"bursting_enabled,omitempty"`
 
-	// The category of the disk. Default value: cloud_efficiency. Valid values:
+	// The category of the disk. Defaults to cloud_efficiency. Valid values:
 	// +kubebuilder:validation:Optional
 	Category *string `json:"category,omitempty" tf:"category,omitempty"`
 
@@ -511,7 +511,7 @@ type InstanceInitParameters struct {
 	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
 	SystemDiskBurstingEnabled *bool `json:"systemDiskBurstingEnabled,omitempty" tf:"system_disk_bursting_enabled,omitempty"`
 
-	// Valid values are ephemeral_ssd, cloud_efficiency, cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry. only is used to some none I/O optimized instance. Valid values cloud_auto Available since v1.184.0.
+	// Valid values: all, local_disk, ephemeral_ssd, cloud_efficiency, cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry, cloud_essd_xc0, cloud_essd_xc1. only is used to some none I/O optimized instance. cloud_auto is Available since v1.184.0. cloud_essd_xc0 and cloud_essd_xc1 are Available since v2.2.0 and only supported in government cloud (政务云) regions.
 	SystemDiskCategory *string `json:"systemDiskCategory,omitempty" tf:"system_disk_category,omitempty"`
 
 	// The description of the system disk. The description must be 2 to 256 characters in length and cannot start with http:// or https://.
@@ -921,7 +921,7 @@ type InstanceObservation struct {
 	// Specifies whether to enable the performance burst feature for the system disk. Valid values:
 	SystemDiskBurstingEnabled *bool `json:"systemDiskBurstingEnabled,omitempty" tf:"system_disk_bursting_enabled,omitempty"`
 
-	// Valid values are ephemeral_ssd, cloud_efficiency, cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry. only is used to some none I/O optimized instance. Valid values cloud_auto Available since v1.184.0.
+	// Valid values: all, local_disk, ephemeral_ssd, cloud_efficiency, cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry, cloud_essd_xc0, cloud_essd_xc1. only is used to some none I/O optimized instance. cloud_auto is Available since v1.184.0. cloud_essd_xc0 and cloud_essd_xc1 are Available since v2.2.0 and only supported in government cloud (政务云) regions.
 	SystemDiskCategory *string `json:"systemDiskCategory,omitempty" tf:"system_disk_category,omitempty"`
 
 	// The description of the system disk. The description must be 2 to 256 characters in length and cannot start with http:// or https://.
@@ -1322,7 +1322,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	SystemDiskBurstingEnabled *bool `json:"systemDiskBurstingEnabled,omitempty" tf:"system_disk_bursting_enabled,omitempty"`
 
-	// Valid values are ephemeral_ssd, cloud_efficiency, cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry. only is used to some none I/O optimized instance. Valid values cloud_auto Available since v1.184.0.
+	// Valid values: all, local_disk, ephemeral_ssd, cloud_efficiency, cloud_ssd, cloud_essd, cloud, cloud_auto, cloud_essd_entry, cloud_essd_xc0, cloud_essd_xc1. only is used to some none I/O optimized instance. cloud_auto is Available since v1.184.0. cloud_essd_xc0 and cloud_essd_xc1 are Available since v2.2.0 and only supported in government cloud (政务云) regions.
 	// +kubebuilder:validation:Optional
 	SystemDiskCategory *string `json:"systemDiskCategory,omitempty" tf:"system_disk_category,omitempty"`
 

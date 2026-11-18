@@ -11,7 +11,7 @@ spec:
   forProvider:
     availabilityZone: ${data.alicloud_zones.default.zones.0.id}
     dataDisks:
-    - category: cloud_efficiency
+    - category: cloud_essd
       description: disk2
       encrypted: true
       kmsKeyIdSelector:
@@ -29,7 +29,7 @@ spec:
     securityGroupSelector:
       matchLabels:
         testing.upbound.io/example-name: group
-    systemDiskCategory: cloud_efficiency
+    systemDiskCategory: cloud_essd
     systemDiskDescription: test_foo_system_disk_description
     systemDiskName: ${var.name}
     vswitchIdSelector:

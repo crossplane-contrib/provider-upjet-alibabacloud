@@ -17,6 +17,7 @@ spec:
     serviceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
+    trafficControlMode: BandwidthLimit
 
 ---
 

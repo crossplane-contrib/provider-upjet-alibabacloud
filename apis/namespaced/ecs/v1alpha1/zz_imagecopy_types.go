@@ -15,6 +15,8 @@ import (
 )
 
 type ImageCopyInitParameters struct {
+
+	// Not the public attribute and it used to automatically delete dependence snapshots while deleting the image.
 	DeleteAutoSnapshot *bool `json:"deleteAutoSnapshot,omitempty" tf:"delete_auto_snapshot,omitempty"`
 
 	// The description of the image. It must be 2 to 256 characters in length and must not start with http:// or https://. Default value: null.
@@ -62,6 +64,8 @@ type ImageCopyInitParameters struct {
 }
 
 type ImageCopyObservation struct {
+
+	// Not the public attribute and it used to automatically delete dependence snapshots while deleting the image.
 	DeleteAutoSnapshot *bool `json:"deleteAutoSnapshot,omitempty" tf:"delete_auto_snapshot,omitempty"`
 
 	// The description of the image. It must be 2 to 256 characters in length and must not start with http:// or https://. Default value: null.
@@ -95,6 +99,7 @@ type ImageCopyObservation struct {
 
 type ImageCopyParameters struct {
 
+	// Not the public attribute and it used to automatically delete dependence snapshots while deleting the image.
 	// +kubebuilder:validation:Optional
 	DeleteAutoSnapshot *bool `json:"deleteAutoSnapshot,omitempty" tf:"delete_auto_snapshot,omitempty"`
 

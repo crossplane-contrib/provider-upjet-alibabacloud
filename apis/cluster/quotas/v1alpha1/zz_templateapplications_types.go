@@ -45,17 +45,17 @@ type QuotaApplicationDetailsObservation struct {
 	// Approval comments on quota increase applications.
 	AuditReason *string `json:"auditReason,omitempty" tf:"audit_reason,omitempty"`
 
-	// Quota dimension. See dimensions below.
+	// Quota dimension.
 	// +mapType=granular
 	Dimensions map[string]*string `json:"dimensions,omitempty" tf:"dimensions,omitempty"`
 
-	// The language of the quota application result notification. Value:
+	// The language of the quota alert notification. Value: zh: Chinese, en: English.
 	EnvLanguage *string `json:"envLanguage,omitempty" tf:"env_language,omitempty"`
 
-	// Whether to send notification of quota application result. Value:
+	// Whether to notify the quota increase application result. Value: 0: No, 3: Yes.
 	NoticeType *float64 `json:"noticeType,omitempty" tf:"notice_type,omitempty"`
 
-	// Quota calculation period.
+	// Quota calculation period. See period below.
 	Period []PeriodObservation `json:"period,omitempty" tf:"period,omitempty"`
 
 	// Quota ARN.
@@ -70,7 +70,7 @@ type QuotaApplicationDetailsObservation struct {
 	// Quota unit.
 	QuotaUnit *string `json:"quotaUnit,omitempty" tf:"quota_unit,omitempty"`
 
-	// Reason for quota application.
+	// The reason for the quota increase application.
 	Reason *string `json:"reason,omitempty" tf:"reason,omitempty"`
 
 	// The approval status of the quota promotion application. Value:
@@ -177,7 +177,7 @@ type TemplateApplicationsObservation struct {
 	// The quota ID.
 	QuotaActionCode *string `json:"quotaActionCode,omitempty" tf:"quota_action_code,omitempty"`
 
-	// List of quota application details.
+	// List of quota application details. Each element contains the following attributes:
 	QuotaApplicationDetails []QuotaApplicationDetailsObservation `json:"quotaApplicationDetails,omitempty" tf:"quota_application_details,omitempty"`
 
 	// The quota type. Value:

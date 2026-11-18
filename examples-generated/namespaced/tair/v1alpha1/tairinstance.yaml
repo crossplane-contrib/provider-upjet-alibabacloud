@@ -11,8 +11,7 @@ spec:
   forProvider:
     instanceClass: tair.rdb.2g
     instanceType: tair_rdb
-    paymentType: Subscription
-    period: 1
+    paymentType: PayAsYouGo
     region: cn-beijing
     shardCount: 2
     tairInstanceName: ${var.name}

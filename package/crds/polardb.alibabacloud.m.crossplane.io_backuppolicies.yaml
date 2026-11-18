@@ -59,9 +59,71 @@ spec:
             properties:
               forProvider:
                 properties:
+                  advancedDataPolicies:
+                    description: Custom advanced data backup policy blocks. Available
+                      only when backup_policy_level is Advanced. The provider creates,
+                      updates, or deletes these rules to match the configuration;
+                      service-generated rules are not managed. See advanced_data_policies
+                      below.
+                    items:
+                      properties:
+                        destRegion:
+                          description: Destination region. Defaults to the provider
+                            region for same-region rules; required explicitly for
+                            cross-region rules.
+                          type: string
+                        destType:
+                          description: level1, level2, or level2Cross.
+                          type: string
+                        dumpAction:
+                          description: copy.
+                          type: string
+                        filterKey:
+                          description: dayOfWeek, dayOfMonth, dayOfYear, or backupInterval;
+                            required for crontab.
+                          type: string
+                        filterType:
+                          description: crontab or event.
+                          type: string
+                        filterValue:
+                          description: Filter expression corresponding to filter_key.
+                          type: string
+                        onlyPreserveOneEachDay:
+                          description: Whether to retain only one backup per day.
+                            If omitted, the service default is used.
+                          type: boolean
+                        policyId:
+                          description: Service-assigned rule ID. Specify it to take
+                            over and update an existing custom rule after importing
+                            the cluster policy.
+                          type: string
+                        retentionType:
+                          description: never or delay.
+                          type: string
+                        retentionValue:
+                          description: Retention duration in days; required when retention_type
+                            is delay.
+                          type: string
+                        srcRegion:
+                          description: Source region. Defaults to the provider region
+                            for same-region rules; required explicitly for cross-region
+                            rules.
+                          type: string
+                        srcType:
+                          description: db, level1, level2, or level2Cross.
+                          type: string
+                        storageClass:
+                          description: Destination storage class.
+                          type: string
+                      type: object
+                    type: array
                   backupFrequency:
                     description: The backup frequency. Valid values are Normal, 2/24H,
                       3/24H, 4/24H.Default to Normal.
+                    type: string
+                  backupPolicyLevel:
+                    description: Backup policy level, Normal or Advanced. Transitioning
+                      from Normal to Advanced cannot be reversed.
                     type: string
                   backupRetentionPeriod:
                     description: Cluster backup retention days, Fixed for 7 days,
@@ -242,9 +304,71 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  advancedDataPolicies:
+                    description: Custom advanced data backup policy blocks. Available
+                      only when backup_policy_level is Advanced. The provider creates,
+                      updates, or deletes these rules to match the configuration;
+                      service-generated rules are not managed. See advanced_data_policies
+                      below.
+                    items:
+                      properties:
+                        destRegion:
+                          description: Destination region. Defaults to the provider
+                            region for same-region rules; required explicitly for
+                            cross-region rules.
+                          type: string
+                        destType:
+                          description: level1, level2, or level2Cross.
+                          type: string
+                        dumpAction:
+                          description: copy.
+                          type: string
+                        filterKey:
+                          description: dayOfWeek, dayOfMonth, dayOfYear, or backupInterval;
+                            required for crontab.
+                          type: string
+                        filterType:
+                          description: crontab or event.
+                          type: string
+                        filterValue:
+                          description: Filter expression corresponding to filter_key.
+                          type: string
+                        onlyPreserveOneEachDay:
+                          description: Whether to retain only one backup per day.
+                            If omitted, the service default is used.
+                          type: boolean
+                        policyId:
+                          description: Service-assigned rule ID. Specify it to take
+                            over and update an existing custom rule after importing
+                            the cluster policy.
+                          type: string
+                        retentionType:
+                          description: never or delay.
+                          type: string
+                        retentionValue:
+                          description: Retention duration in days; required when retention_type
+                            is delay.
+                          type: string
+                        srcRegion:
+                          description: Source region. Defaults to the provider region
+                            for same-region rules; required explicitly for cross-region
+                            rules.
+                          type: string
+                        srcType:
+                          description: db, level1, level2, or level2Cross.
+                          type: string
+                        storageClass:
+                          description: Destination storage class.
+                          type: string
+                      type: object
+                    type: array
                   backupFrequency:
                     description: The backup frequency. Valid values are Normal, 2/24H,
                       3/24H, 4/24H.Default to Normal.
+                    type: string
+                  backupPolicyLevel:
+                    description: Backup policy level, Normal or Advanced. Transitioning
+                      from Normal to Advanced cannot be reversed.
                     type: string
                   backupRetentionPeriod:
                     description: Cluster backup retention days, Fixed for 7 days,
@@ -471,9 +595,142 @@ spec:
             properties:
               atProvider:
                 properties:
+                  advancedDataPolicies:
+                    description: Custom advanced data backup policy blocks. Available
+                      only when backup_policy_level is Advanced. The provider creates,
+                      updates, or deletes these rules to match the configuration;
+                      service-generated rules are not managed. See advanced_data_policies
+                      below.
+                    items:
+                      properties:
+                        autoCreated:
+                          description: (Computed) Whether the service generated the
+                            rule.
+                          type: boolean
+                        bakType:
+                          description: (Computed) Backup type supplied by the service.
+                          type: string
+                        destRegion:
+                          description: Destination region. Defaults to the provider
+                            region for same-region rules; required explicitly for
+                            cross-region rules.
+                          type: string
+                        destType:
+                          description: level1, level2, or level2Cross.
+                          type: string
+                        dumpAction:
+                          description: copy.
+                          type: string
+                        filterKey:
+                          description: dayOfWeek, dayOfMonth, dayOfYear, or backupInterval;
+                            required for crontab.
+                          type: string
+                        filterType:
+                          description: crontab or event.
+                          type: string
+                        filterValue:
+                          description: Filter expression corresponding to filter_key.
+                          type: string
+                        onlyPreserveOneEachDay:
+                          description: Whether to retain only one backup per day.
+                            If omitted, the service default is used.
+                          type: boolean
+                        onlyPreserveOneEachHour:
+                          description: (Computed) Hourly preservation setting supplied
+                            by the service.
+                          type: boolean
+                        policyId:
+                          description: Service-assigned rule ID. Specify it to take
+                            over and update an existing custom rule after importing
+                            the cluster policy.
+                          type: string
+                        retentionType:
+                          description: never or delay.
+                          type: string
+                        retentionValue:
+                          description: Retention duration in days; required when retention_type
+                            is delay.
+                          type: string
+                        srcRegion:
+                          description: Source region. Defaults to the provider region
+                            for same-region rules; required explicitly for cross-region
+                            rules.
+                          type: string
+                        srcType:
+                          description: db, level1, level2, or level2Cross.
+                          type: string
+                        storageClass:
+                          description: Destination storage class.
+                          type: string
+                      type: object
+                    type: array
+                  advancedPolicyOption:
+                    description: Whether advanced policies are supported or enabled
+                      by the cluster.
+                    type: string
+                  autoCreatedAdvancedDataPolicies:
+                    description: Service-generated advanced backup rules. Fields have
+                      the same names as advanced_data_policies, but are read-only.
+                    items:
+                      properties:
+                        autoCreated:
+                          description: Whether the service generated the rule.
+                          type: boolean
+                        bakType:
+                          description: Backup type.
+                          type: string
+                        destRegion:
+                          description: Destination region.
+                          type: string
+                        destType:
+                          description: Destination type.
+                          type: string
+                        dumpAction:
+                          description: Method for converting level-1 backups to level-2
+                            backups.
+                          type: string
+                        filterKey:
+                          description: Scheduling key.
+                          type: string
+                        filterType:
+                          description: Scheduling type.
+                          type: string
+                        filterValue:
+                          description: Scheduling expression.
+                          type: string
+                        onlyPreserveOneEachDay:
+                          description: Whether only one backup is retained per day.
+                          type: boolean
+                        onlyPreserveOneEachHour:
+                          description: Hourly preservation setting.
+                          type: boolean
+                        policyId:
+                          description: Service-assigned rule ID.
+                          type: string
+                        retentionType:
+                          description: Retention period type.
+                          type: string
+                        retentionValue:
+                          description: Retention duration in days.
+                          type: string
+                        srcRegion:
+                          description: Source region.
+                          type: string
+                        srcType:
+                          description: Source type.
+                          type: string
+                        storageClass:
+                          description: Destination storage class.
+                          type: string
+                      type: object
+                    type: array
                   backupFrequency:
                     description: The backup frequency. Valid values are Normal, 2/24H,
                       3/24H, 4/24H.Default to Normal.
+                    type: string
+                  backupPolicyLevel:
+                    description: Backup policy level, Normal or Advanced. Transitioning
+                      from Normal to Advanced cannot be reversed.
                     type: string
                   backupRetentionPeriod:
                     description: Cluster backup retention days, Fixed for 7 days,

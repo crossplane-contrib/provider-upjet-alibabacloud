@@ -9,7 +9,12 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
-    characterSet: utf8
+    accountNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    accountPrivilege: ReadWrite
+    characterSet: gbk
+    collationName: gbk_chinese_ci
     dataBaseName: ${var.name}
     instanceIdSelector:
       matchLabels:
@@ -34,12 +39,34 @@ spec:
     engineVersion: "8.0"
     instanceChargeType: Postpaid
     instanceName: ${var.name}
-    instanceStorage: ${data.alicloud_db_instance_classes.default.instance_classes.0.storage_range.min}
+    instanceStorage: ${data.alicloud_db_instance_classes.default.instance_classes.0.storage_range.0.min}
     instanceType: ${data.alicloud_db_instance_classes.default.instance_classes.0.instance_class}
     region: cn-beijing
     vswitchIdSelector:
       matchLabels:
         testing.upbound.io/example-name: default
+
+---
+
+apiVersion: rds.alibabacloud.m.crossplane.io/v1alpha1
+kind: Account
+metadata:
+  annotations:
+    meta.upbound.io/example-id: rds/v1alpha1/database
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    accountName: terraform_example
+    accountPasswordSecretRef:
+      key: example-key
+      name: example-secret
+    dbInstanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
 
 ---
 

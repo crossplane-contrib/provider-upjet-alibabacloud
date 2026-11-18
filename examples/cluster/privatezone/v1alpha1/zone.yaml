@@ -1,0 +1,17 @@
+apiVersion: privatezone.alibabacloud.crossplane.io/v1alpha1
+kind: Zone
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/zone
+  labels:
+    testing.upbound.io/example-name: zone
+  name: zone
+spec:
+  forProvider:
+    region: cn-beijing
+    zoneName: crossplane-zone.test
+    # remark accepts only letters, digits, Chinese and _ - , . ，。 (no spaces).
+    # The CRD can't enforce this: an invalid value is accepted, the zone is
+    # created, and the separate UpdateZoneRemark call then fails with
+    # 400 Zone.Remark on every reconcile, leaving the Zone Ready but not Synced.
+    remark: crossplane-example

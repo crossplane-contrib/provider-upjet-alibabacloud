@@ -60,6 +60,8 @@ spec:
               forProvider:
                 properties:
                   deleteAutoSnapshot:
+                    description: Not the public attribute and it used to automatically
+                      delete dependence snapshots while deleting the image.
                     type: boolean
                   description:
                     description: 'The description of the image. It must be 2 to 256
@@ -276,6 +278,8 @@ spec:
                   autoscaler.
                 properties:
                   deleteAutoSnapshot:
+                    description: Not the public attribute and it used to automatically
+                      delete dependence snapshots while deleting the image.
                     type: boolean
                   description:
                     description: 'The description of the image. It must be 2 to 256
@@ -543,6 +547,8 @@ spec:
               atProvider:
                 properties:
                   deleteAutoSnapshot:
+                    description: Not the public attribute and it used to automatically
+                      delete dependence snapshots while deleting the image.
                     type: boolean
                   description:
                     description: 'The description of the image. It must be 2 to 256

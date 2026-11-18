@@ -51,7 +51,7 @@ type PrefixListInitParameters struct {
 	// The description of the prefix list. The description must be 2 to 256 characters in length and cannot start with http:// or https://.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The Entry. The details see Block entry.
+	// The Entry. See entry below.
 	Entry []EntryInitParameters `json:"entry,omitempty" tf:"entry,omitempty"`
 
 	// The maximum number of entries that the prefix list can contain.  Valid values: 1 to 200.
@@ -69,7 +69,7 @@ type PrefixListObservation struct {
 	// The description of the prefix list. The description must be 2 to 256 characters in length and cannot start with http:// or https://.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The Entry. The details see Block entry.
+	// The Entry. See entry below.
 	Entry []EntryObservation `json:"entry,omitempty" tf:"entry,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -91,7 +91,7 @@ type PrefixListParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
-	// The Entry. The details see Block entry.
+	// The Entry. See entry below.
 	// +kubebuilder:validation:Optional
 	Entry []EntryParameters `json:"entry,omitempty" tf:"entry,omitempty"`
 

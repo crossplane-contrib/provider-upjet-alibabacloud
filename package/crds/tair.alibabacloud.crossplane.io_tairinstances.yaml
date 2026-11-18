@@ -74,6 +74,45 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  additionalBandwidth:
+                    description: 'The additional bandwidth to add to each data shard
+                      of the instance. Unit: MB/s. Setting this block adjusts the
+                      shard bandwidth to the specification default plus the configured
+                      value, which also changes the total bandwidth of the instance.
+                      See additional_bandwidth below. Removing a block does not release
+                      the purchased bandwidth of that shard; set its bandwidth to
+                      0 explicitly to release it. NOTE: The additional bandwidth is
+                      purchased for a limited order duration (the API default is 1
+                      day) and must be renewed with the RenewAdditionalBandwidth operation
+                      before it expires; this resource does not manage the renewal
+                      or the order duration. The additional bandwidth is charged on
+                      a pay-as-you-go basis.'
+                    items:
+                      properties:
+                        bandwidth:
+                          description: 'The additional bandwidth to add. Unit: MB/s.
+                            Must be set in every additional_bandwidth block; a block
+                            without it is rejected. Valid values: non-negative integers.
+                            The maximum value is 6 times the default bandwidth of
+                            the instance (or shard) specification, capped at 192 MB/s.
+                            Set to 0 to release the additional bandwidth purchased
+                            for the shard.'
+                          type: number
+                        nodeId:
+                          description: The data shard whose bandwidth is adjusted.
+                            Use the shard node name (r-xxx-db-0, the InsName reported
+                            by the DescribeRoleZoneInfo operation) or its full topology
+                            ID (r-xxx-db-0#123456); a suffix such as db-0 is also
+                            accepted when exactly one data shard of the instance ends
+                            with it. Required on cluster and read/write splitting
+                            instances, and each data shard can be configured at most
+                            once. A standard instance takes bandwidth alone and must
+                            leave this argument unset, because EnableAdditionalBandwidth
+                            only accepts NodeId for the cluster and read/write splitting
+                            architectures.
+                          type: string
+                      type: object
+                    type: array
                   autoRenew:
                     description: 'Specifies whether to enable auto-renewal for the
                       instance. Default value: false. Valid values: true(enables auto-renewal),
@@ -93,6 +132,12 @@ spec:
                       set IDs of all shards of the source instance, separated by commas
                       (,).
                     type: string
+                  bandwidthBurst:
+                    description: Specifies whether to enable Elastic Burst for the
+                      instance. After it is enabled, the instance can temporarily
+                      burst beyond the default bandwidth limit during bandwidth auto
+                      scaling.
+                    type: boolean
                   clusterBackupId:
                     description: This parameter is supported for specific new cluster
                       instances. You can query the backup set ID by calling the DescribeClusterBackupList
@@ -275,6 +320,18 @@ spec:
                     description: Region is the region you'd like your resource to
                       be created in.
                     type: string
+                  replicaCount:
+                    description: 'The number of replica nodes in the primary zone.
+                      This parameter is available only when you create a cloud-native
+                      cluster instance in the multi-replica mode. Valid values: 1
+                      to 4. If you create a multi-zone instance, you can use this
+                      parameter together with the slave_replica_count parameter to
+                      customize the numbers of replica nodes in the primary and secondary
+                      zones. The sum of the values of this parameter and the slave_replica_count
+                      parameter cannot exceed 4. Removing this parameter from the
+                      configuration keeps the current value instead of resetting it;
+                      set a new value explicitly to change the number of replica nodes.'
+                    type: number
                   resourceGroupId:
                     description: The ID of the resource group to which the instance
                       belongs.
@@ -472,6 +529,17 @@ spec:
                   slaveReadOnlyCount:
                     description: Specifies the number of read-only nodes in the secondary
                       zone when creating a multi-zone read/write splitting instance.
+                    type: number
+                  slaveReplicaCount:
+                    description: 'The number of replica nodes in the secondary zone.
+                      If you create a multi-zone instance, the sum of the values of
+                      this parameter and the replica_count parameter cannot exceed
+                      4. The value 0 is not supported in this configuration: CreateTairInstance
+                      rejects it with InvalidParameter, and ModifyInstanceSpec rejects
+                      it with SlaveReplicaCountCanNotBeZero (the API suggests MigrateToOtherZone
+                      instead). Removing this parameter from the configuration keeps
+                      the current value instead of resetting it; set a new value explicitly
+                      to change the number of replica nodes in the secondary zone.'
                     type: number
                   srcDbInstanceId:
                     description: If you want to create an instance based on the backup
@@ -691,6 +759,45 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  additionalBandwidth:
+                    description: 'The additional bandwidth to add to each data shard
+                      of the instance. Unit: MB/s. Setting this block adjusts the
+                      shard bandwidth to the specification default plus the configured
+                      value, which also changes the total bandwidth of the instance.
+                      See additional_bandwidth below. Removing a block does not release
+                      the purchased bandwidth of that shard; set its bandwidth to
+                      0 explicitly to release it. NOTE: The additional bandwidth is
+                      purchased for a limited order duration (the API default is 1
+                      day) and must be renewed with the RenewAdditionalBandwidth operation
+                      before it expires; this resource does not manage the renewal
+                      or the order duration. The additional bandwidth is charged on
+                      a pay-as-you-go basis.'
+                    items:
+                      properties:
+                        bandwidth:
+                          description: 'The additional bandwidth to add. Unit: MB/s.
+                            Must be set in every additional_bandwidth block; a block
+                            without it is rejected. Valid values: non-negative integers.
+                            The maximum value is 6 times the default bandwidth of
+                            the instance (or shard) specification, capped at 192 MB/s.
+                            Set to 0 to release the additional bandwidth purchased
+                            for the shard.'
+                          type: number
+                        nodeId:
+                          description: The data shard whose bandwidth is adjusted.
+                            Use the shard node name (r-xxx-db-0, the InsName reported
+                            by the DescribeRoleZoneInfo operation) or its full topology
+                            ID (r-xxx-db-0#123456); a suffix such as db-0 is also
+                            accepted when exactly one data shard of the instance ends
+                            with it. Required on cluster and read/write splitting
+                            instances, and each data shard can be configured at most
+                            once. A standard instance takes bandwidth alone and must
+                            leave this argument unset, because EnableAdditionalBandwidth
+                            only accepts NodeId for the cluster and read/write splitting
+                            architectures.
+                          type: string
+                      type: object
+                    type: array
                   autoRenew:
                     description: 'Specifies whether to enable auto-renewal for the
                       instance. Default value: false. Valid values: true(enables auto-renewal),
@@ -710,6 +817,12 @@ spec:
                       set IDs of all shards of the source instance, separated by commas
                       (,).
                     type: string
+                  bandwidthBurst:
+                    description: Specifies whether to enable Elastic Burst for the
+                      instance. After it is enabled, the instance can temporarily
+                      burst beyond the default bandwidth limit during bandwidth auto
+                      scaling.
+                    type: boolean
                   clusterBackupId:
                     description: This parameter is supported for specific new cluster
                       instances. You can query the backup set ID by calling the DescribeClusterBackupList
@@ -888,6 +1001,18 @@ spec:
                       and whitelist information must have been saved in the original
                       backup set.
                     type: string
+                  replicaCount:
+                    description: 'The number of replica nodes in the primary zone.
+                      This parameter is available only when you create a cloud-native
+                      cluster instance in the multi-replica mode. Valid values: 1
+                      to 4. If you create a multi-zone instance, you can use this
+                      parameter together with the slave_replica_count parameter to
+                      customize the numbers of replica nodes in the primary and secondary
+                      zones. The sum of the values of this parameter and the slave_replica_count
+                      parameter cannot exceed 4. Removing this parameter from the
+                      configuration keeps the current value instead of resetting it;
+                      set a new value explicitly to change the number of replica nodes.'
+                    type: number
                   resourceGroupId:
                     description: The ID of the resource group to which the instance
                       belongs.
@@ -1085,6 +1210,17 @@ spec:
                   slaveReadOnlyCount:
                     description: Specifies the number of read-only nodes in the secondary
                       zone when creating a multi-zone read/write splitting instance.
+                    type: number
+                  slaveReplicaCount:
+                    description: 'The number of replica nodes in the secondary zone.
+                      If you create a multi-zone instance, the sum of the values of
+                      this parameter and the replica_count parameter cannot exceed
+                      4. The value 0 is not supported in this configuration: CreateTairInstance
+                      rejects it with InvalidParameter, and ModifyInstanceSpec rejects
+                      it with SlaveReplicaCountCanNotBeZero (the API suggests MigrateToOtherZone
+                      instead). Removing this parameter from the configuration keeps
+                      the current value instead of resetting it; set a new value explicitly
+                      to change the number of replica nodes in the secondary zone.'
                     type: number
                   srcDbInstanceId:
                     description: If you want to create an instance based on the backup
@@ -1395,6 +1531,45 @@ spec:
             properties:
               atProvider:
                 properties:
+                  additionalBandwidth:
+                    description: 'The additional bandwidth to add to each data shard
+                      of the instance. Unit: MB/s. Setting this block adjusts the
+                      shard bandwidth to the specification default plus the configured
+                      value, which also changes the total bandwidth of the instance.
+                      See additional_bandwidth below. Removing a block does not release
+                      the purchased bandwidth of that shard; set its bandwidth to
+                      0 explicitly to release it. NOTE: The additional bandwidth is
+                      purchased for a limited order duration (the API default is 1
+                      day) and must be renewed with the RenewAdditionalBandwidth operation
+                      before it expires; this resource does not manage the renewal
+                      or the order duration. The additional bandwidth is charged on
+                      a pay-as-you-go basis.'
+                    items:
+                      properties:
+                        bandwidth:
+                          description: 'The additional bandwidth to add. Unit: MB/s.
+                            Must be set in every additional_bandwidth block; a block
+                            without it is rejected. Valid values: non-negative integers.
+                            The maximum value is 6 times the default bandwidth of
+                            the instance (or shard) specification, capped at 192 MB/s.
+                            Set to 0 to release the additional bandwidth purchased
+                            for the shard.'
+                          type: number
+                        nodeId:
+                          description: The data shard whose bandwidth is adjusted.
+                            Use the shard node name (r-xxx-db-0, the InsName reported
+                            by the DescribeRoleZoneInfo operation) or its full topology
+                            ID (r-xxx-db-0#123456); a suffix such as db-0 is also
+                            accepted when exactly one data shard of the instance ends
+                            with it. Required on cluster and read/write splitting
+                            instances, and each data shard can be configured at most
+                            once. A standard instance takes bandwidth alone and must
+                            leave this argument unset, because EnableAdditionalBandwidth
+                            only accepts NodeId for the cluster and read/write splitting
+                            architectures.
+                          type: string
+                      type: object
+                    type: array
                   architectureType:
                     description: The architecture of the instance.  cluster, standard,
                       rwsplit.
@@ -1418,6 +1593,12 @@ spec:
                       set IDs of all shards of the source instance, separated by commas
                       (,).
                     type: string
+                  bandwidthBurst:
+                    description: Specifies whether to enable Elastic Burst for the
+                      instance. After it is enabled, the instance can temporarily
+                      burst beyond the default bandwidth limit during bandwidth auto
+                      scaling.
+                    type: boolean
                   caCertCommonName:
                     description: 'The common name of the CA certificate. NOTE: This
                       is a best-effort attribute and may be empty when the upstream
@@ -1606,6 +1787,18 @@ spec:
                   regionId:
                     description: Region Id
                     type: string
+                  replicaCount:
+                    description: 'The number of replica nodes in the primary zone.
+                      This parameter is available only when you create a cloud-native
+                      cluster instance in the multi-replica mode. Valid values: 1
+                      to 4. If you create a multi-zone instance, you can use this
+                      parameter together with the slave_replica_count parameter to
+                      customize the numbers of replica nodes in the primary and secondary
+                      zones. The sum of the values of this parameter and the slave_replica_count
+                      parameter cannot exceed 4. Removing this parameter from the
+                      configuration keeps the current value instead of resetting it;
+                      set a new value explicitly to change the number of replica nodes.'
+                    type: number
                   resourceGroupId:
                     description: The ID of the resource group to which the instance
                       belongs.
@@ -1655,6 +1848,17 @@ spec:
                   slaveReadOnlyCount:
                     description: Specifies the number of read-only nodes in the secondary
                       zone when creating a multi-zone read/write splitting instance.
+                    type: number
+                  slaveReplicaCount:
+                    description: 'The number of replica nodes in the secondary zone.
+                      If you create a multi-zone instance, the sum of the values of
+                      this parameter and the replica_count parameter cannot exceed
+                      4. The value 0 is not supported in this configuration: CreateTairInstance
+                      rejects it with InvalidParameter, and ModifyInstanceSpec rejects
+                      it with SlaveReplicaCountCanNotBeZero (the API suggests MigrateToOtherZone
+                      instead). Removing this parameter from the configuration keeps
+                      the current value instead of resetting it; set a new value explicitly
+                      to change the number of replica nodes in the secondary zone.'
                     type: number
                   srcDbInstanceId:
                     description: If you want to create an instance based on the backup

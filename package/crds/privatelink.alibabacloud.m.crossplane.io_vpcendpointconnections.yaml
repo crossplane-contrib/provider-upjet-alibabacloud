@@ -241,6 +241,14 @@ spec:
                             type: string
                         type: object
                     type: object
+                  trafficControlMode:
+                    description: 'The traffic control mode of the endpoint connection.
+                      Valid values: Scalability and BandwidthLimit. When the value
+                      is BandwidthLimit, the bandwidth parameter takes effect and
+                      specifies the bandwidth upper limit. When the value is Scalability,
+                      the bandwidth is auto-elastic and the bandwidth parameter is
+                      ignored.'
+                    type: string
                 type: object
               initProvider:
                 description: |-
@@ -433,6 +441,14 @@ spec:
                             type: string
                         type: object
                     type: object
+                  trafficControlMode:
+                    description: 'The traffic control mode of the endpoint connection.
+                      Valid values: Scalability and BandwidthLimit. When the value
+                      is BandwidthLimit, the bandwidth parameter takes effect and
+                      specifies the bandwidth upper limit. When the value is Scalability,
+                      the bandwidth is auto-elastic and the bandwidth parameter is
+                      ignored.'
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -509,6 +525,9 @@ spec:
                   endpointId:
                     description: The endpoint ID.
                     type: string
+                  endpointOwnerId:
+                    description: The owner ID of the endpoint.
+                    type: number
                   id:
                     description: The ID of the resource supplied above.The value is
                       formulated as <service_id>:<endpoint_id>.
@@ -518,6 +537,14 @@ spec:
                     type: string
                   status:
                     description: The state of the endpoint connection.
+                    type: string
+                  trafficControlMode:
+                    description: 'The traffic control mode of the endpoint connection.
+                      Valid values: Scalability and BandwidthLimit. When the value
+                      is BandwidthLimit, the bandwidth parameter takes effect and
+                      specifies the bandwidth upper limit. When the value is Scalability,
+                      the bandwidth is auto-elastic and the bandwidth parameter is
+                      ignored.'
                     type: string
                 type: object
               conditions:

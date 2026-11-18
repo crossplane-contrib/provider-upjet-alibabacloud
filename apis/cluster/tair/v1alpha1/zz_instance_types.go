@@ -13,7 +13,39 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type AdditionalBandwidthInitParameters struct {
+
+	// The additional bandwidth to add. Unit: MB/s. Must be set in every additional_bandwidth block; a block without it is rejected. Valid values: non-negative integers. The maximum value is 6 times the default bandwidth of the instance (or shard) specification, capped at 192 MB/s. Set to 0 to release the additional bandwidth purchased for the shard.
+	Bandwidth *float64 `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// The data shard whose bandwidth is adjusted. Use the shard node name (r-xxx-db-0, the InsName reported by the DescribeRoleZoneInfo operation) or its full topology ID (r-xxx-db-0#123456); a suffix such as db-0 is also accepted when exactly one data shard of the instance ends with it. Required on cluster and read/write splitting instances, and each data shard can be configured at most once. A standard instance takes bandwidth alone and must leave this argument unset, because EnableAdditionalBandwidth only accepts NodeId for the cluster and read/write splitting architectures.
+	NodeID *string `json:"nodeId,omitempty" tf:"node_id,omitempty"`
+}
+
+type AdditionalBandwidthObservation struct {
+
+	// The additional bandwidth to add. Unit: MB/s. Must be set in every additional_bandwidth block; a block without it is rejected. Valid values: non-negative integers. The maximum value is 6 times the default bandwidth of the instance (or shard) specification, capped at 192 MB/s. Set to 0 to release the additional bandwidth purchased for the shard.
+	Bandwidth *float64 `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// The data shard whose bandwidth is adjusted. Use the shard node name (r-xxx-db-0, the InsName reported by the DescribeRoleZoneInfo operation) or its full topology ID (r-xxx-db-0#123456); a suffix such as db-0 is also accepted when exactly one data shard of the instance ends with it. Required on cluster and read/write splitting instances, and each data shard can be configured at most once. A standard instance takes bandwidth alone and must leave this argument unset, because EnableAdditionalBandwidth only accepts NodeId for the cluster and read/write splitting architectures.
+	NodeID *string `json:"nodeId,omitempty" tf:"node_id,omitempty"`
+}
+
+type AdditionalBandwidthParameters struct {
+
+	// The additional bandwidth to add. Unit: MB/s. Must be set in every additional_bandwidth block; a block without it is rejected. Valid values: non-negative integers. The maximum value is 6 times the default bandwidth of the instance (or shard) specification, capped at 192 MB/s. Set to 0 to release the additional bandwidth purchased for the shard.
+	// +kubebuilder:validation:Optional
+	Bandwidth *float64 `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// The data shard whose bandwidth is adjusted. Use the shard node name (r-xxx-db-0, the InsName reported by the DescribeRoleZoneInfo operation) or its full topology ID (r-xxx-db-0#123456); a suffix such as db-0 is also accepted when exactly one data shard of the instance ends with it. Required on cluster and read/write splitting instances, and each data shard can be configured at most once. A standard instance takes bandwidth alone and must leave this argument unset, because EnableAdditionalBandwidth only accepts NodeId for the cluster and read/write splitting architectures.
+	// +kubebuilder:validation:Optional
+	NodeID *string `json:"nodeId,omitempty" tf:"node_id,omitempty"`
+}
+
 type InstanceInitParameters struct {
+
+	// The additional bandwidth to add to each data shard of the instance. Unit: MB/s. Setting this block adjusts the shard bandwidth to the specification default plus the configured value, which also changes the total bandwidth of the instance. See additional_bandwidth below. Removing a block does not release the purchased bandwidth of that shard; set its bandwidth to 0 explicitly to release it. NOTE: The additional bandwidth is purchased for a limited order duration (the API default is 1 day) and must be renewed with the RenewAdditionalBandwidth operation before it expires; this resource does not manage the renewal or the order duration. The additional bandwidth is charged on a pay-as-you-go basis.
+	AdditionalBandwidth []AdditionalBandwidthInitParameters `json:"additionalBandwidth,omitempty" tf:"additional_bandwidth,omitempty"`
 
 	// Whether to renewal a KVStore DBInstance automatically or not. It is valid when payment_type is PrePaid. Default value: false.
 	AutoRenew *bool `json:"autoRenew,omitempty" tf:"auto_renew,omitempty"`
@@ -36,6 +68,9 @@ type InstanceInitParameters struct {
 
 	// The total bandwidth of the instance. NOTE: From version 1.232.0, bandwidth can be set. If the instance is a cluster instance, bandwidth must be divisible by the number of shard_count in the instance, and if the instance is a read/write splitting instance, bandwidth cannot be set.
 	Bandwidth *float64 `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// Specifies whether to enable Elastic Burst for the instance. After it is enabled, the instance can temporarily burst beyond the default bandwidth limit during bandwidth auto scaling. The additional bandwidth is charged on a pay-as-you-go basis.
+	BandwidthBurst *bool `json:"bandwidthBurst,omitempty" tf:"bandwidth_burst,omitempty"`
 
 	// The ID of the event or the business information.
 	BusinessInfo *string `json:"businessInfo,omitempty" tf:"business_info,omitempty"`
@@ -236,6 +271,9 @@ type InstanceInitParameters struct {
 
 type InstanceObservation struct {
 
+	// The additional bandwidth to add to each data shard of the instance. Unit: MB/s. Setting this block adjusts the shard bandwidth to the specification default plus the configured value, which also changes the total bandwidth of the instance. See additional_bandwidth below. Removing a block does not release the purchased bandwidth of that shard; set its bandwidth to 0 explicitly to release it. NOTE: The additional bandwidth is purchased for a limited order duration (the API default is 1 day) and must be renewed with the RenewAdditionalBandwidth operation before it expires; this resource does not manage the renewal or the order duration. The additional bandwidth is charged on a pay-as-you-go basis.
+	AdditionalBandwidth []AdditionalBandwidthObservation `json:"additionalBandwidth,omitempty" tf:"additional_bandwidth,omitempty"`
+
 	// Whether to renewal a KVStore DBInstance automatically or not. It is valid when payment_type is PrePaid. Default value: false.
 	AutoRenew *bool `json:"autoRenew,omitempty" tf:"auto_renew,omitempty"`
 
@@ -257,6 +295,9 @@ type InstanceObservation struct {
 
 	// The total bandwidth of the instance. NOTE: From version 1.232.0, bandwidth can be set. If the instance is a cluster instance, bandwidth must be divisible by the number of shard_count in the instance, and if the instance is a read/write splitting instance, bandwidth cannot be set.
 	Bandwidth *float64 `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// Specifies whether to enable Elastic Burst for the instance. After it is enabled, the instance can temporarily burst beyond the default bandwidth limit during bandwidth auto scaling. The additional bandwidth is charged on a pay-as-you-go basis.
+	BandwidthBurst *bool `json:"bandwidthBurst,omitempty" tf:"bandwidth_burst,omitempty"`
 
 	// The ID of the event or the business information.
 	BusinessInfo *string `json:"businessInfo,omitempty" tf:"business_info,omitempty"`
@@ -451,6 +492,10 @@ type InstanceObservation struct {
 
 type InstanceParameters struct {
 
+	// The additional bandwidth to add to each data shard of the instance. Unit: MB/s. Setting this block adjusts the shard bandwidth to the specification default plus the configured value, which also changes the total bandwidth of the instance. See additional_bandwidth below. Removing a block does not release the purchased bandwidth of that shard; set its bandwidth to 0 explicitly to release it. NOTE: The additional bandwidth is purchased for a limited order duration (the API default is 1 day) and must be renewed with the RenewAdditionalBandwidth operation before it expires; this resource does not manage the renewal or the order duration. The additional bandwidth is charged on a pay-as-you-go basis.
+	// +kubebuilder:validation:Optional
+	AdditionalBandwidth []AdditionalBandwidthParameters `json:"additionalBandwidth,omitempty" tf:"additional_bandwidth,omitempty"`
+
 	// Whether to renewal a KVStore DBInstance automatically or not. It is valid when payment_type is PrePaid. Default value: false.
 	// +kubebuilder:validation:Optional
 	AutoRenew *bool `json:"autoRenew,omitempty" tf:"auto_renew,omitempty"`
@@ -479,6 +524,10 @@ type InstanceParameters struct {
 	// The total bandwidth of the instance. NOTE: From version 1.232.0, bandwidth can be set. If the instance is a cluster instance, bandwidth must be divisible by the number of shard_count in the instance, and if the instance is a read/write splitting instance, bandwidth cannot be set.
 	// +kubebuilder:validation:Optional
 	Bandwidth *float64 `json:"bandwidth,omitempty" tf:"bandwidth,omitempty"`
+
+	// Specifies whether to enable Elastic Burst for the instance. After it is enabled, the instance can temporarily burst beyond the default bandwidth limit during bandwidth auto scaling. The additional bandwidth is charged on a pay-as-you-go basis.
+	// +kubebuilder:validation:Optional
+	BandwidthBurst *bool `json:"bandwidthBurst,omitempty" tf:"bandwidth_burst,omitempty"`
 
 	// The ID of the event or the business information.
 	// +kubebuilder:validation:Optional

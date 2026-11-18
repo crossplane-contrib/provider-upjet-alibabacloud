@@ -19,7 +19,7 @@ type TopicInitParameters struct {
 	// The cleanup policy for the topic. This parameter is available only if you set the storage engine of the topic to Local storage. Valid values:
 	CompactTopic *bool `json:"compactTopic,omitempty" tf:"compact_topic,omitempty"`
 
-	// The advanced configurations.
+	// The advanced configurations of the topic, as a JSON encoded object. The service carries every value as a string; a value declared as a number or a boolean is compared through its literal text, so it matches the string the service reports for it. The keys the service accepts and their value ranges depend on the instance:
 	Configs *string `json:"configs,omitempty" tf:"configs,omitempty"`
 
 	// The ID of the instance.
@@ -57,7 +57,7 @@ type TopicObservation struct {
 	// The cleanup policy for the topic. This parameter is available only if you set the storage engine of the topic to Local storage. Valid values:
 	CompactTopic *bool `json:"compactTopic,omitempty" tf:"compact_topic,omitempty"`
 
-	// The advanced configurations.
+	// The advanced configurations of the topic, as a JSON encoded object. The service carries every value as a string; a value declared as a number or a boolean is compared through its literal text, so it matches the string the service reports for it. The keys the service accepts and their value ranges depend on the instance:
 	Configs *string `json:"configs,omitempty" tf:"configs,omitempty"`
 
 	// (Available since v1.262.1) The time when the topic was created.
@@ -98,7 +98,7 @@ type TopicParameters struct {
 	// +kubebuilder:validation:Optional
 	CompactTopic *bool `json:"compactTopic,omitempty" tf:"compact_topic,omitempty"`
 
-	// The advanced configurations.
+	// The advanced configurations of the topic, as a JSON encoded object. The service carries every value as a string; a value declared as a number or a boolean is compared through its literal text, so it matches the string the service reports for it. The keys the service accepts and their value ranges depend on the instance:
 	// +kubebuilder:validation:Optional
 	Configs *string `json:"configs,omitempty" tf:"configs,omitempty"`
 
