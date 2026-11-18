@@ -279,6 +279,7 @@ OOS=./examples/oos/v1alpha1
 OSS=./examples/oss/v1alpha1
 POLARDB=./examples/polardb/v1alpha1
 PRIVATELINK=./examples/privatelink/v1alpha1
+PRIVATEZONE=./examples/privatezone/v1alpha1
 QUOTAS=./examples/quotas/v1alpha1
 RAM=./examples/ram/v1alpha1
 SLB=./examples/slb/v1alpha1
@@ -312,6 +313,7 @@ UPTEST_EXAMPLE_LIST_OOS=$(OOS)/application.yaml,$(OOS)/applicationgroup.yaml,$(O
 UPTEST_EXAMPLE_LIST_OSS=$(OSS)/accesspoint.yaml,$(OSS)/accountpublicaccessblock.yaml,$(OSS)/bucket.yaml,$(OSS)/bucketaccessmonitor.yaml,$(OSS)/bucketacl.yaml,$(OSS)/bucketcname.yaml,$(OSS)/bucketcnametoken.yaml,$(OSS)/bucketcors.yaml,$(OSS)/bucketdataredundancytransition.yaml,$(OSS)/buckethttpsconfig.yaml,$(OSS)/bucketlogging.yaml,$(OSS)/bucketmetaquery.yaml,$(OSS)/bucketobject.yaml,$(OSS)/bucketpolicy.yaml,$(OSS)/bucketpublicaccessblock.yaml,$(OSS)/bucketreferer.yaml,$(OSS)/bucketreplication.yaml,$(OSS)/bucketrequestpayment.yaml,$(OSS)/bucketserversideencryption.yaml,$(OSS)/bucketstyle.yaml,$(OSS)/buckettransferacceleration.yaml,$(OSS)/bucketuserdefinedlogfields.yaml,$(OSS)/bucketversioning.yaml,$(OSS)/bucketwebsite.yaml,$(OSS)/bucketworm.yaml
 UPTEST_EXAMPLE_LIST_POLARDB=$(POLARDB)/account.yaml,$(POLARDB)/accountprivilege.yaml,$(POLARDB)/backuppolicy.yaml,$(POLARDB)/cluster.yaml,$(POLARDB)/clusterendpoint.yaml,$(POLARDB)/database.yaml,$(POLARDB)/endpoint.yaml,$(POLARDB)/endpointaddress.yaml,$(POLARDB)/globaldatabasenetwork.yaml,$(POLARDB)/parametergroup.yaml,$(POLARDB)/primaryendpoint.yaml
 UPTEST_EXAMPLE_LIST_PRIVATELINK=$(PRIVATELINK)/vpcendpoint.yaml,$(PRIVATELINK)/vpcendpointconnection.yaml,$(PRIVATELINK)/vpcendpointservice.yaml,$(PRIVATELINK)/vpcendpointserviceresource.yaml,$(PRIVATELINK)/vpcendpointserviceuser.yaml,$(PRIVATELINK)/vpcendpointzone.yaml
+UPTEST_EXAMPLE_LIST_PRIVATEZONE=$(PRIVATEZONE)/zone.yaml,$(PRIVATEZONE)/zonerecord.yaml,$(PRIVATEZONE)/zoneattachment.yaml
 UPTEST_EXAMPLE_LIST_QUOTAS=$(QUOTAS)/quotaalarm.yaml,$(QUOTAS)/quotaapplication.yaml,$(QUOTAS)/templateapplications.yaml,$(QUOTAS)/templatequota.yaml,$(QUOTAS)/templateservice.yaml
 # accountalias, passwordpolicy and securitypreference are omitted: their examples
 # are annotated for manual intervention.
@@ -337,13 +339,17 @@ build-provider.%:
 
 # Family provider local deployment targets
 local-deploy.%: controlplane.up
+# Restart the rbac-manager and wait for it, so its ClusterRole generation and
+# binding run against the provider install instead of racing it from stale state.
+	@$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) rollout restart deployment/crossplane-rbac-manager
+	@$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) rollout status deployment/crossplane-rbac-manager --timeout=5m
 	@for api in $$(tr ',' ' ' <<< $*); do \
-		$(MAKE) local.xpkg.deploy.provider.$(PROJECT_NAME)-$${api}; \
-		$(INFO) running locally built $(PROJECT_NAME)-$${api}; \
-		$(KUBECTL) wait provider.pkg $(PROJECT_NAME)-$${api} --for condition=Healthy --timeout 5m; \
-		$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) wait --for=condition=Available deployment --all --timeout=5m; \
-		$(OK) running locally built $(PROJECT_NAME)-$${api}; \
-	done || $(FAIL)
+		$(MAKE) local.xpkg.deploy.provider.$(PROJECT_NAME)-$${api} DRC_FILE="./examples/deploymentruntimeconfig.yaml" && \
+		$(INFO) running locally built $(PROJECT_NAME)-$${api} && \
+		$(KUBECTL) wait provider.pkg $(PROJECT_NAME)-$${api} --for condition=Healthy --timeout 5m && \
+		$(KUBECTL) -n $(CROSSPLANE_NAMESPACE) wait --for=condition=Available deployment --all --timeout=5m && \
+		$(OK) running locally built $(PROJECT_NAME)-$${api} || { $(FAIL); exit 1; }; \
+	done
 
 # This target requires the following environment variables to be set:
 # - UPTEST_CLOUD_CREDENTIALS, cloud credentials for the provider being tested

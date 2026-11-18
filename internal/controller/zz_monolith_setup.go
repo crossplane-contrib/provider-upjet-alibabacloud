@@ -175,6 +175,13 @@ import (
 	vpcendpointserviceresource "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatelink/vpcendpointserviceresource"
 	vpcendpointserviceuser "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatelink/vpcendpointserviceuser"
 	vpcendpointzone "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatelink/vpcendpointzone"
+	endpointprivatezone "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatezone/endpoint"
+	ruleprivatezone "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatezone/rule"
+	ruleattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatezone/ruleattachment"
+	uservpcauthorization "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatezone/uservpcauthorization"
+	zone "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatezone/zone"
+	zoneattachment "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatezone/zoneattachment"
+	zonerecord "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatezone/zonerecord"
 	providerconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/providerconfig"
 	quotaalarm "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/quotas/quotaalarm"
 	quotaapplication "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/quotas/quotaapplication"
@@ -405,6 +412,13 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		vpcendpointserviceresource.Setup,
 		vpcendpointserviceuser.Setup,
 		vpcendpointzone.Setup,
+		endpointprivatezone.Setup,
+		ruleprivatezone.Setup,
+		ruleattachment.Setup,
+		uservpcauthorization.Setup,
+		zone.Setup,
+		zoneattachment.Setup,
+		zonerecord.Setup,
 		providerconfig.Setup,
 		quotaalarm.Setup,
 		quotaapplication.Setup,

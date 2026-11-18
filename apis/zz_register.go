@@ -27,6 +27,7 @@ import (
 	v1alpha1oss "github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1"
 	v1alpha1polardb "github.com/crossplane-contrib/provider-alibabacloud/apis/polardb/v1alpha1"
 	v1alpha1privatelink "github.com/crossplane-contrib/provider-alibabacloud/apis/privatelink/v1alpha1"
+	v1alpha1privatezone "github.com/crossplane-contrib/provider-alibabacloud/apis/privatezone/v1alpha1"
 	v1alpha1quotas "github.com/crossplane-contrib/provider-alibabacloud/apis/quotas/v1alpha1"
 	v1alpha1ram "github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1"
 	v1alpha1rds "github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1"
@@ -59,6 +60,7 @@ func init() {
 		v1alpha1oss.SchemeBuilder.AddToScheme,
 		v1alpha1polardb.SchemeBuilder.AddToScheme,
 		v1alpha1privatelink.SchemeBuilder.AddToScheme,
+		v1alpha1privatezone.SchemeBuilder.AddToScheme,
 		v1alpha1quotas.SchemeBuilder.AddToScheme,
 		v1alpha1ram.SchemeBuilder.AddToScheme,
 		v1alpha1rds.SchemeBuilder.AddToScheme,
