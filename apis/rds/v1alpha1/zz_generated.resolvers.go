@@ -883,6 +883,23 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AccountName),
+		Extract:      resource.ExtractParamPath("account_name", false),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.AccountNameRef,
+		Selector:     mg.Spec.ForProvider.AccountNameSelector,
+		To: reference.To{
+			List:    &AccountList{},
+			Managed: &Account{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.AccountName")
+	}
+	mg.Spec.ForProvider.AccountName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.AccountNameRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.InstanceID),
 		Extract:      common.IdExtractor(),
 		Namespace:    mg.GetNamespace(),
@@ -898,6 +915,23 @@ func (mg *Database) ResolveReferences(ctx context.Context, c client.Reader) erro
 	}
 	mg.Spec.ForProvider.InstanceID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.InstanceIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AccountName),
+		Extract:      resource.ExtractParamPath("account_name", false),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.AccountNameRef,
+		Selector:     mg.Spec.InitProvider.AccountNameSelector,
+		To: reference.To{
+			List:    &AccountList{},
+			Managed: &Account{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.AccountName")
+	}
+	mg.Spec.InitProvider.AccountName = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.AccountNameRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.InstanceID),

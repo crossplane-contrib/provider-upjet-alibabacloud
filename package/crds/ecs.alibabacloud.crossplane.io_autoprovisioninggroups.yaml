@@ -102,7 +102,7 @@ spec:
                     type: string
                   launchTemplateConfig:
                     description: DataDisk mappings to attach to ecs instance. See
-                      block-config below for details.
+                      launch_template_config below for details.
                     items:
                       properties:
                         instanceType:
@@ -395,7 +395,7 @@ spec:
                     type: string
                   launchTemplateConfig:
                     description: DataDisk mappings to attach to ecs instance. See
-                      block-config below for details.
+                      launch_template_config below for details.
                     items:
                       properties:
                         instanceType:
@@ -775,7 +775,7 @@ spec:
                     type: string
                   launchTemplateConfig:
                     description: DataDisk mappings to attach to ecs instance. See
-                      block-config below for details.
+                      launch_template_config below for details.
                     items:
                       properties:
                         instanceType:

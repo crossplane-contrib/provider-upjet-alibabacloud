@@ -13,10 +13,221 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type AdvancedDataPoliciesInitParameters struct {
+
+	// Destination region. Defaults to the provider region for same-region rules; required explicitly for cross-region rules.
+	DestRegion *string `json:"destRegion,omitempty" tf:"dest_region,omitempty"`
+
+	// level1, level2, or level2Cross.
+	DestType *string `json:"destType,omitempty" tf:"dest_type,omitempty"`
+
+	// copy.
+	DumpAction *string `json:"dumpAction,omitempty" tf:"dump_action,omitempty"`
+
+	// dayOfWeek, dayOfMonth, dayOfYear, or backupInterval; required for crontab.
+	FilterKey *string `json:"filterKey,omitempty" tf:"filter_key,omitempty"`
+
+	// crontab or event.
+	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
+
+	// Filter expression corresponding to filter_key.
+	FilterValue *string `json:"filterValue,omitempty" tf:"filter_value,omitempty"`
+
+	// Whether to retain only one backup per day. If omitted, the service default is used.
+	OnlyPreserveOneEachDay *bool `json:"onlyPreserveOneEachDay,omitempty" tf:"only_preserve_one_each_day,omitempty"`
+
+	// Service-assigned rule ID. Specify it to take over and update an existing custom rule after importing the cluster policy.
+	PolicyID *string `json:"policyId,omitempty" tf:"policy_id,omitempty"`
+
+	// never or delay.
+	RetentionType *string `json:"retentionType,omitempty" tf:"retention_type,omitempty"`
+
+	// Retention duration in days; required when retention_type is delay.
+	RetentionValue *string `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+
+	// Source region. Defaults to the provider region for same-region rules; required explicitly for cross-region rules.
+	SrcRegion *string `json:"srcRegion,omitempty" tf:"src_region,omitempty"`
+
+	// db, level1, level2, or level2Cross.
+	SrcType *string `json:"srcType,omitempty" tf:"src_type,omitempty"`
+
+	// Destination storage class.
+	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
+}
+
+type AdvancedDataPoliciesObservation struct {
+
+	// (Computed) Whether the service generated the rule.
+	AutoCreated *bool `json:"autoCreated,omitempty" tf:"auto_created,omitempty"`
+
+	// (Computed) Backup type supplied by the service.
+	BakType *string `json:"bakType,omitempty" tf:"bak_type,omitempty"`
+
+	// Destination region. Defaults to the provider region for same-region rules; required explicitly for cross-region rules.
+	DestRegion *string `json:"destRegion,omitempty" tf:"dest_region,omitempty"`
+
+	// level1, level2, or level2Cross.
+	DestType *string `json:"destType,omitempty" tf:"dest_type,omitempty"`
+
+	// copy.
+	DumpAction *string `json:"dumpAction,omitempty" tf:"dump_action,omitempty"`
+
+	// dayOfWeek, dayOfMonth, dayOfYear, or backupInterval; required for crontab.
+	FilterKey *string `json:"filterKey,omitempty" tf:"filter_key,omitempty"`
+
+	// crontab or event.
+	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
+
+	// Filter expression corresponding to filter_key.
+	FilterValue *string `json:"filterValue,omitempty" tf:"filter_value,omitempty"`
+
+	// Whether to retain only one backup per day. If omitted, the service default is used.
+	OnlyPreserveOneEachDay *bool `json:"onlyPreserveOneEachDay,omitempty" tf:"only_preserve_one_each_day,omitempty"`
+
+	// (Computed) Hourly preservation setting supplied by the service.
+	OnlyPreserveOneEachHour *bool `json:"onlyPreserveOneEachHour,omitempty" tf:"only_preserve_one_each_hour,omitempty"`
+
+	// Service-assigned rule ID. Specify it to take over and update an existing custom rule after importing the cluster policy.
+	PolicyID *string `json:"policyId,omitempty" tf:"policy_id,omitempty"`
+
+	// never or delay.
+	RetentionType *string `json:"retentionType,omitempty" tf:"retention_type,omitempty"`
+
+	// Retention duration in days; required when retention_type is delay.
+	RetentionValue *string `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+
+	// Source region. Defaults to the provider region for same-region rules; required explicitly for cross-region rules.
+	SrcRegion *string `json:"srcRegion,omitempty" tf:"src_region,omitempty"`
+
+	// db, level1, level2, or level2Cross.
+	SrcType *string `json:"srcType,omitempty" tf:"src_type,omitempty"`
+
+	// Destination storage class.
+	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
+}
+
+type AdvancedDataPoliciesParameters struct {
+
+	// Destination region. Defaults to the provider region for same-region rules; required explicitly for cross-region rules.
+	// +kubebuilder:validation:Optional
+	DestRegion *string `json:"destRegion,omitempty" tf:"dest_region,omitempty"`
+
+	// level1, level2, or level2Cross.
+	// +kubebuilder:validation:Optional
+	DestType *string `json:"destType" tf:"dest_type,omitempty"`
+
+	// copy.
+	// +kubebuilder:validation:Optional
+	DumpAction *string `json:"dumpAction,omitempty" tf:"dump_action,omitempty"`
+
+	// dayOfWeek, dayOfMonth, dayOfYear, or backupInterval; required for crontab.
+	// +kubebuilder:validation:Optional
+	FilterKey *string `json:"filterKey,omitempty" tf:"filter_key,omitempty"`
+
+	// crontab or event.
+	// +kubebuilder:validation:Optional
+	FilterType *string `json:"filterType" tf:"filter_type,omitempty"`
+
+	// Filter expression corresponding to filter_key.
+	// +kubebuilder:validation:Optional
+	FilterValue *string `json:"filterValue,omitempty" tf:"filter_value,omitempty"`
+
+	// Whether to retain only one backup per day. If omitted, the service default is used.
+	// +kubebuilder:validation:Optional
+	OnlyPreserveOneEachDay *bool `json:"onlyPreserveOneEachDay,omitempty" tf:"only_preserve_one_each_day,omitempty"`
+
+	// Service-assigned rule ID. Specify it to take over and update an existing custom rule after importing the cluster policy.
+	// +kubebuilder:validation:Optional
+	PolicyID *string `json:"policyId,omitempty" tf:"policy_id,omitempty"`
+
+	// never or delay.
+	// +kubebuilder:validation:Optional
+	RetentionType *string `json:"retentionType" tf:"retention_type,omitempty"`
+
+	// Retention duration in days; required when retention_type is delay.
+	// +kubebuilder:validation:Optional
+	RetentionValue *string `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+
+	// Source region. Defaults to the provider region for same-region rules; required explicitly for cross-region rules.
+	// +kubebuilder:validation:Optional
+	SrcRegion *string `json:"srcRegion,omitempty" tf:"src_region,omitempty"`
+
+	// db, level1, level2, or level2Cross.
+	// +kubebuilder:validation:Optional
+	SrcType *string `json:"srcType" tf:"src_type,omitempty"`
+
+	// Destination storage class.
+	// +kubebuilder:validation:Optional
+	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
+}
+
+type AutoCreatedAdvancedDataPoliciesInitParameters struct {
+}
+
+type AutoCreatedAdvancedDataPoliciesObservation struct {
+
+	// Whether the service generated the rule.
+	AutoCreated *bool `json:"autoCreated,omitempty" tf:"auto_created,omitempty"`
+
+	// Backup type.
+	BakType *string `json:"bakType,omitempty" tf:"bak_type,omitempty"`
+
+	// Destination region.
+	DestRegion *string `json:"destRegion,omitempty" tf:"dest_region,omitempty"`
+
+	// Destination type.
+	DestType *string `json:"destType,omitempty" tf:"dest_type,omitempty"`
+
+	// Method for converting level-1 backups to level-2 backups.
+	DumpAction *string `json:"dumpAction,omitempty" tf:"dump_action,omitempty"`
+
+	// Scheduling key.
+	FilterKey *string `json:"filterKey,omitempty" tf:"filter_key,omitempty"`
+
+	// Scheduling type.
+	FilterType *string `json:"filterType,omitempty" tf:"filter_type,omitempty"`
+
+	// Scheduling expression.
+	FilterValue *string `json:"filterValue,omitempty" tf:"filter_value,omitempty"`
+
+	// Whether only one backup is retained per day.
+	OnlyPreserveOneEachDay *bool `json:"onlyPreserveOneEachDay,omitempty" tf:"only_preserve_one_each_day,omitempty"`
+
+	// Hourly preservation setting.
+	OnlyPreserveOneEachHour *bool `json:"onlyPreserveOneEachHour,omitempty" tf:"only_preserve_one_each_hour,omitempty"`
+
+	// Service-assigned rule ID.
+	PolicyID *string `json:"policyId,omitempty" tf:"policy_id,omitempty"`
+
+	// Retention period type.
+	RetentionType *string `json:"retentionType,omitempty" tf:"retention_type,omitempty"`
+
+	// Retention duration in days.
+	RetentionValue *string `json:"retentionValue,omitempty" tf:"retention_value,omitempty"`
+
+	// Source region.
+	SrcRegion *string `json:"srcRegion,omitempty" tf:"src_region,omitempty"`
+
+	// Source type.
+	SrcType *string `json:"srcType,omitempty" tf:"src_type,omitempty"`
+
+	// Destination storage class.
+	StorageClass *string `json:"storageClass,omitempty" tf:"storage_class,omitempty"`
+}
+
+type AutoCreatedAdvancedDataPoliciesParameters struct {
+}
+
 type BackupPolicyInitParameters struct {
+
+	// Custom advanced data backup policy blocks. Available only when backup_policy_level is Advanced. The provider creates, updates, or deletes these rules to match the configuration; service-generated rules are not managed. See advanced_data_policies below.
+	AdvancedDataPolicies []AdvancedDataPoliciesInitParameters `json:"advancedDataPolicies,omitempty" tf:"advanced_data_policies,omitempty"`
 
 	// The backup frequency. Valid values are Normal, 2/24H, 3/24H, 4/24H.Default to Normal.
 	BackupFrequency *string `json:"backupFrequency,omitempty" tf:"backup_frequency,omitempty"`
+
+	// Backup policy level, Normal or Advanced. Transitioning from Normal to Advanced cannot be reversed.
+	BackupPolicyLevel *string `json:"backupPolicyLevel,omitempty" tf:"backup_policy_level,omitempty"`
 
 	// Cluster backup retention days, Fixed for 7 days, not modified.
 	BackupRetentionPeriod *string `json:"backupRetentionPeriod,omitempty" tf:"backup_retention_period,omitempty"`
@@ -82,8 +293,20 @@ type BackupPolicyInitParameters struct {
 
 type BackupPolicyObservation struct {
 
+	// Custom advanced data backup policy blocks. Available only when backup_policy_level is Advanced. The provider creates, updates, or deletes these rules to match the configuration; service-generated rules are not managed. See advanced_data_policies below.
+	AdvancedDataPolicies []AdvancedDataPoliciesObservation `json:"advancedDataPolicies,omitempty" tf:"advanced_data_policies,omitempty"`
+
+	// Whether advanced policies are supported or enabled by the cluster.
+	AdvancedPolicyOption *string `json:"advancedPolicyOption,omitempty" tf:"advanced_policy_option,omitempty"`
+
+	// Service-generated advanced backup rules. Fields have the same names as advanced_data_policies, but are read-only.
+	AutoCreatedAdvancedDataPolicies []AutoCreatedAdvancedDataPoliciesObservation `json:"autoCreatedAdvancedDataPolicies,omitempty" tf:"auto_created_advanced_data_policies,omitempty"`
+
 	// The backup frequency. Valid values are Normal, 2/24H, 3/24H, 4/24H.Default to Normal.
 	BackupFrequency *string `json:"backupFrequency,omitempty" tf:"backup_frequency,omitempty"`
+
+	// Backup policy level, Normal or Advanced. Transitioning from Normal to Advanced cannot be reversed.
+	BackupPolicyLevel *string `json:"backupPolicyLevel,omitempty" tf:"backup_policy_level,omitempty"`
 
 	// Cluster backup retention days, Fixed for 7 days, not modified.
 	BackupRetentionPeriod *string `json:"backupRetentionPeriod,omitempty" tf:"backup_retention_period,omitempty"`
@@ -145,9 +368,17 @@ type BackupPolicyObservation struct {
 
 type BackupPolicyParameters struct {
 
+	// Custom advanced data backup policy blocks. Available only when backup_policy_level is Advanced. The provider creates, updates, or deletes these rules to match the configuration; service-generated rules are not managed. See advanced_data_policies below.
+	// +kubebuilder:validation:Optional
+	AdvancedDataPolicies []AdvancedDataPoliciesParameters `json:"advancedDataPolicies,omitempty" tf:"advanced_data_policies,omitempty"`
+
 	// The backup frequency. Valid values are Normal, 2/24H, 3/24H, 4/24H.Default to Normal.
 	// +kubebuilder:validation:Optional
 	BackupFrequency *string `json:"backupFrequency,omitempty" tf:"backup_frequency,omitempty"`
+
+	// Backup policy level, Normal or Advanced. Transitioning from Normal to Advanced cannot be reversed.
+	// +kubebuilder:validation:Optional
+	BackupPolicyLevel *string `json:"backupPolicyLevel,omitempty" tf:"backup_policy_level,omitempty"`
 
 	// Cluster backup retention days, Fixed for 7 days, not modified.
 	// +kubebuilder:validation:Optional

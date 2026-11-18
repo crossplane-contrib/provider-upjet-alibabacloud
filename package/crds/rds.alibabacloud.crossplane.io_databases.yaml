@@ -73,9 +73,99 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  accountName:
+                    description: The name of the account to be granted permissions
+                      on the database when you create the database. You can call the
+                      DescribeAccounts operation to query the account name.
+                    type: string
+                  accountNameRef:
+                    description: Reference to a Account in rds to populate accountName.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  accountNameSelector:
+                    description: Selector for a Account in rds to populate accountName.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  accountPrivilege:
+                    description: 'The privilege granted to the account specified by
+                      account_name when you create the database. Valid values: ReadOnly,
+                      ReadWrite, DDLOnly, DMLOnly, DBOwner.'
+                    type: string
                   characterSet:
                     description: 'Character set. The value range is limited to the
                       following:'
+                    type: string
+                  collationName:
+                    description: The collation of the database. This parameter is
+                      supported only for MySQL instances. Specify a collation that
+                      matches character_set, for example gbk_chinese_ci for gbk or
+                      utf8mb4_general_ci for utf8mb4.
                     type: string
                   dataBaseName:
                     description: The name of the database.
@@ -182,9 +272,99 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  accountName:
+                    description: The name of the account to be granted permissions
+                      on the database when you create the database. You can call the
+                      DescribeAccounts operation to query the account name.
+                    type: string
+                  accountNameRef:
+                    description: Reference to a Account in rds to populate accountName.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  accountNameSelector:
+                    description: Selector for a Account in rds to populate accountName.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  accountPrivilege:
+                    description: 'The privilege granted to the account specified by
+                      account_name when you create the database. Valid values: ReadOnly,
+                      ReadWrite, DDLOnly, DMLOnly, DBOwner.'
+                    type: string
                   characterSet:
                     description: 'Character set. The value range is limited to the
                       following:'
+                    type: string
+                  collationName:
+                    description: The collation of the database. This parameter is
+                      supported only for MySQL instances. Specify a collation that
+                      matches character_set, for example gbk_chinese_ci for gbk or
+                      utf8mb4_general_ci for utf8mb4.
                     type: string
                   dataBaseName:
                     description: The name of the database.
@@ -370,9 +550,25 @@ spec:
             properties:
               atProvider:
                 properties:
+                  accountName:
+                    description: The name of the account to be granted permissions
+                      on the database when you create the database. You can call the
+                      DescribeAccounts operation to query the account name.
+                    type: string
+                  accountPrivilege:
+                    description: 'The privilege granted to the account specified by
+                      account_name when you create the database. Valid values: ReadOnly,
+                      ReadWrite, DDLOnly, DMLOnly, DBOwner.'
+                    type: string
                   characterSet:
                     description: 'Character set. The value range is limited to the
                       following:'
+                    type: string
+                  collationName:
+                    description: The collation of the database. This parameter is
+                      supported only for MySQL instances. Specify a collation that
+                      matches character_set, for example gbk_chinese_ci for gbk or
+                      utf8mb4_general_ci for utf8mb4.
                     type: string
                   dataBaseName:
                     description: The name of the database.

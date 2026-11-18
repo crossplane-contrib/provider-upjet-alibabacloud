@@ -143,8 +143,8 @@ spec:
                       host.
                     type: number
                   networkAttributes:
-                    description: 'dedicated host network parameters. contains the
-                      following attributes:'
+                    description: Dedicated host network parameters. See network_attributes
+                      below.
                     items:
                       properties:
                         slbUdpTimeout:
@@ -270,8 +270,8 @@ spec:
                       host.
                     type: number
                   networkAttributes:
-                    description: 'dedicated host network parameters. contains the
-                      following attributes:'
+                    description: Dedicated host network parameters. See network_attributes
+                      below.
                     items:
                       properties:
                         slbUdpTimeout:
@@ -479,8 +479,8 @@ spec:
                       host.
                     type: number
                   networkAttributes:
-                    description: 'dedicated host network parameters. contains the
-                      following attributes:'
+                    description: Dedicated host network parameters. See network_attributes
+                      below.
                     items:
                       properties:
                         slbUdpTimeout:

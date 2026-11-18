@@ -48,6 +48,9 @@ type DiskInitParameters struct {
 	// Specifies whether to encrypt the disk. Default value: false. Valid values:
 	Encrypted *bool `json:"encrypted,omitempty" tf:"encrypted,omitempty"`
 
+	// Specifies whether to release the disk during destroy even when the default behavior cannot release it, for example a payment_type = "Subscription" disk. Defaults to false. When set to true, the provider converts the disk to PayAsYouGo (ModifyDiskChargeType), detaches it with DeleteWithInstance=false, waits until the disk is Available and then releases it (DeleteDisk). NOTE: force_delete deletes the disk and all data on it, and the release cannot be undone. It takes priority over the legacy behavior that only removes a PrePaid disk with delete_with_instance = true from the state. force_delete does not support multi-attach disks (multi_attach = "Enabled"); the destroy fails with an actionable error and the disk is kept. The billing method conversion requires the disk to be attached to a Subscription instance and is limited to one successful call per disk every five minutes.
+	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
+
 	// The ID of the instance to which the created subscription disk is automatically attached.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
@@ -148,6 +151,9 @@ type DiskObservation struct {
 	// Specifies whether to encrypt the disk. Default value: false. Valid values:
 	Encrypted *bool `json:"encrypted,omitempty" tf:"encrypted,omitempty"`
 
+	// Specifies whether to release the disk during destroy even when the default behavior cannot release it, for example a payment_type = "Subscription" disk. Defaults to false. When set to true, the provider converts the disk to PayAsYouGo (ModifyDiskChargeType), detaches it with DeleteWithInstance=false, waits until the disk is Available and then releases it (DeleteDisk). NOTE: force_delete deletes the disk and all data on it, and the release cannot be undone. It takes priority over the legacy behavior that only removes a PrePaid disk with delete_with_instance = true from the state. force_delete does not support multi-attach disks (multi_attach = "Enabled"); the destroy fails with an actionable error and the disk is kept. The billing method conversion requires the disk to be attached to a Subscription instance and is limited to one successful call per disk every five minutes.
+	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
+
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// The ID of the instance to which the created subscription disk is automatically attached.
@@ -245,6 +251,10 @@ type DiskParameters struct {
 	// Specifies whether to encrypt the disk. Default value: false. Valid values:
 	// +kubebuilder:validation:Optional
 	Encrypted *bool `json:"encrypted,omitempty" tf:"encrypted,omitempty"`
+
+	// Specifies whether to release the disk during destroy even when the default behavior cannot release it, for example a payment_type = "Subscription" disk. Defaults to false. When set to true, the provider converts the disk to PayAsYouGo (ModifyDiskChargeType), detaches it with DeleteWithInstance=false, waits until the disk is Available and then releases it (DeleteDisk). NOTE: force_delete deletes the disk and all data on it, and the release cannot be undone. It takes priority over the legacy behavior that only removes a PrePaid disk with delete_with_instance = true from the state. force_delete does not support multi-attach disks (multi_attach = "Enabled"); the destroy fails with an actionable error and the disk is kept. The billing method conversion requires the disk to be attached to a Subscription instance and is limited to one successful call per disk every five minutes.
+	// +kubebuilder:validation:Optional
+	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
 	// The ID of the instance to which the created subscription disk is automatically attached.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance

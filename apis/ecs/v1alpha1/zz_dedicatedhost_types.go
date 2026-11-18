@@ -57,7 +57,7 @@ type DedicatedHostInitParameters struct {
 	// Specify the minimum purchase quantity of a dedicated host.
 	MinQuantity *float64 `json:"minQuantity,omitempty" tf:"min_quantity,omitempty"`
 
-	// dedicated host network parameters. contains the following attributes:
+	// Dedicated host network parameters. See network_attributes below.
 	NetworkAttributes []NetworkAttributesInitParameters `json:"networkAttributes,omitempty" tf:"network_attributes,omitempty"`
 
 	// The billing method of the dedicated host. Valid values: PrePaid, PostPaid. Default: PostPaid.
@@ -124,7 +124,7 @@ type DedicatedHostObservation struct {
 	// Specify the minimum purchase quantity of a dedicated host.
 	MinQuantity *float64 `json:"minQuantity,omitempty" tf:"min_quantity,omitempty"`
 
-	// dedicated host network parameters. contains the following attributes:
+	// Dedicated host network parameters. See network_attributes below.
 	NetworkAttributes []NetworkAttributesObservation `json:"networkAttributes,omitempty" tf:"network_attributes,omitempty"`
 
 	// The billing method of the dedicated host. Valid values: PrePaid, PostPaid. Default: PostPaid.
@@ -205,7 +205,7 @@ type DedicatedHostParameters struct {
 	// +kubebuilder:validation:Optional
 	MinQuantity *float64 `json:"minQuantity,omitempty" tf:"min_quantity,omitempty"`
 
-	// dedicated host network parameters. contains the following attributes:
+	// Dedicated host network parameters. See network_attributes below.
 	// +kubebuilder:validation:Optional
 	NetworkAttributes []NetworkAttributesParameters `json:"networkAttributes,omitempty" tf:"network_attributes,omitempty"`
 

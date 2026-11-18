@@ -11,38 +11,41 @@ spec:
     clusterDomain: cluster.local
     customSan: www.terraform.io
     deletionProtection: false
-    dynamic:
-      addons:
-      - content:
-        - config: ${jsonencode(lookup(addons.value, "config", var.cluster_addons))}
-          name: ${lookup(addons.value, "name", var.cluster_addons)}
-        for_each: ${var.cluster_addons}
+    enableSsh: false
+    imageId: aliyun_4_x64_20G_container_optimized_alibase_20260402.vhd
     installCloudMonitor: true
     masterDiskCategory: cloud_essd
+    masterDiskSize: 80
     masterInstanceTypes:
-    - ${data.alicloud_instance_types.cloud_essd.0.instance_types.0.id}
-    - ${data.alicloud_instance_types.cloud_essd.1.instance_types.0.id}
-    - ${data.alicloud_instance_types.cloud_essd.2.instance_types.0.id}
-    masterVswitchIdsSelector:
-      matchLabels:
-        testing.upbound.io/example-name: vswitch_ids) > 0 ? split(",", join(",", var
+    - ${var.instance_type}
+    - ${var.instance_type}
+    - ${var.instance_type}
+    masterVswitchIdsRefs:
+    - name: default
+    - name: default
+    - name: default
+    name: ${var.name}
     newNatGateway: true
+    nodeCidrMask: 24
     osType: Linux
     passwordSecretRef:
       key: example-key
       name: example-secret
       namespace: upbound-system
-    platform: AliyunLinux3
-    podVswitchIdsSelector:
-      matchLabels:
-        testing.upbound.io/example-name: terway_vswitch_ids) > 0 ? split(",", join(",",
-          var
+    platform: AliyunLinux4ContainerOptimized
+    podCidr: 10.72.0.0/16
     proxyMode: ipvs
     region: cn-beijing
     resourceGroupId: ${data.alicloud_resource_manager_resource_groups.default.groups.0.id}
+    runtime:
+    - name: containerd
+      version: 1.6.20
     serviceCidr: 172.18.0.0/16
-    skipSetCertificateAuthority: true
-    timezone: Asia/Shanghai
+    skipSetCertificateAuthority: false
+    slbInternetEnabled: false
+    tags:
+      Platform: TF
+    version: ${data.alicloud_cs_kubernetes_version.default.metadata.2.version}
 
 ---
 
@@ -52,13 +55,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ack/v1alpha1/kubernetes
   labels:
-    testing.upbound.io/example-name: vpc
-  name: vpc
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
-    cidrBlock: ${var.vpc_cidr}
-    count: '${var.vpc_id == "" ? 1 : 0}'
+    cidrBlock: 192.168.0.0/16
     region: cn-beijing
+    vpcName: ${var.name}
 
 ---
 
@@ -68,38 +71,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: ack/v1alpha1/kubernetes
   labels:
-    testing.upbound.io/example-name: terway_vswitches
-  name: terway-vswitches
+    testing.upbound.io/example-name: default
+  name: default
 spec:
   forProvider:
-    cidrBlock: ${element(var.terway_vswitch_cidrs, count.index)}
-    count: '${length(var.terway_vswitch_ids) > 0 ? 0 : length(var.terway_vswitch_cidrs)}'
+    cidrBlock: 192.168.1.0/24
     region: cn-beijing
     vpcIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: vpc_id == "" ? join("", alicloud_vpc
-    zoneId: '${data.alicloud_enhanced_nat_available_zones.enhanced.zones[count.index
-      < length(data.alicloud_enhanced_nat_available_zones.enhanced.zones) ? count.index
-      : 0].zone_id}'
-
----
-
-apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
-kind: Vswitch
-metadata:
-  annotations:
-    meta.upbound.io/example-id: ack/v1alpha1/kubernetes
-  labels:
-    testing.upbound.io/example-name: vswitches
-  name: vswitches
-spec:
-  forProvider:
-    cidrBlock: ${element(var.vswitch_cidrs, count.index)}
-    count: '${length(var.vswitch_ids) > 0 ? 0 : length(var.vswitch_cidrs)}'
-    region: cn-beijing
-    vpcIdSelector:
-      matchLabels:
-        testing.upbound.io/example-name: vpc_id == "" ? join("", alicloud_vpc
-    zoneId: '${data.alicloud_enhanced_nat_available_zones.enhanced.zones[count.index
-      < length(data.alicloud_enhanced_nat_available_zones.enhanced.zones) ? count.index
-      : 0].zone_id}'
+        testing.upbound.io/example-name: default
+    vswitchName: ${var.name}
+    zoneId: ${local.zone_id}

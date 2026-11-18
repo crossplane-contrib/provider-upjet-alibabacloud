@@ -157,7 +157,7 @@ type InstanceInitParameters struct {
 	// Used to forcibly delete a 'PrePaid' RDS instance. When set to true, the instance is converted to 'PostPaid' before deletion, which settles the remaining subscription period. Set this explicitly when you need to destroy a Subscription DB instance.
 	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
-	// Specifies whether to enable the forceful SSL encryption feature. This parameter is supported only for ApsaraDB RDS for MySQL and SQL Server instances. Valid values:
+	// Specifies whether to enable the forceful SSL encryption feature. This parameter is supported for ApsaraDB RDS for MySQL, PostgreSQL and SQL Server instances. Valid values:
 	ForceEncryption *float64 `json:"forceEncryption,omitempty" tf:"force_encryption,omitempty"`
 
 	// Set it to true to make some parameter efficient when modifying them. Default to false.
@@ -495,7 +495,7 @@ type InstanceObservation struct {
 	// Used to forcibly delete a 'PrePaid' RDS instance. When set to true, the instance is converted to 'PostPaid' before deletion, which settles the remaining subscription period. Set this explicitly when you need to destroy a Subscription DB instance.
 	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
-	// Specifies whether to enable the forceful SSL encryption feature. This parameter is supported only for ApsaraDB RDS for MySQL and SQL Server instances. Valid values:
+	// Specifies whether to enable the forceful SSL encryption feature. This parameter is supported for ApsaraDB RDS for MySQL, PostgreSQL and SQL Server instances. Valid values:
 	ForceEncryption *float64 `json:"forceEncryption,omitempty" tf:"force_encryption,omitempty"`
 
 	// Set it to true to make some parameter efficient when modifying them. Default to false.
@@ -809,7 +809,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ForceDelete *bool `json:"forceDelete,omitempty" tf:"force_delete,omitempty"`
 
-	// Specifies whether to enable the forceful SSL encryption feature. This parameter is supported only for ApsaraDB RDS for MySQL and SQL Server instances. Valid values:
+	// Specifies whether to enable the forceful SSL encryption feature. This parameter is supported for ApsaraDB RDS for MySQL, PostgreSQL and SQL Server instances. Valid values:
 	// +kubebuilder:validation:Optional
 	ForceEncryption *float64 `json:"forceEncryption,omitempty" tf:"force_encryption,omitempty"`
 
