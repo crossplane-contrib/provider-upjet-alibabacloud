@@ -15,7 +15,7 @@ spec:
     value: 10.0.0.1
     zoneIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: zone
+        testing.upbound.io/example-name: zonerecord-zone
 
 ---
 
@@ -25,9 +25,9 @@ metadata:
   annotations:
     meta.upbound.io/example-id: privatezone/v1alpha1/zonerecord
   labels:
-    testing.upbound.io/example-name: zone
-  name: zone
+    testing.upbound.io/example-name: zonerecord-zone
+  name: zonerecord-zone
 spec:
   forProvider:
     region: cn-beijing
-    zoneName: crossplane-example.test
+    zoneName: crossplane-zonerecord.test

@@ -13,7 +13,7 @@ spec:
     - name: first
     zoneIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: zone
+        testing.upbound.io/example-name: zoneattachment-zone
 
 ---
 
@@ -23,12 +23,12 @@ metadata:
   annotations:
     meta.upbound.io/example-id: privatezone/v1alpha1/zoneattachment
   labels:
-    testing.upbound.io/example-name: zone
-  name: zone
+    testing.upbound.io/example-name: zoneattachment-zone
+  name: zoneattachment-zone
 spec:
   forProvider:
     region: cn-beijing
-    zoneName: crossplane-example.test
+    zoneName: crossplane-zoneattachment.test
 
 ---
 

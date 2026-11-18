@@ -9,4 +9,9 @@ metadata:
 spec:
   forProvider:
     region: cn-beijing
-    zoneName: crossplane-example.test
+    zoneName: crossplane-zone.test
+    # remark accepts only letters, digits, Chinese and _ - , . ，。 (no spaces).
+    # The CRD can't enforce this: an invalid value is accepted, the zone is
+    # created, and the separate UpdateZoneRemark call then fails with
+    # 400 Zone.Remark on every reconcile, leaving the Zone Ready but not Synced.
+    remark: crossplane-example
