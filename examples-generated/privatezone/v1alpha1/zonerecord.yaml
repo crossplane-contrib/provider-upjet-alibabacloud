@@ -1,0 +1,33 @@
+apiVersion: privatezone.alibabacloud.crossplane.io/v1alpha1
+kind: ZoneRecord
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/zonerecord
+  labels:
+    testing.upbound.io/example-name: foo
+  name: foo
+spec:
+  forProvider:
+    region: cn-beijing
+    rr: www
+    ttl: 60
+    type: CNAME
+    value: bbb.test.com
+    zoneIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: zone
+
+---
+
+apiVersion: privatezone.alibabacloud.crossplane.io/v1alpha1
+kind: Zone
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/zonerecord
+  labels:
+    testing.upbound.io/example-name: zone
+  name: zone
+spec:
+  forProvider:
+    region: cn-beijing
+    zoneName: foo.test.com
