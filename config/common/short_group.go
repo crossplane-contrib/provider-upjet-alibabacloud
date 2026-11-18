@@ -20,7 +20,7 @@ const (
 	OSS                    = ShortGroup("oss")
 	POLARDB                = ShortGroup("polardb")
 	PRIVATELINK            = ShortGroup("privatelink")
-	PrivateZone            = ShortGroup("privatezone")
+	PRIVATEZONE            = ShortGroup("privatezone")
 	QUOTAS                 = ShortGroup("quotas")
 	RDS                    = ShortGroup("rds")
 	SLS                    = ShortGroup("sls")
