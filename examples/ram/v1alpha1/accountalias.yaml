@@ -4,6 +4,10 @@ kind: AccountAlias
 metadata:
   annotations:
     meta.crossplane.io/example-id: ram-v1alpha1-test-accountalias-1
+    # Kept out of automated e2e runs: this sets the alias of the whole account,
+    # which appears in RAM users' console login URL, and upstream's delete is a
+    # no-op, so deleting the resource leaves the alias changed.
+    upjet.upbound.io/manual-intervention: "This changes the account alias, and delete does not revert it"
   labels:
     testing.crossplane.io/example-name: test-account-alias-1
   name: test-account-alias-1
