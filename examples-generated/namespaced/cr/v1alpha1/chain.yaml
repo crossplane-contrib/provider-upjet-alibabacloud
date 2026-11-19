@@ -1,0 +1,155 @@
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: Chain
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/chain
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    chainConfig:
+    - nodes:
+      - enable: true
+        nodeConfig:
+        - denyPolicy:
+          - {}
+        nodeName: DOCKER_IMAGE_BUILD
+      - enable: true
+        nodeConfig:
+        - denyPolicy:
+          - {}
+        nodeName: DOCKER_IMAGE_PUSH
+      - enable: true
+        nodeConfig:
+        - denyPolicy:
+          - action: BLOCK_DELETE_TAG
+            issueCount: 1
+            issueLevel: MEDIUM
+            logic: AND
+        nodeName: VULNERABILITY_SCANNING
+      - enable: true
+        nodeConfig:
+        - denyPolicy:
+          - {}
+        nodeName: ACTIVATE_REPLICATION
+      - enable: true
+        nodeConfig:
+        - denyPolicy:
+          - {}
+        nodeName: TRIGGER
+      - enable: false
+        nodeConfig:
+        - denyPolicy:
+          - {}
+        nodeName: SNAPSHOT
+      - enable: false
+        nodeConfig:
+        - denyPolicy:
+          - {}
+        nodeName: TRIGGER_SNAPSHOT
+      routers:
+      - from:
+        - nodeName: DOCKER_IMAGE_BUILD
+        to:
+        - nodeName: DOCKER_IMAGE_PUSH
+      - from:
+        - nodeName: DOCKER_IMAGE_PUSH
+        to:
+        - nodeName: VULNERABILITY_SCANNING
+      - from:
+        - nodeName: VULNERABILITY_SCANNING
+        to:
+        - nodeName: ACTIVATE_REPLICATION
+      - from:
+        - nodeName: ACTIVATE_REPLICATION
+        to:
+        - nodeName: TRIGGER
+      - from:
+        - nodeName: VULNERABILITY_SCANNING
+        to:
+        - nodeName: SNAPSHOT
+      - from:
+        - nodeName: SNAPSHOT
+        to:
+        - nodeName: TRIGGER_SNAPSHOT
+    chainName: ${var.name}-${random_integer.default.result}
+    description: ${var.name}
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    repoNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    repoNamespaceNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/chain
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    instanceName: ${var.name}-${random_integer.default.result}
+    instanceType: Advanced
+    paymentType: Subscription
+    period: 1
+    region: cn-beijing
+    renewPeriod: 0
+    renewalStatus: ManualRenewal
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeNamespace
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/chain
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    autoCreate: false
+    defaultVisibility: PUBLIC
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    name: ${var.name}-${random_integer.default.result}
+    region: cn-beijing
+
+---
+
+apiVersion: cr.alibabacloud.m.crossplane.io/v1alpha1
+kind: EeRepo
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cr/v1alpha1/chain
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    detail: this is a public repo
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    name: ${var.name}-${random_integer.default.result}
+    namespaceSelector:
+      matchLabels:
+        testing.upbound.io/example-name: name}-${random_integer
+    region: cn-beijing
+    repoType: PUBLIC
+    summary: this is summary of my new repo

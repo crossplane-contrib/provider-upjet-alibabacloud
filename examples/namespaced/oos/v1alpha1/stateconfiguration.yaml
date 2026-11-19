@@ -1,0 +1,22 @@
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: StateConfiguration
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/stateconfiguration
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    configureMode: ApplyOnly
+    description: terraform-example
+    parameters: '{"policy": {"ACS:Application": {"Collection": "Enabled"}}}'
+    region: us-west-1
+    scheduleExpression: 1 hour
+    scheduleType: rate
+    tags:
+      Created: TF
+      For: example
+    targets: '{"Filters": [{"Type": "All", "Parameters": {"InstanceChargeType": "PrePaid"}}], "ResourceType": "ALIYUN::ECS::Instance"}'
+    templateName: ACS-ECS-InventoryDataCollection

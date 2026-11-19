@@ -1,0 +1,12 @@
+apiVersion: alidns.alibabacloud.m.crossplane.io/v1alpha1
+kind: DomainGroup
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/domaingroup
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    domainGroupName: crossplane-example

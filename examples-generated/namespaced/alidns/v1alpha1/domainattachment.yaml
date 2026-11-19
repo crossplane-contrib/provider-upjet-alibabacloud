@@ -1,0 +1,75 @@
+apiVersion: alidns.alibabacloud.m.crossplane.io/v1alpha1
+kind: DomainAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/domainattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    domainNamesRefs:
+    - name: default
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+
+---
+
+apiVersion: alidns.alibabacloud.m.crossplane.io/v1alpha1
+kind: Domain
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/domainattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    domainName: starmove.com
+    groupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+    tags:
+      Created: TF
+      For: example
+
+---
+
+apiVersion: alidns.alibabacloud.m.crossplane.io/v1alpha1
+kind: DomainGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/domainattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    domainGroupName: tf-example
+    region: cn-beijing
+
+---
+
+apiVersion: alidns.alibabacloud.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: alidns/v1alpha1/domainattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    dnsSecurity: basic
+    domainNumbers: 3
+    period: 1
+    region: cn-beijing
+    renewalStatus: ManualRenewal
+    versionCode: version_personal

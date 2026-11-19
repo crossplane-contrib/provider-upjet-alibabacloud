@@ -1,0 +1,145 @@
+apiVersion: alikafka.alibabacloud.m.crossplane.io/v1alpha1
+kind: ScheduledScalingRule
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/scheduledscalingrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-hangzhou
+    ruleName: crossplane-example-scaling-rule
+    scheduleType: repeat
+    repeatType: Weekly
+    weeklyTypes:
+      - Monday
+      - Tuesday
+      - Wednesday
+      - Thursday
+      - Friday
+    durationMinutes: 100
+    # 2030-01-07T10:00:00 GMT+8, must stay in the future
+    firstScheduledTime: 1893981600000
+    reservedPubFlow: 200
+    reservedSubFlow: 200
+    timeZone: GMT+8
+    enable: false
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: serverless
+
+---
+
+apiVersion: alikafka.alibabacloud.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/scheduledscalingrule
+    # Upstream waits up to 60 minutes for the order and the start. Uptest
+    # spends this one budget across apply, import and delete, so it covers
+    # that wait plus a Kafka delete.
+    uptest.upbound.io/timeout: "7200"
+  labels:
+    testing.upbound.io/example-name: serverless
+  name: serverless
+spec:
+  forProvider:
+    # In us-west-1 the serverless order failed ONS_SYSTEM_ERROR for the whole
+    # 60 minutes (run 40837165949). Upstream tests serverless instances only
+    # in cn-hangzhou, across two vswitches.
+    region: cn-hangzhou
+    deployType: 4
+    instanceType: alikafka_serverless
+    specType: normal
+    serviceVersion: 3.3.1
+    config: '{"enable.acl":"true"}'
+    serverlessConfig:
+      - reservedPublishCapacity: 60
+        reservedSubscribeCapacity: 60
+    # StartInstance requires VSwitchIds for serverless instances.
+    vswitchIDsRefs:
+      - name: default
+      - name: second
+    securityGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: ecs.alibabacloud.m.crossplane.io/v1alpha1
+kind: SecurityGroup
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/scheduledscalingrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-hangzhou
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/scheduledscalingrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-hangzhou
+    vpcName: crossplane-example-for-alikafka
+    cidrBlock: 172.16.0.0/12
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/scheduledscalingrule
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    region: cn-hangzhou
+    vswitchName: crossplane-example-for-alikafka
+    cidrBlock: 172.16.0.0/24
+    zoneId: cn-hangzhou-j
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  namespace: default
+  annotations:
+    meta.upbound.io/example-id: alikafka/v1alpha1/scheduledscalingrule
+  labels:
+    testing.upbound.io/example-name: second
+  name: second
+spec:
+  forProvider:
+    region: cn-hangzhou
+    vswitchName: crossplane-example-for-alikafka-2
+    cidrBlock: 172.16.1.0/24
+    zoneId: cn-hangzhou-k
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
