@@ -1,0 +1,16 @@
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: placeholder # overridden to runtimeconfig-$* by local.xpkg.deploy
+spec:
+  deploymentTemplate:
+    spec:
+      selector: {}
+      strategy: {}
+      template:
+        spec:
+          containers:
+            - name: package-runtime
+              image: placeholder # overridden to $(BUILD_REGISTRY)/$*-$(ARCH)
+              args:
+                - --debug
