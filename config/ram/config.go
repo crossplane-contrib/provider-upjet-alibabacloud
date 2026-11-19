@@ -1,6 +1,6 @@
 package ram
 
-import "github.com/crossplane/upjet/pkg/config"
+import "github.com/crossplane/upjet/v2/pkg/config"
 
 // Configure configures individual resources by adding custom ResourceConfigurators.
 func Configure(p *config.Provider) {
@@ -43,14 +43,14 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("alicloud_ram_group_membership", func(r *config.Resource) {
 		r.References["group_name"] = config.Reference{
 			TerraformName: "alicloud_ram_group",
-			Extractor:     `github.com/crossplane/upjet/pkg/resource.ExtractParamPath("group_name",false)`,
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("group_name",false)`,
 		}
 	})
 
 	p.AddResourceConfigurator("alicloud_ram_group_policy_attachment", func(r *config.Resource) {
 		r.References["group_name"] = config.Reference{
 			TerraformName: "alicloud_ram_group",
-			Extractor:     `github.com/crossplane/upjet/pkg/resource.ExtractParamPath("group_name",false)`,
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("group_name",false)`,
 		}
 	})
 
@@ -62,7 +62,7 @@ func Configure(p *config.Provider) {
 		// never reconciles. Extract the canonical field instead.
 		r.References["role_name"] = config.Reference{
 			TerraformName: "alicloud_ram_role",
-			Extractor:     `github.com/crossplane/upjet/pkg/resource.ExtractParamPath("role_name",false)`,
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("role_name",false)`,
 		}
 	})
 

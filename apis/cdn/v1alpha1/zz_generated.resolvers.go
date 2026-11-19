@@ -10,7 +10,7 @@ import (
 	"context"
 	v1alpha1 "github.com/crossplane-contrib/provider-alibabacloud/apis/ram/v1alpha1"
 	common "github.com/crossplane-contrib/provider-alibabacloud/config/common"
-	reference "github.com/crossplane/crossplane-runtime/pkg/reference"
+	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -25,6 +25,7 @@ func (mg *DomainConfig) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DomainName),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.DomainNameRef,
 		Selector:     mg.Spec.ForProvider.DomainNameSelector,
 		To: reference.To{
@@ -41,6 +42,7 @@ func (mg *DomainConfig) ResolveReferences(ctx context.Context, c client.Reader) 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DomainName),
 		Extract:      common.IdExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.DomainNameRef,
 		Selector:     mg.Spec.InitProvider.DomainNameSelector,
 		To: reference.To{
@@ -67,6 +69,7 @@ func (mg *FcTrigger) ResolveReferences(ctx context.Context, c client.Reader) err
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.RoleArn),
 		Extract:      common.RoleArnExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.ForProvider.RoleArnRef,
 		Selector:     mg.Spec.ForProvider.RoleArnSelector,
 		To: reference.To{
@@ -83,6 +86,7 @@ func (mg *FcTrigger) ResolveReferences(ctx context.Context, c client.Reader) err
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.RoleArn),
 		Extract:      common.RoleArnExtractor(),
+		Namespace:    mg.GetNamespace(),
 		Reference:    mg.Spec.InitProvider.RoleArnRef,
 		Selector:     mg.Spec.InitProvider.RoleArnSelector,
 		To: reference.To{

@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	endpoint "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatezone/endpoint"
 	rule "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/privatezone/rule"
@@ -31,6 +31,43 @@ func Setup_privatezone(mgr ctrl.Manager, o controller.Options) error {
 		zonerecord.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupGated_privatezone creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_privatezone(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		endpoint.SetupGated,
+		rule.SetupGated,
+		ruleattachment.SetupGated,
+		uservpcauthorization.SetupGated,
+		zone.SetupGated,
+		zoneattachment.SetupGated,
+		zonerecord.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupWebhookWithManager_privatezone registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_privatezone(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		endpoint.SetupWebhookWithManager,
+		rule.SetupWebhookWithManager,
+		ruleattachment.SetupWebhookWithManager,
+		uservpcauthorization.SetupWebhookWithManager,
+		zone.SetupWebhookWithManager,
+		zoneattachment.SetupWebhookWithManager,
+		zonerecord.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
 			return err
 		}
 	}

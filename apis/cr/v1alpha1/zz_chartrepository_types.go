@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type ChartRepositoryInitParameters struct {
@@ -33,7 +33,7 @@ type ChartRepositoryInitParameters struct {
 
 	// The namespace to which the repository belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.ChartNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("namespace_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("namespace_name",false)
 	RepoNamespaceName *string `json:"repoNamespaceName,omitempty" tf:"repo_namespace_name,omitempty"`
 
 	// Reference to a ChartNamespace in cr to populate repoNamespaceName.
@@ -99,7 +99,7 @@ type ChartRepositoryParameters struct {
 
 	// The namespace to which the repository belongs.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/cr/v1alpha1.ChartNamespace
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("namespace_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("namespace_name",false)
 	// +kubebuilder:validation:Optional
 	RepoNamespaceName *string `json:"repoNamespaceName,omitempty" tf:"repo_namespace_name,omitempty"`
 

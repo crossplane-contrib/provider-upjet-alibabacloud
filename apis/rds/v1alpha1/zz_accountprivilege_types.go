@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type AccountPrivilegeInitParameters struct {
@@ -30,7 +30,7 @@ type AccountPrivilegeInitParameters struct {
 
 	// List of specified database name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Database
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("data_base_name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("data_base_name",true)
 	// +listType=set
 	DBNames []*string `json:"dbNames,omitempty" tf:"db_names,omitempty"`
 
@@ -96,7 +96,7 @@ type AccountPrivilegeParameters struct {
 
 	// List of specified database name.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.Database
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("data_base_name",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("data_base_name",true)
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	DBNames []*string `json:"dbNames,omitempty" tf:"db_names,omitempty"`

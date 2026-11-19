@@ -34,7 +34,7 @@ if [ "$PROVIDER_FAMILY" = "config" ]; then
         cp "$BASE_PACKAGE_DIR/auth.yaml" "$TEMP_PACKAGE_DIR/"
     fi
     
-    # Only include core provider CRDs (ProviderConfig, StoreConfig, etc.)
+    # Only include core provider CRDs (ProviderConfig, ProviderConfigUsage)
     find "$BASE_PACKAGE_DIR/crds" -name "alibabacloud.crossplane.io_*.yaml" -exec cp {} "$TEMP_PACKAGE_DIR/crds/" \; 2>/dev/null || true
     
     echo "Config provider will have $(find "$TEMP_PACKAGE_DIR/crds" -name "*.yaml" | wc -l) core CRDs"

@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	providerconfig "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/providerconfig"
 )
@@ -19,6 +19,31 @@ func Setup_config(mgr ctrl.Manager, o controller.Options) error {
 		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupGated_config creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_config(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		providerconfig.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupWebhookWithManager_config registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_config(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		providerconfig.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
 			return err
 		}
 	}

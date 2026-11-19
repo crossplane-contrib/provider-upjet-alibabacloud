@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type DBProxyPublicInitParameters struct {
@@ -36,7 +36,7 @@ type DBProxyPublicInitParameters struct {
 
 	// Database proxy connection address ID.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.DBProxy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("db_proxy_endpoint_id",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("db_proxy_endpoint_id",true)
 	DBProxyEndpointID *string `json:"dbProxyEndpointId,omitempty" tf:"db_proxy_endpoint_id,omitempty"`
 
 	// Reference to a DBProxy in rds to populate dbProxyEndpointId.
@@ -98,7 +98,7 @@ type DBProxyPublicParameters struct {
 
 	// Database proxy connection address ID.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/rds/v1alpha1.DBProxy
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("db_proxy_endpoint_id",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("db_proxy_endpoint_id",true)
 	// +kubebuilder:validation:Optional
 	DBProxyEndpointID *string `json:"dbProxyEndpointId,omitempty" tf:"db_proxy_endpoint_id,omitempty"`
 

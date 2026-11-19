@@ -4,7 +4,7 @@ Copyright 2022 Upbound Inc.
 
 package config
 
-import "github.com/crossplane/upjet/pkg/config"
+import "github.com/crossplane/upjet/v2/pkg/config"
 
 // generationOnlySchemaOmissions lists, per Terraform resource, the top-level
 // schema fields that must not appear in the generated CRD.
@@ -47,7 +47,6 @@ var generationOnlySchemaOmissions = map[string][]string{
 	"alicloud_db_database":                          {"name"},
 	"alicloud_db_instance":                          {"security_group_id"},
 	"alicloud_ecs_auto_snapshot_policy":             {"name"},
-	"alicloud_ecs_auto_snapshot_policy_attachment":  {"name"},
 	"alicloud_ecs_deployment_set":                   {"domain", "granularity"},
 	"alicloud_ecs_disk":                             {"availability_zone", "name"},
 	"alicloud_ecs_key_pair":                         {"key_name"},

@@ -7,7 +7,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	activation "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/ecs/activation"
 	autoprovisioninggroup "github.com/crossplane-contrib/provider-alibabacloud/internal/controller/ecs/autoprovisioninggroup"
@@ -93,6 +93,105 @@ func Setup_ecs(mgr ctrl.Manager, o controller.Options) error {
 		storagecapacityunit.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupGated_ecs creates all controllers with the supplied logger and adds them to
+// the supplied manager gated.
+func SetupGated_ecs(mgr ctrl.Manager, o controller.Options) error {
+	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		activation.SetupGated,
+		autoprovisioninggroup.SetupGated,
+		autosnapshotpolicy.SetupGated,
+		autosnapshotpolicyattachment.SetupGated,
+		capacityreservation.SetupGated,
+		command.SetupGated,
+		dedicatedhost.SetupGated,
+		dedicatedhostcluster.SetupGated,
+		deploymentset.SetupGated,
+		disk.SetupGated,
+		diskattachment.SetupGated,
+		elasticityassurance.SetupGated,
+		hpccluster.SetupGated,
+		image.SetupGated,
+		imagecomponent.SetupGated,
+		imagecopy.SetupGated,
+		imageexport.SetupGated,
+		imageimport.SetupGated,
+		imagepipeline.SetupGated,
+		imagepipelineexecution.SetupGated,
+		imagesharepermission.SetupGated,
+		instance.SetupGated,
+		instanceset.SetupGated,
+		invocation.SetupGated,
+		keypair.SetupGated,
+		keypairattachment.SetupGated,
+		launchtemplate.SetupGated,
+		networkinterface.SetupGated,
+		networkinterfaceattachment.SetupGated,
+		networkinterfacepermission.SetupGated,
+		prefixlist.SetupGated,
+		reservedinstance.SetupGated,
+		securitygroup.SetupGated,
+		securitygrouprule.SetupGated,
+		sessionmanagerstatus.SetupGated,
+		snapshot.SetupGated,
+		snapshotgroup.SetupGated,
+		storagecapacityunit.SetupGated,
+	} {
+		if err := setup(mgr, o); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// SetupWebhookWithManager_ecs registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager_ecs(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		activation.SetupWebhookWithManager,
+		autoprovisioninggroup.SetupWebhookWithManager,
+		autosnapshotpolicy.SetupWebhookWithManager,
+		autosnapshotpolicyattachment.SetupWebhookWithManager,
+		capacityreservation.SetupWebhookWithManager,
+		command.SetupWebhookWithManager,
+		dedicatedhost.SetupWebhookWithManager,
+		dedicatedhostcluster.SetupWebhookWithManager,
+		deploymentset.SetupWebhookWithManager,
+		disk.SetupWebhookWithManager,
+		diskattachment.SetupWebhookWithManager,
+		elasticityassurance.SetupWebhookWithManager,
+		hpccluster.SetupWebhookWithManager,
+		image.SetupWebhookWithManager,
+		imagecomponent.SetupWebhookWithManager,
+		imagecopy.SetupWebhookWithManager,
+		imageexport.SetupWebhookWithManager,
+		imageimport.SetupWebhookWithManager,
+		imagepipeline.SetupWebhookWithManager,
+		imagepipelineexecution.SetupWebhookWithManager,
+		imagesharepermission.SetupWebhookWithManager,
+		instance.SetupWebhookWithManager,
+		instanceset.SetupWebhookWithManager,
+		invocation.SetupWebhookWithManager,
+		keypair.SetupWebhookWithManager,
+		keypairattachment.SetupWebhookWithManager,
+		launchtemplate.SetupWebhookWithManager,
+		networkinterface.SetupWebhookWithManager,
+		networkinterfaceattachment.SetupWebhookWithManager,
+		networkinterfacepermission.SetupWebhookWithManager,
+		prefixlist.SetupWebhookWithManager,
+		reservedinstance.SetupWebhookWithManager,
+		securitygroup.SetupWebhookWithManager,
+		securitygrouprule.SetupWebhookWithManager,
+		sessionmanagerstatus.SetupWebhookWithManager,
+		snapshot.SetupWebhookWithManager,
+		snapshotgroup.SetupWebhookWithManager,
+		storagecapacityunit.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
 			return err
 		}
 	}

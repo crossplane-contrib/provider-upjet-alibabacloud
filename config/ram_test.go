@@ -8,7 +8,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/crossplane/upjet/pkg/registry"
+	"github.com/crossplane/upjet/v2/pkg/registry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	providerconfig "github.com/crossplane-contrib/provider-alibabacloud/config"

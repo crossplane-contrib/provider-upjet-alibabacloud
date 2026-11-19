@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type ConnectionDrainConfigInitParameters struct {
@@ -424,7 +424,7 @@ type ServersInitParameters struct {
 
 	// The ID of the backend server. You can specify at most 200 servers in each call.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServerID *string `json:"serverId,omitempty" tf:"server_id,omitempty"`
 
 	// Reference to a Instance in ecs to populate serverId.
@@ -437,7 +437,7 @@ type ServersInitParameters struct {
 
 	// The IP address of the backend server. You can specify at most 200 servers in each call.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("private_ip",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("private_ip",false)
 	ServerIP *string `json:"serverIp,omitempty" tf:"server_ip,omitempty"`
 
 	// Reference to a Instance in ecs to populate serverIp.
@@ -501,7 +501,7 @@ type ServersParameters struct {
 
 	// The ID of the backend server. You can specify at most 200 servers in each call.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServerID *string `json:"serverId,omitempty" tf:"server_id,omitempty"`
 
@@ -515,7 +515,7 @@ type ServersParameters struct {
 
 	// The IP address of the backend server. You can specify at most 200 servers in each call.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.Instance
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("private_ip",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("private_ip",false)
 	// +kubebuilder:validation:Optional
 	ServerIP *string `json:"serverIp,omitempty" tf:"server_ip,omitempty"`
 

@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/crossplane/upjet/pkg/terraform"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/pkg/errors"
 )

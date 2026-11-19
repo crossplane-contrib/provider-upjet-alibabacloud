@@ -10,14 +10,14 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type ServiceSettingInitParameters struct {
 
 	// The name of the OSS bucket. NOTE: When the delivery_oss_enabled is true, The delivery_oss_bucket_name is valid.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("bucket",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("bucket",false)
 	DeliveryOssBucketName *string `json:"deliveryOssBucketName,omitempty" tf:"delivery_oss_bucket_name,omitempty"`
 
 	// Reference to a Bucket in oss to populate deliveryOssBucketName.
@@ -39,7 +39,7 @@ type ServiceSettingInitParameters struct {
 
 	// The name of SLS  Project. NOTE: When the delivery_sls_enabled is true, The delivery_sls_project_name is valid.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_name",false)
 	DeliverySlsProjectName *string `json:"deliverySlsProjectName,omitempty" tf:"delivery_sls_project_name,omitempty"`
 
 	// Reference to a Project in sls to populate deliverySlsProjectName.
@@ -75,7 +75,7 @@ type ServiceSettingParameters struct {
 
 	// The name of the OSS bucket. NOTE: When the delivery_oss_enabled is true, The delivery_oss_bucket_name is valid.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/oss/v1alpha1.Bucket
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("bucket",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("bucket",false)
 	// +kubebuilder:validation:Optional
 	DeliveryOssBucketName *string `json:"deliveryOssBucketName,omitempty" tf:"delivery_oss_bucket_name,omitempty"`
 
@@ -101,7 +101,7 @@ type ServiceSettingParameters struct {
 
 	// The name of SLS  Project. NOTE: When the delivery_sls_enabled is true, The delivery_sls_project_name is valid.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/sls/v1alpha1.Project
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("project_name",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_name",false)
 	// +kubebuilder:validation:Optional
 	DeliverySlsProjectName *string `json:"deliverySlsProjectName,omitempty" tf:"delivery_sls_project_name,omitempty"`
 

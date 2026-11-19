@@ -6,7 +6,7 @@
 
 package v1alpha1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
 // GetCondition of this AutoscalingConfig.
 func (mg *AutoscalingConfig) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
@@ -26,11 +26,6 @@ func (mg *AutoscalingConfig) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this AutoscalingConfig.
 func (mg *AutoscalingConfig) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this AutoscalingConfig.
-func (mg *AutoscalingConfig) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this AutoscalingConfig.
@@ -58,11 +53,6 @@ func (mg *AutoscalingConfig) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this AutoscalingConfig.
-func (mg *AutoscalingConfig) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this AutoscalingConfig.
 func (mg *AutoscalingConfig) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -86,11 +76,6 @@ func (mg *EdgeKubernetes) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this EdgeKubernetes.
 func (mg *EdgeKubernetes) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this EdgeKubernetes.
-func (mg *EdgeKubernetes) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this EdgeKubernetes.
@@ -118,11 +103,6 @@ func (mg *EdgeKubernetes) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this EdgeKubernetes.
-func (mg *EdgeKubernetes) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this EdgeKubernetes.
 func (mg *EdgeKubernetes) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -146,11 +126,6 @@ func (mg *Kubernetes) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this Kubernetes.
 func (mg *Kubernetes) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this Kubernetes.
-func (mg *Kubernetes) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this Kubernetes.
@@ -178,11 +153,6 @@ func (mg *Kubernetes) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this Kubernetes.
-func (mg *Kubernetes) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this Kubernetes.
 func (mg *Kubernetes) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -206,11 +176,6 @@ func (mg *KubernetesAddon) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this KubernetesAddon.
 func (mg *KubernetesAddon) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this KubernetesAddon.
-func (mg *KubernetesAddon) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this KubernetesAddon.
@@ -238,11 +203,6 @@ func (mg *KubernetesAddon) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this KubernetesAddon.
-func (mg *KubernetesAddon) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this KubernetesAddon.
 func (mg *KubernetesAddon) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -266,11 +226,6 @@ func (mg *KubernetesNodePool) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this KubernetesNodePool.
 func (mg *KubernetesNodePool) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this KubernetesNodePool.
-func (mg *KubernetesNodePool) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this KubernetesNodePool.
@@ -298,11 +253,6 @@ func (mg *KubernetesNodePool) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this KubernetesNodePool.
-func (mg *KubernetesNodePool) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this KubernetesNodePool.
 func (mg *KubernetesNodePool) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -326,11 +276,6 @@ func (mg *KubernetesPermissions) GetManagementPolicies() xpv1.ManagementPolicies
 // GetProviderConfigReference of this KubernetesPermissions.
 func (mg *KubernetesPermissions) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this KubernetesPermissions.
-func (mg *KubernetesPermissions) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this KubernetesPermissions.
@@ -358,11 +303,6 @@ func (mg *KubernetesPermissions) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this KubernetesPermissions.
-func (mg *KubernetesPermissions) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this KubernetesPermissions.
 func (mg *KubernetesPermissions) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -386,11 +326,6 @@ func (mg *ManagedKubernetes) GetManagementPolicies() xpv1.ManagementPolicies {
 // GetProviderConfigReference of this ManagedKubernetes.
 func (mg *ManagedKubernetes) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
-}
-
-// GetPublishConnectionDetailsTo of this ManagedKubernetes.
-func (mg *ManagedKubernetes) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
 }
 
 // GetWriteConnectionSecretToReference of this ManagedKubernetes.
@@ -418,11 +353,6 @@ func (mg *ManagedKubernetes) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetPublishConnectionDetailsTo of this ManagedKubernetes.
-func (mg *ManagedKubernetes) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
-
 // SetWriteConnectionSecretToReference of this ManagedKubernetes.
 func (mg *ManagedKubernetes) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
@@ -448,11 +378,6 @@ func (mg *ServerlessKubernetes) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetPublishConnectionDetailsTo of this ServerlessKubernetes.
-func (mg *ServerlessKubernetes) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
-
 // GetWriteConnectionSecretToReference of this ServerlessKubernetes.
 func (mg *ServerlessKubernetes) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
@@ -476,11 +401,6 @@ func (mg *ServerlessKubernetes) SetManagementPolicies(r xpv1.ManagementPolicies)
 // SetProviderConfigReference of this ServerlessKubernetes.
 func (mg *ServerlessKubernetes) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
-}
-
-// SetPublishConnectionDetailsTo of this ServerlessKubernetes.
-func (mg *ServerlessKubernetes) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
 }
 
 // SetWriteConnectionSecretToReference of this ServerlessKubernetes.
