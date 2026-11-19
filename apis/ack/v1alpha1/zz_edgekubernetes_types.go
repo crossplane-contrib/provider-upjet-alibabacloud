@@ -333,7 +333,7 @@ type EdgeKubernetesObservation struct {
 	// Configure whether to save certificate authority data for your cluster to attribute certificate_authority. For cluster security, recommended configuration as true. Will be removed with attribute certificate_authority removed.
 	SkipSetCertificateAuthority *bool `json:"skipSetCertificateAuthority,omitempty" tf:"skip_set_certificate_authority,omitempty"`
 
-	// The ID of the container cluster.
+	// The ID of APIServer load balancer.
 	SlbID *string `json:"slbId,omitempty" tf:"slb_id,omitempty"`
 
 	// The public ip of load balancer.

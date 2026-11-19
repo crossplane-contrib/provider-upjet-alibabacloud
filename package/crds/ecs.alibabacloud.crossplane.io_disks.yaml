@@ -149,6 +149,22 @@ spec:
                     description: 'Specifies whether to encrypt the disk. Default value:
                       false. Valid values:'
                     type: boolean
+                  forceDelete:
+                    description: 'Specifies whether to release the disk during destroy
+                      even when the default behavior cannot release it, for example
+                      a payment_type = "Subscription" disk. Defaults to false. When
+                      set to true, the provider converts the disk to PayAsYouGo (ModifyDiskChargeType),
+                      detaches it with DeleteWithInstance=false, waits until the disk
+                      is Available and then releases it (DeleteDisk). NOTE: force_delete
+                      deletes the disk and all data on it, and the release cannot
+                      be undone. It takes priority over the legacy behavior that only
+                      removes a PrePaid disk with delete_with_instance = true from
+                      the state. force_delete does not support multi-attach disks
+                      (multi_attach = "Enabled"); the destroy fails with an actionable
+                      error and the disk is kept. The billing method conversion requires
+                      the disk to be attached to a Subscription instance and is limited
+                      to one successful call per disk every five minutes.'
+                    type: boolean
                   instanceId:
                     description: The ID of the instance to which the created subscription
                       disk is automatically attached.
@@ -456,6 +472,22 @@ spec:
                   encrypted:
                     description: 'Specifies whether to encrypt the disk. Default value:
                       false. Valid values:'
+                    type: boolean
+                  forceDelete:
+                    description: 'Specifies whether to release the disk during destroy
+                      even when the default behavior cannot release it, for example
+                      a payment_type = "Subscription" disk. Defaults to false. When
+                      set to true, the provider converts the disk to PayAsYouGo (ModifyDiskChargeType),
+                      detaches it with DeleteWithInstance=false, waits until the disk
+                      is Available and then releases it (DeleteDisk). NOTE: force_delete
+                      deletes the disk and all data on it, and the release cannot
+                      be undone. It takes priority over the legacy behavior that only
+                      removes a PrePaid disk with delete_with_instance = true from
+                      the state. force_delete does not support multi-attach disks
+                      (multi_attach = "Enabled"); the destroy fails with an actionable
+                      error and the disk is kept. The billing method conversion requires
+                      the disk to be attached to a Subscription instance and is limited
+                      to one successful call per disk every five minutes.'
                     type: boolean
                   instanceId:
                     description: The ID of the instance to which the created subscription
@@ -923,6 +955,22 @@ spec:
                   encrypted:
                     description: 'Specifies whether to encrypt the disk. Default value:
                       false. Valid values:'
+                    type: boolean
+                  forceDelete:
+                    description: 'Specifies whether to release the disk during destroy
+                      even when the default behavior cannot release it, for example
+                      a payment_type = "Subscription" disk. Defaults to false. When
+                      set to true, the provider converts the disk to PayAsYouGo (ModifyDiskChargeType),
+                      detaches it with DeleteWithInstance=false, waits until the disk
+                      is Available and then releases it (DeleteDisk). NOTE: force_delete
+                      deletes the disk and all data on it, and the release cannot
+                      be undone. It takes priority over the legacy behavior that only
+                      removes a PrePaid disk with delete_with_instance = true from
+                      the state. force_delete does not support multi-attach disks
+                      (multi_attach = "Enabled"); the destroy fails with an actionable
+                      error and the disk is kept. The billing method conversion requires
+                      the disk to be attached to a Subscription instance and is limited
+                      to one successful call per disk every five minutes.'
                     type: boolean
                   id:
                     type: string

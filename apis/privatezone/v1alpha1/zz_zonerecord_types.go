@@ -36,9 +36,10 @@ type ZoneRecordInitParameters struct {
 	// The ttl of the Private Zone Record. Default to 60.
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 
-	// The type of the Private Zone Record. Valid values: A, CNAME, TXT, MX, PTR, SRV.
+	// The type of the Private Zone Record. Valid values: A, AAAA, CNAME, MX, PTR, SRV, TXT.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// The user client ip of the Private Zone Record.
 	UserClientIP *string `json:"userClientIp,omitempty" tf:"user_client_ip,omitempty"`
 
 	// The value of the Private Zone Record.
@@ -86,9 +87,10 @@ type ZoneRecordObservation struct {
 	// The ttl of the Private Zone Record. Default to 60.
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 
-	// The type of the Private Zone Record. Valid values: A, CNAME, TXT, MX, PTR, SRV.
+	// The type of the Private Zone Record. Valid values: A, AAAA, CNAME, MX, PTR, SRV, TXT.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// The user client ip of the Private Zone Record.
 	UserClientIP *string `json:"userClientIp,omitempty" tf:"user_client_ip,omitempty"`
 
 	// The value of the Private Zone Record.
@@ -133,10 +135,11 @@ type ZoneRecordParameters struct {
 	// +kubebuilder:validation:Optional
 	TTL *float64 `json:"ttl,omitempty" tf:"ttl,omitempty"`
 
-	// The type of the Private Zone Record. Valid values: A, CNAME, TXT, MX, PTR, SRV.
+	// The type of the Private Zone Record. Valid values: A, AAAA, CNAME, MX, PTR, SRV, TXT.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 
+	// The user client ip of the Private Zone Record.
 	// +kubebuilder:validation:Optional
 	UserClientIP *string `json:"userClientIp,omitempty" tf:"user_client_ip,omitempty"`
 

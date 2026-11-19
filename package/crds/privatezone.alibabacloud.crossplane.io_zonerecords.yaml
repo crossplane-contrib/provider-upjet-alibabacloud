@@ -102,9 +102,10 @@ spec:
                     type: number
                   type:
                     description: 'The type of the Private Zone Record. Valid values:
-                      A, CNAME, TXT, MX, PTR, SRV.'
+                      A, AAAA, CNAME, MX, PTR, SRV, TXT.'
                     type: string
                   userClientIp:
+                    description: The user client ip of the Private Zone Record.
                     type: string
                   value:
                     description: The value of the Private Zone Record.
@@ -225,9 +226,10 @@ spec:
                     type: number
                   type:
                     description: 'The type of the Private Zone Record. Valid values:
-                      A, CNAME, TXT, MX, PTR, SRV.'
+                      A, AAAA, CNAME, MX, PTR, SRV, TXT.'
                     type: string
                   userClientIp:
+                    description: The user client ip of the Private Zone Record.
                     type: string
                   value:
                     description: The value of the Private Zone Record.
@@ -523,9 +525,10 @@ spec:
                     type: number
                   type:
                     description: 'The type of the Private Zone Record. Valid values:
-                      A, CNAME, TXT, MX, PTR, SRV.'
+                      A, AAAA, CNAME, MX, PTR, SRV, TXT.'
                     type: string
                   userClientIp:
+                    description: The user client ip of the Private Zone Record.
                     type: string
                   value:
                     description: The value of the Private Zone Record.

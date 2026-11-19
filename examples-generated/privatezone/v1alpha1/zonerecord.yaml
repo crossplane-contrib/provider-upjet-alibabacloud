@@ -30,4 +30,4 @@ metadata:
 spec:
   forProvider:
     region: cn-beijing
-    zoneName: foo.test.com
+    zoneName: terraform-example.com

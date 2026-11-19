@@ -435,7 +435,8 @@ spec:
                     description: The quota ID.
                     type: string
                   quotaApplicationDetails:
-                    description: List of quota application details.
+                    description: 'List of quota application details. Each element
+                      contains the following attributes:'
                     items:
                       properties:
                         aliyunUid:
@@ -454,19 +455,19 @@ spec:
                         dimensions:
                           additionalProperties:
                             type: string
-                          description: Quota dimension. See dimensions below.
+                          description: Quota dimension.
                           type: object
                           x-kubernetes-map-type: granular
                         envLanguage:
-                          description: 'The language of the quota application result
-                            notification. Value:'
+                          description: 'The language of the quota alert notification.
+                            Value: zh: Chinese, en: English.'
                           type: string
                         noticeType:
-                          description: 'Whether to send notification of quota application
-                            result. Value:'
+                          description: 'Whether to notify the quota increase application
+                            result. Value: 0: No, 3: Yes.'
                           type: number
                         period:
-                          description: Quota calculation period.
+                          description: Quota calculation period. See period below.
                           items:
                             properties:
                               periodUnit:
@@ -490,7 +491,7 @@ spec:
                           description: Quota unit.
                           type: string
                         reason:
-                          description: Reason for quota application.
+                          description: The reason for the quota increase application.
                           type: string
                         status:
                           description: 'The approval status of the quota promotion

@@ -1380,7 +1380,7 @@ spec:
                       with attribute certificate_authority removed.
                     type: boolean
                   slbId:
-                    description: The ID of the container cluster.
+                    description: The ID of APIServer load balancer.
                     type: string
                   slbInternet:
                     description: The public ip of load balancer.
