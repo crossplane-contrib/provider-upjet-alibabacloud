@@ -43,7 +43,7 @@ PASS_WAIT="${PASS_WAIT:-60}"
 # named, because its ids are names or share a prefix with another type: ALB
 # and NLB listeners are both "lsn-", their server groups both "sgp-"). A
 # PrivateLink endpoint goes before its service, which goes before the load
-# balancer behind it.
+# balancer behind it. "ram" is a RAM role, and "ram-user" a RAM user.
 TYPES='
 alb-rule              1 rule-
 alb-ascript           1 as-
@@ -69,7 +69,8 @@ fc                    4 -
 oss                   4 -
 cms                   4 -
 ram                   4 -
-sg                    5 sg-
+ram-user              4 -
+sg                   5 sg-
 vswitch               6 vsw-
 vpc                   7 vpc-
 '
@@ -321,6 +322,10 @@ inventory() {
     "Name | Description | Created" \
     '.Roles.Role' '[.RoleName, .Description, .CreateDate]' \
     ram ListRoles --MaxItems 100
+  section "RAM users" "us-west-1 ram-user:<name>" \
+    "Name | Display name | Comments | Created" \
+    '.Users.User' '[.UserName, .DisplayName, .Comments, .CreateDate]' \
+    ram ListUsers --MaxItems 100
   section "CloudMonitor contact groups" "us-west-1 cms:<name>" \
     "Name" \
     '.ContactGroups.ContactGroup' '[.]' \
@@ -393,6 +398,16 @@ remaining() {
       if out=$(aliyun ram GetRole --RoleName "${id}" 2>&1); then
         echo 1
       elif [ "$(error_code "${out}")" = "EntityNotExist.Role" ]; then
+        echo 0
+      else
+        return 1
+      fi
+      ;;
+    ram-user)
+      local out
+      if out=$(aliyun ram GetUser --UserName "${id}" 2>&1); then
+        echo 1
+      elif [ "$(error_code "${out}")" = "EntityNotExist.User" ]; then
         echo 0
       else
         return 1
@@ -477,6 +492,38 @@ delete_one() {
           result+=$(prepare "detach policy ${name}" ram DetachPolicyFromRole --RoleName "${id}" --PolicyName "${name}" --PolicyType "${policy_type}")
         done <<<"${attached}"
         aliyun ram DeleteRole --RoleName "${id}"
+      else
+        false
+      fi
+      ;;
+    ram-user)
+      # A user cannot be deleted while it is in a group, has policies
+      # attached, or has access keys or a console login. If listing those
+      # fails, that error is the one to report, not DeleteUser's.
+      local groups policies keys name policy_type
+      if groups=$(aliyun ram ListGroupsForUser --UserName "${id}") &&
+        groups=$(jq -er '(.Groups.Group // error("missing"))[] | .GroupName' <<<"${groups}" || [ $? -eq 4 ]) &&
+        policies=$(aliyun ram ListPoliciesForUser --UserName "${id}") &&
+        policies=$(jq -er '(.Policies.Policy // error("missing"))[] | "\(.PolicyName) \(.PolicyType)"' <<<"${policies}" || [ $? -eq 4 ]) &&
+        keys=$(aliyun ram ListAccessKeys --UserName "${id}") &&
+        keys=$(jq -er '(.AccessKeys.AccessKey // error("missing"))[] | .AccessKeyId' <<<"${keys}" || [ $? -eq 4 ]); then
+        while read -r name; do
+          [ -n "${name}" ] || continue
+          result+=$(prepare "remove it from group ${name}" ram RemoveUserFromGroup --UserName "${id}" --GroupName "${name}")
+        done <<<"${groups}"
+        while read -r name policy_type; do
+          [ -n "${name}" ] || continue
+          result+=$(prepare "detach policy ${name}" ram DetachPolicyFromUser --UserName "${id}" --PolicyName "${name}" --PolicyType "${policy_type}")
+        done <<<"${policies}"
+        # Access key ids stay out of the output, which is public.
+        while read -r name; do
+          [ -n "${name}" ] || continue
+          result+=$(prepare "delete an access key" ram DeleteAccessKey --UserName "${id}" --UserAccessKeyId "${name}")
+        done <<<"${keys}"
+        if aliyun ram GetLoginProfile --UserName "${id}" >/dev/null 2>&1; then
+          result+=$(prepare "delete the console login" ram DeleteLoginProfile --UserName "${id}")
+        fi
+        aliyun ram DeleteUser --UserName "${id}"
       else
         false
       fi

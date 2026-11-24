@@ -19,8 +19,8 @@ mkdir -p "${WORK}/bin"
 #   format                "json" prints errors as the CLI's AI agent mode
 #                         does; otherwise as text, as in CI, with every line
 #                         colored so that parsing has to strip the colors
-# Anything else succeeds with an empty JSON object, or an empty policy list
-# for ListPoliciesForRole.
+# Anything else succeeds with an empty JSON object, or an empty list for the
+# RAM calls that list what blocks a role's or user's delete.
 cat >"${WORK}/bin/aliyun" <<'STUB'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -56,7 +56,9 @@ for response in "${STUB_DIR}/response/${action}.p${page}" "${STUB_DIR}/response/
 done
 case "${action}" in
   GetCallerIdentity) echo '{"AccountId":"5550123456789","Arn":"acs:ram::5550123456789:user/stub"}' ;;
-  ListPoliciesForRole) echo '{"Policies":{"Policy":[]}}' ;;
+  ListPoliciesForRole | ListPoliciesForUser) echo '{"Policies":{"Policy":[]}}' ;;
+  ListGroupsForUser) echo '{"Groups":{"Group":[]}}' ;;
+  ListAccessKeys) echo '{"AccessKeys":{"AccessKey":[]}}' ;;
   ls) ;;
   *) echo '{}' ;;
 esac
@@ -225,8 +227,53 @@ targets "us-west-1 ram:test-role-1"
 check "a role whose policies cannot be listed is not deleted" not_called "DeleteRole"
 check "the listing error is the one reported" output_has "not deleted yet: \`Forbidden.RAM: stub error"
 
+start ram-user-dependencies
+respond ListGroupsForUser '{"Groups":{"Group":[{"GroupName":"test-group-1"}]}}'
+respond ListPoliciesForUser '{"Policies":{"Policy":[{"PolicyName":"test-policy-1","PolicyType":"Custom"}]}}'
+respond ListAccessKeys '{"AccessKeys":{"AccessKey":[{"AccessKeyId":"LTAIstubkey"}]}}'
+targets "us-west-1 ram-user:test-user-1"
+check "a user with dependencies is deleted" status_is 0
+check "it is removed from its group" called "ram RemoveUserFromGroup --UserName test-user-1 --GroupName test-group-1"
+check "its policy is detached" called "ram DetachPolicyFromUser --UserName test-user-1 --PolicyName test-policy-1 --PolicyType Custom"
+check "its access key is deleted" called "ram DeleteAccessKey --UserName test-user-1 --UserAccessKeyId LTAIstubkey"
+check "its console login is deleted" called "ram DeleteLoginProfile --UserName test-user-1"
+check "group removal before the user" before RemoveUserFromGroup DeleteUser
+check "policy detach before the user" before DetachPolicyFromUser DeleteUser
+check "access key before the user" before DeleteAccessKey DeleteUser
+check "console login before the user" before DeleteLoginProfile DeleteUser
+
+start ram-user-key-redacted
+respond ListAccessKeys '{"AccessKeys":{"AccessKey":[{"AccessKeyId":"LTAIstubkey"}]}}'
+fail_with DeleteAccessKey Forbidden.RAM
+fail_with DeleteUser DeleteConflict.User.AccessKey
+respond GetUser '{"User":{"UserName":"test-user-1"}}'
+targets "us-west-1 ram-user:test-user-1"
+check "a failed access key delete is reported" output_has "could not delete an access key: Forbidden.RAM: stub error"
+check "the access key id is never shown" output_lacks "LTAIstubkey"
+
+start ram-user-no-login
+fail_with GetLoginProfile EntityNotExist.User.LoginProfile
+targets "us-west-1 ram-user:test-user-1"
+check "a user without a console login is deleted" called "ram DeleteUser --UserName test-user-1"
+check "no console login is deleted" not_called "DeleteLoginProfile"
+check "nothing is reported as failed" output_lacks "could not"
+
+start ram-user-gone
+fail_with ListGroupsForUser EntityNotExist.User
+fail_with GetUser EntityNotExist.User
+targets "us-west-1 ram-user:test-user-1"
+check "a user that is already gone is not a failure" status_is 0
+check "it is reported as absent" output_has "\`test-user-1\` (ram-user) does not exist in us-west-1"
+
+start ram-user-groups-unreadable
+fail_with ListGroupsForUser Forbidden.RAM
+respond GetUser '{"User":{"UserName":"test-user-1"}}'
+targets "us-west-1 ram-user:test-user-1"
+check "a user whose groups cannot be listed is not deleted" not_called "DeleteUser"
+check "the listing error is the one reported" output_has "not deleted yet: \`Forbidden.RAM: stub error"
+
 # Only names that every type's own rules allow reach a command.
-for bad in 'oss:bkt/logs' 'oss:' 'cms:' 'sls:a"b' '-x' 'ram:-x'; do
+for bad in 'oss:bkt/logs' 'oss:' 'cms:' 'sls:a"b' '-x' 'ram:-x' 'ram-user:-x'; do
   start "bad-name-${bad}"
   targets "us-west-1 ${bad}"
   check "\"${bad}\" is rejected" status_is 1
