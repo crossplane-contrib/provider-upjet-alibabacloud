@@ -404,8 +404,16 @@ crddiff:
 			echo "CRD $${crd} does not exist in the $${GITHUB_BASE_REF} branch. Skipping..." ; \
 			continue ; \
 		fi ; \
+		if git diff --quiet "$${GITHUB_BASE_REF}" -- "$${crd}" ; then \
+			echo "CRD $${crd} is unchanged from the $${GITHUB_BASE_REF} branch. Skipping..." ; \
+			continue ; \
+		fi ; \
+		upjet_extensions=--enable-upjet-extensions ; \
+		if ! grep -q 'forProvider:' "$${crd}" ; then \
+			upjet_extensions= ; \
+		fi ; \
 		echo "Checking $${crd} for breaking API changes..." ; \
-		changes_detected=$$(go run github.com/upbound/uptest/cmd/crddiff@$(CRDDIFF_VERSION) revision --enable-upjet-extensions <(git cat-file -p "$${GITHUB_BASE_REF}:$${crd}") "$${crd}" 2>&1) ; \
+		changes_detected=$$(go run github.com/upbound/uptest/cmd/crddiff@$(CRDDIFF_VERSION) revision $${upjet_extensions} <(git cat-file -p "$${GITHUB_BASE_REF}:$${crd}") "$${crd}" 2>&1) ; \
 		if [[ $$? != 0 ]] ; then \
 			printf "\033[31m"; echo "Breaking change detected!"; printf "\033[0m" ; \
 			echo "$${changes_detected}" ; \
