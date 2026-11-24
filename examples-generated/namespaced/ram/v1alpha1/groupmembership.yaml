@@ -1,0 +1,71 @@
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: GroupMembership
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/groupmembership
+  labels:
+    testing.upbound.io/example-name: membership
+  name: membership
+  namespace: upbound-system
+spec:
+  forProvider:
+    groupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: group
+    userNamesRefs:
+    - name: user
+    - name: user1
+
+---
+
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/groupmembership
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+  namespace: upbound-system
+spec:
+  forProvider:
+    comments: this is a group comments.
+    name: ${format("%sgroup", var.name)}
+
+---
+
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/groupmembership
+  labels:
+    testing.upbound.io/example-name: user
+  name: user
+  namespace: upbound-system
+spec:
+  forProvider:
+    comments: yoyoyo
+    displayName: user_display_name
+    email: hello.uuu@aaa.com
+    mobile: 86-18688888888
+    name: ${format("%suser", var.name)}
+
+---
+
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/groupmembership
+  labels:
+    testing.upbound.io/example-name: user1
+  name: user1
+  namespace: upbound-system
+spec:
+  forProvider:
+    comments: yoyoyo
+    displayName: user_display_name1
+    email: hello.uuu@aaa.com
+    mobile: 86-18688888889
+    name: ${format("%suser1", var.name)}

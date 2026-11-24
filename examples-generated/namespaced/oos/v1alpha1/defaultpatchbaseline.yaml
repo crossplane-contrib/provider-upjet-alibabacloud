@@ -1,0 +1,36 @@
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: DefaultPatchBaseline
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/defaultpatchbaseline
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    patchBaselineNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: cn-beijing
+
+---
+
+apiVersion: oos.alibabacloud.m.crossplane.io/v1alpha1
+kind: PatchBaseline
+metadata:
+  annotations:
+    meta.upbound.io/example-id: oos/v1alpha1/defaultpatchbaseline
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+  namespace: upbound-system
+spec:
+  forProvider:
+    approvalRules: '{"PatchRules":[{"PatchFilterGroup":[{"Key":"PatchSet","Values":["OS"]},{"Key":"ProductFamily","Values":["Windows"]},{"Key":"Product","Values":["Windows
+      10","Windows 7"]},{"Key":"Classification","Values":["Security Updates","Updates","Update
+      Rollups","Critical Updates"]},{"Key":"Severity","Values":["Critical","Important","Moderate"]}],"ApproveAfterDays":7,"EnableNonSecurity":true,"ComplianceLevel":"Medium"}]}'
+    description: terraform-example
+    operationSystem: Windows
+    patchBaselineName: terraform-example
+    region: cn-beijing

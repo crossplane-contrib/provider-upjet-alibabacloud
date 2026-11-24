@@ -1,0 +1,14 @@
+apiVersion: alibabacloud.m.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  namespace: default
+  name: assume-role-with-oidc
+spec:
+  credentials:
+    source: None
+  assumeRoleWithOIDC:
+    roleARN: acs:ram::<account-id>:role/<role-name>
+    oidcProviderARN: acs:ram::<account-id>:oidc-provider/<provider-name>
+    oidcTokenFile: /var/run/secrets/ack.alibabacloud.com/rrsa-tokens/token
+    roleSessionName: crossplane-oidc
+    sessionExpiration: 3600

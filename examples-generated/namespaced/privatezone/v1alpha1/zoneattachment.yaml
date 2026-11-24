@@ -1,0 +1,68 @@
+apiVersion: privatezone.alibabacloud.m.crossplane.io/v1alpha1
+kind: ZoneAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/zoneattachment
+  labels:
+    testing.upbound.io/example-name: zone-attachment
+  name: zone-attachment
+  namespace: upbound-system
+spec:
+  forProvider:
+    region: cn-beijing
+    vpcIdsRefs:
+    - name: first
+    - name: second
+    zoneIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: zone
+
+---
+
+apiVersion: privatezone.alibabacloud.m.crossplane.io/v1alpha1
+kind: Zone
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/zoneattachment
+  labels:
+    testing.upbound.io/example-name: zone
+  name: zone
+  namespace: upbound-system
+spec:
+  forProvider:
+    region: cn-beijing
+    zoneName: foo.example.com
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/zoneattachment
+  labels:
+    testing.upbound.io/example-name: first
+  name: first
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/12
+    region: cn-beijing
+    vpcName: the-first-vpc
+
+---
+
+apiVersion: vpc.alibabacloud.m.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatezone/v1alpha1/zoneattachment
+  labels:
+    testing.upbound.io/example-name: second
+  name: second
+  namespace: upbound-system
+spec:
+  forProvider:
+    cidrBlock: 172.16.0.0/16
+    region: cn-beijing
+    vpcName: the-second-vpc

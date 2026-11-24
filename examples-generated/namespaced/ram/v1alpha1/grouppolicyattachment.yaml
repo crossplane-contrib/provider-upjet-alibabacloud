@@ -1,0 +1,69 @@
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: GroupPolicyAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/grouppolicyattachment
+  labels:
+    testing.upbound.io/example-name: attach
+  name: attach
+  namespace: upbound-system
+spec:
+  forProvider:
+    groupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: group
+    policyNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
+    policyTypeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy
+
+---
+
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/grouppolicyattachment
+  labels:
+    testing.upbound.io/example-name: group
+  name: group
+  namespace: upbound-system
+spec:
+  forProvider:
+    comments: this is a group comments.
+    groupName: groupName
+
+---
+
+apiVersion: ram.alibabacloud.m.crossplane.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ram/v1alpha1/grouppolicyattachment
+  labels:
+    testing.upbound.io/example-name: policy
+  name: policy
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: this is a policy test
+    policyDocument: |2
+          {
+            "Statement": [
+              {
+                "Action": [
+                  "oss:ListObjects",
+                  "oss:GetObject"
+                ],
+                "Effect": "Allow",
+                "Resource": [
+                  "acs:oss:*:*:mybucket",
+                  "acs:oss:*:*:mybucket/*"
+                ]
+              }
+            ],
+              "Version": "1"
+          }
+    policyName: tf-example-${random_integer.default.result}
