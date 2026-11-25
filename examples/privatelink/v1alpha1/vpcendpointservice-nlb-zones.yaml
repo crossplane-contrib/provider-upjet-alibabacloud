@@ -1,0 +1,109 @@
+# An NLB-backed endpoint service with the same NLB attached in two zones
+# (#212). resource[].resourceId takes no reference, so the post-assert hook
+# attaches the NLB once it exists, and also creates a second service with both
+# attachments set from the start; it checks that both zones are attached.
+apiVersion: privatelink.alibabacloud.crossplane.io/v1alpha1
+kind: VPCEndpointService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointservice
+    uptest.upbound.io/post-assert-hook: testhooks/attach-nlb-in-two-zones.sh
+  labels:
+    testing.upbound.io/example-name: nlb-zones
+  name: nlb-zones
+spec:
+  forProvider:
+    region: us-west-1
+    autoAcceptConnection: false
+    serviceDescription: crossplane-example-nlb-zones
+    serviceResourceType: nlb
+
+---
+
+apiVersion: nlb.alibabacloud.crossplane.io/v1alpha1
+kind: LoadBalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointservice
+  labels:
+    testing.upbound.io/example-name: nlb-zones
+  name: nlb-zones
+spec:
+  forProvider:
+    addressIpVersion: Ipv4
+    addressType: Intranet
+    loadBalancerName: crossplane-example-nlb-zones
+    loadBalancerType: Network
+    region: us-west-1
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: nlb-zones
+    zoneMappings:
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: nlb-zones-1
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: nlb-zones-1
+    - vswitchIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: nlb-zones-2
+      zoneIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: nlb-zones-2
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointservice
+  labels:
+    testing.upbound.io/example-name: nlb-zones
+  name: nlb-zones
+spec:
+  forProvider:
+    cidrBlock: 10.4.0.0/16
+    region: us-west-1
+    vpcName: crossplane-example-nlb-zones
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointservice
+  labels:
+    testing.upbound.io/example-name: nlb-zones-1
+  name: nlb-zones-1
+spec:
+  forProvider:
+    cidrBlock: 10.4.1.0/24
+    region: us-west-1
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: nlb-zones
+    vswitchName: crossplane-example-nlb-zones-1
+    zoneId: us-west-1a
+
+---
+
+apiVersion: vpc.alibabacloud.crossplane.io/v1alpha1
+kind: Vswitch
+metadata:
+  annotations:
+    meta.upbound.io/example-id: privatelink/v1alpha1/vpcendpointservice
+  labels:
+    testing.upbound.io/example-name: nlb-zones-2
+  name: nlb-zones-2
+spec:
+  forProvider:
+    cidrBlock: 10.4.2.0/24
+    region: us-west-1
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: nlb-zones
+    vswitchName: crossplane-example-nlb-zones-2
+    zoneId: us-west-1b
