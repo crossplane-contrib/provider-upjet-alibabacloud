@@ -502,17 +502,15 @@ spec:
                     description: A list of runtime containers. If you select another
                       container runtime, see How do I select between Docker and Sandboxed-Container.
                       See runtime below.
-                    items:
-                      properties:
-                        name:
-                          description: The name of the runtime. Supported runtimes
-                            can be queried by data source alicloud_cs_kubernetes_version.
-                          type: string
-                        version:
-                          description: The version of the runtime.
-                          type: string
-                      type: object
-                    type: array
+                    properties:
+                      name:
+                        description: The name of the runtime. Supported runtimes can
+                          be queried by data source alicloud_cs_kubernetes_version.
+                        type: string
+                      version:
+                        description: The version of the runtime.
+                        type: string
+                    type: object
                   securityGroupId:
                     description: The ID of the security group to which the ECS instances
                       in the cluster belong. If it is not specified, a new Security
@@ -1077,17 +1075,15 @@ spec:
                     description: A list of runtime containers. If you select another
                       container runtime, see How do I select between Docker and Sandboxed-Container.
                       See runtime below.
-                    items:
-                      properties:
-                        name:
-                          description: The name of the runtime. Supported runtimes
-                            can be queried by data source alicloud_cs_kubernetes_version.
-                          type: string
-                        version:
-                          description: The version of the runtime.
-                          type: string
-                      type: object
-                    type: array
+                    properties:
+                      name:
+                        description: The name of the runtime. Supported runtimes can
+                          be queried by data source alicloud_cs_kubernetes_version.
+                        type: string
+                      version:
+                        description: The version of the runtime.
+                        type: string
+                    type: object
                   securityGroupId:
                     description: The ID of the security group to which the ECS instances
                       in the cluster belong. If it is not specified, a new Security
@@ -1429,32 +1425,27 @@ spec:
                       containing certificate authority data for your cluster. Please
                       use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential
                       to replace it.
-                    items:
-                      properties:
-                        clientCert:
-                          description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
-                            is recommended to manage cluster's kubeconfig, you can
-                            also save the certificate_authority.client_cert attribute
-                            content of new DataSource alicloud_cs_cluster_credential
-                            to an appropriate path(like ~/.kube/client-cert.pem) for
-                            replace it.
-                          type: string
-                        clientKey:
-                          description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
-                            is recommended to manage cluster's kubeconfig, you can
-                            also save the certificate_authority.client_key attribute
-                            content of new DataSource alicloud_cs_cluster_credential
-                            to an appropriate path(like ~/.kube/client-key.pem) for
-                            replace it.
-                          type: string
-                        clusterCert:
-                          description: The base64 encoded cluster certificate data
-                            required to communicate with your cluster. Add this to
-                            the certificate-authority-data section of the kubeconfig
-                            file for your cluster.
-                          type: string
-                      type: object
-                    type: array
+                    properties:
+                      clientCert:
+                        description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                          is recommended to manage cluster's kubeconfig, you can also
+                          save the certificate_authority.client_cert attribute content
+                          of new DataSource alicloud_cs_cluster_credential to an appropriate
+                          path(like ~/.kube/client-cert.pem) for replace it.
+                        type: string
+                      clientKey:
+                        description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                          is recommended to manage cluster's kubeconfig, you can also
+                          save the certificate_authority.client_key attribute content
+                          of new DataSource alicloud_cs_cluster_credential to an appropriate
+                          path(like ~/.kube/client-key.pem) for replace it.
+                        type: string
+                      clusterCert:
+                        description: The base64 encoded cluster certificate data required
+                          to communicate with your cluster. Add this to the certificate-authority-data
+                          section of the kubeconfig file for your cluster.
+                        type: string
+                    type: object
                   clientCert:
                     description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
                       is recommended to manage cluster's kubeconfig, you can also
@@ -1483,22 +1474,20 @@ spec:
                     type: string
                   connections:
                     description: (List) A list of kubernetes cluster connection information.
-                    items:
-                      properties:
-                        apiServerInternet:
-                          description: API Server Internet endpoint.
-                          type: string
-                        apiServerIntranet:
-                          description: API Server Intranet endpoint.
-                          type: string
-                        masterPublicIp:
-                          description: Master node SSH IP address.
-                          type: string
-                        serviceDomain:
-                          description: Service Access Domain.
-                          type: string
-                      type: object
-                    type: array
+                    properties:
+                      apiServerInternet:
+                        description: API Server Internet endpoint.
+                        type: string
+                      apiServerIntranet:
+                        description: API Server Intranet endpoint.
+                        type: string
+                      masterPublicIp:
+                        description: Master node SSH IP address.
+                        type: string
+                      serviceDomain:
+                        description: Service Access Domain.
+                        type: string
+                    type: object
                   customSan:
                     description: Customize the certificate SAN, multiple IP or domain
                       names are separated by English commas (,).
@@ -1712,17 +1701,15 @@ spec:
                     description: A list of runtime containers. If you select another
                       container runtime, see How do I select between Docker and Sandboxed-Container.
                       See runtime below.
-                    items:
-                      properties:
-                        name:
-                          description: The name of the runtime. Supported runtimes
-                            can be queried by data source alicloud_cs_kubernetes_version.
-                          type: string
-                        version:
-                          description: The version of the runtime.
-                          type: string
-                      type: object
-                    type: array
+                    properties:
+                      name:
+                        description: The name of the runtime. Supported runtimes can
+                          be queried by data source alicloud_cs_kubernetes_version.
+                        type: string
+                      version:
+                        description: The version of the runtime.
+                        type: string
+                    type: object
                   securityGroupId:
                     description: The ID of the security group to which the ECS instances
                       in the cluster belong. If it is not specified, a new Security

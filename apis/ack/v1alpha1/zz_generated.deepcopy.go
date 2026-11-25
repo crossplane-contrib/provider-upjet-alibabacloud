@@ -1866,10 +1866,8 @@ func (in *EdgeKubernetesInitParameters) DeepCopyInto(out *EdgeKubernetesInitPara
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime
-		*out = make([]RuntimeInitParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(RuntimeInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupID != nil {
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
@@ -2059,10 +2057,8 @@ func (in *EdgeKubernetesObservation) DeepCopyInto(out *EdgeKubernetesObservation
 	}
 	if in.CertificateAuthority != nil {
 		in, out := &in.CertificateAuthority, &out.CertificateAuthority
-		*out = make([]CertificateAuthorityObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(CertificateAuthorityObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ClientCert != nil {
 		in, out := &in.ClientCert, &out.ClientCert
@@ -2086,10 +2082,8 @@ func (in *EdgeKubernetesObservation) DeepCopyInto(out *EdgeKubernetesObservation
 	}
 	if in.Connections != nil {
 		in, out := &in.Connections, &out.Connections
-		*out = make([]ConnectionsObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(ConnectionsObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
@@ -2192,10 +2186,8 @@ func (in *EdgeKubernetesObservation) DeepCopyInto(out *EdgeKubernetesObservation
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime
-		*out = make([]RuntimeObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(RuntimeObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupID != nil {
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
@@ -2482,10 +2474,8 @@ func (in *EdgeKubernetesParameters) DeepCopyInto(out *EdgeKubernetesParameters) 
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime
-		*out = make([]RuntimeParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(RuntimeParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupID != nil {
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
@@ -4743,10 +4733,8 @@ func (in *KubernetesInitParameters) DeepCopyInto(out *KubernetesInitParameters) 
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime
-		*out = make([]KubernetesRuntimeInitParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(KubernetesRuntimeInitParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupID != nil {
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
@@ -6594,10 +6582,8 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 	}
 	if in.CertificateAuthority != nil {
 		in, out := &in.CertificateAuthority, &out.CertificateAuthority
-		*out = make([]KubernetesCertificateAuthorityObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(KubernetesCertificateAuthorityObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ClientCert != nil {
 		in, out := &in.ClientCert, &out.ClientCert
@@ -6621,10 +6607,8 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 	}
 	if in.Connections != nil {
 		in, out := &in.Connections, &out.Connections
-		*out = make([]KubernetesConnectionsObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(KubernetesConnectionsObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.CustomSan != nil {
 		in, out := &in.CustomSan, &out.CustomSan
@@ -6858,10 +6842,8 @@ func (in *KubernetesObservation) DeepCopyInto(out *KubernetesObservation) {
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime
-		*out = make([]KubernetesRuntimeObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(KubernetesRuntimeObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupID != nil {
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
@@ -7246,10 +7228,8 @@ func (in *KubernetesParameters) DeepCopyInto(out *KubernetesParameters) {
 	}
 	if in.Runtime != nil {
 		in, out := &in.Runtime, &out.Runtime
-		*out = make([]KubernetesRuntimeParameters, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(KubernetesRuntimeParameters)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecurityGroupID != nil {
 		in, out := &in.SecurityGroupID, &out.SecurityGroupID
@@ -8788,10 +8768,8 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 	}
 	if in.CertificateAuthority != nil {
 		in, out := &in.CertificateAuthority, &out.CertificateAuthority
-		*out = make([]ManagedKubernetesCertificateAuthorityObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(ManagedKubernetesCertificateAuthorityObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ClientCert != nil {
 		in, out := &in.ClientCert, &out.ClientCert
@@ -8820,10 +8798,8 @@ func (in *ManagedKubernetesObservation) DeepCopyInto(out *ManagedKubernetesObser
 	}
 	if in.Connections != nil {
 		in, out := &in.Connections, &out.Connections
-		*out = make([]ManagedKubernetesConnectionsObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(ManagedKubernetesConnectionsObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ControlPlaneEndpointsConfig != nil {
 		in, out := &in.ControlPlaneEndpointsConfig, &out.ControlPlaneEndpointsConfig

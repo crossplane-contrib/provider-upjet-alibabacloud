@@ -1543,32 +1543,27 @@ spec:
                       containing certificate authority data for your cluster. Please
                       use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential
                       to replace it.
-                    items:
-                      properties:
-                        clientCert:
-                          description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
-                            is recommended to manage cluster's kubeconfig, you can
-                            also save the certificate_authority.client_cert attribute
-                            content of new DataSource alicloud_cs_cluster_credential
-                            to an appropriate path(like ~/.kube/client-cert.pem) for
-                            replace it.
-                          type: string
-                        clientKey:
-                          description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
-                            is recommended to manage cluster's kubeconfig, you can
-                            also save the certificate_authority.client_key attribute
-                            content of new DataSource alicloud_cs_cluster_credential
-                            to an appropriate path(like ~/.kube/client-key.pem) for
-                            replace it.
-                          type: string
-                        clusterCert:
-                          description: The base64 encoded cluster certificate data
-                            required to communicate with your cluster. Add this to
-                            the certificate-authority-data section of the kubeconfig
-                            file for your cluster.
-                          type: string
-                      type: object
-                    type: array
+                    properties:
+                      clientCert:
+                        description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                          is recommended to manage cluster's kubeconfig, you can also
+                          save the certificate_authority.client_cert attribute content
+                          of new DataSource alicloud_cs_cluster_credential to an appropriate
+                          path(like ~/.kube/client-cert.pem) for replace it.
+                        type: string
+                      clientKey:
+                        description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
+                          is recommended to manage cluster's kubeconfig, you can also
+                          save the certificate_authority.client_key attribute content
+                          of new DataSource alicloud_cs_cluster_credential to an appropriate
+                          path(like ~/.kube/client-key.pem) for replace it.
+                        type: string
+                      clusterCert:
+                        description: The base64 encoded cluster certificate data required
+                          to communicate with your cluster. Add this to the certificate-authority-data
+                          section of the kubeconfig file for your cluster.
+                        type: string
+                    type: object
                   clientCert:
                     description: From version 1.248.0, new DataSource alicloud_cs_cluster_credential
                       is recommended to manage cluster's kubeconfig, you can also
@@ -1601,22 +1596,20 @@ spec:
                     type: string
                   connections:
                     description: A list of kubernetes cluster connection information.
-                    items:
-                      properties:
-                        apiServerInternet:
-                          description: API Server Internet endpoint.
-                          type: string
-                        apiServerIntranet:
-                          description: API Server Intranet endpoint.
-                          type: string
-                        masterPublicIp:
-                          description: Master node SSH IP address.
-                          type: string
-                        serviceDomain:
-                          description: Service Access Domain.
-                          type: string
-                      type: object
-                    type: array
+                    properties:
+                      apiServerInternet:
+                        description: API Server Internet endpoint.
+                        type: string
+                      apiServerIntranet:
+                        description: API Server Intranet endpoint.
+                        type: string
+                      masterPublicIp:
+                        description: Master node SSH IP address.
+                        type: string
+                      serviceDomain:
+                        description: Service Access Domain.
+                        type: string
+                    type: object
                   controlPlaneEndpointsConfig:
                     description: The cluster access configuration. See control_plane_endpoints_config
                       below.

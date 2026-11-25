@@ -533,7 +533,7 @@ type ManagedKubernetesObservation struct {
 	AutoMode []ManagedKubernetesAutoModeObservation `json:"autoMode,omitempty" tf:"auto_mode,omitempty"`
 
 	// (List, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.
-	CertificateAuthority []ManagedKubernetesCertificateAuthorityObservation `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
+	CertificateAuthority *ManagedKubernetesCertificateAuthorityObservation `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
 	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
@@ -552,7 +552,7 @@ type ManagedKubernetesObservation struct {
 	ClusterSpec *string `json:"clusterSpec,omitempty" tf:"cluster_spec,omitempty"`
 
 	// A list of kubernetes cluster connection information.
-	Connections []ManagedKubernetesConnectionsObservation `json:"connections,omitempty" tf:"connections,omitempty"`
+	Connections *ManagedKubernetesConnectionsObservation `json:"connections,omitempty" tf:"connections,omitempty"`
 
 	// The cluster access configuration. See control_plane_endpoints_config below.
 	ControlPlaneEndpointsConfig []ControlPlaneEndpointsConfigObservation `json:"controlPlaneEndpointsConfig,omitempty" tf:"control_plane_endpoints_config,omitempty"`

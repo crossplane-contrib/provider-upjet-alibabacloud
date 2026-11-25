@@ -31,6 +31,7 @@ func Configure(p *config.Provider) {
 		// We need to override the default group that upjet generated for
 		// this resource, which would be "ack"
 		r.ShortGroup = string(common.ACK)
+		common.KeepObjectShape(r, "certificate_authority", "connections", "runtime")
 		r.Kind = "EdgeKubernetes"
 		r.UseAsync = true
 		// Alibaba Cloud no longer creates ACK@Edge clusters
@@ -78,6 +79,7 @@ func Configure(p *config.Provider) {
 		// We need to override the default group that upjet generated for
 		// this resource, which would be "ack"
 		r.ShortGroup = string(common.ACK)
+		common.KeepObjectShape(r, "certificate_authority", "connections", "runtime")
 		r.Kind = "Kubernetes"
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{
@@ -194,6 +196,7 @@ func Configure(p *config.Provider) {
 		// We need to override the default group that upjet generated for
 		// this resource, which would be "ack"
 		r.ShortGroup = string(common.ACK)
+		common.KeepObjectShape(r, "certificate_authority", "connections")
 		r.Kind = "ManagedKubernetes"
 		r.UseAsync = true
 		r.LateInitializer = config.LateInitializer{

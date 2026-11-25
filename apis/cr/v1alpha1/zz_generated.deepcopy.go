@@ -3463,10 +3463,8 @@ func (in *RepoObservation) DeepCopyInto(out *RepoObservation) {
 	}
 	if in.DomainList != nil {
 		in, out := &in.DomainList, &out.DomainList
-		*out = make([]DomainListObservation, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		*out = new(DomainListObservation)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID

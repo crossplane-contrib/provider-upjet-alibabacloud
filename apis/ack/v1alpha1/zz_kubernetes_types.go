@@ -276,7 +276,7 @@ type KubernetesInitParameters struct {
 	RetainResources []*string `json:"retainResources,omitempty" tf:"retain_resources,omitempty"`
 
 	// A list of runtime containers. If you select another container runtime, see How do I select between Docker and Sandboxed-Container. See runtime below.
-	Runtime []KubernetesRuntimeInitParameters `json:"runtime,omitempty" tf:"runtime,omitempty"`
+	Runtime *KubernetesRuntimeInitParameters `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup
@@ -325,7 +325,7 @@ type KubernetesObservation struct {
 	Addons []KubernetesAddonsObservation `json:"addons,omitempty" tf:"addons,omitempty"`
 
 	// (List, Deprecated from v1.248.0) Nested attribute containing certificate authority data for your cluster. Please use the attribute certificate_authority of new DataSource alicloud_cs_cluster_credential to replace it.
-	CertificateAuthority []KubernetesCertificateAuthorityObservation `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
+	CertificateAuthority *KubernetesCertificateAuthorityObservation `json:"certificateAuthority,omitempty" tf:"certificate_authority,omitempty"`
 
 	// From version 1.248.0, new DataSource alicloud_cs_cluster_credential is recommended to manage cluster's kubeconfig, you can also save the certificate_authority.client_cert attribute content of new DataSource alicloud_cs_cluster_credential to an appropriate path(like ~/.kube/client-cert.pem) for replace it.
 	ClientCert *string `json:"clientCert,omitempty" tf:"client_cert,omitempty"`
@@ -341,7 +341,7 @@ type KubernetesObservation struct {
 	ClusterDomain *string `json:"clusterDomain,omitempty" tf:"cluster_domain,omitempty"`
 
 	// (List) A list of kubernetes cluster connection information.
-	Connections []KubernetesConnectionsObservation `json:"connections,omitempty" tf:"connections,omitempty"`
+	Connections *KubernetesConnectionsObservation `json:"connections,omitempty" tf:"connections,omitempty"`
 
 	// Customize the certificate SAN, multiple IP or domain names are separated by English commas (,).
 	CustomSan *string `json:"customSan,omitempty" tf:"custom_san,omitempty"`
@@ -456,7 +456,7 @@ type KubernetesObservation struct {
 	RetainResources []*string `json:"retainResources,omitempty" tf:"retain_resources,omitempty"`
 
 	// A list of runtime containers. If you select another container runtime, see How do I select between Docker and Sandboxed-Container. See runtime below.
-	Runtime []KubernetesRuntimeObservation `json:"runtime,omitempty" tf:"runtime,omitempty"`
+	Runtime *KubernetesRuntimeObservation `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
 	SecurityGroupID *string `json:"securityGroupId,omitempty" tf:"security_group_id,omitempty"`
@@ -695,7 +695,7 @@ type KubernetesParameters struct {
 
 	// A list of runtime containers. If you select another container runtime, see How do I select between Docker and Sandboxed-Container. See runtime below.
 	// +kubebuilder:validation:Optional
-	Runtime []KubernetesRuntimeParameters `json:"runtime,omitempty" tf:"runtime,omitempty"`
+	Runtime *KubernetesRuntimeParameters `json:"runtime,omitempty" tf:"runtime,omitempty"`
 
 	// The ID of the security group to which the ECS instances in the cluster belong. If it is not specified, a new Security group will be built.
 	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-alibabacloud/apis/ecs/v1alpha1.SecurityGroup

@@ -88,6 +88,7 @@ func Configure(p *config.Provider) {
 
 	p.AddResourceConfigurator("alicloud_cr_repo", func(r *config.Resource) {
 		r.ShortGroup = "cr"
+		common.KeepObjectShape(r, "domain_list")
 	})
 
 	p.AddResourceConfigurator("alicloud_cr_scan_rule", func(r *config.Resource) {
