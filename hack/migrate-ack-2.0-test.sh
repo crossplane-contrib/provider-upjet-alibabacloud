@@ -47,7 +47,9 @@ check() {
 }
 run() {
   set +e
-  STUB_DIR="${STUB_DIR}" PATH="${WORK}/bin:${PATH}" bash "${SCRIPT}" "$@" >"${STUB_DIR}/out" 2>&1
+  # KUBECTL is pinned to the stub: the script honours it, and one exported in
+  # the caller's environment would reach a real cluster.
+  STUB_DIR="${STUB_DIR}" PATH="${WORK}/bin:${PATH}" KUBECTL=kubectl bash "${SCRIPT}" "$@" >"${STUB_DIR}/out" 2>&1
   echo $? >"${STUB_DIR}/status"
   set -e
 }

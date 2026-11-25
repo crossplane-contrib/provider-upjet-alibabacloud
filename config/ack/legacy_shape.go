@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/crossplane/crossplane-runtime/v2/pkg/errors"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/crossplane/upjet/v2/pkg/config"
@@ -27,7 +28,10 @@ const clusterRootGroup = "alibabacloud.crossplane.io"
 // Synced=False while it still holds fields in the provider 1.x object form;
 // see package legacyshape. Decoding drops those fields, so the check reads the
 // resource as stored. It runs before anything that could write the decoded
-// resource back, and so lose a 1.x spec.forProvider.runtime.
+// resource back, and so lose a 1.x spec.forProvider.runtime. A resource being
+// deleted is let through: the reconciler initializes before it deletes, so
+// blocking would keep the cloud resource, and a dropped runtime does not
+// matter to a delete.
 func guardLegacyShape(p *config.Provider, r *config.Resource) {
 	if p.RootGroup != clusterRootGroup {
 		return
@@ -42,6 +46,9 @@ func guardLegacyShape(p *config.Provider, r *config.Resource) {
 }
 
 func checkLegacyShape(ctx context.Context, c client.Client, gvk schema.GroupVersionKind, mg resource.Managed, paths []string) error {
+	if meta.WasDeleted(mg) {
+		return nil
+	}
 	u := &unstructured.Unstructured{}
 	u.SetGroupVersionKind(gvk)
 	if err := c.Get(ctx, client.ObjectKeyFromObject(mg), u); err != nil {
