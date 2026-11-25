@@ -1,7 +1,10 @@
 package privatelink
 
 import (
+	"fmt"
+
 	"github.com/crossplane/upjet/pkg/config"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/crossplane-contrib/provider-alibabacloud/config/common"
 )
@@ -37,6 +40,15 @@ func Configure(p *config.Provider) {
 			IgnoredFields: []string{
 				"resource",
 			},
+		}
+		// Terraform provider 2.0.0 hashes "resource" elements on resource_id
+		// and resource_type only, so the same backend attached in two zones
+		// collapses into one element, and only one zone reaches
+		// CreateVpcEndpointService (#212). Hash zone_id too, as provider 2.2.0
+		// does (aliyun/terraform-provider-alicloud#11104); the rest of that
+		// fix is already in 2.0.0. Drop this once the pin is 2.2.0 or later.
+		if s, ok := r.TerraformResource.Schema["resource"]; ok {
+			s.Set = endpointServiceResourceHash
 		}
 	})
 
@@ -84,4 +96,16 @@ func Configure(p *config.Provider) {
 			TerraformName: "alicloud_vswitch",
 		}
 	})
+}
+
+// endpointServiceResourceHash identifies a VPC endpoint service attachment by
+// its backend and zone. A zone_id that is absent or empty hashes as "", as for
+// an SLB, which has no zone.
+func endpointServiceResourceHash(v any) int {
+	m := v.(map[string]any)
+	zone := ""
+	if z, ok := m["zone_id"].(string); ok {
+		zone = z
+	}
+	return schema.HashString(fmt.Sprintf("%s|%s|%s", m["resource_id"], m["resource_type"], zone))
 }
