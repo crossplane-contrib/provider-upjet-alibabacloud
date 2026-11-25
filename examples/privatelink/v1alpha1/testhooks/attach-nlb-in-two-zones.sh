@@ -3,7 +3,9 @@
 # (#212): Terraform provider 2.0.0 collapsed the two attachments into one.
 #
 # resource[].resourceId takes no reference, so the manifest cannot name the
-# NLB it creates. Once everything is ready, this hook:
+# NLB it creates. uptest runs this hook right after applying the manifest,
+# before it checks readiness, so the hook first waits for the NLB and the
+# service to be ready. Then it:
 #   1. adds both attachments to the existing service (the update path);
 #   2. creates a second service with both attachments from the start (the
 #      create path, as reported), checks it, and deletes it.
@@ -13,8 +15,11 @@ set -euo pipefail
 KUBECTL="${KUBECTL:-kubectl}"
 SERVICE=vpcendpointservice.privatelink.alibabacloud.crossplane.io
 ZONES='["us-west-1a","us-west-1b"]'
-# Well inside the chainsaw exec budget this hook shares with the assert step.
+# Well inside the chainsaw exec budget this hook shares with the apply step.
 WAIT=600
+
+"${KUBECTL}" wait loadbalancer.nlb.alibabacloud.crossplane.io nlb-zones --for=condition=Ready --timeout=20m
+"${KUBECTL}" wait "${SERVICE}" nlb-zones --for=condition=Ready --timeout=20m
 
 nlb=$("${KUBECTL}" get loadbalancer.nlb.alibabacloud.crossplane.io nlb-zones -o jsonpath='{.metadata.annotations.crossplane\.io/external-name}')
 [ -n "${nlb}" ] || {
