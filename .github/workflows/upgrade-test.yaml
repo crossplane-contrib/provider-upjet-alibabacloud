@@ -34,6 +34,10 @@ on:
         description: "Seconds to let the new version reconcile before checking"
         type: string
         default: "300"
+      debug:
+        description: "Run the providers with --debug, so the cluster dump's provider logs show what they diff and change"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -113,6 +117,7 @@ jobs:
           EXAMPLES: ${{ steps.inputs.outputs.examples }}
           ACTIVATE: ${{ inputs.activate }}
           SETTLE_SECONDS: ${{ inputs.settle-seconds }}
+          DEBUG: ${{ inputs.debug }}
           UPTEST_CLOUD_CREDENTIALS: ${{ secrets.UPTEST_CLOUD_CREDENTIALS }}
         run: |
           eval "$(make --no-print-directory build.vars)"

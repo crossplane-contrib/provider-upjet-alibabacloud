@@ -37,11 +37,16 @@
 #                    activates only these, before the upgrade (Crossplane v2)
 #   OUTPUT_DIR       where snapshots and the summary go (default:
 #                    _output/upgrade-test)
+#   DEBUG            "true" runs the providers with --debug, so their logs in
+#                    the cluster dump show what they diff and change
 set -euo pipefail
 
 KUBECTL="${KUBECTL:-kubectl}"
 PACKAGE_ORG="${PACKAGE_ORG:-xpkg.crossplane.io/crossplane-contrib}"
 SETTLE_SECONDS="${SETTLE_SECONDS:-300}"
+DEBUG="${DEBUG:-false}"
+# The DeploymentRuntimeConfig the providers use when DEBUG is true.
+DEBUG_RUNTIME_CONFIG=upgrade-test-debug
 OUTPUT_DIR="${OUTPUT_DIR:-_output/upgrade-test}"
 FAMILY=provider-family-alibabacloud
 
@@ -118,6 +123,34 @@ provider_name() {
   echo "${path//\//-}"
 }
 
+# runtime_config_ref prints the Provider spec lines that select the debug
+# DeploymentRuntimeConfig, or nothing when DEBUG is not true.
+runtime_config_ref() {
+  [ "${DEBUG}" = true ] || return 0
+  printf '\n  runtimeConfigRef:\n    apiVersion: pkg.crossplane.io/v1beta1\n    kind: DeploymentRuntimeConfig\n    name: %s' "${DEBUG_RUNTIME_CONFIG}"
+}
+
+# create_debug_runtime_config creates the DeploymentRuntimeConfig that runs a
+# provider with --debug.
+create_debug_runtime_config() {
+  "${KUBECTL}" apply -f - <<EOF
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: ${DEBUG_RUNTIME_CONFIG}
+spec:
+  deploymentTemplate:
+    spec:
+      selector: {}
+      template:
+        spec:
+          containers:
+          - name: package-runtime
+            args:
+            - --debug
+EOF
+}
+
 # apply_and_wait <version> <package>... applies the packages at that version and
 # waits until each runs it.
 apply_and_wait() {
@@ -130,7 +163,7 @@ kind: Provider
 metadata:
   name: $(provider_name "${package}")
 spec:
-  package: ${PACKAGE_ORG}/${package}:${version}
+  package: ${PACKAGE_ORG}/${package}:${version}$(runtime_config_ref)
 EOF
   done
   deadline=$((SECONDS + 900))
@@ -331,6 +364,10 @@ run() {
 
   echo "--- Installing ${FROM}"
   wait_crossplane
+  if [ "${DEBUG}" = true ]; then
+    note "Providers run with --debug"
+    create_debug_runtime_config
+  fi
   install "${FROM}" "${PACKAGES[@]}"
   KUBECTL="${KUBECTL}" cluster/test/setup.sh
 
