@@ -1,0 +1,154 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# Upgrades the provider between two published versions with live managed
+# resources, and checks that they survive. See hack/upgrade-test.sh for what
+# it checks.
+name: Upgrade Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      from:
+        description: "Version to install first, such as v1.4.0"
+        type: string
+        required: true
+      to:
+        description: "Version to upgrade to, such as v1.5.0-rc.0"
+        type: string
+        required: true
+      examples:
+        description: "Comma-separated curated example files, such as examples/vpc/v1alpha1/vswitch.yaml. Keep it to a few: each one creates real resources"
+        type: string
+        required: true
+      activate:
+        description: "Optional, Crossplane v2: comma-separated activation policy patterns that replace the default policy before the upgrade"
+        type: string
+        default: ""
+      crossplane-version:
+        description: "Crossplane version to install; empty uses the Makefile's"
+        type: string
+        default: ""
+      settle-seconds:
+        description: "Seconds to let the new version reconcile before checking"
+        type: string
+        default: "300"
+
+permissions:
+  contents: read
+
+# One run at a time: the examples use fixed names in the shared test account.
+concurrency:
+  group: upgrade-test
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  GO_VERSION: "1.27.4"
+
+jobs:
+  upgrade-test:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 240
+    steps:
+      # Runs use the test account's credentials, so only the reviewed workflow
+      # and scripts on main may run. As in cloud-cleanup.yaml, this stops a run
+      # from another branch by mistake, not on purpose.
+      - name: Check Branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::run this workflow from main, not ${GITHUB_REF}"
+          exit 1
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          submodules: true
+
+      - name: Check Inputs
+        id: inputs
+        env:
+          FROM: ${{ inputs.from }}
+          TO: ${{ inputs.to }}
+          EXAMPLES: ${{ inputs.examples }}
+          SETTLE_SECONDS: ${{ inputs.settle-seconds }}
+          CROSSPLANE_VERSION_INPUT: ${{ inputs.crossplane-version }}
+        run: |
+          set -euo pipefail
+          [[ "${SETTLE_SECONDS}" =~ ^[0-9]+$ ]] || { echo "::error::settle-seconds must be a number"; exit 1; }
+          if [ -n "${CROSSPLANE_VERSION_INPUT}" ] && ! [[ "${CROSSPLANE_VERSION_INPUT}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::crossplane-version must look like 2.4.3"
+            exit 1
+          fi
+          IFS=', ' read -r -a examples <<<"${EXAMPLES}"
+          hack/upgrade-test.sh plan "${FROM}" "${TO}" "${examples[@]}"
+          echo "examples=${examples[*]}" >>"${GITHUB_OUTPUT}"
+
+      - name: Check Alibaba Cloud Connectivity
+        env:
+          EXAMPLES: ${{ steps.inputs.outputs.examples }}
+        run: |
+          read -r -a examples <<<"${EXAMPLES}"
+          hack/check-alibaba-connectivity.sh "${examples[@]}"
+
+      - name: Setup Go
+        uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5 # v7
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Create Control Plane
+        env:
+          CROSSPLANE_VERSION_INPUT: ${{ inputs.crossplane-version }}
+        run: |
+          make controlplane.up ${CROSSPLANE_VERSION_INPUT:+CROSSPLANE_VERSION=${CROSSPLANE_VERSION_INPUT}}
+
+      - name: Run Upgrade Test
+        env:
+          FROM: ${{ inputs.from }}
+          TO: ${{ inputs.to }}
+          EXAMPLES: ${{ steps.inputs.outputs.examples }}
+          ACTIVATE: ${{ inputs.activate }}
+          SETTLE_SECONDS: ${{ inputs.settle-seconds }}
+          UPTEST_CLOUD_CREDENTIALS: ${{ secrets.UPTEST_CLOUD_CREDENTIALS }}
+        run: |
+          eval "$(make --no-print-directory build.vars)"
+          export KUBECTL
+          read -r -a examples <<<"${EXAMPLES}"
+          hack/upgrade-test.sh run "${FROM}" "${TO}" "${examples[@]}"
+
+      - name: Collect Cluster Dump
+        if: always()
+        run: |
+          make controlplane.dump
+
+      - name: Scrub Credentials From The Dump
+        id: scrub
+        if: always()
+        run: |
+          scripts/scrub-dump.sh ./_output/controlplane-dump
+
+      # Losing the dump is better than publishing credentials with it, so the
+      # upload waits on the scrub. The snapshots stay on the runner.
+      - name: Upload Cluster Dump
+        if: always() && steps.scrub.outcome == 'success'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: controlplane-dump
+          path: ./_output/controlplane-dump
+
+      # The test deletes what it created, but a run that fails earlier leaves
+      # resources behind. Same as e2e.yaml's Cleanup.
+      - name: Cleanup
+        if: always()
+        run: |
+          eval "$(make --no-print-directory build.vars)"
+          ${KUBECTL} delete managed -A --all --wait=false || true
+          hook=examples/alb/v1alpha1/testhooks/delete-security-team-groups.sh
+          if [ -x "${hook}" ]; then
+            KUBECTL="${KUBECTL}" "${hook}" || true
+          fi
+          ${KUBECTL} delete managed -A --all || true

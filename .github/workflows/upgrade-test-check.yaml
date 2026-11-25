@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: 2026 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# Lints the upgrade test workflow and scripts, and runs the script's tests
+# against a stub kubectl. Nothing here talks to a cluster or Alibaba Cloud.
+name: Upgrade Test Check
+
+on:
+  pull_request:
+    paths:
+      - hack/upgrade-test.sh
+      - hack/upgrade-test-test.sh
+      - hack/check-alibaba-connectivity.sh
+      - .github/workflows/upgrade-test.yaml
+      - .github/workflows/upgrade-test-check.yaml
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  ACTIONLINT_VERSION: "1.7.12"
+
+jobs:
+  upgrade-test-check:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Shellcheck
+        run: shellcheck hack/upgrade-test.sh hack/upgrade-test-test.sh hack/check-alibaba-connectivity.sh
+
+      - name: Actionlint
+        run: |
+          base="https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}"
+          archive="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          curl -fsSLO "${base}/${archive}"
+          curl -fsSL "${base}/actionlint_${ACTIONLINT_VERSION}_checksums.txt" | grep " ${archive}\$" | sha256sum -c -
+          tar -xzf "${archive}" actionlint
+          ./actionlint .github/workflows/upgrade-test.yaml .github/workflows/upgrade-test-check.yaml
+
+      - name: Test
+        run: hack/upgrade-test-test.sh

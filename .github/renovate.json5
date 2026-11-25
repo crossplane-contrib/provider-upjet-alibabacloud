@@ -80,8 +80,8 @@
     },
     {
       "customType": "regex",
-      "description": "Bump actionlint in the cloud cleanup check workflow",
-      "managerFilePatterns": ["/^\\.github\\/workflows\\/cloud-cleanup[^/]*\\.ya?ml$/"],
+      "description": "Bump actionlint in the cloud cleanup and upgrade test check workflows",
+      "managerFilePatterns": ["/^\\.github\\/workflows\\/(cloud-cleanup|upgrade-test)[^/]*\\.ya?ml$/"],
       "matchStrings": [
         "ACTIONLINT_VERSION: ['\"]?(?<currentValue>.*?)['\"]?\\n"
       ],
