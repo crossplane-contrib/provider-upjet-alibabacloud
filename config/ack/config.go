@@ -32,6 +32,7 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "ack"
 		r.ShortGroup = string(common.ACK)
 		r.Kind = "EdgeKubernetes"
+		guardLegacyShape(p, r)
 		r.UseAsync = true
 		// Alibaba Cloud no longer creates ACK@Edge clusters
 		// (EdgeClusterNotSupported), and upstream deprecated the resource in
@@ -79,6 +80,7 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "ack"
 		r.ShortGroup = string(common.ACK)
 		r.Kind = "Kubernetes"
+		guardLegacyShape(p, r)
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{
 				// Deprecated
@@ -195,6 +197,7 @@ func Configure(p *config.Provider) {
 		// this resource, which would be "ack"
 		r.ShortGroup = string(common.ACK)
 		r.Kind = "ManagedKubernetes"
+		guardLegacyShape(p, r)
 		r.UseAsync = true
 		r.LateInitializer = config.LateInitializer{
 			IgnoredFields: []string{
