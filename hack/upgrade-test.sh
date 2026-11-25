@@ -103,8 +103,6 @@ ready_timeout() {
   echo "${READY_TIMEOUT:-$((longest > 2400 ? longest : 2400))}"
 }
 
-# install <version> <package>... installs or upgrades the packages, the family
-# first, and waits until each runs that version.
 # Helm returns before Crossplane has installed its own CRDs, so wait for the
 # deployment and the Provider CRD before applying any package.
 wait_crossplane() {
@@ -112,23 +110,34 @@ wait_crossplane() {
   "${KUBECTL}" wait --for=condition=Established crd/providers.pkg.crossplane.io --timeout=2m
 }
 
-install() {
-  local version="$1" name deadline current
+# provider_name <package> prints the name Crossplane gives the package when it
+# installs it as a dependency: its repository path without the registry, with
+# "/" as "-", such as crossplane-contrib-provider-family-alibabacloud.
+provider_name() {
+  local path="${PACKAGE_ORG#*/}/$1"
+  echo "${path//\//-}"
+}
+
+# apply_and_wait <version> <package>... applies the packages at that version and
+# waits until each runs it.
+apply_and_wait() {
+  local version="$1" package name deadline current
   shift
-  for name in "$@"; do
+  for package in "$@"; do
     "${KUBECTL}" apply -f - <<EOF
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: ${name}
+  name: $(provider_name "${package}")
 spec:
-  package: ${PACKAGE_ORG}/${name}:${version}
+  package: ${PACKAGE_ORG}/${package}:${version}
 EOF
   done
   deadline=$((SECONDS + 900))
-  for name in "$@"; do
+  for package in "$@"; do
+    name=$(provider_name "${package}")
     while :; do
-      current=$("${KUBECTL}" get provider.pkg "${name}" -o json | jq -r --arg want "${PACKAGE_ORG}/${name}:${version}" '
+      current=$("${KUBECTL}" get provider.pkg "${name}" -o json | jq -r --arg want "${PACKAGE_ORG}/${package}:${version}" '
         def cond(t): [.status.conditions[]? | select(.type == t) | .status][0];
         if (.status.currentIdentifier == $want) and cond("Installed") == "True" and cond("Healthy") == "True"
         then "ready" else "\(.status.currentIdentifier // "none")" end')
@@ -141,6 +150,21 @@ EOF
     done
     echo "${name} is healthy at ${version}"
   done
+}
+
+# install <version> <package>... installs or upgrades the packages, under the
+# names Crossplane gives dependencies: when a service resolves its family
+# dependency, it then finds ours, instead of installing a second family that
+# breaks dependency resolution for all of them. The family goes first, on its
+# own, so an upgrade moves it before the services that depend on it.
+install() {
+  local version="$1" name services=()
+  shift
+  for name in "$@"; do
+    [ "${name}" = "${FAMILY}" ] || services+=("${name}")
+  done
+  apply_and_wait "${version}" "${FAMILY}"
+  [ "${#services[@]}" -eq 0 ] || apply_and_wait "${version}" "${services[@]}"
 }
 
 # snapshot <file> saves what the checks compare for every managed resource.

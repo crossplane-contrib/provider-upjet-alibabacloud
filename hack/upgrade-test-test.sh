@@ -10,12 +10,24 @@ trap 'rm -rf "${WORK}"' EXIT
 mkdir -p "${WORK}/bin"
 
 # The stub answers `get managed` from $STUB_DIR/managed.json and `get events`
-# from $STUB_DIR/events.json.
+# from $STUB_DIR/events.json. It records Provider applies and gets in
+# $STUB_DIR/calls, and reports each applied Provider healthy at its package.
 cat >"${WORK}/bin/kubectl" <<'STUB'
 #!/usr/bin/env bash
 case "$*" in
   "get managed -A -o json") cat "${STUB_DIR}/managed.json" ;;
   "get events -A -o json") cat "${STUB_DIR}/events.json" ;;
+  "apply -f -")
+    manifest=$(cat)
+    name=$(sed -n 's/^  name: //p' <<<"${manifest}")
+    sed -n 's/^  package: //p' <<<"${manifest}" >"${STUB_DIR}/package-${name}"
+    echo "apply ${name}" >>"${STUB_DIR}/calls"
+    ;;
+  "get provider.pkg "*" -o json")
+    echo "get $3" >>"${STUB_DIR}/calls"
+    jq -n --rawfile id "${STUB_DIR}/package-$3" '{status: {currentIdentifier: ($id | rtrimstr("\n")),
+      conditions: [{type: "Installed", status: "True"}, {type: "Healthy", status: "True"}]}}'
+    ;;
   *) echo "stub kubectl: unexpected call: $*" >&2; exit 1 ;;
 esac
 STUB
@@ -174,6 +186,31 @@ done
 for version in 1.4.0 v1.4 latest 'v1.4.0;x'; do
   check "\"${version}\" is rejected" bash -c "source hack/upgrade-test.sh; ! (check_version '${version}') 2>/dev/null"
 done
+
+# Providers are named as Crossplane names dependencies, and the family must be
+# healthy before any service is applied, wherever it is in the list.
+family=crossplane-contrib-provider-family-alibabacloud
+ack=crossplane-contrib-provider-alibabacloud-ack
+vpc=crossplane-contrib-provider-alibabacloud-vpc
+for order in "family first" "family last"; do
+  start "install, ${order}"
+  if [ "${order}" = "family first" ]; then
+    install v1.5.0 provider-family-alibabacloud provider-alibabacloud-ack provider-alibabacloud-vpc >/dev/null
+  else
+    install v1.5.0 provider-alibabacloud-ack provider-alibabacloud-vpc provider-family-alibabacloud >/dev/null
+  fi
+  check "the family is healthy before the services are applied" \
+    [ "$(head -3 "${STUB_DIR}/calls" | tr '\n' ' ')" = "apply ${family} get ${family} apply ${ack} " ]
+  check "every package is applied once and waited for" [ "$(sort "${STUB_DIR}/calls" | tr '\n' ' ')" = \
+    "apply ${ack} apply ${vpc} apply ${family} get ${ack} get ${vpc} get ${family} " ]
+done
+
+start "provider names"
+check "the family is named as Crossplane names its dependency" [ "${family}" = crossplane-contrib-provider-family-alibabacloud ]
+check "another registry gives the same name" \
+  [ "$(PACKAGE_ORG=xpkg.upbound.io/crossplane-contrib provider_name provider-alibabacloud-ack)" = "${ack}" ]
+check "the package is the one the name was made from" \
+  [ "$(cat "${WORK}/install, family last/package-${vpc}")" = xpkg.crossplane.io/crossplane-contrib/provider-alibabacloud-vpc:v1.5.0 ]
 
 start summary
 for case in "0 Passed" "3 stopped early (exit status 3)"; do
