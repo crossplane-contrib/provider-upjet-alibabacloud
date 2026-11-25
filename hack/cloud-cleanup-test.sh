@@ -272,6 +272,31 @@ targets "us-west-1 ram-user:test-user-1"
 check "a user whose groups cannot be listed is not deleted" not_called "DeleteUser"
 check "the listing error is the one reported" output_has "not deleted yet: \`Forbidden.RAM: stub error"
 
+start ack
+targets "us-west-1 vpc-1" "us-west-1 vsw-1" "us-west-1 ack:c0a5bd220cca64c0797faffae913fade7"
+check "an ACK cluster is deleted" called "cs DeleteCluster --region us-west-1 --ClusterId c0a5bd220cca64c0797faffae913fade7"
+check "its deletion protection is turned off first" \
+  before "cs ModifyCluster --region us-west-1 --ClusterId c0a5bd220cca64c0797faffae913fade7" "cs DeleteCluster"
+check "the cluster goes before its vSwitch" before "cs DeleteCluster" "DeleteVSwitch"
+
+start ack-bare-id
+targets "us-west-1 c0a5bd220cca64c0797faffae913fade7"
+check "a cluster id must name its type" output_has "unknown resource type"
+check "nothing is deleted without the type" not_called "Delete"
+
+start ack-gone
+fail_with DeleteCluster ErrorClusterNotFound
+respond DescribeClustersV1 '{"clusters": [], "page_info": {"total_count": 0}}'
+targets "us-west-1 ack:c123"
+check "a cluster that is already gone is not a failure" status_is 0
+check "it is reported as absent" output_has "\`c123\` (ack) does not exist in us-west-1"
+
+start ack-still-listed
+fail_with DeleteCluster ErrorClusterDeleting
+respond DescribeClustersV1 '{"clusters": [{"cluster_id": "c123", "state": "deleting"}]}'
+targets "us-west-1 ack:c123"
+check "a cluster that is still listed is not reported as absent" output_lacks "does not exist"
+
 # Only names that every type's own rules allow reach a command.
 for bad in 'oss:bkt/logs' 'oss:' 'cms:' 'sls:a"b' '-x' 'ram:-x' 'ram-user:-x'; do
   start "bad-name-${bad}"
@@ -339,10 +364,13 @@ respond DescribeVSwitches '{"VSwitchSet": {}}'
 fail_with DescribeSecurityGroups Forbidden.RAM
 respond DescribeDBInstances '{"TotalRecordCount": 3, "Items": {"DBInstance": [{"DBInstanceId": "rm-1"}]}}'
 respond ListProject '{"projects": [{"projectName": "log-service-5550123456789-us-west-1"}]}'
+respond DescribeClustersV1 '{"clusters": [{"cluster_id": "c1", "name": "mk8s", "cluster_type": "ManagedKubernetes", "state": "running", "vpc_id": "vpc-1"}], "page_info": {"total_count": 4}}'
 run inventory us-west-1 "" cn-beijing
 check "inventory succeeds" status_is 0
 check "truncation is shown" output_has "Showing 2 of 5."
 check "truncation is shown from TotalRecordCount" output_has "Showing 1 of 3."
+check "ACK clusters are listed" output_has "| c1 | mk8s | ManagedKubernetes | running | vpc-1 |"
+check "ACK truncation is shown from page_info" output_has "Showing 1 of 4."
 check "a pipe in a cell is escaped" output_has '| vpc-1 | a\|b |'
 check "a null cell is empty" output_has '| vpc-2 |  |'
 check "a section shows a bare target for a type with its own prefix" output_has "Target: \`us-west-1 <ID>\`"

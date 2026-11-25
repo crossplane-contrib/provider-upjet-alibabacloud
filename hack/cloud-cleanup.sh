@@ -43,7 +43,8 @@ PASS_WAIT="${PASS_WAIT:-60}"
 # named, because its ids are names or share a prefix with another type: ALB
 # and NLB listeners are both "lsn-", their server groups both "sgp-"). A
 # PrivateLink endpoint goes before its service, which goes before the load
-# balancer behind it. "ram" is a RAM role, and "ram-user" a RAM user.
+# balancer behind it. "ram" is a RAM role, and "ram-user" a RAM user. "ack"
+# is an ACK cluster of any kind; its ids have no prefix of their own.
 TYPES='
 alb-rule              1 rule-
 alb-ascript           1 as-
@@ -61,6 +62,7 @@ rds                   4 rm-
 rds-readonly          3 rr-
 polardb               4 pc-
 tair                  4 r-
+ack                   4 -
 ackone                4 -
 kafka                 4 -
 sls                   4 -
@@ -189,7 +191,7 @@ section() {
   echo "Target: \`${target}\`"
   echo
   shown=$(wc -l <<<"${rows}" | tr -d ' ')
-  total=$(jq -r '.TotalCount // .totalCount // .total // .Total // .Data.Total // .TotalRecordCount // empty' <<<"${out}" 2>/dev/null || true)
+  total=$(jq -r '.TotalCount // .totalCount // .total // .Total // .Data.Total // .TotalRecordCount // .page_info.total_count // empty' <<<"${out}" 2>/dev/null || true)
   if [ -n "${total}" ] && [ "${total}" -gt "${shown}" ]; then
     echo "Showing ${shown} of ${total}."
     echo
@@ -281,6 +283,10 @@ inventory() {
       "ID | Name | Status | VPC | Created" \
       '.Instances.KVStoreInstance' '[.InstanceId, .InstanceName, .InstanceStatus, .VpcId, .CreateTime]' \
       r-kvstore DescribeInstances --RegionId "${region}" --PageSize 50
+    section "${region} ACK clusters" "${region} ack:<ID>" \
+      "ID | Name | Type | State | VPC | Created" \
+      '.clusters' '[.cluster_id, .name, .cluster_type, .state, .vpc_id, .created]' \
+      cs DescribeClustersV1 --region "${region}" --region_id "${region}" --page_size 100
     section "${region} ACK One hub clusters" "${region} ackone:<ID>" \
       "ID | Name | State | VPC | Created" \
       '.Clusters' '[.ClusterInfo.ClusterId, .ClusterInfo.Name, .ClusterInfo.State, .Network.VpcId, .ClusterInfo.CreationTime]' \
@@ -368,6 +374,7 @@ remaining() {
     rds | rds-readonly) count "${id}" '.Items.DBInstance' rds DescribeDBInstances --RegionId "${region}" --DBInstanceId "${id}" ;;
     polardb) count "${id}" '.Items.DBCluster' polardb DescribeDBClusters --RegionId "${region}" --DBClusterIds "${id}" ;;
     tair) count "${id}" '.Instances.KVStoreInstance' r-kvstore DescribeInstances --RegionId "${region}" --InstanceIds "${id}" ;;
+    ack) count "${id}" '[(.clusters // error("missing"))[] | select(.cluster_id == $id)]' cs DescribeClustersV1 --region "${region}" --region_id "${region}" --cluster_id "${id}" ;;
     ackone) count "${id}" '[(.Clusters // error("missing"))[] | select(.ClusterInfo.ClusterId == $id)]' adcp DescribeHubClusters --region "${region}" ;;
     kafka) count "${id}" '.InstanceList.InstanceVO' alikafka GetInstanceList --RegionId "${region}" --InstanceId.1 "${id}" ;;
     sls) count "${id}" '[(.projects // error("missing"))[] | select(.projectName == $id)]' sls ListProject --region "${region}" --projectName "${id}" ;;
@@ -464,6 +471,13 @@ delete_one() {
       aliyun polardb DeleteDBCluster --region "${region}" --DBClusterId "${id}"
       ;;
     tair) aliyun r-kvstore DeleteInstance --region "${region}" --InstanceId "${id}" ;;
+    ack)
+      # DeleteCluster also deletes what the cluster created, such as its load
+      # balancers and security group, but not the VPC or vSwitches it uses.
+      result=$(prepare "turn off deletion protection" cs ModifyCluster --region "${region}" --ClusterId "${id}" \
+        --body '{"deletion_protection": false}')
+      aliyun cs DeleteCluster --region "${region}" --ClusterId "${id}"
+      ;;
     ackone)
       # DeleteHubCluster refuses while ArgoCD is enabled, which is the default.
       result=$(prepare "turn off ArgoCD and deletion protection" adcp UpdateHubClusterFeature --region "${region}" \
