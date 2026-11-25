@@ -21,6 +21,7 @@ case "$*" in
     manifest=$(cat)
     name=$(sed -n 's/^  name: //p' <<<"${manifest}")
     sed -n 's/^  package: //p' <<<"${manifest}" >"${STUB_DIR}/package-${name}"
+    printf '%s\n' "${manifest}" >"${STUB_DIR}/manifest-${name}"
     echo "apply ${name}" >>"${STUB_DIR}/calls"
     ;;
   "get provider.pkg "*" -o json")
@@ -211,6 +212,19 @@ check "another registry gives the same name" \
   [ "$(PACKAGE_ORG=xpkg.upbound.io/crossplane-contrib provider_name provider-alibabacloud-ack)" = "${ack}" ]
 check "the package is the one the name was made from" \
   [ "$(cat "${WORK}/install, family last/package-${vpc}")" = xpkg.crossplane.io/crossplane-contrib/provider-alibabacloud-vpc:v1.5.0 ]
+
+# DEBUG points every Provider at the debug runtime config, and only then.
+for debug in true false; do
+  start "debug-${debug}"
+  DEBUG="${debug}" install v1.5.0 provider-family-alibabacloud provider-alibabacloud-ack >/dev/null
+  if [ "${debug}" = true ]; then
+    check "with DEBUG, the providers use the debug runtime config" \
+      grep -qx "    name: ${DEBUG_RUNTIME_CONFIG}" "${STUB_DIR}/manifest-${family}" "${STUB_DIR}/manifest-${ack}"
+  else
+    check "without DEBUG, the providers keep the default runtime config" \
+      bash -c "! grep -q runtimeConfigRef '${STUB_DIR}/manifest-${family}' '${STUB_DIR}/manifest-${ack}'"
+  fi
+done
 
 start summary
 for case in "0 Passed" "3 stopped early (exit status 3)"; do
