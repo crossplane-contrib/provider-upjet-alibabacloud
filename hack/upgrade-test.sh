@@ -103,8 +103,6 @@ ready_timeout() {
   echo "${READY_TIMEOUT:-$((longest > 2400 ? longest : 2400))}"
 }
 
-# install <version> <package>... installs or upgrades the packages, the family
-# first, and waits until each runs that version.
 # Helm returns before Crossplane has installed its own CRDs, so wait for the
 # deployment and the Provider CRD before applying any package.
 wait_crossplane() {
@@ -112,7 +110,9 @@ wait_crossplane() {
   "${KUBECTL}" wait --for=condition=Established crd/providers.pkg.crossplane.io --timeout=2m
 }
 
-install() {
+# apply_and_wait <version> <package>... applies the packages at that version and
+# waits until each runs it.
+apply_and_wait() {
   local version="$1" name deadline current
   shift
   for name in "$@"; do
@@ -141,6 +141,20 @@ EOF
     done
     echo "${name} is healthy at ${version}"
   done
+}
+
+# install <version> <package>... installs or upgrades the packages. The family
+# goes first, on its own: a service applied before the family is in the lock
+# gets a second copy of the family installed as its dependency, and the
+# duplicate breaks dependency resolution for all of them.
+install() {
+  local version="$1" name services=()
+  shift
+  for name in "$@"; do
+    [ "${name}" = "${FAMILY}" ] || services+=("${name}")
+  done
+  apply_and_wait "${version}" "${FAMILY}"
+  [ "${#services[@]}" -eq 0 ] || apply_and_wait "${version}" "${services[@]}"
 }
 
 # snapshot <file> saves what the checks compare for every managed resource.

@@ -10,12 +10,24 @@ trap 'rm -rf "${WORK}"' EXIT
 mkdir -p "${WORK}/bin"
 
 # The stub answers `get managed` from $STUB_DIR/managed.json and `get events`
-# from $STUB_DIR/events.json.
+# from $STUB_DIR/events.json. It records Provider applies and gets in
+# $STUB_DIR/calls, and reports each applied Provider healthy at its package.
 cat >"${WORK}/bin/kubectl" <<'STUB'
 #!/usr/bin/env bash
 case "$*" in
   "get managed -A -o json") cat "${STUB_DIR}/managed.json" ;;
   "get events -A -o json") cat "${STUB_DIR}/events.json" ;;
+  "apply -f -")
+    manifest=$(cat)
+    name=$(sed -n 's/^  name: //p' <<<"${manifest}")
+    sed -n 's/^  package: //p' <<<"${manifest}" >"${STUB_DIR}/package-${name}"
+    echo "apply ${name}" >>"${STUB_DIR}/calls"
+    ;;
+  "get provider.pkg "*" -o json")
+    echo "get $3" >>"${STUB_DIR}/calls"
+    jq -n --rawfile id "${STUB_DIR}/package-$3" '{status: {currentIdentifier: ($id | rtrimstr("\n")),
+      conditions: [{type: "Installed", status: "True"}, {type: "Healthy", status: "True"}]}}'
+    ;;
   *) echo "stub kubectl: unexpected call: $*" >&2; exit 1 ;;
 esac
 STUB
@@ -173,6 +185,21 @@ for version in v1.4.0 v1.5.0-rc.0 v2.0.0-beta.0; do
 done
 for version in 1.4.0 v1.4 latest 'v1.4.0;x'; do
   check "\"${version}\" is rejected" bash -c "source hack/upgrade-test.sh; ! (check_version '${version}') 2>/dev/null"
+done
+
+# The family must be healthy before any service is applied, wherever it is in
+# the list.
+for order in "family first" "family last"; do
+  start "install, ${order}"
+  if [ "${order}" = "family first" ]; then
+    install v1.5.0 provider-family-alibabacloud provider-alibabacloud-ack provider-alibabacloud-vpc >/dev/null
+  else
+    install v1.5.0 provider-alibabacloud-ack provider-alibabacloud-vpc provider-family-alibabacloud >/dev/null
+  fi
+  check "the family is healthy before the services are applied" \
+    [ "$(head -3 "${STUB_DIR}/calls" | tr '\n' ' ')" = "apply provider-family-alibabacloud get provider-family-alibabacloud apply provider-alibabacloud-ack " ]
+  check "every package is applied once and waited for" [ "$(sort "${STUB_DIR}/calls" | tr '\n' ' ')" = \
+    "apply provider-alibabacloud-ack apply provider-alibabacloud-vpc apply provider-family-alibabacloud get provider-alibabacloud-ack get provider-alibabacloud-vpc get provider-family-alibabacloud " ]
 done
 
 start summary
