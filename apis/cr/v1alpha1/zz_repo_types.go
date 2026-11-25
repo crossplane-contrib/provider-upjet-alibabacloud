@@ -65,7 +65,7 @@ type RepoObservation struct {
 	Detail *string `json:"detail,omitempty" tf:"detail,omitempty"`
 
 	// A list of repository domain.
-	DomainList []DomainListObservation `json:"domainList,omitempty" tf:"domain_list,omitempty"`
+	DomainList *DomainListObservation `json:"domainList,omitempty" tf:"domain_list,omitempty"`
 
 	// The id of Container Registry repository. The value is in format namespace/repository.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
