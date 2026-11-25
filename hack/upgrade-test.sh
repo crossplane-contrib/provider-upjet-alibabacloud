@@ -105,6 +105,13 @@ ready_timeout() {
 
 # install <version> <package>... installs or upgrades the packages, the family
 # first, and waits until each runs that version.
+# Helm returns before Crossplane has installed its own CRDs, so wait for the
+# deployment and the Provider CRD before applying any package.
+wait_crossplane() {
+  "${KUBECTL}" -n crossplane-system rollout status deployment/crossplane --timeout=5m
+  "${KUBECTL}" wait --for=condition=Established crd/providers.pkg.crossplane.io --timeout=2m
+}
+
 install() {
   local version="$1" name deadline current
   shift
@@ -268,13 +275,16 @@ wait_deleted() {
 }
 
 write_summary() {
+  local status=$?
   {
     echo "## Upgrade test: ${FROM} → ${TO}"
     echo
     printf '%s' "${SUMMARY}"
     echo
-    if [ "${failures}" -eq 0 ]; then
+    if [ "${failures}" -eq 0 ] && [ "${status}" -eq 0 ]; then
       echo "**Passed.**"
+    elif [ "${failures}" -eq 0 ]; then
+      echo "**Failed: the test stopped early (exit status ${status}); see the log.**"
     else
       echo "**Failed: ${failures} problem(s).**"
     fi
@@ -296,6 +306,7 @@ run() {
   note "Examples: ${EXAMPLES[*]}"
 
   echo "--- Installing ${FROM}"
+  wait_crossplane
   install "${FROM}" "${PACKAGES[@]}"
   KUBECTL="${KUBECTL}" cluster/test/setup.sh
 

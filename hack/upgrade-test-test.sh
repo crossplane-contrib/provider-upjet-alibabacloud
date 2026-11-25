@@ -175,6 +175,16 @@ for version in 1.4.0 v1.4 latest 'v1.4.0;x'; do
   check "\"${version}\" is rejected" bash -c "source hack/upgrade-test.sh; ! (check_version '${version}') 2>/dev/null"
 done
 
+start summary
+for case in "0 Passed" "3 stopped early (exit status 3)"; do
+  status="${case%% *}" want="${case#* }"
+  check "exit status ${status} is reported as \"${want}\"" bash -c "
+    source hack/upgrade-test.sh; unset GITHUB_STEP_SUMMARY
+    FROM=v1.4.0 TO=v1.5.0 OUTPUT_DIR='${WORK}/summary-${status}'; mkdir -p \"\${OUTPUT_DIR}\"
+    (trap write_summary EXIT; exit ${status}) >/dev/null || true
+    grep -qF '${want}' \"\${OUTPUT_DIR}/summary.md\""
+done
+
 echo
 if [ "${problems}" -gt 0 ]; then
   echo "${problems} of ${checks} checks failed"
