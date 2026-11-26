@@ -50,9 +50,20 @@ img.promote:
 	@$(OK) Image promotion skipped for $(FROM_IMAGE) to $(TO_IMAGE)
 
 CONCURRENCY ?= 30
-DEP_CONSTRAINT := >= 0.0.0
+# The service packages depend on the family config package. When it is
+# missing, Crossplane installs the highest tag that satisfies this constraint,
+# and when it is installed, keeps it as long as it satisfies it. So limit it to
+# this release's major version: an open ">= 0.0.0" would install a newer
+# major's family on a fresh 1.x install, and would keep a 1.x family under 2.x
+# services. Pre-release builds also accept pre-release families. VERSION_MAJOR
+# comes from build/makelib/common.mk.
+ifeq ($(shell echo '$(VERSION_MAJOR)' | grep -xE '[0-9]+'),)
+    $(error cannot read a major version from VERSION "$(VERSION)")
+endif
+VERSION_NEXT_MAJOR := $(shell echo $$(($(VERSION_MAJOR) + 1)))
+DEP_CONSTRAINT := >= $(VERSION_MAJOR).0.0, < $(VERSION_NEXT_MAJOR).0.0
 ifeq (-,$(findstring -,$(VERSION)))
-    DEP_CONSTRAINT = >= 0.0.0-0
+    DEP_CONSTRAINT = >= $(VERSION_MAJOR).0.0-0, < $(VERSION_NEXT_MAJOR).0.0-0
 endif
 BUILD_ONLY ?= false
 STORE_PACKAGES ?= ""
